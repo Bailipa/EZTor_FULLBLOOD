@@ -108,8 +108,15 @@ export function GuestWordInputCard({
       const data = await response.json();
       
       if (data.success && data.data) {
+        // 创建单词映射，用于保持输入的原始大小写和顺序
+        const inputWordMap = new Map<string, string>();
+        words.forEach(word => {
+          inputWordMap.set(word.toLowerCase(), word);
+        });
+
+        // 处理公共词库结果，保持原始大小写
         const publicResults: WordResult[] = data.data.results.map((r: any) => ({
-          word: r.word,
+          word: inputWordMap.get(r.word.toLowerCase()) || r.word,
           phonetic: r.phonetic || undefined,
           pos: r.pos || undefined,
           translation: r.translation,
@@ -121,8 +128,58 @@ export function GuestWordInputCard({
         const foundWords = new Set(data.data.results.map((r: any) => r.word.toLowerCase()));
         const notFound = words.filter(w => !foundWords.has(w.toLowerCase()));
         
-        for (let i = 0; i < publicResults.length; i++) {
-          const word = publicResults[i];
+        // 先处理所有结果，然后按照原始输入顺序排序
+        const allResults: WordResult[] = [...publicResults];
+        
+        if (notFound.length > 0) {
+          const notFoundWithSuggestions: NotFoundWord[] = await Promise.all(
+            notFound.map(async (word) => {
+              const suggestions = await findSimilarWords(word, data.data.results);
+              return { word, suggestions };
+            })
+          );
+          setNotFoundWords(notFoundWithSuggestions);
+          
+          const notFoundResults: WordResult[] = notFound.map((word) => ({
+            word,
+            phonetic: '',
+            pos: '未收录',
+            translation: '⚠️ 该词未在公共词库中收录，登录后可使用 AI 翻译',
+            example: '',
+            exampleTranslation: '',
+            isPublic: false,
+            isNotFound: true,
+          }));
+          
+          allResults.push(...notFoundResults);
+        }
+
+        // 按照原始输入顺序排序结果
+        const orderedResults = [];
+        const resultMap = new Map<string, WordResult>();
+        
+        // 先将所有结果放入map中，方便查找
+        allResults.forEach(result => {
+          resultMap.set(result.word.toLowerCase(), result);
+        });
+        
+        // 按照原始输入顺序遍历，从map中取出对应的结果
+        words.forEach(word => {
+          const normalizedWord = word.toLowerCase();
+          if (resultMap.has(normalizedWord)) {
+            orderedResults.push(resultMap.get(normalizedWord)!);
+            resultMap.delete(normalizedWord);
+          }
+        });
+        
+        // 处理剩下的结果（如果有的话）
+        resultMap.forEach(result => {
+          orderedResults.push(result);
+        });
+
+        // 显示动画并更新结果
+        for (let i = 0; i < orderedResults.length; i++) {
+          const word = orderedResults[i];
           const wordId = `fly-${Date.now()}-${i}`;
           
           const wordElement = document.querySelector(`[data-word="${word.word.toLowerCase().replace(/"/g, '\\"')}"]`);
@@ -151,10 +208,28 @@ export function GuestWordInputCard({
           await new Promise(resolve => setTimeout(resolve, 800));
           
           setResults((prev) => {
-            const mergedMap = new Map<string, WordResult>();
-            prev.forEach((p) => mergedMap.set(p.word.toLowerCase(), p));
-            mergedMap.set(word.word.toLowerCase(), word);
-            return Array.from(mergedMap.values());
+            // 先将所有结果放入map中，方便查找
+            const resultMap = new Map<string, WordResult>();
+            prev.forEach((p) => resultMap.set(p.word.toLowerCase(), p));
+            resultMap.set(word.word.toLowerCase(), word);
+            
+            // 按照原始输入顺序排序结果
+            const orderedResults = [];
+            words.forEach(word => {
+              const normalizedWord = word.toLowerCase();
+              if (resultMap.has(normalizedWord)) {
+                orderedResults.push(resultMap.get(normalizedWord)!);
+              }
+            });
+            
+            // 处理剩下的结果（如果有的话）
+            resultMap.forEach((result, key) => {
+              if (!words.some(word => word.toLowerCase() === key)) {
+                orderedResults.push(result);
+              }
+            });
+            
+            return orderedResults;
           });
           
           setCompletedCount(prev => prev + 1);
@@ -162,30 +237,6 @@ export function GuestWordInputCard({
           setFlyingWords(prev => prev.filter(fw => fw.id !== wordId));
           
           await new Promise(resolve => setTimeout(resolve, 300));
-        }
-        
-        if (notFound.length > 0) {
-          const notFoundWithSuggestions: NotFoundWord[] = await Promise.all(
-            notFound.map(async (word) => {
-              const suggestions = await findSimilarWords(word, data.data.results);
-              return { word, suggestions };
-            })
-          );
-          setNotFoundWords(notFoundWithSuggestions);
-          
-          const notFoundResults: WordResult[] = notFound.map((word) => ({
-            word,
-            phonetic: '',
-            pos: '未收录',
-            translation: '⚠️ 该词未在公共词库中收录，登录后可使用 AI 翻译',
-            example: '',
-            exampleTranslation: '',
-            isPublic: false,
-            isNotFound: true,
-          }));
-          
-          setResults((prev) => [...prev, ...notFoundResults]);
-          setCompletedCount(prev => prev + notFound.length);
         }
         
         setWordsInput((prevInput) => {
@@ -251,6 +302,32 @@ export function GuestWordInputCard({
     }
     
     return suggestions;
+  };
+
+  // 大小写一致性检查与规范化处理
+  const normalizeCase = (text: string): string => {
+    // 检查是否为需要保留大写的特殊情况
+    const specialCases = [
+      // 首字母缩写词
+      /^[A-Z0-9]+$/, // 全大写的缩写词
+      /^[A-Z][a-z]+(?:[A-Z][a-z]+)*$/, // 驼峰命名法的专有名词
+      // 常见的专有名词和品牌名称
+      'AI', 'API', 'CSS', 'HTML', 'HTTP', 'HTTPS', 'JSON', 'JS', 'TS', 'UI', 'UX',
+      'Google', 'Microsoft', 'Apple', 'Amazon', 'Facebook', 'Twitter', 'GitHub',
+      'React', 'Next.js', 'Node.js', 'JavaScript', 'TypeScript'
+    ];
+
+    // 检查是否匹配特殊情况
+    for (const casePattern of specialCases) {
+      if (typeof casePattern === 'string' && text === casePattern) {
+        return text;
+      } else if (casePattern instanceof RegExp && casePattern.test(text)) {
+        return text;
+      }
+    }
+
+    // 对于其他情况，转换为小写
+    return text.toLowerCase();
   };
 
   const levenshteinDistance = (a: string, b: string): number => {

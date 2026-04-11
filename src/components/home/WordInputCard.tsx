@@ -349,7 +349,33 @@ export function WordInputCard({
 
       console.log('finalResults after parsing:', finalResults);
 
-      const normalize = (s: string) => s.toLowerCase().trim().replace(/\s+/g, ' ');
+      // 大小写一致性检查与规范化处理
+      const normalizeCase = (text: string): string => {
+        // 检查是否为需要保留大写的特殊情况
+        const specialCases = [
+          // 首字母缩写词
+          /^[A-Z0-9]+$/, // 全大写的缩写词
+          /^[A-Z][a-z]+(?:[A-Z][a-z]+)*$/, // 驼峰命名法的专有名词
+          // 常见的专有名词和品牌名称
+          'AI', 'API', 'CSS', 'HTML', 'HTTP', 'HTTPS', 'JSON', 'JS', 'TS', 'UI', 'UX',
+          'Google', 'Microsoft', 'Apple', 'Amazon', 'Facebook', 'Twitter', 'GitHub',
+          'React', 'Next.js', 'Node.js', 'JavaScript', 'TypeScript'
+        ];
+
+        // 检查是否匹配特殊情况
+        for (const casePattern of specialCases) {
+          if (typeof casePattern === 'string' && text === casePattern) {
+            return text;
+          } else if (casePattern instanceof RegExp && casePattern.test(text)) {
+            return text;
+          }
+        }
+
+        // 对于其他情况，转换为小写
+        return text.toLowerCase();
+      };
+
+      const normalize = (s: string) => normalizeCase(s).trim().replace(/\s+/g, ' ');
       
       const finalMergedData: WordResult[] = [...finalResults];
       
@@ -385,13 +411,51 @@ export function WordInputCard({
 
       const allResults = [...fixedResults, ...finalMergedData];
       
-      // 去重处理，避免重复输出
-      const uniqueResults = Array.from(new Map(allResults.map(item => [item.word, item])).values());
-      setResults(uniqueResults);
+      // 去重处理，避免重复输出，同时保持原始输入顺序
+      const seen = new Set<string>();
+      const uniqueResults = allResults.filter(item => {
+        const normalizedWord = normalize(item.word);
+        if (seen.has(normalizedWord)) {
+          return false;
+        }
+        seen.add(normalizedWord);
+        return true;
+      });
+      
+      // 按照原始输入顺序排序结果
+      const inputOrderMap = new Map<string, number>();
+      words.forEach((word, index) => {
+        inputOrderMap.set(normalize(word), index);
+      });
+      
+      // 确保按照原始输入顺序排序，即使有缓存结果
+      const orderedResults = [];
+      const resultMap = new Map<string, WordResult>();
+      
+      // 先将所有结果放入map中，方便查找
+      uniqueResults.forEach(result => {
+        resultMap.set(normalize(result.word), result);
+      });
+      
+      // 按照原始输入顺序遍历，从map中取出对应的结果
+      words.forEach(word => {
+        const normalizedWord = normalize(word);
+        if (resultMap.has(normalizedWord)) {
+          orderedResults.push(resultMap.get(normalizedWord)!);
+          resultMap.delete(normalizedWord);
+        }
+      });
+      
+      // 处理剩下的结果（如果有的话）
+      resultMap.forEach(result => {
+        orderedResults.push(result);
+      });
+      
+      setResults(orderedResults);
 
       setWordsInput((prevInput) => {
         const lines = prevInput.split('\n');
-        const normalizedWords = uniqueResults.map(res => normalize(res.word));
+        const normalizedWords = orderedResults.map(res => normalize(res.word));
         const filteredLines = lines.filter(line => {
           const normalizedLine = normalize(line);
           return normalizedLine === '' || !normalizedWords.includes(normalizedLine);
@@ -431,7 +495,7 @@ export function WordInputCard({
 
       trackTranslate(words.length, false);
       setPendingWords([]);
-      setCompletedCount(uniqueResults.length);
+      setCompletedCount(orderedResults.length);
     } catch (error: unknown) {
       const err = error as Error & { name?: string };
       if (err.name === 'AbortError') {

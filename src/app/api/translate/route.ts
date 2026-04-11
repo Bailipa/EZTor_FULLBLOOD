@@ -435,10 +435,16 @@ export async function POST(req: Request) {
     wordsToFetch.length = 0;
     wordsToFetch.push(...filteredWordsToFetch);
 
+    // 创建单词映射，用于保持输入的原始大小写
+    const inputWordMap = new Map<string, string>();
+    words.forEach(word => {
+      inputWordMap.set(word.toLowerCase(), word);
+    });
+
     // 将数据库中已有的数据转换成我们需要的格式
     const formattedCachedResults = [
       ...cachedWords.map(cw => ({
-        word: cw.word,
+        word: inputWordMap.get(cw.word.toLowerCase()) || cw.word,
         phonetic: cw.phonetic || '',
         pos: cw.pos || '',
         translation: cw.translation,
@@ -447,7 +453,7 @@ export async function POST(req: Request) {
         fromCache: true
       })),
       ...publicCachedWords.map(pw => ({
-        word: pw.word,
+        word: inputWordMap.get(pw.word.toLowerCase()) || pw.word,
         phonetic: pw.phonetic || '',
         pos: pw.pos || '',
         translation: pw.translation,
@@ -456,7 +462,12 @@ export async function POST(req: Request) {
         fromCache: true
       })),
       ...specialResults.map(result => ({
-        ...result,
+        word: inputWordMap.get(result.word.toLowerCase()) || result.word,
+        phonetic: result.phonetic || '',
+        pos: result.pos || '',
+        translation: result.translation,
+        example: result.example || '',
+        exampleTranslation: result.exampleTranslation || '',
         fromCache: false
       }))
     ];
@@ -879,7 +890,7 @@ export async function POST(req: Request) {
                 if (parsed && parsed.results) {
               aiParsedResults = parsed.results.map((result: any) => ({
                 ...result,
-                word: Array.isArray(result.word) ? result.word[0] : result.word
+                word: inputWordMap.get((Array.isArray(result.word) ? result.word[0] : result.word).toLowerCase()) || (Array.isArray(result.word) ? result.word[0] : result.word)
               }));
             }
               } catch (e) {

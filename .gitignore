@@ -16,6 +16,10 @@
 # next.js
 /.next/
 /out/
+/deploy/.next/
+/dist/package/.next/
+/release-extract/.next/
+/release/package/.next/
 
 # production
 /build
