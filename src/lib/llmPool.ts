@@ -1,6 +1,8 @@
-﻿import OpenAI from 'openai';
+import OpenAI from 'openai';
 import prisma from '@/lib/prisma';
 import { Prisma } from '@prisma/client';
+import { connectionPool } from './connectionPool';
+import { monitoringService } from './monitoring';
 
 export const API_QUOTA_EXHAUSTED_MESSAGE = 'API额度用尽！请联系管理员填充。';
 
@@ -31,7 +33,7 @@ function normalizeBaseUrl(url?: string): string {
   return trimmed;
 }
 
-function isQuotaError(err: any): boolean {
+export function isQuotaError(err: any): boolean {
   const status = err?.status ?? err?.response?.status;
   const message = String(err?.message || '');
   return (
@@ -41,6 +43,55 @@ function isQuotaError(err: any): boolean {
     /quota/i.test(message) ||
     /浣欓涓嶈冻|棰濆害|閰嶉|璧勬簮涓嶈冻/.test(message)
   );
+}
+
+export function isRateLimitError(err: any): boolean {
+  const status = err?.status ?? err?.response?.status;
+  const message = String(err?.message || '');
+  return (
+    status === 429 ||
+    /rate[_ ]limit/i.test(message) ||
+    /too[_ ]many[_ ]requests/i.test(message)
+  );
+}
+
+export function isConnectionError(err: any): boolean {
+  const message = String(err?.message || '');
+  return (
+    /connection/i.test(message) ||
+    /timeout/i.test(message) ||
+    /network/i.test(message)
+  );
+}
+
+export async function markProviderError(providerId: string, reason: string): Promise<void> {
+  await ensureProviderTable();
+  const now = new Date().toISOString();
+  await prisma.$executeRaw(
+    Prisma.sql`
+      UPDATE LlmApiProvider
+      SET
+        lastError = ${reason},
+        lastErrorAt = ${now},
+        updatedAt = ${now}
+      WHERE id = ${providerId}
+    `
+  );
+}
+
+export async function checkQuotaThresholds(): Promise<void> {
+  const providers = await getActiveLlmProviders();
+  for (const provider of providers) {
+    if (provider.quotaRemaining !== null && provider.quotaRemaining < 100) {
+      // Send quota warning notification
+      await sendQuotaWarning(provider.id, provider.name, provider.quotaRemaining);
+    }
+  }
+}
+
+async function sendQuotaWarning(providerId: string, providerName: string, remaining: number): Promise<void> {
+  // Implement quota warning logic here
+  console.warn(`Quota warning for ${providerName}: ${remaining} remaining`);
 }
 
 let didSeedDefaultProvider = false;
@@ -232,7 +283,8 @@ export async function createOpenAiClient(sel: ProviderSelection): Promise<{ clie
   const baseURL = normalizeBaseUrl((provider as any).baseUrl);
   const apiKey = (provider as any).apiKey;
   const model = (provider as any).model;
-  return { client: new OpenAI({ apiKey, baseURL }), model };
+  const client = connectionPool.getClient(apiKey, baseURL);
+  return { client, model };
 }
 
 export async function withLlmFailover<T>(
@@ -250,20 +302,46 @@ export async function withLlmFailover<T>(
       if (!(sel.provider.quotaRemaining === null || sel.provider.quotaRemaining > 0)) continue;
     }
 
+    const startTime = Date.now();
     try {
       const { client, model } = await createOpenAiClient(sel);
       const result = await fn(client, model, sel);
+      const duration = Date.now() - startTime;
+      
+      // Record monitoring data
+      monitoringService.recordRequest(
+        sel.kind === 'db' ? sel.provider.id : 'legacy',
+        duration,
+        true
+      );
+      
       if (sel.kind === 'db') {
         await noteProviderUsed(sel.provider.id, quotaCost);
       }
       return result;
     } catch (err: any) {
+      const duration = Date.now() - startTime;
       lastErr = err;
-      if (sel.kind === 'db' && isQuotaError(err)) {
-        await markProviderQuotaExhausted(sel.provider.id, String(err?.message || 'quota exhausted'));
-        continue;
+      
+      // Record monitoring data
+      monitoringService.recordRequest(
+        sel.kind === 'db' ? sel.provider.id : 'legacy',
+        duration,
+        false,
+        err?.message
+      );
+      
+      if (sel.kind === 'db') {
+        if (isQuotaError(err)) {
+          await markProviderQuotaExhausted(sel.provider.id, String(err?.message || 'quota exhausted'));
+        } else if (isRateLimitError(err)) {
+          await markProviderError(sel.provider.id, String(err?.message || 'rate limit exceeded'));
+        } else if (isConnectionError(err)) {
+          await markProviderError(sel.provider.id, String(err?.message || 'connection error'));
+        } else {
+          await markProviderError(sel.provider.id, String(err?.message || 'error'));
+        }
       }
-      // Non-quota errors: try next provider, but keep error info.
       continue;
     }
   }
