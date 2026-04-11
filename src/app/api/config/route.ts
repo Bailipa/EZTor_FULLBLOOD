@@ -1,0 +1,112 @@
+import { NextResponse } from 'next/server';
+import prisma from '@/lib/prisma';
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "../auth/[...nextauth]/route";
+
+function maskApiKey(apiKey: string): string {
+  if (!apiKey || apiKey.length <= 8) {
+    return '****';
+  }
+  return apiKey.substring(0, 4) + '****' + apiKey.substring(apiKey.length - 4);
+}
+
+async function checkAdmin(session: any): Promise<boolean> {
+  if (!session?.user?.id) {
+    return false;
+  }
+  try {
+    const user = await prisma.user.findUnique({
+      where: { id: session.user.id },
+      select: { isAdmin: true }
+    });
+    return (user as any)?.isAdmin === true;
+  } catch {
+    return false;
+  }
+}
+
+export async function GET(req: Request) {
+  try {
+    const session = await getServerSession(authOptions);
+    if (!session?.user?.id) {
+      return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const isAdmin = await checkAdmin(session);
+    if (!isAdmin) {
+      return NextResponse.json({ success: false, error: 'Forbidden: Admin access required' }, { status: 403 });
+    }
+
+    let config = await prisma.apiConfig.findUnique({
+      where: { id: "global" }
+    });
+
+    if (!config) {
+      return NextResponse.json({
+        success: true,
+        data: {
+          apiKey: '',
+          baseUrl: 'https://api.openai.com/v1',
+          model: 'gpt-4o-mini',
+          systemPrompt: ''
+        }
+      });
+    }
+
+    return NextResponse.json({ 
+      success: true, 
+      data: {
+        ...config,
+        apiKey: maskApiKey(config.apiKey)
+      }
+    });
+  } catch (error: any) {
+    console.error("Failed to fetch api config:", error);
+    return NextResponse.json({ success: false, error: 'Internal server error' }, { status: 500 });
+  }
+}
+
+export async function POST(req: Request) {
+  try {
+    const session = await getServerSession(authOptions);
+    if (!session?.user?.id) {
+      return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const isAdmin = await checkAdmin(session);
+    if (!isAdmin) {
+      return NextResponse.json({ success: false, error: 'Forbidden: Admin access required' }, { status: 403 });
+    }
+
+    const body = await req.json();
+    const { apiKey, baseUrl, model, systemPrompt } = body;
+
+    const updatedConfig = await prisma.apiConfig.upsert({
+      where: { id: "global" },
+      update: {
+        apiKey,
+        baseUrl,
+        model,
+        systemPrompt
+      },
+      create: {
+        id: "global",
+        apiKey,
+        baseUrl: baseUrl || 'https://api.openai.com/v1',
+        model: model || 'gpt-4o-mini',
+        systemPrompt: systemPrompt || ''
+      }
+    });
+
+    return NextResponse.json({ 
+      success: true, 
+      data: {
+        ...updatedConfig,
+        apiKey: maskApiKey(updatedConfig.apiKey)
+      }
+    });
+  } catch (error: any) {
+    console.error("Failed to update api config:", error);
+    return NextResponse.json({ success: false, error: 'Internal server error' }, { status: 500 });
+  }
+}

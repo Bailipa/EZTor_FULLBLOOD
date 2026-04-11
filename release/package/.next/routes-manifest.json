@@ -1,0 +1,305 @@
+{
+  "version": 3,
+  "pages404": true,
+  "appType": "app",
+  "caseSensitive": false,
+  "basePath": "",
+  "redirects": [
+    {
+      "source": "/:path+/",
+      "destination": "/:path+",
+      "internal": true,
+      "priority": true,
+      "statusCode": 308,
+      "regex": "^(?:/((?:[^/]+?)(?:/(?:[^/]+?))*))/$"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Frame-Options",
+          "value": "SAMEORIGIN"
+        },
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(), microphone=(), geolocation=()"
+        },
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self' https:; frame-ancestors 'self'; base-uri 'self'; form-action 'self'; object-src 'none'"
+        },
+        {
+          "key": "X-XSS-Protection",
+          "value": "1; mode=block"
+        }
+      ],
+      "regex": "^(?:/(.*))(?:/)?$"
+    }
+  ],
+  "onMatchHeaders": [],
+  "rewrites": {
+    "beforeFiles": [],
+    "afterFiles": [],
+    "fallback": []
+  },
+  "dynamicRoutes": [
+    {
+      "page": "/api/auth/[...nextauth]",
+      "regex": "^/api/auth/(.+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPnextauth": "nxtPnextauth"
+      },
+      "namedRegex": "^/api/auth/(?<nxtPnextauth>.+?)(?:/)?$"
+    },
+    {
+      "page": "/api/review-groups/[id]",
+      "regex": "^/api/review\\-groups/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/api/review\\-groups/(?<nxtPid>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/api/review-groups/[id]/words",
+      "regex": "^/api/review\\-groups/([^/]+?)/words(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/api/review\\-groups/(?<nxtPid>[^/]+?)/words(?:/)?$"
+    }
+  ],
+  "staticRoutes": [
+    {
+      "page": "/",
+      "regex": "^/(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/(?:/)?$"
+    },
+    {
+      "page": "/_global-error",
+      "regex": "^/_global\\-error(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/_global\\-error(?:/)?$"
+    },
+    {
+      "page": "/_not-found",
+      "regex": "^/_not\\-found(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/_not\\-found(?:/)?$"
+    },
+    {
+      "page": "/analytics",
+      "regex": "^/analytics(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/analytics(?:/)?$"
+    },
+    {
+      "page": "/api/admin/users",
+      "regex": "^/api/admin/users(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/admin/users(?:/)?$"
+    },
+    {
+      "page": "/api/analytics",
+      "regex": "^/api/analytics(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/analytics(?:/)?$"
+    },
+    {
+      "page": "/api/captcha",
+      "regex": "^/api/captcha(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/captcha(?:/)?$"
+    },
+    {
+      "page": "/api/config",
+      "regex": "^/api/config(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/config(?:/)?$"
+    },
+    {
+      "page": "/api/danmaku",
+      "regex": "^/api/danmaku(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/danmaku(?:/)?$"
+    },
+    {
+      "page": "/api/dictation/smart",
+      "regex": "^/api/dictation/smart(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/dictation/smart(?:/)?$"
+    },
+    {
+      "page": "/api/dictation/update",
+      "regex": "^/api/dictation/update(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/dictation/update(?:/)?$"
+    },
+    {
+      "page": "/api/flashcard/import",
+      "regex": "^/api/flashcard/import(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/flashcard/import(?:/)?$"
+    },
+    {
+      "page": "/api/flashcard/public",
+      "regex": "^/api/flashcard/public(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/flashcard/public(?:/)?$"
+    },
+    {
+      "page": "/api/history",
+      "regex": "^/api/history(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/history(?:/)?$"
+    },
+    {
+      "page": "/api/import-csv",
+      "regex": "^/api/import\\-csv(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/import\\-csv(?:/)?$"
+    },
+    {
+      "page": "/api/llm-providers",
+      "regex": "^/api/llm\\-providers(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/llm\\-providers(?:/)?$"
+    },
+    {
+      "page": "/api/public-translate",
+      "regex": "^/api/public\\-translate(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/public\\-translate(?:/)?$"
+    },
+    {
+      "page": "/api/public-words",
+      "regex": "^/api/public\\-words(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/public\\-words(?:/)?$"
+    },
+    {
+      "page": "/api/review-groups",
+      "regex": "^/api/review\\-groups(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/review\\-groups(?:/)?$"
+    },
+    {
+      "page": "/api/share-stats",
+      "regex": "^/api/share\\-stats(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/share\\-stats(?:/)?$"
+    },
+    {
+      "page": "/api/sync",
+      "regex": "^/api/sync(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/sync(?:/)?$"
+    },
+    {
+      "page": "/api/translate",
+      "regex": "^/api/translate(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/translate(?:/)?$"
+    },
+    {
+      "page": "/api/translate-only",
+      "regex": "^/api/translate\\-only(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/translate\\-only(?:/)?$"
+    },
+    {
+      "page": "/api/translation-records",
+      "regex": "^/api/translation\\-records(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/translation\\-records(?:/)?$"
+    },
+    {
+      "page": "/api/tts",
+      "regex": "^/api/tts(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/tts(?:/)?$"
+    },
+    {
+      "page": "/api/word-sync",
+      "regex": "^/api/word\\-sync(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/word\\-sync(?:/)?$"
+    },
+    {
+      "page": "/auth/signin",
+      "regex": "^/auth/signin(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/auth/signin(?:/)?$"
+    },
+    {
+      "page": "/dictation",
+      "regex": "^/dictation(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/dictation(?:/)?$"
+    },
+    {
+      "page": "/favicon.ico",
+      "regex": "^/favicon\\.ico(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/favicon\\.ico(?:/)?$"
+    },
+    {
+      "page": "/history",
+      "regex": "^/history(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/history(?:/)?$"
+    },
+    {
+      "page": "/llm-config",
+      "regex": "^/llm\\-config(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/llm\\-config(?:/)?$"
+    },
+    {
+      "page": "/public-words",
+      "regex": "^/public\\-words(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/public\\-words(?:/)?$"
+    },
+    {
+      "page": "/translation-records",
+      "regex": "^/translation\\-records(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/translation\\-records(?:/)?$"
+    },
+    {
+      "page": "/users",
+      "regex": "^/users(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/users(?:/)?$"
+    }
+  ],
+  "dataRoutes": [],
+  "rsc": {
+    "header": "rsc",
+    "varyHeader": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+    "prefetchHeader": "next-router-prefetch",
+    "didPostponeHeader": "x-nextjs-postponed",
+    "contentTypeHeader": "text/x-component",
+    "suffix": ".rsc",
+    "prefetchSegmentHeader": "next-router-segment-prefetch",
+    "prefetchSegmentSuffix": ".segment.rsc",
+    "prefetchSegmentDirSuffix": ".segments",
+    "clientParamParsing": false,
+    "dynamicRSCPrerender": false
+  },
+  "rewriteHeaders": {
+    "pathHeader": "x-nextjs-rewritten-path",
+    "queryHeader": "x-nextjs-rewritten-query"
+  }
+}

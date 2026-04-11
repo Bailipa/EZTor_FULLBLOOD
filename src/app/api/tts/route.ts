@@ -1,0 +1,45 @@
+import { NextResponse } from 'next/server';
+import { rateLimit, getClientKey } from '@/lib/rateLimit';
+import { synthesizeSpeech } from '@/lib/tts';
+
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
+
+export async function POST(req: Request) {
+  try {
+    const rateLimitKey = `tts:${getClientKey(req)}`;
+    const rl = await rateLimit(rateLimitKey);
+    if (!rl.success) {
+      return NextResponse.json(
+        { success: false, error: 'Too many requests. Please try again later.' },
+        { status: 429, headers: { 'Retry-After': '60' } }
+      );
+    }
+
+    const body = await req.json().catch(() => ({}));
+
+    // Accept both project-native and OpenAI-compatible payload shapes.
+    const input: string = body.input ?? body.text ?? '';
+    const voice: string | undefined = body.voice;
+    const speed: number | undefined = body.speed;
+
+    const ttsResponse = await synthesizeSpeech({
+      input,
+      voice,
+      speed,
+      response_format: body.response_format,
+    });
+
+    const buffer = Buffer.from(await ttsResponse.arrayBuffer());
+    return new Response(buffer, {
+      headers: {
+        'Content-Type': 'audio/mpeg',
+        'Cache-Control': 'no-store',
+      },
+    });
+  } catch (error: any) {
+    console.error('[TTS] Failed:', error);
+    return NextResponse.json({ success: false, error: 'TTS failed' }, { status: 500 });
+  }
+}
+

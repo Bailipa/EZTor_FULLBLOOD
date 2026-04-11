@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 4, "column": 0}, "map": {"version":3,"sources":["file:///D:/TTTT/%E5%9B%9B%E7%BA%A7/web/src/components/providers/session-provider.tsx"],"sourcesContent":["\"use client\";\r\n\r\nimport { SessionProvider } from \"next-auth/react\";\r\n\r\nexport function NextAuthProvider({ children }: { children: React.ReactNode }) {\r\n  return (\r\n    <SessionProvider \r\n      refetchInterval={5 * 60}\r\n      refetchOnWindowFocus={false}\r\n    >\r\n      {children}\r\n    </SessionProvider>\r\n  );\r\n}\r\n"],"names":["NextAuthProvider","children","refetchInterval","refetchOnWindowFocus"],"mappings":";;;;;AAEA;AAFA;;;AAIO,SAASA,iBAAiB,EAAEC,QAAQ,EAAiC;IAC1E,qBACE,6LAAC,oKAAe;QACdC,iBAAiB,IAAI;QACrBC,sBAAsB;kBAErBF;;;;;;AAGP;KATgBD"}}]
+}
