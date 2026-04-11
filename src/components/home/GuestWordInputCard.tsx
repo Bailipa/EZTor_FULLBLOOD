@@ -125,7 +125,7 @@ export function GuestWordInputCard({
           const word = publicResults[i];
           const wordId = `fly-${Date.now()}-${i}`;
           
-          const wordElement = document.querySelector(`[data-word="${word.word.toLowerCase()}"]`);
+          const wordElement = document.querySelector(`[data-word="${word.word.toLowerCase().replace(/"/g, '\\"')}"]`);
           const rect = wordElement?.getBoundingClientRect();
           const startX = rect ? rect.left : 100 + (i * 50);
           const startY = rect ? rect.top : 200;
@@ -315,9 +315,9 @@ export function GuestWordInputCard({
           {isLoading ? (
           <div className="min-h-[150px] p-4 border rounded-md bg-muted/30 flex flex-wrap gap-2 content-start items-start relative overflow-visible">
             <AnimatePresence>
-              {pendingWords.map((word) => (
+              {pendingWords.map((word, index) => (
                 <motion.div
-                  key={word}
+                  key={`${index}-${word}`}
                   data-word={word.toLowerCase()}
                   initial={{ opacity: 0, scale: 0.8, y: 10 }}
                   animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -492,8 +492,8 @@ export function GuestWordInputCard({
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-2">
-                {notFoundWords.map((item) => (
-                  <div key={item.word} className="text-sm">
+                {notFoundWords.map((item, index) => (
+                  <div key={`${index}-${item.word}`} className="text-sm">
                     <span className="font-medium text-foreground">{item.word}</span>
                     {item.suggestions && item.suggestions.length > 0 && (
                       <span className="text-muted-foreground ml-2">

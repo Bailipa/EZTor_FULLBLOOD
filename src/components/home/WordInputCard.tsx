@@ -6,11 +6,12 @@ import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { motion, AnimatePresence } from 'framer-motion';
-import { PenTool, Upload, Sparkles } from 'lucide-react';
+import { PenTool, Upload, Sparkles, Globe } from 'lucide-react';
 import { useTheme } from '@wrksz/themes/client';
 import type { WordResult, ReviewGroup } from '@/types/api';
 import { saveToStorage, loadFromStorage } from '@/lib/storage';
 import { useAnalytics } from '@/lib/analytics';
+import { isSentence } from '@/lib/sentenceDetector';
 
 interface WordInputCardProps {
   isLoading: boolean;
@@ -54,6 +55,7 @@ export function WordInputCard({
   const [pendingWords, setPendingWords] = useState<string[]>([]);
   const [flyingWords, setFlyingWords] = useState<FlyingWord[]>([]);
   const [completedCount, setCompletedCount] = useState(0);
+  const [inputStatus, setInputStatus] = useState<{ type: 'normal' | 'non-english' | 'sentence'; message: string }>({ type: 'normal', message: '' });
   
   useEffect(() => {
     setMounted(true);
@@ -74,6 +76,18 @@ export function WordInputCard({
 
   useEffect(() => {
     saveToStorage('vocab_wordsInput', wordsInput);
+  }, [wordsInput]);
+
+  useEffect(() => {
+    const trimmedInput = wordsInput.trim();
+    if (!trimmedInput) {
+      setInputStatus({ type: 'normal', message: '' });
+      return;
+    }
+
+    const lines = trimmedInput.split('\n').filter(line => line.trim());
+    
+    setInputStatus({ type: 'normal', message: '' });
   }, [wordsInput]);
 
   useEffect(() => {
@@ -101,8 +115,53 @@ export function WordInputCard({
     setFlyingWords([]);
     animatedWordsRef.current.clear();
 
+    const fixedResults: WordResult[] = [];
+    const normalWords: string[] = [];
+
+    for (const word of words) {
+      let isNonEnglish = /[^\x00-\x7F]/.test(word);
+      let isSent = isSentence(word);
+
+      if (isNonEnglish) {
+        fixedResults.push({
+          word: word,
+          phonetic: '',
+          pos: '非英语',
+          translation: '当前功能非英语不予翻译',
+          example: '',
+          exampleTranslation: '',
+        });
+      } else if (isSent) {
+        fixedResults.push({
+          word: word,
+          phonetic: '',
+          pos: '句子',
+          translation: '当前功能不能翻译句子，翻译句子请使用Translate Only',
+          example: '',
+          exampleTranslation: '',
+        });
+      } else {
+        normalWords.push(word);
+      }
+    }
+
+    setPendingWords(words);
+    
+    for (const result of fixedResults) {
+      await new Promise(resolve => setTimeout(resolve, 300));
+      setResults(prev => [...prev, result]);
+      setPendingWords(prev => prev.filter(w => w !== result.word));
+      setCompletedCount(prev => prev + 1);
+    }
+
+    if (normalWords.length === 0) {
+      setWordsInput('');
+      trackTranslate(words.length, false);
+      setIsLoading(false);
+      return;
+    }
+
     try {
-      setPendingWords(words);
 
       if (abortControllerRef.current) {
         abortControllerRef.current.abort();
@@ -118,7 +177,7 @@ export function WordInputCard({
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          words,
+          words: normalWords,
           options: {
             showPos,
             showExample,
@@ -209,7 +268,7 @@ export function WordInputCard({
               
               const wordId = `fly-${Date.now()}-${flyingIdCounter++}`;
               
-              const wordElement = document.querySelector(`[data-word="${result.word.toLowerCase()}"]`);
+              const wordElement = document.querySelector(`[data-word="${result.word.toLowerCase().replace(/"/g, '\\"')}"]`);
               const rect = wordElement?.getBoundingClientRect();
               const startX = rect ? rect.left : 100 + (flyingIdCounter * 50);
               const startY = rect ? rect.top : 200;
@@ -295,7 +354,7 @@ export function WordInputCard({
       const finalMergedData: WordResult[] = [...finalResults];
       
       const actualWords = finalMergedData.map((r: WordResult) => normalize(r.word));
-      const missingWords = words.filter((w) => !actualWords.includes(normalize(w)));
+      const missingWords = normalWords.filter((w) => !actualWords.includes(normalize(w)));
 
       if (missingWords.length > 0) {
         const profanityRegex = /f\*\*k|fuck|shit|bitch|asshole|cunt|slut|dick|pussy/i;
@@ -324,17 +383,20 @@ export function WordInputCard({
         finalMergedData.push(...filterNotices);
       }
 
-      setResults(finalMergedData);
+      const allResults = [...fixedResults, ...finalMergedData];
+      
+      // 去重处理，避免重复输出
+      const uniqueResults = Array.from(new Map(allResults.map(item => [item.word, item])).values());
+      setResults(uniqueResults);
 
       setWordsInput((prevInput) => {
         const lines = prevInput.split('\n');
-        finalMergedData.forEach((res: WordResult) => {
-          const idx = lines.findIndex((l) => normalize(l) === normalize(res.word));
-          if (idx !== -1) {
-            lines.splice(idx, 1);
-          }
+        const normalizedWords = uniqueResults.map(res => normalize(res.word));
+        const filteredLines = lines.filter(line => {
+          const normalizedLine = normalize(line);
+          return normalizedLine === '' || !normalizedWords.includes(normalizedLine);
         });
-        return lines.join('\n');
+        return filteredLines.join('\n');
       });
 
       const wordsToSave = finalMergedData.filter(
@@ -342,6 +404,8 @@ export function WordInputCard({
           item.pos !== '错误' &&
           item.pos !== '风控' &&
           item.pos !== '中断' &&
+          item.pos !== '非英语' &&
+          item.pos !== '句子' &&
           !(item.translation && item.translation.includes('拼写错误或不存在')) &&
           !(item.translation && item.translation.includes('粗俗或敏感')) &&
           !(item.translation && item.translation.includes('⚠️'))
@@ -367,7 +431,7 @@ export function WordInputCard({
 
       trackTranslate(words.length, false);
       setPendingWords([]);
-      setCompletedCount(finalMergedData.length);
+      setCompletedCount(uniqueResults.length);
     } catch (error: unknown) {
       const err = error as Error & { name?: string };
       if (err.name === 'AbortError') {
@@ -532,9 +596,9 @@ export function WordInputCard({
         {isLoading ? (
           <div className="min-h-[150px] p-4 border rounded-md bg-muted/30 flex flex-wrap gap-2 content-start items-start overflow-y-auto relative">
             <AnimatePresence>
-              {pendingWords.map((word) => (
+              {pendingWords.map((word, index) => (
                 <motion.div
-                  key={word}
+                  key={`${index}-${word}`}
                   data-word={word.toLowerCase()}
                   initial={{ opacity: 0, scale: 0.8, y: 10 }}
                   animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -627,13 +691,21 @@ export function WordInputCard({
             )}
           </div>
         ) : (
-          <Textarea
-            placeholder="例如:&#10;apple&#10;gateway countries&#10;take for granted"
-            className="min-h-[150px] resize-y"
-            value={wordsInput}
-            onChange={(e) => setWordsInput(e.target.value)}
-            onKeyDown={handleKeyDown}
-          />
+          <div>
+            {inputStatus.type !== 'normal' && (
+              <div className={`p-3 mb-3 rounded-md flex items-center gap-2 ${inputStatus.type === 'non-english' ? 'bg-yellow-50 text-yellow-700 border border-yellow-200' : 'bg-blue-50 text-blue-700 border border-blue-200'}`}>
+                <Globe className="w-4 h-4" />
+                <span className="text-sm font-medium">{inputStatus.message}</span>
+              </div>
+            )}
+            <Textarea
+              placeholder="例如:&#10;apple&#10;gateway countries&#10;take for granted"
+              className="min-h-[150px] resize-y"
+              value={wordsInput}
+              onChange={(e) => setWordsInput(e.target.value)}
+              onKeyDown={handleKeyDown}
+            />
+          </div>
         )}
       </CardContent>
       <CardFooter className="flex justify-between items-center">

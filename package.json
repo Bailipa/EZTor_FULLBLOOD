@@ -20,6 +20,7 @@
     "clsx": "^2.1.1",
     "diff": "^8.0.4",
     "framer-motion": "^12.38.0",
+    "franc": "^6.2.0",
     "html-to-image": "^1.11.13",
     "lucide-react": "^1.0.1",
     "next": "16.2.1",

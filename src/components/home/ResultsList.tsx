@@ -67,7 +67,7 @@ export const ResultsList = forwardRef<HTMLDivElement, ResultsListProps>(
           <AnimatePresence mode="popLayout">
             {results.map((item, index) => (
               <motion.div
-                key={item.word}
+                key={`${index}-${item.word}`}
                 layout
                 initial={{ 
                   opacity: 0, 

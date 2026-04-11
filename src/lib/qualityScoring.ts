@@ -1,3 +1,5 @@
+import { isSentence } from './sentenceDetector';
+
 export interface QualityFactors {
   hasPhonetic: boolean;
   hasPos: boolean;
@@ -8,6 +10,8 @@ export interface QualityFactors {
   hasMultiplePos: boolean;
   isError: boolean;
   isSensitive: boolean;
+  isNonEnglish: boolean;
+  isSentence: boolean;
 }
 
 export interface QualityScore {
@@ -33,12 +37,14 @@ export function calculateQualityScore(
     exampleLength: example?.trim().length || 0,
     hasMultiplePos: pos ? pos.includes('/') || pos.includes(';') : false,
     isError: pos === '错误' || translation.includes('拼写错误'),
-    isSensitive: translation.includes('粗俗') || translation.includes('敏感')
+    isSensitive: translation.includes('粗俗') || translation.includes('敏感'),
+    isNonEnglish: /[^\x00-\x7F]/.test(word),
+    isSentence: isSentence(word)
   };
 
   let score = 0;
 
-  if (factors.isError || factors.isSensitive) {
+  if (factors.isError || factors.isSensitive || factors.isNonEnglish || factors.isSentence) {
     return { score: 0, factors, grade: 'D' };
   }
 

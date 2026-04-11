@@ -12,6 +12,7 @@ import { calculateQualityScore } from '@/lib/qualityScoring';
 import { checkAndSyncOnQuery } from '@/lib/wordSync';
 import { cascadePublicWordToPrivate } from '@/lib/publicWordCascade';
 import { API_QUOTA_EXHAUSTED_MESSAGE, getProviderCandidates, withLlmFailover } from '@/lib/llmPool';
+import { isSentence } from '@/lib/sentenceDetector';
 
 const RECORD_TRANSLATIONS = true;
 
@@ -397,6 +398,43 @@ export async function POST(req: Request) {
       }
     }
 
+    // 检测非英语输入和句子输入
+    const filteredWordsToFetch: string[] = [];
+    const specialResults: any[] = [];
+
+    for (const word of wordsToFetch) {
+      // 检测非英语输入
+      if (/[^\x00-\x7F]/.test(word)) {
+        specialResults.push({
+          word: word,
+          phonetic: '',
+          pos: '非英语',
+          translation: '当前功能非英语不予翻译',
+          example: '',
+          exampleTranslation: '',
+        });
+      } 
+      // 检测句子输入
+      else if (isSentence(word)) {
+        specialResults.push({
+          word: word,
+          phonetic: '',
+          pos: '句子',
+          translation: '当前功能不能翻译句子，翻译句子请使用Translate Only',
+          example: '',
+          exampleTranslation: '',
+        });
+      } 
+      // 正常单词
+      else {
+        filteredWordsToFetch.push(word);
+      }
+    }
+
+    // 更新wordsToFetch为过滤后的结果
+    wordsToFetch.length = 0;
+    wordsToFetch.push(...filteredWordsToFetch);
+
     // 将数据库中已有的数据转换成我们需要的格式
     const formattedCachedResults = [
       ...cachedWords.map(cw => ({
@@ -416,6 +454,10 @@ export async function POST(req: Request) {
         example: pw.example || '',
         exampleTranslation: pw.exampleTranslation || '',
         fromCache: true
+      })),
+      ...specialResults.map(result => ({
+        ...result,
+        fromCache: false
       }))
     ];
 
@@ -835,8 +877,11 @@ export async function POST(req: Request) {
               try {
                 const parsed = JSON.parse(validJson);
                 if (parsed && parsed.results) {
-                  aiParsedResults = parsed.results;
-                }
+              aiParsedResults = parsed.results.map((result: any) => ({
+                ...result,
+                word: Array.isArray(result.word) ? result.word[0] : result.word
+              }));
+            }
               } catch (e) {
                 console.error("Failed to parse AI complete output:", e);
               }
@@ -850,6 +895,8 @@ export async function POST(req: Request) {
                 item.pos !== "错误" && 
                 item.pos !== "风控" &&
                 item.pos !== "中断" &&
+                item.pos !== "非英语" &&
+                item.pos !== "句子" &&
                 !(item.translation && item.translation.includes("拼写错误或不存在")) &&
                 !(item.translation && item.translation.includes("粗俗或敏感")) &&
                 !(item.translation && item.translation.includes("⚠️"))
