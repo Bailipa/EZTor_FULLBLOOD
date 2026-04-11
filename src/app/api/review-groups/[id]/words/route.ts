@@ -2,26 +2,13 @@ import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-
-function checkCSRF(req: Request): boolean {
-  const origin = req.headers.get('origin') || req.headers.get('referer');
-  if (!origin) return true; // Allow requests without origin (e.g., from the same origin)
-  
-  const allowedOrigins = [
-    'http://localhost:3000',
-    'http://localhost:3001',
-    'http://127.0.0.1:3000',
-    'http://127.0.0.1:3001',
-    process.env.NEXT_PUBLIC_APP_URL,
-  ].filter(Boolean);
-  
-  return allowedOrigins.some(allowed => origin.startsWith(allowed || ''));
-}
+import { checkCsrfHeader } from '@/lib/csrf';
 
 export async function POST(req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
-    if (!checkCSRF(req)) {
-      return NextResponse.json({ success: false, error: 'Invalid origin' }, { status: 403 });
+    const csrf = checkCsrfHeader(req);
+    if (!csrf.valid) {
+      return NextResponse.json({ success: false, error: csrf.reason || 'Invalid origin' }, { status: 403 });
     }
 
     const session = await getServerSession(authOptions);
@@ -92,8 +79,9 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
 // Remove words from a group or clear all
 export async function DELETE(req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
-    if (!checkCSRF(req)) {
-      return NextResponse.json({ success: false, error: 'Invalid origin' }, { status: 403 });
+    const csrf = checkCsrfHeader(req);
+    if (!csrf.valid) {
+      return NextResponse.json({ success: false, error: csrf.reason || 'Invalid origin' }, { status: 403 });
     }
 
     const session = await getServerSession(authOptions);
