@@ -155,7 +155,7 @@ export function GuestWordInputCard({
         }
 
         // 按照原始输入顺序排序结果
-        const orderedResults = [];
+        const orderedResults: WordResult[] = [];
         const resultMap = new Map<string, WordResult>();
         
         // 先将所有结果放入map中，方便查找
@@ -214,7 +214,7 @@ export function GuestWordInputCard({
             resultMap.set(word.word.toLowerCase(), word);
             
             // 按照原始输入顺序排序结果
-            const orderedResults = [];
+            const orderedResults: WordResult[] = [];
             words.forEach(word => {
               const normalizedWord = word.toLowerCase();
               if (resultMap.has(normalizedWord)) {

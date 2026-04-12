@@ -14,6 +14,7 @@ import { cascadePublicWordToPrivate } from '@/lib/publicWordCascade';
 import { API_QUOTA_EXHAUSTED_MESSAGE, getProviderCandidates, withLlmFailover } from '@/lib/llmPool';
 import { isSentence } from '@/lib/sentenceDetector';
 import { normalizeWord } from '@/lib/capitalization';
+import type { WordResult } from '@/types/api';
 
 const RECORD_TRANSLATIONS = true;
 
@@ -539,8 +540,8 @@ export async function POST(req: Request) {
     }
 
     // 按照原始输入顺序排序缓存结果
-    const orderedCachedResults = [];
-    const resultMap = new Map<string, any>();
+    const orderedCachedResults: WordResult[] = [];
+    const resultMap = new Map<string, WordResult>();
     formattedCachedResults.forEach(result => {
       resultMap.set(result.word.toLowerCase(), result);
     });

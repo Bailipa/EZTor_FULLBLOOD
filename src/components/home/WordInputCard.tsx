@@ -159,7 +159,7 @@ export function WordInputCard({
           mergedMap.set(fixedResult.word.toLowerCase(), fixedResult);
           
           // 按照原始输入顺序排序
-          const orderedResults = [];
+          const orderedResults: WordResult[] = [];
           words.forEach(word => {
             const wordLower = word.toLowerCase();
             if (mergedMap.has(wordLower)) {
@@ -333,7 +333,7 @@ export function WordInputCard({
                   mergedMap.set(normalizedWord, result);
                   
                   // 按照原始输入顺序排序
-                  const orderedResults = [];
+                  const orderedResults: WordResult[] = [];
                   words.forEach(word => {
                     const wordLower = word.toLowerCase();
                     if (mergedMap.has(wordLower)) {
@@ -481,7 +481,7 @@ export function WordInputCard({
       });
       
       // 确保按照原始输入顺序排序，即使有缓存结果
-      const orderedResults = [];
+      const orderedResults: WordResult[] = [];
       const resultMap = new Map<string, WordResult>();
       
       // 先将所有结果放入map中，方便查找
