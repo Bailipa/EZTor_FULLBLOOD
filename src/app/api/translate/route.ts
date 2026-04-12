@@ -13,6 +13,7 @@ import { checkAndSyncOnQuery } from '@/lib/wordSync';
 import { cascadePublicWordToPrivate } from '@/lib/publicWordCascade';
 import { API_QUOTA_EXHAUSTED_MESSAGE, getProviderCandidates, withLlmFailover } from '@/lib/llmPool';
 import { isSentence } from '@/lib/sentenceDetector';
+import { normalizeWord } from '@/lib/capitalization';
 
 const RECORD_TRANSLATIONS = true;
 
@@ -113,6 +114,21 @@ const DEFAULT_SYSTEM_PROMPT = `你是一个专业的英语词典助手。你的�
 【翻译字段规则 - 非常重要】
 **translation 字段必须只包含单词本身的中文释义！** 绝对不能把例句的翻译写进 translation 字段里。
 例句的中文翻译必须单独放在 exampleTranslation 字段中。
+
+【Capitalization Handling Rules】
+1. For specific technical terms and proper nouns (such as JavaScript, TypeScript, React, etc.), please use all lowercase form in the output
+2. For acronyms (such as API, AI, ML, etc.), please maintain their original capitalization form
+3. For ordinary words, please maintain their original capitalization form
+
+【Examples】
+- Input: "JavaScript"
+- Output: "javascript"
+
+- Input: "API"
+- Output: "API"
+
+- Input: "Apple"
+- Output: "Apple"
 
 请严格按照以下 JSON 格式输出，**必须包含最外层的 \`\`\`json 和 \`\`\` 标记**：
 \`\`\`json
@@ -216,7 +232,7 @@ export async function POST(req: Request) {
     }
 
     const sanitizedWords = sanitizeWordList(words);
-    const normalizedWords = sanitizedWords.map((w: string) => w.toLowerCase().trim()).filter(Boolean);
+    const normalizedWords = sanitizedWords.map((w: string) => normalizeWord(w.toLowerCase().trim())).filter(Boolean);
 
     if (normalizedWords.length === 0) {
       return NextResponse.json({ error: 'Invalid words list' }, { status: 400 });
@@ -911,7 +927,7 @@ export async function POST(req: Request) {
                 if (parsed && parsed.results) {
               aiParsedResults = parsed.results.map((result: any) => ({
                 ...result,
-                word: inputWordMap.get((Array.isArray(result.word) ? result.word[0] : result.word).toLowerCase()) || (Array.isArray(result.word) ? result.word[0] : result.word)
+                word: normalizeWord(inputWordMap.get((Array.isArray(result.word) ? result.word[0] : result.word).toLowerCase()) || (Array.isArray(result.word) ? result.word[0] : result.word))
               }));
             }
               } catch (e) {
@@ -933,7 +949,7 @@ export async function POST(req: Request) {
                 !(item.translation && item.translation.includes("粗俗或敏感")) &&
                 !(item.translation && item.translation.includes("⚠️"))
               ).map((item: any) => ({
-                word: String(item.word || '').toLowerCase().trim(),
+                word: normalizeWord(String(item.word || '').toLowerCase().trim()),
                 phonetic: item.phonetic || null,
                 pos: item.pos || null,
                 translation: item.translation || '',

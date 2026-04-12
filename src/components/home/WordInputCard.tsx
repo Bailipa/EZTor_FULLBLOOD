@@ -452,7 +452,7 @@ export function WordInputCard({
               word: word,
               phonetic: '',
               pos: '中断',
-              translation: '⚠️ 受同批次敏感词或网络异常影响，未完成解析',
+              translation: '受其它因素影响，解析结果改变或无法给出',
               example: '',
               exampleTranslation: '',
             };
