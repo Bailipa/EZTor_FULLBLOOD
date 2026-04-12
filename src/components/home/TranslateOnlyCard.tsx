@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
-import { Languages, Copy } from 'lucide-react';
+import { Languages, Copy, ClipboardPaste } from 'lucide-react';
 import { useAnalytics } from '@/lib/analytics';
 
 const MAX_LENGTH = 8000;
@@ -17,6 +17,7 @@ export function TranslateOnlyCard() {
   const [isLoading, setIsLoading] = useState(false);
   const [isClearConfirm, setIsClearConfirm] = useState(false);
   const [progress, setProgress] = useState(0);
+  const [isCopied, setIsCopied] = useState(false);
   const { trackTranslateOnly } = useAnalytics();
 
   const charCount = input.length;
@@ -62,17 +63,33 @@ export function TranslateOnlyCard() {
     startFakeProgress();
     
     try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
+      
       const response = await fetch('/api/translate-only', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ input: input.trim() }),
+        signal: controller.signal
       });
-
-      const data = await response.json();
-      if (!response.ok || !data.success) {
-        throw new Error(data.error || '翻译失败');
+      
+      clearTimeout(timeoutId);
+      
+      if (!response.ok) {
+        const contentType = response.headers.get('content-type');
+        if (contentType && contentType.includes('application/json')) {
+          const errorData = await response.json();
+          throw new Error(errorData.error || 'Translation failed');
+        } else {
+          throw new Error('Translation service temporarily unavailable. Please try again later.');
+        }
       }
-
+      
+      const data = await response.json();
+      if (!data.success) {
+        throw new Error(data.error || 'Translation failed');
+      }
+      
       setResult(data.data?.translation || '');
       finishProgress();
       trackTranslateOnly(input.length);
@@ -83,7 +100,11 @@ export function TranslateOnlyCard() {
         progressIntervalRef.current = null;
       }
       setProgress(0);
-      alert(err.message || '翻译失败');
+      if (err.name === 'AbortError') {
+        alert('Translation request timed out. Please try again.');
+      } else {
+        alert(err.message || 'Translation failed');
+      }
     } finally {
       setIsLoading(false);
     }
@@ -100,7 +121,8 @@ export function TranslateOnlyCard() {
     if (!result.trim()) return;
     try {
       await navigator.clipboard.writeText(result);
-      alert('已复制到剪贴板');
+      setIsCopied(true);
+      setTimeout(() => setIsCopied(false), 2000);
     } catch {
       alert('复制失败，请手动复制');
     }
@@ -116,6 +138,16 @@ export function TranslateOnlyCard() {
     setIsClearConfirm(false);
   };
 
+  const handlePaste = async () => {
+    try {
+      const text = await navigator.clipboard.readText();
+      setInput(text);
+      setIsClearConfirm(false);
+    } catch (error) {
+      alert('无法读取剪贴板内容');
+    }
+  };
+
   return (
     <Card className="border-2 shadow-sm">
       <Collapsible open={isOpen} onOpenChange={setIsOpen}>
@@ -126,7 +158,7 @@ export function TranslateOnlyCard() {
               Translate Only
             </CardTitle>
             <CardDescription className="mt-1.5 text-xs sm:text-sm">
-              中英互译，最多 8000 字符，仅返回翻译文本，不写入生词本
+              中英互译，最多 {charCount}/{MAX_LENGTH} 字符，仅返回翻译文本，不写入生词本
             </CardDescription>
           </div>
           <CollapsibleTrigger asChild>
@@ -152,11 +184,13 @@ export function TranslateOnlyCard() {
                 }}
                 onKeyDown={handleKeyDown}
               />
-              <div className={`absolute bottom-2 right-2 text-xs ${isOverLimit ? 'text-red-500' : 'text-muted-foreground'}`}>
-                {charCount}/{MAX_LENGTH}
-              </div>
+
             </div>
             <div className="flex justify-end gap-2">
+              <Button variant="outline" onClick={handlePaste}>
+                <ClipboardPaste className="w-4 h-4 mr-1" />
+                粘贴
+              </Button>
               <Button variant="outline" onClick={handleClear}>
                 {isClearConfirm ? '再按一次' : '清空'}
               </Button>
@@ -185,13 +219,13 @@ export function TranslateOnlyCard() {
               <div className="rounded-md border bg-gray-50 dark:bg-muted/50 p-3">
                 <div className="flex justify-end mb-2">
                   <Button
-                    variant="outline"
+                    variant={isCopied ? "default" : "outline"}
                     size="sm"
                     className="h-8 px-2.5 text-xs gap-1.5"
                     onClick={handleCopy}
                   >
                     <Copy className="w-3.5 h-3.5" />
-                    复制
+                    {isCopied ? '已复制' : '复制'}
                   </Button>
                 </div>
                 <p className="text-sm text-gray-800 dark:text-gray-200 whitespace-pre-wrap">{result}</p>

@@ -6,6 +6,7 @@ import { Danmaku } from '@/components/ui/danmaku';
 import { WordInputCard, TranslateOnlyCard, ResultsList, HomeHeader } from '@/components/home';
 import { GuestWordInputCard } from '@/components/home/GuestWordInputCard';
 import { WelcomeBanner, useLoginPrompt } from '@/components/ui/login-prompt-modal';
+import ErrorBoundary from '@/components/error-boundary';
 import type { WordResult, ReviewGroup } from '@/types/api';
 import { saveToStorage, loadFromStorage } from '@/lib/storage';
 import { usePageView } from '@/lib/analytics';
@@ -128,13 +129,17 @@ export default function Home() {
                 className="cursor-pointer opacity-50 hover:opacity-70 transition-opacity"
                 onClick={() => handleFeatureClick('AI 智能翻译')}
               >
-                <TranslateOnlyCard />
+                <ErrorBoundary>
+                  <TranslateOnlyCard />
+                </ErrorBoundary>
                 <p className="text-center text-sm text-muted-foreground mt-2">
                   🔒 登录后解锁 AI 智能翻译
                 </p>
               </div>
             ) : (
-              <TranslateOnlyCard />
+              <ErrorBoundary>
+                <TranslateOnlyCard />
+              </ErrorBoundary>
             )}
 
             <ResultsList ref={resultsRef} results={results} showPos={showPos} showExample={showExample} />
