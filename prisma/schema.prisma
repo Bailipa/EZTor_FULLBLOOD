@@ -23,6 +23,7 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   words     Word[]
+  ignoredWords IgnoredWord[]
   reviewGroups ReviewGroup[]
   securityViolations SecurityViolation[]
   preference UserPreference?
@@ -254,4 +255,21 @@ model TranslationRecord {
   @@index([word])
   @@index([createdAt])
   @@index([requestHash])
+}
+
+// 忽略的单词记录
+model IgnoredWord {
+  id                 String   @id @default(cuid())
+  word               String
+  phonetic           String?
+  translation        String
+  example            String?
+  exampleTranslation String?
+  userId             String
+  user               User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt          DateTime @default(now())
+  
+  @@unique([word, userId])
+  @@index([userId])
+  @@index([word])
 }

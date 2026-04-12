@@ -522,19 +522,40 @@ export async function POST(req: Request) {
       }
     }
 
+    // 按照原始输入顺序排序缓存结果
+    const orderedCachedResults = [];
+    const resultMap = new Map<string, any>();
+    formattedCachedResults.forEach(result => {
+      resultMap.set(result.word.toLowerCase(), result);
+    });
+    
+    // 按照原始输入顺序遍历，从map中取出对应的结果
+    words.forEach(word => {
+      const normalizedWord = word.toLowerCase();
+      if (resultMap.has(normalizedWord)) {
+        orderedCachedResults.push(resultMap.get(normalizedWord)!);
+        resultMap.delete(normalizedWord);
+      }
+    });
+    
+    // 处理剩下的结果（如果有的话）
+    resultMap.forEach(result => {
+      orderedCachedResults.push(result);
+    });
+
     // 如果所有单词都在缓存中，为了保持前端的一致性（前端期望一个流或标准的 JSON 字符串块）
     // 我们必须使用流式返回，哪怕它瞬间就结束了！
     if (wordsToFetch.length === 0) {
-      if (RECORD_TRANSLATIONS && formattedCachedResults.length > 0) {
+      if (RECORD_TRANSLATIONS && orderedCachedResults.length > 0) {
         try {
           const clientIp = req.headers.get('x-forwarded-for')?.split(',')[0] ||
                            req.headers.get('x-real-ip') ||
                            null;
           const userAgent = req.headers.get('user-agent') || null;
           
-          console.log(`[TranslationRecord] Recording ${formattedCachedResults.length} cached translations for user: ${session.user.id}`);
+          console.log(`[TranslationRecord] Recording ${orderedCachedResults.length} cached translations for user: ${session.user.id}`);
           
-          for (const item of formattedCachedResults) {
+          for (const item of orderedCachedResults) {
             await safeRecordTranslation(session.user.id, item, true, clientIp, userAgent);
           }
         } catch (recordErr) {
@@ -542,7 +563,7 @@ export async function POST(req: Request) {
         }
       }
       
-      const cacheJsonStr = JSON.stringify({ results: formattedCachedResults });
+      const cacheJsonStr = JSON.stringify({ results: orderedCachedResults });
       const encoder = new TextEncoder();
       const stream = new ReadableStream({
         start(controller) {
@@ -843,8 +864,8 @@ export async function POST(req: Request) {
         
         // --- 优化点：不再手动拼接残缺的 JSON 字符串 ---
         // 如果有缓存结果，直接作为第一块完整的数据发送过去
-        if (formattedCachedResults.length > 0) {
-          const cacheChunk = JSON.stringify({ results: formattedCachedResults });
+        if (orderedCachedResults.length > 0) {
+          const cacheChunk = JSON.stringify({ results: orderedCachedResults });
           controller.enqueue(encoder.encode(cacheChunk + '\n\n'));
         }
 

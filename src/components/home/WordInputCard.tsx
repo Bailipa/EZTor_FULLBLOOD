@@ -147,11 +147,38 @@ export function WordInputCard({
 
     setPendingWords(words);
     
-    for (const result of fixedResults) {
-      await new Promise(resolve => setTimeout(resolve, 300));
-      setResults(prev => [...prev, result]);
-      setPendingWords(prev => prev.filter(w => w !== result.word));
-      setCompletedCount(prev => prev + 1);
+    // 按照输入顺序处理固定结果
+    for (const word of words) {
+      const fixedResult = fixedResults.find(r => r.word === word);
+      if (fixedResult) {
+        await new Promise(resolve => setTimeout(resolve, 300));
+        setResults(prev => {
+          // 确保按照输入顺序添加结果
+          const mergedMap = new Map<string, WordResult>();
+          prev.forEach((p) => mergedMap.set(p.word.toLowerCase(), p));
+          mergedMap.set(fixedResult.word.toLowerCase(), fixedResult);
+          
+          // 按照原始输入顺序排序
+          const orderedResults = [];
+          words.forEach(word => {
+            const wordLower = word.toLowerCase();
+            if (mergedMap.has(wordLower)) {
+              orderedResults.push(mergedMap.get(wordLower)!);
+            }
+          });
+          
+          // 处理剩下的结果
+          mergedMap.forEach((result, key) => {
+            if (!words.some(word => word.toLowerCase() === key)) {
+              orderedResults.push(result);
+            }
+          });
+          
+          return orderedResults;
+        });
+        setPendingWords(prev => prev.filter(w => w !== fixedResult.word));
+        setCompletedCount(prev => prev + 1);
+      }
     }
 
     if (normalWords.length === 0) {
@@ -259,52 +286,77 @@ export function WordInputCard({
             lastValidParsedData = parsedData;
             const aiResults = parsedData.results.filter((item) => item && item.word);
             
-            for (const result of aiResults) {
-              const wordKey = result.word.toLowerCase();
-              if (animatedWordsRef.current.has(wordKey)) {
-                continue;
+            // 创建结果映射，方便按照输入顺序查找
+            const resultMap = new Map<string, WordResult>();
+            aiResults.forEach(result => {
+              resultMap.set(result.word.toLowerCase(), result);
+            });
+            
+            // 按照原始输入顺序处理结果，包括缓存结果和大模型结果
+            for (const word of words) {
+              const normalizedWord = word.toLowerCase();
+              if (resultMap.has(normalizedWord) && !animatedWordsRef.current.has(normalizedWord)) {
+                const result = resultMap.get(normalizedWord)!;
+                animatedWordsRef.current.add(normalizedWord);
+                
+                const wordId = `fly-${Date.now()}-${flyingIdCounter++}`;
+                
+                const wordElement = document.querySelector(`[data-word="${normalizedWord.replace(/"/g, '\\"')}"]`);
+                const rect = wordElement?.getBoundingClientRect();
+                const startX = rect ? rect.left : 100 + (flyingIdCounter * 50);
+                const startY = rect ? rect.top : 200;
+                
+                const targetX = window.innerWidth - 100;
+                const targetY = window.innerHeight - 100;
+                
+                setFlyingWords(prev => [...prev, { 
+                  word: result.word, 
+                  id: wordId, 
+                  startX, 
+                  startY,
+                  targetX,
+                  targetY
+                }]);
+                
+                await new Promise(resolve => setTimeout(resolve, 100));
+                
+                setPendingWords((prevPending) => 
+                  prevPending.filter((pw) => pw.toLowerCase() !== normalizedWord)
+                );
+                
+                await new Promise(resolve => setTimeout(resolve, 800));
+                
+                setResults((prev) => {
+                  // 先将所有结果放入map中
+                  const mergedMap = new Map<string, WordResult>();
+                  prev.forEach((p) => mergedMap.set(p.word.toLowerCase(), p));
+                  mergedMap.set(normalizedWord, result);
+                  
+                  // 按照原始输入顺序排序
+                  const orderedResults = [];
+                  words.forEach(word => {
+                    const wordLower = word.toLowerCase();
+                    if (mergedMap.has(wordLower)) {
+                      orderedResults.push(mergedMap.get(wordLower)!);
+                    }
+                  });
+                  
+                  // 处理剩下的结果
+                  mergedMap.forEach((result, key) => {
+                    if (!words.some(word => word.toLowerCase() === key)) {
+                      orderedResults.push(result);
+                    }
+                  });
+                  
+                  return orderedResults;
+                });
+                
+                setCompletedCount(prev => prev + 1);
+                
+                setFlyingWords(prev => prev.filter(fw => fw.id !== wordId));
+                
+                await new Promise(resolve => setTimeout(resolve, 300));
               }
-              animatedWordsRef.current.add(wordKey);
-              
-              const wordId = `fly-${Date.now()}-${flyingIdCounter++}`;
-              
-              const wordElement = document.querySelector(`[data-word="${result.word.toLowerCase().replace(/"/g, '\\"')}"]`);
-              const rect = wordElement?.getBoundingClientRect();
-              const startX = rect ? rect.left : 100 + (flyingIdCounter * 50);
-              const startY = rect ? rect.top : 200;
-              
-              const targetX = window.innerWidth - 100;
-              const targetY = window.innerHeight - 100;
-              
-              setFlyingWords(prev => [...prev, { 
-                word: result.word, 
-                id: wordId, 
-                startX, 
-                startY,
-                targetX,
-                targetY
-              }]);
-              
-              await new Promise(resolve => setTimeout(resolve, 100));
-              
-              setPendingWords((prevPending) => 
-                prevPending.filter((pw) => pw.toLowerCase() !== result.word.toLowerCase())
-              );
-              
-              await new Promise(resolve => setTimeout(resolve, 800));
-              
-              setResults((prev) => {
-                const mergedMap = new Map<string, WordResult>();
-                prev.forEach((p) => mergedMap.set(p.word, p));
-                mergedMap.set(result.word, result);
-                return Array.from(mergedMap.values());
-              });
-              
-              setCompletedCount(prev => prev + 1);
-              
-              setFlyingWords(prev => prev.filter(fw => fw.id !== wordId));
-              
-              await new Promise(resolve => setTimeout(resolve, 300));
             }
           }
         }
