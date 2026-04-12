@@ -9,6 +9,11 @@ export const metadata: Metadata = {
   description: "A simple and powerful vocabulary memorization tool",
 };
 
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{

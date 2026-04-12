@@ -4,6 +4,9 @@ import { Button } from '@/components/ui/button';
 import { ModeToggle } from '@/components/mode-toggle';
 import { FlashcardWidget } from '@/components/ui/flashcard/flashcard-widget';
 import { GameWidget } from '@/components/ui/game/GameWidget';
+import { SharePoster } from '@/components/share';
+import { useState } from 'react';
+import { Share2 } from 'lucide-react';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -28,6 +31,7 @@ interface HomeHeaderProps {
 export function HomeHeader({ showDanmaku, onToggleDanmaku, onFeatureClick }: HomeHeaderProps) {
   const { data: session, status } = useSession();
   const isAuthenticated = status === 'authenticated' && session?.user;
+  const [shareOpen, setShareOpen] = useState(false);
 
   const handleFeatureClick = (featureName: string, callback?: () => void) => {
     if (!isAuthenticated && onFeatureClick) {
@@ -84,6 +88,14 @@ export function HomeHeader({ showDanmaku, onToggleDanmaku, onFeatureClick }: Hom
                 <span>生词本</span>
               </Button>
             </Link>
+            <Button
+              variant="outline"
+              onClick={() => setShareOpen(true)}
+              className="gap-1.5 sm:gap-2 shadow-sm h-8 px-2.5 text-xs sm:h-9 sm:px-4 sm:text-sm"
+            >
+              <Share2 className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+              <span>分享</span>
+            </Button>
           </>
         ) : (
           <Link href="/auth/signin">
@@ -144,6 +156,7 @@ export function HomeHeader({ showDanmaku, onToggleDanmaku, onFeatureClick }: Hom
             </AlertDialogContent>
           </AlertDialog>
         )}
+        <SharePoster open={shareOpen} onOpenChange={setShareOpen} />
       </div>
     </div>
   );

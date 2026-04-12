@@ -143,7 +143,8 @@ export function SharePoster({ open, onOpenChange }: SharePosterProps) {
               ref={cardRef}
               className="p-8 rounded-2xl"
               style={{ 
-                width: 360, 
+                width: '90vw', 
+                maxWidth: 360, 
                 fontFamily: 'system-ui, -apple-system, sans-serif',
                 backgroundColor: isDark ? '#0a0a0a' : '#ffffff',
               }}
