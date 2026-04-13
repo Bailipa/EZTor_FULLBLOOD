@@ -1,5 +1,9 @@
 import OpenAI from 'openai';
 
+if (typeof process !== 'undefined' && process.env) {
+  process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+}
+
 class ConnectionPool {
   private pool: Map<string, OpenAI> = new Map();
   private maxConnections = 10;

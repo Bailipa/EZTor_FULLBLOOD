@@ -50,6 +50,11 @@ export async function GET(
             username: true,
           },
         },
+        targetGroup: {
+          select: {
+            name: true,
+          },
+        },
       },
       orderBy: {
         createdAt: "desc",
@@ -62,7 +67,7 @@ export async function GET(
       importedAt: imp.createdAt.toISOString(),
       wordsImported: imp.wordsImported,
       wordsSkipped: imp.wordsSkipped,
-      targetGroupId: imp.targetGroupId,
+      targetGroupName: imp.targetGroup.name,
     }));
 
     return createSuccessResponse({

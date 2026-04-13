@@ -56,7 +56,6 @@ interface ShareData {
   viewCount: number;
   isActive: boolean;
   createdAt: string;
-  reviewGroupId?: string;
 }
 
 interface GroupShareModalProps {
