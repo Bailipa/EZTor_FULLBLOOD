@@ -4,6 +4,34 @@ import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { handleApiError, createErrorResponse, createSuccessResponse } from '@/lib/apiErrorHandler';
 
+export async function GET(req: Request, { params }: { params: Promise<{ id: string }> }) {
+  try {
+    const session = await getServerSession(authOptions);
+    if (!session?.user?.id) {
+      return createErrorResponse('未授权访问', 401);
+    }
+
+    const { id } = await params;
+
+    const group = await prisma.reviewGroup.findUnique({
+      where: { id },
+      include: {
+        _count: {
+          select: { words: true }
+        }
+      }
+    });
+
+    if (!group || group.userId !== session.user.id) {
+      return createErrorResponse('分组不存在或无权访问', 404);
+    }
+
+    return createSuccessResponse({ data: group });
+  } catch (error: any) {
+    return handleApiError(error, 'review-groups/[id] GET');
+  }
+}
+
 export async function PATCH(req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const session = await getServerSession(authOptions);

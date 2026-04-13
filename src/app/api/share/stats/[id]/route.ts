@@ -50,16 +50,24 @@ export async function GET(
             username: true,
           },
         },
-        targetGroup: {
-          select: {
-            name: true,
-          },
-        },
       },
       orderBy: {
         createdAt: "desc",
       },
     });
+
+    // Get target group names separately
+    const targetGroupIds = [...new Set(imports.map(imp => imp.targetGroupId))];
+    const targetGroups = await prisma.reviewGroup.findMany({
+      where: {
+        id: { in: targetGroupIds },
+      },
+      select: {
+        id: true,
+        name: true,
+      },
+    });
+    const groupMap = new Map(targetGroups.map(g => [g.id, g.name]));
 
     // Transform import data
     const transformedImports = imports.map((imp) => ({
@@ -67,7 +75,7 @@ export async function GET(
       importedAt: imp.createdAt.toISOString(),
       wordsImported: imp.wordsImported,
       wordsSkipped: imp.wordsSkipped,
-      targetGroupName: imp.targetGroup.name,
+      targetGroupName: groupMap.get(imp.targetGroupId) || "未知分组",
     }));
 
     return createSuccessResponse({

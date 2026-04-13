@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider      = "prisma-client-js"
   binaryTargets = ["native", "debian-openssl-3.0.x", "darwin", "darwin-arm64"]
@@ -9,235 +6,208 @@ generator client {
 datasource db {
   provider = "sqlite"
   url      = env("DATABASE_URL")
-//  url    = "file:./dev.db"
 }
 
 model User {
-  id        String   @id @default(cuid())
-  username  String   @unique
-  password  String
-  isAdmin   Boolean  @default(false)
-  isBanned  Boolean  @default(false)
-  banReason String?
-  banExpiresAt DateTime?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  words     Word[]
-  ignoredWords IgnoredWord[]
-  reviewGroups ReviewGroup[]
-  securityViolations SecurityViolation[]
-  preference UserPreference?
-  sharedVocabularies SharedVocabulary[] @relation(name: "UserToSharedVocabularies")
-  importedVocabularies SharedVocabularyImport[] @relation(name: "UserToImportedVocabularies")
+  id                   String                   @id @default(cuid())
+  username             String                   @unique
+  password             String
+  isAdmin              Boolean                  @default(false)
+  isBanned             Boolean                  @default(false)
+  banReason            String?
+  banExpiresAt         DateTime?
+  createdAt            DateTime                 @default(now())
+  updatedAt            DateTime                 @updatedAt
+  ignoredWords         IgnoredWord[]
+  reviewGroups         ReviewGroup[]
+  securityViolations   SecurityViolation[]
+  sharedVocabularies   SharedVocabulary[]       @relation("UserToSharedVocabularies")
+  importedVocabularies SharedVocabularyImport[] @relation("UserToImportedVocabularies")
+  preference           UserPreference?
+  words                Word[]
 }
 
 model Word {
-  id                 String   @id @default(cuid())
-  word               String   // Removed @unique so different users can have the same word
-  phonetic           String?  // 音标，可选
-  pos                String?  // 词性，可选
-  translation        String   // 中文翻译
-  example            String?  // 英文例句
-  exampleTranslation String?  // 例句翻译
-  correctCount       Int      @default(0) // 默写答对次数
-  incorrectCount     Int      @default(0) // 默写答错次数
-  createdAt          DateTime @default(now()) // 创建时间
-  updatedAt          DateTime @updatedAt      // 更新时间
-
+  id                 String            @id @default(cuid())
+  word               String
+  phonetic           String?
+  pos                String?
+  translation        String
+  example            String?
+  exampleTranslation String?
+  correctCount       Int               @default(0)
+  incorrectCount     Int               @default(0)
+  createdAt          DateTime          @default(now())
+  updatedAt          DateTime          @updatedAt
   userId             String
-  user               User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   reviewGroupWords   ReviewGroupWord[]
+  user               User              @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@unique([word, userId]) // Ensures a specific user doesn't add the same word twice
+  @@unique([word, userId])
 }
 
-// 用户创建的复习分组（最多3个，无单词数量限制）
 model ReviewGroup {
-  id          String   @id @default(cuid())
-  name        String   // 分组名称
-  userId      String
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  words       ReviewGroupWord[]
-  sharedVocabularies SharedVocabulary[] @relation(name: "ReviewGroupToSharedVocabularies")
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id                  String              @id @default(cuid())
+  name                String
+  userId              String
+  createdAt           DateTime            @default(now())
+  updatedAt           DateTime            @updatedAt
+  defaultVocabularies DefaultVocabulary[]
+  user                User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  words               ReviewGroupWord[]
+  sharedVocabularies  SharedVocabulary[]  @relation("ReviewGroupToSharedVocabularies")
 
-  @@unique([name, userId]) // 同一用户不能有同名分组
+  @@unique([name, userId])
 }
 
-// 复习分组和单词的关联表 (多对多关系)
 model ReviewGroupWord {
   id            String      @id @default(cuid())
   reviewGroupId String
   wordId        String
   addedAt       DateTime    @default(now())
-  
-  reviewGroup   ReviewGroup @relation(fields: [reviewGroupId], references: [id], onDelete: Cascade)
   word          Word        @relation(fields: [wordId], references: [id], onDelete: Cascade)
+  reviewGroup   ReviewGroup @relation(fields: [reviewGroupId], references: [id], onDelete: Cascade)
 
-  @@unique([reviewGroupId, wordId]) // 一个单词在同一个分组中只能出现一次
+  @@unique([reviewGroupId, wordId])
 }
 
-// 全局公共词库，用于缓存 AI 解析结果和作为公共复习来源
 model PublicWord {
   id                 String   @id @default(cuid())
-  word               String   @unique // 公共词库中每个单词唯一
-  phonetic           String?  
-  pos                String?  
-  translation        String   
-  example            String?  
-  exampleTranslation String?  
-  qualityScore       Int      @default(0) // 质量评分
-  version            Int      @default(1) // 版本号
-  createdAt          DateTime @default(now()) 
-  updatedAt          DateTime @updatedAt      
-  
+  word               String   @unique
+  phonetic           String?
+  pos                String?
+  translation        String
+  example            String?
+  exampleTranslation String?
+  qualityScore       Int      @default(0)
+  version            Int      @default(1)
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
   @@index([qualityScore])
 }
 
-// 全局 API 配置（仅存一条记录）
 model ApiConfig {
-  id           String   @id @default("global") // 锁定 ID 为 "global" 确保只有一条
+  id           String   @id @default("global")
   apiKey       String
   baseUrl      String   @default("https://api.openai.com/v1/chat/completions")
   model        String   @default("gpt-4o-mini")
-  systemPrompt String?  // 自定义系统提示词（软编码）
+  systemPrompt String?
   updatedAt    DateTime @updatedAt
 }
 
-// 多 API 提供商池（用于自动切换备用 Key / BaseURL / 模型）
 model LlmApiProvider {
-  id             String   @id @default(cuid())
-  name           String   @unique
+  id             String    @id @default(cuid())
+  name           String    @unique
   apiKey         String
-  baseUrl        String   @default("https://api.openai.com/v1")
-  model          String   @default("gpt-4o-mini")
-  priority       Int      @default(0) // 越小优先级越高
-  isActive       Boolean  @default(true)
-
-  // 配额：null 表示不限制；<=0 表示已用尽
+  baseUrl        String    @default("https://api.openai.com/v1")
+  model          String    @default("gpt-4o-mini")
+  priority       Int       @default(0)
+  isActive       Boolean   @default(true)
   quotaRemaining Int?
-  quotaUsed      Int      @default(0)
-
+  quotaUsed      Int       @default(0)
   lastUsedAt     DateTime?
   lastError      String?
   lastErrorAt    DateTime?
-
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
 
   @@index([isActive, priority])
 }
 
-// 安全违规记录
 model SecurityViolation {
-  id              String   @id @default(cuid())
-  userId          String
-  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  violationType   String   // "PROMPT_INJECTION", "RATE_LIMIT_ABUSE", etc.
-  inputValue      String   // 用户输入的内容（截断）
-  detectedAt      DateTime @default(now())
-  ipAddress       String?
-  userAgent       String?
-  
+  id            String   @id @default(cuid())
+  userId        String
+  violationType String
+  inputValue    String
+  detectedAt    DateTime @default(now())
+  ipAddress     String?
+  userAgent     String?
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
   @@index([userId])
   @@index([detectedAt])
 }
 
-// IP封禁记录
 model IpBan {
-  id          String   @id @default(cuid())
-  ipAddress   String   @unique
-  reason      String
-  violationCount Int   @default(1)
-  bannedAt    DateTime @default(now())
-  expiresAt   DateTime?
-  isPermanent Boolean  @default(false)
-  
+  id             String    @id @default(cuid())
+  ipAddress      String    @unique
+  reason         String
+  violationCount Int       @default(1)
+  bannedAt       DateTime  @default(now())
+  expiresAt      DateTime?
+  isPermanent    Boolean   @default(false)
+
   @@index([ipAddress])
 }
 
-// 用户偏好设置（预留扩展）
 model UserPreference {
   id                    String   @id @default(cuid())
   userId                String   @unique
-  user                  User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  
-  // 显示偏好
   defaultShowPos        Boolean  @default(true)
   defaultShowExample    Boolean  @default(true)
   defaultShowPhonetic   Boolean  @default(true)
-  
-  // 学习偏好
-  dailyGoal             Int      @default(20)          // 每日学习目标
+  dailyGoal             Int      @default(20)
   reviewReminderEnabled Boolean  @default(false)
-  reviewReminderTime    String?                         // HH:mm 格式
-  
-  // 界面偏好
-  theme                 String   @default("system")    // light, dark, system
+  reviewReminderTime    String?
+  theme                 String   @default("system")
   language              String   @default("zh-CN")
-  
-  // 弹幕偏好
   danmakuEnabled        Boolean  @default(false)
   danmakuSpeed          Float    @default(1.0)
   danmakuOpacity        Float    @default(0.7)
-  
   createdAt             DateTime @default(now())
   updatedAt             DateTime @updatedAt
+  user                  User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
-// 操作审计日志（预留扩展）
 model AuditLog {
-  id          String   @id @default(cuid())
-  userId      String?
-  action      String                          // CREATE, UPDATE, DELETE, LOGIN, LOGOUT, etc.
-  entityType  String                          // Word, ReviewGroup, User, etc.
-  entityId    String?
-  oldValue    String?                         // JSON string of old value
-  newValue    String?                         // JSON string of new value
-  ipAddress   String?
-  userAgent   String?
-  createdAt   DateTime @default(now())
-  
+  id         String   @id @default(cuid())
+  userId     String?
+  action     String
+  entityType String
+  entityId   String?
+  oldValue   String?
+  newValue   String?
+  ipAddress  String?
+  userAgent  String?
+  createdAt  DateTime @default(now())
+
   @@index([userId])
   @@index([action])
   @@index([entityType])
   @@index([createdAt])
 }
 
-// 流量分析事件
 model AnalyticsEvent {
   id        String   @id @default(cuid())
-  eventType String                        // PAGE_VIEW, TRANSLATE, DICTATION_START, etc.
+  eventType String
   userId    String?
   sessionId String?
-  metadata  String?                       // JSON string
+  metadata  String?
   ipAddress String?
   userAgent String?
   createdAt DateTime @default(now())
-  
+
   @@index([eventType])
   @@index([userId])
   @@index([createdAt])
 }
 
-// 每日统计汇总（定时任务聚合）
 model DailyStats {
-  id             String   @id @default(cuid())
-  date           DateTime @unique
-  dau            Int      @default(0)
-  newUsers       Int      @default(0)
-  translations   Int      @default(0)
-  dictations     Int      @default(0)
-  errors         Int      @default(0)
-  avgResponseTime Float?  // 毫秒
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
-  
+  id              String   @id @default(cuid())
+  date            DateTime @unique
+  dau             Int      @default(0)
+  newUsers        Int      @default(0)
+  translations    Int      @default(0)
+  dictations      Int      @default(0)
+  errors          Int      @default(0)
+  avgResponseTime Float?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
   @@index([date])
 }
 
-// 用户翻译记录
 model TranslationRecord {
   id                 String   @id @default(cuid())
   userId             String?
@@ -248,19 +218,18 @@ model TranslationRecord {
   example            String?
   exampleTranslation String?
   isCached           Boolean  @default(false)
-  responseTime       Int?     // 响应时间（毫秒）
+  responseTime       Int?
   ipAddress          String?
   userAgent          String?
-  requestHash        String?  // 用于去重的哈希值
   createdAt          DateTime @default(now())
-  
+  requestHash        String?
+
   @@index([userId])
   @@index([word])
   @@index([createdAt])
   @@index([requestHash])
 }
 
-// 忽略的单词记录
 model IgnoredWord {
   id                 String   @id @default(cuid())
   word               String
@@ -269,45 +238,37 @@ model IgnoredWord {
   example            String?
   exampleTranslation String?
   userId             String
-  user               User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt          DateTime @default(now())
-  
+  user               User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
   @@unique([word, userId])
   @@index([userId])
   @@index([word])
 }
 
-// 词汇共享记录
 model SharedVocabulary {
-  id              String   @id @default(cuid())
-  code            String   @unique
-  name            String
-  description     String?
-  
-  userId          String
-  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade, name: "UserToSharedVocabularies")
-  
-  shareType       String   @default("REVIEW_GROUP")
-  reviewGroupId   String
-  reviewGroup     ReviewGroup @relation(fields: [reviewGroupId], references: [id], onDelete: Cascade, name: "ReviewGroupToSharedVocabularies")
-  
-  maxUses         Int?
-  usedCount       Int      @default(0)
-  expiresAt       DateTime?
-  isActive        Boolean  @default(true)
-  
-  importedCount   Int      @default(0)
-  viewCount       Int      @default(0)
-  
-  wordCount       Int
-  version         Int      @default(1)
-  
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
-  deletedAt       DateTime?
-  
-  imports         SharedVocabularyImport[] @relation(name: "SharedVocabularyToImports")
-  
+  id            String                   @id @default(cuid())
+  code          String                   @unique
+  name          String
+  description   String?
+  userId        String
+  shareType     String                   @default("REVIEW_GROUP")
+  reviewGroupId String
+  maxUses       Int?
+  usedCount     Int                      @default(0)
+  expiresAt     DateTime?
+  isActive      Boolean                  @default(true)
+  importedCount Int                      @default(0)
+  viewCount     Int                      @default(0)
+  wordCount     Int
+  version       Int                      @default(1)
+  createdAt     DateTime                 @default(now())
+  updatedAt     DateTime                 @updatedAt
+  deletedAt     DateTime?
+  reviewGroup   ReviewGroup              @relation("ReviewGroupToSharedVocabularies", fields: [reviewGroupId], references: [id], onDelete: Cascade)
+  user          User                     @relation("UserToSharedVocabularies", fields: [userId], references: [id], onDelete: Cascade)
+  imports       SharedVocabularyImport[] @relation("SharedVocabularyToImports")
+
   @@index([code])
   @@index([userId])
   @@index([reviewGroupId])
@@ -315,24 +276,35 @@ model SharedVocabulary {
   @@index([isActive])
 }
 
-// 共享词汇导入记录
 model SharedVocabularyImport {
-  id              String   @id @default(cuid())
-  sharedId        String
-  shared          SharedVocabulary @relation(fields: [sharedId], references: [id], onDelete: Cascade, name: "SharedVocabularyToImports")
-  
-  importerId      String
-  importer        User     @relation(fields: [importerId], references: [id], onDelete: Cascade, name: "UserToImportedVocabularies")
-  
-  wordsImported   Int
-  wordsSkipped    Int      @default(0)
-  targetGroupId   String
-  
-  skipExisting    Boolean  @default(true)
-  
-  createdAt       DateTime @default(now())
-  
+  id            String           @id @default(cuid())
+  sharedId      String
+  importerId    String
+  wordsImported Int
+  wordsSkipped  Int              @default(0)
+  targetGroupId String
+  skipExisting  Boolean          @default(true)
+  createdAt     DateTime         @default(now())
+  importer      User             @relation("UserToImportedVocabularies", fields: [importerId], references: [id], onDelete: Cascade)
+  shared        SharedVocabulary @relation("SharedVocabularyToImports", fields: [sharedId], references: [id], onDelete: Cascade)
+
   @@unique([sharedId, importerId])
   @@index([importerId])
   @@index([sharedId])
+}
+
+model DefaultVocabulary {
+  id          String      @id @default(cuid())
+  name        String
+  code        String      @unique
+  description String?
+  groupId     String
+  wordCount   Int
+  isActive    Boolean     @default(true)
+  sortOrder   Int         @default(0)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  reviewGroup ReviewGroup @relation(fields: [groupId], references: [id], onDelete: Cascade)
+
+  @@index([isActive])
 }

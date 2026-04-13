@@ -26,6 +26,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { MoreVertical, Edit2 } from "lucide-react";
 import { SharePoster } from "@/components/share/SharePoster";
 import { ShareImportModal } from "@/components/vocabulary/ShareImportModal";
+import { GroupShareModal } from "@/components/review-group/GroupShareModal";
 import { speakText } from "@/lib/ttsBrowser";
 
 export default function HistoryPage() {
@@ -57,6 +58,10 @@ export default function HistoryPage() {
   
   // Share Import State
   const [isImportModalOpen, setIsImportModalOpen] = useState(false);
+  
+  // Group Share State
+  const [isGroupShareModalOpen, setIsGroupShareModalOpen] = useState(false);
+  const [sharingGroupId, setSharingGroupId] = useState<string>("");
 
   const fetchWords = async (groupId: string = "all") => {
     setIsLoading(true);
@@ -418,57 +423,74 @@ export default function HistoryPage() {
                 <ArrowLeft className="w-4 h-4" />
               </Button>
             </Link>
-            <div className="flex items-center gap-3">
-              <div>
-                <h1 className="text-2xl font-bold text-gray-900 dark:text-foreground">
-                  {currentViewGroupId === "all" ? "我的生词本" : groups.find(g => g.id === currentViewGroupId)?.name || "分组"}
-                </h1>
-                <p className="text-sm text-gray-500 dark:text-muted-foreground mt-1">共收录 {words.length} 个词条</p>
-              </div>
-              
-              <Select value={currentViewGroupId} onValueChange={setCurrentViewGroupId}>
-                <SelectTrigger className="w-[180px] h-8 ml-4">
-                  <SelectValue placeholder="切换视图" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">全部生词</SelectItem>
-                  {groups.map(g => (
-                    <SelectItem key={g.id} value={g.id}>
-                      <div className="flex items-center justify-between w-full pr-2">
-                        <span>{g.name}</span>
-                      </div>
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              
-              {currentViewGroupId !== "all" && (
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" size="icon" className="h-8 w-8 ml-1">
-                      <MoreVertical className="w-4 h-4 text-muted-foreground" />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
-                    <DropdownMenuItem onClick={() => {
-                      setRenamingGroupId(currentViewGroupId);
-                      setRenameValue(groups.find(g => g.id === currentViewGroupId)?.name || "");
-                      setIsRenameModalOpen(true);
-                    }}>
-                      <Edit2 className="w-4 h-4 mr-2" />
-                      重命名
-                    </DropdownMenuItem>
-                    <DropdownMenuItem 
-                      className="text-red-600 focus:bg-red-50 focus:text-red-700"
-                      onClick={() => handleDeleteGroup(currentViewGroupId)}
+              <div className="flex items-center gap-3">
+                <div>
+                  <h1 className="text-2xl font-bold text-gray-900 dark:text-foreground">
+                    {currentViewGroupId === "all" ? "我的生词本" : groups.find(g => g.id === currentViewGroupId)?.name || "分组"}
+                  </h1>
+                  <p className="text-sm text-gray-500 dark:text-muted-foreground mt-1">共收录 {words.length} 个词条</p>
+                </div>
+                
+                <div className="flex items-center gap-2">
+                  <Select value={currentViewGroupId} onValueChange={setCurrentViewGroupId}>
+                    <SelectTrigger className="w-[180px] h-8">
+                      <SelectValue placeholder="切换视图" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">全部生词</SelectItem>
+                      {groups.map(g => (
+                        <SelectItem key={g.id} value={g.id}>
+                          <div className="flex items-center justify-between w-full pr-2">
+                            <span>{g.name}</span>
+                          </div>
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  
+                  {currentViewGroupId !== "all" && (
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="gap-1.5 h-8"
+                      onClick={() => {
+                        setSharingGroupId(currentViewGroupId);
+                        setIsGroupShareModalOpen(true);
+                      }}
                     >
-                      <Trash2 className="w-4 h-4 mr-2" />
-                      删除分组
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              )}
-            </div>
+                      <Share2 className="w-3.5 h-3.5" />
+                      分享
+                    </Button>
+                  )}
+                  
+                  {currentViewGroupId !== "all" && (
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" size="icon" className="h-8 w-8 ml-1">
+                          <MoreVertical className="w-4 h-4 text-muted-foreground" />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end">
+                        <DropdownMenuItem onClick={() => {
+                          setRenamingGroupId(currentViewGroupId);
+                          setRenameValue(groups.find(g => g.id === currentViewGroupId)?.name || "");
+                          setIsRenameModalOpen(true);
+                        }}>
+                          <Edit2 className="w-4 h-4 mr-2" />
+                          重命名
+                        </DropdownMenuItem>
+                        <DropdownMenuItem 
+                          className="text-red-600 focus:bg-red-50 focus:text-red-700"
+                          onClick={() => handleDeleteGroup(currentViewGroupId)}
+                        >
+                          <Trash2 className="w-4 h-4 mr-2" />
+                          删除分组
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  )}
+                </div>
+              </div>
           </div>
           
           <div className="flex flex-wrap items-center gap-2 sm:gap-3 w-full sm:w-auto sm:justify-end mt-4 sm:mt-0">
@@ -482,16 +504,6 @@ export default function HistoryPage() {
             >
               <Share2 className="w-3.5 h-3.5" />
               密钥导入
-            </Button>
-            
-            <Button 
-              variant="outline" 
-              size="sm"
-              onClick={() => setIsShareOpen(true)}
-              className="gap-1.5"
-            >
-              <Share2 className="w-3.5 h-3.5" />
-              分享
             </Button>
             
             {isSelectionMode ? (
@@ -796,6 +808,16 @@ export default function HistoryPage() {
         isOpen={isImportModalOpen}
         onClose={() => setIsImportModalOpen(false)}
         onSuccess={handleImportSuccess}
+      />
+      
+      {/* Group Share Modal */}
+      <GroupShareModal
+        groupId={sharingGroupId}
+        isOpen={isGroupShareModalOpen}
+        onClose={() => {
+          setIsGroupShareModalOpen(false);
+          setSharingGroupId("");
+        }}
       />
     </main>
   );

@@ -1,0 +1,268 @@
+{
+  "vocabularies": [
+    {
+      "name": "大学英语四六级核心词汇",
+      "description": "包含 CET-4 和 CET-6 核心词汇，约 8000 词",
+      "groupName": "四六级核心词汇",
+      "sortOrder": 1,
+      "words": [
+        {
+          "word": "abandon",
+          "phonetic": "/əˈbændən/",
+          "pos": "v.",
+          "translation": "抛弃，舍弃，放弃",
+          "example": "He abandoned his car in the snow.",
+          "exampleTranslation": "他在雪地中抛弃了他的车。"
+        },
+        {
+          "word": "ability",
+          "phonetic": "/əˈbɪləti/",
+          "pos": "n.",
+          "translation": "能力，本领，才能",
+          "example": "She has the ability to pass the exam.",
+          "exampleTranslation": "她有能力通过考试。"
+        },
+        {
+          "word": "abnormal",
+          "phonetic": "/æbˈnɔːrməl/",
+          "pos": "adj.",
+          "translation": "反常的，异常的",
+          "example": "The weather has been abnormal this year.",
+          "exampleTranslation": "今年的天气一直反常。"
+        },
+        {
+          "word": "aboard",
+          "phonetic": "/əˈbɔːrd/",
+          "pos": "adv./prep.",
+          "translation": "在船（车）上，上船",
+          "example": "Welcome aboard!",
+          "exampleTranslation": "欢迎登机（车、船）！"
+        },
+        {
+          "word": "abroad",
+          "phonetic": "/əˈbrɔːd/",
+          "pos": "adv.",
+          "translation": "到国外，在国外",
+          "example": "She plans to study abroad next year.",
+          "exampleTranslation": "她计划明年出国留学。"
+        },
+        {
+          "word": "absolute",
+          "phonetic": "/ˈæbsəluːt/",
+          "pos": "adj.",
+          "translation": "绝对的，完全的",
+          "example": "I have absolute confidence in you.",
+          "exampleTranslation": "我对你有绝对的信心。"
+        },
+        {
+          "word": "absorb",
+          "phonetic": "/əbˈzɔːrb/",
+          "pos": "v.",
+          "translation": "吸收，吸引",
+          "example": "Plants absorb sunlight for energy.",
+          "exampleTranslation": "植物吸收阳光获取能量。"
+        },
+        {
+          "word": "abstract",
+          "phonetic": "/ˈæbstrækt/",
+          "pos": "adj./n.",
+          "translation": "抽象的；摘要",
+          "example": "The concept is too abstract to understand.",
+          "exampleTranslation": "这个概念太抽象了，难以理解。"
+        },
+        {
+          "word": "academic",
+          "phonetic": "/ˌækəˈdemɪk/",
+          "pos": "adj.",
+          "translation": "学术的，学院的",
+          "example": "He has strong academic background.",
+          "exampleTranslation": "他有很强的学术背景。"
+        },
+        {
+          "word": "accelerate",
+          "phonetic": "/əkˈseləreɪt/",
+          "pos": "v.",
+          "translation": "加速，促进",
+          "example": "The car accelerated quickly.",
+          "exampleTranslation": "汽车迅速加速。"
+        }
+      ]
+    },
+    {
+      "name": "雅思核心词汇",
+      "description": "雅思考试高频词汇，约 4000 词",
+      "groupName": "雅思核心词汇",
+      "sortOrder": 2,
+      "words": [
+        {
+          "word": "abundance",
+          "phonetic": "/əˈbʌndəns/",
+          "pos": "n.",
+          "translation": "丰富，充裕",
+          "example": "There is an abundance of wildlife in this region.",
+          "exampleTranslation": "这个地区有丰富的野生动物。"
+        },
+        {
+          "word": "accommodate",
+          "phonetic": "/əˈkɑːmədeɪt/",
+          "pos": "v.",
+          "translation": "容纳，提供住宿",
+          "example": "The hotel can accommodate up to 500 guests.",
+          "exampleTranslation": "这家酒店可容纳多达 500 位客人。"
+        },
+        {
+          "word": "accustomed",
+          "phonetic": "/əˈkʌstəmd/",
+          "pos": "adj.",
+          "translation": "习惯的，惯常的",
+          "example": "I'm accustomed to getting up early.",
+          "exampleTranslation": "我习惯早起。"
+        },
+        {
+          "word": "achieve",
+          "phonetic": "/əˈtʃiːv/",
+          "pos": "v.",
+          "translation": "实现，达到",
+          "example": "She achieved her goal through hard work.",
+          "exampleTranslation": "她通过努力工作实现了目标。"
+        },
+        {
+          "word": "acknowledge",
+          "phonetic": "/əkˈnɑːlɪdʒ/",
+          "pos": "v.",
+          "translation": "承认，认可",
+          "example": "He acknowledged his mistake.",
+          "exampleTranslation": "他承认了自己的错误。"
+        },
+        {
+          "word": "acquire",
+          "phonetic": "/əˈkwaɪər/",
+          "pos": "v.",
+          "translation": "获得，取得",
+          "example": "She acquired a good knowledge of English.",
+          "exampleTranslation": "她掌握了很好的英语知识。"
+        },
+        {
+          "word": "adequate",
+          "phonetic": "/ˈædɪkwət/",
+          "pos": "adj.",
+          "translation": "足够的，适当的",
+          "example": "We have adequate supplies for the trip.",
+          "exampleTranslation": "我们有足够的补给供这次旅行使用。"
+        },
+        {
+          "word": "advocate",
+          "phonetic": "/ˈædvəkeɪt/",
+          "pos": "v./n.",
+          "translation": "提倡，主张；拥护者",
+          "example": "He advocates for environmental protection.",
+          "exampleTranslation": "他提倡环境保护。"
+        },
+        {
+          "word": "aesthetic",
+          "phonetic": "/esˈθetɪk/",
+          "pos": "adj.",
+          "translation": "美学的，审美的",
+          "example": "The building has great aesthetic appeal.",
+          "exampleTranslation": "这座建筑有很大的美学吸引力。"
+        },
+        {
+          "word": "aggregate",
+          "phonetic": "/ˈæɡrɪɡət/",
+          "pos": "adj./n.",
+          "translation": "总的，合计；聚集",
+          "example": "The aggregate amount is $10,000.",
+          "exampleTranslation": "总金额为 1 万美元。"
+        }
+      ]
+    },
+    {
+      "name": "考研核心词汇",
+      "description": "硕士研究生入学考试核心词汇，约 5500 词",
+      "groupName": "考研核心词汇",
+      "sortOrder": 3,
+      "words": [
+        {
+          "word": "abide",
+          "phonetic": "/əˈbaɪd/",
+          "pos": "v.",
+          "translation": "遵守，忍受",
+          "example": "You must abide by the rules.",
+          "exampleTranslation": "你必须遵守规则。"
+        },
+        {
+          "word": "abolish",
+          "phonetic": "/əˈbɑːlɪʃ/",
+          "pos": "v.",
+          "translation": "废除，取消",
+          "example": "Slavery was abolished in the 19th century.",
+          "exampleTranslation": "奴隶制在 19 世纪被废除了。"
+        },
+        {
+          "word": "abrupt",
+          "phonetic": "/əˈbrʌpt/",
+          "pos": "adj.",
+          "translation": "突然的，唐突的",
+          "example": "The meeting came to an abrupt end.",
+          "exampleTranslation": "会议突然结束了。"
+        },
+        {
+          "word": "absent",
+          "phonetic": "/ˈæbsənt/",
+          "pos": "adj.",
+          "translation": "缺席的，不在的",
+          "example": "He was absent from the meeting.",
+          "exampleTranslation": "他缺席了会议。"
+        },
+        {
+          "word": "absurd",
+          "phonetic": "/əbˈsɜːrd/",
+          "pos": "adj.",
+          "translation": "荒谬的，可笑的",
+          "example": "That's an absurd idea.",
+          "exampleTranslation": "那是个荒谬的想法。"
+        },
+        {
+          "word": "accessory",
+          "phonetic": "/əkˈsesəri/",
+          "pos": "n.",
+          "translation": "附件，配件；同谋",
+          "example": "She bought some car accessories.",
+          "exampleTranslation": "她买了一些汽车配件。"
+        },
+        {
+          "word": "accommodation",
+          "phonetic": "/əˌkɑːməˈdeɪʃn/",
+          "pos": "n.",
+          "translation": "住宿，膳宿",
+          "example": "Hotel accommodation is included in the price.",
+          "exampleTranslation": "价格中包含酒店住宿。"
+        },
+        {
+          "word": "accompany",
+          "phonetic": "/əˈkʌmpəni/",
+          "pos": "v.",
+          "translation": "陪伴，伴随",
+          "example": "May I accompany you to the station?",
+          "exampleTranslation": "我可以陪你去车站吗？"
+        },
+        {
+          "word": "accomplish",
+          "phonetic": "/əˈkɑːmplɪʃ/",
+          "pos": "v.",
+          "translation": "完成，实现",
+          "example": "We accomplished the task ahead of schedule.",
+          "exampleTranslation": "我们提前完成了任务。"
+        },
+        {
+          "word": "accordance",
+          "phonetic": "/əˈkɔːrdns/",
+          "pos": "n.",
+          "translation": "一致，和谐",
+          "example": "In accordance with your request.",
+          "exampleTranslation": "按照您的要求。"
+        }
+      ]
+    }
+  ]
+}

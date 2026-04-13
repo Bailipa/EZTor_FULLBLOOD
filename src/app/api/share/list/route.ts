@@ -41,6 +41,7 @@ export async function GET() {
       code: share.code,
       name: share.name,
       reviewGroupName: share.reviewGroup.name,
+      reviewGroupId: share.reviewGroupId,
       wordCount: share.wordCount,
       usedCount: share.usedCount,
       importedCount: share.importedCount,
