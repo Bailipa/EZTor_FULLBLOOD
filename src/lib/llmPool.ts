@@ -41,7 +41,7 @@ export function isQuotaError(err: any): boolean {
     status === 429 ||
     /insufficient[_ ]quota/i.test(message) ||
     /quota/i.test(message) ||
-    /浣欓涓嶈冻|棰濆害|閰嶉|璧勬簮涓嶈冻/.test(message)
+    /余额不足 | 额度 | 配额 | 资源不足/.test(message)
   );
 }
 
@@ -57,10 +57,30 @@ export function isRateLimitError(err: any): boolean {
 
 export function isConnectionError(err: any): boolean {
   const message = String(err?.message || '');
+  const status = err?.status;
+  
+  // Check for common connection-related error patterns
+  const connectionPatterns = [
+    /connection/i,
+    /timeout/i,
+    /network/i,
+    /ECONNREFUSED/i,
+    /ENOTFOUND/i,
+    /ECONNRESET/i,
+    /ETIMEDOUT/i,
+    /fetch failed/i,
+    /unable to connect/i,
+    /certificate/i,
+    /SSL/i,
+    /getaddrinfo/i,
+  ];
+  
+  // Check message or status
   return (
-    /connection/i.test(message) ||
-    /timeout/i.test(message) ||
-    /network/i.test(message)
+    connectionPatterns.some(pattern => pattern.test(message)) ||
+    status === 503 || // Service Unavailable
+    status === 502 || // Bad Gateway
+    status === 504    // Gateway Timeout
   );
 }
 
@@ -297,13 +317,19 @@ export async function withLlmFailover<T>(
   }
 
   let lastErr: any = null;
+  let lastConnectionErr: any = null;
+  
   for (const sel of candidates) {
     if (sel.kind === 'db') {
-      if (!(sel.provider.quotaRemaining === null || sel.provider.quotaRemaining > 0)) continue;
+      if (!(sel.provider.quotaRemaining === null || sel.provider.quotaRemaining > 0)) {
+        console.log(`[LLM] Skipping provider ${sel.provider.name} - quota exhausted`);
+        continue;
+      }
     }
 
     const startTime = Date.now();
     try {
+      console.log(`[LLM] Attempting provider: ${sel.kind === 'db' ? sel.provider.name : 'legacy'}`);
       const { client, model } = await createOpenAiClient(sel);
       const result = await fn(client, model, sel);
       const duration = Date.now() - startTime;
@@ -318,10 +344,16 @@ export async function withLlmFailover<T>(
       if (sel.kind === 'db') {
         await noteProviderUsed(sel.provider.id, quotaCost);
       }
+      console.log(`[LLM] Success with provider: ${sel.kind === 'db' ? sel.provider.name : 'legacy'} (${duration}ms)`);
       return result;
     } catch (err: any) {
       const duration = Date.now() - startTime;
       lastErr = err;
+      
+      // Track connection errors separately
+      if (isConnectionError(err)) {
+        lastConnectionErr = err;
+      }
       
       // Record monitoring data
       monitoringService.recordRequest(
@@ -330,6 +362,8 @@ export async function withLlmFailover<T>(
         false,
         err?.message
       );
+      
+      console.error(`[LLM] Failed with provider ${sel.kind === 'db' ? sel.provider.name : 'legacy'}:`, err?.message);
       
       if (sel.kind === 'db') {
         if (isQuotaError(err)) {
@@ -344,6 +378,12 @@ export async function withLlmFailover<T>(
       }
       continue;
     }
+  }
+
+  // If all providers failed with connection errors, provide more specific error message
+  if (lastConnectionErr) {
+    console.error('[LLM] All providers failed with connection errors');
+    throw new Error(`Connection error: Unable to reach LLM API. ${lastConnectionErr?.message || ''}`);
   }
 
   if (lastErr && isQuotaError(lastErr)) {

@@ -3,11 +3,11 @@ import prisma from '@/lib/prisma';
 import { Prisma } from '@prisma/client';
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "../auth/[...nextauth]/route";
-import { validateInput, sanitizeWordList, escapeWordListForPrompt } from '@/lib/security';
+import { validateInput, sanitizeWordList } from '@/lib/security';
 import { rateLimit, getClientKey } from '@/lib/rateLimit';
 import { detectBatchPromptInjection } from '@/lib/injectionDetector';
 import { checkUserBan, checkIpBan } from '@/lib/banManager';
-import { createDeduplicatedRequest, getPendingRequest, getCompletedRequest, resolvePendingRequest, setPendingRequest } from '@/lib/requestDeduplication';
+import { getPendingRequest, getCompletedRequest, resolvePendingRequest, setPendingRequest } from '@/lib/requestDeduplication';
 import { calculateQualityScore } from '@/lib/qualityScoring';
 import { checkAndSyncOnQuery } from '@/lib/wordSync';
 import { cascadePublicWordToPrivate } from '@/lib/publicWordCascade';
@@ -523,7 +523,7 @@ export async function POST(req: Request) {
     }
 
     // 按照原始输入顺序排序缓存结果
-    const orderedCachedResults = [];
+    const orderedCachedResults: any[] = [];
     const resultMap = new Map<string, any>();
     formattedCachedResults.forEach(result => {
       resultMap.set(result.word.toLowerCase(), result);
@@ -839,9 +839,6 @@ export async function POST(req: Request) {
     });
     setPendingRequest(pendingKey, pendingPromise);
     
-    // 为每个单词创建单独的pending key，用于completed缓存
-    const wordPendingKeys = wordsToFetch.map(w => `translate:${w.toLowerCase()}`);
-    
     const response = await withLlmFailover(
       providerCandidates,
       (client, model) =>
@@ -1110,9 +1107,41 @@ export async function POST(req: Request) {
 
   } catch (error: any) {
     console.error('API Error:', error);
+    
+    // Check for quota exhausted error
     if (String(error?.message || '') === API_QUOTA_EXHAUSTED_MESSAGE) {
       return NextResponse.json({ error: API_QUOTA_EXHAUSTED_MESSAGE }, { status: 503 });
     }
-    return NextResponse.json({ error: 'Translation failed' }, { status: 500 });
+    
+    // Check for connection errors
+    if (/connection|timeout|network|ECONNREFUSED|ENOTFOUND|ECONNRESET|ETIMEDOUT|fetch failed|unable to connect|certificate|SSL|getaddrinfo/i.test(error?.message || '')) {
+      return NextResponse.json({ 
+        error: '无法连接到翻译服务。请检查网络连接或联系管理员。',
+        details: error?.message || 'Connection error'
+      }, { status: 503 });
+    }
+    
+    // Check for rate limit errors
+    if (error?.status === 429 || /rate[_ ]limit|too[_ ]many[_ ]requests/i.test(error?.message || '')) {
+      return NextResponse.json({ 
+        error: '请求过于频繁，请稍后再试。',
+        details: error?.message || 'Rate limit exceeded'
+      }, { status: 429 });
+    }
+    
+    // Check for authentication errors
+    if (error?.status === 401 || /unauthorized|invalid[_ ]api[_ ]key/i.test(error?.message || '')) {
+      return NextResponse.json({ 
+        error: 'API 密钥验证失败。请联系管理员检查配置。',
+        details: error?.message || 'Authentication failed'
+      }, { status: 500 });
+    }
+    
+    // Generic error with more context
+    return NextResponse.json({ 
+      error: 'Translation failed',
+      details: error?.message || 'Unknown error',
+      type: error?.constructor?.name || 'Error'
+    }, { status: 500 });
   }
 }
