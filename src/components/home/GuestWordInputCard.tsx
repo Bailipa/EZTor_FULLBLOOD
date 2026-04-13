@@ -489,8 +489,13 @@ export function GuestWordInputCard({
           ) : (
             <div className="relative">
               <Textarea
-                placeholder="输入要查询的单词或短语，每行一个...&#10;例如：&#10;apple&#10;banana&#10;orange"
+                placeholder={`输入要查询的单词或短语，每行一个...
+例如：
+apple
+banana
+orange`}
                 className="min-h-[150px] resize-y pr-12"
+                style={{ whiteSpace: 'pre-wrap' }}
                 value={wordsInput}
                 onChange={(e) => setWordsInput(e.target.value)}
                 onKeyDown={handleKeyDown}

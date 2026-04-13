@@ -46,7 +46,7 @@ export function HomeHeader({ showDanmaku, onToggleDanmaku, onFeatureClick }: Hom
       <div className="space-y-1.5">
         <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-foreground">EZTor</h1>
         <p className="text-sm sm:text-base text-gray-500 dark:text-muted-foreground">
-          支持批量输入，自动结构化解析并永久保存。
+          An Easier Translator.
         </p>
         <p className="text-xs text-amber-600 dark:text-amber-400">
           提示：翻译内容由 AI 大模型生成，请仔细甄别。

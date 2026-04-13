@@ -815,8 +815,12 @@ export function WordInputCard({
               </div>
             )}
             <Textarea
-              placeholder="例如:&#10;apple&#10;gateway countries&#10;take for granted"
+              placeholder={`例如:
+apple
+gateway countries
+take for granted`}
               className="min-h-[150px] resize-y"
+              style={{ whiteSpace: 'pre-wrap' }}
               value={wordsInput}
               onChange={(e) => setWordsInput(e.target.value)}
               onKeyDown={handleKeyDown}
