@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { useState, useEffect, useCallback } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -297,6 +297,13 @@ export default function AnalyticsPage() {
                 <ExternalLink className="w-3 h-3 ml-2" />
               </Button>
             </Link>
+            <Link href="/public-words">
+              <Button variant="outline" size="sm">
+                <BookOpen className="w-4 h-4 mr-2" />
+                公共词库
+                <ExternalLink className="w-3 h-3 ml-2" />
+              </Button>
+            </Link>
             {(['24h', '7d', '30d'] as const).map((r) => (
               <Button
                 key={r}
@@ -479,7 +486,7 @@ export default function AnalyticsPage() {
               </div>
               <div className="p-4 bg-green-50 dark:bg-green-950/30 rounded-lg text-center">
                 <p className="text-2xl font-bold text-green-600 dark:text-green-400">{data.guestStats.totalFound}</p>
-                <p className="text-sm text-muted-foreground">鎴愬姛鎵惧埌</p>
+                <p className="text-sm text-muted-foreground">成功找到</p>
               </div>
               <div className="p-4 bg-red-50 dark:bg-red-950/30 rounded-lg text-center">
                 <p className="text-2xl font-bold text-red-600 dark:text-red-400">{data.guestStats.totalNotFound}</p>
@@ -560,7 +567,7 @@ export default function AnalyticsPage() {
                         {idx + 1}
                       </span>
                       <span className="font-medium flex-1 truncate">{item.word}</span>
-                      <Badge variant="secondary">{item.count} 娆</Badge>
+                      <Badge variant="secondary">{item.count} 次</Badge>
                     </div>
                   ))}
                 </div>
@@ -672,10 +679,10 @@ export default function AnalyticsPage() {
                 <table className="w-full text-sm">
                   <thead>
                     <tr className="border-b">
-                      <th className="text-left py-2 px-2 font-medium">鏃堕棿</th>
-                      <th className="text-left py-2 px-2 font-medium">浜嬩欢绫诲瀷</th>
+                      <th className="text-left py-2 px-2 font-medium">时间</th>
+                      <th className="text-left py-2 px-2 font-medium">事件类型</th>
                       <th className="text-left py-2 px-2 font-medium">用户</th>
-                      <th className="text-left py-2 px-2 font-medium">璇︽儏</th>
+                      <th className="text-left py-2 px-2 font-medium">详情</th>
                       <th className="text-left py-2 px-2 font-medium">IP</th>
                     </tr>
                   </thead>
@@ -694,7 +701,7 @@ export default function AnalyticsPage() {
                           {event.username ? (
                             <span className="font-medium">{event.username}</span>
                           ) : (
-                            <span className="text-muted-foreground">娓稿</span>
+                            <span className="text-muted-foreground">游客</span>
                           )}
                         </td>
                         <td className="py-2 px-2 text-muted-foreground max-w-xs truncate">

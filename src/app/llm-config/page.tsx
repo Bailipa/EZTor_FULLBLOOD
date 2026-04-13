@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
@@ -277,8 +277,8 @@ export default function LlmConfigPage() {
                       <th className="text-left py-2 px-2 font-medium">Base URL</th>
                       <th className="text-left py-2 px-2 font-medium">Model</th>
                       <th className="text-right py-2 px-2 font-medium">优先级</th>
-                      <th className="text-right py-2 px-2 font-medium">鍓╀綑</th>
-                      <th className="text-right py-2 px-2 font-medium">宸茬敤</th>
+                      <th className="text-right py-2 px-2 font-medium">剩余</th>
+                      <th className="text-right py-2 px-2 font-medium">已用</th>
                       <th className="text-left py-2 px-2 font-medium">最近使用</th>
                       <th className="text-left py-2 px-2 font-medium">错误</th>
                       <th className="text-right py-2 px-2 font-medium">操作</th>
