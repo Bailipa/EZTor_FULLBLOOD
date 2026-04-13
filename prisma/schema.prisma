@@ -3,7 +3,7 @@
 
 generator client {
   provider      = "prisma-client-js"
-  binaryTargets = ["native", "debian-openssl-3.0.x", "darwin"]
+  binaryTargets = ["native", "debian-openssl-3.0.x", "darwin", "darwin-arm64"]
 }
 
 datasource db {
@@ -27,6 +27,8 @@ model User {
   reviewGroups ReviewGroup[]
   securityViolations SecurityViolation[]
   preference UserPreference?
+  sharedVocabularies SharedVocabulary[] @relation(name: "UserToSharedVocabularies")
+  importedVocabularies SharedVocabularyImport[] @relation(name: "UserToImportedVocabularies")
 }
 
 model Word {
@@ -56,6 +58,7 @@ model ReviewGroup {
   userId      String
   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   words       ReviewGroupWord[]
+  sharedVocabularies SharedVocabulary[] @relation(name: "ReviewGroupToSharedVocabularies")
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
@@ -272,4 +275,64 @@ model IgnoredWord {
   @@unique([word, userId])
   @@index([userId])
   @@index([word])
+}
+
+// 词汇共享记录
+model SharedVocabulary {
+  id              String   @id @default(cuid())
+  code            String   @unique
+  name            String
+  description     String?
+  
+  userId          String
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade, name: "UserToSharedVocabularies")
+  
+  shareType       String   @default("REVIEW_GROUP")
+  reviewGroupId   String
+  reviewGroup     ReviewGroup @relation(fields: [reviewGroupId], references: [id], onDelete: Cascade, name: "ReviewGroupToSharedVocabularies")
+  
+  maxUses         Int?
+  usedCount       Int      @default(0)
+  expiresAt       DateTime?
+  isActive        Boolean  @default(true)
+  
+  importedCount   Int      @default(0)
+  viewCount       Int      @default(0)
+  
+  wordCount       Int
+  version         Int      @default(1)
+  
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  deletedAt       DateTime?
+  
+  imports         SharedVocabularyImport[] @relation(name: "SharedVocabularyToImports")
+  
+  @@index([code])
+  @@index([userId])
+  @@index([reviewGroupId])
+  @@index([expiresAt])
+  @@index([isActive])
+}
+
+// 共享词汇导入记录
+model SharedVocabularyImport {
+  id              String   @id @default(cuid())
+  sharedId        String
+  shared          SharedVocabulary @relation(fields: [sharedId], references: [id], onDelete: Cascade, name: "SharedVocabularyToImports")
+  
+  importerId      String
+  importer        User     @relation(fields: [importerId], references: [id], onDelete: Cascade, name: "UserToImportedVocabularies")
+  
+  wordsImported   Int
+  wordsSkipped    Int      @default(0)
+  targetGroupId   String
+  
+  skipExisting    Boolean  @default(true)
+  
+  createdAt       DateTime @default(now())
+  
+  @@unique([sharedId, importerId])
+  @@index([importerId])
+  @@index([sharedId])
 }

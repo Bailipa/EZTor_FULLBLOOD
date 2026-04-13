@@ -1,0 +1,270 @@
+creator账号测试结果：
+{one
+[/wʌn/]
+
+num./pron./adj.
+num. 一；pron. 一个人，任何人；adj. 唯一的，同一的
+"num. I have one brother."
+
+
+num. 我有一个兄弟。
+
+"pron. One should always be honest."
+
+
+pron. 人应该永远诚实。
+
+"adj. They are of one mind."
+
+
+adj. 他们意见一致。
+
+two
+[/tuː/]
+
+num./n.
+num. 二；n. [C] 二，两岁
+"num. It takes two to tango."
+
+
+num. 一个巴掌拍不响。
+
+"n. The toddler is almost two."
+
+
+n. 那个幼儿快两岁了。
+
+three
+[/θriː/]
+
+num./n.
+num. 三；n. [C] 三，三号
+"num. They have three children."
+
+
+num. 他们有三个孩子。
+
+"n. His favorite number is three."
+
+
+n. 他最喜欢的数字是三。
+
+four
+[/fɔːr/]
+
+num./n.
+num. 四；n. [C] 四，四人划艇队
+"num. There are four seasons in a year."
+
+
+num. 一年有四个季节。
+
+"n. He rows in a four."
+
+
+n. 他在四人划艇队划船。
+
+five
+[/faɪv/]
+
+num./n.
+num. 五；n. [C] 五，五美元钞票
+"num. The meeting starts at five o'clock."
+
+
+num. 会议五点开始。
+
+"n. Can you break a five?"
+
+
+n. 你能破开一张五美元钞票吗？
+
+six
+[/sɪks/]
+
+num./n.
+num. 六；n. [C] 六，六分
+"num. A standard guitar has six strings."
+
+
+num. 一把标准吉他有六根弦。
+
+"n. He scored a six in cricket."
+
+
+n. 他在板球中得了六分。
+
+seven
+[/ˈsev.ən/]
+
+num./n.
+num. 七；n. [C] 七，七人一组
+"num. There are seven days in a week."
+
+
+num. 一周有七天。
+
+"n. They formed a seven to tackle the project."
+
+
+n. 他们组成了一个七人小组来应对这个项目。
+
+eight
+[/eɪt/]
+
+num./n.
+num. 八；n. [C] 八，八字形
+"num. She has eight apples."
+
+
+num. 她有八个苹果。
+
+"n. The figure eight is a common symbol."
+
+
+n. 数字8是一个常见的符号。
+
+nine
+[/naɪn/]
+
+num./n.
+num. 九；n. [C] 九，九号
+"num. A cat has nine lives."
+
+
+num. 猫有九条命。
+
+"n. He wears the number nine jersey."
+
+
+n. 他穿着9号球衣。
+
+ten
+[/ten/]
+
+num./n.
+num. 十；n. [C] 十，十美元钞票
+"num. She will arrive in ten minutes."
+
+
+num. 她将在十分钟后到达。
+
+"n. I only have a ten in my wallet."
+
+
+n. 我钱包里只有一张十美元钞票。}
+
+tester账号测试结果：
+{one
+[/wʌn/]
+
+n./adj./pron.
+n. [C] 一；adj. 一个的；pron. 一个（人/物）
+"n. One plus one equals two."
+
+n. 一加一等于二。
+"adj. I have one brother."
+
+adj. 我有一个兄弟。
+"pron. This is a good one."
+
+pron. 这是个好（东西）。
+two
+[/tuː/]
+
+n./adj.
+n. [C] 二；adj. 二的
+"n. Two is the smallest prime number."
+
+n. 二是最小的质数。
+"adj. I have two hands."
+
+adj. 我有两只手。
+three
+[/θriː/]
+
+n./adj.
+n. [C] 三；adj. 三的
+"n. A triangle has three sides."
+
+n. 三角形有三条边。
+"adj. I have three books to read."
+
+adj. 我有三本书要读。
+four
+[/fɔːr/]
+
+n./adj.
+n. [C] 四；adj. 四的
+"n. A square has four sides."
+
+n. 正方形有四条边。
+"adj. There are four seasons in a year."
+
+adj. 一年有四个季节。
+five
+[/faɪv/]
+
+n./adj.
+n. [C] 五；adj. 五的
+"n. A hand has five fingers."
+
+n. 一只手有五根手指。
+"adj. I'll meet you in five minutes."
+
+adj. 我五分钟后见你。
+six
+[/sɪks/]
+
+n./adj.
+n. [C] 六；adj. 六的
+"n. A standard guitar has six strings."
+
+n. 一把标准吉他有六根弦。
+"adj. I have six apples."
+
+adj. 我有六个苹果。
+seven
+[/ˈsev.ən/]
+
+n./adj.
+n. [C] 七；adj. 七的
+"n. There are seven days in a week."
+
+n. 一周有七天。
+"adj. The seven wonders of the world are famous."
+
+adj. 世界七大奇迹很有名。
+eight
+[/eɪt/]
+
+n./adj.
+n. [C] 八；adj. 八的
+"n. The number after seven is eight."
+
+n. 七后面的数字是八。
+"adj. There are eight planets in our solar system."
+
+adj. 我们的太阳系有八颗行星。
+nine
+[/naɪn/]
+
+n./adj.
+n. [C] 九；adj. 九的
+"n. A cat is said to have nine lives."
+
+n. 据说猫有九条命。
+"adj. The meeting starts at nine o'clock."
+
+adj. 会议九点开始。
+ten
+[/ten/]
+
+n./adj.
+n. [C] 十；adj. 十的
+"n. Ten is a round number."
+
+n. 十是一个整数。
+"adj. I scored ten out of ten on the quiz."
+
+adj. 我在小测验中得了十分（满分）。}

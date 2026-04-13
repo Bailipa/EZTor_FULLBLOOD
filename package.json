@@ -11,6 +11,7 @@
   "dependencies": {
     "@libsql/client": "^0.17.2",
     "@lobehub/tts": "^5.1.2",
+    "@next/swc-darwin-arm64": "^16.2.3",
     "@prisma/adapter-libsql": "^7.5.0",
     "@prisma/client": "^5.14.0",
     "@wrksz/themes": "^0.7.9",

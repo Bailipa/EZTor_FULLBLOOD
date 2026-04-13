@@ -25,6 +25,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { MoreVertical, Edit2 } from "lucide-react";
 import { SharePoster } from "@/components/share/SharePoster";
+import { ShareImportModal } from "@/components/vocabulary/ShareImportModal";
 import { speakText } from "@/lib/ttsBrowser";
 
 export default function HistoryPage() {
@@ -53,6 +54,9 @@ export default function HistoryPage() {
   
   // Share Poster State
   const [isShareOpen, setIsShareOpen] = useState(false);
+  
+  // Share Import State
+  const [isImportModalOpen, setIsImportModalOpen] = useState(false);
 
   const fetchWords = async (groupId: string = "all") => {
     setIsLoading(true);
@@ -90,6 +94,12 @@ export default function HistoryPage() {
     fetchWords(currentViewGroupId);
     fetchGroups();
   }, [currentViewGroupId]);
+
+  const handleImportSuccess = () => {
+    // Refresh words and groups after successful import
+    fetchWords(currentViewGroupId);
+    fetchGroups();
+  };
 
   useEffect(() => {
     const handleMouseUp = () => setIsDraggingSelection(false);
@@ -467,6 +477,16 @@ export default function HistoryPage() {
             <Button 
               variant="outline" 
               size="sm"
+              onClick={() => setIsImportModalOpen(true)}
+              className="gap-1.5"
+            >
+              <Share2 className="w-3.5 h-3.5" />
+              密钥导入
+            </Button>
+            
+            <Button 
+              variant="outline" 
+              size="sm"
               onClick={() => setIsShareOpen(true)}
               className="gap-1.5"
             >
@@ -770,6 +790,13 @@ export default function HistoryPage() {
       </Dialog>
       
       <SharePoster open={isShareOpen} onOpenChange={setIsShareOpen} />
+      
+      {/* Share Import Modal */}
+      <ShareImportModal 
+        isOpen={isImportModalOpen}
+        onClose={() => setIsImportModalOpen(false)}
+        onSuccess={handleImportSuccess}
+      />
     </main>
   );
 }
