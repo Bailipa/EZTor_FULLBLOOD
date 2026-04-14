@@ -85,6 +85,14 @@ export async function DELETE(req: Request, { params }: { params: Promise<{ id: s
       return createErrorResponse('分组不存在或无权访问', 404);
     }
 
+    // 删除相关的sharedVocabularyImport记录
+    await prisma.sharedVocabularyImport.deleteMany({
+      where: {
+        targetGroupId: id,
+        importerId: session.user.id
+      }
+    });
+
     await prisma.reviewGroup.delete({
       where: { id }
     });

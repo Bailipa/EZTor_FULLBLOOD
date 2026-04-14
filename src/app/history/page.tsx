@@ -62,6 +62,10 @@ export default function HistoryPage() {
   // Group Share State
   const [isGroupShareModalOpen, setIsGroupShareModalOpen] = useState(false);
   const [sharingGroupId, setSharingGroupId] = useState<string>("");
+  
+  // Delete Group Confirmation State
+  const [isDeleteGroupModalOpen, setIsDeleteGroupModalOpen] = useState(false);
+  const [groupToDelete, setGroupToDelete] = useState<string>("");
 
   const fetchWords = async (groupId: string = "all") => {
     setIsLoading(true);
@@ -354,18 +358,26 @@ export default function HistoryPage() {
     }
   };
 
-  const handleDeleteGroup = async (groupId: string) => {
-    if (!confirm("确定要删除整个分组吗？分组内的单词仍会保留在您的总生词本中。")) return;
+  const handleDeleteGroup = (groupId: string) => {
+    setGroupToDelete(groupId);
+    setIsDeleteGroupModalOpen(true);
+  };
+
+  const confirmDeleteGroup = async () => {
+    if (!groupToDelete) return;
     try {
-      const res = await fetch(`/api/review-groups/${groupId}`, { method: 'DELETE' });
+      const res = await fetch(`/api/review-groups/${groupToDelete}`, { method: 'DELETE' });
       if (res.ok) {
-        if (currentViewGroupId === groupId) {
+        if (currentViewGroupId === groupToDelete) {
           setCurrentViewGroupId("all");
         }
         fetchGroups();
       }
     } catch (error) {
       console.error("Delete group failed", error);
+    } finally {
+      setIsDeleteGroupModalOpen(false);
+      setGroupToDelete("");
     }
   };
 
@@ -819,6 +831,22 @@ export default function HistoryPage() {
           setSharingGroupId("");
         }}
       />
+      
+      {/* Delete Group Confirmation Modal */}
+      <AlertDialog open={isDeleteGroupModalOpen} onOpenChange={setIsDeleteGroupModalOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>删除分组</AlertDialogTitle>
+            <AlertDialogDescription>
+              确定要删除整个分组吗？分组内的单词仍会保留在您的总生词本中。
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>取消</AlertDialogCancel>
+            <AlertDialogAction onClick={confirmDeleteGroup} className="bg-red-600 hover:bg-red-700">确定删除</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </main>
   );
 }

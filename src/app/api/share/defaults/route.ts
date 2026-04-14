@@ -38,6 +38,9 @@ async function getDefaultVocabularies() {
       reviewGroup: {
         select: {
           name: true,
+          _count: {
+            select: { words: true }
+          }
         }
       }
     }
@@ -49,7 +52,7 @@ async function getDefaultVocabularies() {
     name: d.name,
     description: d.description,
     code: d.code,
-    wordCount: d.wordCount,
+    wordCount: d.reviewGroup._count.words,
     sortOrder: d.sortOrder,
     groupName: d.reviewGroup.name,
   }));

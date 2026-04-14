@@ -99,14 +99,30 @@ export async function GET(
     });
 
     if (existingImport) {
-      return NextResponse.json(
-        { 
-          valid: false, 
-          error: 'ALREADY_IMPORTED', 
-          message: '您已导入过该词库，无需重复导入' 
-        },
-        { status: 409 }
-      );
+      // 检查对应的组是否存在
+      const targetGroup = await prisma.reviewGroup.findUnique({
+        where: {
+          id: existingImport.targetGroupId
+        }
+      });
+      
+      // 如果组不存在，允许重新导入
+      if (!targetGroup) {
+        await prisma.sharedVocabularyImport.delete({
+          where: {
+            id: existingImport.id
+          }
+        });
+      } else {
+        return NextResponse.json(
+          { 
+            valid: false, 
+            error: 'ALREADY_IMPORTED', 
+            message: '您已导入过该词库，无需重复导入' 
+          },
+          { status: 409 }
+        );
+      }
     }
 
     await prisma.sharedVocabulary.update({
