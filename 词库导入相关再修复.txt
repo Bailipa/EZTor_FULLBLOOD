@@ -1,0 +1,98 @@
+# Vocabulary Library and Import Functionality Bug Fix Development Document
+
+## Problem Overview
+
+This document outlines three user experience issues related to vocabulary libraries and import functionality in the application:
+1. Unable to re-import a vocabulary library after deletion
+2. Default imported vocabulary libraries display 0 words
+3. Confirmation dialog doesn't function properly when deleting a group
+
+## Detailed Analysis
+
+### Issue 1: Unable to Re-import Vocabulary Library After Deletion
+
+**Problem Description**: Users who have previously imported a vocabulary library, deleted it, and then attempted to re-import it receive the message "You have already imported this vocabulary library, no need to re-import," preventing them from re-importing.
+
+**Root Cause**:
+- In `src/app/api/share/validate/[code]/route.ts`, the system checks the `sharedVocabularyImport` table to determine if a user has already imported a vocabulary library (lines 92-110).
+- When a user deletes a vocabulary library group, the system only deletes `reviewGroup` and related `reviewGroupWord` records, but not the `sharedVocabularyImport` record.
+- Therefore, even after the group is deleted, the system still considers the user to have already imported the library, blocking re-import attempts.
+
+**Impact**:
+- Users cannot re-import previously deleted vocabulary libraries
+- Reduces flexibility in vocabulary library management
+
+### Issue 2: Default Imported Vocabulary Libraries Show 0 Words
+
+**Problem Description**: Default imported vocabulary libraries display 0 words, which does not match the actual content.
+
+**Root Cause**:
+- In `src/app/api/share/defaults/route.ts`, the `wordCount` field for default vocabulary libraries is directly retrieved from the `defaultVocabulary` table (line 52).
+- This field is set during library creation and may be initialized to 0, with no subsequent update mechanism.
+- The system does not dynamically calculate the actual word count when retrieving the default vocabulary list.
+
+**Impact**:
+- Misleads users about the content of vocabulary libraries
+- Reduces the accuracy of user experience
+
+### Issue 3: Confirmation Dialog Doesn't Function When Deleting a Group
+
+**Problem Description**: When users attempt to delete a group, clicking the delete button immediately deletes the group without properly triggering the confirmation dialog.
+
+**Root Cause**:
+- In `src/app/history/page.tsx`, the `handleDeleteGroup` function uses the `confirm()` function to display a confirmation dialog (line 358).
+- According to user feedback, this confirmation dialog does not function as expected, and the group is deleted immediately.
+- Potential causes include:
+  1. `confirm()` function behavior may differ across browsers or environments
+  2. Code execution order issues causing the confirmation dialog to be ignored
+  3. Event handling logic problems causing deletion to execute before confirmation
+
+**Impact**:
+- May lead to accidental group deletion
+- Reduces operation security
+
+## Solution Recommendations
+
+### Issue 1: Unable to Re-import Vocabulary Library After Deletion
+
+**Solutions**:
+1. **Modify group deletion logic**: When deleting a group, also delete related `sharedVocabularyImport` records.
+2. **Modify validation logic**: When validating if a library has been imported, check not only the `sharedVocabularyImport` record but also whether the corresponding group still exists.
+3. **Add force import option**: Provide users with a "force import" option that allows overriding existing import records.
+
+**Technical Implementation Suggestions**:
+- In `src/app/api/review-groups/[id]/route.ts` DELETE method, add logic to delete related `sharedVocabularyImport` records.
+- In `src/app/api/share/validate/[code]/route.ts`, modify validation logic to check if the corresponding group exists.
+
+### Issue 2: Default Imported Vocabulary Libraries Show 0 Words
+
+**Solutions**:
+1. **Dynamically calculate word count**: Calculate the actual word count for each vocabulary library when retrieving the default vocabulary list.
+2. **Update word count cache**: Periodically update the `wordCount` field in the `defaultVocabulary` table.
+3. **Real-time statistics**: Calculate the word count in real-time when displaying library information.
+
+**Technical Implementation Suggestions**:
+- In `src/app/api/share/defaults/route.ts`, modify the `getDefaultVocabularies` function to dynamically calculate the actual word count for each library before returning results.
+- Add a scheduled task to periodically update the `wordCount` field in the `defaultVocabulary` table.
+
+### Issue 3: Confirmation Dialog Doesn't Function When Deleting a Group
+
+**Solutions**:
+1. **Use more reliable confirmation mechanism**: Replace the `confirm()` function with a React component-based confirmation dialog, such as `AlertDialog`.
+2. **Optimize event handling**: Ensure deletion only executes after explicit user confirmation.
+3. **Add anti-mistake measures**: Display clearer提示信息 before deletion, including group name and word count.
+
+**Technical Implementation Suggestions**:
+- In `src/app/history/page.tsx`, replace the `confirm()` call in the `handleDeleteGroup` function with an `AlertDialog` component.
+- Ensure correct execution order for deletion operations, only executing after the user clicks the "Confirm" button.
+
+## Summary
+
+This document identifies three user experience issues related to vocabulary libraries and import functionality. By implementing the suggested solutions, we can significantly improve user experience, enhance system reliability, and increase user satisfaction.
+
+Specifically:
+- Resolving the inability to re-import deleted libraries will improve vocabulary management flexibility.
+- Fixing the 0-word display issue will enhance information accuracy.
+- Addressing the confirmation dialog problem will improve operation security.
+
+These improvements will make the vocabulary library and import functionality more user-friendly, elevating overall product quality.

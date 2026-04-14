@@ -22,6 +22,7 @@ import {
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { CheckIcon, XIcon, Loader2 } from "lucide-react";
+import { ProgressBar, useProgress } from "@/components/ui/progress-bar";
 import { cn } from "@/lib/utils";
 
 interface ReviewGroup {
@@ -90,10 +91,16 @@ export function ShareImportModal({
   });
   const [isImporting, setIsImporting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [importProgress, setImportProgress] = useState(0);
+  const [importStep, setImportStep] = useState("");
   const [defaultVocabularies, setDefaultVocabularies] = useState<DefaultVocabularyState>({
     isLoading: true,
     data: [],
     error: null,
+  });
+
+  const importProgressController = useProgress({
+    autoStart: false,
   });
 
   // 获取默认词库列表
@@ -228,6 +235,8 @@ export function ShareImportModal({
 
   const handleImport = async () => {
     setError(null);
+    setImportProgress(0);
+    setImportStep("");
 
     if (!shareCode) {
       setError("请输入分享密钥");
@@ -250,6 +259,7 @@ export function ShareImportModal({
     }
 
     setIsImporting(true);
+    importProgressController.start();
 
     try {
       const response = await fetch("/api/share/import", {
@@ -264,40 +274,86 @@ export function ShareImportModal({
         }),
       });
 
-      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
 
-      if (data.success) {
-        onSuccess();
-        onClose();
-      } else {
-        // 构建详细的错误信息
-        let errorMessage = '';
+      const reader = response.body?.getReader();
+      if (!reader) {
+        throw new Error("无法读取响应");
+      }
+
+      const decoder = new TextDecoder();
+      let receivedData = "";
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
         
-        if (data.step) {
-          errorMessage = `【${data.step}】`;
+        receivedData += decoder.decode(value, { stream: true });
+        
+        // 处理服务器发送的进度信息
+        const lines = receivedData.split('\n');
+        for (const line of lines) {
+          if (line.trim()) {
+            try {
+              const progressData = JSON.parse(line);
+              if (progressData.progress !== undefined) {
+                setImportProgress(progressData.progress);
+                importProgressController.setProgress(progressData.progress);
+              }
+              if (progressData.step) {
+                setImportStep(progressData.step);
+              }
+            } catch (e) {
+              // 忽略非JSON行
+            }
+          }
         }
         
-        if (data.message) {
-          errorMessage += data.message;
+        // 保留最后一行（可能不完整）
+        receivedData = lines[lines.length - 1] || "";
+      }
+
+      // 处理最终响应
+      if (receivedData) {
+        const finalData = JSON.parse(receivedData);
+        if (finalData.success) {
+          importProgressController.complete();
+          onSuccess();
+          onClose();
         } else {
-          errorMessage += '导入失败';
+          // 构建详细的错误信息
+          let errorMessage = '';
+          
+          if (finalData.step) {
+            errorMessage = `【${finalData.step}】`;
+          }
+          
+          if (finalData.message) {
+            errorMessage += finalData.message;
+          } else {
+            errorMessage += '导入失败';
+          }
+          
+          if (finalData.suggestion) {
+            errorMessage += `\n\n💡 建议：${finalData.suggestion}`;
+          }
+          
+          if (finalData.details && process.env.NODE_ENV === 'development') {
+            errorMessage += `\n\n技术细节：${finalData.details}`;
+          }
+          
+          if (finalData.error) {
+            errorMessage += `\n错误代码：${finalData.error}`;
+          }
+          
+          importProgressController.error();
+          setError(errorMessage);
         }
-        
-        if (data.suggestion) {
-          errorMessage += `\n\n💡 建议：${data.suggestion}`;
-        }
-        
-        if (data.details && process.env.NODE_ENV === 'development') {
-          errorMessage += `\n\n技术细节：${data.details}`;
-        }
-        
-        if (data.error) {
-          errorMessage += `\n错误代码：${data.error}`;
-        }
-        
-        setError(errorMessage);
       }
     } catch (err: any) {
+      importProgressController.error();
       let errorMessage = '网络错误';
       
       if (err.message) {
@@ -355,6 +411,20 @@ export function ShareImportModal({
                   ))}
                 </div>
               </div>
+            </div>
+          )}
+
+          {isImporting && (
+            <div className="space-y-3">
+              <ProgressBar
+                value={importProgressController.progress}
+                status={importProgressController.status}
+                label="导入进度"
+                subLabel={importStep || "准备导入..."}
+                showPercentage
+                showIcon
+                size="md"
+              />
             </div>
           )}
 

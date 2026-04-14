@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+import { Readable } from 'stream';
 import prisma from '@/lib/prisma';
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
@@ -15,10 +15,29 @@ interface WordData {
 }
 
 export async function POST(req: Request) {
+  // 创建一个可读流来发送进度更新
+  let stream: Readable;
+  let push: (chunk: string | null) => boolean;
+  
+  stream = new Readable({
+    read() {}
+  });
+  
+  // 重写push方法，确保正确处理流
+  const originalPush = stream.push.bind(stream);
+  push = (chunk: string | null) => {
+    if (chunk) {
+      return originalPush(chunk + '\n');
+    }
+    return originalPush(null);
+  };
+
   try {
     const session = await getServerSession(authOptions);
     if (!session?.user?.id) {
-      return createErrorResponse('请先登录', 401);
+      push(JSON.stringify({ success: false, error: '请先登录' }));
+      push(null);
+      return new Response(stream, { headers: { 'Content-Type': 'text/plain' } });
     }
 
     const userId = session.user.id;
@@ -26,16 +45,19 @@ export async function POST(req: Request) {
     const { code, customName, targetGroupId, createNewGroup = true, skipExisting = true } = body;
 
     if (!code || !isValidShareCode(code)) {
-      return NextResponse.json(
-        { success: false, error: 'INVALID_FORMAT', message: '密钥格式无效' },
-        { status: 400 }
-      );
+      push(JSON.stringify({ success: false, error: 'INVALID_FORMAT', message: '密钥格式无效' }));
+      push(null);
+      return new Response(stream, { headers: { 'Content-Type': 'text/plain' } });
     }
 
     if (!targetGroupId && (!customName || typeof customName !== 'string' || customName.trim() === '')) {
-      return createErrorResponse('自定义名称不能为空', 400);
+      push(JSON.stringify({ success: false, error: '自定义名称不能为空' }));
+      push(null);
+      return new Response(stream, { headers: { 'Content-Type': 'text/plain' } });
     }
 
+    push(JSON.stringify({ progress: 0, step: '验证密钥' }));
+    
     const share = await prisma.sharedVocabulary.findUnique({
       where: { code },
       include: {
@@ -52,31 +74,27 @@ export async function POST(req: Request) {
     });
 
     if (!share) {
-      return NextResponse.json(
-        { success: false, error: 'INVALID_CODE', message: '密钥不存在' },
-        { status: 404 }
-      );
+      push(JSON.stringify({ success: false, error: 'INVALID_CODE', message: '密钥不存在' }));
+      push(null);
+      return new Response(stream, { headers: { 'Content-Type': 'text/plain' } });
     }
 
     if (!share.isActive) {
-      return NextResponse.json(
-        { success: false, error: 'INACTIVE_SHARE', message: '该分享已被撤销' },
-        { status: 403 }
-      );
+      push(JSON.stringify({ success: false, error: 'INACTIVE_SHARE', message: '该分享已被撤销' }));
+      push(null);
+      return new Response(stream, { headers: { 'Content-Type': 'text/plain' } });
     }
 
     if (share.expiresAt && share.expiresAt <= new Date()) {
-      return NextResponse.json(
-        { success: false, error: 'EXPIRED_CODE', message: '该密钥已过期' },
-        { status: 410 }
-      );
+      push(JSON.stringify({ success: false, error: 'EXPIRED_CODE', message: '该密钥已过期' }));
+      push(null);
+      return new Response(stream, { headers: { 'Content-Type': 'text/plain' } });
     }
 
     if (share.maxUses !== null && share.usedCount >= share.maxUses) {
-      return NextResponse.json(
-        { success: false, error: 'MAX_USES_REACHED', message: '使用次数已达上限' },
-        { status: 429 }
-      );
+      push(JSON.stringify({ success: false, error: 'MAX_USES_REACHED', message: '使用次数已达上限' }));
+      push(null);
+      return new Response(stream, { headers: { 'Content-Type': 'text/plain' } });
     }
 
     const existingImport = await prisma.sharedVocabularyImport.findUnique({
@@ -89,12 +107,13 @@ export async function POST(req: Request) {
     });
 
     if (existingImport) {
-      return NextResponse.json(
-        { success: false, error: 'ALREADY_IMPORTED', message: '您已导入过该词库，无需重复导入' },
-        { status: 409 }
-      );
+      push(JSON.stringify({ success: false, error: 'ALREADY_IMPORTED', message: '您已导入过该词库，无需重复导入' }));
+      push(null);
+      return new Response(stream, { headers: { 'Content-Type': 'text/plain' } });
     }
 
+    push(JSON.stringify({ progress: 10, step: '准备词库数据' }));
+    
     const words: WordData[] = share.reviewGroup.words.map((rgw) => ({
       word: rgw.word.word,
       phonetic: rgw.word.phonetic,
@@ -108,20 +127,26 @@ export async function POST(req: Request) {
     let targetGroupName: string = customName?.trim() || '';
 
     if (targetGroupId) {
+      push(JSON.stringify({ progress: 20, step: '验证目标分组' }));
       const targetGroup = await prisma.reviewGroup.findUnique({
         where: { id: targetGroupId }
       });
 
       if (!targetGroup) {
-        return createErrorResponse('目标分组不存在', 404);
+        push(JSON.stringify({ success: false, error: '目标分组不存在' }));
+        push(null);
+        return new Response(stream, { headers: { 'Content-Type': 'text/plain' } });
       }
 
       if (targetGroup.userId !== userId) {
-        return createErrorResponse('无权导入到他人的分组', 403);
+        push(JSON.stringify({ success: false, error: '无权导入到他人的分组' }));
+        push(null);
+        return new Response(stream, { headers: { 'Content-Type': 'text/plain' } });
       }
 
       targetGroupName = targetGroup.name;
     } else if (createNewGroup) {
+      push(JSON.stringify({ progress: 20, step: '创建新分组' }));
       const newGroup = await prisma.reviewGroup.create({
         data: {
           name: customName.trim(),
@@ -130,7 +155,9 @@ export async function POST(req: Request) {
       });
       targetGroupIdToUse = newGroup.id;
     } else {
-      return createErrorResponse('必须指定目标分组或设置 createNewGroup 为 true', 400);
+      push(JSON.stringify({ success: false, error: '必须指定目标分组或设置 createNewGroup 为 true' }));
+      push(null);
+      return new Response(stream, { headers: { 'Content-Type': 'text/plain' } });
     }
 
     let imported = 0;
@@ -139,8 +166,13 @@ export async function POST(req: Request) {
     const maxTimeout = 30000;
 
     try {
+      push(JSON.stringify({ progress: 30, step: '开始导入词汇' }));
+      
       for (let i = 0; i < words.length; i += batchSize) {
         const batch = words.slice(i, i + batchSize);
+        const progress = 30 + Math.round((i / words.length) * 60);
+        
+        push(JSON.stringify({ progress, step: `导入词汇 ${i + 1}-${Math.min(i + batchSize, words.length)}` }));
 
         await prisma.$transaction(async (tx) => {
           for (const wordData of batch) {
@@ -194,6 +226,8 @@ export async function POST(req: Request) {
         }, { timeout: maxTimeout });
       }
 
+      push(JSON.stringify({ progress: 90, step: '更新导入记录' }));
+      
       await prisma.sharedVocabulary.update({
         where: { id: share.id },
         data: {
@@ -213,7 +247,8 @@ export async function POST(req: Request) {
         }
       });
 
-      return NextResponse.json({
+      push(JSON.stringify({ progress: 100, step: '导入完成' }));
+      push(JSON.stringify({
         success: true,
         data: {
           wordsImported: imported,
@@ -222,7 +257,9 @@ export async function POST(req: Request) {
           groupName: targetGroupName,
           shareName: share.name
         }
-      });
+      }));
+      push(null);
+      return new Response(stream, { headers: { 'Content-Type': 'text/plain' } });
     } catch (transactionError: any) {
       // 记录详细错误信息
       console.error('Transaction error:', transactionError);
@@ -250,58 +287,56 @@ export async function POST(req: Request) {
         suggestion = '请检查数据库连接状态或刷新页面后重试';
       }
       
-      return NextResponse.json(
-        { 
-          success: false, 
-          error: errorCode, 
-          message: errorMessage,
-          details: transactionError.message,
-          suggestion: suggestion,
-          step: '词汇导入阶段'
-        },
-        { status: 500 }
-      );
+      push(JSON.stringify({
+        success: false, 
+        error: errorCode, 
+        message: errorMessage,
+        details: transactionError.message,
+        suggestion: suggestion,
+        step: '词汇导入阶段'
+      }));
+      push(null);
+      return new Response(stream, { headers: { 'Content-Type': 'text/plain' } });
     }
   } catch (error: any) {
     // 根据错误类型返回具体的错误信息
     if (error.code === 'P2002') {
-      return NextResponse.json(
-        { 
-          success: false, 
-          error: 'DUPLICATE_DATA',
-          message: '数据已存在：该词汇库已被导入过',
-          suggestion: '每个用户只能导入同一个分享密钥一次。如需重新导入，请先删除已导入的词库',
-          step: '导入验证阶段'
-        },
-        { status: 409 }
-      );
+      push(JSON.stringify({
+        success: false, 
+        error: 'DUPLICATE_DATA',
+        message: '数据已存在：该词汇库已被导入过',
+        suggestion: '每个用户只能导入同一个分享密钥一次。如需重新导入，请先删除已导入的词库',
+        step: '导入验证阶段'
+      }));
+      push(null);
+      return new Response(stream, { headers: { 'Content-Type': 'text/plain' } });
     }
     if (error.code === 'P2025') {
-      return NextResponse.json(
-        { 
-          success: false, 
-          error: 'NOT_FOUND',
-          message: '记录不存在：分享密钥对应的词库未找到',
-          suggestion: '请检查密钥是否正确，或确认该分享密钥是否仍然有效',
-          step: '密钥验证阶段'
-        },
-        { status: 404 }
-      );
+      push(JSON.stringify({
+        success: false, 
+        error: 'NOT_FOUND',
+        message: '记录不存在：分享密钥对应的词库未找到',
+        suggestion: '请检查密钥是否正确，或确认该分享密钥是否仍然有效',
+        step: '密钥验证阶段'
+      }));
+      push(null);
+      return new Response(stream, { headers: { 'Content-Type': 'text/plain' } });
     }
     if (error.code === 'P2003') {
-      return NextResponse.json(
-        { 
-          success: false, 
-          error: 'FOREIGN_KEY_ERROR',
-          message: '分组关联失败：目标分组不存在或已被删除',
-          suggestion: '请尝试创建新分组或选择其他现有分组',
-          step: '分组创建阶段'
-        },
-        { status: 400 }
-      );
+      push(JSON.stringify({
+        success: false, 
+        error: 'FOREIGN_KEY_ERROR',
+        message: '分组关联失败：目标分组不存在或已被删除',
+        suggestion: '请尝试创建新分组或选择其他现有分组',
+        step: '分组创建阶段'
+      }));
+      push(null);
+      return new Response(stream, { headers: { 'Content-Type': 'text/plain' } });
     }
     
     // 通用错误处理
-    return handleApiError(error, 'share/import POST');
+    push(JSON.stringify({ success: false, error: '服务器错误', message: '导入过程中发生未知错误' }));
+    push(null);
+    return new Response(stream, { headers: { 'Content-Type': 'text/plain' } });
   }
 }
