@@ -3,7 +3,7 @@
  */
 
 import { describe, it, expect, beforeEach, vi, afterEach } from 'vitest';
-import { POST } from '../route';
+import { POST } from '../import/route';
 import prisma from '@/lib/prisma';
 import { getServerSession } from 'next-auth/next';
 
@@ -12,8 +12,8 @@ vi.mock('next-auth/next', () => ({
   getServerSession: vi.fn(),
 }));
 
-vi.mock('@/lib/prisma', () => ({
-  default: {
+vi.mock('@/lib/prisma', () => {
+  const mockPrisma = {
     sharedVocabulary: {
       findUnique: vi.fn(),
       update: vi.fn(),
@@ -28,19 +28,20 @@ vi.mock('@/lib/prisma', () => ({
     },
     word: {
       findUnique: vi.fn(),
-      create: vi.fn(),
+      create: vi.fn().mockResolvedValue({ id: 'new-word-1' }),
     },
     reviewGroupWord: {
       create: vi.fn(),
     },
     $executeRaw: vi.fn(),
-    $transaction: vi.fn((fn) => fn(prisma)),
-  },
-}));
+    $transaction: vi.fn((fn) => fn(mockPrisma)),
+  };
+  return { default: mockPrisma };
+});
 
 describe('Share Import API', () => {
   const mockUserId = 'test-user-123';
-  const validShareCode = 'ABC-123-XYZ';
+  const validShareCode = 'ABC-234-XYZ';
   
   const mockSession = {
     user: {
@@ -355,6 +356,7 @@ describe('Share Import API', () => {
 
       const response = await POST(req);
       const data = await response.json();
+      console.log('Error message:', data);
 
       expect(response.status).toBe(200);
       expect(data.success).toBe(true);

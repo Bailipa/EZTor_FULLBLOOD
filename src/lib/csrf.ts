@@ -3,6 +3,7 @@ import { NextRequest } from 'next/server';
 const CSRF_EXEMPT_PATHS = [
   '/api/auth',
   '/api/captcha',
+  '/api/share/import',
 ];
 
 const SAFE_METHODS = ['GET', 'HEAD', 'OPTIONS'];

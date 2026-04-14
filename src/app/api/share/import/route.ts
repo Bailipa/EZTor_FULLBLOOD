@@ -32,7 +32,7 @@ export async function POST(req: Request) {
       );
     }
 
-    if (!customName || typeof customName !== 'string' || customName.trim() === '') {
+    if (!targetGroupId && (!customName || typeof customName !== 'string' || customName.trim() === '')) {
       return createErrorResponse('自定义名称不能为空', 400);
     }
 
@@ -105,7 +105,7 @@ export async function POST(req: Request) {
     }));
 
     let targetGroupIdToUse: string = targetGroupId;
-    let targetGroupName: string = customName.trim();
+    let targetGroupName: string = customName?.trim() || '';
 
     if (targetGroupId) {
       const targetGroup = await prisma.reviewGroup.findUnique({
