@@ -71,7 +71,7 @@ export default function HistoryPage() {
     setIsLoading(true);
     try {
       const url = groupId === "all" 
-        ? `/api/history?limit=10000&t=${Date.now()}`
+        ? `/api/history?limit=9999999&t=${Date.now()}`
         : `/api/review-groups/${groupId}/words?t=${Date.now()}`;
       
       const res = await fetch(url);

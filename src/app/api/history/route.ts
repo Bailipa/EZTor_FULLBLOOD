@@ -14,7 +14,7 @@ export async function GET(req: Request) {
 
     const { searchParams } = new URL(req.url);
     const limitParam = searchParams.get('limit');
-    const limit = limitParam ? Math.min(parseInt(limitParam, 10), 10000) : 10000;
+    const limit = limitParam ? Math.min(parseInt(limitParam, 10), 9999999) : 9999999;
 
     // 获取当前用户按更新时间倒序的生词记录
     const words = await prisma.word.findMany({
