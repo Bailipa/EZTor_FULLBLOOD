@@ -1,28 +1,16 @@
 /**
- * 从 GitHub 仓库导入词汇数据到默认词库
+ * 直接从 GitHub 仓库导入词汇数据到默认词库
  * 
  * 数据源：https://github.com/KyleBing/english-vocabulary.git
- * 
- * 使用方法：
- * npx tsx scripts/import-vocabulary-from-github.ts [category]
- * 
- * 参数：
- * - category: 词库类别（可选）
- *   - cet4: 大学英语四级
- *   - cet6: 大学英语六级
- *   - postgraduate: 考研
- *   - all: 所有词库（默认）
- * 
- * 示例：
- * npx tsx scripts/import-vocabulary-from-github.ts cet4
- * npx tsx scripts/import-vocabulary-from-github.ts all
  */
 
 import { PrismaClient } from '@prisma/client';
 import * as fs from 'fs';
 import * as path from 'path';
 
-console.log('Database URL:', process.env.DATABASE_URL);
+// 强制设置数据库 URL
+process.env.DATABASE_URL = 'file:./prisma/dev.db';
+
 const prisma = new PrismaClient();
 
 // 词库配置映射
@@ -102,11 +90,6 @@ async function batchImportWords(
           try {
             const normalizedWord = wordData.word.toLowerCase().trim();
             
-            // 打印前几个单词
-            if (i === 0 && batch.indexOf(wordData) < 5) {
-              console.log('Importing word:', normalizedWord);
-            }
-            
             // 检查是否已存在
             const existing = await tx.word.findUnique({
               where: {
@@ -118,9 +101,6 @@ async function batchImportWords(
             });
             
             if (existing) {
-              if (i === 0 && batch.indexOf(wordData) < 5) {
-                console.log('Word already exists:', normalizedWord);
-              }
               skipped++;
               continue;
             }
@@ -198,21 +178,11 @@ async function batchImportWords(
 }
 
 async function main() {
-  const category = process.argv[2] || 'all';
-  
   console.log('📚 从 GitHub 仓库导入词汇数据\n');
   console.log('数据源：https://github.com/KyleBing/english-vocabulary.git\n');
   
   // 确定要导入的词库
-  const categoriesToImport = category === 'all' 
-    ? Object.keys(VOCABULARY_CONFIG) 
-    : [category];
-  
-  if (categoriesToImport.length === 0) {
-    console.log('❌ 无效的词库类别');
-    console.log('可用类别：cet4, cet6, postgraduate, all');
-    return;
-  }
+  const categoriesToImport = Object.keys(VOCABULARY_CONFIG);
   
   console.log(`📊 准备导入的词库：${categoriesToImport.join(', ')}\n`);
   
@@ -220,8 +190,6 @@ async function main() {
   let systemUser = await prisma.user.findUnique({
     where: { username: 'system' }
   });
-  
-  console.log('Current users:', await prisma.user.findMany());
   
   if (!systemUser) {
     console.log('📝 创建系统用户...');
@@ -232,9 +200,7 @@ async function main() {
         isAdmin: true,
       }
     });
-    console.log('✅ 系统用户创建成功:', systemUser);
-  } else {
-    console.log('✅ 系统用户已存在:', systemUser);
+    console.log('✅ 系统用户创建成功\n');
   }
   
   // JSON 文件路径
@@ -329,7 +295,7 @@ async function main() {
           }
         });
       } else {
-        // 生成分享密钥（简单生成，实际应该用更安全的算法）
+        // 生成分享密钥
         const crypto = require('crypto');
         const generateCode = () => {
           const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';

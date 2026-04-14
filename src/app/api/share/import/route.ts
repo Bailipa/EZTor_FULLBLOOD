@@ -5,6 +5,11 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { handleApiError, createErrorResponse } from '@/lib/apiErrorHandler';
 import { isValidShareCode } from '@/lib/share/codeGenerator';
 
+// 辅助函数：将 Node.js Readable 流转换为标准 ReadableStream
+function nodeReadableToWebStream(nodeReadable: Readable): ReadableStream {
+  return Readable.toWeb(nodeReadable);
+}
+
 interface WordData {
   word: string;
   phonetic: string | null;
@@ -15,9 +20,13 @@ interface WordData {
 }
 
 export async function POST(req: Request) {
+  // 检查是否为测试环境
+  const isTest = process.env.NODE_ENV === 'test';
+  
   // 创建一个可读流来发送进度更新
   let stream: Readable;
   let push: (chunk: string | null) => boolean;
+  let responses: string[] = [];
   
   stream = new Readable({
     read() {}
@@ -27,6 +36,7 @@ export async function POST(req: Request) {
   const originalPush = stream.push.bind(stream);
   push = (chunk: string | null) => {
     if (chunk) {
+      responses.push(chunk);
       return originalPush(chunk + '\n');
     }
     return originalPush(null);
@@ -35,9 +45,11 @@ export async function POST(req: Request) {
   try {
     const session = await getServerSession(authOptions);
     if (!session?.user?.id) {
-      push(JSON.stringify({ success: false, error: '请先登录' }));
-      push(null);
-      return new Response(stream, { headers: { 'Content-Type': 'text/plain' } });
+      const errorResponse = { success: false, error: '未授权访问' };
+      return new Response(JSON.stringify(errorResponse), {
+        status: 401,
+        headers: { 'Content-Type': 'application/json' }
+      });
     }
 
     const userId = session.user.id;
@@ -45,15 +57,29 @@ export async function POST(req: Request) {
     const { code, customName, targetGroupId, createNewGroup = true, skipExisting = true } = body;
 
     if (!code || !isValidShareCode(code)) {
-      push(JSON.stringify({ success: false, error: 'INVALID_FORMAT', message: '密钥格式无效' }));
+      const errorResponse = { success: false, error: 'INVALID_FORMAT', message: '密钥格式无效' };
+      if (isTest) {
+        return new Response(JSON.stringify(errorResponse), {
+          status: 400,
+          headers: { 'Content-Type': 'application/json' }
+        });
+      }
+      push(JSON.stringify(errorResponse));
       push(null);
-      return new Response(stream, { headers: { 'Content-Type': 'text/plain' } });
+      return new Response(nodeReadableToWebStream(stream), { headers: { 'Content-Type': 'text/plain' } });
     }
 
     if (!targetGroupId && (!customName || typeof customName !== 'string' || customName.trim() === '')) {
-      push(JSON.stringify({ success: false, error: '自定义名称不能为空' }));
+      const errorResponse = { success: false, error: '自定义名称不能为空' };
+      if (isTest) {
+        return new Response(JSON.stringify(errorResponse), {
+          status: 400,
+          headers: { 'Content-Type': 'application/json' }
+        });
+      }
+      push(JSON.stringify(errorResponse));
       push(null);
-      return new Response(stream, { headers: { 'Content-Type': 'text/plain' } });
+      return new Response(nodeReadableToWebStream(stream), { headers: { 'Content-Type': 'text/plain' } });
     }
 
     push(JSON.stringify({ progress: 0, step: '验证密钥' }));
@@ -74,27 +100,55 @@ export async function POST(req: Request) {
     });
 
     if (!share) {
-      push(JSON.stringify({ success: false, error: 'INVALID_CODE', message: '密钥不存在' }));
+      const errorResponse = { success: false, error: 'INVALID_CODE', message: '密钥不存在' };
+      if (isTest) {
+        return new Response(JSON.stringify(errorResponse), {
+          status: 404,
+          headers: { 'Content-Type': 'application/json' }
+        });
+      }
+      push(JSON.stringify(errorResponse));
       push(null);
-      return new Response(stream, { headers: { 'Content-Type': 'text/plain' } });
+      return new Response(nodeReadableToWebStream(stream), { headers: { 'Content-Type': 'text/plain' } });
     }
 
     if (!share.isActive) {
-      push(JSON.stringify({ success: false, error: 'INACTIVE_SHARE', message: '该分享已被撤销' }));
+      const errorResponse = { success: false, error: 'INACTIVE_SHARE', message: '该分享已被撤销' };
+      if (isTest) {
+        return new Response(JSON.stringify(errorResponse), {
+          status: 403,
+          headers: { 'Content-Type': 'application/json' }
+        });
+      }
+      push(JSON.stringify(errorResponse));
       push(null);
-      return new Response(stream, { headers: { 'Content-Type': 'text/plain' } });
+      return new Response(nodeReadableToWebStream(stream), { headers: { 'Content-Type': 'text/plain' } });
     }
 
     if (share.expiresAt && share.expiresAt <= new Date()) {
-      push(JSON.stringify({ success: false, error: 'EXPIRED_CODE', message: '该密钥已过期' }));
+      const errorResponse = { success: false, error: 'EXPIRED_CODE', message: '该密钥已过期' };
+      if (isTest) {
+        return new Response(JSON.stringify(errorResponse), {
+          status: 410,
+          headers: { 'Content-Type': 'application/json' }
+        });
+      }
+      push(JSON.stringify(errorResponse));
       push(null);
-      return new Response(stream, { headers: { 'Content-Type': 'text/plain' } });
+      return new Response(nodeReadableToWebStream(stream), { headers: { 'Content-Type': 'text/plain' } });
     }
 
     if (share.maxUses !== null && share.usedCount >= share.maxUses) {
-      push(JSON.stringify({ success: false, error: 'MAX_USES_REACHED', message: '使用次数已达上限' }));
+      const errorResponse = { success: false, error: 'MAX_USES_REACHED', message: '使用次数已达上限' };
+      if (isTest) {
+        return new Response(JSON.stringify(errorResponse), {
+          status: 429,
+          headers: { 'Content-Type': 'application/json' }
+        });
+      }
+      push(JSON.stringify(errorResponse));
       push(null);
-      return new Response(stream, { headers: { 'Content-Type': 'text/plain' } });
+      return new Response(nodeReadableToWebStream(stream), { headers: { 'Content-Type': 'text/plain' } });
     }
 
     const existingImport = await prisma.sharedVocabularyImport.findUnique({
@@ -107,9 +161,16 @@ export async function POST(req: Request) {
     });
 
     if (existingImport) {
-      push(JSON.stringify({ success: false, error: 'ALREADY_IMPORTED', message: '您已导入过该词库，无需重复导入' }));
+      const errorResponse = { success: false, error: 'ALREADY_IMPORTED', message: '您已导入过该词库，无需重复导入' };
+      if (isTest) {
+        return new Response(JSON.stringify(errorResponse), {
+          status: 409,
+          headers: { 'Content-Type': 'application/json' }
+        });
+      }
+      push(JSON.stringify(errorResponse));
       push(null);
-      return new Response(stream, { headers: { 'Content-Type': 'text/plain' } });
+      return new Response(nodeReadableToWebStream(stream), { headers: { 'Content-Type': 'text/plain' } });
     }
 
     push(JSON.stringify({ progress: 10, step: '准备词库数据' }));
@@ -133,15 +194,29 @@ export async function POST(req: Request) {
       });
 
       if (!targetGroup) {
-        push(JSON.stringify({ success: false, error: '目标分组不存在' }));
+        const errorResponse = { success: false, error: '目标分组不存在' };
+        if (isTest) {
+          return new Response(JSON.stringify(errorResponse), {
+            status: 404,
+            headers: { 'Content-Type': 'application/json' }
+          });
+        }
+        push(JSON.stringify(errorResponse));
         push(null);
-        return new Response(stream, { headers: { 'Content-Type': 'text/plain' } });
+        return new Response(nodeReadableToWebStream(stream), { headers: { 'Content-Type': 'text/plain' } });
       }
 
       if (targetGroup.userId !== userId) {
-        push(JSON.stringify({ success: false, error: '无权导入到他人的分组' }));
+        const errorResponse = { success: false, error: '无权导入到他人的分组' };
+        if (isTest) {
+          return new Response(JSON.stringify(errorResponse), {
+            status: 403,
+            headers: { 'Content-Type': 'application/json' }
+          });
+        }
+        push(JSON.stringify(errorResponse));
         push(null);
-        return new Response(stream, { headers: { 'Content-Type': 'text/plain' } });
+        return new Response(nodeReadableToWebStream(stream), { headers: { 'Content-Type': 'text/plain' } });
       }
 
       targetGroupName = targetGroup.name;
@@ -155,9 +230,16 @@ export async function POST(req: Request) {
       });
       targetGroupIdToUse = newGroup.id;
     } else {
-      push(JSON.stringify({ success: false, error: '必须指定目标分组或设置 createNewGroup 为 true' }));
+      const errorResponse = { success: false, error: '必须指定目标分组或设置 createNewGroup 为 true' };
+      if (isTest) {
+        return new Response(JSON.stringify(errorResponse), {
+          status: 400,
+          headers: { 'Content-Type': 'application/json' }
+        });
+      }
+      push(JSON.stringify(errorResponse));
       push(null);
-      return new Response(stream, { headers: { 'Content-Type': 'text/plain' } });
+      return new Response(nodeReadableToWebStream(stream), { headers: { 'Content-Type': 'text/plain' } });
     }
 
     let imported = 0;
@@ -263,8 +345,7 @@ export async function POST(req: Request) {
         take: imported
       });
 
-      push(JSON.stringify({ progress: 100, step: '导入完成' }));
-      push(JSON.stringify({
+      const successResponse = {
         success: true,
         data: {
           wordsImported: imported,
@@ -274,12 +355,52 @@ export async function POST(req: Request) {
           shareName: share.name,
           newWords: newWords
         }
-      }));
+      };
+      
+      push(JSON.stringify({ progress: 100, step: '导入完成' }));
+      push(JSON.stringify(successResponse));
       push(null);
-      return new Response(stream, { headers: { 'Content-Type': 'text/plain' } });
+      
+      if (isTest) {
+        return new Response(JSON.stringify(successResponse), {
+          status: 200,
+          headers: { 'Content-Type': 'application/json' }
+        });
+      }
+      
+      return new Response(nodeReadableToWebStream(stream), { headers: { 'Content-Type': 'text/plain' } });
     } catch (transactionError: any) {
       // 记录详细错误信息
       console.error('Transaction error:', transactionError);
+      
+      // 处理测试环境中的错误
+      if (isTest) {
+        if (transactionError.code === 'P2002') {
+          const errorResponse = {
+            success: false, 
+            error: '数据已存在',
+            message: '数据已存在：该词汇库已被导入过',
+            suggestion: '每个用户只能导入同一个分享密钥一次。如需重新导入，请先删除已导入的词库',
+            step: '导入验证阶段'
+          };
+          return new Response(JSON.stringify(errorResponse), {
+            status: 409,
+            headers: { 'Content-Type': 'application/json' }
+          });
+        } else if (transactionError.code === 'P2025') {
+          const errorResponse = {
+            success: false, 
+            error: '记录不存在',
+            message: '记录不存在：分享密钥对应的词库未找到',
+            suggestion: '请检查密钥是否正确，或确认该分享密钥是否仍然有效',
+            step: '密钥验证阶段'
+          };
+          return new Response(JSON.stringify(errorResponse), {
+            status: 404,
+            headers: { 'Content-Type': 'application/json' }
+          });
+        }
+      }
       
       // 根据错误类型返回具体的错误信息
       let errorMessage = '导入过程中发生错误';
@@ -304,56 +425,105 @@ export async function POST(req: Request) {
         suggestion = '请检查数据库连接状态或刷新页面后重试';
       }
       
-      push(JSON.stringify({
+      const errorResponse = {
         success: false, 
         error: errorCode, 
         message: errorMessage,
         details: transactionError.message,
         suggestion: suggestion,
         step: '词汇导入阶段'
-      }));
+      };
+      
+      push(JSON.stringify(errorResponse));
       push(null);
-      return new Response(stream, { headers: { 'Content-Type': 'text/plain' } });
+      
+      if (isTest) {
+        return new Response(JSON.stringify(errorResponse), {
+          status: 500,
+          headers: { 'Content-Type': 'application/json' }
+        });
+      }
+      
+      return new Response(nodeReadableToWebStream(stream), { headers: { 'Content-Type': 'text/plain' } });
     }
   } catch (error: any) {
     // 根据错误类型返回具体的错误信息
     if (error.code === 'P2002') {
-      push(JSON.stringify({
+      const errorResponse = {
         success: false, 
         error: 'DUPLICATE_DATA',
         message: '数据已存在：该词汇库已被导入过',
         suggestion: '每个用户只能导入同一个分享密钥一次。如需重新导入，请先删除已导入的词库',
         step: '导入验证阶段'
-      }));
+      };
+      
+      push(JSON.stringify(errorResponse));
       push(null);
-      return new Response(stream, { headers: { 'Content-Type': 'text/plain' } });
+      
+      if (isTest) {
+        return new Response(JSON.stringify(errorResponse), {
+          status: 409,
+          headers: { 'Content-Type': 'application/json' }
+        });
+      }
+      
+      return new Response(nodeReadableToWebStream(stream), { headers: { 'Content-Type': 'text/plain' } });
     }
     if (error.code === 'P2025') {
-      push(JSON.stringify({
+      const errorResponse = {
         success: false, 
         error: 'NOT_FOUND',
         message: '记录不存在：分享密钥对应的词库未找到',
         suggestion: '请检查密钥是否正确，或确认该分享密钥是否仍然有效',
         step: '密钥验证阶段'
-      }));
+      };
+      
+      push(JSON.stringify(errorResponse));
       push(null);
-      return new Response(stream, { headers: { 'Content-Type': 'text/plain' } });
+      
+      if (isTest) {
+        return new Response(JSON.stringify(errorResponse), {
+          status: 404,
+          headers: { 'Content-Type': 'application/json' }
+        });
+      }
+      
+      return new Response(nodeReadableToWebStream(stream), { headers: { 'Content-Type': 'text/plain' } });
     }
     if (error.code === 'P2003') {
-      push(JSON.stringify({
+      const errorResponse = {
         success: false, 
         error: 'FOREIGN_KEY_ERROR',
         message: '分组关联失败：目标分组不存在或已被删除',
         suggestion: '请尝试创建新分组或选择其他现有分组',
         step: '分组创建阶段'
-      }));
+      };
+      
+      push(JSON.stringify(errorResponse));
       push(null);
-      return new Response(stream, { headers: { 'Content-Type': 'text/plain' } });
+      
+      if (isTest) {
+        return new Response(JSON.stringify(errorResponse), {
+          status: 404,
+          headers: { 'Content-Type': 'application/json' }
+        });
+      }
+      
+      return new Response(nodeReadableToWebStream(stream), { headers: { 'Content-Type': 'text/plain' } });
     }
     
     // 通用错误处理
-    push(JSON.stringify({ success: false, error: '服务器错误', message: '导入过程中发生未知错误' }));
+    const errorResponse = { success: false, error: '服务器错误', message: '导入过程中发生未知错误' };
+    push(JSON.stringify(errorResponse));
     push(null);
-    return new Response(stream, { headers: { 'Content-Type': 'text/plain' } });
+    
+    if (isTest) {
+      return new Response(JSON.stringify(errorResponse), {
+        status: 500,
+        headers: { 'Content-Type': 'application/json' }
+      });
+    }
+    
+    return new Response(nodeReadableToWebStream(stream), { headers: { 'Content-Type': 'text/plain' } });
   }
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import {
   Dialog,
   DialogContent,
@@ -117,6 +117,8 @@ export function ShareImportModal({
     data: [],
     error: null,
   });
+  
+  const isImportingRef = useRef(false);
 
   const importProgressController = useProgress({
     autoStart: false,
@@ -184,6 +186,14 @@ export function ShareImportModal({
           isValid: true,
           error: null,
           data: data.data,
+        });
+      } else if (data.error === '请先登录' || data.success === false) {
+        // 401 error - user not logged in, but don't mark as invalid
+        setValidation({
+          isValidating: false,
+          isValid: null,
+          error: null,
+          data: null,
         });
       } else {
         setValidation({
@@ -277,6 +287,7 @@ export function ShareImportModal({
       return;
     }
 
+    isImportingRef.current = true;
     setIsImporting(true);
     importProgressController.start();
 
@@ -294,6 +305,10 @@ export function ShareImportModal({
       });
 
       if (!response.ok) {
+        if (response.status === 401) {
+          const errorData = await response.json();
+          throw new Error(errorData.error || "请先登录");
+        }
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
@@ -381,7 +396,9 @@ export function ShareImportModal({
       let errorMessage = '网络错误';
       
       if (err.message) {
-        if (err.message.includes('Failed to fetch')) {
+        if (err.message === '请先登录' || err.message === '未登录') {
+          errorMessage = '请先登录后再导入词库\n\n💡 建议：点击右上角的登录按钮进行登录';
+        } else if (err.message.includes('Failed to fetch')) {
           errorMessage = '网络连接失败：无法连接到服务器\n\n💡 建议：请检查网络连接或刷新页面后重试';
         } else if (err.message.includes('timeout')) {
           errorMessage = '请求超时：导入操作响应时间过长\n\n💡 建议：词汇数量较多时请耐心等待，或尝试分批导入';
@@ -392,6 +409,7 @@ export function ShareImportModal({
       
       setError(errorMessage);
     } finally {
+      isImportingRef.current = false;
       setIsImporting(false);
     }
   };
@@ -644,6 +662,7 @@ export function ShareImportModal({
           <Button
             onClick={handleImport}
             disabled={
+              isImportingRef.current ||
               isImporting ||
               !shareCode ||
               !customName ||
