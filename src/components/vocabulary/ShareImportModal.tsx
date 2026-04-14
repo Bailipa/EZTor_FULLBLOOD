@@ -43,10 +43,29 @@ interface DefaultVocabulary {
   groupName?: string;
 }
 
+interface Word {
+  id: string;
+  word: string;
+  phonetic: string | null;
+  pos: string | null;
+  translation: string;
+  example: string | null;
+  exampleTranslation: string | null;
+  correctCount: number;
+  incorrectCount: number;
+  createdAt: string;
+  updatedAt: string;
+  userId: string;
+}
+
 interface ShareImportModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSuccess: () => void;
+  onSuccess: (data?: {
+    groupId: string;
+    groupName: string;
+    newWords: Word[];
+  }) => void;
 }
 
 interface ValidationState {
@@ -316,42 +335,47 @@ export function ShareImportModal({
       }
 
       // 处理最终响应
-      if (receivedData) {
-        const finalData = JSON.parse(receivedData);
-        if (finalData.success) {
-          importProgressController.complete();
-          onSuccess();
-          onClose();
-        } else {
-          // 构建详细的错误信息
-          let errorMessage = '';
-          
-          if (finalData.step) {
-            errorMessage = `【${finalData.step}】`;
-          }
-          
-          if (finalData.message) {
-            errorMessage += finalData.message;
+        if (receivedData) {
+          const finalData = JSON.parse(receivedData);
+          if (finalData.success) {
+            importProgressController.complete();
+            // 传递新导入的单词数据给父组件
+            onSuccess({
+              groupId: finalData.data.groupId,
+              groupName: finalData.data.groupName,
+              newWords: finalData.data.newWords || []
+            });
+            onClose();
           } else {
-            errorMessage += '导入失败';
+            // 构建详细的错误信息
+            let errorMessage = '';
+            
+            if (finalData.step) {
+              errorMessage = `【${finalData.step}】`;
+            }
+            
+            if (finalData.message) {
+              errorMessage += finalData.message;
+            } else {
+              errorMessage += '导入失败';
+            }
+            
+            if (finalData.suggestion) {
+              errorMessage += `\n\n💡 建议：${finalData.suggestion}`;
+            }
+            
+            if (finalData.details && process.env.NODE_ENV === 'development') {
+              errorMessage += `\n\n技术细节：${finalData.details}`;
+            }
+            
+            if (finalData.error) {
+              errorMessage += `\n错误代码：${finalData.error}`;
+            }
+            
+            importProgressController.error();
+            setError(errorMessage);
           }
-          
-          if (finalData.suggestion) {
-            errorMessage += `\n\n💡 建议：${finalData.suggestion}`;
-          }
-          
-          if (finalData.details && process.env.NODE_ENV === 'development') {
-            errorMessage += `\n\n技术细节：${finalData.details}`;
-          }
-          
-          if (finalData.error) {
-            errorMessage += `\n错误代码：${finalData.error}`;
-          }
-          
-          importProgressController.error();
-          setError(errorMessage);
         }
-      }
     } catch (err: any) {
       importProgressController.error();
       let errorMessage = '网络错误';

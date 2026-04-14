@@ -104,9 +104,20 @@ export default function HistoryPage() {
     fetchGroups();
   }, [currentViewGroupId]);
 
-  const handleImportSuccess = () => {
-    // Refresh words and groups after successful import
-    fetchWords(currentViewGroupId);
+  const handleImportSuccess = (data?: {
+    groupId: string;
+    groupName: string;
+    newWords: any[];
+  }) => {
+    if (data) {
+      // 自动切换到新分组
+      setCurrentViewGroupId(data.groupId);
+      // 直接添加新单词到显示列表，无需刷新
+      if (data.newWords.length > 0) {
+        setWords(prevWords => [...data.newWords, ...prevWords]);
+      }
+    }
+    // 刷新分组列表，确保新分组显示在列表中
     fetchGroups();
   };
 

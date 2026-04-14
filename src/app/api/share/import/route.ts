@@ -247,6 +247,22 @@ export async function POST(req: Request) {
         }
       });
 
+      // 获取新导入的单词数据
+      const newWords = await prisma.word.findMany({
+        where: {
+          userId,
+          reviewGroupWords: {
+            some: {
+              reviewGroupId: targetGroupIdToUse
+            }
+          }
+        },
+        orderBy: {
+          createdAt: 'desc'
+        },
+        take: imported
+      });
+
       push(JSON.stringify({ progress: 100, step: '导入完成' }));
       push(JSON.stringify({
         success: true,
@@ -255,7 +271,8 @@ export async function POST(req: Request) {
           wordsSkipped: skipped,
           groupId: targetGroupIdToUse,
           groupName: targetGroupName,
-          shareName: share.name
+          shareName: share.name,
+          newWords: newWords
         }
       }));
       push(null);
