@@ -167,6 +167,7 @@ model ReviewGroupWord {
   ReviewGroup   ReviewGroup @relation(fields: [reviewGroupId], references: [id], onDelete: Cascade)
 
   @@unique([reviewGroupId, wordId])
+  @@index([reviewGroupId, addedAt(sort: Desc)])
 }
 
 model SecurityViolation {
@@ -307,4 +308,5 @@ model Word {
   User               User              @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([word, userId])
+  @@index([userId, updatedAt(sort: Desc)])
 }

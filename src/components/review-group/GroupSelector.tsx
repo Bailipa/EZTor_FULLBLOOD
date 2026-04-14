@@ -16,7 +16,7 @@ interface ReviewGroup {
   id: string;
   name: string;
   _count?: {
-    words: number;
+    ReviewGroupWord: number;
   };
 }
 
@@ -76,9 +76,9 @@ export function GroupSelector({
             groups.map((group) => (
               <SelectItem key={group.id} value={group.id}>
                 {group.name}{" "}
-                {group._count?.words !== undefined && (
+                {group._count?.ReviewGroupWord !== undefined && (
                   <span className="text-muted-foreground">
-                    ({group._count.words} 词)
+                    ({group._count.ReviewGroupWord} 词)
                   </span>
                 )}
               </SelectItem>

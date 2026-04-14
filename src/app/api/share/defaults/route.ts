@@ -35,26 +35,25 @@ async function getDefaultVocabularies() {
       sortOrder: 'asc'
     },
     include: {
-      reviewGroup: {
+      ReviewGroup: {
         select: {
           name: true,
           _count: {
-            select: { words: true }
+            select: { ReviewGroupWord: true }
           }
         }
       }
     }
   });
   
-  // 转换数据格式
   const transformedData = defaults.map((d) => ({
     id: d.id,
     name: d.name,
     description: d.description,
     code: d.code,
-    wordCount: d.reviewGroup._count.words,
+    wordCount: d.ReviewGroup._count.ReviewGroupWord,
     sortOrder: d.sortOrder,
-    groupName: d.reviewGroup.name,
+    groupName: d.ReviewGroup.name,
   }));
   
   // 更新缓存

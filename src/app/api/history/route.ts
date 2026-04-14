@@ -14,30 +14,41 @@ export async function GET(req: Request) {
 
     const { searchParams } = new URL(req.url);
     const limitParam = searchParams.get('limit');
-    const limit = limitParam ? Math.min(parseInt(limitParam, 10), 9999999) : 9999999;
+    const cursorParam = searchParams.get('cursor');
+    const limit = limitParam ? Math.min(parseInt(limitParam, 10), 200) : 50;
+    const where = { userId: session.user.id };
 
-    // 获取当前用户按更新时间倒序的生词记录
-    const words = await prisma.word.findMany({
-      where: { userId: session.user.id },
-      orderBy: {
-        updatedAt: 'desc',
-      },
-      take: limit,
-      select: {
-        id: true,
-        word: true,
-        pos: true,
-        translation: true,
-        phonetic: true,
-        example: true,
-        exampleTranslation: true,
-        correctCount: true,
-        incorrectCount: true,
-        updatedAt: true
-      }
+    const [words, total] = await Promise.all([
+      prisma.word.findMany({
+        where,
+        orderBy: { updatedAt: 'desc' },
+        take: limit + 1,
+        ...(cursorParam ? { cursor: { id: cursorParam }, skip: 1 } : {}),
+        select: {
+          id: true,
+          word: true,
+          pos: true,
+          translation: true,
+          phonetic: true,
+          example: true,
+          exampleTranslation: true,
+          correctCount: true,
+          incorrectCount: true,
+          updatedAt: true
+        }
+      }),
+      prisma.word.count({ where })
+    ]);
+
+    const hasMore = words.length > limit;
+    const data = hasMore ? words.slice(0, -1) : words;
+    const nextCursor = hasMore ? data[data.length - 1].id : null;
+
+    return NextResponse.json({
+      success: true,
+      data,
+      pagination: { total, hasMore, nextCursor }
     });
-
-    return NextResponse.json({ success: true, data: words });
 
   } catch (error: any) {
     console.error("Failed to fetch history words:", error);
@@ -68,7 +79,7 @@ export async function DELETE(req: Request) {
       const wordIds = body.wordIds;
       if (Array.isArray(wordIds) && wordIds.length > 0) {
         await prisma.word.deleteMany({
-          where: { 
+          where: {
             id: { in: wordIds },
             userId: session.user.id
           }
@@ -82,7 +93,7 @@ export async function DELETE(req: Request) {
       const existingWord = await prisma.word.findUnique({
         where: { id: wordId }
       });
-      
+
       if (!existingWord) {
          return NextResponse.json({ success: false, error: 'Word not found' }, { status: 404 });
       }

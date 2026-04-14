@@ -39,7 +39,7 @@ interface ReviewGroup {
   id: string;
   name: string;
   _count?: {
-    words: number;
+    ReviewGroupWord: number;
   };
   createdAt?: string;
 }
@@ -269,7 +269,7 @@ export function GroupShareModal({
                     <h3 className="font-medium text-sm sm:text-base">{group.name}</h3>
                     <Badge variant="secondary">
                       <BookOpen className="size-3 mr-1" />
-                      {group._count?.words || 0} 词
+                      {group._count?.ReviewGroupWord || 0} 词
                     </Badge>
                   </div>
                   <div className="flex items-center gap-4 text-xs text-muted-foreground">

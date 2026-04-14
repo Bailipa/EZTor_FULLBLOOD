@@ -17,7 +17,7 @@ export async function GET(req: Request, { params }: { params: Promise<{ id: stri
       where: { id },
       include: {
         _count: {
-          select: { words: true }
+          select: { ReviewGroupWord: true }
         }
       }
     });

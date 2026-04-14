@@ -262,7 +262,7 @@ export function FlashcardWidget() {
                 <SelectContent>
                   <SelectItem value="public">公共词库</SelectItem>
                   {groups.map(g => (
-                    <SelectItem key={g.id} value={g.id}>{g.name} ({g._count?.words || 0})</SelectItem>
+                    <SelectItem key={g.id} value={g.id}>{g.name} ({g._count?.ReviewGroupWord || 0})</SelectItem>
                   ))}
                 </SelectContent>
               </Select>

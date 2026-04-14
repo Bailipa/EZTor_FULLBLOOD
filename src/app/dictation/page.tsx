@@ -102,7 +102,7 @@ export default function DictationPage() {
   // Fetch all words for custom selection modal
   const fetchAllHistoryWords = async () => {
     try {
-      const res = await fetch(`/api/history?t=${Date.now()}`);
+      const res = await fetch(`/api/history?limit=200`);
       const data = await res.json();
       if (data.success) {
         setAllHistoryWords(data.data);
@@ -496,7 +496,7 @@ export default function DictationPage() {
                   >
                     <option value="all">全部生词本</option>
                     {groups.map(g => (
-                      <option key={g.id} value={g.id}>{g.name} ({g._count?.words || 0})</option>
+                      <option key={g.id} value={g.id}>{g.name} ({g._count?.ReviewGroupWord || 0})</option>
                     ))}
                   </select>
                 </div>

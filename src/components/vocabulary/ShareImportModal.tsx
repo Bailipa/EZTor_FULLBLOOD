@@ -29,7 +29,7 @@ interface ReviewGroup {
   id: string;
   name: string;
   _count?: {
-    words: number;
+    ReviewGroupWord: number;
   };
 }
 
@@ -656,9 +656,9 @@ export function ShareImportModal({
                         reviewGroups.map((group) => (
                           <SelectItem key={group.id} value={group.id} className="text-sm">
                             <span className="truncate">{group.name}</span>
-                            {group._count?.words !== undefined && (
+                            {group._count?.ReviewGroupWord !== undefined && (
                               <span className="text-muted-foreground ml-1">
-                                ({group._count.words} 词)
+                                ({group._count.ReviewGroupWord} 词)
                               </span>
                             )}
                           </SelectItem>

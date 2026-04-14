@@ -15,7 +15,7 @@ export async function GET(req: Request) {
       where: { userId: session.user.id },
       include: {
         _count: {
-          select: { words: true }
+          select: { ReviewGroupWord: true }
         }
       },
       orderBy: { createdAt: 'desc' }
