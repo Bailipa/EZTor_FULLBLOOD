@@ -12,15 +12,21 @@ vi.mock('next-auth/next', () => ({
   getServerSession: vi.fn(),
 }));
 
+vi.mock('@/lib/security', () => ({
+  sanitizeInput: vi.fn((input: string) => input),
+}));
+
 vi.mock('@/lib/prisma', () => {
   const mockPrisma = {
     sharedVocabulary: {
       findUnique: vi.fn(),
       update: vi.fn(),
+      updateMany: vi.fn().mockResolvedValue({ count: 1 }),
     },
     sharedVocabularyImport: {
       findUnique: vi.fn(),
       create: vi.fn(),
+      delete: vi.fn(),
     },
     reviewGroup: {
       findUnique: vi.fn(),
@@ -37,7 +43,6 @@ vi.mock('@/lib/prisma', () => {
     $executeRaw: vi.fn(),
     $transaction: vi.fn(async (fn) => {
       const result = await fn(mockPrisma);
-      // 模拟成功的事务结果
       return result;
     }),
   };
@@ -145,6 +150,42 @@ describe('Share Import API', () => {
       expect(response.status).toBe(400);
       expect(data.success).toBe(false);
       expect(data.error).toBe('INVALID_FORMAT');
+    });
+
+    it('should normalize lowercase share code to uppercase', async () => {
+      vi.mocked(prisma.sharedVocabulary.findUnique).mockResolvedValue(mockShare);
+      vi.mocked(prisma.sharedVocabularyImport.findUnique).mockResolvedValue(null);
+      vi.mocked(prisma.sharedVocabulary.updateMany).mockResolvedValue({ count: 1 });
+      vi.mocked(prisma.reviewGroup.create).mockResolvedValue({
+        id: 'new-group-1',
+        name: 'Test Group',
+        userId: mockUserId,
+      });
+      vi.mocked(prisma.word.create).mockResolvedValue({ id: 'new-word-1' });
+      vi.mocked(prisma.reviewGroupWord.create).mockResolvedValue({});
+      vi.mocked(prisma.sharedVocabulary.update).mockResolvedValue({});
+      vi.mocked(prisma.sharedVocabularyImport.create).mockResolvedValue({});
+      vi.mocked(prisma.word.findMany).mockResolvedValue([]);
+      
+      const req = new Request('http://localhost/api/share/import', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          code: 'abc-234-xyz',
+          customName: 'Test Group',
+        }),
+      });
+
+      const response = await POST(req);
+      const data = await response.json();
+
+      expect(response.status).toBe(200);
+      expect(data.success).toBe(true);
+      expect(prisma.sharedVocabulary.findUnique).toHaveBeenCalledWith(
+        expect.objectContaining({
+          where: { code: 'ABC-234-XYZ' }
+        })
+      );
     });
 
     it('should reject empty custom name', async () => {
@@ -271,6 +312,31 @@ describe('Share Import API', () => {
       expect(data.success).toBe(false);
       expect(data.error).toBe('MAX_USES_REACHED');
     });
+
+    it('should reject when atomic maxUses check fails (race condition)', async () => {
+      vi.mocked(prisma.sharedVocabulary.findUnique).mockResolvedValue({
+        ...mockShare,
+        maxUses: 5,
+        usedCount: 4,
+      });
+      vi.mocked(prisma.sharedVocabulary.updateMany).mockResolvedValue({ count: 0 });
+      
+      const req = new Request('http://localhost/api/share/import', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          code: validShareCode,
+          customName: 'Test Group',
+        }),
+      });
+
+      const response = await POST(req);
+      const data = await response.json();
+
+      expect(response.status).toBe(429);
+      expect(data.success).toBe(false);
+      expect(data.error).toBe('MAX_USES_REACHED');
+    });
   });
 
   describe('Duplicate Import Prevention', () => {
@@ -280,6 +346,12 @@ describe('Share Import API', () => {
         id: 'import-1',
         sharedId: mockShare.id,
         importerId: mockUserId,
+        targetGroupId: 'existing-group-1',
+      });
+      vi.mocked(prisma.reviewGroup.findUnique).mockResolvedValue({
+        id: 'existing-group-1',
+        name: 'Existing Group',
+        userId: mockUserId,
       });
       
       const req = new Request('http://localhost/api/share/import', {
@@ -297,6 +369,44 @@ describe('Share Import API', () => {
       expect(response.status).toBe(409);
       expect(data.success).toBe(false);
       expect(data.error).toBe('ALREADY_IMPORTED');
+    });
+
+    it('should allow re-import when target group was deleted', async () => {
+      vi.mocked(prisma.sharedVocabulary.findUnique).mockResolvedValue(mockShare);
+      vi.mocked(prisma.sharedVocabularyImport.findUnique).mockResolvedValue({
+        id: 'import-1',
+        sharedId: mockShare.id,
+        importerId: mockUserId,
+        targetGroupId: 'deleted-group-1',
+      });
+      vi.mocked(prisma.reviewGroup.findUnique).mockResolvedValue(null);
+      vi.mocked(prisma.sharedVocabularyImport.delete).mockResolvedValue({ id: 'import-1' });
+      vi.mocked(prisma.reviewGroup.create).mockResolvedValue({
+        id: 'new-group-1',
+        name: 'Test Group',
+        userId: mockUserId,
+      });
+      vi.mocked(prisma.word.create).mockResolvedValue({ id: 'new-word-1' });
+      vi.mocked(prisma.reviewGroupWord.create).mockResolvedValue({});
+      vi.mocked(prisma.sharedVocabulary.update).mockResolvedValue({});
+      vi.mocked(prisma.sharedVocabularyImport.create).mockResolvedValue({});
+      vi.mocked(prisma.word.findMany).mockResolvedValue([]);
+      
+      const req = new Request('http://localhost/api/share/import', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          code: validShareCode,
+          customName: 'Test Group',
+        }),
+      });
+
+      const response = await POST(req);
+      const data = await response.json();
+
+      expect(response.status).toBe(200);
+      expect(data.success).toBe(true);
+      expect(prisma.sharedVocabularyImport.delete).toHaveBeenCalled();
     });
   });
 

@@ -210,36 +210,36 @@ export function DefaultVocabularyList({
  */
 export const DEFAULT_VOCABULARY_DATA: DefaultVocabulary[] = [
   {
-    id: "cet46",
-    name: "大学英语四六级核心词汇",
-    description: "包含 CET-4 和 CET-6 核心词汇，约 8000 词",
-    code: "M5P-VPF-WQV", // 实际密钥
-    wordCount: 4539,
+    id: "cet4",
+    name: "大学英语四级核心词汇",
+    description: "包含 CET-4 核心词汇，约 4500 词",
+    code: "FR3-QZS-NDA", // 实际密钥
+    wordCount: 4544,
     sortOrder: 1,
-  },
-  {
-    id: "ielts",
-    name: "雅思核心词汇",
-    description: "雅思考试高频词汇，约 4000 词",
-    code: "G24-9PL-FH3", // 实际密钥
-    wordCount: 0,
-    sortOrder: 2,
   },
   {
     id: "cet6",
     name: "大学英语六级核心词汇",
-    description: "包含 CET-6 核心词汇，约 2000 词",
-    code: "GU6-AXY-WK7", // 实际密钥
+    description: "包含 CET-6 核心词汇，约 2100 词",
+    code: "XY3-HPV-FFU", // 实际密钥
     wordCount: 2118,
     sortOrder: 2,
   },
   {
+    id: "ielts",
+    name: "雅思核心词汇",
+    description: "雅思考试高频词汇，约 5000 词",
+    code: "L8E-QFX-52G", // 实际密钥
+    wordCount: 5054,
+    sortOrder: 3,
+  },
+  {
     id: "kaoyan",
     name: "考研核心词汇",
-    description: "硕士研究生入学考试核心词汇，约 5500 词",
-    code: "RHC-NRA-6UR", // 实际密钥
-    wordCount: 0,
-    sortOrder: 3,
+    description: "硕士研究生入学考试核心词汇，约 500 词",
+    code: "CRB-9UD-7VS", // 实际密钥
+    wordCount: 515,
+    sortOrder: 4,
   },
 ];
 

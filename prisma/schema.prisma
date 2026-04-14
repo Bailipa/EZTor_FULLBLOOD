@@ -8,83 +8,19 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id                   String                   @id @default(cuid())
-  username             String                   @unique
-  password             String
-  isAdmin              Boolean                  @default(false)
-  isBanned             Boolean                  @default(false)
-  banReason            String?
-  banExpiresAt         DateTime?
-  createdAt            DateTime                 @default(now())
-  updatedAt            DateTime                 @updatedAt
-  ignoredWords         IgnoredWord[]
-  reviewGroups         ReviewGroup[]
-  securityViolations   SecurityViolation[]
-  sharedVocabularies   SharedVocabulary[]       @relation("UserToSharedVocabularies")
-  importedVocabularies SharedVocabularyImport[] @relation("UserToImportedVocabularies")
-  preference           UserPreference?
-  words                Word[]
-}
+model AnalyticsEvent {
+  id        String   @id
+  eventType String
+  userId    String?
+  sessionId String?
+  metadata  String?
+  ipAddress String?
+  userAgent String?
+  createdAt DateTime @default(now())
 
-model Word {
-  id                 String            @id @default(cuid())
-  word               String
-  phonetic           String?
-  pos                String?
-  translation        String
-  example            String?
-  exampleTranslation String?
-  correctCount       Int               @default(0)
-  incorrectCount     Int               @default(0)
-  createdAt          DateTime          @default(now())
-  updatedAt          DateTime          @updatedAt
-  userId             String
-  reviewGroupWords   ReviewGroupWord[]
-  user               User              @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@unique([word, userId])
-}
-
-model ReviewGroup {
-  id                  String              @id @default(cuid())
-  name                String
-  userId              String
-  createdAt           DateTime            @default(now())
-  updatedAt           DateTime            @updatedAt
-  defaultVocabularies DefaultVocabulary[]
-  user                User                @relation(fields: [userId], references: [id], onDelete: Cascade)
-  words               ReviewGroupWord[]
-  sharedVocabularies  SharedVocabulary[]  @relation("ReviewGroupToSharedVocabularies")
-
-  @@unique([name, userId])
-}
-
-model ReviewGroupWord {
-  id            String      @id @default(cuid())
-  reviewGroupId String
-  wordId        String
-  addedAt       DateTime    @default(now())
-  word          Word        @relation(fields: [wordId], references: [id], onDelete: Cascade)
-  reviewGroup   ReviewGroup @relation(fields: [reviewGroupId], references: [id], onDelete: Cascade)
-
-  @@unique([reviewGroupId, wordId])
-}
-
-model PublicWord {
-  id                 String   @id @default(cuid())
-  word               String   @unique
-  phonetic           String?
-  pos                String?
-  translation        String
-  example            String?
-  exampleTranslation String?
-  qualityScore       Int      @default(0)
-  version            Int      @default(1)
-  createdAt          DateTime @default(now())
-  updatedAt          DateTime @updatedAt
-
-  @@index([qualityScore])
+  @@index([createdAt])
+  @@index([userId])
+  @@index([eventType])
 }
 
 model ApiConfig {
@@ -93,11 +29,88 @@ model ApiConfig {
   baseUrl      String   @default("https://api.openai.com/v1/chat/completions")
   model        String   @default("gpt-4o-mini")
   systemPrompt String?
-  updatedAt    DateTime @updatedAt
+  updatedAt    DateTime
+}
+
+model AuditLog {
+  id         String   @id
+  userId     String?
+  action     String
+  entityType String
+  entityId   String?
+  oldValue   String?
+  newValue   String?
+  ipAddress  String?
+  userAgent  String?
+  createdAt  DateTime @default(now())
+
+  @@index([createdAt])
+  @@index([entityType])
+  @@index([action])
+  @@index([userId])
+}
+
+model DailyStats {
+  id              String   @id
+  date            DateTime @unique
+  dau             Int      @default(0)
+  newUsers        Int      @default(0)
+  translations    Int      @default(0)
+  dictations      Int      @default(0)
+  errors          Int      @default(0)
+  avgResponseTime Float?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime
+
+  @@index([date])
+}
+
+model DefaultVocabulary {
+  id          String      @id
+  name        String
+  code        String      @unique
+  description String?
+  groupId     String
+  wordCount   Int
+  isActive    Boolean     @default(true)
+  sortOrder   Int         @default(0)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime
+  ReviewGroup ReviewGroup @relation(fields: [groupId], references: [id], onDelete: Cascade)
+
+  @@index([isActive])
+}
+
+model IgnoredWord {
+  id                 String   @id
+  word               String
+  phonetic           String?
+  translation        String
+  example            String?
+  exampleTranslation String?
+  userId             String
+  createdAt          DateTime @default(now())
+  User               User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([word, userId])
+  @@index([word])
+  @@index([userId])
+}
+
+model IpBan {
+  id             String    @id
+  ipAddress      String    @unique
+  reason         String
+  violationCount Int       @default(1)
+  bannedAt       DateTime  @default(now())
+  expiresAt      DateTime?
+  isPermanent    Boolean   @default(false)
+
+  @@index([ipAddress])
 }
 
 model LlmApiProvider {
-  id             String    @id @default(cuid())
+  id             String    @id
   name           String    @unique
   apiKey         String
   baseUrl        String    @default("https://api.openai.com/v1")
@@ -110,106 +123,115 @@ model LlmApiProvider {
   lastError      String?
   lastErrorAt    DateTime?
   createdAt      DateTime  @default(now())
-  updatedAt      DateTime  @updatedAt
+  updatedAt      DateTime
 
   @@index([isActive, priority])
 }
 
+model PublicWord {
+  id                 String   @id
+  word               String   @unique
+  phonetic           String?
+  pos                String?
+  translation        String
+  example            String?
+  exampleTranslation String?
+  qualityScore       Int      @default(0)
+  version            Int      @default(1)
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime
+
+  @@index([qualityScore])
+}
+
+model ReviewGroup {
+  id                String              @id
+  name              String
+  userId            String
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime
+  DefaultVocabulary DefaultVocabulary[]
+  User              User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  ReviewGroupWord   ReviewGroupWord[]
+  SharedVocabulary  SharedVocabulary[]
+
+  @@unique([name, userId])
+}
+
+model ReviewGroupWord {
+  id            String      @id
+  reviewGroupId String
+  wordId        String
+  addedAt       DateTime    @default(now())
+  Word          Word        @relation(fields: [wordId], references: [id], onDelete: Cascade)
+  ReviewGroup   ReviewGroup @relation(fields: [reviewGroupId], references: [id], onDelete: Cascade)
+
+  @@unique([reviewGroupId, wordId])
+}
+
 model SecurityViolation {
-  id            String   @id @default(cuid())
+  id            String   @id
   userId        String
   violationType String
   inputValue    String
   detectedAt    DateTime @default(now())
   ipAddress     String?
   userAgent     String?
-  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  User          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@index([userId])
   @@index([detectedAt])
-}
-
-model IpBan {
-  id             String    @id @default(cuid())
-  ipAddress      String    @unique
-  reason         String
-  violationCount Int       @default(1)
-  bannedAt       DateTime  @default(now())
-  expiresAt      DateTime?
-  isPermanent    Boolean   @default(false)
-
-  @@index([ipAddress])
-}
-
-model UserPreference {
-  id                    String   @id @default(cuid())
-  userId                String   @unique
-  defaultShowPos        Boolean  @default(true)
-  defaultShowExample    Boolean  @default(true)
-  defaultShowPhonetic   Boolean  @default(true)
-  dailyGoal             Int      @default(20)
-  reviewReminderEnabled Boolean  @default(false)
-  reviewReminderTime    String?
-  theme                 String   @default("system")
-  language              String   @default("zh-CN")
-  danmakuEnabled        Boolean  @default(false)
-  danmakuSpeed          Float    @default(1.0)
-  danmakuOpacity        Float    @default(0.7)
-  createdAt             DateTime @default(now())
-  updatedAt             DateTime @updatedAt
-  user                  User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
-
-model AuditLog {
-  id         String   @id @default(cuid())
-  userId     String?
-  action     String
-  entityType String
-  entityId   String?
-  oldValue   String?
-  newValue   String?
-  ipAddress  String?
-  userAgent  String?
-  createdAt  DateTime @default(now())
-
   @@index([userId])
-  @@index([action])
-  @@index([entityType])
-  @@index([createdAt])
 }
 
-model AnalyticsEvent {
-  id        String   @id @default(cuid())
-  eventType String
-  userId    String?
-  sessionId String?
-  metadata  String?
-  ipAddress String?
-  userAgent String?
-  createdAt DateTime @default(now())
+model SharedVocabulary {
+  id                     String                   @id
+  code                   String                   @unique
+  name                   String
+  description            String?
+  userId                 String
+  shareType              String                   @default("REVIEW_GROUP")
+  reviewGroupId          String
+  maxUses                Int?
+  usedCount              Int                      @default(0)
+  expiresAt              DateTime?
+  isActive               Boolean                  @default(true)
+  importedCount          Int                      @default(0)
+  viewCount              Int                      @default(0)
+  wordCount              Int
+  version                Int                      @default(1)
+  createdAt              DateTime                 @default(now())
+  updatedAt              DateTime
+  deletedAt              DateTime?
+  ReviewGroup            ReviewGroup              @relation(fields: [reviewGroupId], references: [id], onDelete: Cascade)
+  User                   User                     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  SharedVocabularyImport SharedVocabularyImport[]
 
-  @@index([eventType])
+  @@index([isActive])
+  @@index([expiresAt])
+  @@index([reviewGroupId])
   @@index([userId])
-  @@index([createdAt])
+  @@index([code])
 }
 
-model DailyStats {
-  id              String   @id @default(cuid())
-  date            DateTime @unique
-  dau             Int      @default(0)
-  newUsers        Int      @default(0)
-  translations    Int      @default(0)
-  dictations      Int      @default(0)
-  errors          Int      @default(0)
-  avgResponseTime Float?
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+model SharedVocabularyImport {
+  id               String           @id
+  sharedId         String
+  importerId       String
+  wordsImported    Int
+  wordsSkipped     Int              @default(0)
+  targetGroupId    String
+  skipExisting     Boolean          @default(true)
+  createdAt        DateTime         @default(now())
+  User             User             @relation(fields: [importerId], references: [id], onDelete: Cascade)
+  SharedVocabulary SharedVocabulary @relation(fields: [sharedId], references: [id], onDelete: Cascade)
 
-  @@index([date])
+  @@unique([sharedId, importerId])
+  @@index([sharedId])
+  @@index([importerId])
 }
 
 model TranslationRecord {
-  id                 String   @id @default(cuid())
+  id                 String   @id
   userId             String?
   word               String
   phonetic           String?
@@ -224,87 +246,65 @@ model TranslationRecord {
   createdAt          DateTime @default(now())
   requestHash        String?
 
-  @@index([userId])
-  @@index([word])
-  @@index([createdAt])
   @@index([requestHash])
+  @@index([createdAt])
+  @@index([word])
+  @@index([userId])
 }
 
-model IgnoredWord {
-  id                 String   @id @default(cuid())
+model User {
+  id                     String                   @id
+  username               String                   @unique
+  password               String
+  isAdmin                Boolean                  @default(false)
+  isBanned               Boolean                  @default(false)
+  banReason              String?
+  banExpiresAt           DateTime?
+  createdAt              DateTime                 @default(now())
+  updatedAt              DateTime
+  IgnoredWord            IgnoredWord[]
+  ReviewGroup            ReviewGroup[]
+  SecurityViolation      SecurityViolation[]
+  SharedVocabulary       SharedVocabulary[]
+  SharedVocabularyImport SharedVocabularyImport[]
+  UserPreference         UserPreference?
+  Word                   Word[]
+}
+
+model UserPreference {
+  id                    String   @id
+  userId                String   @unique
+  defaultShowPos        Boolean  @default(true)
+  defaultShowExample    Boolean  @default(true)
+  defaultShowPhonetic   Boolean  @default(true)
+  dailyGoal             Int      @default(20)
+  reviewReminderEnabled Boolean  @default(false)
+  reviewReminderTime    String?
+  theme                 String   @default("system")
+  language              String   @default("zh-CN")
+  danmakuEnabled        Boolean  @default(false)
+  danmakuSpeed          Float    @default(1.0)
+  danmakuOpacity        Float    @default(0.7)
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime
+  User                  User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Word {
+  id                 String            @id
   word               String
   phonetic           String?
+  pos                String?
   translation        String
   example            String?
   exampleTranslation String?
+  correctCount       Int               @default(0)
+  incorrectCount     Int               @default(0)
+  createdAt          DateTime          @default(now())
+  updatedAt          DateTime
   userId             String
-  createdAt          DateTime @default(now())
-  user               User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  ReviewGroupWord    ReviewGroupWord[]
+  User               User              @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([word, userId])
-  @@index([userId])
-  @@index([word])
-}
-
-model SharedVocabulary {
-  id            String                   @id @default(cuid())
-  code          String                   @unique
-  name          String
-  description   String?
-  userId        String
-  shareType     String                   @default("REVIEW_GROUP")
-  reviewGroupId String
-  maxUses       Int?
-  usedCount     Int                      @default(0)
-  expiresAt     DateTime?
-  isActive      Boolean                  @default(true)
-  importedCount Int                      @default(0)
-  viewCount     Int                      @default(0)
-  wordCount     Int
-  version       Int                      @default(1)
-  createdAt     DateTime                 @default(now())
-  updatedAt     DateTime                 @updatedAt
-  deletedAt     DateTime?
-  reviewGroup   ReviewGroup              @relation("ReviewGroupToSharedVocabularies", fields: [reviewGroupId], references: [id], onDelete: Cascade)
-  user          User                     @relation("UserToSharedVocabularies", fields: [userId], references: [id], onDelete: Cascade)
-  imports       SharedVocabularyImport[] @relation("SharedVocabularyToImports")
-
-  @@index([code])
-  @@index([userId])
-  @@index([reviewGroupId])
-  @@index([expiresAt])
-  @@index([isActive])
-}
-
-model SharedVocabularyImport {
-  id            String           @id @default(cuid())
-  sharedId      String
-  importerId    String
-  wordsImported Int
-  wordsSkipped  Int              @default(0)
-  targetGroupId String
-  skipExisting  Boolean          @default(true)
-  createdAt     DateTime         @default(now())
-  importer      User             @relation("UserToImportedVocabularies", fields: [importerId], references: [id], onDelete: Cascade)
-  shared        SharedVocabulary @relation("SharedVocabularyToImports", fields: [sharedId], references: [id], onDelete: Cascade)
-
-  @@unique([sharedId, importerId])
-  @@index([importerId])
-  @@index([sharedId])
-}
-
-model DefaultVocabulary {
-  id          String      @id @default(cuid())
-  name        String
-  code        String      @unique
-  description String?
-  groupId     String
-  wordCount   Int
-  isActive    Boolean     @default(true)
-  sortOrder   Int         @default(0)
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
-  reviewGroup ReviewGroup @relation(fields: [groupId], references: [id], onDelete: Cascade)
-
-  @@index([isActive])
 }

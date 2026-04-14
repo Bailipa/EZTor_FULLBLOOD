@@ -4,6 +4,7 @@ import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { handleApiError, createErrorResponse } from '@/lib/apiErrorHandler';
 import { isValidShareCode } from '@/lib/share/codeGenerator';
+import { sanitizeInput } from '@/lib/security';
 
 // 辅助函数：将 Node.js Readable 流转换为标准 ReadableStream
 function nodeReadableToWebStream(nodeReadable: Readable): ReadableStream {
@@ -54,7 +55,10 @@ export async function POST(req: Request) {
 
     const userId = session.user.id;
     const body = await req.json();
-    const { code, customName, targetGroupId, createNewGroup = true, skipExisting = true } = body;
+    const { code: rawCode, customName: rawCustomName, targetGroupId, createNewGroup = true, skipExisting = true } = body;
+    const code = typeof rawCode === 'string' ? rawCode.toUpperCase().trim() : rawCode;
+    const sanitizedCustomName = rawCustomName ? sanitizeInput(String(rawCustomName).trim(), 100) : '';
+    const customName = sanitizedCustomName || rawCustomName;
 
     if (!code || !isValidShareCode(code)) {
       const errorResponse = { success: false, error: 'INVALID_FORMAT', message: '密钥格式无效' };
@@ -151,6 +155,30 @@ export async function POST(req: Request) {
       return new Response(nodeReadableToWebStream(stream), { headers: { 'Content-Type': 'text/plain' } });
     }
 
+    if (share.maxUses !== null) {
+      const updated = await prisma.sharedVocabulary.updateMany({
+        where: {
+          id: share.id,
+          usedCount: { lt: share.maxUses }
+        },
+        data: {
+          usedCount: { increment: 1 }
+        }
+      });
+      if (updated.count === 0) {
+        const errorResponse = { success: false, error: 'MAX_USES_REACHED', message: '使用次数已达上限' };
+        if (isTest) {
+          return new Response(JSON.stringify(errorResponse), {
+            status: 429,
+            headers: { 'Content-Type': 'application/json' }
+          });
+        }
+        push(JSON.stringify(errorResponse));
+        push(null);
+        return new Response(nodeReadableToWebStream(stream), { headers: { 'Content-Type': 'text/plain' } });
+      }
+    }
+
     const existingImport = await prisma.sharedVocabularyImport.findUnique({
       where: {
         sharedId_importerId: {
@@ -161,16 +189,26 @@ export async function POST(req: Request) {
     });
 
     if (existingImport) {
-      const errorResponse = { success: false, error: 'ALREADY_IMPORTED', message: '您已导入过该词库，无需重复导入' };
-      if (isTest) {
-        return new Response(JSON.stringify(errorResponse), {
-          status: 409,
-          headers: { 'Content-Type': 'application/json' }
+      const targetGroup = await prisma.reviewGroup.findUnique({
+        where: { id: existingImport.targetGroupId }
+      });
+
+      if (!targetGroup) {
+        await prisma.sharedVocabularyImport.delete({
+          where: { id: existingImport.id }
         });
+      } else {
+        const errorResponse = { success: false, error: 'ALREADY_IMPORTED', message: '您已导入过该词库，无需重复导入' };
+        if (isTest) {
+          return new Response(JSON.stringify(errorResponse), {
+            status: 409,
+            headers: { 'Content-Type': 'application/json' }
+          });
+        }
+        push(JSON.stringify(errorResponse));
+        push(null);
+        return new Response(nodeReadableToWebStream(stream), { headers: { 'Content-Type': 'text/plain' } });
       }
-      push(JSON.stringify(errorResponse));
-      push(null);
-      return new Response(nodeReadableToWebStream(stream), { headers: { 'Content-Type': 'text/plain' } });
     }
 
     push(JSON.stringify({ progress: 10, step: '准备词库数据' }));
@@ -313,8 +351,8 @@ export async function POST(req: Request) {
       await prisma.sharedVocabulary.update({
         where: { id: share.id },
         data: {
-          usedCount: { increment: 1 },
-          importedCount: { increment: imported }
+          importedCount: { increment: imported },
+          ...(share.maxUses === null ? { usedCount: { increment: 1 } } : {})
         }
       });
 

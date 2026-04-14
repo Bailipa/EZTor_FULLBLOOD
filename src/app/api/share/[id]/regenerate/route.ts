@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import prisma from "@/lib/prisma";
 import { generateUniqueCode } from "@/lib/share/codeGenerator";
 import { createSuccessResponse, createErrorResponse } from "@/lib/apiErrorHandler";

@@ -187,12 +187,12 @@ export function ShareImportModal({
           error: null,
           data: data.data,
         });
-      } else if (data.error === '请先登录' || data.success === false) {
-        // 401 error - user not logged in, but don't mark as invalid
+      } else if (data.error === '请先登录' || data.success === false && data.error === '未登录') {
+        // 401 error - user not logged in, show login prompt
         setValidation({
           isValidating: false,
           isValid: null,
-          error: null,
+          error: "请先登录后再验证密钥",
           data: null,
         });
       } else {
@@ -215,13 +215,13 @@ export function ShareImportModal({
 
   useEffect(() => {
     const handler = setTimeout(() => {
-      if (shareCode && !createNewGroup) {
+      if (shareCode) {
         validateShareCode(shareCode);
       }
     }, 500);
 
     return () => clearTimeout(handler);
-  }, [shareCode, validateShareCode, createNewGroup]);
+  }, [shareCode, validateShareCode]);
 
   useEffect(() => {
     if (isOpen && !createNewGroup) {
@@ -318,79 +318,102 @@ export function ShareImportModal({
       }
 
       const decoder = new TextDecoder();
-      let receivedData = "";
+      let buffer = "";
+      let lastProgressData: any = null;
+      let finalResult: any = null;
 
       while (true) {
         const { done, value } = await reader.read();
         if (done) break;
         
-        receivedData += decoder.decode(value, { stream: true });
+        buffer += decoder.decode(value, { stream: true });
         
-        // 处理服务器发送的进度信息
-        const lines = receivedData.split('\n');
+        const lines = buffer.split('\n');
+        buffer = lines.pop() || "";
+        
         for (const line of lines) {
-          if (line.trim()) {
-            try {
-              const progressData = JSON.parse(line);
-              if (progressData.progress !== undefined) {
-                setImportProgress(progressData.progress);
-                importProgressController.setProgress(progressData.progress);
-              }
-              if (progressData.step) {
-                setImportStep(progressData.step);
-              }
-            } catch (e) {
-              // 忽略非JSON行
+          const trimmed = line.trim();
+          if (!trimmed) continue;
+          
+          try {
+            const parsed = JSON.parse(trimmed);
+            
+            if (parsed.progress !== undefined) {
+              setImportProgress(parsed.progress);
+              importProgressController.setProgress(parsed.progress);
+              lastProgressData = parsed;
             }
+            if (parsed.step) {
+              setImportStep(parsed.step);
+            }
+            if (parsed.success !== undefined) {
+              finalResult = parsed;
+            }
+          } catch (e) {
+            // Skip non-JSON lines
           }
         }
-        
-        // 保留最后一行（可能不完整）
-        receivedData = lines[lines.length - 1] || "";
       }
 
-      // 处理最终响应
-        if (receivedData) {
-          const finalData = JSON.parse(receivedData);
-          if (finalData.success) {
-            importProgressController.complete();
-            // 传递新导入的单词数据给父组件
-            onSuccess({
-              groupId: finalData.data.groupId,
-              groupName: finalData.data.groupName,
-              newWords: finalData.data.newWords || []
-            });
-            onClose();
-          } else {
-            // 构建详细的错误信息
-            let errorMessage = '';
-            
-            if (finalData.step) {
-              errorMessage = `【${finalData.step}】`;
-            }
-            
-            if (finalData.message) {
-              errorMessage += finalData.message;
-            } else {
-              errorMessage += '导入失败';
-            }
-            
-            if (finalData.suggestion) {
-              errorMessage += `\n\n💡 建议：${finalData.suggestion}`;
-            }
-            
-            if (finalData.details && process.env.NODE_ENV === 'development') {
-              errorMessage += `\n\n技术细节：${finalData.details}`;
-            }
-            
-            if (finalData.error) {
-              errorMessage += `\n错误代码：${finalData.error}`;
-            }
-            
-            importProgressController.error();
-            setError(errorMessage);
+      if (buffer.trim()) {
+        try {
+          const parsed = JSON.parse(buffer.trim());
+          if (parsed.progress !== undefined) {
+            setImportProgress(parsed.progress);
+            importProgressController.setProgress(parsed.progress);
           }
+          if (parsed.step) {
+            setImportStep(parsed.step);
+          }
+          if (parsed.success !== undefined) {
+            finalResult = parsed;
+          }
+        } catch (e) {
+          // Ignore parse errors on remaining buffer
         }
+      }
+
+      if (finalResult) {
+        if (finalResult.success) {
+          importProgressController.complete();
+          onSuccess({
+            groupId: finalResult.data.groupId,
+            groupName: finalResult.data.groupName,
+            newWords: finalResult.data.newWords || []
+          });
+          onClose();
+        } else {
+          let errorMessage = '';
+          
+          if (finalResult.step) {
+            errorMessage = `【${finalResult.step}】`;
+          }
+          
+          if (finalResult.message) {
+            errorMessage += finalResult.message;
+          } else {
+            errorMessage += '导入失败';
+          }
+          
+          if (finalResult.suggestion) {
+            errorMessage += `\n\n💡 建议：${finalResult.suggestion}`;
+          }
+          
+          if (finalResult.details && process.env.NODE_ENV === 'development') {
+            errorMessage += `\n\n技术细节：${finalResult.details}`;
+          }
+          
+          if (finalResult.error) {
+            errorMessage += `\n错误代码：${finalResult.error}`;
+          }
+          
+          importProgressController.error();
+          setError(errorMessage);
+        }
+      } else {
+        importProgressController.error();
+        setError("导入完成但未收到有效响应，请检查词库是否已导入");
+      }
     } catch (err: any) {
       importProgressController.error();
       let errorMessage = '网络错误';

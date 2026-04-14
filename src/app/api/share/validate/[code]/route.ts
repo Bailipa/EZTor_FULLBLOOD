@@ -16,7 +16,8 @@ export async function GET(
     }
 
     const userId = session.user.id;
-    const { code } = await params;
+    const { code: rawCode } = await params;
+    const code = rawCode ? rawCode.toUpperCase().trim() : rawCode;
 
     if (!code || !isValidShareCode(code)) {
       return NextResponse.json(

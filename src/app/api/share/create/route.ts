@@ -4,6 +4,7 @@ import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { handleApiError, createErrorResponse, createSuccessResponse } from '@/lib/apiErrorHandler';
 import { generateUniqueCode } from '@/lib/share/codeGenerator';
+import { sanitizeInput } from '@/lib/security';
 
 export async function POST(req: Request) {
   try {
@@ -24,6 +25,9 @@ export async function POST(req: Request) {
     if (!name || typeof name !== 'string' || name.trim() === '') {
       return createErrorResponse('分享名称不能为空', 400);
     }
+
+    const sanitizedName = sanitizeInput(name.trim(), 100);
+    const sanitizedDescription = description ? sanitizeInput(description, 500) : null;
 
     const reviewGroup = await prisma.reviewGroup.findUnique({
       where: { id: reviewGroupId }
@@ -67,8 +71,8 @@ export async function POST(req: Request) {
     const sharedVocabulary = await prisma.sharedVocabulary.create({
       data: {
         code,
-        name: name.trim(),
-        description: description || null,
+        name: sanitizedName,
+        description: sanitizedDescription,
         userId,
         reviewGroupId,
         expiresAt: parsedExpiresAt,
@@ -83,9 +87,9 @@ export async function POST(req: Request) {
       }
     });
 
-    const shareUrl = typeof window !== 'undefined' 
-      ? `${window.location.origin}/share/import?code=${code}`
-      : null;
+    const host = req.headers.get('host');
+    const protocol = req.headers.get('x-forwarded-proto') || (host?.startsWith('localhost') ? 'http' : 'https');
+    const shareUrl = host ? `${protocol}://${host}/share/import?code=${code}` : null;
 
     return createSuccessResponse({
       data: {
