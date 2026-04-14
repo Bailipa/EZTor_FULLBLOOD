@@ -204,30 +204,41 @@ export function DefaultVocabularyList({
 /**
  * 默认词库数据（备用，当 API 不可用时）
  * 参考 AI_DEVELOPMENT_SPEC.md Section 3.4
+ * 
+ * 注意：这些是示例密钥，实际应该从 API 获取
+ * 密钥格式：XXX-XXX-XXX（3-3-3 格式）
  */
 export const DEFAULT_VOCABULARY_DATA: DefaultVocabulary[] = [
   {
     id: "cet46",
     name: "大学英语四六级核心词汇",
     description: "包含 CET-4 和 CET-6 核心词汇，约 8000 词",
-    code: "CET4-6-2026-VOCAB",
-    wordCount: 8000,
+    code: "M5P-VPF-WQV", // 实际密钥
+    wordCount: 4539,
     sortOrder: 1,
   },
   {
     id: "ielts",
     name: "雅思核心词汇",
     description: "雅思考试高频词汇，约 4000 词",
-    code: "IELTS-2026-CORE-WORDS",
-    wordCount: 4000,
+    code: "G24-9PL-FH3", // 实际密钥
+    wordCount: 0,
+    sortOrder: 2,
+  },
+  {
+    id: "cet6",
+    name: "大学英语六级核心词汇",
+    description: "包含 CET-6 核心词汇，约 2000 词",
+    code: "GU6-AXY-WK7", // 实际密钥
+    wordCount: 2118,
     sortOrder: 2,
   },
   {
     id: "kaoyan",
     name: "考研核心词汇",
     description: "硕士研究生入学考试核心词汇，约 5500 词",
-    code: "KAOYAN-2026-MAIN-VOCAB",
-    wordCount: 5500,
+    code: "RHC-NRA-6UR", // 实际密钥
+    wordCount: 0,
     sortOrder: 3,
   },
 ];

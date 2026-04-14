@@ -39,6 +39,7 @@ interface DefaultVocabulary {
   code: string;
   wordCount: number;
   sortOrder: number;
+  groupName?: string;
 }
 
 interface ShareImportModalProps {
@@ -64,32 +65,11 @@ interface ValidationState {
   } | null;
 }
 
-const DEFAULT_VOCABULARIES: DefaultVocabulary[] = [
-  {
-    id: "cet46",
-    name: "大学英语四六级核心词汇",
-    description: "包含 CET-4 和 CET-6 核心词汇，约 8000 词",
-    code: "CET4-6-2026-VOCAB",
-    wordCount: 8000,
-    sortOrder: 1,
-  },
-  {
-    id: "ielts",
-    name: "雅思核心词汇",
-    description: "雅思考试高频词汇，约 4000 词",
-    code: "IELTS-2026-CORE-WORDS",
-    wordCount: 4000,
-    sortOrder: 2,
-  },
-  {
-    id: "kaoyan",
-    name: "考研核心词汇",
-    description: "硕士研究生入学考试核心词汇，约 5500 词",
-    code: "KAOYAN-2026-MAIN-VOCAB",
-    wordCount: 5500,
-    sortOrder: 3,
-  },
-];
+interface DefaultVocabularyState {
+  isLoading: boolean;
+  data: DefaultVocabulary[];
+  error: string | null;
+}
 
 export function ShareImportModal({
   isOpen,
@@ -110,6 +90,46 @@ export function ShareImportModal({
   });
   const [isImporting, setIsImporting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [defaultVocabularies, setDefaultVocabularies] = useState<DefaultVocabularyState>({
+    isLoading: true,
+    data: [],
+    error: null,
+  });
+
+  // 获取默认词库列表
+  useEffect(() => {
+    if (isOpen) {
+      const fetchDefaultVocabularies = async () => {
+        try {
+          setDefaultVocabularies((prev) => ({ ...prev, isLoading: true, error: null }));
+          const response = await fetch("/api/share/defaults");
+          const result = await response.json();
+
+          if (result.success && Array.isArray(result.data)) {
+            setDefaultVocabularies({
+              isLoading: false,
+              data: result.data,
+              error: null,
+            });
+          } else {
+            setDefaultVocabularies({
+              isLoading: false,
+              data: [],
+              error: result.error || "加载失败",
+            });
+          }
+        } catch (err) {
+          setDefaultVocabularies({
+            isLoading: false,
+            data: [],
+            error: "网络错误",
+          });
+        }
+      };
+
+      fetchDefaultVocabularies();
+    }
+  }, [isOpen]);
 
   const validateShareCode = useCallback(async (code: string) => {
     if (!code || code.length < 11) {
@@ -250,10 +270,47 @@ export function ShareImportModal({
         onSuccess();
         onClose();
       } else {
-        setError(data.message || "导入失败，请稍后重试");
+        // 构建详细的错误信息
+        let errorMessage = '';
+        
+        if (data.step) {
+          errorMessage = `【${data.step}】`;
+        }
+        
+        if (data.message) {
+          errorMessage += data.message;
+        } else {
+          errorMessage += '导入失败';
+        }
+        
+        if (data.suggestion) {
+          errorMessage += `\n\n💡 建议：${data.suggestion}`;
+        }
+        
+        if (data.details && process.env.NODE_ENV === 'development') {
+          errorMessage += `\n\n技术细节：${data.details}`;
+        }
+        
+        if (data.error) {
+          errorMessage += `\n错误代码：${data.error}`;
+        }
+        
+        setError(errorMessage);
       }
-    } catch (err) {
-      setError("网络错误，请稍后重试");
+    } catch (err: any) {
+      let errorMessage = '网络错误';
+      
+      if (err.message) {
+        if (err.message.includes('Failed to fetch')) {
+          errorMessage = '网络连接失败：无法连接到服务器\n\n💡 建议：请检查网络连接或刷新页面后重试';
+        } else if (err.message.includes('timeout')) {
+          errorMessage = '请求超时：导入操作响应时间过长\n\n💡 建议：词汇数量较多时请耐心等待，或尝试分批导入';
+        } else {
+          errorMessage = `网络错误：${err.message}\n\n💡 建议：请检查网络连接后重试`;
+        }
+      }
+      
+      setError(errorMessage);
     } finally {
       setIsImporting(false);
     }
@@ -283,45 +340,88 @@ export function ShareImportModal({
 
         <div className="space-y-4 sm:space-y-6 py-2 sm:py-4">
           {error && (
-            <div className="p-2 sm:p-3 text-xs sm:text-sm text-destructive bg-destructive/10 rounded-lg border border-destructive/20">
-              {error}
+            <div className="p-2 sm:p-3 text-xs sm:text-sm text-destructive bg-destructive/10 rounded-lg border border-destructive/20 space-y-1">
+              <div className="flex items-start gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-alert-circle shrink-0 mt-0.5" aria-hidden="true">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <line x1="12" x2="12" y1="8" y2="12"></line>
+                  <line x1="12" x2="12.01" y1="16" y2="16"></line>
+                </svg>
+                <div className="flex-1 whitespace-pre-wrap break-words">
+                  {error.split('\n\n').map((line, i) => (
+                    <div key={i} className={i > 0 ? 'mt-2' : ''}>
+                      {line}
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           )}
 
           <div className="space-y-3 sm:space-y-4">
             <div>
               <h3 className="text-xs sm:text-sm font-medium mb-2 sm:mb-3">默认词库（推荐）</h3>
-              <div className="grid gap-2">
-                {DEFAULT_VOCABULARIES.map((vocab) => (
-                  <Card
-                    key={vocab.id}
-                    className={cn(
-                      "cursor-pointer transition-all hover:bg-muted/50",
-                      shareCode === vocab.code && "bg-muted border-primary"
-                    )}
-                    onClick={() => handleSelectDefaultVocabulary(vocab)}
-                  >
-                    <CardContent className="p-2 sm:p-3">
-                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 sm:gap-0">
-                        <div className="flex-1 min-w-0">
-                          <div className="flex flex-col sm:flex-row sm:items-center sm:gap-2 gap-1">
-                            <span className="font-medium text-sm sm:text-base truncate">{vocab.name}</span>
-                            <Badge variant="secondary" className="w-fit text-xs">
-                              {vocab.wordCount} 词
-                            </Badge>
+              {defaultVocabularies.isLoading ? (
+                <div className="space-y-2">
+                  {[1, 2, 3].map((i) => (
+                    <Card key={i} className="animate-pulse">
+                      <CardContent className="p-2 sm:p-3">
+                        <div className="flex items-center gap-3">
+                          <div className="h-10 w-10 rounded bg-muted" />
+                          <div className="flex-1 space-y-2">
+                            <div className="h-4 bg-muted rounded w-3/4" />
+                            <div className="h-3 bg-muted rounded w-1/2" />
                           </div>
-                          <p className="text-xs text-muted-foreground mt-1 line-clamp-2">
-                            {vocab.description}
-                          </p>
                         </div>
-                        {shareCode === vocab.code && (
-                          <CheckIcon className="size-4 sm:size-5 text-primary flex-shrink-0 mt-1 sm:mt-0" />
-                        )}
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              ) : defaultVocabularies.error ? (
+                <Card className="border-destructive/50 bg-destructive/5">
+                  <CardContent className="p-2 sm:p-3">
+                    <p className="text-xs sm:text-sm text-destructive">{defaultVocabularies.error}</p>
+                  </CardContent>
+                </Card>
+              ) : defaultVocabularies.data.length === 0 ? (
+                <Card>
+                  <CardContent className="p-2 sm:p-3">
+                    <p className="text-xs sm:text-sm text-muted-foreground text-center">暂无默认词库</p>
+                  </CardContent>
+                </Card>
+              ) : (
+                <div className="grid gap-2">
+                  {defaultVocabularies.data.map((vocab: DefaultVocabulary) => (
+                    <Card
+                      key={vocab.id}
+                      className={cn(
+                        "cursor-pointer transition-all hover:bg-muted/50",
+                        shareCode === vocab.code && "bg-muted border-primary"
+                      )}
+                      onClick={() => handleSelectDefaultVocabulary(vocab)}
+                    >
+                      <CardContent className="p-2 sm:p-3">
+                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 sm:gap-0">
+                          <div className="flex-1 min-w-0">
+                            <div className="flex flex-col sm:flex-row sm:items-center sm:gap-2 gap-1">
+                              <span className="font-medium text-sm sm:text-base truncate">{vocab.name}</span>
+                              <Badge variant="secondary" className="w-fit text-xs">
+                                {vocab.wordCount} 词
+                              </Badge>
+                            </div>
+                            <p className="text-xs text-muted-foreground mt-1 line-clamp-2">
+                              {vocab.description}
+                            </p>
+                          </div>
+                          {shareCode === vocab.code && (
+                            <CheckIcon className="size-4 sm:size-5 text-primary flex-shrink-0 mt-1 sm:mt-0" />
+                          )}
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              )}
             </div>
 
             <div className="relative py-2">

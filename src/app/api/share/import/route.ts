@@ -135,80 +135,83 @@ export async function POST(req: Request) {
 
     let imported = 0;
     let skipped = 0;
-    const batchSize = 100;
+    const batchSize = 50;
+    const maxTimeout = 30000;
 
     try {
-      await prisma.$executeRaw`PRAGMA synchronous = OFF`;
-      await prisma.$executeRaw`PRAGMA journal_mode = MEMORY`;
+      for (let i = 0; i < words.length; i += batchSize) {
+        const batch = words.slice(i, i + batchSize);
 
-      await prisma.$transaction(async (tx) => {
-        for (let i = 0; i < words.length; i += batchSize) {
-          const batch = words.slice(i, i + batchSize);
-
+        await prisma.$transaction(async (tx) => {
           for (const wordData of batch) {
-            const normalizedWord = wordData.word.toLowerCase().trim();
+            try {
+              const normalizedWord = wordData.word.toLowerCase().trim();
 
-            if (skipExisting) {
-              const existing = await tx.word.findUnique({
-                where: {
-                  word_userId: {
-                    word: normalizedWord,
-                    userId
+              if (skipExisting) {
+                const existing = await tx.word.findUnique({
+                  where: {
+                    word_userId: {
+                      word: normalizedWord,
+                      userId
+                    }
                   }
+                });
+
+                if (existing) {
+                  skipped++;
+                  continue;
+                }
+              }
+
+              const word = await tx.word.create({
+                data: {
+                  word: normalizedWord,
+                  phonetic: wordData.phonetic,
+                  pos: wordData.pos,
+                  translation: wordData.translation,
+                  example: wordData.example,
+                  exampleTranslation: wordData.exampleTranslation,
+                  userId
                 }
               });
 
-              if (existing) {
+              await tx.reviewGroupWord.create({
+                data: {
+                  reviewGroupId: targetGroupIdToUse,
+                  wordId: word.id
+                }
+              });
+
+              imported++;
+            } catch (wordError: any) {
+              if (wordError.code === 'P2002') {
                 skipped++;
                 continue;
               }
+              throw wordError;
             }
-
-            const word = await tx.word.create({
-              data: {
-                word: normalizedWord,
-                phonetic: wordData.phonetic,
-                pos: wordData.pos,
-                translation: wordData.translation,
-                example: wordData.example,
-                exampleTranslation: wordData.exampleTranslation,
-                userId
-              }
-            });
-
-            await tx.reviewGroupWord.create({
-              data: {
-                reviewGroupId: targetGroupIdToUse,
-                wordId: word.id
-              }
-            });
-
-            imported++;
           }
+        }, { timeout: maxTimeout });
+      }
+
+      await prisma.sharedVocabulary.update({
+        where: { id: share.id },
+        data: {
+          usedCount: { increment: 1 },
+          importedCount: { increment: imported }
         }
-
-        await prisma.sharedVocabulary.update({
-          where: { id: share.id },
-          data: {
-            usedCount: { increment: 1 },
-            importedCount: { increment: 1 }
-          }
-        });
-
-        await prisma.sharedVocabularyImport.create({
-          data: {
-            sharedId: share.id,
-            importerId: userId,
-            wordsImported: imported,
-            wordsSkipped: skipped,
-            targetGroupId: targetGroupIdToUse,
-            skipExisting
-          }
-        });
       });
 
-      await prisma.$executeRaw`PRAGMA synchronous = FULL`;
-      await prisma.$executeRaw`PRAGMA journal_mode = DELETE`;
+      await prisma.sharedVocabularyImport.create({
+        data: {
+          sharedId: share.id,
+          importerId: userId,
+          wordsImported: imported,
+          wordsSkipped: skipped,
+          targetGroupId: targetGroupIdToUse,
+          skipExisting
+        }
+      });
 
       return NextResponse.json({
         success: true,
@@ -221,17 +224,84 @@ export async function POST(req: Request) {
         }
       });
     } catch (transactionError: any) {
-      await prisma.$executeRaw`PRAGMA synchronous = FULL`;
-      await prisma.$executeRaw`PRAGMA journal_mode = DELETE`;
-      throw transactionError;
+      // 记录详细错误信息
+      console.error('Transaction error:', transactionError);
+      
+      // 根据错误类型返回具体的错误信息
+      let errorMessage = '导入过程中发生错误';
+      let errorCode = 'IMPORT_FAILED';
+      let suggestion = '请检查网络连接后重试';
+      
+      if (transactionError.code === 'SQLITE_CONSTRAINT') {
+        errorMessage = '数据约束冲突：部分词汇已存在于您的词库中';
+        errorCode = 'DATA_CONSTRAINT';
+        suggestion = '系统已自动跳过重复词汇，如仍有问题请清空目标分组后重试';
+      } else if (transactionError.code === 'SQLITE_FULL') {
+        errorMessage = '存储空间不足：无法写入更多词汇数据';
+        errorCode = 'STORAGE_FULL';
+        suggestion = '请清理部分不需要的词汇或联系管理员增加存储配额';
+      } else if (transactionError.message?.includes('timeout')) {
+        errorMessage = '数据库操作超时：词汇量较大，处理时间超过限制';
+        errorCode = 'TIMEOUT';
+        suggestion = '系统已自动采用分批处理策略（每批 50 个词汇），如仍超时建议：1) 联系分享者拆分词库 2) 选择词汇数较少的词库 3) 稍后重试';
+      } else if (transactionError.message?.includes('connection')) {
+        errorMessage = '数据库连接失败：无法访问词汇数据';
+        errorCode = 'CONNECTION_ERROR';
+        suggestion = '请检查数据库连接状态或刷新页面后重试';
+      }
+      
+      return NextResponse.json(
+        { 
+          success: false, 
+          error: errorCode, 
+          message: errorMessage,
+          details: transactionError.message,
+          suggestion: suggestion,
+          step: '词汇导入阶段'
+        },
+        { status: 500 }
+      );
     }
   } catch (error: any) {
+    // 根据错误类型返回具体的错误信息
     if (error.code === 'P2002') {
-      return createErrorResponse('数据已存在', 409);
+      return NextResponse.json(
+        { 
+          success: false, 
+          error: 'DUPLICATE_DATA',
+          message: '数据已存在：该词汇库已被导入过',
+          suggestion: '每个用户只能导入同一个分享密钥一次。如需重新导入，请先删除已导入的词库',
+          step: '导入验证阶段'
+        },
+        { status: 409 }
+      );
     }
     if (error.code === 'P2025') {
-      return createErrorResponse('记录不存在', 404);
+      return NextResponse.json(
+        { 
+          success: false, 
+          error: 'NOT_FOUND',
+          message: '记录不存在：分享密钥对应的词库未找到',
+          suggestion: '请检查密钥是否正确，或确认该分享密钥是否仍然有效',
+          step: '密钥验证阶段'
+        },
+        { status: 404 }
+      );
     }
+    if (error.code === 'P2003') {
+      return NextResponse.json(
+        { 
+          success: false, 
+          error: 'FOREIGN_KEY_ERROR',
+          message: '分组关联失败：目标分组不存在或已被删除',
+          suggestion: '请尝试创建新分组或选择其他现有分组',
+          step: '分组创建阶段'
+        },
+        { status: 400 }
+      );
+    }
+    
+    // 通用错误处理
     return handleApiError(error, 'share/import POST');
   }
 }
