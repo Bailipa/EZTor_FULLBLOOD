@@ -2,6 +2,8 @@ interface CacheEntry<T> {
   data: T;
   timestamp: number;
   expiresAt: number;
+  prev: string | null;
+  next: string | null;
 }
 
 interface CacheStats {
@@ -17,7 +19,9 @@ const CLEANUP_THRESHOLD = 0.8;
 
 class TranslationCache {
   private cache: Map<string, CacheEntry<unknown>> = new Map();
-  private accessOrder: string[] = [];
+  private head: string | null = null;
+  private tail: string | null = null;
+  private totalSize: number = 0;
 
   set<T>(key: string, data: T, ttl: number = DEFAULT_TTL): void {
     if (this.cache.size >= MAX_CACHE_ENTRIES) {
@@ -25,14 +29,25 @@ class TranslationCache {
     }
 
     const now = Date.now();
-    this.cache.set(key, {
+    const entrySize = JSON.stringify(data).length;
+
+    if (this.cache.has(key)) {
+      const oldEntry = this.cache.get(key)!;
+      this.totalSize -= JSON.stringify(oldEntry.data).length;
+      this.removeFromList(key);
+    }
+
+    const newEntry: CacheEntry<unknown> = {
       data,
       timestamp: now,
-      expiresAt: now + ttl
-    });
+      expiresAt: now + ttl,
+      prev: null,
+      next: null
+    };
 
-    this.accessOrder = this.accessOrder.filter(k => k !== key);
-    this.accessOrder.push(key);
+    this.cache.set(key, newEntry);
+    this.addToHead(key);
+    this.totalSize += entrySize;
 
     if (this.cache.size > MAX_CACHE_ENTRIES * CLEANUP_THRESHOLD) {
       this.cleanup();
@@ -48,8 +63,8 @@ class TranslationCache {
       return null;
     }
 
-    this.accessOrder = this.accessOrder.filter(k => k !== key);
-    this.accessOrder.push(key);
+    this.removeFromList(key);
+    this.addToHead(key);
 
     return entry.data as T;
   }
@@ -67,51 +82,107 @@ class TranslationCache {
   }
 
   delete(key: string): boolean {
-    this.accessOrder = this.accessOrder.filter(k => k !== key);
-    return this.cache.delete(key);
+    if (!this.cache.has(key)) return false;
+
+    const entry = this.cache.get(key)!;
+    this.totalSize -= JSON.stringify(entry.data).length;
+    this.removeFromList(key);
+    this.cache.delete(key);
+
+    return true;
   }
 
   clear(): void {
     this.cache.clear();
-    this.accessOrder = [];
+    this.head = null;
+    this.tail = null;
+    this.totalSize = 0;
   }
 
   cleanup(): number {
     const now = Date.now();
     let removed = 0;
+    const keysToDelete: string[] = [];
 
     for (const [key, entry] of this.cache.entries()) {
       if (now > entry.expiresAt) {
-        this.delete(key);
-        removed++;
+        keysToDelete.push(key);
       }
+    }
+
+    for (const key of keysToDelete) {
+      this.delete(key);
+      removed++;
     }
 
     return removed;
   }
 
   private evictOldest(count: number): void {
-    const toEvict = this.accessOrder.slice(0, count);
-    for (const key of toEvict) {
-      this.cache.delete(key);
+    let current = this.tail;
+    let evicted = 0;
+
+    while (current && evicted < count) {
+      const nextTail = this.cache.get(current)?.prev;
+      this.delete(current);
+      current = nextTail;
+      evicted++;
     }
-    this.accessOrder = this.accessOrder.slice(count);
+  }
+
+  private addToHead(key: string): void {
+    const entry = this.cache.get(key)!;
+    
+    if (this.head) {
+      const headEntry = this.cache.get(this.head)!;
+      headEntry.prev = key;
+      entry.next = this.head;
+    }
+    
+    this.head = key;
+    
+    if (!this.tail) {
+      this.tail = key;
+    }
+  }
+
+  private removeFromList(key: string): void {
+    const entry = this.cache.get(key)!;
+    const { prev, next } = entry;
+
+    if (prev) {
+      const prevEntry = this.cache.get(prev)!;
+      prevEntry.next = next;
+    } else {
+      this.head = next;
+    }
+
+    if (next) {
+      const nextEntry = this.cache.get(next)!;
+      nextEntry.prev = prev;
+    } else {
+      this.tail = prev;
+    }
+
+    entry.prev = null;
+    entry.next = null;
   }
 
   getStats(): CacheStats {
     let oldest: number | null = null;
     let newest: number | null = null;
-    let totalSize = 0;
 
-    for (const entry of this.cache.values()) {
-      if (oldest === null || entry.timestamp < oldest) oldest = entry.timestamp;
-      if (newest === null || entry.timestamp > newest) newest = entry.timestamp;
-      totalSize += JSON.stringify(entry.data).length;
+    if (this.tail) {
+      oldest = this.cache.get(this.tail)?.timestamp || null;
+    }
+
+    if (this.head) {
+      newest = this.cache.get(this.head)?.timestamp || null;
     }
 
     return {
       totalEntries: this.cache.size,
-      totalSize,
+      totalSize: this.totalSize,
       oldestEntry: oldest,
       newestEntry: newest
     };
@@ -120,12 +191,17 @@ class TranslationCache {
   pruneByAge(maxAge: number): number {
     const cutoff = Date.now() - maxAge;
     let removed = 0;
+    const keysToDelete: string[] = [];
 
     for (const [key, entry] of this.cache.entries()) {
       if (entry.timestamp < cutoff) {
-        this.delete(key);
-        removed++;
+        keysToDelete.push(key);
       }
+    }
+
+    for (const key of keysToDelete) {
+      this.delete(key);
+      removed++;
     }
 
     return removed;
