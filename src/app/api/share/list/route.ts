@@ -24,7 +24,7 @@ export async function GET() {
         deletedAt: null, // Only non-deleted shares
       },
       include: {
-        reviewGroup: {
+        ReviewGroup: {
           select: {
             name: true,
           },
@@ -40,7 +40,7 @@ export async function GET() {
       id: share.id,
       code: share.code,
       name: share.name,
-      reviewGroupName: share.reviewGroup.name,
+      reviewGroupName: share.ReviewGroup.name,
       reviewGroupId: share.reviewGroupId,
       wordCount: share.wordCount,
       usedCount: share.usedCount,

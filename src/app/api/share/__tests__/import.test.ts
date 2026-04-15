@@ -67,10 +67,10 @@ describe('Share Import API', () => {
     usedCount: 0,
     maxUses: null,
     expiresAt: null,
-    reviewGroup: {
-      words: [
+    ReviewGroup: {
+      ReviewGroupWord: [
         {
-          word: {
+          Word: {
             word: 'test',
             phonetic: '/test/',
             pos: 'n.',
@@ -657,6 +657,27 @@ describe('Share Import API', () => {
         name: 'Test Group',
         userId: mockUserId,
       });
+    });
+
+    it('should handle Prisma relation query errors gracefully', async () => {
+      vi.mocked(prisma.sharedVocabulary.findUnique).mockRejectedValue(
+        new Error('Prisma client could not find relation reviewGroup')
+      );
+
+      const req = new Request('http://localhost/api/share/import', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          code: validShareCode,
+          customName: 'Test Group',
+        }),
+      });
+
+      const response = await POST(req);
+      const data = await response.json();
+
+      expect(response.status).toBe(500);
+      expect(data.success).toBe(false);
     });
 
     it('should rollback on transaction failure', async () => {

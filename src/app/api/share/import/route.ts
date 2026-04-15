@@ -91,11 +91,11 @@ export async function POST(req: Request) {
     const share = await prisma.sharedVocabulary.findUnique({
       where: { code },
       include: {
-        reviewGroup: {
+        ReviewGroup: {
           include: {
-            words: {
+            ReviewGroupWord: {
               include: {
-                word: true
+                Word: true
               }
             }
           }
@@ -213,13 +213,13 @@ export async function POST(req: Request) {
 
     push(JSON.stringify({ progress: 10, step: '准备词库数据' }));
     
-    const words: WordData[] = share.reviewGroup.words.map((rgw) => ({
-      word: rgw.word.word,
-      phonetic: rgw.word.phonetic,
-      pos: rgw.word.pos,
-      translation: rgw.word.translation,
-      example: rgw.word.example,
-      exampleTranslation: rgw.word.exampleTranslation
+    const words: WordData[] = share.ReviewGroup.ReviewGroupWord.map((rgw: any) => ({
+      word: rgw.Word.word,
+      phonetic: rgw.Word.phonetic,
+      pos: rgw.Word.pos,
+      translation: rgw.Word.translation,
+      example: rgw.Word.example,
+      exampleTranslation: rgw.Word.exampleTranslation
     }));
 
     let targetGroupIdToUse: string = targetGroupId;
@@ -371,7 +371,7 @@ export async function POST(req: Request) {
       const newWords = await prisma.word.findMany({
         where: {
           userId,
-          reviewGroupWords: {
+          ReviewGroupWord: {
             some: {
               reviewGroupId: targetGroupIdToUse
             }

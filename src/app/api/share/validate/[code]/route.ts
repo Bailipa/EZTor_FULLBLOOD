@@ -33,12 +33,12 @@ export async function GET(
     const share = await prisma.sharedVocabulary.findUnique({
       where: { code },
       include: {
-        user: {
+        User: {
           select: {
             username: true
           }
         },
-        reviewGroup: {
+        ReviewGroup: {
           select: {
             name: true
           }
@@ -144,7 +144,7 @@ export async function GET(
         expiresAt: share.expiresAt?.toISOString() || null,
         maxUses: share.maxUses,
         usedCount: share.usedCount,
-        creator: share.user.username
+        creator: share.User.username
       }
     });
   } catch (error: any) {

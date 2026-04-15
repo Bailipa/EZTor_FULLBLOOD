@@ -45,7 +45,7 @@ export async function GET(
     const imports = await prisma.sharedVocabularyImport.findMany({
       where: { sharedId: id },
       include: {
-        importer: {
+        User: {
           select: {
             username: true,
           },
@@ -71,7 +71,7 @@ export async function GET(
 
     // Transform import data
     const transformedImports = imports.map((imp) => ({
-      importerName: imp.importer.username,
+      importerName: imp.User.username,
       importedAt: imp.createdAt.toISOString(),
       wordsImported: imp.wordsImported,
       wordsSkipped: imp.wordsSkipped,
