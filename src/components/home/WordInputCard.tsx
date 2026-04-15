@@ -147,38 +147,25 @@ export function WordInputCard({
 
     setPendingWords(words);
     
+    // 批量处理固定结果，不使用 setTimeout
+    const fixedResultsMap = new Map<string, WordResult>();
+    fixedResults.forEach(result => {
+      fixedResultsMap.set(result.word.toLowerCase(), result);
+    });
+
     // 按照输入顺序处理固定结果
-    for (const word of words) {
-      const fixedResult = fixedResults.find(r => r.word === word);
+    const initialResults: WordResult[] = [];
+    words.forEach(word => {
+      const fixedResult = fixedResultsMap.get(word.toLowerCase());
       if (fixedResult) {
-        await new Promise(resolve => setTimeout(resolve, 300));
-        setResults(prev => {
-          // 确保按照输入顺序添加结果
-          const mergedMap = new Map<string, WordResult>();
-          prev.forEach((p) => mergedMap.set(p.word.toLowerCase(), p));
-          mergedMap.set(fixedResult.word.toLowerCase(), fixedResult);
-          
-          // 按照原始输入顺序排序
-          const orderedResults: WordResult[] = [];
-          words.forEach(word => {
-            const wordLower = word.toLowerCase();
-            if (mergedMap.has(wordLower)) {
-              orderedResults.push(mergedMap.get(wordLower)!);
-            }
-          });
-          
-          // 处理剩下的结果
-          mergedMap.forEach((result, key) => {
-            if (!words.some(word => word.toLowerCase() === key)) {
-              orderedResults.push(result);
-            }
-          });
-          
-          return orderedResults;
-        });
-        setPendingWords(prev => prev.filter(w => w !== fixedResult.word));
-        setCompletedCount(prev => prev + 1);
+        initialResults.push(fixedResult);
       }
+    });
+
+    if (initialResults.length > 0) {
+      setResults(initialResults);
+      setPendingWords(prev => prev.filter(w => !fixedResultsMap.has(w.toLowerCase())));
+      setCompletedCount(initialResults.length);
     }
 
     if (normalWords.length === 0) {
@@ -292,6 +279,11 @@ export function WordInputCard({
               resultMap.set(result.word.toLowerCase(), result);
             });
             
+            // 批量处理新结果，不使用 setTimeout
+            const newResults: WordResult[] = [];
+            const wordsToRemove: string[] = [];
+            const newFlyingWords: FlyingWord[] = [];
+            
             // 按照原始输入顺序处理结果，包括缓存结果和大模型结果
             for (const word of words) {
               const normalizedWord = word.toLowerCase();
@@ -309,54 +301,59 @@ export function WordInputCard({
                 const targetX = window.innerWidth - 100;
                 const targetY = window.innerHeight - 100;
                 
-                setFlyingWords(prev => [...prev, { 
+                newFlyingWords.push({ 
                   word: result.word, 
                   id: wordId, 
                   startX, 
                   startY,
                   targetX,
                   targetY
-                }]);
-                
-                await new Promise(resolve => setTimeout(resolve, 100));
-                
-                setPendingWords((prevPending) => 
-                  prevPending.filter((pw) => pw.toLowerCase() !== normalizedWord)
-                );
-                
-                await new Promise(resolve => setTimeout(resolve, 800));
-                
-                setResults((prev) => {
-                  // 先将所有结果放入map中
-                  const mergedMap = new Map<string, WordResult>();
-                  prev.forEach((p) => mergedMap.set(p.word.toLowerCase(), p));
-                  mergedMap.set(normalizedWord, result);
-                  
-                  // 按照原始输入顺序排序
-                  const orderedResults: WordResult[] = [];
-                  words.forEach(word => {
-                    const wordLower = word.toLowerCase();
-                    if (mergedMap.has(wordLower)) {
-                      orderedResults.push(mergedMap.get(wordLower)!);
-                    }
-                  });
-                  
-                  // 处理剩下的结果
-                  mergedMap.forEach((result, key) => {
-                    if (!words.some(word => word.toLowerCase() === key)) {
-                      orderedResults.push(result);
-                    }
-                  });
-                  
-                  return orderedResults;
                 });
                 
-                setCompletedCount(prev => prev + 1);
-                
-                setFlyingWords(prev => prev.filter(fw => fw.id !== wordId));
-                
-                await new Promise(resolve => setTimeout(resolve, 300));
+                newResults.push(result);
+                wordsToRemove.push(word);
               }
+            }
+            
+            // 批量更新状态
+            if (newResults.length > 0) {
+              setFlyingWords(prev => [...prev, ...newFlyingWords]);
+              setPendingWords(prev => prev.filter(w => !wordsToRemove.includes(w)));
+              
+              // 批量更新结果
+              setResults(prev => {
+                // 先将所有结果放入map中
+                const mergedMap = new Map<string, WordResult>();
+                prev.forEach((p) => mergedMap.set(p.word.toLowerCase(), p));
+                newResults.forEach(result => {
+                  mergedMap.set(result.word.toLowerCase(), result);
+                });
+                
+                // 按照原始输入顺序排序
+                const orderedResults: WordResult[] = [];
+                words.forEach(word => {
+                  const wordLower = word.toLowerCase();
+                  if (mergedMap.has(wordLower)) {
+                    orderedResults.push(mergedMap.get(wordLower)!);
+                  }
+                });
+                
+                // 处理剩下的结果
+                mergedMap.forEach((result, key) => {
+                  if (!words.some(word => word.toLowerCase() === key)) {
+                    orderedResults.push(result);
+                  }
+                });
+                
+                return orderedResults;
+              });
+              
+              setCompletedCount(prev => prev + newResults.length);
+              
+              // 动画结束后自动移除飞行动画元素
+              setTimeout(() => {
+                setFlyingWords(prev => prev.filter(fw => !newFlyingWords.some(nfw => nfw.id === fw.id)));
+              }, 1500);
             }
           }
         }
