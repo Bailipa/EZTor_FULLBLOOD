@@ -64,8 +64,10 @@ export const authOptions: NextAuthOptions = {
           try {
             const newUser = await prisma.user.create({
               data: {
+                id: crypto.randomUUID(),
                 username: normalizedUsername,
                 password: hashedPassword,
+                updatedAt: new Date(),
               }
             });
             return { id: newUser.id, name: newUser.username, isAdmin: newUser.isAdmin };

@@ -1,4 +1,5 @@
 import { Readable } from 'stream';
+import { randomUUID } from 'crypto';
 import prisma from '@/lib/prisma';
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
@@ -262,8 +263,10 @@ export async function POST(req: Request) {
       push(JSON.stringify({ progress: 20, step: '创建新分组' }));
       const newGroup = await prisma.reviewGroup.create({
         data: {
+          id: randomUUID(),
           name: customName.trim(),
-          userId
+          userId,
+          updatedAt: new Date(),
         }
       });
       targetGroupIdToUse = newGroup.id;
@@ -310,6 +313,24 @@ export async function POST(req: Request) {
                 });
 
                 if (existing) {
+                  const existingLink = await tx.reviewGroupWord.findUnique({
+                    where: {
+                      reviewGroupId_wordId: {
+                        reviewGroupId: targetGroupIdToUse,
+                        wordId: existing.id
+                      }
+                    }
+                  });
+
+                  if (!existingLink) {
+                    await tx.reviewGroupWord.create({
+                      data: {
+                        id: randomUUID(),
+                        reviewGroupId: targetGroupIdToUse,
+                        wordId: existing.id,
+                      }
+                    });
+                  }
                   skipped++;
                   continue;
                 }
@@ -317,20 +338,23 @@ export async function POST(req: Request) {
 
               const word = await tx.word.create({
                 data: {
+                  id: randomUUID(),
                   word: normalizedWord,
                   phonetic: wordData.phonetic,
                   pos: wordData.pos,
                   translation: wordData.translation,
                   example: wordData.example,
                   exampleTranslation: wordData.exampleTranslation,
-                  userId
+                  userId,
+                  updatedAt: new Date(),
                 }
               });
 
               await tx.reviewGroupWord.create({
                 data: {
+                  id: randomUUID(),
                   reviewGroupId: targetGroupIdToUse,
-                  wordId: word.id
+                  wordId: word.id,
                 }
               });
 
@@ -358,6 +382,7 @@ export async function POST(req: Request) {
 
       await prisma.sharedVocabularyImport.create({
         data: {
+          id: randomUUID(),
           sharedId: share.id,
           importerId: userId,
           wordsImported: imported,

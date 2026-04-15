@@ -70,8 +70,10 @@ export const authOptions: NextAuthOptions = {
           const hashedPassword = await bcrypt.hash(credentials.password, 10);
           const newUser = await prisma.user.create({
             data: {
+              id: crypto.randomUUID(),
               username: normalizedUsername,
               password: hashedPassword,
+              updatedAt: new Date(),
             }
           });
           return { id: newUser.id, name: newUser.username, isAdmin: newUser.isAdmin };

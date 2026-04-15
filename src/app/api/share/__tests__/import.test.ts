@@ -39,6 +39,7 @@ vi.mock('@/lib/prisma', () => {
     },
     reviewGroupWord: {
       create: vi.fn().mockResolvedValue({}),
+      findUnique: vi.fn().mockResolvedValue(null),
     },
     $executeRaw: vi.fn(),
     $transaction: vi.fn(async (fn) => {
@@ -442,8 +443,10 @@ describe('Share Import API', () => {
       expect(data.success).toBe(true);
       expect(prisma.reviewGroup.create).toHaveBeenCalledWith({
         data: {
+          id: expect.any(String),
           name: 'Test Group',
           userId: mockUserId,
+          updatedAt: expect.any(Date),
         },
       });
     });
@@ -547,18 +550,22 @@ describe('Share Import API', () => {
 
   describe('Import Process', () => {
     beforeEach(() => {
-      vi.mocked(prisma.sharedVocabulary.findUnique).mockResolvedValue(mockShare);
+      vi.mocked(prisma.sharedVocabulary.findUnique).mockResolvedValue(mockShare as any);
       vi.mocked(prisma.sharedVocabularyImport.findUnique).mockResolvedValue(null);
       vi.mocked(prisma.reviewGroup.create).mockResolvedValue({
         id: 'new-group-1',
         name: 'Test Group',
         userId: mockUserId,
-      });
-      vi.mocked(prisma.word.create).mockResolvedValue({ id: 'new-word-1' });
-      vi.mocked(prisma.reviewGroupWord.create).mockResolvedValue({});
-      vi.mocked(prisma.sharedVocabulary.update).mockResolvedValue({});
-      vi.mocked(prisma.sharedVocabularyImport.create).mockResolvedValue({});
+      } as any);
+      vi.mocked(prisma.word.create).mockResolvedValue({ id: 'new-word-1' } as any);
+      vi.mocked(prisma.reviewGroupWord.create).mockResolvedValue({} as any);
+      vi.mocked(prisma.reviewGroupWord.findUnique).mockResolvedValue(null);
+      vi.mocked(prisma.sharedVocabulary.update).mockResolvedValue({} as any);
+      vi.mocked(prisma.sharedVocabularyImport.create).mockResolvedValue({} as any);
       vi.mocked(prisma.word.findMany).mockResolvedValue([]);
+      vi.mocked(prisma.$transaction).mockImplementation(async (fn: any) => {
+        return await fn(prisma);
+      });
     });
 
     it('should successfully import words', async () => {
@@ -582,11 +589,12 @@ describe('Share Import API', () => {
       expect(data.data).toHaveProperty('groupName');
     });
 
-    it('should skip existing words when skipExisting is true', async () => {
+    it('should skip existing words but still link them to the target group when skipExisting is true', async () => {
       vi.mocked(prisma.word.findUnique).mockResolvedValue({
         id: 'existing-word-1',
         word: 'test',
-      });
+      } as any);
+      vi.mocked(prisma.reviewGroupWord.findUnique).mockResolvedValue(null);
       
       const req = new Request('http://localhost/api/share/import', {
         method: 'POST',
@@ -603,6 +611,43 @@ describe('Share Import API', () => {
 
       expect(response.status).toBe(200);
       expect(data.success).toBe(true);
+      expect(data.data.wordsSkipped).toBe(1);
+      expect(prisma.reviewGroupWord.create).toHaveBeenCalledWith({
+        data: expect.objectContaining({
+          reviewGroupId: 'new-group-1',
+          wordId: 'existing-word-1',
+        }),
+      });
+    });
+
+    it('should not create ReviewGroupWord when word already exists in target group', async () => {
+      vi.mocked(prisma.word.findUnique).mockResolvedValue({
+        id: 'existing-word-1',
+        word: 'test',
+      } as any);
+      vi.mocked(prisma.reviewGroupWord.findUnique).mockResolvedValue({
+        id: 'existing-link-1',
+        reviewGroupId: 'new-group-1',
+        wordId: 'existing-word-1',
+      } as any);
+      
+      const req = new Request('http://localhost/api/share/import', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          code: validShareCode,
+          customName: 'Test Group',
+          skipExisting: true,
+        }),
+      });
+
+      const response = await POST(req);
+      const data = await response.json();
+
+      expect(response.status).toBe(200);
+      expect(data.success).toBe(true);
+      expect(data.data.wordsSkipped).toBe(1);
+      expect(prisma.reviewGroupWord.create).not.toHaveBeenCalled();
     });
 
     it('should update share usage count after successful import', async () => {
@@ -620,8 +665,8 @@ describe('Share Import API', () => {
       expect(prisma.sharedVocabulary.update).toHaveBeenCalledWith({
         where: { id: mockShare.id },
         data: {
+          importedCount: { increment: 1 },
           usedCount: { increment: 1 },
-          importedCount: { increment: 0 },
         },
       });
     });

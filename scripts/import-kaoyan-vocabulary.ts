@@ -80,7 +80,7 @@ function loadECDICT(filePath: string, filterTag: string): Map<string, ECDICTEntr
   });
 
   const result = new Map<string, ECDICTEntry>();
-  for (const row of records) {
+  for (const row of records as any[]) {
     const tag = row.tag || '';
     if (!tag.includes(filterTag)) continue;
     const word = (row.word || '').trim().toLowerCase();
@@ -230,6 +230,7 @@ async function importKaoyanVocabulary(
         username: 'system',
         password: 'system_password_not_for_login',
         isAdmin: true,
+        updatedAt: new Date(),
       },
     });
     console.log('  Created system user');

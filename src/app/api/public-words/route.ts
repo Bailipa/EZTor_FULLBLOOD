@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { randomUUID } from 'crypto';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import prisma from '@/lib/prisma';
@@ -243,13 +244,15 @@ export async function POST(req: NextRequest) {
 
     const created = await prisma.publicWord.create({
       data: {
+        id: randomUUID(),
         word: word.toLowerCase().trim(),
         phonetic: phonetic || null,
         pos: pos || null,
         translation,
         example: example || null,
         exampleTranslation: exampleTranslation || null,
-        qualityScore: qualityScore !== undefined ? Math.max(0, Math.min(100, qualityScore)) : 0
+        qualityScore: qualityScore !== undefined ? Math.max(0, Math.min(100, qualityScore)) : 0,
+        updatedAt: new Date(),
       }
     });
 

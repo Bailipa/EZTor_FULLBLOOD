@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { randomUUID } from 'crypto';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import prisma from '@/lib/prisma';
@@ -174,6 +175,7 @@ export async function POST(req: NextRequest) {
 
     const record = await prisma.translationRecord.create({
       data: {
+        id: randomUUID(),
         userId,
         word: word.toLowerCase().trim(),
         phonetic: phonetic || null,

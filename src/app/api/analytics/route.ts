@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { randomUUID } from 'crypto';
 import prisma from '@/lib/prisma';
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from '../auth/[...nextauth]/route';
@@ -85,6 +86,7 @@ export async function POST(req: Request) {
 
     await (prisma as any).analyticsEvent.create({
       data: {
+        id: randomUUID(),
         eventType,
         userId: session?.user?.id || null,
         sessionId,

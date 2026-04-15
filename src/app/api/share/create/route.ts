@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { randomUUID } from 'crypto';
 import prisma from '@/lib/prisma';
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
@@ -70,6 +71,7 @@ export async function POST(req: Request) {
 
     const sharedVocabulary = await prisma.sharedVocabulary.create({
       data: {
+        id: randomUUID(),
         code,
         name: sanitizedName,
         description: sanitizedDescription,
@@ -83,7 +85,8 @@ export async function POST(req: Request) {
         isActive: true,
         importedCount: 0,
         viewCount: 0,
-        version: 1
+        version: 1,
+        updatedAt: new Date(),
       }
     });
 

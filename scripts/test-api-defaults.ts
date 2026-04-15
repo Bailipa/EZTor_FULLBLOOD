@@ -27,7 +27,7 @@ async function testAPI() {
         sortOrder: 'asc'
       },
       include: {
-        reviewGroup: {
+        ReviewGroup: {
           select: {
             name: true,
           }
@@ -37,7 +37,6 @@ async function testAPI() {
     
     console.log(`   找到 ${defaults.length} 个默认词库\n`);
     
-    // 3. 转换数据
     const transformedData = defaults.map((d) => ({
       id: d.id,
       name: d.name,
@@ -45,7 +44,7 @@ async function testAPI() {
       code: d.code,
       wordCount: d.wordCount,
       sortOrder: d.sortOrder,
-      groupName: d.reviewGroup.name,
+      groupName: d.ReviewGroup.name,
     }));
     
     // 4. 显示响应

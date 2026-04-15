@@ -5,6 +5,7 @@
  */
 
 import { PrismaClient } from '@prisma/client';
+import { randomUUID } from 'crypto';
 import * as fs from 'fs';
 import * as path from 'path';
 
@@ -136,19 +137,22 @@ async function batchImportWords(
             // 创建单词
             const word = await tx.word.create({
               data: {
+                id: randomUUID(),
                 word: normalizedWord,
                 phonetic,
                 pos,
                 translation,
                 example,
                 exampleTranslation,
-                userId
+                userId,
+                updatedAt: new Date(),
               }
             });
             
             // 创建分组关联
             await tx.reviewGroupWord.create({
               data: {
+                id: randomUUID(),
                 reviewGroupId: groupId,
                 wordId: word.id
               }
@@ -195,9 +199,11 @@ async function main() {
     console.log('📝 创建系统用户...');
     systemUser = await prisma.user.create({
       data: {
+        id: randomUUID(),
         username: 'system',
         password: 'system_password_not_for_login',
         isAdmin: true,
+        updatedAt: new Date(),
       }
     });
     console.log('✅ 系统用户创建成功\n');
@@ -250,8 +256,10 @@ async function main() {
         console.log(`  📝 创建复习分组：${config.groupName}`);
         reviewGroup = await prisma.reviewGroup.create({
           data: {
+            id: randomUUID(),
             name: config.groupName,
             userId: systemUser.id,
+            updatedAt: new Date(),
           }
         });
         console.log(`  ✅ 分组创建成功 (ID: ${reviewGroup.id})`);
@@ -313,6 +321,7 @@ async function main() {
         
         const sharedVocab = await prisma.sharedVocabulary.create({
           data: {
+            id: randomUUID(),
             code: shareCode,
             name: config.name,
             description: config.description,
@@ -323,6 +332,7 @@ async function main() {
             maxUses: null,
             expiresAt: null,
             isActive: true,
+            updatedAt: new Date(),
           }
         });
         
@@ -354,6 +364,7 @@ async function main() {
         console.log(`  📝 创建默认词库配置...`);
         await prisma.defaultVocabulary.create({
           data: {
+            id: randomUUID(),
             name: config.name,
             code: shareCode,
             description: config.description,
@@ -361,6 +372,7 @@ async function main() {
             wordCount: imported,
             isActive: true,
             sortOrder: config.sortOrder,
+            updatedAt: new Date(),
           }
         });
       }
@@ -381,7 +393,7 @@ async function main() {
     where: { isActive: true },
     orderBy: { sortOrder: 'asc' },
     include: {
-      reviewGroup: true
+      ReviewGroup: true
     }
   });
   
@@ -392,7 +404,7 @@ async function main() {
     console.log(`   描述：${d.description || '无'}`);
     console.log(`   词汇数：${d.wordCount}`);
     console.log(`   密钥：${d.code}`);
-    console.log(`   分组：${d.reviewGroup.name}`);
+    console.log(`   分组：${d.ReviewGroup.name}`);
     console.log('─'.repeat(80));
   });
   

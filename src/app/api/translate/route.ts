@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { randomUUID } from 'crypto';
 import prisma from '@/lib/prisma';
 import { Prisma } from '@prisma/client';
 import { getServerSession } from "next-auth/next";
@@ -43,6 +44,7 @@ async function safeRecordTranslation(
     
     await prisma.translationRecord.create({
       data: {
+        id: randomUUID(),
         userId,
         word,
         phonetic: wordData.phonetic || null,
@@ -355,13 +357,15 @@ export async function POST(req: Request) {
                 updatedAt: new Date()
               },
               create: {
+                id: randomUUID(),
                 word: w.word,
                 translation: w.translation,
                 phonetic: w.phonetic,
                 pos: w.pos,
                 example: w.example,
                 exampleTranslation: w.exampleTranslation,
-                userId: session.user.id
+                userId: session.user.id,
+                updatedAt: new Date(),
               }
             }).catch(() => null)
           )
@@ -372,7 +376,7 @@ export async function POST(req: Request) {
           for (const w of newlyCreatedWords.filter(Boolean)) {
             try {
               await prisma.reviewGroupWord.create({
-                data: { reviewGroupId: targetGroupId, wordId: (w as any).id }
+                data: { id: randomUUID(), reviewGroupId: targetGroupId, wordId: (w as any).id }
               });
             } catch (e: any) {
               if (e.code !== 'P2002') console.error("Failed to add to group:", e);
@@ -510,7 +514,7 @@ export async function POST(req: Request) {
           for (const w of cachedWords) {
             try {
               await prisma.reviewGroupWord.create({
-                data: { reviewGroupId: targetGroupId, wordId: w.id }
+                data: { id: randomUUID(), reviewGroupId: targetGroupId, wordId: w.id }
               });
             } catch (e: any) {
               if (e.code !== 'P2002') console.error("Failed to add cached word to group:", e);
@@ -632,13 +636,15 @@ export async function POST(req: Request) {
               updatedAt: new Date()
             },
             create: {
+              id: randomUUID(),
               word,
               translation: r.translation,
               phonetic: r.phonetic || null,
               pos: r.pos || null,
               example: r.example || null,
               exampleTranslation: r.exampleTranslation || null,
-              userId: session.user.id
+              userId: session.user.id,
+              updatedAt: new Date(),
             }
           }).catch(() => null);
         })
@@ -710,13 +716,15 @@ export async function POST(req: Request) {
             newCompletedResults.map(r => 
               prisma.word.create({
                 data: {
+                  id: randomUUID(),
                   word: r.word,
                   translation: r.translation,
                   phonetic: r.phonetic || null,
                   pos: r.pos || null,
                   example: r.example || null,
                   exampleTranslation: r.exampleTranslation || null,
-                  userId: session.user.id
+                  userId: session.user.id,
+                  updatedAt: new Date(),
                 }
               }).catch(() => null)
             )
@@ -781,19 +789,21 @@ export async function POST(req: Request) {
     if (finalCompletedResults.length > 0) {
       await Promise.all(
         finalCompletedResults.map(r => 
-          prisma.word.create({
-            data: {
-              word: r.word,
-              translation: r.translation,
-              phonetic: r.phonetic || null,
-              pos: r.pos || null,
-              example: r.example || null,
-              exampleTranslation: r.exampleTranslation || null,
-              userId: session.user.id
-            }
-          }).catch(() => null)
-        )
-      );
+              prisma.word.create({
+                data: {
+                  id: randomUUID(),
+                  word: r.word,
+                  translation: r.translation,
+                  phonetic: r.phonetic || null,
+                  pos: r.pos || null,
+                  example: r.example || null,
+                  exampleTranslation: r.exampleTranslation || null,
+                  userId: session.user.id,
+                  updatedAt: new Date(),
+                }
+              }).catch(() => null)
+            )
+          );
       
       formattedCachedResults.push(...finalCompletedResults.map(r => ({
         word: r.word,
@@ -953,7 +963,9 @@ export async function POST(req: Request) {
                      update: wordData,
                      create: {
                        ...wordData,
-                       userId: session.user.id
+                       id: randomUUID(),
+                       userId: session.user.id,
+                       updatedAt: new Date(),
                      }
                    });
 
@@ -961,8 +973,8 @@ export async function POST(req: Request) {
                    if (targetGroupId && savedWord) {
                      try {
                        await prisma.reviewGroupWord.create({
-                         data: { reviewGroupId: targetGroupId, wordId: savedWord.id }
-                       });
+                        data: { id: randomUUID(), reviewGroupId: targetGroupId, wordId: savedWord.id }
+                      });
                      } catch (e: any) {
                        if (e.code !== 'P2002') console.error("Failed to add new word to group:", e);
                      }
@@ -993,13 +1005,15 @@ export async function POST(req: Request) {
                       try {
                         await prisma.publicWord.create({
                           data: {
+                            id: randomUUID(),
                             word: wordData.word,
                             translation: wordData.translation,
                             phonetic: wordData.phonetic || null,
                             pos: wordData.pos || null,
                             example: wordData.example || null,
                             exampleTranslation: wordData.exampleTranslation || null,
-                            qualityScore: qualityResult.score
+                            qualityScore: qualityResult.score,
+                            updatedAt: new Date(),
                           }
                         });
 

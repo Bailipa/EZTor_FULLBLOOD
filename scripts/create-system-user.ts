@@ -3,6 +3,7 @@
  */
 
 import { PrismaClient } from '@prisma/client';
+import { randomUUID } from 'crypto';
 
 // 强制设置数据库 URL
 process.env.DATABASE_URL = 'file:./prisma/dev.db';
@@ -15,9 +16,11 @@ async function main() {
   // 创建系统用户
   const systemUser = await prisma.user.create({
     data: {
+      id: randomUUID(),
       username: 'system',
       password: 'system_password_not_for_login',
       isAdmin: true,
+      updatedAt: new Date(),
     }
   });
   

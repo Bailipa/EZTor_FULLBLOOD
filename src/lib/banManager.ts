@@ -1,3 +1,4 @@
+import { randomUUID } from 'crypto';
 import prisma from '@/lib/prisma';
 
 const VIOLATION_THRESHOLDS = {
@@ -104,6 +105,7 @@ export async function recordViolation(
   try {
     await (prisma as any).securityViolation.create({
       data: {
+        id: randomUUID(),
         userId,
         violationType,
         inputValue: truncatedInput,

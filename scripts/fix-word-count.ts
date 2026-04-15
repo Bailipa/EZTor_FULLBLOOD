@@ -14,9 +14,9 @@ async function fixWordCount() {
   
   const shares = await prisma.sharedVocabulary.findMany({
     include: {
-      reviewGroup: {
+      ReviewGroup: {
         include: {
-          words: true
+          ReviewGroupWord: true
         }
       }
     }
@@ -28,7 +28,7 @@ async function fixWordCount() {
   let skipped = 0;
   
   for (const share of shares) {
-    const actualCount = share.reviewGroup.words.length;
+    const actualCount = share.ReviewGroup.ReviewGroupWord.length;
     
     if (share.wordCount !== actualCount) {
       console.log(`📝 更新 "${share.name}" (${share.code})`);

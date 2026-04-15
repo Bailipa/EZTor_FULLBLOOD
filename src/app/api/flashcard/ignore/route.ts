@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { randomUUID } from 'crypto';
 import prisma from '@/lib/prisma';
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "../../auth/[...nextauth]/route";
@@ -47,6 +48,7 @@ export async function POST(req: Request) {
     // Create ignored word record
     await prisma.ignoredWord.create({
       data: {
+        id: randomUUID(),
         word: normalizedWord,
         userId: session.user.id,
         translation: publicWord.translation,

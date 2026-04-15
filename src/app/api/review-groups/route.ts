@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { randomUUID } from 'crypto';
 import prisma from '@/lib/prisma';
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
@@ -49,8 +50,10 @@ export async function POST(req: Request) {
 
     const group = await prisma.reviewGroup.create({
       data: {
+        id: randomUUID(),
         name: name.trim(),
-        userId: session.user.id
+        userId: session.user.id,
+        updatedAt: new Date(),
       }
     });
 

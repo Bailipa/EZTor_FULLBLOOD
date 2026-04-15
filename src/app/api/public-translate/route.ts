@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { randomUUID } from 'crypto';
 import prisma from '@/lib/prisma';
 import { sanitizeWordList } from '@/lib/security';
 import { rateLimit, getClientKey } from '@/lib/rateLimit';
@@ -56,6 +57,7 @@ export async function POST(req: NextRequest) {
 
     await (prisma as any).analyticsEvent.create({
       data: {
+        id: randomUUID(),
         eventType: 'GUEST_TRANSLATE',
         userId: null,
         sessionId: Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15),
@@ -81,6 +83,7 @@ export async function POST(req: NextRequest) {
       }) => 
         (prisma as any).translationRecord.create({
           data: {
+            id: randomUUID(),
             word: r.word,
             phonetic: r.phonetic,
             pos: r.pos,
@@ -124,6 +127,7 @@ export async function POST(req: NextRequest) {
     
     await (prisma as any).analyticsEvent.create({
       data: {
+        id: randomUUID(),
         eventType: 'GUEST_TRANSLATE_ERROR',
         userId: null,
         sessionId: Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15),

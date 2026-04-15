@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { randomUUID } from 'crypto';
 import prisma from '@/lib/prisma';
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "../../auth/[...nextauth]/route";
@@ -53,17 +54,21 @@ export async function POST(req: Request) {
             updatedAt: new Date()
           },
           create: {
+            id: randomUUID(),
             word: wordData.word,
             translation: wordData.translation,
-            userId: session.user.id
+            userId: session.user.id,
+            updatedAt: new Date(),
           }
         });
 
         // 2. Add to public database
         await prisma.publicWord.create({
           data: {
+            id: randomUUID(),
             word: wordData.word.toLowerCase().trim(),
             translation: wordData.translation,
+            updatedAt: new Date(),
           }
         }).catch(() => {
           // Ignore unique constraint errors if it's already in the public bank
