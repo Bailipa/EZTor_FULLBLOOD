@@ -22,7 +22,7 @@ export class StreamHandler {
 
   createTranslationStream(response: any, orderedCachedResults: CachedWord[], targetGroupId?: string): ReadableStream {
     const stream = new ReadableStream({
-      async start(controller) {
+      async start: async (controller) => {
         await this.translationService.processTranslationStream(response, controller, orderedCachedResults, targetGroupId);
       }
     });

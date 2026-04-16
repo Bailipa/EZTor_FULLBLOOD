@@ -1,5 +1,6 @@
 import { randomUUID } from 'crypto';
 import prisma from '@/lib/prisma';
+import { logger } from './logger';
 
 const VIOLATION_THRESHOLDS = {
   WARNING: 1,
@@ -211,7 +212,7 @@ export async function recordViolation(
       banInfo = { type: 'warning', message: '警告：检测到可疑行为' };
     }
   } catch (error) {
-    console.error('Error applying ban:', error);
+    logger.error('Error applying ban:', error);
   }
 
   return {

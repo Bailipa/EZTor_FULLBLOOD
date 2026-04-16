@@ -41,7 +41,7 @@ export function isQuotaError(err: any): boolean {
     status === 429 ||
     /insufficient[_ ]quota/i.test(message) ||
     /quota/i.test(message) ||
-    /浣欓涓嶈冻|棰濆害|閰嶉|璧勬簮涓嶈冻/.test(message)
+    /配额不足|额度|配额|资源不足/.test(message)
   );
 }
 

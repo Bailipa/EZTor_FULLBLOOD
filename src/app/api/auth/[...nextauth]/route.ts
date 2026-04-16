@@ -15,6 +15,7 @@ async function simulatePasswordHash(): Promise<void> {
 }
 
 export const authOptions: NextAuthOptions = {
+  secret: SECRET_KEY,
   providers: [
     CredentialsProvider({
       name: "Credentials",

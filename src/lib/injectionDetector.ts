@@ -1,3 +1,5 @@
+import { logger } from './logger';
+
 const INJECTION_PATTERNS = [
   /你(是|变成|充当|扮演|作为|现在|假装|请做)\s*(一只?|一个?)?\s*(猫[娘妹]|狗[娘妹]|兔[娘妹]|狐[娘妹]|龙[娘妹]|女仆|护士|老师|学生|医生|律师|警察|海盗|机器人|精灵|天使|恶魔|公主|女王)/i,
   /用\s*(猫[娘妹]?|狗[娘妹]?|女仆|萝莉|御姐|傲娇|温柔|可爱|性感|撒娇|卖萌|萌萌哒)?\s*的?(语气|口吻|风格|方式|态度|声音|腔调)/i,
@@ -45,8 +47,8 @@ export function detectPromptInjection(input: string): InjectionCheckResult {
   const result = regexDetect(input);
   
   if (result.detected) {
-    console.log(`[SECURITY LOG] Injection detected and blocked: "${input.substring(0, 100)}"`);
-    console.log(`[SECURITY LOG] Matched pattern: ${result.pattern}`);
+    logger.security(`Injection detected and blocked: "${input.substring(0, 100)}"`);
+    logger.security(`Matched pattern: ${result.pattern}`);
   }
 
   return { isInjection: result.detected, detected: result.detected, pattern: result.pattern };
@@ -57,8 +59,8 @@ export function detectBatchPromptInjection(inputs: string[]): InjectionCheckResu
   const result = regexDetect(combinedInput);
   
   if (result.detected) {
-    console.log(`[SECURITY LOG] Batch injection detected and blocked: ${inputs.length} items`);
-    console.log(`[SECURITY LOG] Matched pattern: ${result.pattern}`);
+    logger.security(`Batch injection detected and blocked: ${inputs.length} items`);
+    logger.security(`Matched pattern: ${result.pattern}`);
   }
 
   return { isInjection: result.detected, detected: result.detected, pattern: result.pattern };

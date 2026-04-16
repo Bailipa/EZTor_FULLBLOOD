@@ -285,8 +285,7 @@ Recommended Improvements:
 - Use Suspense + streaming SSR to improve first screen loading
 - Add appropriate metadata and robots.txt
 
-🟡 Medium — Missing Global Navigation (Priority: P1)
-Current Status: The application lacks a unified navigation bar/sidebar. Users need to manually enter URLs to access different functional pages (/dictation, /history, /analytics, etc.).
+<br />
 
 Recommended Improvement: Add responsive navigation component with main function entries.
 
@@ -306,10 +305,7 @@ Current Status:
 
 - Most pages have no Skeleton/Loading states
 - error-boundary.tsx is only used outside TranslateOnlyCard
-- API errors use alert() popups, poor experience
-  Recommended Improvements:
 - Add loading.tsx to all pages
-- Use Toast notifications instead of alert()
 - Wrap all critical components with ErrorBoundary
 
 🟡 Medium — Accessibility Deficiencies (Priority: P1)

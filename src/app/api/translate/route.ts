@@ -11,6 +11,7 @@ import { CacheService } from '@/services/CacheService';
 import { StreamHandler } from '@/services/StreamHandler';
 import { randomUUID } from 'crypto';
 import prisma from '@/lib/prisma';
+import { logger } from '@/lib/logger';
 
 const RECORD_TRANSLATIONS = true;
 
@@ -30,7 +31,7 @@ async function safeRecordTranslation(
     });
     
     if (existing) {
-      console.log(`[TranslationRecord] Duplicate skipped: ${word} for user ${userId}`);
+      logger.debug(`[TranslationRecord] Duplicate skipped: ${word} for user ${userId}`);
       return;
     }
     
@@ -50,9 +51,9 @@ async function safeRecordTranslation(
         requestHash
       }
     });
-    console.log(`[TranslationRecord] Recorded: ${word} for user ${userId} (cached=${isCached})`);
+    logger.debug(`[TranslationRecord] Recorded: ${word} for user ${userId} (cached=${isCached})`);
   } catch (e) {
-    console.error('Failed to record translation:', e);
+    logger.error('Failed to record translation:', e);
   }
 }
 
@@ -109,7 +110,7 @@ export async function POST(req: Request) {
     for (const word of normalizedWords) {
       const validation = validateInput(word);
       if (!validation.valid) {
-        console.warn(`Blocked potentially malicious input: ${validation.reason}`);
+        logger.warn(`Blocked potentially malicious input: ${validation.reason}`);
         return NextResponse.json({ error: 'Invalid input detected' }, { status: 400 });
       }
     }
@@ -183,13 +184,13 @@ export async function POST(req: Request) {
                            null;
           const userAgent = req.headers.get('user-agent') || null;
           
-          console.log(`[TranslationRecord] Recording ${orderedCachedResults.length} cached translations for user: ${session.user.id}`);
+          logger.debug(`[TranslationRecord] Recording ${orderedCachedResults.length} cached translations for user: ${session.user.id}`);
           
           for (const item of orderedCachedResults) {
             await safeRecordTranslation(session.user.id, item, true, clientIp, userAgent);
           }
         } catch (recordErr) {
-          console.error('Cached translation recording error:', recordErr);
+          logger.error('Cached translation recording error:', recordErr);
         }
       }
       
@@ -218,7 +219,7 @@ export async function POST(req: Request) {
     }
 
   } catch (error: any) {
-    console.error('API Error:', error);
+    logger.error('API Error:', error);
     
     if (String(error?.message || '') === API_QUOTA_EXHAUSTED_MESSAGE) {
       return NextResponse.json({ 

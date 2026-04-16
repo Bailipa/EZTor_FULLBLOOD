@@ -6,6 +6,7 @@ import { Prisma } from '@prisma/client';
 import { calculateQualityScore } from '@/lib/qualityScoring';
 import { cascadePublicWordToPrivate } from '@/lib/publicWordCascade';
 import { createDeduplicatedRequest, getPendingRequest, getCompletedRequest, resolvePendingRequest, setPendingRequest } from '@/lib/requestDeduplication';
+import { logger } from '@/lib/logger';
 
 const DEFAULT_SYSTEM_PROMPT = `你是一个专业的英语词典助手。你的唯一任务是解析和翻译用户提供的英语单词或词组。
 
@@ -411,8 +412,8 @@ export class TranslationService {
         }
       }
 
-      console.log("=== AI Complete Text ===");
-      console.log(accumulatedAiText);
+      logger.debug("=== AI Complete Text ===");
+      logger.debug(accumulatedAiText);
 
       let cleanText = accumulatedAiText.trim();
       if (cleanText.startsWith('```json')) {
