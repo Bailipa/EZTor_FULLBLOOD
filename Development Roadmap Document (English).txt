@@ -1,0 +1,20 @@
+
+Now for some reason, when translating and parsing multiple words (separated by new lines), it reports "fail to fetch" error!
+
+Then remove the CSV file import functionality (only remove the frontend button), because I really can't think of what this requirement is for, it's better to remove it.
+
+The API design of the LLM pool must be compatible with all major model vendors' large model API interfaces.
+
+Is data isolation effective? Will one user's addition or deletion of their own vocabulary affect other users? Is the algorithm complexity and user experience optimal (is it laggy, does the progress bar position serve as a reminder)?
+
+To be honest, I don't like users interacting with each other, so why not remove the sharing functionality (just remove the UI) and only keep the CET-4 and CET-6 key import functionality, then modify the key import UI, title, etc. This will be more hassle-free.
+
+The "translate only" feature needs to be limited, with each user getting 10 free uses per day. When exceeding the limit, display an API input box to let users connect their own large models, so as not to consume my quota.
+
+Must add a donation link, which uses the backend database to connect to PNG images, buy me a coffee (must create a小号 quickly).
+
+Complete the example sentences in the vocabulary database.
+
+Memory management to prevent long-term memory leaks.
+
+Finally: Architecture review, deployment review.
