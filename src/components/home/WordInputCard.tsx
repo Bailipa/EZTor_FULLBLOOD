@@ -5,7 +5,6 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { motion, AnimatePresence } from 'framer-motion';
 import { PenTool, Upload, Sparkles, Globe } from 'lucide-react';
 import { useTheme } from '@wrksz/themes/client';
 import type { WordResult, ReviewGroup } from '@/types/api';
@@ -27,15 +26,6 @@ interface WordInputCardProps {
   setWordsInput: (input: string | ((prev: string) => string)) => void;
 }
 
-interface FlyingWord {
-  word: string;
-  id: string;
-  startX: number;
-  startY: number;
-  targetX: number;
-  targetY: number;
-}
-
 export function WordInputCard({
   isLoading,
   setIsLoading,
@@ -53,7 +43,6 @@ export function WordInputCard({
   const [mounted, setMounted] = useState(false);
   const [rawStreamText, setRawStreamText] = useState('');
   const [pendingWords, setPendingWords] = useState<string[]>([]);
-  const [flyingWords, setFlyingWords] = useState<FlyingWord[]>([]);
   const [completedCount, setCompletedCount] = useState(0);
   const [inputStatus, setInputStatus] = useState<{ type: 'normal' | 'non-english' | 'sentence'; message: string }>({ type: 'normal', message: '' });
   
@@ -112,7 +101,7 @@ export function WordInputCard({
     setResults([]);
     setRawStreamText('');
     setCompletedCount(0);
-    setFlyingWords([]);
+    setPendingWords(words);
     animatedWordsRef.current.clear();
 
     const fixedResults: WordResult[] = [];
@@ -147,13 +136,11 @@ export function WordInputCard({
 
     setPendingWords(words);
     
-    // 批量处理固定结果，不使用 setTimeout
     const fixedResultsMap = new Map<string, WordResult>();
     fixedResults.forEach(result => {
       fixedResultsMap.set(result.word.toLowerCase(), result);
     });
 
-    // 按照输入顺序处理固定结果
     const initialResults: WordResult[] = [];
     words.forEach(word => {
       const fixedResult = fixedResultsMap.get(word.toLowerCase());
@@ -215,7 +202,6 @@ export function WordInputCard({
       let done = false;
       let accumulatedText = '';
       let lastValidParsedData: { results?: WordResult[] } | null = null;
-      let flyingIdCounter = 0;
 
       while (!done) {
         const { value, done: doneReading } = await reader.read();
@@ -273,63 +259,34 @@ export function WordInputCard({
             lastValidParsedData = parsedData;
             const aiResults = parsedData.results.filter((item) => item && item.word);
             
-            // 创建结果映射，方便按照输入顺序查找
             const resultMap = new Map<string, WordResult>();
             aiResults.forEach(result => {
               resultMap.set(result.word.toLowerCase(), result);
             });
             
-            // 批量处理新结果，不使用 setTimeout
             const newResults: WordResult[] = [];
             const wordsToRemove: string[] = [];
-            const newFlyingWords: FlyingWord[] = [];
             
-            // 按照原始输入顺序处理结果，包括缓存结果和大模型结果
             for (const word of words) {
               const normalizedWord = word.toLowerCase();
               if (resultMap.has(normalizedWord) && !animatedWordsRef.current.has(normalizedWord)) {
                 const result = resultMap.get(normalizedWord)!;
                 animatedWordsRef.current.add(normalizedWord);
-                
-                const wordId = `fly-${Date.now()}-${flyingIdCounter++}`;
-                
-                const wordElement = document.querySelector(`[data-word="${normalizedWord.replace(/"/g, '\\"')}"]`);
-                const rect = wordElement?.getBoundingClientRect();
-                const startX = rect ? rect.left : 100 + (flyingIdCounter * 50);
-                const startY = rect ? rect.top : 200;
-                
-                const targetX = window.innerWidth - 100;
-                const targetY = window.innerHeight - 100;
-                
-                newFlyingWords.push({ 
-                  word: result.word, 
-                  id: wordId, 
-                  startX, 
-                  startY,
-                  targetX,
-                  targetY
-                });
-                
                 newResults.push(result);
                 wordsToRemove.push(word);
               }
             }
             
-            // 批量更新状态
             if (newResults.length > 0) {
-              setFlyingWords(prev => [...prev, ...newFlyingWords]);
               setPendingWords(prev => prev.filter(w => !wordsToRemove.includes(w)));
               
-              // 批量更新结果
               setResults(prev => {
-                // 先将所有结果放入map中
                 const mergedMap = new Map<string, WordResult>();
                 prev.forEach((p) => mergedMap.set(p.word.toLowerCase(), p));
                 newResults.forEach(result => {
                   mergedMap.set(result.word.toLowerCase(), result);
                 });
                 
-                // 按照原始输入顺序排序
                 const orderedResults: WordResult[] = [];
                 words.forEach(word => {
                   const wordLower = word.toLowerCase();
@@ -338,7 +295,6 @@ export function WordInputCard({
                   }
                 });
                 
-                // 处理剩下的结果
                 mergedMap.forEach((result, key) => {
                   if (!words.some(word => word.toLowerCase() === key)) {
                     orderedResults.push(result);
@@ -349,11 +305,6 @@ export function WordInputCard({
               });
               
               setCompletedCount(prev => prev + newResults.length);
-              
-              // 动画结束后自动移除飞行动画元素
-              setTimeout(() => {
-                setFlyingWords(prev => prev.filter(fw => !newFlyingWords.some(nfw => nfw.id === fw.id)));
-              }, 1500);
             }
           }
         }
@@ -398,20 +349,15 @@ export function WordInputCard({
 
       console.log('finalResults after parsing:', finalResults);
 
-      // 大小写一致性检查与规范化处理
       const normalizeCase = (text: string): string => {
-        // 检查是否为需要保留大写的特殊情况
         const specialCases = [
-          // 首字母缩写词
-          /^[A-Z0-9]+$/, // 全大写的缩写词
-          /^[A-Z][a-z]+(?:[A-Z][a-z]+)*$/, // 驼峰命名法的专有名词
-          // 常见的专有名词和品牌名称
+          /^[A-Z0-9]+$/,
+          /^[A-Z][a-z]+(?:[A-Z][a-z]+)*$/,
           'AI', 'API', 'CSS', 'HTML', 'HTTP', 'HTTPS', 'JSON', 'JS', 'TS', 'UI', 'UX',
           'Google', 'Microsoft', 'Apple', 'Amazon', 'Facebook', 'Twitter', 'GitHub',
           'React', 'Next.js', 'Node.js', 'JavaScript', 'TypeScript'
         ];
 
-        // 检查是否匹配特殊情况
         for (const casePattern of specialCases) {
           if (typeof casePattern === 'string' && text === casePattern) {
             return text;
@@ -420,7 +366,6 @@ export function WordInputCard({
           }
         }
 
-        // 对于其他情况，转换为小写
         return text.toLowerCase();
       };
 
@@ -460,7 +405,6 @@ export function WordInputCard({
 
       const allResults = [...fixedResults, ...finalMergedData];
       
-      // 去重处理，避免重复输出，同时保持原始输入顺序
       const seen = new Set<string>();
       const uniqueResults = allResults.filter(item => {
         const normalizedWord = normalize(item.word);
@@ -471,22 +415,18 @@ export function WordInputCard({
         return true;
       });
       
-      // 按照原始输入顺序排序结果
       const inputOrderMap = new Map<string, number>();
       words.forEach((word, index) => {
         inputOrderMap.set(normalize(word), index);
       });
       
-      // 确保按照原始输入顺序排序，即使有缓存结果
       const orderedResults: WordResult[] = [];
       const resultMap = new Map<string, WordResult>();
       
-      // 先将所有结果放入map中，方便查找
       uniqueResults.forEach(result => {
         resultMap.set(normalize(result.word), result);
       });
       
-      // 按照原始输入顺序遍历，从map中取出对应的结果
       words.forEach(word => {
         const normalizedWord = normalize(word);
         if (resultMap.has(normalizedWord)) {
@@ -495,7 +435,6 @@ export function WordInputCard({
         }
       });
       
-      // 处理剩下的结果（如果有的话）
       resultMap.forEach(result => {
         orderedResults.push(result);
       });
@@ -554,7 +493,6 @@ export function WordInputCard({
       }
     } finally {
       setIsLoading(false);
-      setFlyingWords([]);
     }
   };
 
@@ -676,11 +614,11 @@ export function WordInputCard({
           </CardDescription>
         </div>
         <div className="w-full sm:w-auto">
-          <input type="file" accept=".csv" ref={fileInputRef} onChange={handleFileUpload} className="hidden" />
+          <input type="file" accept=".csv" ref={fileInputRef} onChange={handleFileUpload} className="hidden" aria-label="上传CSV文件" />
           <div className="flex flex-wrap items-center gap-2">
             {groups.length > 0 && (
               <Select value={selectedTargetGroupId} onValueChange={setSelectedTargetGroupId}>
-                <SelectTrigger className="w-[130px] sm:w-[140px] h-8 text-xs bg-muted/30">
+                <SelectTrigger className="w-[130px] sm:w-[140px] h-8 text-xs bg-muted/30" aria-label="选择目标分组">
                   <SelectValue placeholder="解析后存入..." />
                 </SelectTrigger>
                 <SelectContent>
@@ -698,6 +636,7 @@ export function WordInputCard({
               size="sm"
               className="gap-1.5 sm:gap-2 h-8 text-xs sm:text-sm px-2.5 sm:px-3"
               onClick={() => fileInputRef.current?.click()}
+              aria-label="导入CSV文件"
             >
               <Upload className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               导入 CSV
@@ -707,100 +646,29 @@ export function WordInputCard({
       </CardHeader>
       <CardContent>
         {isLoading ? (
-          <div className="min-h-[150px] p-4 border rounded-md bg-muted/30 flex flex-wrap gap-2 content-start items-start overflow-y-auto relative">
-            <AnimatePresence>
-              {pendingWords.map((word, index) => (
-                <motion.div
-                  key={`${index}-${word}`}
-                  data-word={word.toLowerCase()}
-                  initial={{ opacity: 0, scale: 0.8, y: 10 }}
-                  animate={{ opacity: 1, scale: 1, y: 0 }}
-                  exit={{
-                    opacity: 0,
-                    scale: 0.5,
-                    y: -30,
-                    filter: 'blur(4px)',
-                    transition: { duration: 0.35, ease: 'easeOut' },
-                  }}
-                  transition={{ duration: 0.25, ease: 'easeInOut' }}
-                  className="px-3 py-1.5 bg-primary/10 text-primary border border-primary/20 rounded-md text-sm font-medium shadow-sm"
-                >
-                  {word}
-                </motion.div>
-              ))}
-            </AnimatePresence>
-            
-            <AnimatePresence>
-              {flyingWords.map((fw) => {
-                return (
-                  <motion.div
-                    key={fw.id}
-                    className="fixed z-[9999] pointer-events-none"
-                    initial={{ 
-                      opacity: 0, 
-                      scale: 0.95,
-                      x: fw.startX || 0,
-                      y: fw.startY || 0,
-                    }}
-                    animate={{
-                      opacity: [0, 1, 1, 0],
-                      scale: [0.95, 1, 1, 0.9],
-                      x: [0, 20, 40, fw.targetX * 0.6],
-                      y: [0, fw.targetY * 0.35, fw.targetY * 0.65, fw.targetY],
-                    }}
-                    transition={{ 
-                      duration: 1.5, 
-                      ease: [0.4, 0, 0.2, 1],
-                      times: [0, 0.15, 0.7, 1],
-                    }}
-                    style={{
-                      left: fw.startX,
-                      top: fw.startY,
-                    }}
-                  >
-                    <div
-                      className="px-4 py-2 rounded-xl text-sm font-medium backdrop-blur-sm"
-                      style={{
-                        background: mounted 
-                          ? (isDark ? 'rgba(0, 0, 0, 0.75)' : 'rgba(255, 255, 255, 0.9)')
-                          : 'rgba(0, 0, 0, 0.75)',
-                        color: mounted 
-                          ? (isDark ? 'white' : 'rgb(23, 23, 23)')
-                          : 'white',
-                        boxShadow: mounted 
-                          ? (isDark ? '0 2px 8px rgba(0, 0, 0, 0.15)' : '0 2px 8px rgba(0, 0, 0, 0.1)')
-                          : '0 2px 8px rgba(0, 0, 0, 0.15)',
-                      }}
-                    >
-                      {fw.word}
-                    </div>
-                  </motion.div>
-                );
-              })}
-            </AnimatePresence>
-            
-            {pendingWords.length === 0 && flyingWords.length === 0 && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.3 }}
-                className="flex flex-col items-center justify-center w-full py-8"
+          <div className="min-h-[150px] p-4 border rounded-md bg-muted/30 flex flex-wrap gap-2 content-start items-start overflow-y-auto relative" role="status" aria-live="polite" aria-label="正在处理中">
+            {pendingWords.map((word, index) => (
+              <span
+                key={`${index}-${word}`}
+                data-word={word.toLowerCase()}
+                className="px-3 py-1.5 bg-primary/10 text-primary border border-primary/20 rounded-md text-sm font-medium shadow-sm animate-[fadeIn_0.25s_ease-in-out]"
               >
-                <motion.div
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  transition={{ type: 'spring', bounce: 0.5 }}
-                  className="w-12 h-12 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center mb-3"
-                >
+                {word}
+              </span>
+            ))}
+            
+            {pendingWords.length === 0 && (
+              <div className="flex flex-col items-center justify-center w-full py-8 animate-[fadeIn_0.3s_ease-in-out]">
+                <div className="w-12 h-12 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center mb-3">
                   <Sparkles className="w-6 h-6 text-green-500" />
-                </motion.div>
+                </div>
                 <span className="text-muted-foreground text-sm font-medium">
                   查询完成
                 </span>
                 <span className="text-muted-foreground text-xs mt-1">
                   已找到 {completedCount} 个结果
                 </span>
-              </motion.div>
+              </div>
             )}
           </div>
         ) : (
@@ -821,13 +689,14 @@ take for granted`}
               value={wordsInput}
               onChange={(e) => setWordsInput(e.target.value)}
               onKeyDown={handleKeyDown}
+              aria-label="输入单词或词组"
             />
           </div>
         )}
       </CardContent>
       <CardFooter className="flex justify-between items-center">
         <span className="text-xs text-gray-400 dark:text-muted-foreground">支持 Ctrl+Enter 快捷解析</span>
-        <Button onClick={handleProcess} disabled={isLoading}>
+        <Button onClick={handleProcess} disabled={isLoading} aria-label="一键解析单词">
           {isLoading ? 'AI 正在处理...' : '一键解析'}
         </Button>
       </CardFooter>

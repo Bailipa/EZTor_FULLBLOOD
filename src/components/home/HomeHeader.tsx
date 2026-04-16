@@ -42,17 +42,17 @@ export function HomeHeader({ showDanmaku, onToggleDanmaku, onFeatureClick }: Hom
   };
 
   return (
-    <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white dark:bg-card p-4 sm:p-6 rounded-xl shadow-sm border border-gray-100 dark:border-border transition-colors duration-300">
+    <header className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white dark:bg-card p-4 sm:p-6 rounded-xl shadow-sm border border-gray-100 dark:border-border transition-colors duration-300">
       <div className="space-y-1.5">
         <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-foreground">EZTor</h1>
         <p className="text-sm sm:text-base text-gray-500 dark:text-muted-foreground">
           An Easier Translator.
         </p>
-        <p className="text-xs text-amber-600 dark:text-amber-400">
+        <p className="text-xs text-amber-600 dark:text-amber-400" role="alert">
           提示：翻译内容由 AI 大模型生成，请仔细甄别。
         </p>
       </div>
-      <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+      <nav className="flex flex-wrap items-center gap-2 sm:gap-3" aria-label="主导航">
         {session?.user && (
           <span className="text-xs sm:text-sm text-muted-foreground w-full sm:w-auto sm:mr-2 mb-1 sm:mb-0">
             Hello, {session.user.name}
@@ -64,27 +64,29 @@ export function HomeHeader({ showDanmaku, onToggleDanmaku, onFeatureClick }: Hom
           variant={showDanmaku ? 'default' : 'outline'}
           onClick={() => handleFeatureClick('弹幕复习', onToggleDanmaku)}
           className="gap-1.5 sm:gap-2 shadow-sm transition-all h-8 px-2.5 text-xs sm:h-9 sm:px-4 sm:text-sm"
+          aria-label={showDanmaku ? '关闭弹幕复习' : '开启弹幕复习'}
+          aria-pressed={showDanmaku}
         >
-          <MonitorPlay className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+          <MonitorPlay className="w-3.5 h-3.5 sm:w-4 sm:h-4" aria-hidden="true" />
           <span>{showDanmaku ? '关闭弹幕复习' : '开启弹幕复习'}</span>
         </Button>
         {isAuthenticated ? (
           <>
-            <Link href="/dictation">
+            <Link href="/dictation" aria-label="前往默写复习页面">
               <Button
                 variant="outline"
                 className="gap-1.5 sm:gap-2 shadow-sm border-primary/20 text-primary hover:bg-primary/5 h-8 px-2.5 text-xs sm:h-9 sm:px-4 sm:text-sm"
               >
-                <PenTool className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                <PenTool className="w-3.5 h-3.5 sm:w-4 sm:h-4" aria-hidden="true" />
                 <span>默写复习</span>
               </Button>
             </Link>
-            <Link href="/history">
+            <Link href="/history" aria-label="前往生词本页面">
               <Button
                 variant="outline"
                 className="gap-1.5 sm:gap-2 shadow-sm h-8 px-2.5 text-xs sm:h-9 sm:px-4 sm:text-sm"
               >
-                <BookOpen className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                <BookOpen className="w-3.5 h-3.5 sm:w-4 sm:h-4" aria-hidden="true" />
                 <span>生词本</span>
               </Button>
             </Link>
@@ -92,18 +94,19 @@ export function HomeHeader({ showDanmaku, onToggleDanmaku, onFeatureClick }: Hom
               variant="outline"
               onClick={() => setShareOpen(true)}
               className="gap-1.5 sm:gap-2 shadow-sm h-8 px-2.5 text-xs sm:h-9 sm:px-4 sm:text-sm"
+              aria-label="分享"
             >
-              <Share2 className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+              <Share2 className="w-3.5 h-3.5 sm:w-4 sm:h-4" aria-hidden="true" />
               <span>分享</span>
             </Button>
           </>
         ) : (
-          <Link href="/auth/signin">
+          <Link href="/auth/signin" aria-label="前往登录页面">
             <Button
               variant="default"
               className="gap-1.5 sm:gap-2 shadow-sm h-8 px-2.5 text-xs sm:h-9 sm:px-4 sm:text-sm"
             >
-              <LogIn className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+              <LogIn className="w-3.5 h-3.5 sm:w-4 sm:h-4" aria-hidden="true" />
               <span>登录</span>
             </Button>
           </Link>
@@ -116,6 +119,7 @@ export function HomeHeader({ showDanmaku, onToggleDanmaku, onFeatureClick }: Hom
                 variant="outline"
                 size="icon"
                 className="shadow-sm shrink-0 h-8 w-8 sm:h-9 sm:w-9"
+                aria-label="退出登录"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -126,6 +130,7 @@ export function HomeHeader({ showDanmaku, onToggleDanmaku, onFeatureClick }: Hom
                   strokeWidth="2"
                   strokeLinecap="round"
                   strokeLinejoin="round"
+                  aria-hidden="true"
                 >
                   <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
                   <polyline points="16 17 21 12 16 7"></polyline>
@@ -157,7 +162,7 @@ export function HomeHeader({ showDanmaku, onToggleDanmaku, onFeatureClick }: Hom
           </AlertDialog>
         )}
         <SharePoster open={shareOpen} onOpenChange={setShareOpen} />
-      </div>
-    </div>
+      </nav>
+    </header>
   );
 }

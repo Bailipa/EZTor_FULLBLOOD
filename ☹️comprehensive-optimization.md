@@ -287,7 +287,6 @@ Recommended Improvements:
 
 <br />
 
-Recommended Improvement: Add responsive navigation component with main function entries.
 
 🟡 Medium — Animation Performance Issues (Priority: P1)
 Current Status: In WordInputCard.tsx:
@@ -313,15 +312,10 @@ Current Status:
 
 - Missing aria-label attributes
 - Color contrast not verified
-- Keyboard navigation support incomplete
-- No skip navigation links
 - Forms lack associated label elements
   Recommended Improvement: Conduct WCAG 2.1 AA compliance audit, add necessary ARIA attributes.
 
-🟢 Low — Incomplete Internationalization (Priority: P2)
-Current Status: UI text mixes Chinese and English, some error messages are in Chinese, some in English. No i18n framework.
-
-Recommended Improvement: Introduce next-intl or similar library to uniformly manage multi-language text.
+<br />
 
 ## 6. Comprehensive Priority Matrix
 

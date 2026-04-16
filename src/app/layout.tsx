@@ -1,17 +1,29 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 import { ThemeProvider } from "@/components/theme-provider"
 import { NextAuthProvider } from "@/components/providers/session-provider";
 
 export const metadata: Metadata = {
-  title: "EZTor",
-  description: "A simple and powerful vocabulary memorization tool",
+  title: {
+    default: "EZTor - 智能英语翻译与词汇记忆工具",
+    template: "%s | EZTor",
+  },
+  description: "EZTor 是一款简洁强大的英语翻译与词汇记忆工具，支持 AI 批量翻译、生词本管理、默写复习等功能。",
+  keywords: ['英语翻译', '词汇记忆', '单词本', 'AI翻译', '英语学习', 'EZTor'],
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
-export const viewport = {
+export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
+    { media: '(prefers-color-scheme: dark)', color: '#171717' },
+  ],
 };
 
 export default function RootLayout({
@@ -20,8 +32,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html 
-      lang="en"
+    <html
+      lang="zh-CN"
       suppressHydrationWarning
       className="h-full antialiased font-sans"
     >

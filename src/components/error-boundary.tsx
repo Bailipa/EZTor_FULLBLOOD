@@ -43,7 +43,7 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
       }
 
       return (
-        <div className="min-h-screen flex items-center justify-center p-4 bg-background">
+        <div className="min-h-screen flex items-center justify-center p-4 bg-background" role="alert">
           <Card className="w-full max-w-md border-destructive/50">
             <CardHeader>
               <CardTitle className="text-destructive flex items-center gap-2">
@@ -56,24 +56,25 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
                   strokeWidth="2"
                   strokeLinecap="round"
                   strokeLinejoin="round"
+                  aria-hidden="true"
                 >
                   <circle cx="12" cy="12" r="10" />
                   <line x1="12" y1="8" x2="12" y2="12" />
                   <line x1="12" y1="16" x2="12.01" y2="16" />
                 </svg>
-                Something went wrong
+                组件出现错误
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <p className="text-sm text-muted-foreground">
-                {this.state.error?.message || 'An unexpected error occurred'}
+                {this.state.error?.message || '发生了意外错误，请稍后重试。'}
               </p>
               <div className="flex gap-2">
-                <Button variant="outline" onClick={this.handleRetry} className="flex-1">
-                  Try Again
+                <Button variant="outline" onClick={this.handleRetry} className="flex-1" aria-label="重试">
+                  重试
                 </Button>
-                <Button onClick={this.handleReload} className="flex-1">
-                  Refresh Page
+                <Button onClick={this.handleReload} className="flex-1" aria-label="刷新页面">
+                  刷新页面
                 </Button>
               </div>
             </CardContent>

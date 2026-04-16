@@ -64,7 +64,7 @@ export function TranslateOnlyCard() {
     
     try {
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
+      const timeoutId = setTimeout(() => controller.abort(), 30000);
       
       const response = await fetch('/api/translate-only', {
         method: 'POST',
@@ -154,7 +154,7 @@ export function TranslateOnlyCard() {
         <CardHeader className="pb-3 flex flex-col sm:flex-row sm:items-center justify-between space-y-3 sm:space-y-0">
           <div>
             <CardTitle className="text-base sm:text-lg flex items-center gap-2">
-              <Languages className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
+              <Languages className="w-4 h-4 sm:w-5 sm:h-5 text-primary" aria-hidden="true" />
               Translate Only
             </CardTitle>
             <CardDescription className="mt-1.5 text-xs sm:text-sm">
@@ -166,15 +166,19 @@ export function TranslateOnlyCard() {
               variant={isOpen ? 'secondary' : 'outline'}
               size="sm"
               className="gap-1.5 sm:gap-2 h-8 text-xs sm:text-sm px-2.5 sm:px-3"
+              aria-expanded={isOpen}
+              aria-controls="translate-only-content"
             >
               {isOpen ? '收起' : '打开'}
             </Button>
           </CollapsibleTrigger>
         </CardHeader>
-        <CollapsibleContent>
+        <CollapsibleContent id="translate-only-content">
           <CardContent className="pt-0 space-y-3">
             <div className="relative">
+              <label htmlFor="translate-only-input" className="sr-only">输入要翻译的文本</label>
               <Textarea
+                id="translate-only-input"
                 placeholder="请输入中文或英文..."
                 className="min-h-[110px] resize-y"
                 value={input}
@@ -183,24 +187,29 @@ export function TranslateOnlyCard() {
                   setIsClearConfirm(false);
                 }}
                 onKeyDown={handleKeyDown}
+                aria-describedby={isOverLimit ? 'char-limit-warning' : undefined}
               />
-
+              {isOverLimit && (
+                <p id="char-limit-warning" className="text-xs text-destructive mt-1" role="alert">
+                  已超过 {MAX_LENGTH} 字符限制
+                </p>
+              )}
             </div>
             <div className="flex justify-end gap-2">
-              <Button variant="outline" onClick={handlePaste}>
-                <ClipboardPaste className="w-4 h-4 mr-1" />
+              <Button variant="outline" onClick={handlePaste} aria-label="从剪贴板粘贴">
+                <ClipboardPaste className="w-4 h-4 mr-1" aria-hidden="true" />
                 粘贴
               </Button>
-              <Button variant="outline" onClick={handleClear}>
+              <Button variant="outline" onClick={handleClear} aria-label={isClearConfirm ? '再次点击确认清空' : '清空输入'}>
                 {isClearConfirm ? '再按一次' : '清空'}
               </Button>
-              <Button onClick={handleTranslate} disabled={isLoading || !input.trim() || isOverLimit}>
+              <Button onClick={handleTranslate} disabled={isLoading || !input.trim() || isOverLimit} aria-label="开始翻译">
                 {isLoading ? '翻译中...' : '开始翻译'}
               </Button>
             </div>
             
             {isLoading && (
-              <div className="space-y-1.5">
+              <div className="space-y-1.5" role="progressbar" aria-valuenow={Math.round(progress)} aria-valuemin={0} aria-valuemax={100} aria-label="翻译进度">
                 <div className="relative h-2 w-full overflow-hidden rounded-full bg-blue-50 dark:bg-blue-950">
                   <div
                     className="h-full bg-blue-500 dark:bg-blue-400 transition-all duration-300 ease-out rounded-full"
@@ -223,8 +232,9 @@ export function TranslateOnlyCard() {
                     size="sm"
                     className="h-8 px-2.5 text-xs gap-1.5"
                     onClick={handleCopy}
+                    aria-label={isCopied ? '已复制到剪贴板' : '复制翻译结果'}
                   >
-                    <Copy className="w-3.5 h-3.5" />
+                    <Copy className="w-3.5 h-3.5" aria-hidden="true" />
                     {isCopied ? '已复制' : '复制'}
                   </Button>
                 </div>
