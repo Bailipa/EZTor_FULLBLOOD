@@ -25,39 +25,41 @@ export async function POST(req: Request) {
       ? { correctCount: { increment: 1 } }
       : { incorrectCount: { increment: 1 } };
 
-    // Since flashcards now come from the public bank, the user might not have this word in their private DB yet.
-    // If it exists, update it. If it doesn't, create it with initial stats.
-    
-    // First try to find the word in the public bank to get its translation/details just in case we need to create it
     const publicWord = await prisma.publicWord.findUnique({
       where: { word: normalizedWord }
     });
 
-    const createData = {
-      word: normalizedWord,
-      userId: session.user.id,
-      translation: publicWord?.translation || 'Unknown (Added from flashcard)',
-      phonetic: publicWord?.phonetic || null,
-      pos: publicWord?.pos || null,
-      example: publicWord?.example || null,
-      exampleTranslation: publicWord?.exampleTranslation || null,
-      correctCount: isCorrect ? 1 : 0,
-      incorrectCount: isCorrect ? 0 : 1,
-    };
+    const existingWords = await prisma.$queryRaw<any[]>`
+      SELECT * FROM Word
+      WHERE userId = ${session.user.id}
+        AND lower(word) = ${normalizedWord}
+      LIMIT 1
+    `;
 
-    await prisma.word.upsert({
-      where: { 
-        word_userId: {
-          word: normalizedWord,
-          userId: session.user.id
+    if (existingWords.length > 0) {
+      await prisma.word.update({
+        where: { id: existingWords[0].id },
+        data: {
+          ...updateData,
+          updatedAt: new Date(),
         }
-      },
-      update: {
-        ...updateData,
-        updatedAt: new Date(), // 强制更新时间戳，以便智能排序使用
-      },
-      create: createData,
-    });
+      });
+    } else {
+      await prisma.word.create({
+        data: {
+          word: normalizedWord,
+          userId: session.user.id,
+          translation: publicWord?.translation || 'Unknown (Added from flashcard)',
+          phonetic: publicWord?.phonetic || null,
+          pos: publicWord?.pos || null,
+          example: publicWord?.example || null,
+          exampleTranslation: publicWord?.exampleTranslation || null,
+          correctCount: isCorrect ? 1 : 0,
+          incorrectCount: isCorrect ? 0 : 1,
+          updatedAt: new Date(),
+        }
+      });
+    }
 
     return NextResponse.json({ success: true });
 

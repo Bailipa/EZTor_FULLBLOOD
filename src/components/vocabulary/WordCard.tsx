@@ -133,15 +133,29 @@ const WordCard = memo(function WordCard({
           <span className="text-sm text-gray-700 dark:text-gray-300 font-medium">{item.translation}</span>
         </div>
 
-        {(item.correctCount > 0 || item.incorrectCount > 0) && (
-          <div className="flex gap-3 text-xs mt-2 p-2 bg-muted/50 rounded-md border border-border/50">
-            <span className="text-green-600 dark:text-green-500 font-medium">答对: {item.correctCount}</span>
-            <span className="text-red-600 dark:text-red-500 font-medium">答错: {item.incorrectCount}</span>
-            <span className="text-muted-foreground ml-auto">
-              正确率: {Math.round((item.correctCount / (item.correctCount + item.incorrectCount)) * 100)}%
-            </span>
-          </div>
-        )}
+        {(() => {
+          const correctCount = item.correctCount ?? 0;
+          const incorrectCount = item.incorrectCount ?? 0;
+          const totalCount = correctCount + incorrectCount;
+
+          if (totalCount > 0) {
+            return (
+              <div className="flex gap-3 text-xs mt-2 p-2 bg-muted/50 rounded-md border border-border/50">
+                <span className="text-green-600 dark:text-green-500 font-medium">答对: {correctCount}</span>
+                <span className="text-red-600 dark:text-red-500 font-medium">答错: {incorrectCount}</span>
+                <span className="text-muted-foreground ml-auto">
+                  正确率: {Math.round((correctCount / totalCount) * 100)}%
+                </span>
+              </div>
+            );
+          }
+
+          return (
+            <div className="text-xs text-muted-foreground opacity-70 mt-2 p-2 bg-muted/50 rounded-md border border-border/50">
+              暂无默写记录
+            </div>
+          );
+        })()}
 
         {item.example && (
           <div className="pt-3 mt-3 border-t border-gray-100 dark:border-border space-y-2">
