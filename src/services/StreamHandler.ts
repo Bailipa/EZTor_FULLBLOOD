@@ -21,9 +21,10 @@ export class StreamHandler {
   }
 
   createTranslationStream(response: any, orderedCachedResults: CachedWord[], targetGroupId?: string): ReadableStream {
+    const translationService = this.translationService;
     const stream = new ReadableStream({
       async start(controller) {
-        await this.translationService.processTranslationStream(response, controller, orderedCachedResults, targetGroupId);
+        await translationService.processTranslationStream(response, controller, orderedCachedResults, targetGroupId);
       }
     });
     return stream;
