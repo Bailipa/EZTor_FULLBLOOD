@@ -18,6 +18,10 @@ vi.mock('@/lib/security', () => ({
 
 vi.mock('@/lib/prisma', () => {
   const mockPrisma = {
+    publicWord: {
+      findUnique: vi.fn(),
+      create: vi.fn(),
+    },
     sharedVocabulary: {
       findUnique: vi.fn(),
       update: vi.fn(),
@@ -557,6 +561,8 @@ describe('Share Import API', () => {
         name: 'Test Group',
         userId: mockUserId,
       } as any);
+      vi.mocked(prisma.publicWord.findUnique).mockResolvedValue(null as any);
+      vi.mocked(prisma.publicWord.create).mockResolvedValue({ id: 'public-word-1' } as any);
       vi.mocked(prisma.word.create).mockResolvedValue({ id: 'new-word-1' } as any);
       vi.mocked(prisma.reviewGroupWord.create).mockResolvedValue({} as any);
       vi.mocked(prisma.reviewGroupWord.findUnique).mockResolvedValue(null);

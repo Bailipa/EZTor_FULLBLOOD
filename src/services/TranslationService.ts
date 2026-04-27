@@ -2,10 +2,9 @@ import { withLlmFailover, API_QUOTA_EXHAUSTED_MESSAGE, getProviderCandidates } f
 import { isSentence } from '@/lib/sentenceDetector';
 import prisma from '@/lib/prisma';
 import { randomUUID } from 'crypto';
-import { Prisma } from '@prisma/client';
 import { calculateQualityScore } from '@/lib/qualityScoring';
 import { cascadePublicWordToPrivate } from '@/lib/publicWordCascade';
-import { createDeduplicatedRequest, getPendingRequest, getCompletedRequest, resolvePendingRequest, setPendingRequest } from '@/lib/requestDeduplication';
+import { getPendingRequest, getCompletedRequest, resolvePendingRequest, setPendingRequest } from '@/lib/requestDeduplication';
 import { logger } from '@/lib/logger';
 
 const DEFAULT_SYSTEM_PROMPT = `你是一个专业的英语词典助手。你的唯一任务是解析和翻译用户提供的英语单词或词组。
@@ -267,122 +266,128 @@ export class TranslationService {
     })).filter((w: any) => w.word);
 
     for (const wordData of wordsToSave) {
-       try {
-         const savedWord = await prisma.word.upsert({
-           where: { 
-             word_userId: {
-               word: wordData.word,
-               userId: this.session.user.id
-             }
-           },
-           update: wordData,
-           create: {
-             ...wordData,
-             id: randomUUID(),
-             userId: this.session.user.id,
-             updatedAt: new Date(),
-           }
-         });
+      // 1) 保存到公共库 (带质量评分和乐观锁)
+      let publicWordId: string | null = null;
+      try {
+        const qualityResult = calculateQualityScore(
+          wordData.word,
+          wordData.phonetic,
+          wordData.pos,
+          wordData.translation,
+          wordData.example,
+          wordData.exampleTranslation
+        );
 
-         // 如果指定了目标分组，将这个新解析的词加入分组
-         if (targetGroupId && savedWord) {
-           try {
-             await prisma.reviewGroupWord.create({
-              data: { id: randomUUID(), reviewGroupId: targetGroupId, wordId: savedWord.id }
-            });
-           } catch (e: any) {
-             if (e.code !== 'P2002') console.error("Failed to add new word to group:", e);
-           }
-         }
-       } catch (dbErr: any) {
-         console.error(`Failed to save word ${wordData.word}:`, dbErr);
-       }
+        const existingPublicWord = await prisma.publicWord.findUnique({
+          where: { word: wordData.word }
+        });
 
-        // 保存到公共库 (带质量评分和乐观锁)
-        try {
-         const qualityResult = calculateQualityScore(
-           wordData.word,
-           wordData.phonetic,
-           wordData.pos,
-           wordData.translation,
-           wordData.example,
-           wordData.exampleTranslation
-         );
-
-         // 使用upsert + 质量评分条件，避免并发覆盖问题
-         // 只有当新数据质量更高时才更新
-          const existingPublicWord = await prisma.publicWord.findUnique({
-            where: { word: wordData.word }
-          });
-
-          if (!existingPublicWord) {
-            // 不存在则创建
-            try {
-              await prisma.publicWord.create({
-                data: {
-                  id: randomUUID(),
-                  word: wordData.word,
-                  translation: wordData.translation,
-                  phonetic: wordData.phonetic || null,
-                  pos: wordData.pos || null,
-                  example: wordData.example || null,
-                  exampleTranslation: wordData.exampleTranslation || null,
-                  qualityScore: qualityResult.score,
-                  updatedAt: new Date(),
-                }
-              });
-
-              await cascadePublicWordToPrivate({
+        if (!existingPublicWord) {
+          try {
+            const created = await prisma.publicWord.create({
+              data: {
+                id: randomUUID(),
                 word: wordData.word,
                 translation: wordData.translation,
                 phonetic: wordData.phonetic || null,
                 pos: wordData.pos || null,
                 example: wordData.example || null,
-                exampleTranslation: wordData.exampleTranslation || null
-              });
-            } catch (createErr: any) {
-              // 并发创建冲突，忽略（另一个请求已经创建）
-              if (createErr.code !== 'P2002') {
-                console.error("Failed to create public word:", createErr);
+                exampleTranslation: wordData.exampleTranslation || null,
+                qualityScore: qualityResult.score,
+                updatedAt: new Date(),
               }
-            }
-          } else if (qualityResult.score > existingPublicWord.qualityScore) {
-            // 只有质量更高时才更新，使用version作为乐观锁
-            try {
-              const updateResult = await prisma.publicWord.updateMany({
-                where: { 
-                  word: wordData.word,
-                  version: existingPublicWord.version  // 乐观锁
-                },
-                data: {
-                  translation: wordData.translation,
-                  phonetic: wordData.phonetic || null,
-                  pos: wordData.pos || null,
-                  example: wordData.example || null,
-                  exampleTranslation: wordData.exampleTranslation || null,
-                  qualityScore: qualityResult.score,
-                  version: { increment: 1 }
-                }
-              });
-              if (updateResult.count === 0) {
-                console.log(`[PublicWord] Concurrent update detected for "${wordData.word}", skipped`);
-              } else {
-                await cascadePublicWordToPrivate({
-                  word: wordData.word,
-                  translation: wordData.translation,
-                  phonetic: wordData.phonetic || null,
-                  pos: wordData.pos || null,
-                  example: wordData.example || null,
-                  exampleTranslation: wordData.exampleTranslation || null
-                });
-              }
-            } catch (updateErr) {
-              console.error("Failed to update public word:", updateErr);
+            });
+            publicWordId = created.id;
+          } catch (createErr: any) {
+            if (createErr.code !== 'P2002') {
+              console.error("Failed to create public word:", createErr);
             }
           }
-       } catch (publicDbErr: any) {
-         console.error("Failed to save to public word:", publicDbErr);
-       }
+        } else if (qualityResult.score > existingPublicWord.qualityScore) {
+          try {
+            const updateResult = await prisma.publicWord.updateMany({
+              where: {
+                word: wordData.word,
+                version: existingPublicWord.version
+              },
+              data: {
+                translation: wordData.translation,
+                phonetic: wordData.phonetic || null,
+                pos: wordData.pos || null,
+                example: wordData.example || null,
+                exampleTranslation: wordData.exampleTranslation || null,
+                qualityScore: qualityResult.score,
+                version: { increment: 1 }
+              }
+            });
+            if (updateResult.count === 0) {
+              console.log(`[PublicWord] Concurrent update detected for "${wordData.word}", skipped`);
+            }
+          } catch (updateErr) {
+            console.error("Failed to update public word:", updateErr);
+          }
+        }
+
+        // Ensure we have the PublicWord id (covers concurrent create/update paths).
+        if (!publicWordId) {
+          const pw = await prisma.publicWord.findUnique({ where: { word: wordData.word } });
+          publicWordId = pw?.id || null;
+        }
+
+        // Link/cascade for existing private rows (mirror mode).
+        await cascadePublicWordToPrivate({
+          word: wordData.word,
+          translation: wordData.translation,
+          phonetic: wordData.phonetic || null,
+          pos: wordData.pos || null,
+          example: wordData.example || null,
+          exampleTranslation: wordData.exampleTranslation || null
+        });
+      } catch (publicDbErr: any) {
+        console.error("Failed to save to public word:", publicDbErr);
+      }
+
+      // 2) 保存到用户私有库（仅存元数据 + publicWordId，避免冗余复制）
+      try {
+        const savedWord = await prisma.word.upsert({
+          where: {
+            word_userId: {
+              word: wordData.word,
+              userId: this.session.user.id
+            }
+          },
+          update: {
+            publicWordId,
+            sourceType: 'LLM',
+            updatedAt: new Date(),
+          },
+          create: {
+            id: randomUUID(),
+            word: wordData.word,
+            translation: null,
+            phonetic: null,
+            pos: null,
+            example: null,
+            exampleTranslation: null,
+            userId: this.session.user.id,
+            sourceType: 'LLM',
+            publicWordId,
+            updatedAt: new Date(),
+          }
+        });
+
+        if (targetGroupId && savedWord) {
+          try {
+            await prisma.reviewGroupWord.create({
+              data: { id: randomUUID(), reviewGroupId: targetGroupId, wordId: savedWord.id }
+            });
+          } catch (e: any) {
+            if (e.code !== 'P2002') console.error("Failed to add new word to group:", e);
+          }
+        }
+      } catch (dbErr: any) {
+        console.error(`Failed to save mirrored word ${wordData.word}:`, dbErr);
+      }
     }
 
     console.log(`Saved ${wordsToSave.length} words to DB during stream for user ${this.session.user.id}.`);

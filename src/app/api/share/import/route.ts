@@ -96,7 +96,20 @@ export async function POST(req: Request) {
           include: {
             ReviewGroupWord: {
               include: {
-                Word: true
+                Word: {
+                  include: {
+                    publicWord: {
+                      select: {
+                        id: true,
+                        phonetic: true,
+                        pos: true,
+                        translation: true,
+                        example: true,
+                        exampleTranslation: true,
+                      }
+                    }
+                  }
+                }
               }
             }
           }
@@ -336,16 +349,57 @@ export async function POST(req: Request) {
                 }
               }
 
+              const effectiveTranslation = wordData.translation ?? wordData.publicWord?.translation ?? '';
+              const effectivePhonetic = wordData.phonetic ?? wordData.publicWord?.phonetic ?? null;
+              const effectivePos = wordData.pos ?? wordData.publicWord?.pos ?? null;
+              const effectiveExample = wordData.example ?? wordData.publicWord?.example ?? null;
+              const effectiveExampleTranslation =
+                wordData.exampleTranslation ?? wordData.publicWord?.exampleTranslation ?? null;
+
+              // Ensure PublicWord exists so private Word can mirror it.
+              let publicWordId: string | null = null;
+              const existingPublic = await tx.publicWord.findUnique({
+                where: { word: normalizedWord }
+              });
+              if (existingPublic) {
+                publicWordId = existingPublic.id;
+              } else if (effectiveTranslation && effectiveTranslation.trim() !== '') {
+                try {
+                  const createdPublic = await tx.publicWord.create({
+                    data: {
+                      id: randomUUID(),
+                      word: normalizedWord,
+                      translation: effectiveTranslation,
+                      phonetic: effectivePhonetic,
+                      pos: effectivePos,
+                      example: effectiveExample,
+                      exampleTranslation: effectiveExampleTranslation,
+                      updatedAt: new Date(),
+                    }
+                  });
+                  publicWordId = createdPublic.id;
+                } catch (e: any) {
+                  if (e.code === 'P2002') {
+                    const pw = await tx.publicWord.findUnique({ where: { word: normalizedWord } });
+                    publicWordId = pw?.id || null;
+                  } else {
+                    throw e;
+                  }
+                }
+              }
+
               const word = await tx.word.create({
                 data: {
                   id: randomUUID(),
                   word: normalizedWord,
-                  phonetic: wordData.phonetic,
-                  pos: wordData.pos,
-                  translation: wordData.translation,
-                  example: wordData.example,
-                  exampleTranslation: wordData.exampleTranslation,
                   userId,
+                  sourceType: 'PUBLIC',
+                  publicWordId,
+                  translation: null,
+                  phonetic: null,
+                  pos: null,
+                  example: null,
+                  exampleTranslation: null,
                   updatedAt: new Date(),
                 }
               });
@@ -402,6 +456,17 @@ export async function POST(req: Request) {
             }
           }
         },
+        include: {
+          publicWord: {
+            select: {
+              phonetic: true,
+              pos: true,
+              translation: true,
+              example: true,
+              exampleTranslation: true,
+            }
+          }
+        },
         orderBy: {
           createdAt: 'desc'
         },
@@ -416,7 +481,18 @@ export async function POST(req: Request) {
           groupId: targetGroupIdToUse,
           groupName: targetGroupName,
           shareName: share.name,
-          newWords: newWords
+          newWords: newWords.map((w) => ({
+            id: w.id,
+            word: w.word,
+            phonetic: w.phonetic ?? w.publicWord?.phonetic ?? null,
+            pos: w.pos ?? w.publicWord?.pos ?? null,
+            translation: w.translation ?? w.publicWord?.translation ?? '',
+            example: w.example ?? w.publicWord?.example ?? null,
+            exampleTranslation: w.exampleTranslation ?? w.publicWord?.exampleTranslation ?? null,
+            correctCount: w.correctCount,
+            incorrectCount: w.incorrectCount,
+            updatedAt: w.updatedAt
+          }))
         }
       };
       

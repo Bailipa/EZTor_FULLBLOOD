@@ -31,8 +31,20 @@ export async function GET(req: Request) {
 
       // Fetch random words from the specific Review Group
       words = await prisma.$queryRaw`
-        SELECT w.* FROM Word w
+        SELECT
+          w.id,
+          w.word,
+          COALESCE(NULLIF(TRIM(w.phonetic), ''), pw.phonetic, '') AS phonetic,
+          COALESCE(NULLIF(TRIM(w.pos), ''), pw.pos, '') AS pos,
+          COALESCE(NULLIF(TRIM(w.translation), ''), pw.translation, '') AS translation,
+          COALESCE(NULLIF(TRIM(w.example), ''), pw.example, '') AS example,
+          COALESCE(NULLIF(TRIM(w.exampleTranslation), ''), pw.exampleTranslation, '') AS exampleTranslation,
+          w.correctCount,
+          w.incorrectCount,
+          w.updatedAt
+        FROM Word w
         JOIN ReviewGroupWord rgw ON w.id = rgw.wordId
+        LEFT JOIN PublicWord pw ON pw.id = w.publicWordId
         WHERE rgw.reviewGroupId = ${groupId}
         ORDER BY RANDOM() 
         LIMIT ${limit}

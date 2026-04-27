@@ -166,7 +166,19 @@ export async function GET(req: Request, { params }: { params: Promise<{ id: stri
       prisma.reviewGroupWord.findMany({
         where,
         include: {
-          Word: true
+          Word: {
+            include: {
+              publicWord: {
+                select: {
+                  phonetic: true,
+                  pos: true,
+                  translation: true,
+                  example: true,
+                  exampleTranslation: true,
+                }
+              }
+            }
+          }
         },
         orderBy: { addedAt: 'desc' },
         take: limit + 1,
@@ -178,7 +190,18 @@ export async function GET(req: Request, { params }: { params: Promise<{ id: stri
     const hasMore = groupWords.length > limit;
     const data = hasMore ? groupWords.slice(0, -1) : groupWords;
     const nextCursor = hasMore ? data[data.length - 1].id : null;
-    const words = data.map(gw => gw.Word);
+    const words = data.map(gw => ({
+      id: gw.Word.id,
+      word: gw.Word.word,
+      phonetic: gw.Word.phonetic ?? gw.Word.publicWord?.phonetic ?? null,
+      pos: gw.Word.pos ?? gw.Word.publicWord?.pos ?? null,
+      translation: gw.Word.translation ?? gw.Word.publicWord?.translation ?? '',
+      example: gw.Word.example ?? gw.Word.publicWord?.example ?? null,
+      exampleTranslation: gw.Word.exampleTranslation ?? gw.Word.publicWord?.exampleTranslation ?? null,
+      correctCount: gw.Word.correctCount,
+      incorrectCount: gw.Word.incorrectCount,
+      updatedAt: gw.Word.updatedAt
+    }));
 
     return NextResponse.json({
       success: true,

@@ -29,8 +29,14 @@ export async function GET(req: Request) {
     // SQLite 没有很好的原生 ORDER BY RANDOM() 性能优化，但对于个人生词本来说数据量小，直接用也可以。
     // 这里使用 Prisma 的 queryRaw 执行原生 SQL 以获取随机记录
     const randomWords = await prisma.$queryRaw`
-      SELECT word, translation, phonetic, example FROM Word 
-      WHERE userId = ${session.user.id}
+      SELECT
+        w.word,
+        COALESCE(NULLIF(TRIM(w.translation), ''), pw.translation, '') AS translation,
+        COALESCE(NULLIF(TRIM(w.phonetic), ''), pw.phonetic, '') AS phonetic,
+        COALESCE(NULLIF(TRIM(w.example), ''), pw.example, '') AS example
+      FROM Word w
+      LEFT JOIN PublicWord pw ON pw.id = w.publicWordId
+      WHERE w.userId = ${session.user.id}
       ORDER BY RANDOM() 
       LIMIT ${limit}
     `;

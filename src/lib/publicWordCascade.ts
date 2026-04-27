@@ -16,22 +16,41 @@ function normalizeWord(word: string): string {
 
 export async function cascadePublicWordToPrivate(fields: CascadeFields): Promise<void> {
   const word = normalizeWord(fields.word);
-  const updatedAt = new Date();
+  const publicWord = await prisma.publicWord.findUnique({
+    where: { word }
+  });
 
-  // Use case-insensitive match to cover historical mixed-case private entries.
-  // Only update definition fields; keep per-user stats intact.
+  if (!publicWord) return;
+
+  // Mirror mode:
+  // - Link Word.publicWordId so reads can join PublicWord.
+  // - If the private row looks like an unmodified copy (blank or equal), NULL it out to save space.
   await prisma.$executeRaw(
     Prisma.sql`
       UPDATE Word
       SET
-        phonetic = ${fields.phonetic ?? null},
-        pos = ${fields.pos ?? null},
-        translation = ${fields.translation},
-        example = ${fields.example ?? null},
-        exampleTranslation = ${fields.exampleTranslation ?? null},
-        updatedAt = ${updatedAt}
+        publicWordId = ${publicWord.id},
+        phonetic = CASE
+          WHEN phonetic IS NULL OR TRIM(phonetic) = '' OR phonetic = ${fields.phonetic ?? null} THEN NULL
+          ELSE phonetic
+        END,
+        pos = CASE
+          WHEN pos IS NULL OR TRIM(pos) = '' OR pos = ${fields.pos ?? null} THEN NULL
+          ELSE pos
+        END,
+        translation = CASE
+          WHEN translation IS NULL OR TRIM(translation) = '' OR translation = ${fields.translation} THEN NULL
+          ELSE translation
+        END,
+        example = CASE
+          WHEN example IS NULL OR TRIM(example) = '' OR example = ${fields.example ?? null} THEN NULL
+          ELSE example
+        END,
+        exampleTranslation = CASE
+          WHEN exampleTranslation IS NULL OR TRIM(exampleTranslation) = '' OR exampleTranslation = ${fields.exampleTranslation ?? null} THEN NULL
+          ELSE exampleTranslation
+        END
       WHERE lower(word) = ${word}
     `
   );
 }
-

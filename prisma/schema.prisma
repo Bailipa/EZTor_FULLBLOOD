@@ -141,6 +141,8 @@ model PublicWord {
   createdAt          DateTime @default(now())
   updatedAt          DateTime
 
+  userWords Word[]
+
   @@index([qualityScore])
 }
 
@@ -296,7 +298,7 @@ model Word {
   word               String
   phonetic           String?
   pos                String?
-  translation        String
+  translation        String?
   example            String?
   exampleTranslation String?
   correctCount       Int               @default(0)
@@ -304,9 +306,14 @@ model Word {
   createdAt          DateTime          @default(now())
   updatedAt          DateTime
   userId             String
+  sourceType         String            @default("USER")
+  publicWordId       String?
+  publicWord         PublicWord?       @relation(fields: [publicWordId], references: [id], onDelete: SetNull)
   ReviewGroupWord    ReviewGroupWord[]
   User               User              @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([word, userId])
+  @@index([userId, word])
+  @@index([publicWordId])
   @@index([userId, updatedAt(sort: Desc)])
 }

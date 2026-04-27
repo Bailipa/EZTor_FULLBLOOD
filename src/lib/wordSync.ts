@@ -1,5 +1,4 @@
 import prisma from '@/lib/prisma';
-import { calculateQualityScore } from './qualityScoring';
 
 interface SyncResult {
   synced: number;
@@ -7,14 +6,18 @@ interface SyncResult {
   errors: string[];
 }
 
-interface WordSyncData {
-  word: string;
-  phonetic: string | null;
-  pos: string | null;
-  translation: string;
-  example: string | null;
-  exampleTranslation: string | null;
-  qualityScore: number;
+function normalizeWord(word: string): string {
+  return String(word || '').toLowerCase().trim();
+}
+
+function isBlank(value: unknown): boolean {
+  return value == null || (typeof value === 'string' && value.trim() === '');
+}
+
+function sameText(a: unknown, b: unknown): boolean {
+  const aVal = isBlank(a) ? null : String(a);
+  const bVal = isBlank(b) ? null : String(b);
+  return aVal === bVal;
 }
 
 export async function syncUserWordWithPublic(
@@ -23,7 +26,7 @@ export async function syncUserWordWithPublic(
 ): Promise<{ updated: boolean; reason: string }> {
   try {
     const userWord = await prisma.word.findFirst({
-      where: { userId, word: word.toLowerCase() }
+      where: { userId, word: normalizeWord(word) }
     });
 
     if (!userWord) {
@@ -31,37 +34,40 @@ export async function syncUserWordWithPublic(
     }
 
     const publicWord = await prisma.publicWord.findFirst({
-      where: { word: word.toLowerCase() }
+      where: { word: normalizeWord(word) }
     });
 
     if (!publicWord) {
       return { updated: false, reason: 'PUBLIC_WORD_NOT_FOUND' };
     }
 
-    const userQuality = calculateQualityScore(
-      userWord.word,
-      userWord.phonetic,
-      userWord.pos,
-      userWord.translation,
-      userWord.example,
-      userWord.exampleTranslation
-    );
+    const nextData: Record<string, any> = {
+      publicWordId: publicWord.id
+    };
 
-    if (publicWord.qualityScore > userQuality.score) {
-      await prisma.word.update({
-        where: { id: userWord.id },
-        data: {
-          phonetic: publicWord.phonetic,
-          pos: publicWord.pos,
-          translation: publicWord.translation,
-          example: publicWord.example,
-          exampleTranslation: publicWord.exampleTranslation,
-        }
-      });
-      return { updated: true, reason: 'QUALITY_IMPROVED' };
+    // Mirror mode: if the private definitions are blank or equal to public, null them out to save space.
+    if (sameText(userWord.phonetic, publicWord.phonetic) || isBlank(userWord.phonetic)) nextData.phonetic = null;
+    if (sameText(userWord.pos, publicWord.pos) || isBlank(userWord.pos)) nextData.pos = null;
+    if (sameText(userWord.translation, publicWord.translation) || isBlank(userWord.translation)) nextData.translation = null;
+    if (sameText(userWord.example, publicWord.example) || isBlank(userWord.example)) nextData.example = null;
+    if (sameText(userWord.exampleTranslation, publicWord.exampleTranslation) || isBlank(userWord.exampleTranslation)) {
+      nextData.exampleTranslation = null;
     }
 
-    return { updated: false, reason: 'USER_QUALITY_HIGHER_OR_EQUAL' };
+    const updatedWord = await prisma.word.update({
+      where: { id: userWord.id },
+      data: nextData
+    });
+
+    const changed =
+      updatedWord.publicWordId === publicWord.id &&
+      (nextData.phonetic === null ||
+        nextData.pos === null ||
+        nextData.translation === null ||
+        nextData.example === null ||
+        nextData.exampleTranslation === null);
+
+    return { updated: changed, reason: changed ? 'MIRRORED_AND_CLEARED' : 'ALREADY_MIRRORED' };
   } catch (error) {
     console.error(`[WordSync] Error syncing word "${word}":`, error);
     return { updated: false, reason: 'ERROR' };
@@ -76,36 +82,11 @@ export async function syncAllUserWordsWithPublic(userId: string): Promise<SyncRe
   };
 
   try {
-    const userWords = await prisma.word.findMany({
-      where: { userId },
-      select: { word: true }
-    });
-
-    const publicWords = await prisma.publicWord.findMany({
-      where: {
-        word: { in: userWords.map(w => w.word) }
-      }
-    });
-
-    const publicWordMap = new Map(
-      publicWords.map(pw => [pw.word.toLowerCase(), pw])
-    );
-
-    for (const userWord of userWords) {
-      const publicWord = publicWordMap.get(userWord.word.toLowerCase());
-      
-      if (!publicWord) {
-        result.skipped++;
-        continue;
-      }
-
-      const syncResult = await syncUserWordWithPublic(userId, userWord.word);
-      
-      if (syncResult.updated) {
-        result.synced++;
-      } else {
-        result.skipped++;
-      }
+    const userWords = await prisma.word.findMany({ where: { userId }, select: { word: true } });
+    for (const uw of userWords) {
+      const r = await syncUserWordWithPublic(userId, uw.word);
+      if (r.updated) result.synced++;
+      else result.skipped++;
     }
 
     console.log(`[WordSync] Sync completed for user ${userId}:`, result);
@@ -124,69 +105,40 @@ export async function checkAndSyncOnQuery(
   const syncUpdates = new Map<string, any>();
 
   try {
-    const userWords = await prisma.word.findMany({
-      where: {
-        userId,
-        word: { in: words.map(w => w.toLowerCase()) }
-      }
-    });
+    // Mirror mode: the UI reads definitions from PublicWord automatically via join.
+    // Keep this hook as a lightweight "ensure linkage" step (no content copying).
+    const normalized = words.map(normalizeWord).filter(Boolean);
+    if (normalized.length === 0) return syncUpdates;
 
     const publicWords = await prisma.publicWord.findMany({
-      where: {
-        word: { in: words.map(w => w.toLowerCase()) }
-      }
+      where: { word: { in: normalized } },
+      select: { id: true, word: true, phonetic: true, pos: true, translation: true, example: true, exampleTranslation: true }
+    });
+    const publicWordMap = new Map(publicWords.map(pw => [normalizeWord(pw.word), pw]));
+
+    const userWords = await prisma.word.findMany({
+      where: { userId, word: { in: normalized } }
     });
 
-    const userWordMap = new Map(
-      userWords.map(uw => [uw.word.toLowerCase(), uw])
-    );
+    for (const uw of userWords) {
+      const pw = publicWordMap.get(normalizeWord(uw.word));
+      if (!pw) continue;
+      if (uw.publicWordId === pw.id) continue;
 
-    const publicWordMap = new Map(
-      publicWords.map(pw => [pw.word.toLowerCase(), pw])
-    );
+      await prisma.word.update({
+        where: { id: uw.id },
+        data: { publicWordId: pw.id }
+      });
 
-    for (const word of words) {
-      const wordLower = word.toLowerCase();
-      const userWord = userWordMap.get(wordLower);
-      const publicWord = publicWordMap.get(wordLower);
-
-      if (!userWord || !publicWord) {
-        continue;
-      }
-
-      const userQuality = calculateQualityScore(
-        userWord.word,
-        userWord.phonetic,
-        userWord.pos,
-        userWord.translation,
-        userWord.example,
-        userWord.exampleTranslation
-      );
-
-      if (publicWord.qualityScore > userQuality.score) {
-        const updatedWord = await prisma.word.update({
-          where: { id: userWord.id },
-          data: {
-            phonetic: publicWord.phonetic,
-            pos: publicWord.pos,
-            translation: publicWord.translation,
-            example: publicWord.example,
-            exampleTranslation: publicWord.exampleTranslation,
-          }
-        });
-
-        syncUpdates.set(wordLower, {
-          word: updatedWord.word,
-          phonetic: updatedWord.phonetic || '',
-          pos: updatedWord.pos || '',
-          translation: updatedWord.translation,
-          example: updatedWord.example || '',
-          exampleTranslation: updatedWord.exampleTranslation || '',
-          syncedFromPublic: true
-        });
-
-        console.log(`[WordSync] Auto-synced "${word}" for user ${userId}`);
-      }
+      syncUpdates.set(normalizeWord(uw.word), {
+        word: uw.word,
+        phonetic: pw.phonetic || '',
+        pos: pw.pos || '',
+        translation: pw.translation || '',
+        example: pw.example || '',
+        exampleTranslation: pw.exampleTranslation || '',
+        mirroredFromPublic: true
+      });
     }
 
     return syncUpdates;
@@ -259,26 +211,10 @@ export async function getSyncStats(userId: string): Promise<{
   try {
     const userWords = await prisma.word.findMany({
       where: { userId },
-      select: { word: true }
+      select: { word: true, publicWordId: true }
     });
 
-    const publicWords = await prisma.publicWord.findMany({
-      where: {
-        word: { in: userWords.map(w => w.word) }
-      },
-      select: { word: true, qualityScore: true }
-    });
-
-    const publicWordSet = new Set(publicWords.map(pw => pw.word.toLowerCase()));
-
-    let syncedWithPublic = 0;
-    let pendingSync = 0;
-
-    for (const uw of userWords) {
-      if (publicWordSet.has(uw.word.toLowerCase())) {
-        syncedWithPublic++;
-      }
-    }
+    const syncedWithPublic = userWords.filter(uw => !!uw.publicWordId).length;
 
     return {
       totalUserWords: userWords.length,

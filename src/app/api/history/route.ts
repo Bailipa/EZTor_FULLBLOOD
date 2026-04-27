@@ -24,24 +24,36 @@ export async function GET(req: Request) {
         orderBy: { updatedAt: 'desc' },
         take: limit + 1,
         ...(cursorParam ? { cursor: { id: cursorParam }, skip: 1 } : {}),
-        select: {
-          id: true,
-          word: true,
-          pos: true,
-          translation: true,
-          phonetic: true,
-          example: true,
-          exampleTranslation: true,
-          correctCount: true,
-          incorrectCount: true,
-          updatedAt: true
+        include: {
+          publicWord: {
+            select: {
+              phonetic: true,
+              pos: true,
+              translation: true,
+              example: true,
+              exampleTranslation: true,
+            }
+          }
         }
       }),
       prisma.word.count({ where })
     ]);
 
+    const mergedWords = words.map((w) => ({
+      id: w.id,
+      word: w.word,
+      phonetic: w.phonetic ?? w.publicWord?.phonetic ?? null,
+      pos: w.pos ?? w.publicWord?.pos ?? null,
+      translation: w.translation ?? w.publicWord?.translation ?? '',
+      example: w.example ?? w.publicWord?.example ?? null,
+      exampleTranslation: w.exampleTranslation ?? w.publicWord?.exampleTranslation ?? null,
+      correctCount: w.correctCount,
+      incorrectCount: w.incorrectCount,
+      updatedAt: w.updatedAt
+    }));
+
     const hasMore = words.length > limit;
-    const data = hasMore ? words.slice(0, -1) : words;
+    const data = hasMore ? mergedWords.slice(0, -1) : mergedWords;
     const nextCursor = hasMore ? data[data.length - 1].id : null;
 
     return NextResponse.json({

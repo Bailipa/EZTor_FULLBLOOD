@@ -26,9 +26,20 @@ export async function GET(req: Request) {
       }
 
       const smartWords = await prisma.$queryRaw<any[]>`
-        SELECT w.*
+        SELECT
+          w.id,
+          w.word,
+          COALESCE(NULLIF(TRIM(w.phonetic), ''), pw.phonetic, '') AS phonetic,
+          COALESCE(NULLIF(TRIM(w.pos), ''), pw.pos, '') AS pos,
+          COALESCE(NULLIF(TRIM(w.translation), ''), pw.translation, '') AS translation,
+          COALESCE(NULLIF(TRIM(w.example), ''), pw.example, '') AS example,
+          COALESCE(NULLIF(TRIM(w.exampleTranslation), ''), pw.exampleTranslation, '') AS exampleTranslation,
+          w.correctCount,
+          w.incorrectCount,
+          w.updatedAt
         FROM Word w
         JOIN ReviewGroupWord rgw ON w.id = rgw.wordId
+        LEFT JOIN PublicWord pw ON pw.id = w.publicWordId
         WHERE w.userId = ${session.user.id}
           AND rgw.reviewGroupId = ${groupId}
         ORDER BY
@@ -44,8 +55,19 @@ export async function GET(req: Request) {
     }
 
     const smartWords = await prisma.$queryRaw<any[]>`
-      SELECT w.*
+      SELECT
+        w.id,
+        w.word,
+        COALESCE(NULLIF(TRIM(w.phonetic), ''), pw.phonetic, '') AS phonetic,
+        COALESCE(NULLIF(TRIM(w.pos), ''), pw.pos, '') AS pos,
+        COALESCE(NULLIF(TRIM(w.translation), ''), pw.translation, '') AS translation,
+        COALESCE(NULLIF(TRIM(w.example), ''), pw.example, '') AS example,
+        COALESCE(NULLIF(TRIM(w.exampleTranslation), ''), pw.exampleTranslation, '') AS exampleTranslation,
+        w.correctCount,
+        w.incorrectCount,
+        w.updatedAt
       FROM Word w
+      LEFT JOIN PublicWord pw ON pw.id = w.publicWordId
       WHERE w.userId = ${session.user.id}
       ORDER BY
         (w.correctCount + w.incorrectCount) ASC,

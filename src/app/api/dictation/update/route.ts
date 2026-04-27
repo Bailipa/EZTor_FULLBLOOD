@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "../../auth/[...nextauth]/route";
+import { randomUUID } from 'crypto';
 
 export async function POST(req: Request) {
   try {
@@ -47,13 +48,16 @@ export async function POST(req: Request) {
     } else {
       await prisma.word.create({
         data: {
+          id: randomUUID(),
           word: normalizedWord,
           userId: session.user.id,
-          translation: publicWord?.translation || 'Unknown (Added from flashcard)',
-          phonetic: publicWord?.phonetic || null,
-          pos: publicWord?.pos || null,
-          example: publicWord?.example || null,
-          exampleTranslation: publicWord?.exampleTranslation || null,
+          sourceType: 'PUBLIC',
+          publicWordId: publicWord?.id || null,
+          translation: null,
+          phonetic: null,
+          pos: null,
+          example: null,
+          exampleTranslation: null,
           correctCount: isCorrect ? 1 : 0,
           incorrectCount: isCorrect ? 0 : 1,
           updatedAt: new Date(),
