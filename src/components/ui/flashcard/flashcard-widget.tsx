@@ -299,7 +299,7 @@ export function FlashcardWidget() {
                   title={isInVocabularyBook ? "已在生词本中" : "添加到我的生词本"}
                 >
                   {isSaving ? <Loader2 className="w-3 h-3 animate-spin mr-1" /> : isInVocabularyBook ? "已添加" : <BookmarkPlus className="w-3 h-3 mr-1" />}
-                  {isInVocabularyBook ? "已添加" : "加入生词本"}
+                  {isInVocabularyBook ? "" : "加入生词本"}//这里没有写‘已添加’是因为如果写了，展示会变成‘已添加已添加’
                 </Button>
               )}
             </div>

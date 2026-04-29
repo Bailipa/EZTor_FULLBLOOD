@@ -64,7 +64,13 @@ export function TranslateOnlyCard() {
     
     try {
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 30000);
+      // 动态超时：基础 30s，每 1000 字增加 30s，上限 5 分钟（300000ms）
+      const BASE_TIMEOUT_MS = 30000;
+      const PER_1000_MS = 30000;
+      const MAX_TIMEOUT_MS = 300000;
+      const extraUnits = Math.max(0, Math.ceil(input.length / 1000) - 1);
+      const timeoutMs = Math.min(MAX_TIMEOUT_MS, BASE_TIMEOUT_MS + extraUnits * PER_1000_MS);
+      const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
       
       const response = await fetch('/api/translate-only', {
         method: 'POST',
