@@ -52,7 +52,7 @@ interface PublicWordsData {
 }
 
 export default function PublicWordsPage() {
-  const { isLoading: authLoading, isAdmin } = useAdminCheck();
+  const { isLoading: authLoading, isAdmin, status } = useAdminCheck();
   const [data, setData] = useState<PublicWordsData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -102,13 +102,34 @@ export default function PublicWordsPage() {
     setPage(1);
   };
 
-  if (authLoading || !isAdmin) {
+  if (authLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
           <p className="text-muted-foreground">验证权限中...</p>
         </div>
+      </div>
+    );
+  }
+
+  if (!isAdmin) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <Card>
+          <CardContent className="pt-6 text-center">
+            <AlertTriangle className="w-12 h-12 text-yellow-500 mx-auto mb-4" />
+            <p className="text-lg font-medium mb-2">无访问权限</p>
+            <p className="text-sm text-muted-foreground mb-4">
+              {status === 'unauthenticated'
+                ? '请先登录后再访问此页面。'
+                : '您没有管理员权限，无法访问此页面。'}
+            </p>
+            <Button onClick={() => window.location.href = status === 'unauthenticated' ? '/auth/signin' : '/'}>
+              {status === 'unauthenticated' ? '前往登录' : '返回首页'}
+            </Button>
+          </CardContent>
+        </Card>
       </div>
     );
   }

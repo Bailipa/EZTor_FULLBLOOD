@@ -41,7 +41,7 @@ function toNullableNumber(v: string) {
 }
 
 export default function LlmConfigPage() {
-  const { isLoading: authLoading, isAdmin } = useAdminCheck();
+  const { isLoading: authLoading, isAdmin, status } = useAdminCheck();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [rows, setRows] = useState<ProviderRow[]>([]);
@@ -160,10 +160,32 @@ export default function LlmConfigPage() {
     fetchData();
   };
 
-  if (authLoading || !isAdmin) {
+  if (authLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-muted-foreground">验证权限中...</div>
+      </div>
+    );
+  }
+
+  if (!isAdmin) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <Card>
+          <CardContent className="pt-6 text-center">
+            <p className="text-lg font-medium mb-2">无访问权限</p>
+            <p className="text-sm text-muted-foreground mb-4">
+              {status === 'unauthenticated'
+                ? '请先登录后再访问此页面。'
+                : '您没有管理员权限，无法访问此页面。'}
+            </p>
+            <Link href={status === 'unauthenticated' ? '/auth/signin' : '/'}>
+              <Button>
+                {status === 'unauthenticated' ? '前往登录' : '返回首页'}
+              </Button>
+            </Link>
+          </CardContent>
+        </Card>
       </div>
     );
   }
