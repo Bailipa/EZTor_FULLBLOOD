@@ -31,9 +31,12 @@ const GridList = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>
   ({ style, children, ...props }, ref) => (
     <div
       ref={ref}
-      style={style}
+      style={{
+        ...style,
+        contain: 'layout style',
+      }}
       {...props}
-      className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
+      className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 virtuoso-grid-list"
     >
       {children}
     </div>
@@ -42,8 +45,17 @@ const GridList = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>
 GridList.displayName = 'GridList';
 
 const GridItem = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement> & { 'data-index'?: number }>(
-  ({ children, ...props }, ref) => (
-    <div ref={ref} {...props}>
+  ({ children, style, ...props }, ref) => (
+    <div 
+      ref={ref} 
+      {...props}
+      style={{ 
+        contain: 'layout style paint',
+        backfaceVisibility: 'hidden',
+        WebkitBackfaceVisibility: 'hidden',
+        ...style,
+      }}
+    >
       {children}
     </div>
   )
@@ -494,6 +506,27 @@ export default function HistoryPage() {
   const isGroupView = currentViewGroupId !== "all";
   const selectedCount = selectedSet.size;
 
+  // Memoize the itemContent renderer to prevent recreation on every render
+  const renderItemContent = useCallback((index: number, item: WordData) => (
+    <WordCard
+      key={item.id}
+      item={item}
+      index={index}
+      isSelectionMode={isSelectionMode}
+      isSelected={selectedSet.has(item.id)}
+      isDeleting={deletingId === item.id}
+      isGroupView={isGroupView}
+      onToggleSelection={toggleSelection}
+      onDragStart={handleDragStart}
+      onDragEnter={handleDragEnter}
+      onTouchStart={handleDragStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={() => setIsDraggingSelection(false)}
+      onSetDeletingId={setDeletingId}
+      onDelete={handleDelete}
+    />
+  ), [isSelectionMode, selectedSet, deletingId, isGroupView, toggleSelection, handleDragStart, handleDragEnter, handleTouchMove, setDeletingId, handleDelete]);
+
   return (
     <main className="min-h-screen bg-gray-50/50 dark:bg-background p-6 md:p-12 transition-colors duration-300">
       <div className="max-w-5xl mx-auto space-y-8">
@@ -695,34 +728,21 @@ export default function HistoryPage() {
             </Link>
           </div>
         ) : (
-          <div style={{ height: 'calc(100vh - 220px)' }}>
+          <div className="smooth-scroll-container" style={{ height: 'calc(100vh - 220px)', overflow: 'hidden' }}>
             <VirtuosoGrid
               data={words}
+              totalCount={words.length}
               components={{
                 List: GridList,
                 Item: GridItem,
               }}
-              itemContent={(index, item) => (
-                <WordCard
-                  key={item.id}
-                  item={item}
-                  index={index}
-                  isSelectionMode={isSelectionMode}
-                  isSelected={selectedSet.has(item.id)}
-                  isDeleting={deletingId === item.id}
-                  isGroupView={isGroupView}
-                  onToggleSelection={toggleSelection}
-                  onDragStart={handleDragStart}
-                  onDragEnter={handleDragEnter}
-                  onTouchStart={handleDragStart}
-                  onTouchMove={handleTouchMove}
-                  onTouchEnd={() => setIsDraggingSelection(false)}
-                  onSetDeletingId={setDeletingId}
-                  onDelete={handleDelete}
-                />
-              )}
+              itemContent={renderItemContent}
               endReached={loadMore}
-              overscan={200}
+              overscan={300}
+              useWindowScroll={false}
+              increaseViewportBy={{ top: 500, bottom: 500 }}
+              computeItemKey={(index, item) => item.id}
+              style={{ width: '100%', height: '100%' }}
             />
           </div>
         )}

@@ -144,6 +144,35 @@
     background-size: 1rem 1rem;
   }
 
+  /* Optimize scrolling performance */
+  .scroll-smooth-optimize {
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+  }
+
+  /* Prevent layout shifts during virtual scrolling */
+  .virtuoso-grid-list {
+    contain: layout style;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+
+  /* Optimize card rendering */
+  .word-card-optimized {
+    contain: layout style paint;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    transform: translateZ(0);
+  }
+
+  /* Smooth scrolling container */
+  .smooth-scroll-container {
+    -webkit-overflow-scrolling: touch;
+    overflow-anchor: none;
+    will-change: scroll-position;
+  }
+
   @keyframes progress-shimmer {
     0% {
       transform: translateX(-100%);
