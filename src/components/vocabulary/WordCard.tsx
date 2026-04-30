@@ -68,7 +68,13 @@ const WordCard = memo(function WordCard({
     <Card
       data-word-id={item.id}
       data-word-index={index}
-      className={`hover:shadow-md transition-all ${isSelectionMode ? 'cursor-pointer select-none' : ''} ${isSelectionMode && isSelected ? 'ring-2 ring-primary border-primary bg-primary/5' : ''}`}
+      className={`${isSelectionMode ? 'cursor-pointer select-none' : ''} ${isSelectionMode && isSelected ? 'ring-2 ring-primary border-primary bg-primary/5' : ''}`}
+      style={{ 
+        contain: 'layout style paint',
+        backfaceVisibility: 'hidden',
+        WebkitBackfaceVisibility: 'hidden',
+        transform: 'translateZ(0)'
+      }}
       onMouseDown={() => onDragStart(index, item.id)}
       onMouseEnter={() => onDragEnter(index)}
       onTouchStart={() => onTouchStart(index, item.id)}
@@ -76,7 +82,7 @@ const WordCard = memo(function WordCard({
       onTouchEnd={onTouchEnd}
       onDragStart={(e) => e.preventDefault()}
     >
-      <CardContent className="p-5 space-y-3 relative">
+      <CardContent className="p-5 space-y-3 relative" style={{ minHeight: '200px', contain: 'layout' }}>
         {isSelectionMode && (
           <div className="absolute top-5 right-5 z-10">
             <Checkbox
@@ -95,7 +101,7 @@ const WordCard = memo(function WordCard({
             <button
               onClick={() => speakText(item.word)}
               onMouseDown={(e) => e.stopPropagation()}
-              className="p-1 text-gray-400 hover:text-primary hover:bg-primary/10 rounded-full transition-colors relative z-20"
+              className="p-1 text-gray-400 hover:text-primary hover:bg-primary/10 rounded-full relative z-20"
             >
               <Volume2 size={16} />
             </button>
@@ -105,7 +111,7 @@ const WordCard = memo(function WordCard({
               <AlertDialogTrigger asChild>
                 <button
                   onClick={() => onSetDeletingId(item.id)}
-                  className="text-gray-300 hover:text-red-500 transition-colors"
+                  className="text-gray-300 hover:text-red-500"
                   title={isGroupView ? "从分组中移除" : "删除此单词"}
                 >
                   <Trash2 size={16} />

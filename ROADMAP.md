@@ -1,18 +1,19 @@
 # EZTor 开发路线图
 
-> 本文档记录项目未来开发规划、功能设计和技术方案
+> 本文档记录项目未来开发规划、功能设计和技术方案  
+> **最后更新**：2026-04-29
 
 ***
 
 ## 目录
 
 1. [小游戏开发](#1-小游戏开发)
-2. [社交分享功能](#2-社交分享功能)√
+2. [社交分享功能](#2-社交分享功能) ✅ 已完成
 3. [开源评估](#3-开源评估)
 4. [桌面弹幕插件](#4-桌面弹幕插件)
-5. [并发查询冲突处理](#5-并发查询冲突处理)√
-6. [流量数据收集](#6-流量数据收集)√
-7. [热更新实现](#7-热更新实现)❌ (已弃用)
+5. [并发查询冲突处理](#5-并发查询冲突处理) ✅ 已完成
+6. [流量数据收集](#6-流量数据收集) ✅ 已完成
+7. [版本检测机制](#7-版本检测机制) ✅ 已完成
 8. [优先级与时间规划](#8-优先级与时间规划)
 
 ***
@@ -721,202 +722,11 @@ interface DashboardData {
 
 ***
 
-## 7. 热更新实现
+## 7. 版本检测机制
 
-### 7.1 Web 端更新策略
+> **状态**：✅ 已完成 — 版本检测基础逻辑已集成，更新通知 UI 已通过客户端组件实现。
 
-| 更新类型   | 方案             | 用户感知   |
-| ------ | -------------- | ------ |
-| 前端代码   | Vercel 自动部署    | 刷新页面即可 |
-| API 逻辑 | 重新部署           | 无感知    |
-| 数据库    | Prisma Migrate | 需维护窗口  |
-
-### 7.2 版本检测机制
-
-```typescript
-// hooks/useVersionCheck.ts
-import { useEffect, useState } from 'react';
-
-const CHECK_INTERVAL = 5 * 60 * 1000; // 5分钟
-
-interface VersionInfo {
-  version: string;
-  buildTime: string;
-  changelog?: string;
-}
-
-export function useVersionCheck() {
-  const [updateAvailable, setUpdateAvailable] = useState(false);
-  const [versionInfo, setVersionInfo] = useState<VersionInfo | null>(null);
-
-  useEffect(() => {
-    const checkVersion = async () => {
-      try {
-        const res = await fetch('/api/version?t=' + Date.now());
-        const info: VersionInfo = await res.json();
-        
-        const currentVersion = localStorage.getItem('app_version');
-        
-        if (currentVersion && currentVersion !== info.version) {
-          setVersionInfo(info);
-          setUpdateAvailable(true);
-        }
-        
-        localStorage.setItem('app_version', info.version);
-      } catch (e) {
-        console.error('Version check failed:', e);
-      }
-    };
-
-    checkVersion();
-    const interval = setInterval(checkVersion, CHECK_INTERVAL);
-    
-    return () => clearInterval(interval);
-  }, []);
-
-  const applyUpdate = () => {
-    window.location.reload();
-  };
-
-  return { updateAvailable, versionInfo, applyUpdate };
-}
-```
-
-### 7.3 更新通知组件
-
-```tsx
-// components/UpdateNotification.tsx
-import { useVersionCheck } from '@/hooks/useVersionCheck';
-import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
-import { RefreshCw, X } from 'lucide-react';
-
-export function UpdateNotification() {
-  const { updateAvailable, versionInfo, applyUpdate } = useVersionCheck();
-  const [dismissed, setDismissed] = useState(false);
-
-  if (!updateAvailable || dismissed) return null;
-
-  return (
-    <Card className="fixed bottom-4 right-4 p-4 shadow-lg border-primary/50 z-50 max-w-sm">
-      <div className="flex items-start gap-3">
-        <RefreshCw className="w-5 h-5 text-primary mt-0.5" />
-        <div className="flex-1">
-          <p className="font-medium">发现新版本</p>
-          {versionInfo?.changelog && (
-            <p className="text-sm text-muted-foreground mt-1">
-              {versionInfo.changelog}
-            </p>
-          )}
-          <div className="flex gap-2 mt-3">
-            <Button size="sm" onClick={applyUpdate}>
-              立即更新
-            </Button>
-            <Button 
-              size="sm" 
-              variant="ghost" 
-              onClick={() => setDismissed(true)}
-            >
-              稍后
-            </Button>
-          </div>
-        </div>
-        <Button
-          size="icon"
-          variant="ghost"
-          className="h-6 w-6"
-          onClick={() => setDismissed(true)}
-        >
-          <X className="w-4 h-4" />
-        </Button>
-      </div>
-    </Card>
-  );
-}
-```
-
-### 7.4 维护模式
-
-```typescript
-// middleware.ts
-import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/server';
-
-export async function middleware(req: NextRequest) {
-  const isMaintenance = process.env.MAINTENANCE_MODE === 'true';
-  
-  if (isMaintenance) {
-    // 允许管理员访问
-    const isAdminPath = req.nextUrl.pathname.startsWith('/api/admin');
-    const hasAdminToken = req.cookies.get('admin_token');
-    
-    if (!isAdminPath && !hasAdminToken) {
-      return NextResponse.rewrite(new URL('/maintenance', req.url));
-    }
-  }
-  
-  return NextResponse.next();
-}
-
-// app/maintenance/page.tsx
-export default function MaintenancePage() {
-  return (
-    <div className="min-h-screen flex items-center justify-center">
-      <div className="text-center">
-        <h1 className="text-2xl font-bold mb-4">系统维护中</h1>
-        <p className="text-muted-foreground">
-          我们正在进行系统升级，请稍后再试
-        </p>
-      </div>
-    </div>
-  );
-}
-```
-
-### 7.5 数据库迁移策略
-
-```bash
-# 生产环境迁移流程
-
-# 1. 开启维护模式
-export MAINTENANCE_MODE=true
-
-# 2. 备份数据库
-sqlite3 dev.db ".backup backup_$(date +%Y%m%d).db"
-
-# 3. 执行迁移
-npx prisma migrate deploy
-
-# 4. 验证迁移
-npx prisma db push --force-reset  # 仅测试环境
-
-# 5. 关闭维护模式
-export MAINTENANCE_MODE=false
-```
-
-### 7.6 回滚机制
-
-```bash
-# Vercel 回滚
-vercel rollback [deployment-url]
-
-# 数据库回滚
-npx prisma migrate resolve --rolled-back [migration-name]
-
-# 紧急回滚脚本
-#!/bin/bash
-# rollback.sh
-
-echo "Starting rollback..."
-
-# 1. 恢复上一个部署
-vercel rollback --yes
-
-# 2. 恢复数据库
-sqlite3 dev.db ".restore backup_latest.db"
-
-echo "Rollback complete!"
-```
+当前通过 `package.json` 中的 `version` 字段（0.3.0）标识版本，部署时更新即可。热更新（Vercel/PM2 自动部署）和数据库迁移回滚策略详见 [PROJECT_ASSESSMENT.md](./PROJECT_ASSESSMENT.md) 及 [prisma/BACKUP_RESTORE.md](./prisma/BACKUP_RESTORE.md)。
 
 ***
 
@@ -929,7 +739,9 @@ echo "Rollback complete!"
 | 流量数据收集 | 🔴 P0 | 1天   | 运营基础 | 高   | ✅ 已完成 |
 | 并发冲突处理 | 🔴 P0 | 0.5天 | 数据质量 | 高   | ✅ 已完成 |
 | 版本检测   | 🟡 P1 | 0.5天 | 用户体验 | 中   | ✅ 已完成 |
-| 社交分享   | 🟡 P1 | 2天   | 用户增长 | 中   | 待开发   |
+| 社交分享   | 🟡 P1 | 2天   | 用户增长 | 中   | ✅ 已完成 |
+| 数据库重构   | 🔴 P0 | 2天   | 数据质量 | 高   | ✅ 已完成 |
+| 安全加固   | 🔴 P0 | 3天   | 安全基础 | 高   | ✅ 已完成 |
 | 小游戏    | 🟢 P2 | 3天   | 用户留存 | 低   | 待开发   |
 | 桌面弹幕   | 🟢 P3 | 9天   | 高级功能 | 低   | 待开发   |
 | 开源准备   | ⏸️ 暂缓 | 3天   | 品牌建设 | 低   | 待开发   |
@@ -937,18 +749,20 @@ echo "Rollback complete!"
 ### 8.2 开发路线图
 
 ```
-Week 1: 基础设施
-├── Day 1: 流量数据收集系统
-├── Day 2: 并发冲突处理 + 质量评分
-├── Day 3: 版本检测 + 更新通知
-├── Day 4-5: 社交分享功能
+已完成 (截至 2026-04-29):
+├── 流量数据收集系统 ✅
+├── 并发冲突处理 + 质量评分 ✅
+├── 版本检测 + 更新通知 ✅
+├── 社交分享功能 (创建/导入/验证/默认词库) ✅
+├── 数据库重构 (sourceType/publicWordId 引用模式) ✅
+├── 安全加固 (CSRF/注入检测/频率限制/封禁管理/环境校验) ✅
+├── 全站点骨架屏 + 错误边界 ✅
+└── 首页 SSR + SEO 优化 ✅
 
-Week 2: 功能增强
-├── Day 1-3: 小游戏开发
-├── Day 4-5: 测试 + Bug 修复
-
-Week 3+: 高级功能（可选）
-├── 桌面弹幕插件
+规划中:
+├── 小游戏开发 (无限井字棋)
+├── CI/CD 自动化流水线
+├── 测试覆盖率提升
 └── 开源准备
 ```
 
@@ -957,11 +771,11 @@ Week 3+: 高级功能（可选）
 | 里程碑 | 目标          | 预计完成   | 状态    |
 | --- | ----------- | ------ | ----- |
 | M1  | 上线基础版       | -      | ✅ 已完成 |
-| M2  | 数据收集 + 质量评分 | Week 1 | ✅ 已完成 |
-| M3  | 版本检测 + 分享   | Week 2 | 进行中   |
-| M4  | 小游戏上线       | Week 3 | 待开发   |
-| M5  | 用户量 100+    | Week 4 | 进行中   |
-| M6  | 开源发布        | 待定     | 待开发   |
+| M2  | 数据收集 + 质量评分 | 2026-04 | ✅ 已完成 |
+| M3  | 社交分享 + 安全加固 | 2026-04 | ✅ 已完成 |
+| M4  | 小游戏上线       | 待定     | 待开发   |
+| M5  | 用户量 100+    | 进行中   | 进行中   |
+| M6  | CI/CD + 测试覆盖 | 待定     | 待开发   |
 
 ***
 
@@ -969,17 +783,19 @@ Week 3+: 高级功能（可选）
 
 ### A. 相关文档
 
-- [ARCHITECTURE.md](./ARCHITECTURE.md) - 系统架构
-- [DEPLOYMENT\_GUIDE.md](./DEPLOYMENT_GUIDE.md) - 部署指南
-- [SECURITY\_ASSESSMENT.md](./SECURITY_ASSESSMENT.md) - 安全评估
+- [PROJECT_ASSESSMENT.md](./PROJECT_ASSESSMENT.md) - 项目健壮性与可部署性评估
+- [architecture-diagrams.md](./architecture-diagrams.md) - 系统架构图
+- [docs/ADMIN_GUIDE.md](./docs/ADMIN_GUIDE.md) - 管理员手册
+- [docs/SECRET_MANAGEMENT.md](./docs/SECRET_MANAGEMENT.md) - 密钥安全管理规范
+- [prisma/BACKUP_RESTORE.md](./prisma/BACKUP_RESTORE.md) - 数据库备份恢复指南
 
 ### B. 更新日志
 
 | 日期         | 更新内容                |
 | ---------- | ------------------- |
 | 2026-04-04 | 初始版本，规划七大功能模块       |
-| 2026-04-04 | 完成流量数据收集系统 + 并发冲突处理 |
-| 2026-04-05 | 完成版本检测机制，更新文档       |
+| 2026-04-05 | 完成流量数据收集系统 + 并发冲突处理 |
+| 2026-04-29 | 更新功能状态、修复过期引用、精简已弃用章节 |
 
 ***
 
