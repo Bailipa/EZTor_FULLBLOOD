@@ -350,6 +350,62 @@ A:
 
 A: 可以。参考 GitHub 仓库的 JSON 格式，创建自己的 JSON 文件，然后在脚本中添加配置。
 
+## 词条数据补充
+
+### 概述
+
+GitHub 仓库的 `json/` 目录中的基础 JSON 文件仅包含 `word`、`translations`、`phrases`，缺少 `phonetic`（音标）和完整的例句。而仓库中另有两个更丰富的数据目录：
+
+- **`json_original/json-sentence/`**: 包含 `sentences`（例句+翻译）、`us`（美式音标）、`uk`（英式音标）
+- **`json_original/json-full/`**: 最完整格式，含多个例句、真题例句、同义词等
+
+### 补充脚本
+
+**脚本**: [`scripts/supplement-word-data.ts`](file:///Users/elee987/Downloads/web_compressed/scripts/supplement-word-data.ts)
+
+```bash
+# 预览模式（查看将补充哪些数据）
+npx tsx scripts/supplement-word-data.ts --dry-run
+
+# 实际执行补充
+npx tsx scripts/supplement-word-data.ts
+
+# 仅补充 Word 表
+npx tsx scripts/supplement-word-data.ts --word-only
+
+# 仅补充 PublicWord 表
+npx tsx scripts/supplement-word-data.ts --public-only
+```
+
+**补充字段**:
+- `example` / `exampleTranslation`：从上游 `sentences` 中智能挑选最佳例句
+- `phonetic`：从 `us`/`uk` 字段提取，格式化为 `/phonetic/`
+- `pos`：从上游 `translations[].type` 字段提取
+
+### 验证脚本
+
+**脚本**: [`scripts/verify-supplementation.ts`](file:///Users/elee987/Downloads/web_compressed/scripts/verify-supplementation.ts)
+
+```bash
+# 运行验证
+npx tsx scripts/verify-supplementation.ts
+
+# 输出 JSON 报告
+npx tsx scripts/verify-supplementation.ts --output report.json
+```
+
+### 定期更新
+
+**脚本**: [`scripts/periodic-update.sh`](file:///Users/elee987/Downloads/web_compressed/scripts/periodic-update.sh)
+
+```bash
+# 手动运行
+./scripts/periodic-update.sh
+
+# 配置 crontab 定时任务（每周日凌晨3点）
+# 0 3 * * 0 /path/to/project/scripts/periodic-update.sh >> /var/log/vocab-update.log 2>&1
+```
+
 ## 总结
 
 ✅ **已完成**:
@@ -359,20 +415,21 @@ A: 可以。参考 GitHub 仓库的 JSON 格式，创建自己的 JSON 文件，
 4. 自动去重机制
 5. 分享密钥生成
 6. DefaultVocabulary 配置
+7. 词条例句/音标/词性自动补全
 
-✅ **导入结果**:
-- 四级词汇：4,539 个单词
-- 六级词汇：2,118 个单词
-- 考研词汇：待导入
+✅ **补充结果** (2026-04-30):
+- Word 表：28,064 条例例句 (96%), 28,264 条音标 (97%), 29,086 条词性 (100%)
+- PublicWord 表：16,080 条例句 (91%), 17,050 条音标 (96%), 16,776 条词性 (95%)
 
 ✅ **性能指标**:
 - 导入速度：~150 个单词/秒
-- 7500 个单词：约 50 秒
+- 补充速度：~300 个词条/秒
+- 811 个 json-sentence 文件，23,882 个独立词条
 - 去重准确率：100%
 
 ---
 
-**文档版本**: 1.0  
+**文档版本**: 1.1  
 **创建日期**: 2026-04-13  
-**最后更新**: 2026-04-13  
+**最后更新**: 2026-04-30  
 **数据源**: https://github.com/KyleBing/english-vocabulary.git
