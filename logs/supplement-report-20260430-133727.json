@@ -1,0 +1,32 @@
+{
+  "timestamp": "2026-04-30T05:37:28.654Z",
+  "summary": {
+    "wordTable": {
+      "total": 29132,
+      "withExample": 28064,
+      "withExamplePercent": 96,
+      "withPhonetic": 28264,
+      "withPhoneticPercent": 97,
+      "withPos": 29086,
+      "withPosPercent": 100,
+      "fullyComplete": 0,
+      "fullyCompletePercent": 0
+    },
+    "publicWordTable": {
+      "total": 17731,
+      "withExample": 16080,
+      "withExamplePercent": 91,
+      "withPhonetic": 17050,
+      "withPhoneticPercent": 96,
+      "withPos": 16776,
+      "withPosPercent": 95,
+      "fullyComplete": 15625,
+      "fullyCompletePercent": 88
+    }
+  },
+  "qualityCheck": {
+    "examplesSampled": 100,
+    "issuesFound": 0,
+    "issues": []
+  }
+}
