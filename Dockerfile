@@ -16,6 +16,7 @@ COPY --from=build /app/.next/standalone ./
 COPY --from=build /app/.next/static ./.next/static
 COPY --from=build /app/public ./public
 COPY prisma ./prisma
-
+COPY docker-entrypoint.sh .
+RUN chmod +x docker-entrypoint.sh && npm install -g prisma@5
 EXPOSE 3000
-CMD ["node", "server.js"]
+CMD ["./docker-entrypoint.sh"]
