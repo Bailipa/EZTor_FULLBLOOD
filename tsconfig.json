@@ -38,6 +38,7 @@
   ],
   "exclude": [
     "node_modules",
-    "src/_deprecated"
+    "src/_deprecated",
+    "scripts"
   ]
 }

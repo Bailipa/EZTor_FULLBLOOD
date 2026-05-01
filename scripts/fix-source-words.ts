@@ -100,7 +100,7 @@ async function main() {
         console.log(`已修复 ${fixed} 个单词...`);
       }
     } catch (err) {
-      console.error(`修复单词 ${word.word} 失败:`, err.message);
+      console.error(`修复单词 ${word.word} 失败:`, err instanceof Error ? err.message : String(err));
       skipped++;
     }
   }

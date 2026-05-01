@@ -7,7 +7,7 @@ import { detectBatchPromptInjection } from '@/lib/injectionDetector';
 import { checkUserBan, checkIpBan } from '@/lib/banManager';
 import { API_QUOTA_EXHAUSTED_MESSAGE } from '@/lib/llmPool';
 import { TranslationService } from '@/services/TranslationService';
-import { CacheService } from '@/services/CacheService';
+import { CacheService, CachedWord } from '@/services/CacheService';
 import { StreamHandler } from '@/services/StreamHandler';
 import { randomUUID } from 'crypto';
 import prisma from '@/lib/prisma';
@@ -53,7 +53,7 @@ async function safeRecordTranslation(
     });
     logger.debug(`[TranslationRecord] Recorded: ${word} for user ${userId} (cached=${isCached})`);
   } catch (e) {
-    logger.error('Failed to record translation:', e);
+    logger.error({ err: e }, 'Failed to record translation:');
   }
 }
 
@@ -190,7 +190,7 @@ export async function POST(req: Request) {
             await safeRecordTranslation(session.user.id, item, true, clientIp, userAgent);
           }
         } catch (recordErr) {
-          logger.error('Cached translation recording error:', recordErr);
+          logger.error({ err: recordErr }, 'Cached translation recording error:');
         }
       }
       
@@ -214,7 +214,7 @@ export async function POST(req: Request) {
       return streamHandler.createStreamResponse(translationStream);
     } else {
       // All words were found in cache or concurrent requests
-      const cacheStream = streamHandler.createCacheStream([...orderedCachedResults, ...translationResult]);
+      const cacheStream = streamHandler.createCacheStream([...orderedCachedResults, ...translationResult] as CachedWord[]);
       return streamHandler.createStreamResponse(cacheStream);
     }
 

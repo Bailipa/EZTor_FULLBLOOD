@@ -17,7 +17,7 @@ vi.mock('@/lib/security', () => ({
 }));
 
 vi.mock('@/lib/prisma', () => {
-  const mockPrisma = {
+  const mockPrisma: any = {
     publicWord: {
       findUnique: vi.fn(),
       create: vi.fn(),
@@ -46,7 +46,7 @@ vi.mock('@/lib/prisma', () => {
       findUnique: vi.fn().mockResolvedValue(null),
     },
     $executeRaw: vi.fn(),
-    $transaction: vi.fn(async (fn) => {
+    $transaction: vi.fn(async (fn: any) => {
       const result = await fn(mockPrisma);
       return result;
     }),
@@ -65,13 +65,25 @@ describe('Share Import API', () => {
     },
   };
 
-  const mockShare = {
+  const mockShare: any = {
     id: 'share-1',
     code: validShareCode,
+    name: 'Test Share',
+    description: null,
+    userId: mockUserId,
+    shareType: 'REVIEW_GROUP',
+    reviewGroupId: 'group-1',
     isActive: true,
     usedCount: 0,
     maxUses: null,
     expiresAt: null,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+    deletedAt: null,
+    wordCount: 1,
+    importedCount: 0,
+    viewCount: 0,
+    version: 1,
     ReviewGroup: {
       ReviewGroupWord: [
         {
@@ -165,11 +177,11 @@ describe('Share Import API', () => {
         id: 'new-group-1',
         name: 'Test Group',
         userId: mockUserId,
-      });
-      vi.mocked(prisma.word.create).mockResolvedValue({ id: 'new-word-1' });
-      vi.mocked(prisma.reviewGroupWord.create).mockResolvedValue({});
-      vi.mocked(prisma.sharedVocabulary.update).mockResolvedValue({});
-      vi.mocked(prisma.sharedVocabularyImport.create).mockResolvedValue({});
+      } as any);
+      vi.mocked(prisma.word.create).mockResolvedValue({ id: 'new-word-1' } as any);
+      vi.mocked(prisma.reviewGroupWord.create).mockResolvedValue({} as any);
+      vi.mocked(prisma.sharedVocabulary.update).mockResolvedValue({} as any);
+      vi.mocked(prisma.sharedVocabularyImport.create).mockResolvedValue({} as any);
       vi.mocked(prisma.word.findMany).mockResolvedValue([]);
       
       const req = new Request('http://localhost/api/share/import', {
@@ -352,12 +364,12 @@ describe('Share Import API', () => {
         sharedId: mockShare.id,
         importerId: mockUserId,
         targetGroupId: 'existing-group-1',
-      });
+      } as any);
       vi.mocked(prisma.reviewGroup.findUnique).mockResolvedValue({
         id: 'existing-group-1',
         name: 'Existing Group',
         userId: mockUserId,
-      });
+      } as any);
       
       const req = new Request('http://localhost/api/share/import', {
         method: 'POST',
@@ -383,18 +395,18 @@ describe('Share Import API', () => {
         sharedId: mockShare.id,
         importerId: mockUserId,
         targetGroupId: 'deleted-group-1',
-      });
+      } as any);
       vi.mocked(prisma.reviewGroup.findUnique).mockResolvedValue(null);
-      vi.mocked(prisma.sharedVocabularyImport.delete).mockResolvedValue({ id: 'import-1' });
+      vi.mocked(prisma.sharedVocabularyImport.delete).mockResolvedValue({ id: 'import-1' } as any);
       vi.mocked(prisma.reviewGroup.create).mockResolvedValue({
         id: 'new-group-1',
         name: 'Test Group',
         userId: mockUserId,
-      });
-      vi.mocked(prisma.word.create).mockResolvedValue({ id: 'new-word-1' });
-      vi.mocked(prisma.reviewGroupWord.create).mockResolvedValue({});
-      vi.mocked(prisma.sharedVocabulary.update).mockResolvedValue({});
-      vi.mocked(prisma.sharedVocabularyImport.create).mockResolvedValue({});
+      } as any);
+      vi.mocked(prisma.word.create).mockResolvedValue({ id: 'new-word-1' } as any);
+      vi.mocked(prisma.reviewGroupWord.create).mockResolvedValue({} as any);
+      vi.mocked(prisma.sharedVocabulary.update).mockResolvedValue({} as any);
+      vi.mocked(prisma.sharedVocabularyImport.create).mockResolvedValue({} as any);
       vi.mocked(prisma.word.findMany).mockResolvedValue([]);
       
       const req = new Request('http://localhost/api/share/import', {
@@ -423,11 +435,11 @@ describe('Share Import API', () => {
         id: 'new-group-1',
         name: 'Test Group',
         userId: mockUserId,
-      });
-      vi.mocked(prisma.word.create).mockResolvedValue({ id: 'new-word-1' });
-      vi.mocked(prisma.reviewGroupWord.create).mockResolvedValue({});
-      vi.mocked(prisma.sharedVocabulary.update).mockResolvedValue({});
-      vi.mocked(prisma.sharedVocabularyImport.create).mockResolvedValue({});
+      } as any);
+      vi.mocked(prisma.word.create).mockResolvedValue({ id: 'new-word-1' } as any);
+      vi.mocked(prisma.reviewGroupWord.create).mockResolvedValue({} as any);
+      vi.mocked(prisma.sharedVocabulary.update).mockResolvedValue({} as any);
+      vi.mocked(prisma.sharedVocabularyImport.create).mockResolvedValue({} as any);
       vi.mocked(prisma.word.findMany).mockResolvedValue([]);
       
       const req = new Request('http://localhost/api/share/import', {
@@ -462,11 +474,11 @@ describe('Share Import API', () => {
         id: 'existing-group-1',
         name: 'Existing Group',
         userId: mockUserId,
-      });
-      vi.mocked(prisma.word.create).mockResolvedValue({ id: 'new-word-1' });
-      vi.mocked(prisma.reviewGroupWord.create).mockResolvedValue({});
-      vi.mocked(prisma.sharedVocabulary.update).mockResolvedValue({});
-      vi.mocked(prisma.sharedVocabularyImport.create).mockResolvedValue({});
+      } as any);
+      vi.mocked(prisma.word.create).mockResolvedValue({ id: 'new-word-1' } as any);
+      vi.mocked(prisma.reviewGroupWord.create).mockResolvedValue({} as any);
+      vi.mocked(prisma.sharedVocabulary.update).mockResolvedValue({} as any);
+      vi.mocked(prisma.sharedVocabularyImport.create).mockResolvedValue({} as any);
       vi.mocked(prisma.word.findMany).mockResolvedValue([]);
       
       const req = new Request('http://localhost/api/share/import', {
@@ -514,7 +526,7 @@ describe('Share Import API', () => {
         id: 'other-group-1',
         name: 'Other Group',
         userId: 'other-user-456',
-      });
+      } as any);
       
       const req = new Request('http://localhost/api/share/import', {
         method: 'POST',
@@ -707,7 +719,7 @@ describe('Share Import API', () => {
         id: 'new-group-1',
         name: 'Test Group',
         userId: mockUserId,
-      });
+      } as any);
     });
 
     it('should handle Prisma relation query errors gracefully', async () => {

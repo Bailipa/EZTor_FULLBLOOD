@@ -56,14 +56,15 @@ export async function synthesizeSpeech(req: TtsRequest): Promise<Response> {
     TTS_TIMEOUT_MS,
   );
 
-  if (req.signal) {
-    if (req.signal.aborted) {
+  const signal = req.signal;
+  if (signal) {
+    if (signal.aborted) {
       clearTimeout(timeoutId);
-      abortController.abort(req.signal.reason);
+      abortController.abort(signal.reason);
     } else {
-      req.signal.addEventListener('abort', () => {
+      signal.addEventListener('abort', () => {
         clearTimeout(timeoutId);
-        abortController.abort(req.signal.reason);
+        abortController.abort(signal.reason);
       }, { once: true });
     }
   }

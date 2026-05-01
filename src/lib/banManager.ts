@@ -212,7 +212,7 @@ export async function recordViolation(
       banInfo = { type: 'warning', message: '警告：检测到可疑行为' };
     }
   } catch (error) {
-    logger.error('Error applying ban:', error);
+    logger.error({ err: error }, 'Error applying ban:');
   }
 
   return {

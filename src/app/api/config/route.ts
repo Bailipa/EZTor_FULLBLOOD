@@ -95,7 +95,8 @@ export async function POST(req: Request) {
         apiKey,
         baseUrl: baseUrl || 'https://api.openai.com/v1',
         model: model || 'gpt-4o-mini',
-        systemPrompt: systemPrompt || ''
+        systemPrompt: systemPrompt || '',
+        updatedAt: new Date()
       }
     });
 

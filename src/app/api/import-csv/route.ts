@@ -51,7 +51,8 @@ export async function POST(req: Request) {
             },
             create: {
               ...wordData,
-              userId: session.user.id
+              userId: session.user.id,
+              updatedAt: new Date()
             }
           });
           savedCount++;

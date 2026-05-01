@@ -47,7 +47,7 @@ async function main() {
       });
       fixed++;
     } catch (err) {
-      console.error(`修复单词 ${word.word} 失败:`, err.message);
+      console.error(`修复单词 ${word.word} 失败:`, err instanceof Error ? err.message : String(err));
     }
   }
 

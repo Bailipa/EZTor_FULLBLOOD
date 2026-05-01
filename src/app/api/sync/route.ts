@@ -55,13 +55,14 @@ export async function POST(req: Request) {
               translation: wordData.translation || '',
               example: wordData.example || null,
               exampleTranslation: wordData.exampleTranslation || null,
-              userId: session.user.id
+              userId: session.user.id,
+              updatedAt: new Date()
             }
           });
           savedCount++;
         } catch (err) {
           logger.error({ err: err }, `Failed to sync word: ${wordData.word}`);
-          logger.error('Error details:', JSON.stringify(err, Object.getOwnPropertyNames(err)));
+          logger.error({ errStr: JSON.stringify(err, Object.getOwnPropertyNames(err)) }, 'Error details:');
           errorCount++;
         }
       }

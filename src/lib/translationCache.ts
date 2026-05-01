@@ -133,7 +133,7 @@ class TranslationCache {
     while (current && evicted < count) {
       const nextTail = this.cache.get(current)?.prev;
       this.delete(current);
-      current = nextTail;
+      current = nextTail ?? null;
       evicted++;
     }
   }

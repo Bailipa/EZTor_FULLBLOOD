@@ -9,7 +9,7 @@ import { sanitizeInput } from '@/lib/security';
 
 // 辅助函数：将 Node.js Readable 流转换为标准 ReadableStream
 function nodeReadableToWebStream(nodeReadable: Readable): ReadableStream {
-  return Readable.toWeb(nodeReadable);
+  return Readable.toWeb(nodeReadable) as unknown as ReadableStream;
 }
 
 interface WordData {
@@ -19,6 +19,13 @@ interface WordData {
   translation: string;
   example: string | null;
   exampleTranslation: string | null;
+  publicWord?: {
+    translation: string | null;
+    phonetic: string | null;
+    pos: string | null;
+    example: string | null;
+    exampleTranslation: string | null;
+  } | null;
 }
 
 export async function POST(req: Request) {
