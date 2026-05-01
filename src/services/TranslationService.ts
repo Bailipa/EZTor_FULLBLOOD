@@ -409,7 +409,7 @@ export class TranslationService {
     try {
       // 接收大模型的流式数据
       for await (const chunk of response) {
-        if (controller.signal.aborted) {
+        if (controller.signal?.aborted) {
           console.log('[TranslationService] Client disconnected, stopping stream');
           break;
         }

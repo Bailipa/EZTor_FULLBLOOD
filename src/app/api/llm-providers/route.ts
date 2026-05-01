@@ -55,24 +55,25 @@ export async function POST(req: NextRequest) {
   if (!name) return badRequest('name is required');
   if (!apiKey) return badRequest('apiKey is required');
 
-  const now = new Date().toISOString();
+  const now = new Date();
   const id = crypto.randomUUID();
 
   try {
-    await prisma.$executeRawUnsafe(
-      `INSERT INTO "LlmApiProvider" (id,name,"apiKey","baseUrl",model,priority,"isActive","quotaRemaining","quotaUsed","createdAt","updatedAt")
-       VALUES (?,?,?,?,?,?,?,?,0,?,?)`,
-      id,
-      name,
-      apiKey,
-      baseUrl,
-      model,
-      priority,
-      isActive,
-      quotaRemaining,
-      now,
-      now
-    );
+    await prisma.llmApiProvider.create({
+      data: {
+        id,
+        name,
+        apiKey,
+        baseUrl,
+        model,
+        priority,
+        isActive,
+        quotaRemaining,
+        quotaUsed: 0,
+        createdAt: now,
+        updatedAt: now
+      }
+    });
   } catch (e: any) {
     const msg = String(e?.message || 'create failed');
     return NextResponse.json({ success: false, error: msg }, { status: 500 });
@@ -104,19 +105,13 @@ export async function PUT(req: NextRequest) {
 
   if (Object.keys(fields).length === 0) return badRequest('no fields to update');
 
-  const now = new Date().toISOString();
-  fields.updatedAt = now;
-
-  const keys = Object.keys(fields);
-  const setClause = keys.map((k) => `"${k}" = ?`).join(', ');
-  const values = keys.map((k) => fields[k]);
+  fields.updatedAt = new Date();
 
   try {
-    await prisma.$executeRawUnsafe(
-      `UPDATE "LlmApiProvider" SET ${setClause} WHERE id = ?`,
-      ...values,
-      id
-    );
+    await prisma.llmApiProvider.update({
+      where: { id },
+      data: fields,
+    });
   } catch (e: any) {
     const msg = String(e?.message || 'update failed');
     return NextResponse.json({ success: false, error: msg }, { status: 500 });
@@ -134,7 +129,9 @@ export async function DELETE(req: NextRequest) {
   if (!id) return badRequest('id is required');
 
   try {
-    await prisma.$executeRawUnsafe(`DELETE FROM "LlmApiProvider" WHERE id = ?`, id);
+    await prisma.llmApiProvider.delete({
+      where: { id },
+    });
   } catch (e: any) {
     const msg = String(e?.message || 'delete failed');
     return NextResponse.json({ success: false, error: msg }, { status: 500 });

@@ -76,7 +76,7 @@ export function isConnectionError(err: any): boolean {
 
 export async function markProviderError(providerId: string, reason: string): Promise<void> {
   await ensureProviderTable();
-  const now = new Date().toISOString();
+  const now = new Date();
   await prisma.$executeRaw(
     Prisma.sql`
       UPDATE "LlmApiProvider"
@@ -157,7 +157,7 @@ async function seedDefaultProviderFromLegacyConfigIfEmpty(): Promise<void> {
 
   const name = baseUrl.includes('volces.com') ? '火山方舟（默认）' : '默认 API';
 
-  const now = new Date().toISOString();
+  const now = new Date();
   const id = crypto.randomUUID();
 
   try {
@@ -210,7 +210,7 @@ export async function getActiveLlmProviders(): Promise<LlmProviderRow[]> {
 
 export async function markProviderQuotaExhausted(providerId: string, reason: string): Promise<void> {
   await ensureProviderTable();
-  const now = new Date().toISOString();
+  const now = new Date();
   await prisma.$executeRaw(
     Prisma.sql`
       UPDATE "LlmApiProvider"
@@ -226,17 +226,17 @@ export async function markProviderQuotaExhausted(providerId: string, reason: str
 
 export async function noteProviderUsed(providerId: string, decrementQuotaBy: number): Promise<void> {
   await ensureProviderTable();
-  const now = new Date().toISOString();
+  const now = new Date();
 
   // quotaRemaining NULL means unlimited.
   await prisma.$executeRaw(
     Prisma.sql`
       UPDATE "LlmApiProvider"
       SET
-        "quotaUsed" = "quotaUsed" + ${decrementQuotaBy},
+        "quotaUsed" = "quotaUsed" + ${decrementQuotaBy}::integer,
         "quotaRemaining" = CASE
           WHEN "quotaRemaining" IS NULL THEN NULL
-          ELSE MAX("quotaRemaining" - ${decrementQuotaBy}, 0)
+          ELSE GREATEST("quotaRemaining" - ${decrementQuotaBy}::integer, 0)
         END,
         "lastUsedAt" = ${now},
         "updatedAt" = ${now}
