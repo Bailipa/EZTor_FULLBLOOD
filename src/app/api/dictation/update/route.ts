@@ -32,7 +32,7 @@ export async function POST(req: Request) {
     });
 
     const existingWords = await prisma.$queryRaw<any[]>`
-      SELECT * FROM Word
+      SELECT * FROM "Word"
       WHERE userId = ${session.user.id}
         AND lower(word) = ${normalizedWord}
       LIMIT 1

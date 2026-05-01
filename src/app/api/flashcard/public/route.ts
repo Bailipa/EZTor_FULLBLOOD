@@ -39,21 +39,21 @@ export async function GET(req: Request) {
           COALESCE(NULLIF(TRIM(w.pos), ''), pw.pos, '') AS pos,
           COALESCE(NULLIF(TRIM(w.translation), ''), pw.translation, '') AS translation,
           COALESCE(NULLIF(TRIM(w.example), ''), pw.example, '') AS example,
-          COALESCE(NULLIF(TRIM(w.exampleTranslation), ''), pw.exampleTranslation, '') AS exampleTranslation,
-          w.correctCount,
-          w.incorrectCount,
-          w.updatedAt
-        FROM Word w
-        JOIN ReviewGroupWord rgw ON w.id = rgw.wordId
-        LEFT JOIN PublicWord pw ON pw.id = w.publicWordId
-        WHERE rgw.reviewGroupId = ${groupId}
+          COALESCE(NULLIF(TRIM(w."exampleTranslation"), ''), pw."exampleTranslation", '') AS exampleTranslation,
+          w."correctCount",
+          w."incorrectCount",
+          w."updatedAt"
+        FROM "Word" w
+        JOIN "ReviewGroupWord" rgw ON w.id = rgw.wordId
+        LEFT JOIN "PublicWord" pw ON pw.id = w."publicWordId"
+        WHERE rgw."reviewGroupId" = ${groupId}
         ORDER BY RANDOM() 
         LIMIT ${limit}
       `;
     } else {
       // Fallback: Fetch random words from the PUBLIC word bank
       words = await prisma.$queryRaw`
-        SELECT * FROM PublicWord 
+        SELECT * FROM "PublicWord" 
         ORDER BY RANDOM() 
         LIMIT ${limit}
       `;

@@ -7,7 +7,7 @@ type CascadeFields = {
   pos?: string | null;
   translation: string;
   example?: string | null;
-  exampleTranslation?: string | null;
+  "exampleTranslation"?: string | null;
 };
 
 function normalizeWord(word: string): string {
@@ -27,9 +27,9 @@ export async function cascadePublicWordToPrivate(fields: CascadeFields): Promise
   // - If the private row looks like an unmodified copy (blank or equal), NULL it out to save space.
   await prisma.$executeRaw(
     Prisma.sql`
-      UPDATE Word
+      UPDATE "Word"
       SET
-        publicWordId = ${publicWord.id},
+        "publicWordId" = ${publicWord.id},
         phonetic = CASE
           WHEN phonetic IS NULL OR TRIM(phonetic) = '' OR phonetic = ${fields.phonetic ?? null} THEN NULL
           ELSE phonetic
@@ -46,9 +46,9 @@ export async function cascadePublicWordToPrivate(fields: CascadeFields): Promise
           WHEN example IS NULL OR TRIM(example) = '' OR example = ${fields.example ?? null} THEN NULL
           ELSE example
         END,
-        exampleTranslation = CASE
-          WHEN exampleTranslation IS NULL OR TRIM(exampleTranslation) = '' OR exampleTranslation = ${fields.exampleTranslation ?? null} THEN NULL
-          ELSE exampleTranslation
+        "exampleTranslation" = CASE
+          WHEN "exampleTranslation" IS NULL OR TRIM("exampleTranslation") = '' OR "exampleTranslation" = ${fields.exampleTranslation ?? null} THEN NULL
+          ELSE "exampleTranslation"
         END
       WHERE lower(word) = ${word}
     `

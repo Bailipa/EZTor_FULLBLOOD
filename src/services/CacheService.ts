@@ -30,25 +30,25 @@ export class CacheService {
     // 查找数据库中已经存在的单词
     const cachedWords = await prisma.$queryRaw<any[]>(
       Prisma.sql`
-        SELECT
-          w.id,
-          w.word,
-          w.userId,
-          w.correctCount,
-          w.incorrectCount,
-          w.createdAt,
-          w.updatedAt,
-          w.sourceType,
-          w.publicWordId,
-          COALESCE(NULLIF(TRIM(w.phonetic), ''), pw.phonetic, '') AS phonetic,
-          COALESCE(NULLIF(TRIM(w.pos), ''), pw.pos, '') AS pos,
-          COALESCE(NULLIF(TRIM(w.translation), ''), pw.translation, '') AS translation,
-          COALESCE(NULLIF(TRIM(w.example), ''), pw.example, '') AS example,
-          COALESCE(NULLIF(TRIM(w.exampleTranslation), ''), pw.exampleTranslation, '') AS exampleTranslation
-        FROM Word w
-        LEFT JOIN PublicWord pw ON pw.id = w.publicWordId
-        WHERE w.userId = ${this.session.user.id}
-          AND lower(w.word) IN (${Prisma.join(normalizedWords)})
+          SELECT
+            w.id,
+            w.word,
+            w."userId",
+            w."correctCount",
+            w."incorrectCount",
+            w."createdAt",
+            w."updatedAt",
+            w."sourceType",
+            w."publicWordId",
+            COALESCE(NULLIF(TRIM(w.phonetic), ''), pw.phonetic, '') AS phonetic,
+            COALESCE(NULLIF(TRIM(w.pos), ''), pw.pos, '') AS pos,
+            COALESCE(NULLIF(TRIM(w.translation), ''), pw.translation, '') AS translation,
+            COALESCE(NULLIF(TRIM(w.example), ''), pw.example, '') AS example,
+            COALESCE(NULLIF(TRIM(w."exampleTranslation"), ''), pw."exampleTranslation", '') AS "exampleTranslation"
+          FROM "Word" w
+          LEFT JOIN "PublicWord" pw ON pw.id = w."publicWordId"
+          WHERE w."userId" = ${this.session.user.id}
+            AND lower(w.word) IN (${Prisma.join(normalizedWords)})
       `
     );
 

@@ -79,11 +79,11 @@ export async function markProviderError(providerId: string, reason: string): Pro
   const now = new Date().toISOString();
   await prisma.$executeRaw(
     Prisma.sql`
-      UPDATE LlmApiProvider
+      UPDATE "LlmApiProvider"
       SET
-        lastError = ${reason},
-        lastErrorAt = ${now},
-        updatedAt = ${now}
+        "lastError" = ${reason},
+        "lastErrorAt" = ${now},
+        "updatedAt" = ${now}
       WHERE id = ${providerId}
     `
   );
@@ -108,26 +108,26 @@ let didSeedDefaultProvider = false;
 
 async function ensureProviderTable(): Promise<void> {
   await prisma.$executeRawUnsafe(`
-    CREATE TABLE IF NOT EXISTS LlmApiProvider (
+    CREATE TABLE IF NOT EXISTS "LlmApiProvider" (
       id TEXT PRIMARY KEY NOT NULL,
       name TEXT NOT NULL UNIQUE,
-      apiKey TEXT NOT NULL,
-      baseUrl TEXT NOT NULL DEFAULT 'https://api.openai.com/v1',
-      model TEXT NOT NULL DEFAULT 'gpt-4o-mini',
-      priority INTEGER NOT NULL DEFAULT 0,
-      isActive BOOLEAN NOT NULL DEFAULT 1,
-      quotaRemaining INTEGER,
-      quotaUsed INTEGER NOT NULL DEFAULT 0,
-      lastUsedAt DATETIME,
-      lastError TEXT,
-      lastErrorAt DATETIME,
-      createdAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-      updatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+       "apiKey" TEXT NOT NULL,
+       "baseUrl" TEXT NOT NULL DEFAULT 'https://api.openai.com/v1',
+       model TEXT NOT NULL DEFAULT 'gpt-4o-mini',
+       priority INTEGER NOT NULL DEFAULT 0,
+       "isActive" BOOLEAN NOT NULL DEFAULT true,
+       "quotaRemaining" INTEGER,
+       "quotaUsed" INTEGER NOT NULL DEFAULT 0,
+       "lastUsedAt" DATETIME,
+       "lastError" TEXT,
+       "lastErrorAt" DATETIME,
+       "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+       "updatedAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
     );
   `);
   await prisma.$executeRawUnsafe(`
-    CREATE INDEX IF NOT EXISTS LlmApiProvider_isActive_priority_idx
-    ON LlmApiProvider (isActive, priority);
+    CREATE INDEX IF NOT EXISTS "LlmApiProvider_isActive_priority_idx"
+    ON "LlmApiProvider" ("isActive", priority);
   `);
 }
 
@@ -138,7 +138,7 @@ async function seedDefaultProviderFromLegacyConfigIfEmpty(): Promise<void> {
   await ensureProviderTable();
 
   try {
-    const rows = await prisma.$queryRaw<Array<{ c: number }>>(Prisma.sql`SELECT COUNT(1) as c FROM LlmApiProvider`);
+    const rows = await prisma.$queryRaw<Array<{ c: number }>>(Prisma.sql`SELECT COUNT(1) as c FROM "LlmApiProvider"`);
     const count = Number(rows?.[0]?.c || 0);
     if (count > 0) return;
   } catch {
@@ -162,7 +162,7 @@ async function seedDefaultProviderFromLegacyConfigIfEmpty(): Promise<void> {
 
   try {
     await prisma.$executeRawUnsafe(
-      `INSERT INTO LlmApiProvider (id,name,apiKey,baseUrl,model,priority,isActive,quotaRemaining,quotaUsed,createdAt,updatedAt)
+      `INSERT INTO "LlmApiProvider" (id,name,"apiKey","baseUrl",model,priority,"isActive","quotaRemaining","quotaUsed","createdAt","updatedAt")
        VALUES (?,?,?,?,?,0,1,NULL,0,?,?)`,
       id,
       name,
@@ -183,11 +183,11 @@ export async function listLlmProviders(): Promise<LlmProviderRow[]> {
   return prisma.$queryRaw<LlmProviderRow[]>(
     Prisma.sql`
       SELECT
-        id, name, apiKey, baseUrl, model, priority, isActive,
-        quotaRemaining, quotaUsed, lastUsedAt, lastError, lastErrorAt,
-        createdAt, updatedAt
-      FROM LlmApiProvider
-      ORDER BY priority ASC, createdAt ASC
+        id, name, "apiKey", "baseUrl", model, priority, "isActive",
+        "quotaRemaining", "quotaUsed", "lastUsedAt", "lastError", "lastErrorAt",
+        "createdAt", "updatedAt"
+      FROM "LlmApiProvider"
+      ORDER BY priority ASC, "createdAt" ASC
     `
   );
 }
@@ -198,12 +198,12 @@ export async function getActiveLlmProviders(): Promise<LlmProviderRow[]> {
   return prisma.$queryRaw<LlmProviderRow[]>(
     Prisma.sql`
       SELECT
-        id, name, apiKey, baseUrl, model, priority, isActive,
-        quotaRemaining, quotaUsed, lastUsedAt, lastError, lastErrorAt,
-        createdAt, updatedAt
-      FROM LlmApiProvider
-      WHERE isActive = 1
-      ORDER BY priority ASC, createdAt ASC
+        id, name, "apiKey", "baseUrl", model, priority, "isActive",
+        "quotaRemaining", "quotaUsed", "lastUsedAt", "lastError", "lastErrorAt",
+        "createdAt", "updatedAt"
+      FROM "LlmApiProvider"
+      WHERE "isActive" = true
+      ORDER BY priority ASC, "createdAt" ASC
     `
   );
 }
@@ -213,12 +213,12 @@ export async function markProviderQuotaExhausted(providerId: string, reason: str
   const now = new Date().toISOString();
   await prisma.$executeRaw(
     Prisma.sql`
-      UPDATE LlmApiProvider
+      UPDATE "LlmApiProvider"
       SET
-        quotaRemaining = 0,
-        lastError = ${reason},
-        lastErrorAt = ${now},
-        updatedAt = ${now}
+        "quotaRemaining" = 0,
+        "lastError" = ${reason},
+        "lastErrorAt" = ${now},
+        "updatedAt" = ${now}
       WHERE id = ${providerId}
     `
   );
@@ -231,15 +231,15 @@ export async function noteProviderUsed(providerId: string, decrementQuotaBy: num
   // quotaRemaining NULL means unlimited.
   await prisma.$executeRaw(
     Prisma.sql`
-      UPDATE LlmApiProvider
+      UPDATE "LlmApiProvider"
       SET
-        quotaUsed = quotaUsed + ${decrementQuotaBy},
-        quotaRemaining = CASE
-          WHEN quotaRemaining IS NULL THEN NULL
-          ELSE MAX(quotaRemaining - ${decrementQuotaBy}, 0)
+        "quotaUsed" = "quotaUsed" + ${decrementQuotaBy},
+        "quotaRemaining" = CASE
+          WHEN "quotaRemaining" IS NULL THEN NULL
+          ELSE MAX("quotaRemaining" - ${decrementQuotaBy}, 0)
         END,
-        lastUsedAt = ${now},
-        updatedAt = ${now}
+        "lastUsedAt" = ${now},
+        "updatedAt" = ${now}
       WHERE id = ${providerId}
     `
   );

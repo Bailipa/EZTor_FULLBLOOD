@@ -47,7 +47,7 @@ export async function POST(req: NextRequest) {
   const baseUrl = String(body.baseUrl || 'https://api.openai.com/v1').trim();
   const model = String(body.model || 'gpt-4o-mini').trim();
   const priority = Number.isFinite(body.priority) ? Number(body.priority) : 0;
-  const isActive = body.isActive === false ? 0 : 1;
+  const isActive = body.isActive !== false;
   const quotaRemaining = body.quotaRemaining === null || body.quotaRemaining === undefined || body.quotaRemaining === ''
     ? null
     : Number(body.quotaRemaining);
@@ -60,7 +60,7 @@ export async function POST(req: NextRequest) {
 
   try {
     await prisma.$executeRawUnsafe(
-      `INSERT INTO LlmApiProvider (id,name,apiKey,baseUrl,model,priority,isActive,quotaRemaining,quotaUsed,createdAt,updatedAt)
+      `INSERT INTO "LlmApiProvider" (id,name,"apiKey","baseUrl",model,priority,"isActive","quotaRemaining","quotaUsed","createdAt","updatedAt")
        VALUES (?,?,?,?,?,?,?,?,0,?,?)`,
       id,
       name,
@@ -94,7 +94,7 @@ export async function PUT(req: NextRequest) {
     if (body[key] !== undefined) fields[key] = String(body[key]).trim();
   }
   if (body.priority !== undefined) fields.priority = Number(body.priority) || 0;
-  if (body.isActive !== undefined) fields.isActive = body.isActive ? 1 : 0;
+  if (body.isActive !== undefined) fields.isActive = Boolean(body.isActive);
   if (body.quotaRemaining !== undefined) {
     fields.quotaRemaining =
       body.quotaRemaining === null || body.quotaRemaining === ''
@@ -108,12 +108,12 @@ export async function PUT(req: NextRequest) {
   fields.updatedAt = now;
 
   const keys = Object.keys(fields);
-  const setClause = keys.map((k) => `${k} = ?`).join(', ');
+  const setClause = keys.map((k) => `"${k}" = ?`).join(', ');
   const values = keys.map((k) => fields[k]);
 
   try {
     await prisma.$executeRawUnsafe(
-      `UPDATE LlmApiProvider SET ${setClause} WHERE id = ?`,
+      `UPDATE "LlmApiProvider" SET ${setClause} WHERE id = ?`,
       ...values,
       id
     );
@@ -134,7 +134,7 @@ export async function DELETE(req: NextRequest) {
   if (!id) return badRequest('id is required');
 
   try {
-    await prisma.$executeRawUnsafe(`DELETE FROM LlmApiProvider WHERE id = ?`, id);
+    await prisma.$executeRawUnsafe(`DELETE FROM "LlmApiProvider" WHERE id = ?`, id);
   } catch (e: any) {
     const msg = String(e?.message || 'delete failed');
     return NextResponse.json({ success: false, error: msg }, { status: 500 });

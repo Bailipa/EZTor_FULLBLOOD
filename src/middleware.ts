@@ -3,9 +3,9 @@ import type { NextRequest } from "next/server";
 import { getToken } from "next-auth/jwt";
 import { validateCsrf } from "@/lib/csrf";
 
-const OPTIONAL_AUTH_PATHS = ["/", "/api/translate", "/api/public-translate", "/api/tts", "/api/donation", "/api/health"];
+const OPTIONAL_AUTH_PATHS = ["/", "/api/translate", "/api/public-translate", "/api/tts", "/api/donation"];
 
-const PUBLIC_PATHS = ["/auth/signin", "/api/auth", "/api/captcha"];
+const PUBLIC_PATHS = ["/auth/signin", "/api/auth", "/api/captcha", "/api/health"];
 
 const ADMIN_PATHS = [
   "/analytics",

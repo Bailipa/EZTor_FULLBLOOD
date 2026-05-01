@@ -219,7 +219,7 @@ export async function POST(req: Request) {
     }
 
   } catch (error: any) {
-    logger.error('API Error:', error);
+    logger.error({ err: error, message: error?.message, stack: error?.stack }, 'API Error');
     
     if (String(error?.message || '') === API_QUOTA_EXHAUSTED_MESSAGE) {
       return NextResponse.json({ 

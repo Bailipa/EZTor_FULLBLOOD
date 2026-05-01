@@ -35,9 +35,9 @@ export async function GET(req: Request) {
         COALESCE(NULLIF(TRIM(w.translation), ''), pw.translation, '') AS translation,
         COALESCE(NULLIF(TRIM(w.phonetic), ''), pw.phonetic, '') AS phonetic,
         COALESCE(NULLIF(TRIM(w.example), ''), pw.example, '') AS example
-      FROM Word w
-      LEFT JOIN PublicWord pw ON pw.id = w.publicWordId
-      WHERE w.userId = ${session.user.id}
+      FROM "Word" w
+      LEFT JOIN "PublicWord" pw ON pw.id = w."publicWordId"
+      WHERE w."userId" = ${session.user.id}
       ORDER BY RANDOM() 
       LIMIT ${limit}
     `;
