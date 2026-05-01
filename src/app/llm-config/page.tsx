@@ -80,7 +80,8 @@ export default function LlmConfigPage() {
       const json = await res.json();
       if (json.success) setRows(json.data);
       else setError(json.error || 'Failed to fetch providers');
-    } catch {
+    } catch (error) {
+      if (process.env.NODE_ENV === 'development') console.error('Failed to fetch LLM providers:', error);
       setError('Network error');
     } finally {
       setLoading(false);

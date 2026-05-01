@@ -3,6 +3,7 @@ import { randomUUID } from 'crypto';
 import prisma from '@/lib/prisma';
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from '../auth/[...nextauth]/route';
+import { logger } from '@/lib/logger';
 
 export type EventType =
   | 'PAGE_VIEW'
@@ -34,8 +35,8 @@ function parseMetadataObject(raw: string | null | undefined): Record<string, unk
     if (parsed !== null && typeof parsed === 'object' && !Array.isArray(parsed)) {
       return parsed as Record<string, unknown>;
     }
-  } catch {
-    /* ignore */
+  } catch (error) {
+    logger.debug({ err: error }, 'Failed to parse metadata object');
   }
   return {};
 }
@@ -47,8 +48,8 @@ function parseMetadataForResponse(raw: string | null | undefined): Record<string
     if (parsed !== null && typeof parsed === 'object' && !Array.isArray(parsed)) {
       return parsed as Record<string, unknown>;
     }
-  } catch {
-    /* ignore */
+  } catch (error) {
+    logger.debug({ err: error }, 'Failed to parse metadata for response');
   }
   return null;
 }

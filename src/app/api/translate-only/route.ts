@@ -8,6 +8,7 @@ import { detectPromptInjection } from '@/lib/injectionDetector'
 import { checkUserBan, checkIpBan } from '@/lib/banManager'
 import { API_QUOTA_EXHAUSTED_MESSAGE, getProviderCandidates, withLlmFailover } from '@/lib/llmPool'
 import { checkAndEnforceLimit, incrementUsage } from '@/lib/translateOnlyUsage'
+import { logger } from '@/lib/logger'
 
 const DEFAULT_TRANSLATE_ONLY_PROMPT = `你是一个专业翻译助手。你的唯一任务是翻译用户提供的文本。
 
@@ -149,7 +150,9 @@ async function customApiCompletion(
     try {
       const errJson = JSON.parse(errorText)
       errorMessage = errJson?.error?.message || errJson?.error?.code || errorMessage
-    } catch {}
+    } catch (error) {
+      logger.error({ err: error }, 'Failed to parse error response from custom API');
+    }
     throw new Error(errorMessage)
   }
 

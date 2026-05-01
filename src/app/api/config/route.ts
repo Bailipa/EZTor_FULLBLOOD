@@ -21,7 +21,8 @@ async function checkAdmin(session: any): Promise<boolean> {
       select: { isAdmin: true }
     });
     return (user as any)?.isAdmin === true;
-  } catch {
+  } catch (error) {
+    logger.error({ err: error }, 'Failed to verify admin status');
     return false;
   }
 }

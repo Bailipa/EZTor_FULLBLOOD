@@ -41,7 +41,8 @@ export default function AdminUsersPage() {
       const json = await res.json();
       if (json.success) setRows(json.data);
       else setError(json.error || 'Failed to fetch users');
-    } catch {
+    } catch (error) {
+      if (process.env.NODE_ENV === 'development') console.error('Failed to fetch users:', error);
       setError('Network error');
     } finally {
       setLoading(false);

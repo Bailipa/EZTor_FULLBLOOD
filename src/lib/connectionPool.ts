@@ -1,9 +1,5 @@
 import OpenAI from 'openai';
 
-if (typeof process !== 'undefined' && process.env) {
-  process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
-}
-
 const IDLE_TIMEOUT = 30 * 60 * 1000; // 30 minutes
 
 interface PoolEntry {

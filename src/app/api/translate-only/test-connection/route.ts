@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth/next'
 import { authOptions } from '@/app/api/auth/[...nextauth]/route'
+import { logger } from '@/lib/logger'
 
 export async function POST(req: Request) {
   const session = await getServerSession(authOptions)
@@ -48,7 +49,9 @@ export async function POST(req: Request) {
       try {
         const errJson = JSON.parse(errorText)
         errorMessage = errJson?.error?.message || errJson?.error?.code || `HTTP ${response.status}`
-      } catch {}
+      } catch (error) {
+        logger.error({ err: error }, 'Failed to parse error response');
+      }
       return NextResponse.json({ success: false, error: errorMessage })
     }
 
