@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import prisma from "@/lib/prisma";
 import { createSuccessResponse, createErrorResponse } from "@/lib/apiErrorHandler";
+import { logger } from '@/lib/logger';
 
 /**
  * DELETE /api/share/:id
@@ -55,7 +56,7 @@ export async function DELETE(
 
     return createSuccessResponse({ message: "分享已成功撤销" });
   } catch (error: any) {
-    console.error("[Share Delete API] Error:", error);
+    logger.error({ err: error }, "[Share Delete API] Error:");
     return createErrorResponse("撤销分享失败", 500);
   }
 }

@@ -1,0 +1,1 @@
+-- PostgreSQL Initial Migration placeholder

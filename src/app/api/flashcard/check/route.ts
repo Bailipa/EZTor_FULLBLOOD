@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "../../auth/[...nextauth]/route";
+import { logger } from '@/lib/logger';
 
 export async function GET(req: Request) {
   try {
@@ -38,7 +39,7 @@ export async function GET(req: Request) {
     });
 
   } catch (error: any) {
-    console.error("Failed to check vocabulary book status:", error);
+    logger.error({ err: error }, "Failed to check vocabulary book status:");
     return NextResponse.json({ success: false, error: 'Failed to check vocabulary book status' }, { status: 500 });
   }
 }

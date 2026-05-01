@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "../../auth/[...nextauth]/route";
+import { logger } from '@/lib/logger';
 
 export const dynamic = 'force-dynamic';
 
@@ -81,7 +82,7 @@ export async function GET(req: Request) {
     return NextResponse.json({ success: true, data: smartWords });
 
   } catch (error: any) {
-    console.error("Failed to fetch smart dictation words:", error);
+    logger.error({ err: error }, "Failed to fetch smart dictation words:");
     return NextResponse.json({ success: false, error: 'Failed to fetch smart data' }, { status: 500 });
   }
 }

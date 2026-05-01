@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import prisma from "@/lib/prisma";
 import { createSuccessResponse, createErrorResponse } from "@/lib/apiErrorHandler";
+import { logger } from '@/lib/logger';
 
 /**
  * GET /api/share/list
@@ -53,7 +54,7 @@ export async function GET() {
 
     return createSuccessResponse(transformedShares);
   } catch (error: any) {
-    console.error("[Share List API] Error:", error);
+    logger.error({ err: error }, "[Share List API] Error:");
     return createErrorResponse("获取分享列表失败", 500);
   }
 }

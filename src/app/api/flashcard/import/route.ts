@@ -6,6 +6,7 @@ import { authOptions } from "../../auth/[...nextauth]/route";
 import * as xlsx from 'xlsx';
 import path from 'path';
 import fs from 'fs';
+import { logger } from '@/lib/logger';
 
 const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10 MB
 const MAX_ROWS = 50000;
@@ -89,7 +90,7 @@ export async function POST(req: Request) {
 
         savedCount++;
       } catch (err) {
-        console.error(`Failed to import flashcard word: ${wordData.word}`, err);
+        logger.error({ err: err }, `Failed to import flashcard word: ${wordData.word}`);
         errorCount++;
       }
     }
@@ -100,7 +101,7 @@ export async function POST(req: Request) {
     });
 
   } catch (error: any) {
-    console.error("Flashcard Import API Error:", error);
+    logger.error({ err: error }, "Flashcard Import API Error:");
     return NextResponse.json({ success: false, error: 'Internal Server Error' }, { status: 500 });
   }
 }

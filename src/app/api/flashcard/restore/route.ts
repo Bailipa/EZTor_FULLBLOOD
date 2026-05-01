@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "../../auth/[...nextauth]/route";
+import { logger } from '@/lib/logger';
 
 export async function POST(req: Request) {
   try {
@@ -36,7 +37,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ success: true, message: 'Word restored' });
 
   } catch (error: any) {
-    console.error("Failed to restore word:", error);
+    logger.error({ err: error }, "Failed to restore word:");
     return NextResponse.json({ success: false, error: 'Failed to restore word' }, { status: 500 });
   }
 }

@@ -2,6 +2,7 @@ import prisma from '@/lib/prisma';
 import { Prisma } from '@prisma/client';
 import { randomUUID } from 'crypto';
 import { checkAndSyncOnQuery } from '@/lib/wordSync';
+import { logger } from '@/lib/logger';
 
 export interface CachedWord {
   word: string;
@@ -117,12 +118,12 @@ export class CacheService {
                 data: { id: randomUUID(), reviewGroupId: targetGroupId, wordId: (w as any).id }
               });
             } catch (e: any) {
-              if (e.code !== 'P2002') console.error("Failed to add to group:", e);
+              if (e.code !== 'P2002') logger.error({ err: e }, "Failed to add to group");
             }
           }
         }
       } catch (e) {
-        console.error("Failed to copy public words to user db", e);
+        logger.error({ err: e }, "Failed to copy public words to user db");
       }
     }
   }
@@ -156,12 +157,12 @@ export class CacheService {
                 });
               }
             } catch (e: any) {
-              if (e.code !== 'P2002') console.error("Failed to add cached word to group:", e);
+              if (e.code !== 'P2002') logger.error({ err: e }, "Failed to add cached word to group");
             }
           }
         }
       } catch (updateErr) {
-        console.error("Failed to update cache timestamps or add to group:", updateErr);
+        logger.error({ err: updateErr }, "Failed to update cache timestamps or add to group");
       }
     }
   }

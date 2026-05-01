@@ -3,6 +3,7 @@ import prisma from '@/lib/prisma';
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "../../auth/[...nextauth]/route";
 import { randomUUID } from 'crypto';
+import { logger } from '@/lib/logger';
 
 export async function POST(req: Request) {
   try {
@@ -68,7 +69,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ success: true });
 
   } catch (error: any) {
-    console.error("Failed to update dictation stats:", error);
+    logger.error({ err: error }, "Failed to update dictation stats:");
     return NextResponse.json({ success: false, error: 'Failed to update stats' }, { status: 500 });
   }
 }

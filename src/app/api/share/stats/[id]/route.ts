@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import prisma from "@/lib/prisma";
 import { createSuccessResponse, createErrorResponse } from "@/lib/apiErrorHandler";
+import { logger } from '@/lib/logger';
 
 /**
  * GET /api/share/stats/:id
@@ -84,7 +85,7 @@ export async function GET(
       imports: transformedImports,
     });
   } catch (error: any) {
-    console.error("[Share Stats API] Error:", error);
+    logger.error({ err: error }, "[Share Stats API] Error:");
     return createErrorResponse("获取统计信息失败", 500);
   }
 }

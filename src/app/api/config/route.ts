@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "../auth/[...nextauth]/route";
+import { logger } from '@/lib/logger';
 
 function maskApiKey(apiKey: string): string {
   if (!apiKey || apiKey.length <= 8) {
@@ -61,7 +62,7 @@ export async function GET(req: Request) {
       }
     });
   } catch (error: any) {
-    console.error("Failed to fetch api config:", error);
+    logger.error({ err: error }, "Failed to fetch api config:");
     return NextResponse.json({ success: false, error: 'Internal server error' }, { status: 500 });
   }
 }
@@ -106,7 +107,7 @@ export async function POST(req: Request) {
       }
     });
   } catch (error: any) {
-    console.error("Failed to update api config:", error);
+    logger.error({ err: error }, "Failed to update api config:");
     return NextResponse.json({ success: false, error: 'Internal server error' }, { status: 500 });
   }
 }

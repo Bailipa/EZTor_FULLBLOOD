@@ -1,0 +1,11 @@
+node_modules
+.next
+.git
+.env
+.env.local
+*.md
+logs
+coverage
+.DS_Store
+prisma/prisma/dev.db
+prisma/prisma/dev.db.backup*

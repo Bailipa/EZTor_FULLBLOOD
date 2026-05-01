@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "../auth/[...nextauth]/route";
+import { logger } from '@/lib/logger';
 
 export const dynamic = 'force-dynamic'; // 禁止缓存，每次获取最新的随机数据
 
@@ -44,7 +45,7 @@ export async function GET(req: Request) {
     return NextResponse.json({ success: true, data: randomWords });
 
   } catch (error: any) {
-    console.error("Failed to fetch danmaku words:", error);
+    logger.error({ err: error }, "Failed to fetch danmaku words:");
     return NextResponse.json({ success: false, error: 'Failed to fetch danmaku data' }, { status: 500 });
   }
 }

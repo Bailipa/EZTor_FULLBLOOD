@@ -4,6 +4,7 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import prisma from "@/lib/prisma";
 import { generateUniqueCode } from "@/lib/share/codeGenerator";
 import { createSuccessResponse, createErrorResponse } from "@/lib/apiErrorHandler";
+import { logger } from '@/lib/logger';
 
 /**
  * POST /api/share/:id/regenerate
@@ -65,7 +66,7 @@ export async function POST(
       message: "密钥已重新生成",
     });
   } catch (error: any) {
-    console.error("[Share Regenerate API] Error:", error);
+    logger.error({ err: error }, "[Share Regenerate API] Error:");
     return createErrorResponse("重新生成密钥失败", 500);
   }
 }

@@ -3,6 +3,7 @@ import { randomUUID } from 'crypto';
 import prisma from '@/lib/prisma';
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "../../auth/[...nextauth]/route";
+import { logger } from '@/lib/logger';
 
 export async function POST(req: Request) {
   try {
@@ -61,7 +62,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ success: true, message: 'Word marked as ignored' });
 
   } catch (error: any) {
-    console.error("Failed to ignore word:", error);
+    logger.error({ err: error }, "Failed to ignore word:");
     return NextResponse.json({ success: false, error: 'Failed to ignore word' }, { status: 500 });
   }
 }

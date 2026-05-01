@@ -2,6 +2,7 @@ import prisma from '@/lib/prisma';
 import { randomUUID } from 'crypto';
 import { calculateQualityScore } from '@/lib/qualityScoring';
 import { cascadePublicWordToPrivate } from '@/lib/publicWordCascade';
+import { logger } from '@/lib/logger';
 
 export interface WordData {
   word: string;
@@ -64,7 +65,7 @@ export default class PublicWordService {
         } catch (createErr: any) {
           // 并发创建冲突，忽略（另一个请求已经创建）
           if (createErr.code !== 'P2002') {
-            console.error("Failed to create public word:", createErr);
+            logger.error({ err: createErr }, "Failed to create public word");
           }
         }
       } else if (qualityResult.score > existingPublicWord.qualityScore) {
@@ -98,11 +99,11 @@ export default class PublicWordService {
             });
           }
         } catch (updateErr) {
-          console.error("Failed to update public word:", updateErr);
+          logger.error({ err: updateErr }, "Failed to update public word");
         }
       }
     } catch (publicDbErr: any) {
-      console.error("Failed to save to public word:", publicDbErr);
+      logger.error({ err: publicDbErr }, "Failed to save to public word");
     }
   }
 

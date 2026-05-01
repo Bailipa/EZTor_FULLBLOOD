@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import svgCaptcha from 'svg-captcha';
 import crypto from 'crypto';
 import { getRequiredEnvVar } from '@/lib/envValidator';
+import { logger } from '@/lib/logger';
 
 const SECRET_KEY = getRequiredEnvVar('NEXTAUTH_SECRET');
 
@@ -49,7 +50,7 @@ export async function GET() {
       timestamp: timestamp
     });
   } catch (error: any) {
-    console.error("CAPTCHA Generation Error:", error);
+    logger.error({ err: error }, "CAPTCHA Generation Error:");
     return NextResponse.json({ error: 'Failed to generate captcha' }, { status: 500 });
   }
 }

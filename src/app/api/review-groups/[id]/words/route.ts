@@ -3,6 +3,7 @@ import prisma from '@/lib/prisma';
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { checkCsrfHeader } from '@/lib/csrf';
+import { logger } from '@/lib/logger';
 
 export async function POST(req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
@@ -70,7 +71,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
 
     return NextResponse.json({ success: true, addedCount: newWordIds.length });
   } catch (error: any) {
-    console.error("Failed to add words to group:", error);
+    logger.error({ err: error }, "Failed to add words to group:");
     return NextResponse.json({ success: false, error: 'Failed to add words' }, { status: 500 });
   }
 }
@@ -134,7 +135,7 @@ export async function DELETE(req: Request, { params }: { params: Promise<{ id: s
 
     return NextResponse.json({ success: false, error: 'Invalid action' }, { status: 400 });
   } catch (error: any) {
-    console.error("Failed to remove words from group:", error);
+    logger.error({ err: error }, "Failed to remove words from group:");
     return NextResponse.json({ success: false, error: 'Failed to remove words' }, { status: 500 });
   }
 }
@@ -209,7 +210,7 @@ export async function GET(req: Request, { params }: { params: Promise<{ id: stri
       pagination: { total, hasMore, nextCursor }
     });
   } catch (error: any) {
-    console.error("Failed to fetch group words:", error);
+    logger.error({ err: error }, "Failed to fetch group words:");
     return NextResponse.json({ success: false, error: 'Failed to fetch words' }, { status: 500 });
   }
 }

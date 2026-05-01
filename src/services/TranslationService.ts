@@ -300,7 +300,7 @@ export class TranslationService {
             publicWordId = created.id;
           } catch (createErr: any) {
             if (createErr.code !== 'P2002') {
-              console.error("Failed to create public word:", createErr);
+              logger.error({ err: createErr }, "Failed to create public word");
             }
           }
         } else if (qualityResult.score > existingPublicWord.qualityScore) {
@@ -324,7 +324,7 @@ export class TranslationService {
               console.log(`[PublicWord] Concurrent update detected for "${wordData.word}", skipped`);
             }
           } catch (updateErr) {
-            console.error("Failed to update public word:", updateErr);
+            logger.error({ err: updateErr }, "Failed to update public word");
           }
         }
 
@@ -344,7 +344,7 @@ export class TranslationService {
           exampleTranslation: wordData.exampleTranslation || null
         });
       } catch (publicDbErr: any) {
-        console.error("Failed to save to public word:", publicDbErr);
+        logger.error({ err: publicDbErr }, "Failed to save to public word");
       }
 
       // 2) 保存到用户私有库（仅存元数据 + publicWordId，避免冗余复制）
@@ -382,7 +382,7 @@ export class TranslationService {
               data: { id: randomUUID(), reviewGroupId: targetGroupId, wordId: savedWord.id }
             });
           } catch (e: any) {
-            if (e.code !== 'P2002') console.error("Failed to add new word to group:", e);
+            if (e.code !== 'P2002') logger.error({ err: e }, "Failed to add new word to group");
           }
         }
       } catch (dbErr: any) {
@@ -390,7 +390,7 @@ export class TranslationService {
       }
     }
 
-    console.log(`Saved ${wordsToSave.length} words to DB during stream for user ${this.session.user.id}.`);
+    logger.info(`Saved ${wordsToSave.length} words to DB during stream for user ${this.session.user.id}.`);
   }
 
   async processTranslationStream(response: any, controller: ReadableStreamDefaultController, orderedCachedResults: TranslationResult[], targetGroupId?: string) {
@@ -417,7 +417,7 @@ export class TranslationService {
         if (content) {
           accumulatedAiText += content;
           if (accumulatedAiText.length > MAX_ACCUMULATED_SIZE) {
-            console.error('[TranslationService] Accumulated text exceeds limit, stopping stream');
+            logger.error('[TranslationService] Accumulated text exceeds limit, stopping stream');
             break;
           }
           
@@ -455,7 +455,7 @@ export class TranslationService {
         }));
       }
         } catch (e) {
-          console.error("Failed to parse AI complete output:", e);
+          logger.error({ err: e }, "Failed to parse AI complete output");
         }
       }
 
@@ -465,7 +465,7 @@ export class TranslationService {
       }
 
     } catch (err) {
-      console.error('Stream processing error:', err);
+      logger.error({ err }, 'Stream processing error');
       controller.error(err);
     } finally {
       // 将AI处理结果保存到completed缓存，供后续并发请求使用

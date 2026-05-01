@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "../auth/[...nextauth]/route";
+import { logger } from '@/lib/logger';
 
 export const dynamic = 'force-dynamic';
 
@@ -63,7 +64,7 @@ export async function GET(req: Request) {
     });
 
   } catch (error: any) {
-    console.error("Failed to fetch history words:", error);
+    logger.error({ err: error }, "Failed to fetch history words:");
     return NextResponse.json({ success: false, error: 'Failed to fetch history data' }, { status: 500 });
   }
 }
@@ -123,7 +124,7 @@ export async function DELETE(req: Request) {
     return NextResponse.json({ success: false, error: 'Invalid request parameters' }, { status: 400 });
 
   } catch (error: any) {
-    console.error("Failed to delete history:", error);
+    logger.error({ err: error }, "Failed to delete history:");
     return NextResponse.json({ success: false, error: 'Failed to delete history data' }, { status: 500 });
   }
 }

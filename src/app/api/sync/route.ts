@@ -3,6 +3,7 @@ import prisma from '@/lib/prisma';
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "../auth/[...nextauth]/route";
 import { checkCsrfHeader } from '@/lib/csrf';
+import { logger } from '@/lib/logger';
 
 export async function POST(req: Request) {
   try {
@@ -59,8 +60,8 @@ export async function POST(req: Request) {
           });
           savedCount++;
         } catch (err) {
-          console.error(`Failed to sync word: ${wordData.word}`, err);
-          console.error('Error details:', JSON.stringify(err, Object.getOwnPropertyNames(err)));
+          logger.error({ err: err }, `Failed to sync word: ${wordData.word}`);
+          logger.error('Error details:', JSON.stringify(err, Object.getOwnPropertyNames(err)));
           errorCount++;
         }
       }
@@ -72,7 +73,7 @@ export async function POST(req: Request) {
     });
 
   } catch (error: any) {
-    console.error("Sync API Error:", error);
+    logger.error({ err: error }, "Sync API Error:");
     return NextResponse.json({ success: false, error: 'Internal Server Error' }, { status: 500 });
   }
 }
