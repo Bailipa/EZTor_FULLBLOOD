@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { randomUUID } from 'crypto';
 import prisma from '@/lib/prisma';
 import { sanitizeWordList } from '@/lib/security';
-import { rateLimit, getClientKey } from '@/lib/rateLimit';
+import { rateLimit } from '@/lib/rateLimit';
 
 export async function POST(req: NextRequest) {
   const startTime = Date.now();

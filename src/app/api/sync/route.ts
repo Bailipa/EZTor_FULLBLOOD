@@ -32,7 +32,7 @@ export async function POST(req: Request) {
       if (wordData && wordData.word) {
         try {
           const word = String(wordData.word).toLowerCase().trim();
-          const savedWord = await prisma.word.upsert({
+          const _savedWord = await prisma.word.upsert({
             where: { 
               word_userId: {
                 word,

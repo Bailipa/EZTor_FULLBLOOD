@@ -29,16 +29,16 @@ interface NotFoundWord {
 export function GuestWordInputCard({
   isLoading,
   setIsLoading,
-  showPos,
-  showExample,
-  results,
+  showPos: _showPos,
+  showExample: _showExample,
+  results: _results,
   setResults,
   wordsInput,
   setWordsInput,
-  onFeatureClick,
+  onFeatureClick: _onFeatureClick,
 }: GuestWordInputCardProps) {
   const { resolvedTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
+  const [_mounted, setMounted] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [pendingWords, setPendingWords] = useState<string[]>([]);
   const [notFoundWords, setNotFoundWords] = useState<NotFoundWord[]>([]);
@@ -47,12 +47,12 @@ export function GuestWordInputCard({
   useEffect(() => {
     setMounted(true);
   }, []);
-  
-  const isDark = resolvedTheme === 'dark';
+  const _isDark = resolvedTheme === 'dark';
 
   useEffect(() => {
     const savedWordsInput = loadFromStorage<string>('vocab_wordsInput', '');
     if (savedWordsInput) setWordsInput(savedWordsInput);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {

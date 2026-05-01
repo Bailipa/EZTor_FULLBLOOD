@@ -304,7 +304,6 @@ async function main() {
         });
       } else {
         // 生成分享密钥
-        const crypto = require('crypto');
         const generateCode = () => {
           const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
           let code = '';
@@ -319,7 +318,7 @@ async function main() {
         
         shareCode = generateCode();
         
-        const sharedVocab = await prisma.sharedVocabulary.create({
+        const _sharedVocab = await prisma.sharedVocabulary.create({
           data: {
             id: randomUUID(),
             code: shareCode,

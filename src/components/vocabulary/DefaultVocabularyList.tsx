@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Loader2, BookOpen, ChevronRight } from "lucide-react";
+import { BookOpen, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface DefaultVocabulary {
@@ -68,7 +68,7 @@ export function DefaultVocabularyList({
             error: result.error || "加载失败",
           });
         }
-      } catch (error) {
+      } catch (_error) {
         setState({
           isLoading: false,
           data: [],

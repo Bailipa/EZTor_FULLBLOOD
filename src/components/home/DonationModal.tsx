@@ -69,6 +69,7 @@ export function DonationButton() {
         <div className="space-y-4">
           {config.imageUrl && (
             <div className="rounded-lg overflow-hidden border bg-muted/30">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={config.imageUrl}
                 alt="Donation QR code"

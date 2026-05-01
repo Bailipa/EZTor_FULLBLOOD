@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { ProgressBar, useProgress, ProgressStatus } from '@/components/ui/progress-bar';
-import { Play, RotateCcw, AlertTriangle, CheckCircle, XCircle } from 'lucide-react';
+import { Play, RotateCcw, XCircle } from 'lucide-react';
 
 export function ProgressBarDemo() {
   const [manualProgress, setManualProgress] = useState(0);
@@ -12,7 +12,7 @@ export function ProgressBarDemo() {
 
   const progress1 = useProgress({ duration: 3000 });
   const progress2 = useProgress({ duration: 5000 });
-  const progress3 = useProgress({ duration: 4000 });
+  const _progress3 = useProgress({ duration: 4000 });
 
   const handleManualChange = (value: number) => {
     setManualProgress(value);

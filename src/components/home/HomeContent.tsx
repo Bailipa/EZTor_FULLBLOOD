@@ -16,8 +16,8 @@ export default function HomeContent() {
 
   const [wordsInput, setWordsInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [showPos, setShowPos] = useState(true);
-  const [showExample, setShowExample] = useState(true);
+  const [showPos, _setShowPos] = useState(true);
+  const [showExample, _setShowExample] = useState(true);
   const [results, setResults] = useState<WordResult[]>([]);
   const [showDanmaku, setShowDanmaku] = useState(false);
   const [groups, setGroups] = useState<ReviewGroup[]>([]);
@@ -28,7 +28,7 @@ export default function HomeContent() {
   const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const { data: session, status } = useSession();
-  const { showLoginPrompt, pendingFeature, promptLogin, closePrompt, LoginPromptDialog } = useLoginPrompt();
+  const { showLoginPrompt: _showLoginPrompt, pendingFeature: _pendingFeature, promptLogin, closePrompt: _closePrompt, LoginPromptDialog } = useLoginPrompt();
 
   const isAuthenticated = status === 'authenticated' && session?.user;
   const isGuestMode = !isAuthenticated;

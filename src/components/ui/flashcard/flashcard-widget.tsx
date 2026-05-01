@@ -63,6 +63,7 @@ export function FlashcardWidget() {
       fetchGroups();
       fetchWords(selectedGroupId);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen]);
 
   const handleGroupChange = (value: string) => {

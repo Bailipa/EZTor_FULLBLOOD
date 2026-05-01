@@ -6,6 +6,7 @@ export default defineConfig({
     globals: true,
     environment: 'node',
     include: ['src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
+    exclude: ['src/__tests__/smoke/**'],
     coverage: {
       reporter: ['text', 'json', 'html'],
       include: ['src/**/*.{js,ts,jsx,tsx}'],

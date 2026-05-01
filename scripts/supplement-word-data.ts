@@ -20,7 +20,7 @@ import { PrismaClient } from '@prisma/client';
 import { execSync } from 'child_process';
 import * as fs from 'fs';
 import * as path from 'path';
-import { randomUUID } from 'crypto';
+import { randomUUID as _randomUUID } from 'crypto';
 
 const prisma = new PrismaClient({
   log: ['warn', 'error'],

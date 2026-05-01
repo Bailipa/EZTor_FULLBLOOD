@@ -10,6 +10,7 @@
     "test": "vitest",
     "test:ui": "vitest --ui",
     "test:coverage": "vitest --coverage",
+    "test:smoke": "vitest src/__tests__/smoke/",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

@@ -40,8 +40,8 @@ export function WordInputCard({
   setWordsInput,
 }: WordInputCardProps) {
   const { resolvedTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-  const [rawStreamText, setRawStreamText] = useState('');
+  const [_mounted, setMounted] = useState(false);
+  const [_rawStreamText, setRawStreamText] = useState('');
   const [pendingWords, setPendingWords] = useState<string[]>([]);
   const [completedCount, setCompletedCount] = useState(0);
   const [inputStatus, setInputStatus] = useState<{ type: 'normal' | 'non-english' | 'sentence'; message: string }>({ type: 'normal', message: '' });
@@ -49,8 +49,7 @@ export function WordInputCard({
   useEffect(() => {
     setMounted(true);
   }, []);
-  
-  const isDark = resolvedTheme === 'dark';
+  const _isDark = resolvedTheme === 'dark';
   const abortControllerRef = useRef<AbortController | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const animatedWordsRef = useRef<Set<string>>(new Set());
@@ -61,6 +60,7 @@ export function WordInputCard({
     const savedResults = loadFromStorage<WordResult[]>('vocab_results', []);
     if (savedWordsInput) setWordsInput(savedWordsInput);
     if (savedResults.length > 0) setResults(savedResults);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -74,7 +74,7 @@ export function WordInputCard({
       return;
     }
 
-    const lines = trimmedInput.split('\n').filter(line => line.trim());
+    const _lines = trimmedInput.split('\n').filter(line => line.trim());
     
     setInputStatus({ type: 'normal', message: '' });
   }, [wordsInput]);
@@ -233,7 +233,7 @@ export function WordInputCard({
 
           try {
             parsedData = JSON.parse(jsonToParse);
-          } catch (e) {
+          } catch (_e) {
             try {
               if (jsonToParse.startsWith('{') && !jsonToParse.endsWith('}')) {
                 if (jsonToParse.includes('"results": [')) {
@@ -250,7 +250,7 @@ export function WordInputCard({
                 }
               }
               parsedData = JSON.parse(jsonToParse);
-            } catch (err2) {
+            } catch (_err2) {
               continue;
             }
           }
@@ -331,7 +331,7 @@ export function WordInputCard({
             if (parsed && parsed.results && Array.isArray(parsed.results)) {
               finalResults = [...finalResults, ...parsed.results];
             }
-          } catch (innerE) {
+          } catch (_innerE) {
             console.warn('Failed to parse one of the blocks:', finalText);
           }
         }
@@ -340,7 +340,7 @@ export function WordInputCard({
           console.log('Using lastValidParsedData as fallback');
           finalResults = lastValidParsedData.results;
         }
-      } catch (e) {
+      } catch (_e) {
         console.warn('Final JSON parse failed overall.');
         if (lastValidParsedData && lastValidParsedData.results) {
           finalResults = lastValidParsedData.results;

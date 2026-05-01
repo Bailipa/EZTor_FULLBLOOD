@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/select";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { CheckIcon, XIcon, Loader2 } from "lucide-react";
+import { CheckIcon, Loader2 } from "lucide-react";
 import { ProgressBar, useProgress } from "@/components/ui/progress-bar";
 import { cn } from "@/lib/utils";
 
@@ -110,7 +110,7 @@ export function ShareImportModal({
   });
   const [isImporting, setIsImporting] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [importProgress, setImportProgress] = useState(0);
+  const [_importProgress, setImportProgress] = useState(0);
   const [importStep, setImportStep] = useState("");
   const [defaultVocabularies, setDefaultVocabularies] = useState<DefaultVocabularyState>({
     isLoading: true,
@@ -146,7 +146,7 @@ export function ShareImportModal({
               error: result.error || "加载失败",
             });
           }
-        } catch (err) {
+        } catch (_err) {
           setDefaultVocabularies({
             isLoading: false,
             data: [],
@@ -203,7 +203,7 @@ export function ShareImportModal({
           data: null,
         });
       }
-    } catch (err) {
+    } catch (_err) {
       setValidation({
         isValidating: false,
         isValid: false,
@@ -319,7 +319,7 @@ export function ShareImportModal({
 
       const decoder = new TextDecoder();
       let buffer = "";
-      let lastProgressData: any = null;
+      let _lastProgressData: any = null;
       let finalResult: any = null;
 
       while (true) {
@@ -341,7 +341,7 @@ export function ShareImportModal({
             if (parsed.progress !== undefined) {
               setImportProgress(parsed.progress);
               importProgressController.setProgress(parsed.progress);
-              lastProgressData = parsed;
+              _lastProgressData = parsed;
             }
             if (parsed.step) {
               setImportStep(parsed.step);
@@ -349,7 +349,7 @@ export function ShareImportModal({
             if (parsed.success !== undefined) {
               finalResult = parsed;
             }
-          } catch (e) {
+          } catch (_e) {
             // Skip non-JSON lines
           }
         }
@@ -368,7 +368,7 @@ export function ShareImportModal({
           if (parsed.success !== undefined) {
             finalResult = parsed;
           }
-        } catch (e) {
+        } catch (_e) {
           // Ignore parse errors on remaining buffer
         }
       }

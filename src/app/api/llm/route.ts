@@ -4,7 +4,7 @@ import { getProviderCandidates, withLlmFailover } from '@/lib/llmPool';
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { model, messages, temperature, max_tokens } = body;
+    const { messages, temperature, max_tokens } = body;
     
     const candidates = await getProviderCandidates();
     if (candidates.length === 0) {
@@ -13,7 +13,7 @@ export async function POST(req: NextRequest) {
 
     const result = await withLlmFailover(
       candidates,
-      async (client, model, sel) => {
+      async (client, model, _sel) => {
         const completion = await client.chat.completions.create({
           model,
           messages,

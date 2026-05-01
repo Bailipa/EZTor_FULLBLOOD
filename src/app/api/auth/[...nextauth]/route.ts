@@ -3,7 +3,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import prisma from "@/lib/prisma";
 import bcrypt from "bcryptjs";
 import crypto from "crypto";
-import { rateLimit, getClientKey } from "@/lib/rateLimit";
+import { rateLimit } from "@/lib/rateLimit";
 import { getRequiredEnvVar } from "@/lib/envValidator";
 
 const SECRET_KEY = getRequiredEnvVar('NEXTAUTH_SECRET');

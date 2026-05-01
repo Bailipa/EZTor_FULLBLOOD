@@ -7,7 +7,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { ArrowLeft, ArrowRight, Loader2, Volume2, VolumeX, CheckCircle2, XCircle, RefreshCw, Eye, EyeOff, ListChecks } from "lucide-react";
 import { ModeToggle } from "@/components/mode-toggle";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Progress } from "@/components/ui/progress";
 import { diffChars } from "diff";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, DialogTrigger } from "@/components/ui/dialog";
@@ -37,7 +37,7 @@ export default function DictationPage() {
   const [isStarted, setIsStarted] = useState(false); // 新增状态：是否已经开始测试
   const [testCount, setTestCount] = useState<number | 'custom'>(10); // 默认测试数量，增加 'custom' 选项
   const [mistakes, setMistakes] = useState<any[]>([]); // 收集本次测试中做错的单词
-  const [isRetesting, setIsRetesting] = useState(false); // 是否处于错题重测模式
+  const [_isRetesting, setIsRetesting] = useState(false); // 是否处于错题重测模式
   const [answers, setAnswers] = useState<Record<number, { userInput: string, isCorrect: boolean }>>({}); // 记录每道题的答题状态
   
   // Settings State
@@ -172,6 +172,7 @@ export default function DictationPage() {
     if (mode === 'dictation' && words.length > 0 && !isChecked && !isFinished && !isMuted) {
        playAudio(words[currentIndex].word);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentIndex, mode, words, isChecked, isFinished, isMuted]);
 
   const currentWord = words[currentIndex];
@@ -227,6 +228,7 @@ export default function DictationPage() {
     } else {
       resetTurn();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [answers]);
 
   const handleNext = React.useCallback(() => {
@@ -238,6 +240,7 @@ export default function DictationPage() {
       setIsFinished(true);
       trackDictationComplete(score.correct, score.total);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentIndex, words.length, loadQuestionState, score]);
 
   const handlePrev = React.useCallback(() => {

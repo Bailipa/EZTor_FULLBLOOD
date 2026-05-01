@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client';
+import { randomUUID } from 'crypto';
 
 const prisma = new PrismaClient();
 
@@ -68,7 +69,7 @@ async function main() {
         } else {
           const created = await prisma.publicWord.create({
             data: {
-              id: require('crypto').randomUUID(),
+              id: randomUUID(),
               word: normalizedWord,
               translation: translation,
               phonetic: word.phonetic,

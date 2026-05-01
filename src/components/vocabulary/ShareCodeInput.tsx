@@ -105,7 +105,7 @@ export function useShareCodeValidation(
             message: result.message || null,
             data: result.data || null,
           });
-        } catch (error) {
+        } catch (_error) {
           setValidationState({
             isValidating: false,
             isValid: false,

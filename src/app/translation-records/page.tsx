@@ -75,7 +75,7 @@ export default function TranslationRecordsPage() {
       } else {
         setError(json.error || 'Failed to fetch data');
       }
-    } catch (e) {
+    } catch (_e) {
       setError('Network error');
     } finally {
       setLoading(false);
@@ -140,7 +140,7 @@ export default function TranslationRecordsPage() {
       } else {
         alert(json.error || '删除失败');
       }
-    } catch (e) {
+    } catch (_e) {
       alert('删除失败');
     } finally {
       setDeleting(false);

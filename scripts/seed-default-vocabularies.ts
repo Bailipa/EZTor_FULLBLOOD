@@ -251,7 +251,7 @@ async function main() {
         console.log(`  📝 生成分享密钥...`);
         shareCode = await generateUniqueCode();
         
-        const sharedVocab = await prisma.sharedVocabulary.create({
+        const _sharedVocab = await prisma.sharedVocabulary.create({
           data: {
             code: shareCode,
             name: vocabConfig.name,

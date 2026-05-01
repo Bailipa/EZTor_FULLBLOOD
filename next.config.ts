@@ -1,5 +1,33 @@
 import type { NextConfig } from "next";
 
+const isProduction = process.env.NODE_ENV === "production";
+
+const cspProduction = [
+  "default-src 'self'",
+  "script-src 'self'",
+  "style-src 'self' https://fonts.googleapis.com",
+  "img-src 'self' data: blob:",
+  "font-src 'self' data: https://fonts.gstatic.com",
+  "connect-src 'self' https:",
+  "frame-ancestors 'self'",
+  "base-uri 'self'",
+  "form-action 'self'",
+  "object-src 'none'",
+];
+
+const cspDevelopment = [
+  "default-src 'self'",
+  "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
+  "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+  "img-src 'self' data: blob:",
+  "font-src 'self' data: https://fonts.gstatic.com",
+  "connect-src 'self' https:",
+  "frame-ancestors 'self'",
+  "base-uri 'self'",
+  "form-action 'self'",
+  "object-src 'none'",
+];
+
 const nextConfig: NextConfig = {
   output: "standalone",
   serverExternalPackages: ["svg-captcha"],
@@ -9,6 +37,8 @@ const nextConfig: NextConfig = {
     workerThreads: true,
   },
   async headers() {
+    const csp = (isProduction ? cspProduction : cspDevelopment).join('; ');
+
     return [
       {
         source: '/(.*)',
@@ -31,18 +61,7 @@ const nextConfig: NextConfig = {
           },
           {
             key: 'Content-Security-Policy',
-            value: [
-              "default-src 'self'",
-              "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
-              "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
-              "img-src 'self' data: blob:",
-              "font-src 'self' data: https://fonts.gstatic.com",
-              "connect-src 'self' https:",
-              "frame-ancestors 'self'",
-              "base-uri 'self'",
-              "form-action 'self'",
-              "object-src 'none'",
-            ].join('; '),
+            value: csp,
           },
           {
             key: 'X-XSS-Protection',

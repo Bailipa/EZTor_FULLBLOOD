@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
@@ -84,7 +84,7 @@ export default function PublicWordsPage() {
       } else {
         setError(json.error || 'Failed to fetch data');
       }
-    } catch (e) {
+    } catch (_e) {
       setError('Network error');
     } finally {
       setLoading(false);
@@ -148,7 +148,7 @@ export default function PublicWordsPage() {
       } else {
         alert(json.error || 'Delete failed');
       }
-    } catch (e) {
+    } catch (_e) {
       alert('Network error');
     }
   };
@@ -170,7 +170,7 @@ export default function PublicWordsPage() {
       } else {
         alert(json.error || 'Update failed');
       }
-    } catch (e) {
+    } catch (_e) {
       alert('Network error');
     } finally {
       setSaving(false);
@@ -193,7 +193,7 @@ export default function PublicWordsPage() {
       } else {
         alert(json.error || 'Add failed');
       }
-    } catch (e) {
+    } catch (_e) {
       alert('Network error');
     } finally {
       setSaving(false);

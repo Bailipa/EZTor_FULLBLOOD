@@ -23,8 +23,6 @@ import { ArrowLeft, Download, Trash2, Loader2, PenTool, FolderPlus, FolderOpen, 
 import { ShareImportModal } from "@/components/vocabulary/ShareImportModal";
 import { GroupShareModal } from "@/components/review-group/GroupShareModal";
 import WordCard, { WordData } from "@/components/vocabulary/WordCard";
-import { VirtuosoGrid } from "react-virtuoso";
-
 const PAGE_SIZE = 20;
 const MAX_VISIBLE_WORDS = 500;
 

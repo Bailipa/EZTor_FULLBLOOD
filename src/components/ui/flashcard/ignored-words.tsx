@@ -62,6 +62,7 @@ export function IgnoredWords({ open, onOpenChange }: IgnoredWordsProps) {
 
   useEffect(() => {
     fetchIgnoredWords();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
 
   return (

@@ -3,7 +3,7 @@ import { randomUUID } from 'crypto';
 import prisma from '@/lib/prisma';
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-import { handleApiError, createErrorResponse } from '@/lib/apiErrorHandler';
+
 import { isValidShareCode } from '@/lib/share/codeGenerator';
 import { sanitizeInput } from '@/lib/security';
 

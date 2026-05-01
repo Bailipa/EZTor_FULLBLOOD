@@ -15,13 +15,6 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import {
   Copy,
   Check,
   Loader2,
@@ -72,7 +65,7 @@ export function GroupShareModal({
 }: GroupShareModalProps) {
   const [group, setGroup] = useState<ReviewGroup | null>(null);
   const [shareData, setShareData] = useState<ShareData | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, _setIsLoading] = useState(false);
   const [isCreating, setIsCreating] = useState(false);
   const [isRevoking, setIsRevoking] = useState(false);
   const [isRegenerating, setIsRegenerating] = useState(false);

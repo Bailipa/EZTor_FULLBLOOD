@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-import { handleApiError, createErrorResponse, createSuccessResponse } from '@/lib/apiErrorHandler';
+import { handleApiError, createErrorResponse } from '@/lib/apiErrorHandler';
 import { isValidShareCode } from '@/lib/share/codeGenerator';
 
 export async function GET(

@@ -73,7 +73,7 @@ describe('Share Validate API', () => {
 
       const req = new Request('http://localhost/api/share/validate/ABC-234-XYZ');
       const response = await GET(req, { params: Promise.resolve({ code: 'ABC-234-XYZ' }) });
-      const data = await response.json();
+      const _data = await response.json();
 
       expect(response.status).toBe(401);
     });
@@ -100,7 +100,7 @@ describe('Share Validate API', () => {
       vi.mocked(prisma.sharedVocabulary.update).mockResolvedValue({} as any);
 
       const req = new Request('http://localhost/api/share/validate/abc-234-xyz');
-      const response = await GET(req, { params: Promise.resolve({ code: 'abc-234-xyz' }) });
+      const _response = await GET(req, { params: Promise.resolve({ code: 'abc-234-xyz' }) });
 
       expect(prisma.sharedVocabulary.findUnique).toHaveBeenCalledWith(
         expect.objectContaining({

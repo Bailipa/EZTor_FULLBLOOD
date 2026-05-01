@@ -13,13 +13,10 @@ import {
   AlertTriangle,
   TrendingUp,
   Activity,
-  Calendar,
-  Download,
   FileJson,
   FileSpreadsheet,
   ExternalLink,
   Database,
-  Search,
   BarChart3,
   Filter
 } from 'lucide-react';
@@ -142,7 +139,7 @@ export default function AnalyticsPage() {
       } else {
         setError(json.error || 'Failed to fetch data');
       }
-    } catch (e) {
+    } catch (_e) {
       setError('Network error');
     } finally {
       setLoading(false);
@@ -286,7 +283,7 @@ export default function AnalyticsPage() {
   if (!data) return null;
 
   const maxDailyCount = Math.max(...data.dailyTrend.map(d => d.count), 1);
-  const maxGuestDailyCount = Math.max(...data.guestStats.dailyTrend.map(d => d.total), 1);
+  const _maxGuestDailyCount = Math.max(...data.guestStats.dailyTrend.map(d => d.total), 1);
 
   return (
     <div className="min-h-screen bg-gray-50/50 dark:bg-background p-6 md:p-12">

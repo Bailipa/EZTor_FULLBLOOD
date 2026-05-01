@@ -1,11 +1,10 @@
-import { NextResponse } from 'next/server';
 import { randomUUID } from 'crypto';
 import prisma from '@/lib/prisma';
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { handleApiError, createErrorResponse, createSuccessResponse } from '@/lib/apiErrorHandler';
 
-export async function GET(req: Request) {
+export async function GET(_req: Request) {
   try {
     const session = await getServerSession(authOptions);
     if (!session?.user?.id) {

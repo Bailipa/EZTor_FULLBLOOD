@@ -5,7 +5,7 @@ import * as fs from 'fs'
 const BACKUP_PATH = 'prisma/prisma/dev.db.backup.20260501_160403'
 const pg = new PrismaClient()
 
-function sqliteQuery(sql: string): string {
+function _sqliteQuery(sql: string): string {
   return execSync(`sqlite3 "${BACKUP_PATH}" "${sql}"`, { encoding: 'utf8' })
 }
 
@@ -77,7 +77,7 @@ async function main() {
         null, w.sourceType || 'USER'  // set publicWordId to null to avoid FK issues
       )
       wordCount++
-    } catch (e: any) {
+    } catch (_e: any) {
       wordErrors++
     }
   }
@@ -139,7 +139,7 @@ async function main() {
   console.log('Migrating ApiConfig...')
   const apiConfigs = sqliteJSON('SELECT * FROM ApiConfig')
   for (const c of apiConfigs) {
-    const now = new Date()
+    const _now = new Date()
     await pg.apiConfig.upsert({
       where: { id: 'global' },
       update: {},

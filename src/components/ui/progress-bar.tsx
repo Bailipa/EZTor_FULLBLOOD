@@ -2,7 +2,6 @@
 
 import * as React from 'react';
 import { cn } from '@/lib/utils';
-import { Progress } from '@/components/ui/progress';
 import { CheckCircle2, AlertCircle, Loader2 } from 'lucide-react';
 
 export type ProgressStatus = 'idle' | 'loading' | 'normal' | 'warning' | 'success' | 'error';
@@ -83,7 +82,7 @@ export function ProgressBar({
   className
 }: ProgressBarProps) {
   const clampedValue = Math.min(100, Math.max(0, value));
-  const config = statusConfig[status];
+  const _config = statusConfig[status];
   const sizeStyle = sizeConfig[size];
 
   const [displayValue, setDisplayValue] = React.useState(0);

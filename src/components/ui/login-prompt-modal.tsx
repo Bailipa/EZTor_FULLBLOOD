@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import {
   AlertDialog,
@@ -95,7 +95,7 @@ export function useLoginPrompt() {
 export function WelcomeBanner({ onDismiss }: { onDismiss: () => void }) {
   const router = useRouter();
 
-  const handleLogin = () => {
+  const _handleLogin = () => {
     router.push('/auth/signin');
   };
 

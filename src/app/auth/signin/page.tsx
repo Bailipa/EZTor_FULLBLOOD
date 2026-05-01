@@ -61,7 +61,7 @@ export default function SignIn() {
         router.push("/");
         router.refresh();
       }
-    } catch (err) {
+    } catch (_err) {
       setError("发生未知错误");
     } finally {
       setIsLoading(false);
@@ -118,6 +118,7 @@ export default function SignIn() {
                   autoComplete="off"
                 />
                 {captchaData ? (
+                  /* eslint-disable-next-line @next/next/no-img-element */
                   <img
                     src={captchaData.image}
                     alt="验证码"

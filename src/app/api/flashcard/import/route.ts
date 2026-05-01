@@ -11,7 +11,7 @@ import { logger } from '@/lib/logger';
 const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10 MB
 const MAX_ROWS = 50000;
 
-export async function POST(req: Request) {
+export async function POST(_req: Request) {
   try {
     const session = await getServerSession(authOptions);
     if (!session?.user?.id) {
