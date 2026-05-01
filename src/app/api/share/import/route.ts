@@ -630,12 +630,14 @@ export async function POST(req: Request) {
       return new Response(nodeReadableToWebStream(stream), { headers: { 'Content-Type': 'text/plain' } });
     }
     if (error.code === 'P2003') {
+      console.error('[ShareImport] P2003 FK constraint:', error.meta?.field_name, '| message:', error.message);
       const errorResponse = {
         success: false, 
         error: 'FOREIGN_KEY_ERROR',
         message: '分组关联失败：目标分组不存在或已被删除',
         suggestion: '请尝试创建新分组或选择其他现有分组',
-        step: '分组创建阶段'
+        step: '分组创建阶段',
+        detail: 'FK: ' + (error.meta?.field_name || 'unknown')
       };
       
       push(JSON.stringify(errorResponse));

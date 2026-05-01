@@ -25,7 +25,8 @@ import { GroupShareModal } from "@/components/review-group/GroupShareModal";
 import WordCard, { WordData } from "@/components/vocabulary/WordCard";
 import { VirtuosoGrid } from "react-virtuoso";
 
-const PAGE_SIZE = 50;
+const PAGE_SIZE = 20;
+const MAX_VISIBLE_WORDS = 500;
 
 const GridList = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement> & { 'data-testid'?: string }>(
   ({ style, children, ...props }, ref) => (
@@ -128,8 +129,8 @@ export default function HistoryPage() {
         } else {
           setWords(prev => {
             const combined = [...prev, ...newWords];
-            if (combined.length > 2000) {
-              return combined.slice(combined.length - 2000);
+            if (combined.length > MAX_VISIBLE_WORDS) {
+              return combined.slice(combined.length - MAX_VISIBLE_WORDS);
             }
             return combined;
           });
@@ -504,10 +505,10 @@ export default function HistoryPage() {
   }, [words]);
 
   const loadMore = useCallback(() => {
-    if (hasMore && !isLoadingMore && nextCursor) {
+    if (hasMore && !isLoadingMore && nextCursor && words.length < MAX_VISIBLE_WORDS) {
       fetchWords(currentViewGroupId, nextCursor);
     }
-  }, [hasMore, isLoadingMore, nextCursor, currentViewGroupId, fetchWords]);
+  }, [hasMore, isLoadingMore, nextCursor, currentViewGroupId, fetchWords, words.length]);
 
   const isGroupView = currentViewGroupId !== "all";
   const selectedCount = selectedSet.size;
@@ -734,22 +735,34 @@ export default function HistoryPage() {
             </Link>
           </div>
         ) : (
-          <div className="smooth-scroll-container" style={{ height: 'calc(100vh - 220px)', overflow: 'hidden' }}>
-            <VirtuosoGrid
-              data={words}
-              totalCount={words.length}
-              components={{
-                List: GridList,
-                Item: GridItem,
-              }}
-              itemContent={renderItemContent}
-              endReached={loadMore}
-              overscan={300}
-              useWindowScroll={false}
-              increaseViewportBy={{ top: 500, bottom: 500 }}
-              computeItemKey={(index, item) => item.id}
-              style={{ width: '100%', height: '100%' }}
-            />
+          <div className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {words.map((item, index) => (
+                <div key={item.id}>
+                  {renderItemContent(index, item)}
+                </div>
+              ))}
+            </div>
+
+            {isLoadingMore && (
+              <div className="flex items-center justify-center py-4">
+                <Loader2 className="w-6 h-6 animate-spin text-muted-foreground" />
+              </div>
+            )}
+
+            {hasMore && words.length < MAX_VISIBLE_WORDS && (
+              <div className="flex justify-center py-4">
+                <Button variant="outline" onClick={loadMore} disabled={isLoadingMore}>
+                  {isLoadingMore ? '加载中...' : '加载更多'}
+                </Button>
+              </div>
+            )}
+
+            {words.length >= MAX_VISIBLE_WORDS && hasMore && (
+              <p className="text-center text-sm text-muted-foreground py-4">
+                已显示最近 {MAX_VISIBLE_WORDS} 个单词，刷新可查看最新词条
+              </p>
+            )}
           </div>
         )}
       </div>
