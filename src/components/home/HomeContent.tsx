@@ -156,6 +156,17 @@ export default function HomeContent() {
         </div>
       </main>
 
+      <footer className="mt-12 py-6 text-center text-sm text-muted-foreground">
+        <a
+          href="https://beian.miit.gov.cn/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="hover:text-foreground transition-colors"
+        >
+          ICP备案号：粤ICP备2026008729号
+        </a>
+      </footer>
+
       <LoginPromptDialog />
     </div>
   );
