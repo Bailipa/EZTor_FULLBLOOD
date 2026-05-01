@@ -8,11 +8,12 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/component
 import { Badge } from '@/components/ui/badge';
 import { Switch } from '@/components/ui/switch';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
-import { Languages, Copy, ClipboardPaste, Settings, Sparkles } from 'lucide-react';
+import { Languages, Copy, ClipboardPaste, Settings, Sparkles, History, Trash2, ChevronDown } from 'lucide-react';
 import { useAnalytics } from '@/lib/analytics';
 import { getDeviceId } from '@/lib/deviceId';
 import { loadFromStorage, saveToStorage } from '@/lib/storage';
 import { LimitExceededModal, loadCustomApiConfig, saveCustomApiConfig } from './LimitExceededModal';
+import { loadHistory, addHistoryEntry, removeHistoryEntry, clearHistory, formatTime, HistoryEntry } from '@/lib/translateHistory';
 
 const MAX_LENGTH = 8000;
 const DAILY_LIMIT = 10;
@@ -33,6 +34,8 @@ export function TranslateOnlyCard() {
   const [showClearApiDialog, setShowClearApiDialog] = useState(false);
   const [customApi, setCustomApi] = useState(loadCustomApiConfig());
   const [optimize, setOptimize] = useState(() => loadFromStorage<boolean>('vocab_optimize_mode', false));
+  const [history, setHistory] = useState<HistoryEntry[]>([]);
+  const [historyOpen, setHistoryOpen] = useState(false);
 
   const charCount = input.length;
   const isOverLimit = charCount > MAX_LENGTH;
@@ -60,6 +63,10 @@ export function TranslateOnlyCard() {
         clearInterval(progressIntervalRef.current);
       }
     };
+  }, []);
+
+  useEffect(() => {
+    setHistory(loadHistory());
   }, []);
 
   const handleOptimizeToggle = (checked: boolean) => {
@@ -114,6 +121,8 @@ export function TranslateOnlyCard() {
       return;
     }
 
+    const currentInput = input.trim();
+
     setIsLoading(true);
     startFakeProgress();
 
@@ -122,7 +131,7 @@ export function TranslateOnlyCard() {
       const BASE_TIMEOUT_MS = 30000;
       const PER_1000_MS = 30000;
       const MAX_TIMEOUT_MS = 300000;
-      const extraUnits = Math.max(0, Math.ceil(input.length / 1000) - 1);
+      const extraUnits = Math.max(0, Math.ceil(currentInput.length / 1000) - 1);
       let timeoutMs = Math.min(MAX_TIMEOUT_MS, BASE_TIMEOUT_MS + extraUnits * PER_1000_MS);
       if (optimize) {
         timeoutMs = Math.min(MAX_TIMEOUT_MS, timeoutMs * 2);
@@ -130,7 +139,7 @@ export function TranslateOnlyCard() {
       const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
 
       const body: Record<string, unknown> = {
-        input: input.trim(),
+        input: currentInput,
         deviceId: getDeviceId(),
         optimize,
       };
@@ -167,11 +176,19 @@ export function TranslateOnlyCard() {
         throw new Error(data.error || 'Translation failed');
       }
 
-      setResult(data.data?.translation || '');
+      const translation = data.data?.translation || '';
+      setResult(translation);
 
       if (data.data?.optimizedInput) {
         setInput(data.data.optimizedInput);
       }
+
+      const newHistory = addHistoryEntry(
+        data.data?.optimizedInput || currentInput,
+        translation,
+        optimize
+      );
+      setHistory(newHistory);
 
       if (data.usage?.remaining !== undefined) {
         setRemaining(data.usage.remaining);
@@ -180,7 +197,7 @@ export function TranslateOnlyCard() {
       }
 
       finishProgress();
-      trackTranslateOnly(input.length);
+      trackTranslateOnly(currentInput.length);
     } catch (error: unknown) {
       const err = error as Error;
       if (progressIntervalRef.current) {
@@ -234,6 +251,22 @@ export function TranslateOnlyCard() {
     } catch {
       alert('无法读取剪贴板内容');
     }
+  };
+
+  const handleHistoryRestore = (entry: HistoryEntry) => {
+    setInput(entry.input);
+    setResult(entry.output);
+  };
+
+  const handleHistoryDelete = (id: string) => {
+    const updated = removeHistoryEntry(id);
+    setHistory(updated);
+  };
+
+  const handleHistoryClear = () => {
+    clearHistory();
+    setHistory([]);
+    setHistoryOpen(false);
   };
 
   const usageText = isAdmin
@@ -397,6 +430,60 @@ export function TranslateOnlyCard() {
                     </Button>
                   </div>
                   <p className="text-sm text-gray-800 dark:text-gray-200 whitespace-pre-wrap">{result}</p>
+                </div>
+              )}
+
+              {history.length > 0 && (
+                <div className="border-t pt-3">
+                  <button
+                    onClick={() => setHistoryOpen(!historyOpen)}
+                    className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground w-full"
+                  >
+                    <History className="w-3.5 h-3.5" />
+                    翻译历史 ({history.length})
+                    <ChevronDown className={`w-3.5 h-3.5 transition-transform ${historyOpen ? 'rotate-180' : ''}`} />
+                    <span className="flex-1" />
+                    <button
+                      onClick={(e) => { e.stopPropagation(); handleHistoryClear(); }}
+                      className="text-xs text-muted-foreground hover:text-destructive"
+                    >
+                      清空全部
+                    </button>
+                  </button>
+                  {historyOpen && (
+                    <div className="mt-2 space-y-1.5 max-h-64 overflow-y-auto">
+                      {history.map((entry) => (
+                        <button
+                          key={entry.id}
+                          onClick={() => handleHistoryRestore(entry)}
+                          className="w-full text-left p-2 rounded-md hover:bg-muted/60 transition-colors group"
+                        >
+                          <div className="flex items-start justify-between gap-2">
+                            <div className="min-w-0 flex-1">
+                              <p className="text-xs text-muted-foreground truncate">
+                                {entry.input.slice(0, 60)}{entry.input.length > 60 ? '...' : ''}
+                              </p>
+                              <p className="text-xs mt-0.5 truncate">
+                                {entry.output.slice(0, 60)}{entry.output.length > 60 ? '...' : ''}
+                              </p>
+                            </div>
+                            <div className="flex items-center gap-1 shrink-0">
+                              <span className="text-[10px] text-muted-foreground whitespace-nowrap">
+                                {formatTime(entry.timestamp)}
+                              </span>
+                              <button
+                                onClick={(e) => { e.stopPropagation(); handleHistoryDelete(entry.id); }}
+                                className="opacity-0 group-hover:opacity-100 text-muted-foreground hover:text-destructive transition-opacity"
+                                title="删除此条记录"
+                              >
+                                <Trash2 className="w-3 h-3" />
+                              </button>
+                            </div>
+                          </div>
+                        </button>
+                      ))}
+                    </div>
+                  )}
                 </div>
               )}
             </CardContent>
