@@ -1,14 +1,19 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
-import { Languages, Copy, ClipboardPaste } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
+import { Languages, Copy, ClipboardPaste, Settings } from 'lucide-react';
 import { useAnalytics } from '@/lib/analytics';
+import { getDeviceId } from '@/lib/deviceId';
+import { LimitExceededModal, loadCustomApiConfig, saveCustomApiConfig } from './LimitExceededModal';
 
 const MAX_LENGTH = 8000;
+const DAILY_LIMIT = 10;
 
 export function TranslateOnlyCard() {
   const [isOpen, setIsOpen] = useState(false);
@@ -20,9 +25,31 @@ export function TranslateOnlyCard() {
   const [isCopied, setIsCopied] = useState(false);
   const { trackTranslateOnly } = useAnalytics();
 
+  const [remaining, setRemaining] = useState<number | null>(null);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [showLimitModal, setShowLimitModal] = useState(false);
+  const [showClearApiDialog, setShowClearApiDialog] = useState(false);
+  const [customApi, setCustomApi] = useState(loadCustomApiConfig());
+
   const charCount = input.length;
   const isOverLimit = charCount > MAX_LENGTH;
   const progressIntervalRef = useRef<NodeJS.Timeout | null>(null);
+
+  const fetchUsage = useCallback(async () => {
+    try {
+      const res = await fetch('/api/translate-only/usage');
+      if (!res.ok) return;
+      const data = await res.json();
+      if (data.success) {
+        setIsAdmin(data.data.isAdmin);
+        setRemaining(data.data.remaining);
+      }
+    } catch {}
+  }, []);
+
+  useEffect(() => {
+    fetchUsage();
+  }, [fetchUsage]);
 
   useEffect(() => {
     return () => {
@@ -35,7 +62,7 @@ export function TranslateOnlyCard() {
   const startFakeProgress = () => {
     setProgress(0);
     let current = 0;
-    
+
     progressIntervalRef.current = setInterval(() => {
       current += Math.random() * 8 + 2;
       if (current >= 90) {
@@ -54,49 +81,88 @@ export function TranslateOnlyCard() {
     setTimeout(() => setProgress(0), 500);
   };
 
+  const handleCustomApiSaved = (config: { baseUrl: string; apiKey: string; model: string }) => {
+    setCustomApi(config);
+  };
+
+  const handleClearCustomApi = () => {
+    saveCustomApiConfig(null);
+    setCustomApi(null);
+    setShowClearApiDialog(false);
+    fetchUsage();
+  };
+
+  const handleConfigureApi = () => {
+    setShowLimitModal(true);
+  };
+
   const handleTranslate = async () => {
     if (isLoading) return;
     if (!input.trim()) return;
     setIsClearConfirm(false);
 
+    if (!isAdmin && !customApi && remaining !== null && remaining <= 0) {
+      setShowLimitModal(true);
+      return;
+    }
+
     setIsLoading(true);
     startFakeProgress();
-    
+
     try {
       const controller = new AbortController();
-      // 动态超时：基础 30s，每 1000 字增加 30s，上限 5 分钟（300000ms）
       const BASE_TIMEOUT_MS = 30000;
       const PER_1000_MS = 30000;
       const MAX_TIMEOUT_MS = 300000;
       const extraUnits = Math.max(0, Math.ceil(input.length / 1000) - 1);
       const timeoutMs = Math.min(MAX_TIMEOUT_MS, BASE_TIMEOUT_MS + extraUnits * PER_1000_MS);
       const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
-      
+
+      const body: Record<string, unknown> = {
+        input: input.trim(),
+        deviceId: getDeviceId(),
+      };
+
+      if (customApi) {
+        body.customApi = customApi;
+      }
+
       const response = await fetch('/api/translate-only', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ input: input.trim() }),
-        signal: controller.signal
+        body: JSON.stringify(body),
+        signal: controller.signal,
       });
-      
+
       clearTimeout(timeoutId);
-      
+
       if (!response.ok) {
         const contentType = response.headers.get('content-type');
         if (contentType && contentType.includes('application/json')) {
           const errorData = await response.json();
-          throw new Error(errorData.error || 'Translation failed');
+          if (errorData.error === 'DAILY_LIMIT_EXCEEDED') {
+            setShowLimitModal(true);
+            return;
+          }
+          throw new Error(errorData.error || errorData.message || 'Translation failed');
         } else {
           throw new Error('Translation service temporarily unavailable. Please try again later.');
         }
       }
-      
+
       const data = await response.json();
       if (!data.success) {
         throw new Error(data.error || 'Translation failed');
       }
-      
+
       setResult(data.data?.translation || '');
+
+      if (data.usage?.remaining !== undefined) {
+        setRemaining(data.usage.remaining);
+      } else {
+        fetchUsage();
+      }
+
       finishProgress();
       trackTranslateOnly(input.length);
     } catch (error: unknown) {
@@ -149,107 +215,188 @@ export function TranslateOnlyCard() {
       const text = await navigator.clipboard.readText();
       setInput(text);
       setIsClearConfirm(false);
-    } catch (error) {
+    } catch {
       alert('无法读取剪贴板内容');
     }
   };
 
+  const usageText = isAdmin
+    ? '管理员 · 无限制'
+    : customApi
+      ? '正在使用自定义 API'
+      : remaining !== null
+        ? `今日剩余免费次数：${remaining} / ${DAILY_LIMIT}`
+        : null;
+
+  const isUsageLow = !isAdmin && !customApi && remaining !== null && remaining <= 3;
+
   return (
-    <Card className="border-2 shadow-sm">
-      <Collapsible open={isOpen} onOpenChange={setIsOpen}>
-        <CardHeader className="pb-3 flex flex-col sm:flex-row sm:items-center justify-between space-y-3 sm:space-y-0">
-          <div>
-            <CardTitle className="text-base sm:text-lg flex items-center gap-2">
-              <Languages className="w-4 h-4 sm:w-5 sm:h-5 text-primary" aria-hidden="true" />
-              Translate Only
-            </CardTitle>
-            <CardDescription className="mt-1.5 text-xs sm:text-sm">
-              中英互译，最多 {charCount}/{MAX_LENGTH} 字符，仅返回翻译文本，不写入生词本
-            </CardDescription>
-          </div>
-          <CollapsibleTrigger asChild>
-            <Button
-              variant={isOpen ? 'secondary' : 'outline'}
-              size="sm"
-              className="gap-1.5 sm:gap-2 h-8 text-xs sm:text-sm px-2.5 sm:px-3"
-              aria-expanded={isOpen}
-              aria-controls="translate-only-content"
-            >
-              {isOpen ? '收起' : '打开'}
-            </Button>
-          </CollapsibleTrigger>
-        </CardHeader>
-        <CollapsibleContent id="translate-only-content">
-          <CardContent className="pt-0 space-y-3">
-            <div className="relative">
-              <label htmlFor="translate-only-input" className="sr-only">输入要翻译的文本</label>
-              <Textarea
-                id="translate-only-input"
-                placeholder="请输入中文或英文..."
-                className="min-h-[110px] resize-y"
-                value={input}
-                onChange={(e) => {
-                  setInput(e.target.value);
-                  setIsClearConfirm(false);
-                }}
-                onKeyDown={handleKeyDown}
-                aria-describedby={isOverLimit ? 'char-limit-warning' : undefined}
-              />
-              {isOverLimit && (
-                <p id="char-limit-warning" className="text-xs text-destructive mt-1" role="alert">
-                  已超过 {MAX_LENGTH} 字符限制
+    <>
+      <Card className="border-2 shadow-sm">
+        <Collapsible open={isOpen} onOpenChange={setIsOpen}>
+          <CardHeader className="pb-3 flex flex-col sm:flex-row sm:items-center justify-between space-y-3 sm:space-y-0">
+            <div>
+              <CardTitle className="text-base sm:text-lg flex items-center gap-2">
+                <Languages className="w-4 h-4 sm:w-5 sm:h-5 text-primary" aria-hidden="true" />
+                Translate Only
+                {customApi && (
+                  <Badge
+                    variant="outline"
+                    className="ml-1 font-normal text-xs h-5 px-1.5 cursor-pointer gap-0.5"
+                    onClick={() => setShowClearApiDialog(true)}
+                    title="点击管理自定义 API"
+                  >
+                    <Settings className="w-3 h-3" /> 自定义 API
+                  </Badge>
+                )}
+              </CardTitle>
+              <CardDescription className="mt-1.5 text-xs sm:text-sm">
+                中英互译，最多 {charCount}/{MAX_LENGTH} 字符，仅返回翻译文本，不写入生词本
+              </CardDescription>
+            </div>
+            <CollapsibleTrigger asChild>
+              <Button
+                variant={isOpen ? 'secondary' : 'outline'}
+                size="sm"
+                className="gap-1.5 sm:gap-2 h-8 text-xs sm:text-sm px-2.5 sm:px-3"
+                aria-expanded={isOpen}
+                aria-controls="translate-only-content"
+              >
+                {isOpen ? '收起' : '打开'}
+              </Button>
+            </CollapsibleTrigger>
+          </CardHeader>
+          <CollapsibleContent id="translate-only-content">
+            <CardContent className="pt-0 space-y-3">
+              <div className="relative">
+                <label htmlFor="translate-only-input" className="sr-only">输入要翻译的文本</label>
+                <Textarea
+                  id="translate-only-input"
+                  placeholder="请输入中文或英文..."
+                  className="min-h-[110px] resize-y"
+                  value={input}
+                  onChange={(e) => {
+                    setInput(e.target.value);
+                    setIsClearConfirm(false);
+                  }}
+                  onKeyDown={handleKeyDown}
+                  aria-describedby={isOverLimit ? 'char-limit-warning' : undefined}
+                />
+                {isOverLimit && (
+                  <p id="char-limit-warning" className="text-xs text-destructive mt-1" role="alert">
+                    已超过 {MAX_LENGTH} 字符限制
+                  </p>
+                )}
+              </div>
+
+              {usageText && (
+                <p
+                  className={`text-xs text-right ${
+                    isUsageLow && !customApi
+                      ? 'text-amber-600 dark:text-amber-400 font-medium'
+                      : 'text-muted-foreground'
+                  }`}
+                >
+                  {usageText}
+                  {!customApi && (
+                    <>
+                      {' · '}
+                      <button
+                        onClick={handleConfigureApi}
+                        className="underline hover:text-foreground"
+                      >
+                        配置 API
+                      </button>
+                    </>
+                  )}
+                  {customApi && (
+                    <>
+                      {' · '}
+                      <button
+                        onClick={() => setShowClearApiDialog(true)}
+                        className="underline hover:text-foreground"
+                      >
+                        清除配置
+                      </button>
+                    </>
+                  )}
                 </p>
               )}
-            </div>
-            <div className="flex justify-end gap-2">
-              <Button variant="outline" onClick={handlePaste} aria-label="从剪贴板粘贴">
-                <ClipboardPaste className="w-4 h-4 mr-1" aria-hidden="true" />
-                粘贴
-              </Button>
-              <Button variant="outline" onClick={handleClear} aria-label={isClearConfirm ? '再次点击确认清空' : '清空输入'}>
-                {isClearConfirm ? '再按一次' : '清空'}
-              </Button>
-              <Button onClick={handleTranslate} disabled={isLoading || !input.trim() || isOverLimit} aria-label="开始翻译">
-                {isLoading ? '翻译中...' : '开始翻译'}
-              </Button>
-            </div>
-            
-            {isLoading && (
-              <div className="space-y-1.5" role="progressbar" aria-valuenow={Math.round(progress)} aria-valuemin={0} aria-valuemax={100} aria-label="翻译进度">
-                <div className="relative h-2 w-full overflow-hidden rounded-full bg-blue-50 dark:bg-blue-950">
-                  <div
-                    className="h-full bg-blue-500 dark:bg-blue-400 transition-all duration-300 ease-out rounded-full"
-                    style={{ width: `${progress}%` }}
-                  >
-                    <div className="absolute inset-0 w-full animate-progress-shimmer bg-gradient-to-r from-transparent via-white/30 to-transparent" />
+
+              <div className="flex justify-end gap-2">
+                <Button variant="outline" onClick={handlePaste} aria-label="从剪贴板粘贴">
+                  <ClipboardPaste className="w-4 h-4 mr-1" aria-hidden="true" />
+                  粘贴
+                </Button>
+                <Button variant="outline" onClick={handleClear} aria-label={isClearConfirm ? '再次点击确认清空' : '清空输入'}>
+                  {isClearConfirm ? '再按一次' : '清空'}
+                </Button>
+                <Button onClick={handleTranslate} disabled={isLoading || !input.trim() || isOverLimit} aria-label="开始翻译">
+                  {isLoading ? '翻译中...' : '开始翻译'}
+                </Button>
+              </div>
+
+              {isLoading && (
+                <div className="space-y-1.5" role="progressbar" aria-valuenow={Math.round(progress)} aria-valuemin={0} aria-valuemax={100} aria-label="翻译进度">
+                  <div className="relative h-2 w-full overflow-hidden rounded-full bg-blue-50 dark:bg-blue-950">
+                    <div
+                      className="h-full bg-blue-500 dark:bg-blue-400 transition-all duration-300 ease-out rounded-full"
+                      style={{ width: `${progress}%` }}
+                    >
+                      <div className="absolute inset-0 w-full animate-progress-shimmer bg-gradient-to-r from-transparent via-white/30 to-transparent" />
+                    </div>
                   </div>
+                  <p className="text-xs text-center text-muted-foreground">
+                    AI 正在翻译{progress < 95 ? '...' : '，即将完成！'}
+                  </p>
                 </div>
-                <p className="text-xs text-center text-muted-foreground">
-                  AI 正在翻译{progress < 95 ? '...' : '，即将完成！'}
-                </p>
-              </div>
-            )}
-            
-            {result && (
-              <div className="rounded-md border bg-gray-50 dark:bg-muted/50 p-3">
-                <div className="flex justify-end mb-2">
-                  <Button
-                    variant={isCopied ? "default" : "outline"}
-                    size="sm"
-                    className="h-8 px-2.5 text-xs gap-1.5"
-                    onClick={handleCopy}
-                    aria-label={isCopied ? '已复制到剪贴板' : '复制翻译结果'}
-                  >
-                    <Copy className="w-3.5 h-3.5" aria-hidden="true" />
-                    {isCopied ? '已复制' : '复制'}
-                  </Button>
+              )}
+
+              {result && (
+                <div className="rounded-md border bg-gray-50 dark:bg-muted/50 p-3">
+                  <div className="flex justify-end mb-2">
+                    <Button
+                      variant={isCopied ? "default" : "outline"}
+                      size="sm"
+                      className="h-8 px-2.5 text-xs gap-1.5"
+                      onClick={handleCopy}
+                      aria-label={isCopied ? '已复制到剪贴板' : '复制翻译结果'}
+                    >
+                      <Copy className="w-3.5 h-3.5" aria-hidden="true" />
+                      {isCopied ? '已复制' : '复制'}
+                    </Button>
+                  </div>
+                  <p className="text-sm text-gray-800 dark:text-gray-200 whitespace-pre-wrap">{result}</p>
                 </div>
-                <p className="text-sm text-gray-800 dark:text-gray-200 whitespace-pre-wrap">{result}</p>
-              </div>
-            )}
-          </CardContent>
-        </CollapsibleContent>
-      </Collapsible>
-    </Card>
+              )}
+            </CardContent>
+          </CollapsibleContent>
+        </Collapsible>
+      </Card>
+
+      <LimitExceededModal
+        open={showLimitModal}
+        onOpenChange={setShowLimitModal}
+        onSaved={handleCustomApiSaved}
+      />
+
+      <AlertDialog open={showClearApiDialog} onOpenChange={setShowClearApiDialog}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>清除自定义 API 配置？</AlertDialogTitle>
+            <AlertDialogDescription>
+              清除后将恢复使用每日 10 次免费翻译额度。
+              {remaining !== null && remaining <= 0 && ' 当前今日免费次数已用完，清除后需配置新的 API 或等待次日刷新。'}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>返回</AlertDialogCancel>
+            <AlertDialogAction onClick={handleClearCustomApi}>
+              确认清除
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </>
   );
 }

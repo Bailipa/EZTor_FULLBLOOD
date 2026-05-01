@@ -233,6 +233,29 @@ model SharedVocabularyImport {
   @@index([importerId])
 }
 
+model TranslateOnlyUsage {
+  id        String   @id
+  userId    String
+  date      String
+  count     Int      @default(1)
+  updatedAt DateTime @updatedAt
+  User      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, date])
+  @@index([date])
+}
+
+model DeviceUsageLog {
+  id        String   @id
+  deviceId  String
+  date      String
+  userId    String
+  createdAt DateTime @default(now())
+
+  @@index([deviceId, date])
+  @@index([date])
+}
+
 model TranslationRecord {
   id                 String   @id
   userId             String?
@@ -270,6 +293,7 @@ model User {
   SecurityViolation      SecurityViolation[]
   SharedVocabulary       SharedVocabulary[]
   SharedVocabularyImport SharedVocabularyImport[]
+  TranslateOnlyUsage     TranslateOnlyUsage[]
   UserPreference         UserPreference?
   Word                   Word[]
 }
