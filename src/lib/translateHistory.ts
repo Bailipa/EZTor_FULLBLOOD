@@ -22,8 +22,13 @@ export function loadHistory(): HistoryEntry[] {
   return loadFromStorage<HistoryEntry[]>(STORAGE_KEY, [])
 }
 
-export function addHistoryEntry(input: string, output: string, optimized: boolean): HistoryEntry[] {
-  const history = loadHistory()
+export function addHistoryEntry(
+  input: string,
+  output: string,
+  optimized: boolean,
+  existingHistory?: HistoryEntry[]
+): HistoryEntry[] {
+  const history = existingHistory ?? loadHistory()
   const entry: HistoryEntry = {
     id: generateId(),
     input,

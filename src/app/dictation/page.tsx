@@ -121,6 +121,19 @@ export default function DictationPage() {
       correctAudioRef.current = new Audio('/sounds/correct.mp3');
       incorrectAudioRef.current = new Audio('/sounds/incorrect.mp3');
     }
+    
+    return () => {
+      if (correctAudioRef.current) {
+        correctAudioRef.current.pause();
+        correctAudioRef.current.src = '';
+        correctAudioRef.current = null;
+      }
+      if (incorrectAudioRef.current) {
+        incorrectAudioRef.current.pause();
+        incorrectAudioRef.current.src = '';
+        incorrectAudioRef.current = null;
+      }
+    };
   }, []);
 
   // 播放音效的辅助函数

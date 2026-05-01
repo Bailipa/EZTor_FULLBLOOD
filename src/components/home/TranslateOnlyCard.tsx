@@ -32,10 +32,16 @@ export function TranslateOnlyCard() {
   const [isAdmin, setIsAdmin] = useState(false);
   const [showLimitModal, setShowLimitModal] = useState(false);
   const [showClearApiDialog, setShowClearApiDialog] = useState(false);
-  const [customApi, setCustomApi] = useState(loadCustomApiConfig());
-  const [optimize, setOptimize] = useState(() => loadFromStorage<boolean>('vocab_optimize_mode', false));
+  const [customApi, setCustomApi] = useState<ReturnType<typeof loadCustomApiConfig>>(null);
+  const [optimize, setOptimize] = useState(false);
   const [history, setHistory] = useState<HistoryEntry[]>([]);
   const [historyOpen, setHistoryOpen] = useState(false);
+
+  useEffect(() => {
+    setCustomApi(loadCustomApiConfig());
+    setOptimize(loadFromStorage<boolean>('vocab_optimize_mode', false));
+    setHistory(loadHistory());
+  }, []);
 
   const charCount = input.length;
   const isOverLimit = charCount > MAX_LENGTH;
@@ -63,10 +69,6 @@ export function TranslateOnlyCard() {
         clearInterval(progressIntervalRef.current);
       }
     };
-  }, []);
-
-  useEffect(() => {
-    setHistory(loadHistory());
   }, []);
 
   const handleOptimizeToggle = (checked: boolean) => {
@@ -186,7 +188,8 @@ export function TranslateOnlyCard() {
       const newHistory = addHistoryEntry(
         data.data?.optimizedInput || currentInput,
         translation,
-        optimize
+        optimize,
+        history
       );
       setHistory(newHistory);
 

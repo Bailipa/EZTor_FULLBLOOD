@@ -23,15 +23,22 @@ export async function POST(req: Request) {
     const voice: string | undefined = body.voice;
     const speed: number | undefined = body.speed;
 
+    if (input.length > 500) {
+      return NextResponse.json(
+        { success: false, error: 'Input exceeds maximum length of 500 characters' },
+        { status: 400 },
+      );
+    }
+
     const ttsResponse = await synthesizeSpeech({
       input,
       voice,
       speed,
       response_format: body.response_format,
+      signal: req.signal,
     });
 
-    const buffer = Buffer.from(await ttsResponse.arrayBuffer());
-    return new Response(buffer, {
+    return new Response(ttsResponse.body, {
       headers: {
         'Content-Type': 'audio/mpeg',
         'Cache-Control': 'no-store',

@@ -16,6 +16,8 @@ interface CacheStats {
 const MAX_CACHE_ENTRIES = 10000;
 const DEFAULT_TTL = 24 * 60 * 60 * 1000;
 const CLEANUP_THRESHOLD = 0.8;
+const MAX_ENTRY_SIZE = 100 * 1024;
+const MAX_TOTAL_SIZE = 50 * 1024 * 1024;
 
 class TranslationCache {
   private cache: Map<string, CacheEntry<unknown>> = new Map();
@@ -30,6 +32,8 @@ class TranslationCache {
 
     const now = Date.now();
     const entrySize = JSON.stringify(data).length;
+
+    if (entrySize > MAX_ENTRY_SIZE) return;
 
     if (this.cache.has(key)) {
       const oldEntry = this.cache.get(key)!;
@@ -48,6 +52,10 @@ class TranslationCache {
     this.cache.set(key, newEntry);
     this.addToHead(key);
     this.totalSize += entrySize;
+
+    while (this.totalSize > MAX_TOTAL_SIZE) {
+      this.evictOldest(1);
+    }
 
     if (this.cache.size > MAX_CACHE_ENTRIES * CLEANUP_THRESHOLD) {
       this.cleanup();
@@ -210,6 +218,10 @@ class TranslationCache {
 
 export const translationCache = new TranslationCache();
 
+setInterval(() => {
+  translationCache.cleanup();
+}, 5 * 60 * 1000);
+
 export function generateCacheKey(word: string, userId?: string): string {
   const normalizedWord = word.toLowerCase().trim();
   return userId ? `${userId}:${normalizedWord}` : `public:${normalizedWord}`;
@@ -234,3 +246,7 @@ export function cleanupCache(): number {
 export function clearCache(): void {
   translationCache.clear();
 }
+
+setInterval(() => {
+  translationCache.cleanup();
+}, 5 * 60 * 1000);

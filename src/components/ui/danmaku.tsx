@@ -11,6 +11,7 @@ interface DanmakuItem {
   top: number;
   duration: number;
   delay: number;
+  endTime: number;
 }
 
 export function Danmaku({ isVisible }: { isVisible: boolean }) {
@@ -33,10 +34,7 @@ export function Danmaku({ isVisible }: { isVisible: boolean }) {
     const cleanupInterval = setInterval(() => {
       const now = Date.now();
       // 这里必须断言 item.endTime，因为我们在接口里没定义，或者在接口里补上
-      setItems(prevItems => prevItems.filter(item => {
-         const endTime = (item as any).endTime;
-         return endTime && endTime > now;
-      }));
+      setItems(prevItems => prevItems.filter(item => item.endTime > now));
     }, 10000); // 每 10 秒清理一次
     
     return () => clearInterval(cleanupInterval);
@@ -116,14 +114,18 @@ export function Danmaku({ isVisible }: { isVisible: boolean }) {
               top: top,
               duration: duration,
               delay: delay,
-              // 记录该弹幕完全消失的时间（毫秒）。
-              // 注意：因为 Framer Motion 是以 duration + delay 为总生命周期，所以结束时间应为此时。
               endTime: now + (delay + duration) * 1000
-            } as any);
+            });
           }
           
           // 追加新弹幕
-          setItems(prevItems => [...prevItems, ...newItems]);
+          setItems(prevItems => {
+            const combined = [...prevItems, ...newItems];
+            if (combined.length > 100) {
+              return combined.slice(combined.length - 100);
+            }
+            return combined;
+          });
         }
       } catch (err) {
         console.error("Failed to generate danmaku:", err);

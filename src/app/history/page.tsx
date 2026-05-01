@@ -126,7 +126,13 @@ export default function HistoryPage() {
         if (isFirstPage) {
           setWords(newWords);
         } else {
-          setWords(prev => [...prev, ...newWords]);
+          setWords(prev => {
+            const combined = [...prev, ...newWords];
+            if (combined.length > 2000) {
+              return combined.slice(combined.length - 2000);
+            }
+            return combined;
+          });
         }
         setTotalCount(pagination.total);
         setHasMore(pagination.hasMore);

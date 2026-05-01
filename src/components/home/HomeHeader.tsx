@@ -21,6 +21,7 @@ import {
 import { signOut, useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { MonitorPlay, PenTool, BookOpen, LogIn } from 'lucide-react';
+import { DonationButton } from './DonationModal';
 
 interface HomeHeaderProps {
   showDanmaku: boolean;
@@ -112,6 +113,7 @@ export function HomeHeader({ showDanmaku, onToggleDanmaku, onFeatureClick }: Hom
           </Link>
         )}
         <ModeToggle />
+        <DonationButton />
         {isAuthenticated && (
           <AlertDialog>
             <AlertDialogTrigger asChild>

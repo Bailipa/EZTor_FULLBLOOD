@@ -25,6 +25,9 @@ export class StreamHandler {
     const stream = new ReadableStream({
       async start(controller) {
         await translationService.processTranslationStream(response, controller, orderedCachedResults, targetGroupId);
+      },
+      cancel() {
+        // Client disconnected — the TranslationService checks controller.signal.aborted internally
       }
     });
     return stream;

@@ -18,5 +18,21 @@ export async function register() {
     } else {
       console.log('[Startup] Environment validation passed ✓');
     }
+
+    // Graceful shutdown
+    const gracefulShutdown = async (signal: string) => {
+      console.log(`[Shutdown] Received ${signal}, closing database connections...`);
+      try {
+        const { default: prisma } = await import('@/lib/prisma');
+        await prisma.$disconnect();
+        console.log('[Shutdown] Database connections closed');
+      } catch (e) {
+        console.error('[Shutdown] Error disconnecting from database:', e);
+      }
+      process.exit(0);
+    };
+
+    process.on('SIGTERM', () => gracefulShutdown('SIGTERM'));
+    process.on('SIGINT', () => gracefulShutdown('SIGINT'));
   }
 }

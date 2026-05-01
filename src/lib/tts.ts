@@ -8,7 +8,11 @@ export type TtsRequest = {
   voice?: string;
   speed?: number; // 0.5 ~ 2.0
   response_format?: TtsResponseFormat;
+  signal?: AbortSignal;
 };
+
+const MAX_INPUT_LENGTH = 500;
+const TTS_TIMEOUT_MS = 30000;
 
 const DEFAULT_VOICE = 'en-US-GuyNeural';
 
@@ -41,9 +45,28 @@ function getEdgeTts(): EdgeSpeechTTS {
 export async function synthesizeSpeech(req: TtsRequest): Promise<Response> {
   const input = (req.input || '').trim();
   if (!input) throw new Error('input is required');
+  if (input.length > MAX_INPUT_LENGTH) throw new Error(`Input exceeds maximum length of ${MAX_INPUT_LENGTH} characters`);
 
   const voice = normalizeVoice(req.voice);
   const speed = clampSpeed(req.speed);
+
+  const abortController = new AbortController();
+  const timeoutId = setTimeout(
+    () => abortController.abort(new DOMException('TTS request timed out', 'TimeoutError')),
+    TTS_TIMEOUT_MS,
+  );
+
+  if (req.signal) {
+    if (req.signal.aborted) {
+      clearTimeout(timeoutId);
+      abortController.abort(req.signal.reason);
+    } else {
+      req.signal.addEventListener('abort', () => {
+        clearTimeout(timeoutId);
+        abortController.abort(req.signal.reason);
+      }, { once: true });
+    }
+  }
 
   // EdgeSpeechTTS currently produces mp3 (audio-24khz-48kbitrate-mono-mp3).
   const response = await getEdgeTts().create({
@@ -51,7 +74,9 @@ export async function synthesizeSpeech(req: TtsRequest): Promise<Response> {
     // `@lobehub/tts` types currently only expose `voice`, but the underlying SSML
     // generator supports `rate`/`pitch`. We pass `rate` at runtime intentionally.
     options: { voice, rate: speed } as any,
-  });
+    signal: abortController.signal,
+  } as any);
 
+  clearTimeout(timeoutId);
   return response;
 }

@@ -404,13 +404,22 @@ export class TranslationService {
 
     let accumulatedAiText = "";
     let aiParsedResults: any[] = [];
+    const MAX_ACCUMULATED_SIZE = 500 * 1024;
     
     try {
       // 接收大模型的流式数据
       for await (const chunk of response) {
+        if (controller.signal.aborted) {
+          console.log('[TranslationService] Client disconnected, stopping stream');
+          break;
+        }
         const content = chunk.choices[0]?.delta?.content || '';
         if (content) {
           accumulatedAiText += content;
+          if (accumulatedAiText.length > MAX_ACCUMULATED_SIZE) {
+            console.error('[TranslationService] Accumulated text exceeds limit, stopping stream');
+            break;
+          }
           
           // 直接发送给前端
           controller.enqueue(encoder.encode(content));

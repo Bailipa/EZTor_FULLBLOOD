@@ -32,6 +32,8 @@ export function SharePoster({ open, onOpenChange }: SharePosterProps) {
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [mounted, setMounted] = useState(false);
   const { resolvedTheme } = useTheme();
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const previewUrlRef = useRef<string | null>(null);
 
   const isDark = resolvedTheme === 'dark';
 
@@ -85,7 +87,14 @@ export function SharePoster({ open, onOpenChange }: SharePosterProps) {
         pixelRatio: 2,
         backgroundColor: isDark ? '#0a0a0a' : '#ffffff',
       });
-      setPreviewUrl(dataUrl);
+      const response = await fetch(dataUrl);
+      const blob = await response.blob();
+      const objectUrl = URL.createObjectURL(blob);
+      if (previewUrlRef.current) {
+        URL.revokeObjectURL(previewUrlRef.current);
+      }
+      previewUrlRef.current = objectUrl;
+      setPreviewUrl(objectUrl);
     } catch (e) {
       console.error('Failed to generate poster:', e);
     }
@@ -93,9 +102,31 @@ export function SharePoster({ open, onOpenChange }: SharePosterProps) {
 
   useEffect(() => {
     if (stats && open && mounted) {
-      setTimeout(generatePoster, 100);
+      timeoutRef.current = setTimeout(generatePoster, 100);
     }
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+        timeoutRef.current = null;
+      }
+    };
   }, [stats, open, customQuote, selectedQuoteIndex, generatePoster, mounted]);
+
+  useEffect(() => {
+    if (!open) {
+      if (previewUrlRef.current) {
+        URL.revokeObjectURL(previewUrlRef.current);
+        previewUrlRef.current = null;
+      }
+      setPreviewUrl(null);
+    }
+    return () => {
+      if (previewUrlRef.current) {
+        URL.revokeObjectURL(previewUrlRef.current);
+        previewUrlRef.current = null;
+      }
+    };
+  }, [open]);
 
   const downloadPoster = () => {
     if (!previewUrl) return;

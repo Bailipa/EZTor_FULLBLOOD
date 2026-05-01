@@ -25,6 +25,7 @@ export default function HomeContent() {
   const [showWelcomeBanner, setShowWelcomeBanner] = useState(true);
   const resultsRef = useRef<HTMLDivElement>(null);
   const prevResultsLengthRef = useRef(0);
+  const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const { data: session, status } = useSession();
   const { showLoginPrompt, pendingFeature, promptLogin, closePrompt, LoginPromptDialog } = useLoginPrompt();
@@ -57,8 +58,16 @@ export default function HomeContent() {
   }, [session]);
 
   useEffect(() => {
+    return () => {
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
     if (results.length > 0 && prevResultsLengthRef.current === 0) {
-      setTimeout(() => {
+      scrollTimeoutRef.current = setTimeout(() => {
         resultsRef.current?.scrollIntoView({
           behavior: 'smooth',
           block: 'start'

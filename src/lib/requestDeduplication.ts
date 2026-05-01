@@ -15,7 +15,8 @@ const completedRequests = new Map<string, CompletedRequest>();
 const REQUEST_TIMEOUT = 60000;
 const COMPLETED_CACHE_TTL = 10000;
 const MAX_PENDING_REQUESTS = 1000;
-const CLEANUP_INTERVAL = 30000;
+const MAX_COMPLETED_ENTRIES = 5000;
+const CLEANUP_INTERVAL = 5000;
 
 function cleanupStaleRequests() {
   const now = Date.now();
@@ -47,6 +48,9 @@ export function getCompletedRequest<T>(key: string): T | null {
   if (completed && Date.now() - completed.timestamp <= COMPLETED_CACHE_TTL) {
     return completed.result as T;
   }
+  if (completed) {
+    completedRequests.delete(key);
+  }
   return null;
 }
 
@@ -69,6 +73,10 @@ export function isAtCapacity(): boolean {
 
 export function resolvePendingRequest(key: string, result?: any): void {
   if (result !== undefined) {
+    if (completedRequests.size >= MAX_COMPLETED_ENTRIES) {
+      const oldestKey = completedRequests.keys().next().value;
+      if (oldestKey) completedRequests.delete(oldestKey);
+    }
     completedRequests.set(key, {
       timestamp: Date.now(),
       result

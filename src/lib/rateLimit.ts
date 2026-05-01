@@ -21,12 +21,17 @@ const MAX_REQUESTS = 30;
 
 class MemoryRateLimitStore implements RateLimitStore {
   private store = new Map<string, RateLimitEntry>();
+  private static MAX_STORE_ENTRIES = 5000;
 
   async get(key: string): Promise<RateLimitEntry | null> {
     return this.store.get(key) || null;
   }
 
   async set(key: string, entry: RateLimitEntry): Promise<void> {
+    if (this.store.size >= MemoryRateLimitStore.MAX_STORE_ENTRIES) {
+      await this.cleanup();
+      if (this.store.size >= MemoryRateLimitStore.MAX_STORE_ENTRIES) return;
+    }
     this.store.set(key, entry);
   }
 
@@ -163,6 +168,6 @@ export async function cleanupExpiredEntries(): Promise<void> {
 
 setInterval(() => {
   cleanupExpiredEntries().catch(console.error);
-}, 60 * 1000);
+}, 15 * 1000);
 
 export type { RateLimitStore, RateLimitEntry, RateLimitResult };

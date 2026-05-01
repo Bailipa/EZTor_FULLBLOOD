@@ -7,6 +7,9 @@ import * as xlsx from 'xlsx';
 import path from 'path';
 import fs from 'fs';
 
+const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10 MB
+const MAX_ROWS = 50000;
+
 export async function POST(req: Request) {
   try {
     const session = await getServerSession(authOptions);
@@ -21,24 +24,34 @@ export async function POST(req: Request) {
        return NextResponse.json({ success: false, error: 'simple words.xlsx not found in the root directory.' }, { status: 404 });
     }
 
+    const stats = fs.statSync(filePath);
+    if (stats.size > MAX_FILE_SIZE) {
+      return NextResponse.json({ success: false, error: `File too large (${(stats.size / 1024 / 1024).toFixed(1)} MB). Maximum allowed is 10 MB.` }, { status: 413 });
+    }
+
     const workbook = xlsx.readFile(filePath);
     const sheetName = workbook.SheetNames[0];
     const worksheet = workbook.Sheets[sheetName];
     
-    // Parse the data (assuming first column is English word, second is Chinese translation)
-    // We use header: 1 to get an array of arrays
     const rawData = xlsx.utils.sheet_to_json<any[]>(worksheet, { header: 1 });
+
+    if (rawData.length > MAX_ROWS) {
+      return NextResponse.json({ success: false, error: `Too many rows (${rawData.length}). Maximum allowed is ${MAX_ROWS}.` }, { status: 413 });
+    }
 
     let savedCount = 0;
     let errorCount = 0;
 
-    // Filter out empty rows and rows without at least 2 columns
-    const wordsToImport = rawData
-      .filter(row => row && row.length >= 2 && typeof row[0] === 'string' && row[0].trim() !== '')
-      .map(row => ({
-        word: row[0].trim().toLowerCase(),
-        translation: row[1] ? String(row[1]).trim() : 'No translation provided'
-      }));
+    const wordsToImport: Array<{ word: string; translation: string }> = [];
+    for (let i = 0; i < rawData.length; i++) {
+      const row = rawData[i];
+      if (row && row.length >= 2 && typeof row[0] === 'string' && row[0].trim() !== '') {
+        wordsToImport.push({
+          word: row[0].trim().toLowerCase(),
+          translation: row[1] ? String(row[1]).trim() : 'No translation provided'
+        });
+      }
+    }
 
     for (const wordData of wordsToImport) {
       try {
