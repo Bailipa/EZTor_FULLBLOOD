@@ -433,59 +433,68 @@ export function TranslateOnlyCard() {
                 </div>
               )}
 
-              {history.length > 0 && (
-                <div className="border-t pt-3">
-                  <button
-                    onClick={() => setHistoryOpen(!historyOpen)}
-                    className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground w-full"
-                  >
-                    <History className="w-3.5 h-3.5" />
-                    翻译历史 ({history.length})
-                    <ChevronDown className={`w-3.5 h-3.5 transition-transform ${historyOpen ? 'rotate-180' : ''}`} />
-                    <span className="flex-1" />
+              <div className="border-t pt-3">
+                <button
+                  onClick={() => setHistoryOpen(!historyOpen)}
+                  className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground w-full"
+                >
+                  <History className="w-3.5 h-3.5" />
+                  翻译历史
+                  {history.length > 0 && <span className="text-[10px]">({history.length})</span>}
+                  <ChevronDown className={`w-3.5 h-3.5 transition-transform ${historyOpen ? 'rotate-180' : ''}`} />
+                  <span className="flex-1" />
+                  {history.length > 0 && (
                     <button
                       onClick={(e) => { e.stopPropagation(); handleHistoryClear(); }}
                       className="text-xs text-muted-foreground hover:text-destructive"
                     >
                       清空全部
                     </button>
-                  </button>
-                  {historyOpen && (
-                    <div className="mt-2 space-y-1.5 max-h-64 overflow-y-auto">
-                      {history.map((entry) => (
-                        <button
-                          key={entry.id}
-                          onClick={() => handleHistoryRestore(entry)}
-                          className="w-full text-left p-2 rounded-md hover:bg-muted/60 transition-colors group"
-                        >
-                          <div className="flex items-start justify-between gap-2">
-                            <div className="min-w-0 flex-1">
-                              <p className="text-xs text-muted-foreground truncate">
-                                {entry.input.slice(0, 60)}{entry.input.length > 60 ? '...' : ''}
-                              </p>
-                              <p className="text-xs mt-0.5 truncate">
-                                {entry.output.slice(0, 60)}{entry.output.length > 60 ? '...' : ''}
-                              </p>
-                            </div>
-                            <div className="flex items-center gap-1 shrink-0">
-                              <span className="text-[10px] text-muted-foreground whitespace-nowrap">
-                                {formatTime(entry.timestamp)}
-                              </span>
-                              <button
-                                onClick={(e) => { e.stopPropagation(); handleHistoryDelete(entry.id); }}
-                                className="opacity-0 group-hover:opacity-100 text-muted-foreground hover:text-destructive transition-opacity"
-                                title="删除此条记录"
-                              >
-                                <Trash2 className="w-3 h-3" />
-                              </button>
-                            </div>
-                          </div>
-                        </button>
-                      ))}
-                    </div>
                   )}
-                </div>
-              )}
+                </button>
+                {historyOpen && (
+                  <div className="mt-2 max-h-64 overflow-y-auto">
+                    {history.length === 0 ? (
+                      <p className="text-xs text-muted-foreground text-center py-4">
+                        暂无翻译记录，翻译完成后会自动保存在此
+                      </p>
+                    ) : (
+                      <div className="space-y-1.5">
+                        {history.map((entry) => (
+                          <button
+                            key={entry.id}
+                            onClick={() => handleHistoryRestore(entry)}
+                            className="w-full text-left p-2 rounded-md hover:bg-muted/60 transition-colors group"
+                          >
+                            <div className="flex items-start justify-between gap-2">
+                              <div className="min-w-0 flex-1">
+                                <p className="text-xs text-muted-foreground truncate">
+                                  {entry.input.slice(0, 60)}{entry.input.length > 60 ? '...' : ''}
+                                </p>
+                                <p className="text-xs mt-0.5 truncate">
+                                  {entry.output.slice(0, 60)}{entry.output.length > 60 ? '...' : ''}
+                                </p>
+                              </div>
+                              <div className="flex items-center gap-1 shrink-0">
+                                <span className="text-[10px] text-muted-foreground whitespace-nowrap">
+                                  {formatTime(entry.timestamp)}
+                                </span>
+                                <button
+                                  onClick={(e) => { e.stopPropagation(); handleHistoryDelete(entry.id); }}
+                                  className="opacity-0 group-hover:opacity-100 text-muted-foreground hover:text-destructive transition-opacity"
+                                  title="删除此条记录"
+                                >
+                                  <Trash2 className="w-3 h-3" />
+                                </button>
+                              </div>
+                            </div>
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
             </CardContent>
           </CollapsibleContent>
         </Collapsible>
