@@ -6,10 +6,12 @@ import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { Badge } from '@/components/ui/badge';
+import { Switch } from '@/components/ui/switch';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
-import { Languages, Copy, ClipboardPaste, Settings } from 'lucide-react';
+import { Languages, Copy, ClipboardPaste, Settings, Sparkles } from 'lucide-react';
 import { useAnalytics } from '@/lib/analytics';
 import { getDeviceId } from '@/lib/deviceId';
+import { loadFromStorage, saveToStorage } from '@/lib/storage';
 import { LimitExceededModal, loadCustomApiConfig, saveCustomApiConfig } from './LimitExceededModal';
 
 const MAX_LENGTH = 8000;
@@ -30,6 +32,7 @@ export function TranslateOnlyCard() {
   const [showLimitModal, setShowLimitModal] = useState(false);
   const [showClearApiDialog, setShowClearApiDialog] = useState(false);
   const [customApi, setCustomApi] = useState(loadCustomApiConfig());
+  const [optimize, setOptimize] = useState(() => loadFromStorage<boolean>('vocab_optimize_mode', false));
 
   const charCount = input.length;
   const isOverLimit = charCount > MAX_LENGTH;
@@ -58,6 +61,11 @@ export function TranslateOnlyCard() {
       }
     };
   }, []);
+
+  const handleOptimizeToggle = (checked: boolean) => {
+    setOptimize(checked);
+    saveToStorage('vocab_optimize_mode', checked);
+  };
 
   const startFakeProgress = () => {
     setProgress(0);
@@ -115,12 +123,16 @@ export function TranslateOnlyCard() {
       const PER_1000_MS = 30000;
       const MAX_TIMEOUT_MS = 300000;
       const extraUnits = Math.max(0, Math.ceil(input.length / 1000) - 1);
-      const timeoutMs = Math.min(MAX_TIMEOUT_MS, BASE_TIMEOUT_MS + extraUnits * PER_1000_MS);
+      let timeoutMs = Math.min(MAX_TIMEOUT_MS, BASE_TIMEOUT_MS + extraUnits * PER_1000_MS);
+      if (optimize) {
+        timeoutMs = Math.min(MAX_TIMEOUT_MS, timeoutMs * 2);
+      }
       const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
 
       const body: Record<string, unknown> = {
         input: input.trim(),
         deviceId: getDeviceId(),
+        optimize,
       };
 
       if (customApi) {
@@ -156,6 +168,10 @@ export function TranslateOnlyCard() {
       }
 
       setResult(data.data?.translation || '');
+
+      if (data.data?.optimizedInput) {
+        setInput(data.data.optimizedInput);
+      }
 
       if (data.usage?.remaining !== undefined) {
         setRemaining(data.usage.remaining);
@@ -323,17 +339,31 @@ export function TranslateOnlyCard() {
                 </p>
               )}
 
-              <div className="flex justify-end gap-2">
-                <Button variant="outline" onClick={handlePaste} aria-label="从剪贴板粘贴">
-                  <ClipboardPaste className="w-4 h-4 mr-1" aria-hidden="true" />
-                  粘贴
-                </Button>
-                <Button variant="outline" onClick={handleClear} aria-label={isClearConfirm ? '再次点击确认清空' : '清空输入'}>
-                  {isClearConfirm ? '再按一次' : '清空'}
-                </Button>
-                <Button onClick={handleTranslate} disabled={isLoading || !input.trim() || isOverLimit} aria-label="开始翻译">
-                  {isLoading ? '翻译中...' : '开始翻译'}
-                </Button>
+              <div className="flex items-center justify-between">
+                <label htmlFor="optimize-switch" className="flex items-center gap-2 cursor-pointer select-none">
+                  <Switch
+                    id="optimize-switch"
+                    checked={optimize}
+                    onCheckedChange={handleOptimizeToggle}
+                    size="sm"
+                  />
+                  <span className={`text-xs flex items-center gap-1 ${optimize ? 'text-primary font-medium' : 'text-muted-foreground'}`}>
+                    <Sparkles className="w-3 h-3" />
+                    输出优化
+                  </span>
+                </label>
+                <div className="flex justify-end gap-2">
+                  <Button variant="outline" onClick={handlePaste} aria-label="从剪贴板粘贴">
+                    <ClipboardPaste className="w-4 h-4 mr-1" aria-hidden="true" />
+                    粘贴
+                  </Button>
+                  <Button variant="outline" onClick={handleClear} aria-label={isClearConfirm ? '再次点击确认清空' : '清空输入'}>
+                    {isClearConfirm ? '再按一次' : '清空'}
+                  </Button>
+                  <Button onClick={handleTranslate} disabled={isLoading || !input.trim() || isOverLimit} aria-label="开始翻译">
+                    {isLoading ? '翻译中...' : '开始翻译'}
+                  </Button>
+                </div>
               </div>
 
               {isLoading && (
@@ -347,7 +377,7 @@ export function TranslateOnlyCard() {
                     </div>
                   </div>
                   <p className="text-xs text-center text-muted-foreground">
-                    AI 正在翻译{progress < 95 ? '...' : '，即将完成！'}
+                    AI 正在{optimize ? '优化并' : ''}翻译{progress < 95 ? '...' : '，即将完成！'}
                   </p>
                 </div>
               )}

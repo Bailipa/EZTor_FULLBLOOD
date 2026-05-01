@@ -33,6 +33,31 @@ const DEFAULT_TRANSLATE_ONLY_PROMPT = `你是一个专业翻译助手。你的�
 - 只输出翻译结果，不要添加任何解释、注释或其他内容
 - 不要使用引号或前后缀`;
 
+const OPTIMIZATION_PROMPT = `你是一个文本优化助手。分析并优化用户输入的文本，使其更加专业、完整、有力。
+
+场景检测与优化策略：
+1. 提示词/指令 - 当输入是给AI助手的指令或任务描述时
+   - 扩展为结构化详细提示词
+   - 添加任务目标、背景上下文、输入格式要求、输出格式要求、约束条件、示例说明
+   - 添加命令/请求前缀（如"请帮我..."、"请分析..."等）
+
+2. 技术问题咨询 - 当输入是寻求技术帮助时
+   - 添加必要上下文信息要求（如技术栈、环境、版本等）
+   - 细化问题范围和期望结果
+   - 给出排查方向的引导
+
+3. 内容创作请求 - 当输入是关于创作、写作、设计时
+   - 明确风格、受众、长度等约束
+   - 提供参考方向和要求格式
+
+4. 通用优化 - 其他类型
+   - 提升表达清晰度和逻辑性
+   - 改进语法、用词和流畅度
+
+规则：
+- 必须保持原始意图不变
+- 输出语言与输入语言一致，中文输入必须输出中文，英文输入必须输出英文
+- 只输出优化后的文本，不添加任何解释、标签或前缀`;
 function getClientIp(req: Request): string {
   return req.headers.get('x-forwarded-for')?.split(',')[0] ||
          req.headers.get('x-real-ip') ||
@@ -43,6 +68,82 @@ interface CustomApiConfig {
   baseUrl: string
   apiKey: string
   model: string
+}
+
+async function customApiCompletion(
+  customApi: CustomApiConfig,
+  messages: Array<{ role: string; content: string }>
+): Promise<string> {
+  const normalizedUrl = customApi.baseUrl.replace(/\/+$/, '')
+  const chatUrl = `${normalizedUrl}/chat/completions`
+
+  const response = await fetch(chatUrl, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${customApi.apiKey}`,
+    },
+    body: JSON.stringify({
+      model: customApi.model,
+      temperature: 0.1,
+      messages,
+      thinking: { type: 'disabled' },
+    }),
+  })
+
+  if (!response.ok) {
+    const errorText = await response.text().catch(() => 'Unknown error')
+    let errorMessage = `翻译失败 (HTTP ${response.status})`
+    try {
+      const errJson = JSON.parse(errorText)
+      errorMessage = errJson?.error?.message || errJson?.error?.code || errorMessage
+    } catch {}
+    throw new Error(errorMessage)
+  }
+
+  const data = await response.json()
+  const content = data?.choices?.[0]?.message?.content?.trim() || ''
+  if (!content) throw new Error('Empty translation result')
+  return content
+}
+
+async function systemPoolCompletion(
+  systemPrompt: string,
+  userMessage: string
+): Promise<string> {
+  const apiConfig = await prisma.apiConfig.findUnique({ where: { id: 'global' } })
+
+  const legacyApiKey = apiConfig?.apiKey || process.env.LLM_API_KEY
+  const legacyBaseUrl = apiConfig?.baseUrl || process.env.LLM_API_URL
+  const legacyModel = apiConfig?.model || process.env.LLM_MODEL || 'gpt-4o-mini'
+
+  const candidates = await getProviderCandidates({
+    apiKey: legacyApiKey,
+    baseUrl: legacyBaseUrl,
+    model: legacyModel,
+  })
+
+  if (candidates.length === 0) {
+    throw new Error(API_QUOTA_EXHAUSTED_MESSAGE)
+  }
+
+  const completion = await withLlmFailover(
+    candidates,
+    (client, model) =>
+      client.chat.completions.create({
+        model: model || 'gpt-4o-mini',
+        temperature: 0.1,
+        messages: [
+          { role: 'system', content: systemPrompt },
+          { role: 'user', content: userMessage },
+        ],
+      }),
+    1
+  )
+
+  const content = completion.choices?.[0]?.message?.content?.trim() || ''
+  if (!content) throw new Error('Empty translation result')
+  return content
 }
 
 export async function POST(req: Request) {
@@ -85,6 +186,7 @@ export async function POST(req: Request) {
     const rawInput = (body?.input || '').trim()
     const customApi: CustomApiConfig | undefined = body?.customApi
     const deviceId: string | undefined = body?.deviceId
+    const optimize: boolean = body?.optimize === true
 
     if (!rawInput) {
       return NextResponse.json({ success: false, error: 'Input is required' }, { status: 400 })
@@ -95,51 +197,32 @@ export async function POST(req: Request) {
       return NextResponse.json({ success: false, error: validation.reason || 'Invalid input' }, { status: 400 })
     }
 
-    const input = validation.sanitized || rawInput
-
+    let input = validation.sanitized || rawInput
     detectPromptInjection(input)
 
-    const systemPrompt = (await prisma.apiConfig.findUnique({ where: { id: 'global' } }))?.systemPrompt || DEFAULT_TRANSLATE_ONLY_PROMPT
+    const translateSystemPrompt = (await prisma.apiConfig.findUnique({ where: { id: 'global' } }))?.systemPrompt || DEFAULT_TRANSLATE_ONLY_PROMPT
 
     if (customApi && customApi.baseUrl && customApi.apiKey && customApi.model) {
-      const normalizedUrl = customApi.baseUrl.replace(/\/+$/, '')
-      const chatUrl = `${normalizedUrl}/chat/completions`
+      let optimizedInput: string | undefined
+      let textToTranslate = input
 
-      const response = await fetch(chatUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${customApi.apiKey}`,
-        },
-        body: JSON.stringify({
-          model: customApi.model,
-          temperature: 0.1,
-          messages: [
-            { role: 'system', content: systemPrompt },
-            { role: 'user', content: input },
-          ],
-          thinking: { type: 'disabled' },
-        }),
+      if (optimize) {
+        optimizedInput = await customApiCompletion(customApi, [
+          { role: 'system', content: OPTIMIZATION_PROMPT },
+          { role: 'user', content: input },
+        ])
+        textToTranslate = optimizedInput
+      }
+
+      const translation = await customApiCompletion(customApi, [
+        { role: 'system', content: translateSystemPrompt },
+        { role: 'user', content: textToTranslate },
+      ])
+
+      return NextResponse.json({
+        success: true,
+        data: { translation, optimizedInput },
       })
-
-      if (!response.ok) {
-        const errorText = await response.text().catch(() => 'Unknown error')
-        let errorMessage = `翻译失败 (HTTP ${response.status})`
-        try {
-          const errJson = JSON.parse(errorText)
-          errorMessage = errJson?.error?.message || errJson?.error?.code || errorMessage
-        } catch {}
-        return NextResponse.json({ success: false, error: errorMessage })
-      }
-
-      const data = await response.json()
-      const translation = data?.choices?.[0]?.message?.content?.trim() || ''
-
-      if (!translation) {
-        return NextResponse.json({ success: false, error: 'Empty translation result' }, { status: 502 })
-      }
-
-      return NextResponse.json({ success: true, data: { translation } })
     }
 
     const limitCheck = await checkAndEnforceLimit(userId, isAdmin, deviceId)
@@ -150,43 +233,15 @@ export async function POST(req: Request) {
       )
     }
 
-    const apiConfig = await prisma.apiConfig.findUnique({
-      where: { id: 'global' }
-    })
+    let optimizedInput: string | undefined
+    let textToTranslate = input
 
-    const legacyApiKey = apiConfig?.apiKey || process.env.LLM_API_KEY
-    const legacyBaseUrl = apiConfig?.baseUrl || process.env.LLM_API_URL
-    const legacyModel = apiConfig?.model || process.env.LLM_MODEL || 'gpt-4o-mini'
-
-    const candidates = await getProviderCandidates({
-      apiKey: legacyApiKey,
-      baseUrl: legacyBaseUrl,
-      model: legacyModel,
-    })
-
-    if (candidates.length === 0) {
-      return NextResponse.json({ success: false, error: API_QUOTA_EXHAUSTED_MESSAGE }, { status: 503 })
+    if (optimize) {
+      optimizedInput = await systemPoolCompletion(OPTIMIZATION_PROMPT, input)
+      textToTranslate = optimizedInput
     }
 
-    const completion = await withLlmFailover(
-      candidates,
-      (client, model) =>
-        client.chat.completions.create({
-          model: model || 'gpt-4o-mini',
-          temperature: 0.1,
-          messages: [
-            { role: 'system', content: systemPrompt },
-            { role: 'user', content: input },
-          ],
-        }),
-      1
-    )
-
-    const translation = completion.choices?.[0]?.message?.content?.trim() || ''
-
-    if (!translation) {
-      return NextResponse.json({ success: false, error: 'Empty translation result' }, { status: 502 })
-    }
+    const translation = await systemPoolCompletion(translateSystemPrompt, textToTranslate)
 
     await incrementUsage(userId, isAdmin, deviceId)
 
@@ -194,7 +249,7 @@ export async function POST(req: Request) {
 
     return NextResponse.json({
       success: true,
-      data: { translation },
+      data: { translation, optimizedInput },
       usage: { used: updatedUsage.used, limit: 10, remaining: updatedUsage.remaining },
     })
   } catch (error: any) {
