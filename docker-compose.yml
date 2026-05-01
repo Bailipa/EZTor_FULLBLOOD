@@ -6,7 +6,7 @@ services:
       - "3000:3000"
     environment:
       - NODE_ENV=production
-      - DATABASE_URL=postgresql://postgres:password@db:5432/eztor
+      - DATABASE_URL=postgresql://postgres:${DB_PASSWORD}@db:5432/eztor
       - NEXTAUTH_SECRET=${NEXTAUTH_SECRET}
       - NEXTAUTH_URL=${NEXTAUTH_URL}
       - LLM_API_KEY=${LLM_API_KEY}
