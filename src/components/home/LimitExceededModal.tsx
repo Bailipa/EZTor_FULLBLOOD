@@ -113,7 +113,7 @@ export function LimitExceededModal({ open, onOpenChange, onSaved }: LimitExceede
               如需继续使用，可以配置您自己的大模型 API，支持 OpenAI、DeepSeek、智谱、通义千问等兼容 OpenAI 接口的厂商。
             </p>
             <p className="text-xs text-muted-foreground/80">
-              您的 API Key 仅保存在本地浏览器中，不会上传到服务器，请放心使用。
+              您的 API Key 仅保存在本地浏览器中，使用时通过加密传输到服务器完成翻译，不会被持久化存储，请放心使用。
             </p>
           </DialogDescription>
         </DialogHeader>
@@ -187,7 +187,7 @@ export function LimitExceededModal({ open, onOpenChange, onSaved }: LimitExceede
             </Button>
           </div>
           <p className="text-xs text-muted-foreground">
-            请妥善保管您的 API Key，它仅保存在本地浏览器中
+            请妥善保管您的 API Key，它仅保存在本地浏览器中，不会被服务器持久化存储
           </p>
         </div>
 
