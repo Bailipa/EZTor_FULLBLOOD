@@ -5,7 +5,7 @@ LLM 池参考了 https://github.com/songquanpeng/one-api 设计思路
 - HZZ 男 功能优化建议
 - LSY 女 命名，分享推广
 - LJY 女 弹幕功能思路提供
-- YZJ 男 功能思路提供
+- YZJ 男 功能思路，提供在我‘穷困潦倒’的时候给我提供了大模型API额度❤️
 - JCJ 男 黑客攻击测试，提示词注入测试，提示词防护思路建议，井字棋小游戏灵感
 - LHY 男 体验测试
 - LCK 男 体验测试
