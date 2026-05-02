@@ -228,7 +228,7 @@ export class CacheService {
           pos: (cw['pos'] as string) || '',
           translation: cw['translation'] as string,
           example: (cw['example'] as string) || '',
-          exampleTranslation: (cw['example'] as string) || '',
+          exampleTranslation: (cw['exampleTranslation'] as string) || '',
           fromCache: true,
         }
       }),
@@ -240,7 +240,7 @@ export class CacheService {
           pos: (pw['pos'] as string) || '',
           translation: pw['translation'] as string,
           example: (pw['example'] as string) || '',
-          exampleTranslation: (pw['example'] as string) || '',
+          exampleTranslation: (pw['exampleTranslation'] as string) || '',
           fromCache: true,
         }
       }),
