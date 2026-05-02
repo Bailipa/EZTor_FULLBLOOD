@@ -34,7 +34,7 @@ npm run dev        # → http://localhost:3000
 ## Key Features
 
 - **Word Translation** — LLM-powered English-Chinese translation with POS, phonetics, examples, countability marking
-- **Translate Only** — Quick translation without saving, 10 free uses/day; supports custom API keys
+- **Translate Only** — Quick translation without saving, 30 free uses/day; supports custom API keys
 - **Word Bank** — Save words, create review groups, import CET-4/CET-6 vocabulary
 - **Dictation / Review** — Smart review system with grouping, scoring
 - **TTS** — Text-to-speech via Edge TTS
