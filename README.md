@@ -2,9 +2,23 @@
   <a href="README.zh-CN.md">中文</a> · <strong>English</strong>
 </p>
 
+<p align="center">
+  <img src="https://img.shields.io/badge/Next.js-16-black?logo=next.js" alt="Next.js">
+  <img src="https://img.shields.io/badge/TypeScript-5-blue?logo=typescript" alt="TypeScript">
+  <img src="https://img.shields.io/badge/React-19-61DAFB?logo=react" alt="React">
+  <img src="https://img.shields.io/badge/Prisma-5-2D3748?logo=prisma" alt="Prisma">
+  <img src="https://img.shields.io/badge/PostgreSQL-16-4169E1?logo=postgresql" alt="PostgreSQL">
+  <img src="https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?logo=tailwindcss" alt="Tailwind CSS">
+  <img src="https://img.shields.io/badge/license-GPLv3-green" alt="License">
+</p>
+
 # EZTor — Vocabulary Learning Platform
 
 A full-stack Next.js application for English vocabulary learning, powered by LLMs.
+
+<p align="center">
+  <img src="screenshot.png" alt="EZTor Screenshot" width="720">
+</p>
 
 ## How It Works
 
