@@ -227,18 +227,20 @@ export async function POST(req: Request) {
       }, { status: 503 });
     }
     
+    const details = process.env.NODE_ENV !== 'production' ? error?.message : 'Translation service error';
+
     if (error?.code === 'SELF_SIGNED_CERT_IN_CHAIN' || 
         error?.message?.includes('certificate')) {
       return NextResponse.json({ 
         error: 'SSL 证书验证失败，请联系管理员检查证书配置',
-        details: error?.message
+        details
       }, { status: 503 });
     }
     
     if (/connection|timeout|network|ECONNREFUSED|ENOTFOUND/i.test(error?.message || '')) {
       return NextResponse.json({ 
         error: '无法连接到翻译服务，请检查网络连接',
-        details: error?.message
+        details
       }, { status: 503 });
     }
     
@@ -246,13 +248,13 @@ export async function POST(req: Request) {
         error?.message?.includes('inference limit')) {
       return NextResponse.json({ 
         error: '模型配额已用尽，请联系管理员调整配额或切换模型',
-        details: error?.message
+        details
       }, { status: 503 });
     }
     
     return NextResponse.json({ 
       error: 'Translation failed',
-      details: error?.message
+      details
     }, { status: 500 });
   }
 }

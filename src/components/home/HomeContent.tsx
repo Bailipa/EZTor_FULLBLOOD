@@ -109,13 +109,9 @@ export default function HomeContent() {
               <GuestWordInputCard
                 isLoading={isLoading}
                 setIsLoading={setIsLoading}
-                showPos={showPos}
-                showExample={showExample}
-                results={results}
                 setResults={setResults}
                 wordsInput={wordsInput}
                 setWordsInput={setWordsInput}
-                onFeatureClick={handleFeatureClick}
               />
             ) : (
               <WordInputCard

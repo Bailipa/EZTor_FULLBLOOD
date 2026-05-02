@@ -5,20 +5,15 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Database, Upload, AlertCircle, Search, Sparkles } from 'lucide-react';
-import { useTheme } from '@wrksz/themes/client';
 import type { WordResult } from '@/types/api';
 import { saveToStorage, loadFromStorage } from '@/lib/storage';
 
 interface GuestWordInputCardProps {
   isLoading: boolean;
   setIsLoading: (loading: boolean) => void;
-  showPos: boolean;
-  showExample: boolean;
-  results: WordResult[];
   setResults: (results: WordResult[] | ((prev: WordResult[]) => WordResult[])) => void;
   wordsInput: string;
   setWordsInput: (input: string | ((prev: string) => string)) => void;
-  onFeatureClick: (featureName: string) => void;
 }
 
 interface NotFoundWord {
@@ -29,25 +24,14 @@ interface NotFoundWord {
 export function GuestWordInputCard({
   isLoading,
   setIsLoading,
-  showPos: _showPos,
-  showExample: _showExample,
-  results: _results,
   setResults,
   wordsInput,
   setWordsInput,
-  onFeatureClick: _onFeatureClick,
 }: GuestWordInputCardProps) {
-  const { resolvedTheme } = useTheme();
-  const [_mounted, setMounted] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [pendingWords, setPendingWords] = useState<string[]>([]);
   const [notFoundWords, setNotFoundWords] = useState<NotFoundWord[]>([]);
   const [completedCount, setCompletedCount] = useState(0);
-  
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-  const _isDark = resolvedTheme === 'dark';
 
   useEffect(() => {
     const savedWordsInput = loadFromStorage<string>('vocab_wordsInput', '');

@@ -6,7 +6,6 @@ import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { PenTool, Upload, Sparkles, Globe } from 'lucide-react';
-import { useTheme } from '@wrksz/themes/client';
 import type { WordResult, ReviewGroup } from '@/types/api';
 import { saveToStorage, loadFromStorage } from '@/lib/storage';
 import { useAnalytics } from '@/lib/analytics';
@@ -39,17 +38,9 @@ export function WordInputCard({
   wordsInput,
   setWordsInput,
 }: WordInputCardProps) {
-  const { resolvedTheme } = useTheme();
-  const [_mounted, setMounted] = useState(false);
-  const [_rawStreamText, setRawStreamText] = useState('');
   const [pendingWords, setPendingWords] = useState<string[]>([]);
   const [completedCount, setCompletedCount] = useState(0);
   const [inputStatus, setInputStatus] = useState<{ type: 'normal' | 'non-english' | 'sentence'; message: string }>({ type: 'normal', message: '' });
-  
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-  const _isDark = resolvedTheme === 'dark';
   const abortControllerRef = useRef<AbortController | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const animatedWordsRef = useRef<Set<string>>(new Set());
@@ -99,7 +90,6 @@ export function WordInputCard({
 
     setIsLoading(true);
     setResults([]);
-    setRawStreamText('');
     setCompletedCount(0);
     setPendingWords(words);
     animatedWordsRef.current.clear();
@@ -209,7 +199,6 @@ export function WordInputCard({
         if (value) {
           const chunkValue = decoder.decode(value, { stream: true });
           accumulatedText += chunkValue;
-          setRawStreamText(accumulatedText);
 
           const jsonBlocks = accumulatedText.split('\n\n').filter((b) => b.trim());
 

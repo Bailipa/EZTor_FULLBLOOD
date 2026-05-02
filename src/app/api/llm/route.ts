@@ -27,6 +27,9 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json(result);
   } catch (error: any) {
-    return NextResponse.json({ error: String(error?.message || error) }, { status: 500 });
+    return NextResponse.json({
+      error: 'LLM request failed',
+      ...(process.env.NODE_ENV !== 'production' ? { details: String(error?.message || error) } : {}),
+    }, { status: 500 });
   }
 }
