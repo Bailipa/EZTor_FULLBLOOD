@@ -49,4 +49,7 @@ next-env.d.ts
 
 # prisma
 prisma/*.db
+prisma/*.db.backup.*
+prisma/*.db.backup.*.sql
+prisma/prisma/*.db*
 /src/generated/prisma

@@ -66,3 +66,7 @@ src/
 | [docs/BACKUP_RESTORE.md](docs/BACKUP_RESTORE.md) | Database backup and restore                       |
 | [prisma/schema.prisma](prisma/schema.prisma)     | Data model definitions                            |
 | [AGENTS.md](AGENTS.md)                           | AI coding agent instructions                      |
+
+## License
+
+GNU General Public License v3.0. See [LICENSE](LICENSE).
