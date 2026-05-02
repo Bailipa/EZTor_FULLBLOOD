@@ -2,8 +2,7 @@ import { withLlmFailover, API_QUOTA_EXHAUSTED_MESSAGE, getProviderCandidates } f
 import { isSentence } from '@/lib/sentenceDetector';
 import prisma from '@/lib/prisma';
 import { randomUUID } from 'crypto';
-import { calculateQualityScore } from '@/lib/qualityScoring';
-import { cascadePublicWordToPrivate } from '@/lib/publicWordCascade';
+import PublicWordService from '@/services/PublicWordService';
 import { getPendingRequest, getCompletedRequest, resolvePendingRequest, setPendingRequest } from '@/lib/requestDeduplication';
 import { logger } from '@/lib/logger';
 
@@ -266,90 +265,12 @@ export class TranslationService {
     })).filter((w: any) => w.word);
 
     const groupWordData: { id: string; reviewGroupId: string; wordId: string }[] = [];
+    const publicWordService = new PublicWordService(this.session.user.id);
 
     for (const wordData of wordsToSave) {
-      // 1) 保存到公共库 (带质量评分和乐观锁)
-      let publicWordId: string | null = null;
-      try {
-        const qualityResult = calculateQualityScore(
-          wordData.word,
-          wordData.phonetic,
-          wordData.pos,
-          wordData.translation,
-          wordData.example,
-          wordData.exampleTranslation
-        );
+      const publicWordId = await publicWordService.saveWordToPublicLibrary(wordData);
 
-        const existingPublicWord = await prisma.publicWord.findUnique({
-          where: { word: wordData.word }
-        });
-
-        if (!existingPublicWord) {
-          try {
-            const created = await prisma.publicWord.create({
-              data: {
-                id: randomUUID(),
-                word: wordData.word,
-                translation: wordData.translation,
-                phonetic: wordData.phonetic || null,
-                pos: wordData.pos || null,
-                example: wordData.example || null,
-                exampleTranslation: wordData.exampleTranslation || null,
-                qualityScore: qualityResult.score,
-                updatedAt: new Date(),
-              }
-            });
-            publicWordId = created.id;
-          } catch (createErr: any) {
-            if (createErr.code !== 'P2002') {
-              logger.error({ err: createErr }, "Failed to create public word");
-            }
-          }
-        } else if (qualityResult.score > existingPublicWord.qualityScore) {
-          try {
-            const updateResult = await prisma.publicWord.updateMany({
-              where: {
-                word: wordData.word,
-                version: existingPublicWord.version
-              },
-              data: {
-                translation: wordData.translation,
-                phonetic: wordData.phonetic || null,
-                pos: wordData.pos || null,
-                example: wordData.example || null,
-                exampleTranslation: wordData.exampleTranslation || null,
-                qualityScore: qualityResult.score,
-                version: { increment: 1 }
-              }
-            });
-            if (updateResult.count === 0) {
-              logger.info({ word: wordData.word }, '[PublicWord] Concurrent update detected, skipped');
-            }
-          } catch (updateErr) {
-            logger.error({ err: updateErr }, "Failed to update public word");
-          }
-        }
-
-        // Ensure we have the PublicWord id (covers concurrent create/update paths).
-        if (!publicWordId) {
-          const pw = await prisma.publicWord.findUnique({ where: { word: wordData.word } });
-          publicWordId = pw?.id || null;
-        }
-
-        // Link/cascade for existing private rows (mirror mode).
-        await cascadePublicWordToPrivate({
-          word: wordData.word,
-          translation: wordData.translation,
-          phonetic: wordData.phonetic || null,
-          pos: wordData.pos || null,
-          example: wordData.example || null,
-          exampleTranslation: wordData.exampleTranslation || null
-        });
-      } catch (publicDbErr: any) {
-        logger.error({ err: publicDbErr }, "Failed to save to public word");
-      }
-
-      // 2) 保存到用户私有库（仅存元数据 + publicWordId，避免冗余复制）
+      // 保存到用户私有库（仅存元数据 + publicWordId，避免冗余复制）
       try {
         const savedWord = await prisma.word.upsert({
           where: {

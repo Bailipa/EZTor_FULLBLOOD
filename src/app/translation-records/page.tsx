@@ -1,11 +1,12 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { useState } from 'react';
+import { toast } from 'sonner';
+import { Card, CardContent, CardHeader, CardDescription, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
-import { 
+import {
   Languages,
   AlertTriangle,
   Search,
@@ -16,7 +17,7 @@ import {
   Database,
   Zap
 } from 'lucide-react';
-import { useAdminCheck } from '@/hooks/useAdminCheck';
+import { useCrudTable } from '@/hooks/useCrudTable';
 
 interface TranslationRecord {
   id: string;
@@ -34,64 +35,39 @@ interface TranslationRecord {
   createdAt: string;
 }
 
-interface TranslationRecordsData {
-  records: TranslationRecord[];
-  pagination: {
-    page: number;
-    limit: number;
-    total: number;
-    totalPages: number;
-  };
-  stats: {
-    totalRecords: number;
-    avgResponseTime: number;
-    cachedCount: number;
-    cacheRate: number;
-  };
-}
-
 export default function TranslationRecordsPage() {
-  const { isLoading: authLoading, isAdmin, status } = useAdminCheck();
-  const [data, setData] = useState<TranslationRecordsData | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [page, setPage] = useState(1);
-  const [searchWord, setSearchWord] = useState('');
-  const [searchInput, setSearchInput] = useState('');
   const [selectedRecord, setSelectedRecord] = useState<TranslationRecord | null>(null);
   const [deleting, setDeleting] = useState(false);
 
-  const fetchData = useCallback(async (pageNum: number, word?: string) => {
-    setLoading(true);
-    setError(null);
-    try {
-      let url = `/api/translation-records?page=${pageNum}&limit=20`;
-      if (word) url += `&word=${encodeURIComponent(word)}`;
-      
-      const res = await fetch(url);
-      const json = await res.json();
-      if (json.success) {
-        setData(json.data);
-      } else {
-        setError(json.error || 'Failed to fetch data');
-      }
-    } catch (_e) {
-      setError('Network error');
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    if (isAdmin) {
-      fetchData(page, searchWord);
-    }
-  }, [page, searchWord, isAdmin, fetchData]);
-
-  const handleSearch = () => {
-    setSearchWord(searchInput);
-    setPage(1);
-  };
+  const {
+    authLoading,
+    isAdmin,
+    status,
+    data: records,
+    loading,
+    error,
+    extra: stats,
+    page,
+    setPage,
+    pagination,
+    searchInput,
+    setSearchInput,
+    handleSearch,
+    refresh,
+  } = useCrudTable<TranslationRecord>({
+    requireAdmin: true,
+    pageSize: 20,
+    buildUrl: (pageNum, pageSize, query) => {
+      let url = `/api/translation-records?page=${pageNum}&limit=${pageSize}`;
+      if (query) url += `&word=${encodeURIComponent(query)}`;
+      return url;
+    },
+    parseResponse: (json) => ({
+      data: json.data.records,
+      pagination: json.data.pagination,
+      extra: json.data.stats,
+    }),
+  });
 
   if (authLoading) {
     return (
@@ -127,7 +103,7 @@ export default function TranslationRecordsPage() {
 
   const handleClearOldRecords = async (days: number) => {
     if (!confirm(`确定要删除 ${days} 天前的所有记录吗？此操作不可恢复。`)) return;
-    
+
     setDeleting(true);
     try {
       const res = await fetch(`/api/translation-records?olderThanDays=${days}`, {
@@ -135,13 +111,12 @@ export default function TranslationRecordsPage() {
       });
       const json = await res.json();
       if (json.success) {
-        alert(json.message);
-        fetchData(page, searchWord);
+        toast.success(json.message);
       } else {
-        alert(json.error || '删除失败');
+        toast.error(json.error || '删除失败');
       }
     } catch (_e) {
-      alert('删除失败');
+      toast.error('删除失败');
     } finally {
       setDeleting(false);
     }
@@ -159,7 +134,7 @@ export default function TranslationRecordsPage() {
     });
   };
 
-  if (loading && !data) {
+  if (loading && !records) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
@@ -167,14 +142,14 @@ export default function TranslationRecordsPage() {
     );
   }
 
-  if (error && !data) {
+  if (error && !records) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <Card className="max-w-md">
           <CardContent className="pt-6 text-center">
             <AlertTriangle className="w-12 h-12 text-red-500 mx-auto mb-4" />
             <p className="text-lg font-medium">{error}</p>
-            <Button className="mt-4" onClick={() => fetchData(page, searchWord)}>
+            <Button className="mt-4" onClick={refresh}>
               重试
             </Button>
           </CardContent>
@@ -183,7 +158,7 @@ export default function TranslationRecordsPage() {
     );
   }
 
-  if (!data) return null;
+  if (!records) return null;
 
   return (
     <div className="min-h-screen bg-gray-50/50 dark:bg-background p-6 md:p-12">
@@ -195,55 +170,57 @@ export default function TranslationRecordsPage() {
           </div>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <Card>
-            <CardContent className="pt-6">
-              <div className="flex items-center gap-2">
-                <Database className="w-5 h-5 text-blue-500" />
-                <span className="text-sm text-muted-foreground">总记录数</span>
-              </div>
-              <p className="text-3xl font-bold mt-2">{data.stats.totalRecords}</p>
-            </CardContent>
-          </Card>
+        {stats && (
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <Card>
+              <CardContent className="pt-6">
+                <div className="flex items-center gap-2">
+                  <Database className="w-5 h-5 text-blue-500" />
+                  <span className="text-sm text-muted-foreground">总记录数</span>
+                </div>
+                <p className="text-3xl font-bold mt-2">{stats.totalRecords}</p>
+              </CardContent>
+            </Card>
 
-          <Card>
-            <CardContent className="pt-6">
-              <div className="flex items-center gap-2">
-                <Zap className="w-5 h-5 text-green-500" />
-                <span className="text-sm text-muted-foreground">缓存命中率</span>
-              </div>
-              <p className="text-3xl font-bold mt-2">{data.stats.cacheRate}%</p>
-              <p className="text-xs text-muted-foreground mt-1">
-                {data.stats.cachedCount} 次缓存命中
-              </p>
-            </CardContent>
-          </Card>
+            <Card>
+              <CardContent className="pt-6">
+                <div className="flex items-center gap-2">
+                  <Zap className="w-5 h-5 text-green-500" />
+                  <span className="text-sm text-muted-foreground">缓存命中率</span>
+                </div>
+                <p className="text-3xl font-bold mt-2">{stats.cacheRate}%</p>
+                <p className="text-xs text-muted-foreground mt-1">
+                  {stats.cachedCount} 次缓存命中
+                </p>
+              </CardContent>
+            </Card>
 
-          <Card>
-            <CardContent className="pt-6">
-              <div className="flex items-center gap-2">
-                <Clock className="w-5 h-5 text-purple-500" />
-                <span className="text-sm text-muted-foreground">平均响应时间</span>
-              </div>
-              <p className="text-3xl font-bold mt-2">{data.stats.avgResponseTime}ms</p>
-            </CardContent>
-          </Card>
+            <Card>
+              <CardContent className="pt-6">
+                <div className="flex items-center gap-2">
+                  <Clock className="w-5 h-5 text-purple-500" />
+                  <span className="text-sm text-muted-foreground">平均响应时间</span>
+                </div>
+                <p className="text-3xl font-bold mt-2">{stats.avgResponseTime}ms</p>
+              </CardContent>
+            </Card>
 
-          <Card>
-            <CardContent className="pt-6">
-              <div className="flex items-center gap-2">
-                <Languages className="w-5 h-5 text-orange-500" />
-                <span className="text-sm text-muted-foreground">当前页</span>
-              </div>
-              <p className="text-3xl font-bold mt-2">
-                {data.pagination.page}/{data.pagination.totalPages}
-              </p>
-              <p className="text-xs text-muted-foreground mt-1">
-                共 {data.pagination.total} 条
-              </p>
-            </CardContent>
-          </Card>
-        </div>
+            <Card>
+              <CardContent className="pt-6">
+                <div className="flex items-center gap-2">
+                  <Languages className="w-5 h-5 text-orange-500" />
+                  <span className="text-sm text-muted-foreground">当前页</span>
+                </div>
+                <p className="text-3xl font-bold mt-2">
+                  {pagination.page}/{pagination.totalPages}
+                </p>
+                <p className="text-xs text-muted-foreground mt-1">
+                  共 {pagination.total} 条
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+        )}
 
         <Card>
           <CardHeader>
@@ -267,7 +244,7 @@ export default function TranslationRecordsPage() {
             </div>
           </CardHeader>
           <CardContent>
-            {data.records.length > 0 ? (
+            {records.length > 0 ? (
               <div className="space-y-4">
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm">
@@ -282,9 +259,9 @@ export default function TranslationRecordsPage() {
                       </tr>
                     </thead>
                     <tbody>
-                      {data.records.map((record) => (
-                        <tr 
-                          key={record.id} 
+                      {records.map((record) => (
+                        <tr
+                          key={record.id}
                           className="border-b hover:bg-muted/50 cursor-pointer"
                           onClick={() => setSelectedRecord(record)}
                         >
@@ -320,8 +297,8 @@ export default function TranslationRecordsPage() {
                             </Badge>
                           </td>
                           <td className="py-2 px-2">
-                            <Button 
-                              variant="ghost" 
+                            <Button
+                              variant="ghost"
                               size="sm"
                               onClick={(e) => {
                                 e.stopPropagation();
@@ -349,24 +326,24 @@ export default function TranslationRecordsPage() {
                       清理30天前记录
                     </Button>
                   </div>
-                  
+
                   <div className="flex items-center gap-2">
                     <Button
                       variant="outline"
                       size="sm"
-                      onClick={() => setPage(p => Math.max(1, p - 1))}
+                      onClick={() => setPage((p: number) => Math.max(1, p - 1))}
                       disabled={page <= 1}
                     >
                       <ChevronLeft className="w-4 h-4" />
                     </Button>
                     <span className="text-sm">
-                      {page} / {data.pagination.totalPages}
+                      {page} / {pagination.totalPages}
                     </span>
                     <Button
                       variant="outline"
                       size="sm"
-                      onClick={() => setPage(p => Math.min(data.pagination.totalPages, p + 1))}
-                      disabled={page >= data.pagination.totalPages}
+                      onClick={() => setPage((p: number) => Math.min(pagination.totalPages, p + 1))}
+                      disabled={page >= pagination.totalPages}
                     >
                       <ChevronRight className="w-4 h-4" />
                     </Button>
@@ -380,19 +357,19 @@ export default function TranslationRecordsPage() {
         </Card>
 
         {selectedRecord && (
-          <div 
+          <div
             className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
             onClick={() => setSelectedRecord(null)}
           >
-            <Card 
+            <Card
               className="max-w-2xl w-full max-h-[80vh] overflow-y-auto"
               onClick={(e) => e.stopPropagation()}
             >
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <CardTitle>翻译详情</CardTitle>
-                  <Button 
-                    variant="ghost" 
+                  <Button
+                    variant="ghost"
                     size="sm"
                     onClick={() => setSelectedRecord(null)}
                   >

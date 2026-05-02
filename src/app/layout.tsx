@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
+import { Toaster } from "sonner";
 
 import { ThemeProvider } from "@/components/theme-provider"
 import { NextAuthProvider } from "@/components/providers/session-provider";
@@ -46,6 +47,7 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             {children}
+            <Toaster />
           </ThemeProvider>
         </NextAuthProvider>
       </body>

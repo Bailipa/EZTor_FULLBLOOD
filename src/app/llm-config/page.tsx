@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { toast } from 'sonner';
 import Link from 'next/link';
 import { useAdminCheck } from '@/hooks/useAdminCheck';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -135,7 +136,7 @@ export default function LlmConfigPage() {
       resetForm();
       fetchData();
     } catch (e: any) {
-      alert(e?.message || '保存失败');
+      toast.error(e?.message || '保存失败');
     }
   };
 
@@ -157,7 +158,7 @@ export default function LlmConfigPage() {
     if (!confirm('确定要删除该 API 配置吗？')) return;
     const res = await fetch(`/api/llm-providers?id=${encodeURIComponent(id)}`, { method: 'DELETE' });
     const json = await res.json();
-    if (!json.success) alert(json.error || 'Delete failed');
+    if (!json.success) toast.error(json.error || 'Delete failed');
     fetchData();
   };
 

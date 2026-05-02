@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useCallback } from "react";
+import { toast } from "sonner";
 import {
   Dialog,
   DialogContent,
@@ -142,11 +143,11 @@ export function GroupShareModal({
       if (data.success) {
         await fetchShareData();
       } else {
-        alert(data.message || "创建失败，请稍后重试");
+        toast.error(data.message || "创建失败，请稍后重试");
       }
     } catch (error) {
       if (process.env.NODE_ENV === 'development') console.error("Failed to create share", error);
-      alert("创建失败，请稍后重试");
+      toast.error("创建失败，请稍后重试");
     } finally {
       setIsCreating(false);
     }
@@ -182,11 +183,11 @@ export function GroupShareModal({
       if (data.success) {
         await fetchShareData();
       } else {
-        alert(data.message || "撤销失败，请稍后重试");
+        toast.error(data.message || "撤销失败，请稍后重试");
       }
     } catch (error) {
       if (process.env.NODE_ENV === 'development') console.error("Failed to revoke", error);
-      alert("撤销失败，请稍后重试");
+      toast.error("撤销失败，请稍后重试");
     } finally {
       setIsRevoking(false);
     }
@@ -211,11 +212,11 @@ export function GroupShareModal({
         await fetchShareData();
         setCopied(false);
       } else {
-        alert(data.message || "重新生成失败，请稍后重试");
+        toast.error(data.message || "重新生成失败，请稍后重试");
       }
     } catch (error) {
       if (process.env.NODE_ENV === 'development') console.error("Failed to regenerate", error);
-      alert("重新生成失败，请稍后重试");
+      toast.error("重新生成失败，请稍后重试");
     } finally {
       setIsRegenerating(false);
     }
@@ -224,7 +225,7 @@ export function GroupShareModal({
   const handleViewStats = () => {
     if (!shareData?.id) return;
     // TODO: 打开统计面板
-    alert("统计功能开发中...");
+    toast.info("统计功能开发中...");
   };
 
   const formatExpiration = (expiresAt: string | null) => {

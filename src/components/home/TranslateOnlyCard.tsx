@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
+import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -147,7 +148,7 @@ export function TranslateOnlyCard() {
         progressIntervalRef.current = null;
       }
       setProgress(0);
-      alert(message);
+      toast.error(message);
       setIsLoading(false);
     };
 
@@ -249,7 +250,7 @@ export function TranslateOnlyCard() {
       setIsCopied(true);
       setTimeout(() => setIsCopied(false), 2000);
     } catch {
-      alert('复制失败，请手动复制');
+      toast.error('复制失败，请手动复制');
     }
   };
 
@@ -269,7 +270,7 @@ export function TranslateOnlyCard() {
       setInput(text);
       setIsClearConfirm(false);
     } catch {
-      alert('无法读取剪贴板内容');
+      toast.error('无法读取剪贴板内容');
     }
   };
 

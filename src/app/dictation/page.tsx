@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -153,7 +154,7 @@ export default function DictationPage() {
 
   const startTest = () => {
     if (testCount === 'custom' && selectedWords.length === 0) {
-      alert("请至少选择一个单词！");
+      toast.error("请至少选择一个单词！");
       return;
     }
     setIsStarted(true);

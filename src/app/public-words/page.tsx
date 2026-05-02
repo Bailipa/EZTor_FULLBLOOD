@@ -1,11 +1,12 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useCallback } from 'react';
+import { toast } from 'sonner';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
-import { 
+import {
   Database,
   AlertTriangle,
   Search,
@@ -18,7 +19,7 @@ import {
   TrendingUp,
   BarChart3
 } from 'lucide-react';
-import { useAdminCheck } from '@/hooks/useAdminCheck';
+import { useCrudTable } from '@/hooks/useCrudTable';
 
 interface PublicWord {
   id: string;
@@ -34,31 +35,7 @@ interface PublicWord {
   updatedAt: string;
 }
 
-interface PublicWordsData {
-  words: PublicWord[];
-  pagination: {
-    page: number;
-    limit: number;
-    total: number;
-    totalPages: number;
-  };
-  stats: {
-    totalWords: number;
-    avgQuality: number;
-    maxQuality: number;
-    minQuality: number;
-    qualityDistribution: { score: number; count: number }[];
-  };
-}
-
 export default function PublicWordsPage() {
-  const { isLoading: authLoading, isAdmin, status } = useAdminCheck();
-  const [data, setData] = useState<PublicWordsData | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [page, setPage] = useState(1);
-  const [searchWord, setSearchWord] = useState('');
-  const [searchInput, setSearchInput] = useState('');
   const [sortBy, setSortBy] = useState('updatedAt');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
   const [minQuality, setMinQuality] = useState('');
@@ -68,39 +45,42 @@ export default function PublicWordsPage() {
   const [showAddForm, setShowAddForm] = useState(false);
   const [saving, setSaving] = useState(false);
 
-  const fetchData = useCallback(async (pageNum: number, word?: string) => {
-    setLoading(true);
-    setError(null);
-    try {
-      let url = `/api/public-words?page=${pageNum}&limit=20&sortBy=${sortBy}&sortOrder=${sortOrder}`;
-      if (word) url += `&word=${encodeURIComponent(word)}`;
+  const buildUrl = useCallback(
+    (pageNum: number, pageSize: number, query: string) => {
+      let url = `/api/public-words?page=${pageNum}&limit=${pageSize}&sortBy=${sortBy}&sortOrder=${sortOrder}`;
+      if (query) url += `&word=${encodeURIComponent(query)}`;
       if (minQuality) url += `&minQuality=${minQuality}`;
       if (maxQuality) url += `&maxQuality=${maxQuality}`;
-      
-      const res = await fetch(url);
-      const json = await res.json();
-      if (json.success) {
-        setData(json.data);
-      } else {
-        setError(json.error || 'Failed to fetch data');
-      }
-    } catch (_e) {
-      setError('Network error');
-    } finally {
-      setLoading(false);
-    }
-  }, [sortBy, sortOrder, minQuality, maxQuality]);
+      return url;
+    },
+    [sortBy, sortOrder, minQuality, maxQuality],
+  );
 
-  useEffect(() => {
-    if (isAdmin) {
-      fetchData(page, searchWord);
-    }
-  }, [page, searchWord, sortBy, sortOrder, minQuality, maxQuality, isAdmin, fetchData]);
-
-  const handleSearch = () => {
-    setSearchWord(searchInput);
-    setPage(1);
-  };
+  const {
+    authLoading,
+    isAdmin,
+    status,
+    data: words,
+    loading,
+    error,
+    extra: stats,
+    page,
+    setPage,
+    pagination,
+    searchInput,
+    setSearchInput,
+    handleSearch,
+    refresh,
+  } = useCrudTable<PublicWord>({
+    requireAdmin: true,
+    pageSize: 20,
+    buildUrl,
+    parseResponse: (json) => ({
+      data: json.data.words,
+      pagination: json.data.pagination,
+      extra: json.data.stats,
+    }),
+  });
 
   if (authLoading) {
     return (
@@ -136,20 +116,18 @@ export default function PublicWordsPage() {
 
   const handleDelete = async (id: string) => {
     if (!confirm('确定要删除这个词吗？')) return;
-    
+
     try {
-      const res = await fetch(`/api/public-words?id=${id}`, {
-        method: 'DELETE'
-      });
+      const res = await fetch(`/api/public-words?id=${id}`, { method: 'DELETE' });
       const json = await res.json();
       if (json.success) {
-        fetchData(page, searchWord);
+        refresh();
         setSelectedWord(null);
       } else {
-        alert(json.error || 'Delete failed');
+        toast.error(json.error || 'Delete failed');
       }
     } catch (_e) {
-      alert('Network error');
+      toast.error('Network error');
     }
   };
 
@@ -165,13 +143,13 @@ export default function PublicWordsPage() {
       const json = await res.json();
       if (json.success) {
         setEditingWord(null);
-        fetchData(page, searchWord);
+        refresh();
         setSelectedWord(null);
       } else {
-        alert(json.error || 'Update failed');
+        toast.error(json.error || 'Update failed');
       }
     } catch (_e) {
-      alert('Network error');
+      toast.error('Network error');
     } finally {
       setSaving(false);
     }
@@ -188,13 +166,13 @@ export default function PublicWordsPage() {
       const json = await res.json();
       if (json.success) {
         setShowAddForm(false);
-        fetchData(1, '');
         setPage(1);
+        refresh();
       } else {
-        alert(json.error || 'Add failed');
+        toast.error(json.error || 'Add failed');
       }
     } catch (_e) {
-      alert('Network error');
+      toast.error('Network error');
     } finally {
       setSaving(false);
     }
@@ -214,7 +192,7 @@ export default function PublicWordsPage() {
     return <Badge className="bg-red-500">较差</Badge>;
   };
 
-  if (loading && !data) {
+  if (loading && !words) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
@@ -225,7 +203,7 @@ export default function PublicWordsPage() {
     );
   }
 
-  if (error && !data) {
+  if (error && !words) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <Card className="max-w-md">
@@ -254,7 +232,7 @@ export default function PublicWordsPage() {
           <p className="text-gray-600 mt-2">管理和维护公共翻译词库</p>
         </div>
 
-        {data?.stats && (
+        {stats && (
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
             <Card>
               <CardContent className="pt-6">
@@ -262,7 +240,7 @@ export default function PublicWordsPage() {
                   <Database className="h-8 w-8 text-blue-500" />
                   <div>
                     <p className="text-sm text-gray-500">总词数</p>
-                    <p className="text-2xl font-bold">{data.stats.totalWords.toLocaleString()}</p>
+                    <p className="text-2xl font-bold">{stats.totalWords.toLocaleString()}</p>
                   </div>
                 </div>
               </CardContent>
@@ -273,7 +251,7 @@ export default function PublicWordsPage() {
                   <Star className="h-8 w-8 text-yellow-500" />
                   <div>
                     <p className="text-sm text-gray-500">平均质量分</p>
-                    <p className="text-2xl font-bold">{data.stats.avgQuality}</p>
+                    <p className="text-2xl font-bold">{stats.avgQuality}</p>
                   </div>
                 </div>
               </CardContent>
@@ -284,7 +262,7 @@ export default function PublicWordsPage() {
                   <TrendingUp className="h-8 w-8 text-green-500" />
                   <div>
                     <p className="text-sm text-gray-500">最高质量分</p>
-                    <p className="text-2xl font-bold">{data.stats.maxQuality}</p>
+                    <p className="text-2xl font-bold">{stats.maxQuality}</p>
                   </div>
                 </div>
               </CardContent>
@@ -295,7 +273,7 @@ export default function PublicWordsPage() {
                   <BarChart3 className="h-8 w-8 text-purple-500" />
                   <div>
                     <p className="text-sm text-gray-500">最低质量分</p>
-                    <p className="text-2xl font-bold">{data.stats.minQuality}</p>
+                    <p className="text-2xl font-bold">{stats.minQuality}</p>
                   </div>
                 </div>
               </CardContent>
@@ -303,14 +281,14 @@ export default function PublicWordsPage() {
           </div>
         )}
 
-        {data?.stats?.qualityDistribution && data.stats.qualityDistribution.length > 0 && (
+        {stats?.qualityDistribution && stats.qualityDistribution.length > 0 && (
           <Card className="mb-6">
             <CardHeader>
               <CardTitle className="text-lg">质量分布</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="flex items-end gap-1 h-32">
-                {data.stats.qualityDistribution.map((q) => (
+                {stats.qualityDistribution.map((q: { score: number; count: number }) => (
                   <div
                     key={q.score}
                     className="flex-1 flex flex-col items-center"
@@ -318,7 +296,7 @@ export default function PublicWordsPage() {
                   >
                     <div
                       className={`w-full rounded-t ${getQualityColor(q.score)}`}
-                      style={{ height: `${Math.max(4, (q.count / Math.max(...data.stats.qualityDistribution.map(d => d.count))) * 100)}%` }}
+                      style={{ height: `${Math.max(4, (q.count / Math.max(...stats.qualityDistribution.map((d: { count: number }) => d.count))) * 100)}%` }}
                     />
                     <span className="text-xs text-gray-500 mt-1">{q.score}</span>
                   </div>
@@ -386,7 +364,7 @@ export default function PublicWordsPage() {
 
         <Card>
           <CardContent className="pt-6">
-            {data?.words.length === 0 ? (
+            {words && words.length === 0 ? (
               <div className="text-center py-12 text-gray-500">
                 <Database className="h-12 w-12 mx-auto mb-4 opacity-50" />
                 <p>暂无数据</p>
@@ -407,7 +385,7 @@ export default function PublicWordsPage() {
                     </tr>
                   </thead>
                   <tbody>
-                    {data?.words.map((word) => (
+                    {words && words.map((word) => (
                       <tr key={word.id} className="border-b hover:bg-gray-50 cursor-pointer"
                         onClick={() => setSelectedWord(word)}>
                         <td className="py-3 px-2 font-medium">{word.word}</td>
@@ -455,10 +433,10 @@ export default function PublicWordsPage() {
               </div>
             )}
 
-            {data && data.pagination.totalPages > 1 && (
+            {pagination.totalPages > 1 && (
               <div className="flex items-center justify-between mt-4 pt-4 border-t">
                 <p className="text-sm text-gray-500">
-                  共 {data.pagination.total} 条记录
+                  共 {pagination.total} 条记录
                 </p>
                 <div className="flex gap-2">
                   <Button
@@ -470,12 +448,12 @@ export default function PublicWordsPage() {
                     <ChevronLeft className="h-4 w-4" />
                   </Button>
                   <span className="flex items-center px-3">
-                    {page} / {data.pagination.totalPages}
+                    {page} / {pagination.totalPages}
                   </span>
                   <Button
                     variant="outline"
                     size="sm"
-                    disabled={page === data.pagination.totalPages}
+                    disabled={page === pagination.totalPages}
                     onClick={() => setPage(page + 1)}
                   >
                     <ChevronRight className="h-4 w-4" />

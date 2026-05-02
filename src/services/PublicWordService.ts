@@ -20,7 +20,8 @@ export default class PublicWordService {
     this.userId = userId;
   }
 
-  async saveWordToPublicLibrary(wordData: WordData): Promise<void> {
+  async saveWordToPublicLibrary(wordData: WordData): Promise<string | null> {
+    let publicWordId: string | null = null;
     try {
       const qualityResult = calculateQualityScore(
         wordData.word,
@@ -31,16 +32,13 @@ export default class PublicWordService {
         wordData.exampleTranslation
       );
 
-      // 使用upsert + 质量评分条件，避免并发覆盖问题
-      // 只有当新数据质量更高时才更新
       const existingPublicWord = await prisma.publicWord.findUnique({
         where: { word: wordData.word }
       });
 
       if (!existingPublicWord) {
-        // 不存在则创建
         try {
-          await prisma.publicWord.create({
+          const created = await prisma.publicWord.create({
             data: {
               id: randomUUID(),
               word: wordData.word,
@@ -53,6 +51,7 @@ export default class PublicWordService {
               updatedAt: new Date(),
             }
           });
+          publicWordId = created.id;
 
           await cascadePublicWordToPrivate({
             word: wordData.word,
@@ -63,18 +62,16 @@ export default class PublicWordService {
             exampleTranslation: wordData.exampleTranslation || null
           });
         } catch (createErr: any) {
-          // 并发创建冲突，忽略（另一个请求已经创建）
           if (createErr.code !== 'P2002') {
             logger.error({ err: createErr }, "Failed to create public word");
           }
         }
       } else if (qualityResult.score > existingPublicWord.qualityScore) {
-        // 只有质量更高时才更新，使用version作为乐观锁
         try {
           const updateResult = await prisma.publicWord.updateMany({
-            where: { 
+            where: {
               word: wordData.word,
-              version: existingPublicWord.version  // 乐观锁
+              version: existingPublicWord.version
             },
             data: {
               translation: wordData.translation,
@@ -102,9 +99,16 @@ export default class PublicWordService {
           logger.error({ err: updateErr }, "Failed to update public word");
         }
       }
+
+      if (!publicWordId) {
+        const pw = await prisma.publicWord.findUnique({ where: { word: wordData.word } });
+        publicWordId = pw?.id || null;
+      }
     } catch (publicDbErr: any) {
       logger.error({ err: publicDbErr }, "Failed to save to public word");
     }
+
+    return publicWordId;
   }
 
   async getPublicWords(words: string[]): Promise<any[]> {

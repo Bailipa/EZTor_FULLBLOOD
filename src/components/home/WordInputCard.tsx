@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useRef, useEffect, useCallback } from 'react';
+import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
@@ -10,6 +11,7 @@ import type { WordResult, ReviewGroup } from '@/types/api';
 import { saveToStorage, loadFromStorage } from '@/lib/storage';
 import { useAnalytics } from '@/lib/analytics';
 import { isSentence } from '@/lib/sentenceDetector';
+import { useWordTranslation } from '@/hooks/useWordTranslation';
 
 interface WordInputCardProps {
   isLoading: boolean;
@@ -38,25 +40,30 @@ export function WordInputCard({
   wordsInput,
   setWordsInput,
 }: WordInputCardProps) {
-  const [pendingWords, setPendingWords] = useState<string[]>([]);
-  const [completedCount, setCompletedCount] = useState(0);
   const [inputStatus, setInputStatus] = useState<{ type: 'normal' | 'non-english' | 'sentence'; message: string }>({ type: 'normal', message: '' });
   const abortControllerRef = useRef<AbortController | null>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null);
   const animatedWordsRef = useRef<Set<string>>(new Set());
   const { trackTranslate } = useAnalytics();
 
+  const {
+    pendingWords,
+    setPendingWords,
+    completedCount,
+    setCompletedCount,
+    fileInputRef,
+    parseWords,
+    validateWordCount,
+    beginProcessing,
+    finishProcessing,
+    clearFileInput,
+    createKeyDownHandler,
+  } = useWordTranslation({ wordsInput, setWordsInput });
+
   useEffect(() => {
-    const savedWordsInput = loadFromStorage<string>('vocab_wordsInput', '');
     const savedResults = loadFromStorage<WordResult[]>('vocab_results', []);
-    if (savedWordsInput) setWordsInput(savedWordsInput);
     if (savedResults.length > 0) setResults(savedResults);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  useEffect(() => {
-    saveToStorage('vocab_wordsInput', wordsInput);
-  }, [wordsInput]);
 
   useEffect(() => {
     const trimmedInput = wordsInput.trim();
@@ -76,22 +83,14 @@ export function WordInputCard({
 
   const handleProcess = useCallback(async () => {
     if (isLoading) return;
-    if (!wordsInput.trim()) return;
 
-    const words = wordsInput
-      .split('\n')
-      .map((w) => w.trim().replace(/\s+/g, ' '))
-      .filter((w) => w.length > 0);
-
-    if (words.length > 50) {
-      alert('单次最多只能查询 50 个单词或短语，请分批查询！');
-      return;
-    }
+    const words = parseWords();
+    if (words.length === 0) return;
+    if (!validateWordCount(words)) return;
 
     setIsLoading(true);
     setResults([]);
-    setCompletedCount(0);
-    setPendingWords(words);
+    beginProcessing(words);
     animatedWordsRef.current.clear();
 
     const fixedResults: WordResult[] = [];
@@ -457,26 +456,20 @@ export function WordInputCard({
       }
 
       trackTranslate(words.length, false);
-      setPendingWords([]);
-      setCompletedCount(orderedResults.length);
+      finishProcessing(orderedResults.length);
     } catch (error: unknown) {
       const err = error as Error & { name?: string };
       if (err.name === 'AbortError') {
-        alert('请求超时：大模型响应时间过长，请检查网络或更换模型接入点。');
+        toast.error('请求超时：大模型响应时间过长，请检查网络或更换模型接入点。');
       } else {
-        alert(err.message);
+        toast.error(err.message);
       }
     } finally {
       setIsLoading(false);
     }
-  }, [isLoading, wordsInput, showPos, showExample, selectedTargetGroupId, trackTranslate, setIsLoading, setResults, setWordsInput]);
+  }, [isLoading, showPos, showExample, selectedTargetGroupId, trackTranslate, setIsLoading, setResults, setWordsInput, parseWords, validateWordCount, beginProcessing, finishProcessing, setPendingWords, setCompletedCount]);
 
-  const handleKeyDown = useCallback((e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
-      e.preventDefault();
-      handleProcess();
-    }
-  }, [handleProcess]);
+  const handleKeyDown = createKeyDownHandler(handleProcess);
 
   const handleFileUpload = useCallback(async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -491,7 +484,7 @@ export function WordInputCard({
         setIsLoading(true);
         const lines = text.split(/\r?\n/).filter((line) => line.trim());
         if (lines.length < 2) {
-          alert('文件内容为空或格式不正确');
+          toast.error('文件内容为空或格式不正确');
           return;
         }
 
@@ -547,7 +540,7 @@ export function WordInputCard({
         }
 
         if (uploadResults.length === 0) {
-          alert('未能解析出有效的单词数据，请检查 CSV 格式是否包含 word/单词 列。');
+          toast.error('未能解析出有效的单词数据，请检查 CSV 格式是否包含 word/单词 列。');
           return;
         }
 
@@ -559,22 +552,20 @@ export function WordInputCard({
 
         const data = await response.json();
         if (data.success) {
-          alert(`成功导入 ${data.savedCount} 个单词到数据库！`);
+          toast.success(`成功导入 ${data.savedCount} 个单词到数据库！`);
         } else {
-          alert(`导入失败: ${data.error}`);
+          toast.error(`导入失败: ${data.error}`);
         }
       } catch (err) {
         if (process.env.NODE_ENV === 'development') console.error('CSV import error:', err);
-        alert('导入过程中发生错误，请检查控制台。');
+        toast.error('导入过程中发生错误，请检查控制台。');
       } finally {
         setIsLoading(false);
-        if (fileInputRef.current) {
-          fileInputRef.current.value = '';
-        }
+        clearFileInput();
       }
     };
     reader.readAsText(file);
-  }, [setIsLoading]);
+  }, [setIsLoading, clearFileInput]);
 
   return (
     <Card className="border-2 shadow-sm">

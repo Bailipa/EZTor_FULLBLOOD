@@ -1,12 +1,13 @@
 'use client';
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState } from 'react';
+import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Database, Upload, AlertCircle, Search, Sparkles } from 'lucide-react';
 import type { WordResult } from '@/types/api';
-import { saveToStorage, loadFromStorage } from '@/lib/storage';
+import { useWordTranslation } from '@/hooks/useWordTranslation';
 
 interface GuestWordInputCardProps {
   isLoading: boolean;
@@ -28,40 +29,30 @@ export function GuestWordInputCard({
   wordsInput,
   setWordsInput,
 }: GuestWordInputCardProps) {
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  const [pendingWords, setPendingWords] = useState<string[]>([]);
   const [notFoundWords, setNotFoundWords] = useState<NotFoundWord[]>([]);
-  const [completedCount, setCompletedCount] = useState(0);
-
-  useEffect(() => {
-    const savedWordsInput = loadFromStorage<string>('vocab_wordsInput', '');
-    if (savedWordsInput) setWordsInput(savedWordsInput);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    saveToStorage('vocab_wordsInput', wordsInput);
-  }, [wordsInput]);
+  const {
+    pendingWords,
+    setPendingWords,
+    completedCount,
+    fileInputRef,
+    parseWords,
+    validateWordCount,
+    beginProcessing,
+    finishProcessing,
+    createKeyDownHandler,
+  } = useWordTranslation({ wordsInput, setWordsInput });
 
   const handleProcess = async () => {
     if (isLoading) return;
-    if (!wordsInput.trim()) return;
 
-    const words = wordsInput
-      .split('\n')
-      .map((w) => w.trim().replace(/\s+/g, ' '))
-      .filter((w) => w.length > 0);
-
-    if (words.length > 50) {
-      alert('单次最多只能查询 50 个单词或短语，请分批查询！');
-      return;
-    }
+    const words = parseWords();
+    if (words.length === 0) return;
+    if (!validateWordCount(words)) return;
 
     setIsLoading(true);
     setResults([]);
     setNotFoundWords([]);
-    setPendingWords(words);
-    setCompletedCount(0);
+    beginProcessing(words);
 
     try {
       const response = await fetch('/api/public-translate', {
@@ -142,9 +133,8 @@ export function GuestWordInputCard({
           orderedResults.push(result);
         });
 
-        setPendingWords([]);
+        finishProcessing(orderedResults.length);
         setResults(orderedResults);
-        setCompletedCount(orderedResults.length);
         
         setWordsInput((prevInput) => {
           const lines = prevInput.split('\n');
@@ -173,7 +163,7 @@ export function GuestWordInputCard({
       }
     } catch (error: any) {
       if (process.env.NODE_ENV === 'development') console.error('Translation error:', error);
-      alert(error.message || '查询失败，请稍后重试');
+      toast.error(error.message || '查询失败，请稍后重试');
       
       await fetch('/api/analytics', {
         method: 'POST',
@@ -234,12 +224,7 @@ export function GuestWordInputCard({
     return matrix[b.length][a.length];
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
-      e.preventDefault();
-      handleProcess();
-    }
-  };
+  const handleKeyDown = createKeyDownHandler(handleProcess);
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];

@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useCallback, useRef, forwardRef } from "react";
 import Link from "next/link";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { ModeToggle } from "@/components/mode-toggle";
 import {
@@ -23,6 +24,8 @@ import { ArrowLeft, Download, Trash2, Loader2, PenTool, FolderPlus, FolderOpen, 
 import { ShareImportModal } from "@/components/vocabulary/ShareImportModal";
 import { GroupShareModal } from "@/components/review-group/GroupShareModal";
 import WordCard, { WordData } from "@/components/vocabulary/WordCard";
+import { useCrudTable } from "@/hooks/useCrudTable";
+
 const PAGE_SIZE = 20;
 const MAX_VISIBLE_WORDS = 500;
 
@@ -45,10 +48,10 @@ GridList.displayName = 'GridList';
 
 const GridItem = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement> & { 'data-index'?: number }>(
   ({ children, style, ...props }, ref) => (
-    <div 
-      ref={ref} 
+    <div
+      ref={ref}
       {...props}
-      style={{ 
+      style={{
         contain: 'layout style paint',
         backfaceVisibility: 'hidden',
         WebkitBackfaceVisibility: 'hidden',
@@ -73,8 +76,20 @@ export default function HistoryPage() {
 
   const [groups, setGroups] = useState<any[]>([]);
   const [currentViewGroupId, setCurrentViewGroupId] = useState<string>("all");
-  const [selectedSet, setSelectedSet] = useState<Set<string>>(new Set());
-  const [isSelectionMode, setIsSelectionMode] = useState(false);
+
+  const {
+    selectedIds,
+    setSelectedIds,
+    toggleSelection,
+    clearSelection,
+    isSelectionMode,
+    setIsSelectionMode,
+    selectedCount,
+  } = useCrudTable<WordData>({
+    requireAdmin: false,
+    skipFetch: true,
+  });
+
   const [isDraggingSelection, setIsDraggingSelection] = useState(false);
   const [dragStartIndex, setDragStartIndex] = useState<number | null>(null);
   const [initialSelectedSet, setInitialSelectedSet] = useState<Set<string>>(new Set());
@@ -195,24 +210,12 @@ export default function HistoryPage() {
     }
   }, [isDraggingSelection]);
 
-  const toggleSelection = useCallback((id: string) => {
-    setSelectedSet(prev => {
-      const next = new Set(prev);
-      if (next.has(id)) {
-        next.delete(id);
-      } else {
-        next.add(id);
-      }
-      return next;
-    });
-  }, []);
-
   const handleDragStart = useCallback((index: number, id: string) => {
     if (!isSelectionMode) return;
     setIsDraggingSelection(true);
     setDragStartIndex(index);
 
-    setSelectedSet(prev => {
+    setSelectedIds(prev => {
       setInitialSelectedSet(new Set(prev));
 
       const next = new Set(prev);
@@ -223,7 +226,7 @@ export default function HistoryPage() {
       }
       return next;
     });
-  }, [isSelectionMode]);
+  }, [isSelectionMode, setSelectedIds]);
 
   const handleDragEnter = useCallback((currentIndex: number) => {
     if (!isSelectionMode || !isDraggingSelection || dragStartIndex === null) return;
@@ -243,8 +246,8 @@ export default function HistoryPage() {
       }
     }
 
-    setSelectedSet(newSelection);
-  }, [isSelectionMode, isDraggingSelection, dragStartIndex, initialSelectedSet, words]);
+    setSelectedIds(newSelection);
+  }, [isSelectionMode, isDraggingSelection, dragStartIndex, initialSelectedSet, words, setSelectedIds]);
 
   const handleTouchMove = useCallback((e: React.TouchEvent) => {
     if (!isSelectionMode || !isDraggingSelection || dragStartIndex === null) return;
@@ -264,7 +267,7 @@ export default function HistoryPage() {
 
     setWords(prev => prev.filter(w => w.id !== id));
     setTotalCount(prev => prev - 1);
-    setSelectedSet(prev => {
+    setSelectedIds(prev => {
       const next = new Set(prev);
       next.delete(id);
       return next;
@@ -290,14 +293,14 @@ export default function HistoryPage() {
     } finally {
       setDeletingId(null);
     }
-  }, [fetchWords, fetchGroups]);
+  }, [fetchWords, fetchGroups, setSelectedIds]);
 
   const handleClearAll = useCallback(async () => {
     const isGroupView = currentViewGroupId !== "all";
 
     setWords([]);
     setTotalCount(0);
-    setSelectedSet(new Set());
+    setSelectedIds(new Set());
 
     try {
       if (isGroupView) {
@@ -319,12 +322,12 @@ export default function HistoryPage() {
     } finally {
       setIsClearing(false);
     }
-  }, [currentViewGroupId, fetchWords, fetchGroups]);
+  }, [currentViewGroupId, fetchWords, fetchGroups, setSelectedIds]);
 
   const handleBatchDelete = useCallback(async () => {
-    if (selectedSet.size === 0) return;
+    if (selectedCount === 0) return;
     const isGroupView = currentViewGroupId !== "all";
-    const idsToDelete = Array.from(selectedSet);
+    const idsToDelete = Array.from(selectedIds);
 
     const confirmMsg = isGroupView
       ? `确定要从该分组中移除这 ${idsToDelete.length} 个单词吗？`
@@ -332,9 +335,9 @@ export default function HistoryPage() {
 
     if (!confirm(confirmMsg)) return;
 
-    setWords(prev => prev.filter(w => !selectedSet.has(w.id)));
+    setWords(prev => prev.filter(w => !selectedIds.has(w.id)));
     setTotalCount(prev => prev - idsToDelete.length);
-    setSelectedSet(new Set());
+    setSelectedIds(new Set());
     setIsSelectionMode(false);
 
     try {
@@ -363,19 +366,19 @@ export default function HistoryPage() {
       if (process.env.NODE_ENV === 'development') console.error("Batch delete failed", error);
       fetchWords(currentViewGroupId);
     }
-  }, [selectedSet, currentViewGroupId, fetchWords, fetchGroups]);
+  }, [selectedIds, selectedCount, currentViewGroupId, fetchWords, fetchGroups, setSelectedIds, setIsSelectionMode]);
 
   const handleAddToGroup = useCallback(async () => {
-    if (selectedSet.size === 0) return;
+    if (selectedCount === 0) return;
     setIsSavingGroup(true);
-    const selectedWords = Array.from(selectedSet);
+    const selectedWords = Array.from(selectedIds);
 
     try {
       let groupIdToUse = targetGroupId;
 
       if (targetGroupId === 'new') {
         if (!newGroupName.trim()) {
-          alert("请输入生词本名称");
+          toast.error("请输入生词本名称");
           setIsSavingGroup(false);
           return;
         }
@@ -388,7 +391,7 @@ export default function HistoryPage() {
         const createData = await createRes.json();
 
         if (!createData.success) {
-          alert(createData.error);
+          toast.error(createData.error);
           setIsSavingGroup(false);
           return;
         }
@@ -404,21 +407,21 @@ export default function HistoryPage() {
 
       const addData = await addRes.json();
       if (addData.success) {
-        alert(`成功添加 ${addData.addedCount} 个单词到复习分组！`);
+        toast.success(`成功添加 ${addData.addedCount} 个单词到复习分组！`);
         setIsGroupModalOpen(false);
         setIsSelectionMode(false);
-        setSelectedSet(new Set());
+        setSelectedIds(new Set());
         fetchGroups();
       } else {
-        alert(addData.error);
+        toast.error(addData.error);
       }
     } catch (error) {
       if (process.env.NODE_ENV === 'development') console.error("Failed to add to group", error);
-      alert("添加失败，请重试");
+      toast.error("添加失败，请重试");
     } finally {
       setIsSavingGroup(false);
     }
-  }, [selectedSet, targetGroupId, newGroupName, fetchGroups]);
+  }, [selectedIds, selectedCount, targetGroupId, newGroupName, fetchGroups, setSelectedIds, setIsSelectionMode]);
 
   const handleRenameGroup = useCallback(async () => {
     if (!renameValue.trim()) return;
@@ -433,7 +436,7 @@ export default function HistoryPage() {
         setIsRenameModalOpen(false);
         fetchGroups();
       } else {
-        alert(data.error);
+        toast.error(data.error);
       }
     } catch (error) {
       if (process.env.NODE_ENV === 'development') console.error("Rename failed", error);
@@ -509,16 +512,14 @@ export default function HistoryPage() {
   }, [hasMore, isLoadingMore, nextCursor, currentViewGroupId, fetchWords, words.length]);
 
   const isGroupView = currentViewGroupId !== "all";
-  const selectedCount = selectedSet.size;
 
-  // Memoize the itemContent renderer to prevent recreation on every render
   const renderItemContent = useCallback((index: number, item: WordData) => (
     <WordCard
       key={item.id}
       item={item}
       index={index}
       isSelectionMode={isSelectionMode}
-      isSelected={selectedSet.has(item.id)}
+      isSelected={selectedIds.has(item.id)}
       isDeleting={deletingId === item.id}
       isGroupView={isGroupView}
       onToggleSelection={toggleSelection}
@@ -530,7 +531,7 @@ export default function HistoryPage() {
       onSetDeletingId={setDeletingId}
       onDelete={handleDelete}
     />
-  ), [isSelectionMode, selectedSet, deletingId, isGroupView, toggleSelection, handleDragStart, handleDragEnter, handleTouchMove, setDeletingId, handleDelete]);
+  ), [isSelectionMode, selectedIds, deletingId, isGroupView, toggleSelection, handleDragStart, handleDragEnter, handleTouchMove, setDeletingId, handleDelete]);
 
   return (
     <main className="min-h-screen bg-gray-50/50 dark:bg-background p-6 md:p-12 transition-colors duration-300">
@@ -633,9 +634,9 @@ export default function HistoryPage() {
                   variant="outline"
                   onClick={() => {
                     if (selectedCount === words.length) {
-                      setSelectedSet(new Set());
+                      setSelectedIds(new Set());
                     } else {
-                      setSelectedSet(new Set(words.map(w => w.id)));
+                      setSelectedIds(new Set(words.map(w => w.id)));
                     }
                   }}
                   className="px-2 sm:px-4"
@@ -644,10 +645,7 @@ export default function HistoryPage() {
                 </Button>
                 <Button
                   variant="outline"
-                  onClick={() => {
-                    setIsSelectionMode(false);
-                    setSelectedSet(new Set());
-                  }}
+                  onClick={() => clearSelection()}
                   className="px-2 sm:px-4"
                 >
                   取消
