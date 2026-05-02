@@ -2,13 +2,13 @@
 
 ## Environment Variables
 
-| Variable | Security | Notes |
-|----------|----------|-------|
-| `NEXTAUTH_SECRET` | High | JWT signing key, min 32 chars, generate with `openssl rand -base64 32` |
-| `DATABASE_URL` | High | DB connection string with credentials |
-| `LLM_API_KEY` | High | LLM API key (env var or database) |
-| `NEXTAUTH_URL` | Low | Application URL |
-| `NEXT_PUBLIC_APP_URL` | None | Public URL, exposed to client |
+| Variable              | Security | Notes                                                                  |
+| --------------------- | -------- | ---------------------------------------------------------------------- |
+| `NEXTAUTH_SECRET`     | High     | JWT signing key, min 32 chars, generate with `openssl rand -base64 32` |
+| `DATABASE_URL`        | High     | DB connection string with credentials                                  |
+| `LLM_API_KEY`         | High     | LLM API key (env var or database)                                      |
+| `NEXTAUTH_URL`        | Low      | Application URL                                                        |
+| `NEXT_PUBLIC_APP_URL` | None     | Public URL, exposed to client                                          |
 
 ## Secret Storage
 
@@ -29,20 +29,20 @@ import { maskSensitiveValue } from '@/lib/envValidator'
 logger.info({ key: maskSensitiveValue(apiKey) }, 'API configured')
 
 // Wrong — never do this
-const apiKey = "sk-1234567890abcdef"
-console.log("Using API key:", process.env.LLM_API_KEY)
+const apiKey = 'sk-1234567890abcdef'
+console.log('Using API key:', process.env.LLM_API_KEY)
 ```
 
 ## Built-in Security Modules
 
-| Module | Purpose |
-|--------|---------|
-| `lib/csrf.ts` | CSRF token validation on all non-public API routes |
-| `lib/injectionDetector.ts` | Regex-based prompt injection detection |
-| `lib/security.ts` | Input sanitization, LLM special token stripping |
-| `lib/rateLimit.ts` | Sliding-window rate limiting (30 req/min default) |
-| `lib/banManager.ts` | Escalating ban system (warning → 1h → 24h → permanent) |
-| `lib/deviceId.ts` | Browser device fingerprinting for abuse prevention |
+| Module                     | Purpose                                                |
+| -------------------------- | ------------------------------------------------------ |
+| `lib/csrf.ts`              | CSRF token validation on all non-public API routes     |
+| `lib/injectionDetector.ts` | Regex-based prompt injection detection                 |
+| `lib/security.ts`          | Input sanitization, LLM special token stripping        |
+| `lib/rateLimit.ts`         | Sliding-window rate limiting (30 req/min default)      |
+| `lib/banManager.ts`        | Escalating ban system (warning → 1h → 24h → permanent) |
+| `lib/deviceId.ts`          | Browser device fingerprinting for abuse prevention     |
 
 ## Key Rotation
 
@@ -53,6 +53,7 @@ For `LLM_API_KEY` rotation: update in database or env vars, no session impact.
 ## Incident Response
 
 If a secret is exposed:
+
 1. Rotate the compromised secret immediately
 2. Check audit logs for unauthorized access
 3. If committed to Git, use `git filter-branch` or BFG Repo-Cleaner to purge history

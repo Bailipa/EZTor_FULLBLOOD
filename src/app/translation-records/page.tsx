@@ -1,11 +1,11 @@
-'use client';
+'use client'
 
-import { useState } from 'react';
-import { toast } from 'sonner';
-import { Card, CardContent, CardHeader, CardDescription, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Input } from '@/components/ui/input';
+import { useState } from 'react'
+import { toast } from 'sonner'
+import { Card, CardContent, CardHeader, CardDescription, CardTitle } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import { Badge } from '@/components/ui/badge'
+import { Input } from '@/components/ui/input'
 import {
   Languages,
   AlertTriangle,
@@ -15,36 +15,36 @@ import {
   Trash2,
   Clock,
   Database,
-  Zap
-} from 'lucide-react';
-import { useCrudTable } from '@/hooks/useCrudTable';
+  Zap,
+} from 'lucide-react'
+import { useCrudTable } from '@/hooks/useCrudTable'
 
 interface TranslationRecord {
-  id: string;
-  userId: string | null;
-  username: string;
-  word: string;
-  phonetic: string | null;
-  pos: string | null;
-  translation: string;
-  example: string | null;
-  exampleTranslation: string | null;
-  isCached: boolean;
-  responseTime: number | null;
-  ipAddress: string | null;
-  createdAt: string;
+  id: string
+  userId: string | null
+  username: string
+  word: string
+  phonetic: string | null
+  pos: string | null
+  translation: string
+  example: string | null
+  exampleTranslation: string | null
+  isCached: boolean
+  responseTime: number | null
+  ipAddress: string | null
+  createdAt: string
 }
 
 interface TranslationRecordsStats {
-  totalRecords: number;
-  cacheRate: number;
-  cachedCount: number;
-  avgResponseTime: number;
+  totalRecords: number
+  cacheRate: number
+  cachedCount: number
+  avgResponseTime: number
 }
 
 export default function TranslationRecordsPage() {
-  const [selectedRecord, setSelectedRecord] = useState<TranslationRecord | null>(null);
-  const [deleting, setDeleting] = useState(false);
+  const [selectedRecord, setSelectedRecord] = useState<TranslationRecord | null>(null)
+  const [deleting, setDeleting] = useState(false)
 
   const {
     authLoading,
@@ -65,17 +65,21 @@ export default function TranslationRecordsPage() {
     requireAdmin: true,
     pageSize: 20,
     buildUrl: (pageNum, pageSize, query) => {
-      let url = `/api/translation-records?page=${pageNum}&limit=${pageSize}`;
-      if (query) url += `&word=${encodeURIComponent(query)}`;
-      return url;
+      let url = `/api/translation-records?page=${pageNum}&limit=${pageSize}`
+      if (query) url += `&word=${encodeURIComponent(query)}`
+      return url
     },
     parseResponse: (json) => {
-      const d = json.data as { records: TranslationRecord[]; pagination: { page: number; limit: number; total: number; totalPages: number }; stats: unknown };
-      return { data: d.records, pagination: d.pagination, extra: d.stats };
+      const d = json.data as {
+        records: TranslationRecord[]
+        pagination: { page: number; limit: number; total: number; totalPages: number }
+        stats: unknown
+      }
+      return { data: d.records, pagination: d.pagination, extra: d.stats }
     },
-  });
+  })
 
-  const stats = extra as TranslationRecordsStats;
+  const stats = extra as TranslationRecordsStats
 
   if (authLoading) {
     return (
@@ -85,7 +89,7 @@ export default function TranslationRecordsPage() {
           <p className="text-muted-foreground">验证权限中...</p>
         </div>
       </div>
-    );
+    )
   }
 
   if (!isAdmin) {
@@ -100,54 +104,58 @@ export default function TranslationRecordsPage() {
                 ? '请先登录后再访问此页面。'
                 : '您没有管理员权限，无法访问此页面。'}
             </p>
-            <Button onClick={() => window.location.href = status === 'unauthenticated' ? '/auth/signin' : '/'}>
+            <Button
+              onClick={() =>
+                (window.location.href = status === 'unauthenticated' ? '/auth/signin' : '/')
+              }
+            >
               {status === 'unauthenticated' ? '前往登录' : '返回首页'}
             </Button>
           </CardContent>
         </Card>
       </div>
-    );
+    )
   }
 
   const handleClearOldRecords = async (days: number) => {
-    if (!confirm(`确定要删除 ${days} 天前的所有记录吗？此操作不可恢复。`)) return;
+    if (!confirm(`确定要删除 ${days} 天前的所有记录吗？此操作不可恢复。`)) return
 
-    setDeleting(true);
+    setDeleting(true)
     try {
       const res = await fetch(`/api/translation-records?olderThanDays=${days}`, {
-        method: 'DELETE'
-      });
-      const json = await res.json();
+        method: 'DELETE',
+      })
+      const json = await res.json()
       if (json.success) {
-        toast.success(json.message);
+        toast.success(json.message)
       } else {
-        toast.error(json.error || '删除失败');
+        toast.error(json.error || '删除失败')
       }
     } catch (_e) {
-      toast.error('删除失败');
+      toast.error('删除失败')
     } finally {
-      setDeleting(false);
+      setDeleting(false)
     }
-  };
+  }
 
   const formatTime = (isoString: string) => {
-    const date = new Date(isoString);
+    const date = new Date(isoString)
     return date.toLocaleString('zh-CN', {
       year: 'numeric',
       month: '2-digit',
       day: '2-digit',
       hour: '2-digit',
       minute: '2-digit',
-      second: '2-digit'
-    });
-  };
+      second: '2-digit',
+    })
+  }
 
   if (loading && !records) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
       </div>
-    );
+    )
   }
 
   if (error && !records) {
@@ -163,10 +171,10 @@ export default function TranslationRecordsPage() {
           </CardContent>
         </Card>
       </div>
-    );
+    )
   }
 
-  if (!records) return null;
+  if (!records) return null
 
   return (
     <div className="min-h-screen bg-gray-50/50 dark:bg-background p-6 md:p-12">
@@ -197,9 +205,7 @@ export default function TranslationRecordsPage() {
                   <span className="text-sm text-muted-foreground">缓存命中率</span>
                 </div>
                 <p className="text-3xl font-bold mt-2">{stats.cacheRate}%</p>
-                <p className="text-xs text-muted-foreground mt-1">
-                  {stats.cachedCount} 次缓存命中
-                </p>
+                <p className="text-xs text-muted-foreground mt-1">{stats.cachedCount} 次缓存命中</p>
               </CardContent>
             </Card>
 
@@ -222,9 +228,7 @@ export default function TranslationRecordsPage() {
                 <p className="text-3xl font-bold mt-2">
                   {pagination.page}/{pagination.totalPages}
                 </p>
-                <p className="text-xs text-muted-foreground mt-1">
-                  共 {pagination.total} 条
-                </p>
+                <p className="text-xs text-muted-foreground mt-1">共 {pagination.total} 条</p>
               </CardContent>
             </Card>
           </div>
@@ -295,7 +299,11 @@ export default function TranslationRecordsPage() {
                             <p className="truncate">{record.translation}</p>
                           </td>
                           <td className="py-2 px-2">
-                            <span className={record.username === '游客' ? 'text-muted-foreground' : 'font-medium'}>
+                            <span
+                              className={
+                                record.username === '游客' ? 'text-muted-foreground' : 'font-medium'
+                              }
+                            >
                               {record.username}
                             </span>
                           </td>
@@ -309,8 +317,8 @@ export default function TranslationRecordsPage() {
                               variant="ghost"
                               size="sm"
                               onClick={(e) => {
-                                e.stopPropagation();
-                                setSelectedRecord(record);
+                                e.stopPropagation()
+                                setSelectedRecord(record)
                               }}
                             >
                               详情
@@ -376,11 +384,7 @@ export default function TranslationRecordsPage() {
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <CardTitle>翻译详情</CardTitle>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => setSelectedRecord(null)}
-                  >
+                  <Button variant="ghost" size="sm" onClick={() => setSelectedRecord(null)}>
                     ✕
                   </Button>
                 </div>
@@ -445,5 +449,5 @@ export default function TranslationRecordsPage() {
         )}
       </div>
     </div>
-  );
+  )
 }

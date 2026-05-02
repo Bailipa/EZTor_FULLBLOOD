@@ -23,10 +23,12 @@ export async function fetchInsecure(url: string, init: RequestInit): Promise<Res
       res.on('data', (chunk: Buffer) => chunks.push(chunk))
       res.on('end', () => {
         const body = Buffer.concat(chunks).toString()
-        resolve(new Response(body, {
-          status: res.statusCode,
-          statusText: res.statusMessage,
-        }))
+        resolve(
+          new Response(body, {
+            status: res.statusCode,
+            statusText: res.statusMessage,
+          }),
+        )
       })
     })
 

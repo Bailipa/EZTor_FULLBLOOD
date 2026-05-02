@@ -6,22 +6,26 @@ import { validateTranslateInput } from '@/lib/security'
 import { rateLimit, getClientKey } from '@/lib/rateLimit'
 import { detectPromptInjection } from '@/lib/injectionDetector'
 import { checkUserBan, checkIpBan } from '@/lib/banManager'
-import { DEFAULT_TRANSLATE_ONLY_PROMPT, OPTIMIZATION_PROMPT, COMBINED_OPTIMIZE_TRANSLATE_PROMPT } from '@/lib/translatePrompts'
+import {
+  DEFAULT_TRANSLATE_ONLY_PROMPT,
+  OPTIMIZATION_PROMPT,
+  COMBINED_OPTIMIZE_TRANSLATE_PROMPT,
+} from '@/lib/translatePrompts'
 import { API_QUOTA_EXHAUSTED_MESSAGE, getProviderCandidates, withLlmFailover } from '@/lib/llmPool'
 import { checkAndEnforceLimit, incrementUsage, DAILY_LIMIT } from '@/lib/translateOnlyUsage'
 import { logger } from '@/lib/logger'
 import { fetchInsecure } from '@/lib/fetchInsecure'
 
 function getClientIp(req: Request): string {
-  return req.headers.get('x-forwarded-for')?.split(',')[0] ||
-         req.headers.get('x-real-ip') ||
-         'unknown';
+  return (
+    req.headers.get('x-forwarded-for')?.split(',')[0] || req.headers.get('x-real-ip') || 'unknown'
+  )
 }
 
 async function directLlmCall(
   config: { baseUrl: string; apiKey: string; model: string },
   systemPrompt: string,
-  userMessage: string
+  userMessage: string,
 ): Promise<string> {
   const normalizedUrl = config.baseUrl.replace(/\/+$/, '')
   const chatUrl = `${normalizedUrl}/chat/completions`
@@ -30,7 +34,7 @@ async function directLlmCall(
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${config.apiKey}`,
+      Authorization: `Bearer ${config.apiKey}`,
     },
     body: JSON.stringify({
       model: config.model,
@@ -50,7 +54,7 @@ async function directLlmCall(
       const errJson = JSON.parse(errorText)
       errorMessage = errJson?.error?.message || errJson?.error?.code || errorMessage
     } catch (error) {
-      logger.error({ err: error }, 'Failed to parse error response from custom API');
+      logger.error({ err: error }, 'Failed to parse error response from custom API')
     }
     throw new Error(errorMessage)
   }
@@ -61,10 +65,7 @@ async function directLlmCall(
   return content
 }
 
-async function systemPoolCompletion(
-  systemPrompt: string,
-  userMessage: string
-): Promise<string> {
+async function systemPoolCompletion(systemPrompt: string, userMessage: string): Promise<string> {
   const apiConfig = await prisma.apiConfig.findUnique({ where: { id: 'global' } })
 
   const legacyApiKey = apiConfig?.apiKey || process.env.LLM_API_KEY
@@ -92,7 +93,7 @@ async function systemPoolCompletion(
           { role: 'user', content: userMessage },
         ],
       }),
-    1
+    1,
   )
 
   const content = completion.choices?.[0]?.message?.content?.trim() || ''
@@ -115,16 +116,13 @@ export async function POST(req: Request) {
     if (userBanStatus.isBanned) {
       return NextResponse.json(
         { success: false, error: userBanStatus.reason || 'Account banned' },
-        { status: 403 }
+        { status: 403 },
       )
     }
 
     const ipBanStatus = await checkIpBan(clientIp)
     if (ipBanStatus.isBanned) {
-      return NextResponse.json(
-        { success: false, error: 'Access denied' },
-        { status: 403 }
-      )
+      return NextResponse.json({ success: false, error: 'Access denied' }, { status: 403 })
     }
 
     const rateLimitKey = getClientKey(req, userId)
@@ -132,7 +130,7 @@ export async function POST(req: Request) {
     if (!rateLimitResult.success) {
       return NextResponse.json(
         { success: false, error: 'Too many requests. Please try again later.' },
-        { status: 429, headers: { 'Retry-After': '60' } }
+        { status: 429, headers: { 'Retry-After': '60' } },
       )
     }
 
@@ -147,13 +145,18 @@ export async function POST(req: Request) {
 
     const validation = validateTranslateInput(rawInput)
     if (!validation.valid) {
-      return NextResponse.json({ success: false, error: validation.reason || 'Invalid input' }, { status: 400 })
+      return NextResponse.json(
+        { success: false, error: validation.reason || 'Invalid input' },
+        { status: 400 },
+      )
     }
 
     let input = validation.sanitized || rawInput
     detectPromptInjection(input)
 
-    const translateSystemPrompt = (await prisma.apiConfig.findUnique({ where: { id: 'global' } }))?.systemPrompt || DEFAULT_TRANSLATE_ONLY_PROMPT
+    const translateSystemPrompt =
+      (await prisma.apiConfig.findUnique({ where: { id: 'global' } }))?.systemPrompt ||
+      DEFAULT_TRANSLATE_ONLY_PROMPT
 
     const customKey = await prisma.customApiKey.findUnique({ where: { userId } })
     if (customKey) {
@@ -176,8 +179,13 @@ export async function POST(req: Request) {
     const limitCheck = await checkAndEnforceLimit(userId, isAdmin, deviceId)
     if (!limitCheck.allowed) {
       return NextResponse.json(
-        { success: false, error: 'DAILY_LIMIT_EXCEEDED', message: '每日免费翻译次数已用完', limit: DAILY_LIMIT },
-        { status: 429 }
+        {
+          success: false,
+          error: 'DAILY_LIMIT_EXCEEDED',
+          message: '每日免费翻译次数已用完',
+          limit: DAILY_LIMIT,
+        },
+        { status: 429 },
       )
     }
 
@@ -201,11 +209,17 @@ export async function POST(req: Request) {
       usage: { used: updatedUsage.used, limit: DAILY_LIMIT, remaining: updatedUsage.remaining },
     })
   } catch (err: unknown) {
-    const message = err instanceof Error ? err.message : String(err);
-    logger.error({ err }, 'Translate-only failed');
+    const message = err instanceof Error ? err.message : String(err)
+    logger.error({ err }, 'Translate-only failed')
     if (String(message) === API_QUOTA_EXHAUSTED_MESSAGE) {
-      return NextResponse.json({ success: false, error: API_QUOTA_EXHAUSTED_MESSAGE }, { status: 503 });
+      return NextResponse.json(
+        { success: false, error: API_QUOTA_EXHAUSTED_MESSAGE },
+        { status: 503 },
+      )
     }
-    return NextResponse.json({ success: false, error: 'Translation service failed' }, { status: 500 });
+    return NextResponse.json(
+      { success: false, error: 'Translation service failed' },
+      { status: 500 },
+    )
   }
 }

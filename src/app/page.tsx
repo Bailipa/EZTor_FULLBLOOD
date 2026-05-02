@@ -1,17 +1,18 @@
-import type { Metadata } from 'next';
-import { Suspense } from 'react';
-import HomeContent from '@/components/home/HomeContent';
+import type { Metadata } from 'next'
+import { Suspense } from 'react'
+import HomeContent from '@/components/home/HomeContent'
 
 export const metadata: Metadata = {
   title: 'EZTor - 智能英语翻译与词汇记忆工具',
-  description: 'EZTor 是一款简洁强大的英语翻译与词汇记忆工具，支持 AI 批量翻译、生词本管理、默写复习等功能，助你高效记忆英语单词。',
+  description:
+    'EZTor 是一款简洁强大的英语翻译与词汇记忆工具，支持 AI 批量翻译、生词本管理、默写复习等功能，助你高效记忆英语单词。',
   keywords: ['英语翻译', '词汇记忆', '单词本', 'AI翻译', '英语学习', 'EZTor'],
   openGraph: {
     title: 'EZTor - 智能英语翻译与词汇记忆工具',
     description: '支持 AI 批量翻译、生词本管理、默写复习，助你高效记忆英语单词。',
     type: 'website',
   },
-};
+}
 
 function HomeSkeleton() {
   return (
@@ -50,7 +51,7 @@ function HomeSkeleton() {
         </div>
       </main>
     </div>
-  );
+  )
 }
 
 export default function Home() {
@@ -58,5 +59,5 @@ export default function Home() {
     <Suspense fallback={<HomeSkeleton />}>
       <HomeContent />
     </Suspense>
-  );
+  )
 }

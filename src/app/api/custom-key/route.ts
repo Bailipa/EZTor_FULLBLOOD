@@ -16,7 +16,9 @@ export async function GET() {
 
   return NextResponse.json({
     success: true,
-    data: record ? { configured: true, model: record.model, baseUrl: record.baseUrl } : { configured: false },
+    data: record
+      ? { configured: true, model: record.model, baseUrl: record.baseUrl }
+      : { configured: false },
   })
 }
 
@@ -30,7 +32,10 @@ export async function POST(req: Request) {
   const { baseUrl, apiKey, model } = body || {}
 
   if (!baseUrl || !apiKey || !model) {
-    return NextResponse.json({ success: false, error: 'Base URL, API Key, and Model are required' }, { status: 400 })
+    return NextResponse.json(
+      { success: false, error: 'Base URL, API Key, and Model are required' },
+      { status: 400 },
+    )
   }
 
   await prisma.customApiKey.upsert({

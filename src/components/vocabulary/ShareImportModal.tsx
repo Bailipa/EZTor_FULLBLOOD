@@ -1,6 +1,6 @@
-"use client";
+'use client'
 
-import React, { useState, useEffect, useCallback, useRef } from "react";
+import React, { useState, useEffect, useCallback, useRef } from 'react'
 import {
   Dialog,
   DialogContent,
@@ -8,156 +8,148 @@ import {
   DialogTitle,
   DialogDescription,
   DialogFooter,
-} from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+} from '@/components/ui/dialog'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { CheckIcon, Loader2 } from "lucide-react";
-import { ProgressBar, useProgress } from "@/components/ui/progress-bar";
-import { cn } from "@/lib/utils";
+} from '@/components/ui/select'
+import { Card, CardContent } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
+import { CheckIcon, Loader2 } from 'lucide-react'
+import { ProgressBar, useProgress } from '@/components/ui/progress-bar'
+import { cn } from '@/lib/utils'
 
 interface ReviewGroup {
-  id: string;
-  name: string;
+  id: string
+  name: string
   _count?: {
-    ReviewGroupWord: number;
-  };
+    ReviewGroupWord: number
+  }
 }
 
 interface DefaultVocabulary {
-  id: string;
-  name: string;
-  description: string | null;
-  code: string;
-  wordCount: number;
-  sortOrder: number;
-  groupName?: string;
+  id: string
+  name: string
+  description: string | null
+  code: string
+  wordCount: number
+  sortOrder: number
+  groupName?: string
 }
 
 interface Word {
-  id: string;
-  word: string;
-  phonetic: string | null;
-  pos: string | null;
-  translation: string;
-  example: string | null;
-  exampleTranslation: string | null;
-  correctCount: number;
-  incorrectCount: number;
-  createdAt: string;
-  updatedAt: string;
-  userId: string;
+  id: string
+  word: string
+  phonetic: string | null
+  pos: string | null
+  translation: string
+  example: string | null
+  exampleTranslation: string | null
+  correctCount: number
+  incorrectCount: number
+  createdAt: string
+  updatedAt: string
+  userId: string
 }
 
 interface ShareImportModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  onSuccess: (data?: {
-    groupId: string;
-    groupName: string;
-    newWords: Word[];
-  }) => void;
+  isOpen: boolean
+  onClose: () => void
+  onSuccess: (data?: { groupId: string; groupName: string; newWords: Word[] }) => void
 }
 
 interface ValidationState {
-  isValidating: boolean;
-  isValid: boolean | null;
-  error: string | null;
+  isValidating: boolean
+  isValid: boolean | null
+  error: string | null
   data: {
-    code?: string;
-    name?: string;
-    description?: string | null;
-    wordCount?: number;
-    shareType?: string;
-    expiresAt?: string | null;
-    maxUses?: number | null;
-    usedCount?: number;
-    creator?: string;
-  } | null;
+    code?: string
+    name?: string
+    description?: string | null
+    wordCount?: number
+    shareType?: string
+    expiresAt?: string | null
+    maxUses?: number | null
+    usedCount?: number
+    creator?: string
+  } | null
 }
 
 interface DefaultVocabularyState {
-  isLoading: boolean;
-  data: DefaultVocabulary[];
-  error: string | null;
+  isLoading: boolean
+  data: DefaultVocabulary[]
+  error: string | null
 }
 
-export function ShareImportModal({
-  isOpen,
-  onClose,
-  onSuccess,
-}: ShareImportModalProps) {
-  const [shareCode, setShareCode] = useState("");
-  const [customName, setCustomName] = useState("");
-  const [targetGroupId, setTargetGroupId] = useState<string>("");
-  const [createNewGroup, setCreateNewGroup] = useState(true);
-  const [reviewGroups, setReviewGroups] = useState<ReviewGroup[]>([]);
-  const [isLoadingGroups, setIsLoadingGroups] = useState(false);
+export function ShareImportModal({ isOpen, onClose, onSuccess }: ShareImportModalProps) {
+  const [shareCode, setShareCode] = useState('')
+  const [customName, setCustomName] = useState('')
+  const [targetGroupId, setTargetGroupId] = useState<string>('')
+  const [createNewGroup, setCreateNewGroup] = useState(true)
+  const [reviewGroups, setReviewGroups] = useState<ReviewGroup[]>([])
+  const [isLoadingGroups, setIsLoadingGroups] = useState(false)
   const [validation, setValidation] = useState<ValidationState>({
     isValidating: false,
     isValid: null,
     error: null,
     data: null,
-  });
-  const [isImporting, setIsImporting] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [_importProgress, setImportProgress] = useState(0);
-  const [importStep, setImportStep] = useState("");
+  })
+  const [isImporting, setIsImporting] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  const [_importProgress, setImportProgress] = useState(0)
+  const [importStep, setImportStep] = useState('')
   const [defaultVocabularies, setDefaultVocabularies] = useState<DefaultVocabularyState>({
     isLoading: true,
     data: [],
     error: null,
-  });
-  
-  const isImportingRef = useRef(false);
+  })
+
+  const isImportingRef = useRef(false)
 
   const importProgressController = useProgress({
     autoStart: false,
-  });
+  })
 
   // 获取默认词库列表
   useEffect(() => {
     if (isOpen) {
       const fetchDefaultVocabularies = async () => {
         try {
-          setDefaultVocabularies((prev) => ({ ...prev, isLoading: true, error: null }));
-          const response = await fetch("/api/share/defaults");
-          const result = await response.json();
+          setDefaultVocabularies((prev) => ({ ...prev, isLoading: true, error: null }))
+          const response = await fetch('/api/share/defaults')
+          const result = await response.json()
 
           if (result.success && Array.isArray(result.data)) {
             setDefaultVocabularies({
               isLoading: false,
               data: result.data,
               error: null,
-            });
+            })
           } else {
             setDefaultVocabularies({
               isLoading: false,
               data: [],
-              error: result.error || "加载失败",
-            });
+              error: result.error || '加载失败',
+            })
           }
         } catch (_err) {
           setDefaultVocabularies({
             isLoading: false,
             data: [],
-            error: "网络错误",
-          });
+            error: '网络错误',
+          })
         }
-      };
+      }
 
-      fetchDefaultVocabularies();
+      fetchDefaultVocabularies()
     }
-  }, [isOpen]);
+  }, [isOpen])
 
   const validateShareCode = useCallback(async (code: string) => {
     if (!code || code.length < 11) {
@@ -166,19 +158,19 @@ export function ShareImportModal({
         isValid: null,
         error: null,
         data: null,
-      });
-      return;
+      })
+      return
     }
 
     setValidation((prev) => ({
       ...prev,
       isValidating: true,
       error: null,
-    }));
+    }))
 
     try {
-      const response = await fetch(`/api/share/validate/${code}`);
-      const data = await response.json();
+      const response = await fetch(`/api/share/validate/${code}`)
+      const data = await response.json()
 
       if (data.valid) {
         setValidation({
@@ -186,115 +178,115 @@ export function ShareImportModal({
           isValid: true,
           error: null,
           data: data.data,
-        });
-      } else if (data.error === '请先登录' || data.success === false && data.error === '未登录') {
+        })
+      } else if (data.error === '请先登录' || (data.success === false && data.error === '未登录')) {
         // 401 error - user not logged in, show login prompt
         setValidation({
           isValidating: false,
           isValid: null,
-          error: "请先登录后再验证密钥",
+          error: '请先登录后再验证密钥',
           data: null,
-        });
+        })
       } else {
         setValidation({
           isValidating: false,
           isValid: false,
-          error: data.message || "密钥无效",
+          error: data.message || '密钥无效',
           data: null,
-        });
+        })
       }
     } catch (_err) {
       setValidation({
         isValidating: false,
         isValid: false,
-        error: "验证失败，请稍后重试",
+        error: '验证失败，请稍后重试',
         data: null,
-      });
+      })
     }
-  }, []);
+  }, [])
 
   useEffect(() => {
     const handler = setTimeout(() => {
       if (shareCode) {
-        validateShareCode(shareCode);
+        validateShareCode(shareCode)
       }
-    }, 500);
+    }, 500)
 
-    return () => clearTimeout(handler);
-  }, [shareCode, validateShareCode]);
+    return () => clearTimeout(handler)
+  }, [shareCode, validateShareCode])
 
   useEffect(() => {
     if (isOpen && !createNewGroup) {
-      setIsLoadingGroups(true);
-      fetch("/api/review-groups")
+      setIsLoadingGroups(true)
+      fetch('/api/review-groups')
         .then((res) => res.json())
         .then((data) => {
           if (data.success) {
-            setReviewGroups(data.data || []);
+            setReviewGroups(data.data || [])
           }
-          setIsLoadingGroups(false);
+          setIsLoadingGroups(false)
         })
         .catch(() => {
-          setIsLoadingGroups(false);
-        });
+          setIsLoadingGroups(false)
+        })
     }
-  }, [isOpen, createNewGroup]);
+  }, [isOpen, createNewGroup])
 
   useEffect(() => {
     if (!isOpen) {
-      setShareCode("");
-      setCustomName("");
-      setTargetGroupId("");
-      setCreateNewGroup(true);
+      setShareCode('')
+      setCustomName('')
+      setTargetGroupId('')
+      setCreateNewGroup(true)
       setValidation({
         isValidating: false,
         isValid: null,
         error: null,
         data: null,
-      });
-      setError(null);
+      })
+      setError(null)
     }
-  }, [isOpen]);
+  }, [isOpen])
 
   const handleSelectDefaultVocabulary = (vocab: DefaultVocabulary) => {
-    setShareCode(vocab.code);
-    setCustomName(vocab.name);
-    validateShareCode(vocab.code);
-  };
+    setShareCode(vocab.code)
+    setCustomName(vocab.name)
+    validateShareCode(vocab.code)
+  }
 
   const handleImport = async () => {
-    setError(null);
-    setImportProgress(0);
-    setImportStep("");
+    setError(null)
+    setImportProgress(0)
+    setImportStep('')
 
     if (!shareCode) {
-      setError("请输入分享密钥");
-      return;
+      setError('请输入分享密钥')
+      return
     }
 
-    if (!customName || customName.trim() === "") {
-      setError("请输入自定义名称");
-      return;
+    if (!customName || customName.trim() === '') {
+      setError('请输入自定义名称')
+      return
     }
 
     if (!createNewGroup && !targetGroupId) {
-      setError("请选择目标分组");
-      return;
+      setError('请选择目标分组')
+      return
     }
 
     if (validation.isValid === false) {
-      setError(validation.error || "密钥验证失败");
-      return;
+      setError(validation.error || '密钥验证失败')
+      return
     }
 
-    isImportingRef.current = true;
-    setIsImporting(true);
-    importProgressController.start();
+    isImportingRef.current = true
+    setIsImporting(true)
+    importProgressController.start()
 
     try {
-      const response = await fetch("/api/share/import", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+      const response = await fetch('/api/share/import', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           code: shareCode,
           customName: customName.trim(),
@@ -302,52 +294,52 @@ export function ShareImportModal({
           createNewGroup,
           skipExisting: true,
         }),
-      });
+      })
 
       if (!response.ok) {
         if (response.status === 401) {
-          const errorData = await response.json();
-          throw new Error(errorData.error || "请先登录");
+          const errorData = await response.json()
+          throw new Error(errorData.error || '请先登录')
         }
-        throw new Error(`HTTP error! status: ${response.status}`);
+        throw new Error(`HTTP error! status: ${response.status}`)
       }
 
-      const reader = response.body?.getReader();
+      const reader = response.body?.getReader()
       if (!reader) {
-        throw new Error("无法读取响应");
+        throw new Error('无法读取响应')
       }
 
-      const decoder = new TextDecoder();
-      let buffer = "";
-      let _lastProgressData: unknown = null;
-      let finalResult: Record<string, unknown> | null = null;
+      const decoder = new TextDecoder()
+      let buffer = ''
+      let _lastProgressData: unknown = null
+      let finalResult: Record<string, unknown> | null = null
 
       while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        
-        buffer += decoder.decode(value, { stream: true });
-        
-        const lines = buffer.split('\n');
-        buffer = lines.pop() || "";
-        
+        const { done, value } = await reader.read()
+        if (done) break
+
+        buffer += decoder.decode(value, { stream: true })
+
+        const lines = buffer.split('\n')
+        buffer = lines.pop() || ''
+
         for (const line of lines) {
-          const trimmed = line.trim();
-          if (!trimmed) continue;
-          
+          const trimmed = line.trim()
+          if (!trimmed) continue
+
           try {
-            const parsed = JSON.parse(trimmed);
-            
+            const parsed = JSON.parse(trimmed)
+
             if (parsed.progress !== undefined) {
-              setImportProgress(parsed.progress);
-              importProgressController.setProgress(parsed.progress);
-              _lastProgressData = parsed;
+              setImportProgress(parsed.progress)
+              importProgressController.setProgress(parsed.progress)
+              _lastProgressData = parsed
             }
             if (parsed.step) {
-              setImportStep(parsed.step);
+              setImportStep(parsed.step)
             }
             if (parsed.success !== undefined) {
-              finalResult = parsed;
+              finalResult = parsed
             }
           } catch (_e) {
             // Skip non-JSON lines
@@ -357,16 +349,16 @@ export function ShareImportModal({
 
       if (buffer.trim()) {
         try {
-          const parsed = JSON.parse(buffer.trim());
+          const parsed = JSON.parse(buffer.trim())
           if (parsed.progress !== undefined) {
-            setImportProgress(parsed.progress);
-            importProgressController.setProgress(parsed.progress);
+            setImportProgress(parsed.progress)
+            importProgressController.setProgress(parsed.progress)
           }
           if (parsed.step) {
-            setImportStep(parsed.step);
+            setImportStep(parsed.step)
           }
           if (parsed.success !== undefined) {
-            finalResult = parsed;
+            finalResult = parsed
           }
         } catch (_e) {
           // Ignore parse errors on remaining buffer
@@ -375,81 +367,82 @@ export function ShareImportModal({
 
       if (finalResult) {
         if (finalResult.success) {
-          importProgressController.complete();
-          const fd = finalResult.data as { groupId: string; groupName: string; newWords: Word[] };
+          importProgressController.complete()
+          const fd = finalResult.data as { groupId: string; groupName: string; newWords: Word[] }
           onSuccess({
             groupId: fd.groupId,
             groupName: fd.groupName,
-            newWords: fd.newWords || []
-          });
-          onClose();
+            newWords: fd.newWords || [],
+          })
+          onClose()
         } else {
-          let errorMessage = '';
-          
+          let errorMessage = ''
+
           if (finalResult.step) {
-            errorMessage = `【${finalResult.step}】`;
+            errorMessage = `【${finalResult.step}】`
           }
-          
+
           if (finalResult.message) {
-            errorMessage += finalResult.message;
+            errorMessage += finalResult.message
           } else {
-            errorMessage += '导入失败';
+            errorMessage += '导入失败'
           }
-          
+
           if (finalResult.suggestion) {
-            errorMessage += `\n\n💡 建议：${finalResult.suggestion}`;
+            errorMessage += `\n\n💡 建议：${finalResult.suggestion}`
           }
-          
+
           if (finalResult.details && process.env.NODE_ENV === 'development') {
-            errorMessage += `\n\n技术细节：${finalResult.details}`;
+            errorMessage += `\n\n技术细节：${finalResult.details}`
           }
-          
+
           if (finalResult.error) {
-            errorMessage += `\n错误代码：${finalResult.error}`;
+            errorMessage += `\n错误代码：${finalResult.error}`
           }
-          
-          importProgressController.error();
-          setError(errorMessage);
+
+          importProgressController.error()
+          setError(errorMessage)
         }
       } else {
-        importProgressController.error();
-        setError("导入完成但未收到有效响应，请检查词库是否已导入");
+        importProgressController.error()
+        setError('导入完成但未收到有效响应，请检查词库是否已导入')
       }
     } catch (err: unknown) {
-      importProgressController.error();
-      const message = err instanceof Error ? err.message : String(err);
-      let errorMessage = '网络错误';
-      
+      importProgressController.error()
+      const message = err instanceof Error ? err.message : String(err)
+      let errorMessage = '网络错误'
+
       if (message) {
         if (message === '请先登录' || message === '未登录') {
-          errorMessage = '请先登录后再导入词库\n\n💡 建议：点击右上角的登录按钮进行登录';
+          errorMessage = '请先登录后再导入词库\n\n💡 建议：点击右上角的登录按钮进行登录'
         } else if (message.includes('Failed to fetch')) {
-          errorMessage = '网络连接失败：无法连接到服务器\n\n💡 建议：请检查网络连接或刷新页面后重试';
+          errorMessage = '网络连接失败：无法连接到服务器\n\n💡 建议：请检查网络连接或刷新页面后重试'
         } else if (message.includes('timeout')) {
-          errorMessage = '请求超时：导入操作响应时间过长\n\n💡 建议：词汇数量较多时请耐心等待，或尝试分批导入';
+          errorMessage =
+            '请求超时：导入操作响应时间过长\n\n💡 建议：词汇数量较多时请耐心等待，或尝试分批导入'
         } else {
-          errorMessage = `网络错误：${message}\n\n💡 建议：请检查网络连接后重试`;
+          errorMessage = `网络错误：${message}\n\n💡 建议：请检查网络连接后重试`
         }
       }
-      
-      setError(errorMessage);
+
+      setError(errorMessage)
     } finally {
-      isImportingRef.current = false;
-      setIsImporting(false);
+      isImportingRef.current = false
+      setIsImporting(false)
     }
-  };
+  }
 
   const formatShareCode = (value: string) => {
-    const cleaned = value.replace(/[^a-zA-Z0-9-]/g, "").toUpperCase();
-    const parts = cleaned.split("-");
-    const formattedParts = parts.map((part) => part.slice(0, 3));
-    return formattedParts.join("-").slice(0, 11);
-  };
+    const cleaned = value.replace(/[^a-zA-Z0-9-]/g, '').toUpperCase()
+    const parts = cleaned.split('-')
+    const formattedParts = parts.map((part) => part.slice(0, 3))
+    return formattedParts.join('-').slice(0, 11)
+  }
 
   const handleShareCodeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const formatted = formatShareCode(e.target.value);
-    setShareCode(formatted);
-  };
+    const formatted = formatShareCode(e.target.value)
+    setShareCode(formatted)
+  }
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
@@ -465,7 +458,19 @@ export function ShareImportModal({
           {error && (
             <div className="p-2 sm:p-3 text-xs sm:text-sm text-destructive bg-destructive/10 rounded-lg border border-destructive/20 space-y-1">
               <div className="flex items-start gap-2">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-alert-circle shrink-0 mt-0.5" aria-hidden="true">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="lucide lucide-alert-circle shrink-0 mt-0.5"
+                  aria-hidden="true"
+                >
                   <circle cx="12" cy="12" r="10"></circle>
                   <line x1="12" x2="12" y1="8" y2="12"></line>
                   <line x1="12" x2="12.01" y1="16" y2="16"></line>
@@ -487,7 +492,7 @@ export function ShareImportModal({
                 value={importProgressController.progress}
                 status={importProgressController.status}
                 label="导入进度"
-                subLabel={importStep || "准备导入..."}
+                subLabel={importStep || '准备导入...'}
                 showPercentage
                 showIcon
                 size="md"
@@ -517,13 +522,17 @@ export function ShareImportModal({
               ) : defaultVocabularies.error ? (
                 <Card className="border-destructive/50 bg-destructive/5">
                   <CardContent className="p-2 sm:p-3">
-                    <p className="text-xs sm:text-sm text-destructive">{defaultVocabularies.error}</p>
+                    <p className="text-xs sm:text-sm text-destructive">
+                      {defaultVocabularies.error}
+                    </p>
                   </CardContent>
                 </Card>
               ) : defaultVocabularies.data.length === 0 ? (
                 <Card>
                   <CardContent className="p-2 sm:p-3">
-                    <p className="text-xs sm:text-sm text-muted-foreground text-center">暂无默认词库</p>
+                    <p className="text-xs sm:text-sm text-muted-foreground text-center">
+                      暂无默认词库
+                    </p>
                   </CardContent>
                 </Card>
               ) : (
@@ -532,8 +541,8 @@ export function ShareImportModal({
                     <Card
                       key={vocab.id}
                       className={cn(
-                        "cursor-pointer transition-all hover:bg-muted/50",
-                        shareCode === vocab.code && "bg-muted border-primary"
+                        'cursor-pointer transition-all hover:bg-muted/50',
+                        shareCode === vocab.code && 'bg-muted border-primary',
                       )}
                       onClick={() => handleSelectDefaultVocabulary(vocab)}
                     >
@@ -541,7 +550,9 @@ export function ShareImportModal({
                         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 sm:gap-0">
                           <div className="flex-1 min-w-0">
                             <div className="flex flex-col sm:flex-row sm:items-center sm:gap-2 gap-1">
-                              <span className="font-medium text-sm sm:text-base truncate">{vocab.name}</span>
+                              <span className="font-medium text-sm sm:text-base truncate">
+                                {vocab.name}
+                              </span>
                               <Badge variant="secondary" className="w-fit text-xs">
                                 {vocab.wordCount} 词
                               </Badge>
@@ -566,15 +577,15 @@ export function ShareImportModal({
                 <span className="w-full border-t" />
               </div>
               <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-background px-2 text-muted-foreground">
-                  或输入分享密钥
-                </span>
+                <span className="bg-background px-2 text-muted-foreground">或输入分享密钥</span>
               </div>
             </div>
 
             <div className="space-y-3 sm:space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="shareCode" className="text-xs sm:text-sm">分享密钥</Label>
+                <Label htmlFor="shareCode" className="text-xs sm:text-sm">
+                  分享密钥
+                </Label>
                 <Input
                   id="shareCode"
                   placeholder="ABC-123-XYZ"
@@ -597,14 +608,14 @@ export function ShareImportModal({
                   </div>
                 )}
                 {validation.isValid === false && validation.error && (
-                  <div className="text-xs text-destructive break-words">
-                    {validation.error}
-                  </div>
+                  <div className="text-xs text-destructive break-words">{validation.error}</div>
                 )}
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="customName" className="text-xs sm:text-sm">词库名称</Label>
+                <Label htmlFor="customName" className="text-xs sm:text-sm">
+                  词库名称
+                </Label>
                 <Input
                   id="customName"
                   placeholder="输入自定义词库名称"
@@ -703,11 +714,11 @@ export function ShareImportModal({
                 导入中...
               </>
             ) : (
-              "导入词库"
+              '导入词库'
             )}
           </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
-  );
+  )
 }

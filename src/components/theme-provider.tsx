@@ -1,3 +1,3 @@
-import { ThemeProvider } from "@wrksz/themes/next"
+import { ThemeProvider } from '@wrksz/themes/next'
 
 export { ThemeProvider }

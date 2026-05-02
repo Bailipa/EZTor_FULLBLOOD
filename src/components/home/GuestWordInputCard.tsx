@@ -1,35 +1,42 @@
-'use client';
+'use client'
 
-import React, { useState } from 'react';
-import { toast } from 'sonner';
-import { Button } from '@/components/ui/button';
-import { Textarea } from '@/components/ui/textarea';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
-import { Database, Upload, AlertCircle, Search, Sparkles } from 'lucide-react';
-import type { WordResult } from '@/types/api';
-import { useWordTranslation } from '@/hooks/useWordTranslation';
+import React, { useState } from 'react'
+import { toast } from 'sonner'
+import { Button } from '@/components/ui/button'
+import { Textarea } from '@/components/ui/textarea'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+  CardFooter,
+} from '@/components/ui/card'
+import { Database, Upload, AlertCircle, Search, Sparkles } from 'lucide-react'
+import type { WordResult } from '@/types/api'
+import { useWordTranslation } from '@/hooks/useWordTranslation'
 
 interface GuestWordInputCardProps {
-  isLoading: boolean;
-  setIsLoading: (loading: boolean) => void;
-  setResults: (results: WordResult[] | ((prev: WordResult[]) => WordResult[])) => void;
-  wordsInput: string;
-  setWordsInput: (input: string | ((prev: string) => string)) => void;
+  isLoading: boolean
+  setIsLoading: (loading: boolean) => void
+  setResults: (results: WordResult[] | ((prev: WordResult[]) => WordResult[])) => void
+  wordsInput: string
+  setWordsInput: (input: string | ((prev: string) => string)) => void
 }
 
 interface NotFoundWord {
-  word: string;
-  suggestions?: string[];
+  word: string
+  suggestions?: string[]
 }
 
 interface TranslateResultItem {
-  word: string;
-  translation: string;
-  phonetic?: string;
-  pos?: string;
-  example?: string;
-  exampleTranslation?: string;
-  [key: string]: unknown;
+  word: string
+  translation: string
+  phonetic?: string
+  pos?: string
+  example?: string
+  exampleTranslation?: string
+  [key: string]: unknown
 }
 
 export function GuestWordInputCard({
@@ -39,7 +46,7 @@ export function GuestWordInputCard({
   wordsInput,
   setWordsInput,
 }: GuestWordInputCardProps) {
-  const [notFoundWords, setNotFoundWords] = useState<NotFoundWord[]>([]);
+  const [notFoundWords, setNotFoundWords] = useState<NotFoundWord[]>([])
   const {
     pendingWords,
     setPendingWords,
@@ -50,19 +57,19 @@ export function GuestWordInputCard({
     beginProcessing,
     finishProcessing,
     createKeyDownHandler,
-  } = useWordTranslation({ wordsInput, setWordsInput });
+  } = useWordTranslation({ wordsInput, setWordsInput })
 
   const handleProcess = async () => {
-    if (isLoading) return;
+    if (isLoading) return
 
-    const words = parseWords();
-    if (words.length === 0) return;
-    if (!validateWordCount(words)) return;
+    const words = parseWords()
+    if (words.length === 0) return
+    if (!validateWordCount(words)) return
 
-    setIsLoading(true);
-    setResults([]);
-    setNotFoundWords([]);
-    beginProcessing(words);
+    setIsLoading(true)
+    setResults([])
+    setNotFoundWords([])
+    beginProcessing(words)
 
     try {
       const response = await fetch('/api/public-translate', {
@@ -71,20 +78,20 @@ export function GuestWordInputCard({
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ words }),
-      });
+      })
 
       if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.error || `请求失败: ${response.statusText}`);
+        const errorData = await response.json().catch(() => ({}))
+        throw new Error(errorData.error || `请求失败: ${response.statusText}`)
       }
 
-      const data = await response.json();
-      
+      const data = await response.json()
+
       if (data.success && data.data) {
-        const inputWordMap = new Map<string, string>();
-        words.forEach(word => {
-          inputWordMap.set(word.toLowerCase(), word);
-        });
+        const inputWordMap = new Map<string, string>()
+        words.forEach((word) => {
+          inputWordMap.set(word.toLowerCase(), word)
+        })
 
         const publicResults: WordResult[] = data.data.results.map((r: TranslateResultItem) => ({
           word: inputWordMap.get(r.word.toLowerCase()) || r.word,
@@ -94,22 +101,24 @@ export function GuestWordInputCard({
           example: r.example || undefined,
           exampleTranslation: r.exampleTranslation || undefined,
           isPublic: true,
-        }));
-        
-        const foundWords = new Set(data.data.results.map((r: TranslateResultItem) => r.word.toLowerCase()));
-        const notFound = words.filter(w => !foundWords.has(w.toLowerCase()));
-        
-        const allResults: WordResult[] = [...publicResults];
-        
+        }))
+
+        const foundWords = new Set(
+          data.data.results.map((r: TranslateResultItem) => r.word.toLowerCase()),
+        )
+        const notFound = words.filter((w) => !foundWords.has(w.toLowerCase()))
+
+        const allResults: WordResult[] = [...publicResults]
+
         if (notFound.length > 0) {
           const notFoundWithSuggestions: NotFoundWord[] = await Promise.all(
             notFound.map(async (word) => {
-              const suggestions = await findSimilarWords(word, data.data.results);
-              return { word, suggestions };
-            })
-          );
-          setNotFoundWords(notFoundWithSuggestions);
-          
+              const suggestions = await findSimilarWords(word, data.data.results)
+              return { word, suggestions }
+            }),
+          )
+          setNotFoundWords(notFoundWithSuggestions)
+
           const notFoundResults: WordResult[] = notFound.map((word) => ({
             word,
             phonetic: '',
@@ -119,43 +128,43 @@ export function GuestWordInputCard({
             exampleTranslation: '',
             isPublic: false,
             isNotFound: true,
-          }));
-          
-          allResults.push(...notFoundResults);
+          }))
+
+          allResults.push(...notFoundResults)
         }
 
-        const orderedResults: WordResult[] = [];
-        const resultMap = new Map<string, WordResult>();
-        
-        allResults.forEach(result => {
-          resultMap.set(result.word.toLowerCase(), result);
-        });
-        
-        words.forEach(word => {
-          const normalizedWord = word.toLowerCase();
-          if (resultMap.has(normalizedWord)) {
-            orderedResults.push(resultMap.get(normalizedWord)!);
-            resultMap.delete(normalizedWord);
-          }
-        });
-        
-        resultMap.forEach(result => {
-          orderedResults.push(result);
-        });
+        const orderedResults: WordResult[] = []
+        const resultMap = new Map<string, WordResult>()
 
-        finishProcessing(orderedResults.length);
-        setResults(orderedResults);
-        
+        allResults.forEach((result) => {
+          resultMap.set(result.word.toLowerCase(), result)
+        })
+
+        words.forEach((word) => {
+          const normalizedWord = word.toLowerCase()
+          if (resultMap.has(normalizedWord)) {
+            orderedResults.push(resultMap.get(normalizedWord)!)
+            resultMap.delete(normalizedWord)
+          }
+        })
+
+        resultMap.forEach((result) => {
+          orderedResults.push(result)
+        })
+
+        finishProcessing(orderedResults.length)
+        setResults(orderedResults)
+
         setWordsInput((prevInput) => {
-          const lines = prevInput.split('\n');
-          const foundSet = new Set(foundWords);
+          const lines = prevInput.split('\n')
+          const foundSet = new Set(foundWords)
           return lines
             .filter((l) => {
-              const normalized = l.trim().toLowerCase();
-              return normalized && !foundSet.has(normalized);
+              const normalized = l.trim().toLowerCase()
+              return normalized && !foundSet.has(normalized)
             })
-            .join('\n');
-        });
+            .join('\n')
+        })
 
         await fetch('/api/analytics', {
           method: 'POST',
@@ -167,15 +176,15 @@ export function GuestWordInputCard({
               foundWords: publicResults.length,
               notFoundWords: notFound.length,
               successRate: Math.round((publicResults.length / words.length) * 10000) / 100,
-            }
-          })
-        }).catch(() => {});
+            },
+          }),
+        }).catch(() => {})
       }
     } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : String(err);
-      if (process.env.NODE_ENV === 'development') console.error('Translation error:', err);
-      toast.error(message || '查询失败，请稍后重试');
-      
+      const message = err instanceof Error ? err.message : String(err)
+      if (process.env.NODE_ENV === 'development') console.error('Translation error:', err)
+      toast.error(message || '查询失败，请稍后重试')
+
       await fetch('/api/analytics', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -184,70 +193,73 @@ export function GuestWordInputCard({
           metadata: {
             error: message,
             wordCount: words.length,
-          }
-        })
-      }).catch(() => {});
+          },
+        }),
+      }).catch(() => {})
     } finally {
-      setIsLoading(false);
-      setPendingWords([]);
+      setIsLoading(false)
+      setPendingWords([])
     }
-  };
+  }
 
-  const findSimilarWords = async (word: string, results: TranslateResultItem[]): Promise<string[]> => {
-    const allWords = results.map((r: TranslateResultItem) => r.word);
-    const suggestions: string[] = [];
-    const lowerWord = word.toLowerCase();
-    
+  const findSimilarWords = async (
+    word: string,
+    results: TranslateResultItem[],
+  ): Promise<string[]> => {
+    const allWords = results.map((r: TranslateResultItem) => r.word)
+    const suggestions: string[] = []
+    const lowerWord = word.toLowerCase()
+
     for (const w of allWords) {
-      const lowerW = w.toLowerCase();
+      const lowerW = w.toLowerCase()
       if (lowerW.includes(lowerWord) || lowerWord.includes(lowerW)) {
-        suggestions.push(w);
+        suggestions.push(w)
       } else if (levenshteinDistance(lowerWord, lowerW) <= 2) {
-        suggestions.push(w);
+        suggestions.push(w)
       }
-      if (suggestions.length >= 3) break;
+      if (suggestions.length >= 3) break
     }
-    
-    return suggestions;
-  };
+
+    return suggestions
+  }
 
   const levenshteinDistance = (a: string, b: string): number => {
-    const matrix: number[][] = [];
+    const matrix: number[][] = []
     for (let i = 0; i <= b.length; i++) {
-      matrix[i] = [i];
+      matrix[i] = [i]
     }
     for (let j = 0; j <= a.length; j++) {
-      matrix[0][j] = j;
+      matrix[0][j] = j
     }
     for (let i = 1; i <= b.length; i++) {
       for (let j = 1; j <= a.length; j++) {
         if (b.charAt(i - 1) === a.charAt(j - 1)) {
-          matrix[i][j] = matrix[i - 1][j - 1];
+          matrix[i][j] = matrix[i - 1][j - 1]
         } else {
           matrix[i][j] = Math.min(
             matrix[i - 1][j - 1] + 1,
             matrix[i][j - 1] + 1,
-            matrix[i - 1][j] + 1
-          );
+            matrix[i - 1][j] + 1,
+          )
         }
       }
     }
-    return matrix[b.length][a.length];
-  };
+    return matrix[b.length][a.length]
+  }
 
-  const handleKeyDown = createKeyDownHandler(handleProcess);
+  const handleKeyDown = createKeyDownHandler(handleProcess)
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (!file) return;
+    const file = event.target.files?.[0]
+    if (!file) return
 
-    const reader = new FileReader();
+    const reader = new FileReader()
     reader.onload = (e) => {
-      const text = e.target?.result as string;
-      setWordsInput(text);
-    };
-    reader.readAsText(file);
-  };
+      const text = e.target?.result as string
+      setWordsInput(text)
+    }
+    reader.readAsText(file)
+  }
 
   return (
     <>
@@ -266,25 +278,28 @@ export function GuestWordInputCard({
         </CardHeader>
         <CardContent className="space-y-4 pt-6">
           {isLoading ? (
-          <div className="min-h-[150px] p-4 border rounded-md bg-muted/30 flex flex-wrap gap-2 content-start items-start relative overflow-visible" role="status" aria-live="polite" aria-label="正在查询中">
-            {pendingWords.map((word, index) => (
-              <span
-                key={`${index}-${word}`}
-                data-word={word.toLowerCase()}
-                className="px-3 py-1.5 bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20 rounded-md text-sm font-medium shadow-sm animate-[fadeIn_0.25s_ease-in-out]"
-              >
-                {word}
-              </span>
-            ))}
-              
+            <div
+              className="min-h-[150px] p-4 border rounded-md bg-muted/30 flex flex-wrap gap-2 content-start items-start relative overflow-visible"
+              role="status"
+              aria-live="polite"
+              aria-label="正在查询中"
+            >
+              {pendingWords.map((word, index) => (
+                <span
+                  key={`${index}-${word}`}
+                  data-word={word.toLowerCase()}
+                  className="px-3 py-1.5 bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20 rounded-md text-sm font-medium shadow-sm animate-[fadeIn_0.25s_ease-in-out]"
+                >
+                  {word}
+                </span>
+              ))}
+
               {pendingWords.length === 0 && (
                 <div className="flex flex-col items-center justify-center w-full py-8 animate-[fadeIn_0.3s_ease-in-out]">
                   <div className="w-12 h-12 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center mb-3">
                     <Sparkles className="w-6 h-6 text-green-500" />
                   </div>
-                  <span className="text-muted-foreground text-sm font-medium">
-                    查询完成
-                  </span>
+                  <span className="text-muted-foreground text-sm font-medium">查询完成</span>
                   <span className="text-muted-foreground text-xs mt-1">
                     已找到 {completedCount} 个结果
                   </span>
@@ -331,9 +346,7 @@ orange`}
 
           <div className="flex items-center gap-2 text-sm text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/30 p-3 rounded-lg">
             <AlertCircle className="h-4 w-4 flex-shrink-0" />
-            <span>
-              公共词库仅包含已收录的单词。登录后可使用 AI 翻译任意单词。
-            </span>
+            <span>公共词库仅包含已收录的单词。登录后可使用 AI 翻译任意单词。</span>
           </div>
         </CardContent>
         <CardFooter className="flex justify-between items-center">
@@ -387,5 +400,5 @@ orange`}
         </Card>
       )}
     </>
-  );
+  )
 }

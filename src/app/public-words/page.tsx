@@ -1,11 +1,11 @@
-'use client';
+'use client'
 
-import { useState, useCallback } from 'react';
-import { toast } from 'sonner';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Input } from '@/components/ui/input';
+import { useState, useCallback } from 'react'
+import { toast } from 'sonner'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import { Badge } from '@/components/ui/badge'
+import { Input } from '@/components/ui/input'
 import {
   Database,
   AlertTriangle,
@@ -17,52 +17,52 @@ import {
   Plus,
   Star,
   TrendingUp,
-  BarChart3
-} from 'lucide-react';
-import { useCrudTable } from '@/hooks/useCrudTable';
+  BarChart3,
+} from 'lucide-react'
+import { useCrudTable } from '@/hooks/useCrudTable'
 
 interface PublicWord {
-  id: string;
-  word: string;
-  phonetic: string | null;
-  pos: string | null;
-  translation: string;
-  example: string | null;
-  exampleTranslation: string | null;
-  qualityScore: number;
-  version: number;
-  createdAt: string;
-  updatedAt: string;
+  id: string
+  word: string
+  phonetic: string | null
+  pos: string | null
+  translation: string
+  example: string | null
+  exampleTranslation: string | null
+  qualityScore: number
+  version: number
+  createdAt: string
+  updatedAt: string
 }
 
 interface PublicWordsStats {
-  totalWords: number;
-  avgQuality: number;
-  maxQuality: number;
-  minQuality: number;
-  qualityDistribution: { score: number; count: number }[];
+  totalWords: number
+  avgQuality: number
+  maxQuality: number
+  minQuality: number
+  qualityDistribution: { score: number; count: number }[]
 }
 
 export default function PublicWordsPage() {
-  const [sortBy, setSortBy] = useState('updatedAt');
-  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
-  const [minQuality, setMinQuality] = useState('');
-  const [maxQuality, setMaxQuality] = useState('');
-  const [selectedWord, setSelectedWord] = useState<PublicWord | null>(null);
-  const [editingWord, setEditingWord] = useState<PublicWord | null>(null);
-  const [showAddForm, setShowAddForm] = useState(false);
-  const [saving, setSaving] = useState(false);
+  const [sortBy, setSortBy] = useState('updatedAt')
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc')
+  const [minQuality, setMinQuality] = useState('')
+  const [maxQuality, setMaxQuality] = useState('')
+  const [selectedWord, setSelectedWord] = useState<PublicWord | null>(null)
+  const [editingWord, setEditingWord] = useState<PublicWord | null>(null)
+  const [showAddForm, setShowAddForm] = useState(false)
+  const [saving, setSaving] = useState(false)
 
   const buildUrl = useCallback(
     (pageNum: number, pageSize: number, query: string) => {
-      let url = `/api/public-words?page=${pageNum}&limit=${pageSize}&sortBy=${sortBy}&sortOrder=${sortOrder}`;
-      if (query) url += `&word=${encodeURIComponent(query)}`;
-      if (minQuality) url += `&minQuality=${minQuality}`;
-      if (maxQuality) url += `&maxQuality=${maxQuality}`;
-      return url;
+      let url = `/api/public-words?page=${pageNum}&limit=${pageSize}&sortBy=${sortBy}&sortOrder=${sortOrder}`
+      if (query) url += `&word=${encodeURIComponent(query)}`
+      if (minQuality) url += `&minQuality=${minQuality}`
+      if (maxQuality) url += `&maxQuality=${maxQuality}`
+      return url
     },
     [sortBy, sortOrder, minQuality, maxQuality],
-  );
+  )
 
   const {
     authLoading,
@@ -84,12 +84,16 @@ export default function PublicWordsPage() {
     pageSize: 20,
     buildUrl,
     parseResponse: (json) => {
-      const d = json.data as { words: PublicWord[]; pagination: { page: number; limit: number; total: number; totalPages: number }; stats: unknown };
-      return { data: d.words, pagination: d.pagination, extra: d.stats };
+      const d = json.data as {
+        words: PublicWord[]
+        pagination: { page: number; limit: number; total: number; totalPages: number }
+        stats: unknown
+      }
+      return { data: d.words, pagination: d.pagination, extra: d.stats }
     },
-  });
+  })
 
-  const stats = extra as PublicWordsStats;
+  const stats = extra as PublicWordsStats
 
   if (authLoading) {
     return (
@@ -99,7 +103,7 @@ export default function PublicWordsPage() {
           <p className="text-muted-foreground">验证权限中...</p>
         </div>
       </div>
-    );
+    )
   }
 
   if (!isAdmin) {
@@ -114,92 +118,96 @@ export default function PublicWordsPage() {
                 ? '请先登录后再访问此页面。'
                 : '您没有管理员权限，无法访问此页面。'}
             </p>
-            <Button onClick={() => window.location.href = status === 'unauthenticated' ? '/auth/signin' : '/'}>
+            <Button
+              onClick={() =>
+                (window.location.href = status === 'unauthenticated' ? '/auth/signin' : '/')
+              }
+            >
               {status === 'unauthenticated' ? '前往登录' : '返回首页'}
             </Button>
           </CardContent>
         </Card>
       </div>
-    );
+    )
   }
 
   const handleDelete = async (id: string) => {
-    if (!confirm('确定要删除这个词吗？')) return;
+    if (!confirm('确定要删除这个词吗？')) return
 
     try {
-      const res = await fetch(`/api/public-words?id=${id}`, { method: 'DELETE' });
-      const json = await res.json();
+      const res = await fetch(`/api/public-words?id=${id}`, { method: 'DELETE' })
+      const json = await res.json()
       if (json.success) {
-        refresh();
-        setSelectedWord(null);
+        refresh()
+        setSelectedWord(null)
       } else {
-        toast.error(json.error || 'Delete failed');
+        toast.error(json.error || 'Delete failed')
       }
     } catch (_e) {
-      toast.error('Network error');
+      toast.error('Network error')
     }
-  };
+  }
 
   const handleSaveEdit = async () => {
-    if (!editingWord) return;
-    setSaving(true);
+    if (!editingWord) return
+    setSaving(true)
     try {
       const res = await fetch('/api/public-words', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(editingWord)
-      });
-      const json = await res.json();
+        body: JSON.stringify(editingWord),
+      })
+      const json = await res.json()
       if (json.success) {
-        setEditingWord(null);
-        refresh();
-        setSelectedWord(null);
+        setEditingWord(null)
+        refresh()
+        setSelectedWord(null)
       } else {
-        toast.error(json.error || 'Update failed');
+        toast.error(json.error || 'Update failed')
       }
     } catch (_e) {
-      toast.error('Network error');
+      toast.error('Network error')
     } finally {
-      setSaving(false);
+      setSaving(false)
     }
-  };
+  }
 
   const handleAdd = async (newWord: Partial<PublicWord>) => {
-    setSaving(true);
+    setSaving(true)
     try {
       const res = await fetch('/api/public-words', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(newWord)
-      });
-      const json = await res.json();
+        body: JSON.stringify(newWord),
+      })
+      const json = await res.json()
       if (json.success) {
-        setShowAddForm(false);
-        setPage(1);
-        refresh();
+        setShowAddForm(false)
+        setPage(1)
+        refresh()
       } else {
-        toast.error(json.error || 'Add failed');
+        toast.error(json.error || 'Add failed')
       }
     } catch (_e) {
-      toast.error('Network error');
+      toast.error('Network error')
     } finally {
-      setSaving(false);
+      setSaving(false)
     }
-  };
+  }
 
   const getQualityColor = (score: number) => {
-    if (score >= 80) return 'bg-green-500';
-    if (score >= 60) return 'bg-yellow-500';
-    if (score >= 40) return 'bg-orange-500';
-    return 'bg-red-500';
-  };
+    if (score >= 80) return 'bg-green-500'
+    if (score >= 60) return 'bg-yellow-500'
+    if (score >= 40) return 'bg-orange-500'
+    return 'bg-red-500'
+  }
 
   const getQualityBadge = (score: number) => {
-    if (score >= 80) return <Badge className="bg-green-500">优秀</Badge>;
-    if (score >= 60) return <Badge className="bg-yellow-500">良好</Badge>;
-    if (score >= 40) return <Badge className="bg-orange-500">一般</Badge>;
-    return <Badge className="bg-red-500">较差</Badge>;
-  };
+    if (score >= 80) return <Badge className="bg-green-500">优秀</Badge>
+    if (score >= 60) return <Badge className="bg-yellow-500">良好</Badge>
+    if (score >= 40) return <Badge className="bg-orange-500">一般</Badge>
+    return <Badge className="bg-red-500">较差</Badge>
+  }
 
   if (loading && !words) {
     return (
@@ -209,7 +217,7 @@ export default function PublicWordsPage() {
           <p className="mt-4 text-gray-600">加载公共词库数据...</p>
         </div>
       </div>
-    );
+    )
   }
 
   if (error && !words) {
@@ -227,7 +235,7 @@ export default function PublicWordsPage() {
           </CardContent>
         </Card>
       </div>
-    );
+    )
   }
 
   return (
@@ -305,7 +313,9 @@ export default function PublicWordsPage() {
                   >
                     <div
                       className={`w-full rounded-t ${getQualityColor(q.score)}`}
-                      style={{ height: `${Math.max(4, (q.count / Math.max(...stats.qualityDistribution.map((d: { count: number }) => d.count))) * 100)}%` }}
+                      style={{
+                        height: `${Math.max(4, (q.count / Math.max(...stats.qualityDistribution.map((d: { count: number }) => d.count))) * 100)}%`,
+                      }}
                     />
                     <span className="text-xs text-gray-500 mt-1">{q.score}</span>
                   </div>
@@ -351,9 +361,9 @@ export default function PublicWordsPage() {
                 className="border rounded px-3 py-2"
                 value={`${sortBy}-${sortOrder}`}
                 onChange={(e) => {
-                  const [field, order] = e.target.value.split('-');
-                  setSortBy(field);
-                  setSortOrder(order as 'asc' | 'desc');
+                  const [field, order] = e.target.value.split('-')
+                  setSortBy(field)
+                  setSortOrder(order as 'asc' | 'desc')
                 }}
               >
                 <option value="updatedAt-desc">最近更新</option>
@@ -394,49 +404,55 @@ export default function PublicWordsPage() {
                     </tr>
                   </thead>
                   <tbody>
-                    {words && words.map((word) => (
-                      <tr key={word.id} className="border-b hover:bg-gray-50 cursor-pointer"
-                        onClick={() => setSelectedWord(word)}>
-                        <td className="py-3 px-2 font-medium">{word.word}</td>
-                        <td className="py-3 px-2 text-gray-500">{word.phonetic || '-'}</td>
-                        <td className="py-3 px-2">{word.pos || '-'}</td>
-                        <td className="py-3 px-2 max-w-xs truncate">{word.translation}</td>
-                        <td className="py-3 px-2">
-                          <div className="flex items-center gap-2">
-                            <div className={`w-12 h-2 rounded ${getQualityColor(word.qualityScore)}`} />
-                            <span className="text-sm">{word.qualityScore}</span>
-                          </div>
-                        </td>
-                        <td className="py-3 px-2">v{word.version}</td>
-                        <td className="py-3 px-2 text-sm text-gray-500">
-                          {new Date(word.updatedAt).toLocaleString('zh-CN')}
-                        </td>
-                        <td className="py-3 px-2">
-                          <div className="flex gap-2">
-                            <Button
-                              size="sm"
-                              variant="outline"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                setEditingWord(word);
-                              }}
-                            >
-                              <Edit className="h-3 w-3" />
-                            </Button>
-                            <Button
-                              size="sm"
-                              variant="destructive"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                handleDelete(word.id);
-                              }}
-                            >
-                              <Trash2 className="h-3 w-3" />
-                            </Button>
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
+                    {words &&
+                      words.map((word) => (
+                        <tr
+                          key={word.id}
+                          className="border-b hover:bg-gray-50 cursor-pointer"
+                          onClick={() => setSelectedWord(word)}
+                        >
+                          <td className="py-3 px-2 font-medium">{word.word}</td>
+                          <td className="py-3 px-2 text-gray-500">{word.phonetic || '-'}</td>
+                          <td className="py-3 px-2">{word.pos || '-'}</td>
+                          <td className="py-3 px-2 max-w-xs truncate">{word.translation}</td>
+                          <td className="py-3 px-2">
+                            <div className="flex items-center gap-2">
+                              <div
+                                className={`w-12 h-2 rounded ${getQualityColor(word.qualityScore)}`}
+                              />
+                              <span className="text-sm">{word.qualityScore}</span>
+                            </div>
+                          </td>
+                          <td className="py-3 px-2">v{word.version}</td>
+                          <td className="py-3 px-2 text-sm text-gray-500">
+                            {new Date(word.updatedAt).toLocaleString('zh-CN')}
+                          </td>
+                          <td className="py-3 px-2">
+                            <div className="flex gap-2">
+                              <Button
+                                size="sm"
+                                variant="outline"
+                                onClick={(e) => {
+                                  e.stopPropagation()
+                                  setEditingWord(word)
+                                }}
+                              >
+                                <Edit className="h-3 w-3" />
+                              </Button>
+                              <Button
+                                size="sm"
+                                variant="destructive"
+                                onClick={(e) => {
+                                  e.stopPropagation()
+                                  handleDelete(word.id)
+                                }}
+                              >
+                                <Trash2 className="h-3 w-3" />
+                              </Button>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
                   </tbody>
                 </table>
               </div>
@@ -444,9 +460,7 @@ export default function PublicWordsPage() {
 
             {pagination.totalPages > 1 && (
               <div className="flex items-center justify-between mt-4 pt-4 border-t">
-                <p className="text-sm text-gray-500">
-                  共 {pagination.total} 条记录
-                </p>
+                <p className="text-sm text-gray-500">共 {pagination.total} 条记录</p>
                 <div className="flex gap-2">
                   <Button
                     variant="outline"
@@ -474,10 +488,14 @@ export default function PublicWordsPage() {
         </Card>
 
         {selectedWord && !editingWord && (
-          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
-            onClick={() => setSelectedWord(null)}>
-            <Card className="max-w-2xl w-full max-h-[80vh] overflow-auto"
-              onClick={(e) => e.stopPropagation()}>
+          <div
+            className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
+            onClick={() => setSelectedWord(null)}
+          >
+            <Card
+              className="max-w-2xl w-full max-h-[80vh] overflow-auto"
+              onClick={(e) => e.stopPropagation()}
+            >
               <CardHeader>
                 <CardTitle>单词详情</CardTitle>
               </CardHeader>
@@ -545,10 +563,11 @@ export default function PublicWordsPage() {
         )}
 
         {editingWord && (
-          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
-            onClick={() => setEditingWord(null)}>
-            <Card className="max-w-2xl w-full"
-              onClick={(e) => e.stopPropagation()}>
+          <div
+            className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
+            onClick={() => setEditingWord(null)}
+          >
+            <Card className="max-w-2xl w-full" onClick={(e) => e.stopPropagation()}>
               <CardHeader>
                 <CardTitle>编辑单词</CardTitle>
               </CardHeader>
@@ -566,7 +585,9 @@ export default function PublicWordsPage() {
                       <label className="text-sm text-gray-500">音标</label>
                       <Input
                         value={editingWord.phonetic || ''}
-                        onChange={(e) => setEditingWord({ ...editingWord, phonetic: e.target.value })}
+                        onChange={(e) =>
+                          setEditingWord({ ...editingWord, phonetic: e.target.value })
+                        }
                       />
                     </div>
                     <div>
@@ -583,7 +604,12 @@ export default function PublicWordsPage() {
                         min="0"
                         max="100"
                         value={editingWord.qualityScore}
-                        onChange={(e) => setEditingWord({ ...editingWord, qualityScore: parseInt(e.target.value) || 0 })}
+                        onChange={(e) =>
+                          setEditingWord({
+                            ...editingWord,
+                            qualityScore: parseInt(e.target.value) || 0,
+                          })
+                        }
                       />
                     </div>
                   </div>
@@ -591,7 +617,9 @@ export default function PublicWordsPage() {
                     <label className="text-sm text-gray-500">翻译</label>
                     <Input
                       value={editingWord.translation}
-                      onChange={(e) => setEditingWord({ ...editingWord, translation: e.target.value })}
+                      onChange={(e) =>
+                        setEditingWord({ ...editingWord, translation: e.target.value })
+                      }
                     />
                   </div>
                   <div>
@@ -605,7 +633,9 @@ export default function PublicWordsPage() {
                     <label className="text-sm text-gray-500">例句翻译</label>
                     <Input
                       value={editingWord.exampleTranslation || ''}
-                      onChange={(e) => setEditingWord({ ...editingWord, exampleTranslation: e.target.value })}
+                      onChange={(e) =>
+                        setEditingWord({ ...editingWord, exampleTranslation: e.target.value })
+                      }
                     />
                   </div>
                 </div>
@@ -623,10 +653,11 @@ export default function PublicWordsPage() {
         )}
 
         {showAddForm && (
-          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
-            onClick={() => setShowAddForm(false)}>
-            <Card className="max-w-2xl w-full"
-              onClick={(e) => e.stopPropagation()}>
+          <div
+            className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
+            onClick={() => setShowAddForm(false)}
+          >
+            <Card className="max-w-2xl w-full" onClick={(e) => e.stopPropagation()}>
               <CardHeader>
                 <CardTitle>添加单词</CardTitle>
               </CardHeader>
@@ -642,13 +673,17 @@ export default function PublicWordsPage() {
         )}
       </div>
     </div>
-  );
+  )
 }
 
-function AddWordForm({ onSave, onCancel, saving }: {
-  onSave: (word: Partial<PublicWord>) => void;
-  onCancel: () => void;
-  saving: boolean;
+function AddWordForm({
+  onSave,
+  onCancel,
+  saving,
+}: {
+  onSave: (word: Partial<PublicWord>) => void
+  onCancel: () => void
+  saving: boolean
 }) {
   const [word, setWord] = useState({
     word: '',
@@ -657,8 +692,8 @@ function AddWordForm({ onSave, onCancel, saving }: {
     translation: '',
     example: '',
     exampleTranslation: '',
-    qualityScore: 50
-  });
+    qualityScore: 50,
+  })
 
   return (
     <div className="space-y-4">
@@ -680,10 +715,7 @@ function AddWordForm({ onSave, onCancel, saving }: {
         </div>
         <div>
           <label className="text-sm text-gray-500">词性</label>
-          <Input
-            value={word.pos}
-            onChange={(e) => setWord({ ...word, pos: e.target.value })}
-          />
+          <Input value={word.pos} onChange={(e) => setWord({ ...word, pos: e.target.value })} />
         </div>
         <div>
           <label className="text-sm text-gray-500">质量分 (0-100)</label>
@@ -719,10 +751,7 @@ function AddWordForm({ onSave, onCancel, saving }: {
         />
       </div>
       <div className="flex gap-2 mt-6">
-        <Button
-          onClick={() => onSave(word)}
-          disabled={saving || !word.word || !word.translation}
-        >
+        <Button onClick={() => onSave(word)} disabled={saving || !word.word || !word.translation}>
           {saving ? '添加中...' : '添加'}
         </Button>
         <Button variant="outline" onClick={onCancel}>
@@ -730,5 +759,5 @@ function AddWordForm({ onSave, onCancel, saving }: {
         </Button>
       </div>
     </div>
-  );
+  )
 }

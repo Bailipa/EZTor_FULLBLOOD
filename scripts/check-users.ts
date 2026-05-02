@@ -1,4 +1,4 @@
-import prisma from '../src/lib/prisma';
+import prisma from '../src/lib/prisma'
 
 async function main() {
   const users = await prisma.user.findMany({
@@ -6,13 +6,13 @@ async function main() {
       id: true,
       username: true,
       isAdmin: true,
-    }
-  });
-  
-  console.log('Users in database:');
-  console.table(users);
+    },
+  })
+
+  console.log('Users in database:')
+  console.table(users)
 }
 
 main()
   .catch(console.error)
-  .finally(() => prisma.$disconnect());
+  .finally(() => prisma.$disconnect())

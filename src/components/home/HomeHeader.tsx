@@ -1,12 +1,12 @@
-'use client';
+'use client'
 
-import { Button } from '@/components/ui/button';
-import { ModeToggle } from '@/components/mode-toggle';
-import { FlashcardWidget } from '@/components/ui/flashcard/flashcard-widget';
-import { GameWidget } from '@/components/ui/game/GameWidget';
-import { SharePoster } from '@/components/share';
-import { useState } from 'react';
-import { Share2 } from 'lucide-react';
+import { Button } from '@/components/ui/button'
+import { ModeToggle } from '@/components/mode-toggle'
+import { FlashcardWidget } from '@/components/ui/flashcard/flashcard-widget'
+import { GameWidget } from '@/components/ui/game/GameWidget'
+import { SharePoster } from '@/components/share'
+import { useState } from 'react'
+import { Share2 } from 'lucide-react'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -17,30 +17,30 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from '@/components/ui/alert-dialog';
-import { signOut, useSession } from 'next-auth/react';
-import Link from 'next/link';
-import { MonitorPlay, PenTool, BookOpen, LogIn } from 'lucide-react';
-import { DonationButton } from './DonationModal';
+} from '@/components/ui/alert-dialog'
+import { signOut, useSession } from 'next-auth/react'
+import Link from 'next/link'
+import { MonitorPlay, PenTool, BookOpen, LogIn } from 'lucide-react'
+import { DonationButton } from './DonationModal'
 
 interface HomeHeaderProps {
-  showDanmaku: boolean;
-  onToggleDanmaku: () => void;
-  onFeatureClick?: (featureName: string) => void;
+  showDanmaku: boolean
+  onToggleDanmaku: () => void
+  onFeatureClick?: (featureName: string) => void
 }
 
 export function HomeHeader({ showDanmaku, onToggleDanmaku, onFeatureClick }: HomeHeaderProps) {
-  const { data: session, status } = useSession();
-  const isAuthenticated = status === 'authenticated' && session?.user;
-  const [shareOpen, setShareOpen] = useState(false);
+  const { data: session, status } = useSession()
+  const isAuthenticated = status === 'authenticated' && session?.user
+  const [shareOpen, setShareOpen] = useState(false)
 
   const handleFeatureClick = (featureName: string, callback?: () => void) => {
     if (!isAuthenticated && onFeatureClick) {
-      onFeatureClick(featureName);
+      onFeatureClick(featureName)
     } else if (callback) {
-      callback();
+      callback()
     }
-  };
+  }
 
   return (
     <header className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white dark:bg-card p-4 sm:p-6 rounded-xl shadow-sm border border-gray-100 dark:border-border transition-colors duration-300">
@@ -151,9 +151,9 @@ export function HomeHeader({ showDanmaku, onToggleDanmaku, onFeatureClick }: Hom
                 <AlertDialogCancel>取消</AlertDialogCancel>
                 <AlertDialogAction
                   onClick={async () => {
-                    await signOut({ redirect: false });
-                    if (typeof window !== "undefined") {
-                      window.location.href = `${window.location.origin}/`;
+                    await signOut({ redirect: false })
+                    if (typeof window !== 'undefined') {
+                      window.location.href = `${window.location.origin}/`
                     }
                   }}
                 >
@@ -166,5 +166,5 @@ export function HomeHeader({ showDanmaku, onToggleDanmaku, onFeatureClick }: Hom
         <SharePoster open={shareOpen} onOpenChange={setShareOpen} />
       </nav>
     </header>
-  );
+  )
 }

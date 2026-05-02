@@ -1,7 +1,7 @@
-'use client';
+'use client'
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -10,23 +10,23 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from '@/components/ui/alert-dialog';
-import { LogIn, X } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+} from '@/components/ui/alert-dialog'
+import { LogIn, X } from 'lucide-react'
+import { Button } from '@/components/ui/button'
 
 interface LoginPromptModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  featureName?: string;
+  isOpen: boolean
+  onClose: () => void
+  featureName?: string
 }
 
 export function LoginPromptModal({ isOpen, onClose, featureName }: LoginPromptModalProps) {
-  const router = useRouter();
+  const router = useRouter()
 
   const handleLogin = () => {
-    onClose();
-    router.push('/auth/signin');
-  };
+    onClose()
+    router.push('/auth/signin')
+  }
 
   return (
     <AlertDialog open={isOpen} onOpenChange={onClose}>
@@ -39,7 +39,8 @@ export function LoginPromptModal({ isOpen, onClose, featureName }: LoginPromptMo
           <AlertDialogDescription className="text-left space-y-3 pt-2">
             {featureName ? (
               <span>
-                <span className="font-medium text-foreground">{featureName}</span> 需要登录后才能使用。
+                <span className="font-medium text-foreground">{featureName}</span>{' '}
+                需要登录后才能使用。
               </span>
             ) : (
               <span>当前页面功能有限，体验完整功能请登录。</span>
@@ -60,22 +61,22 @@ export function LoginPromptModal({ isOpen, onClose, featureName }: LoginPromptMo
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
-  );
+  )
 }
 
 export function useLoginPrompt() {
-  const [showLoginPrompt, setShowLoginPrompt] = useState(false);
-  const [pendingFeature, setPendingFeature] = useState<string | undefined>();
+  const [showLoginPrompt, setShowLoginPrompt] = useState(false)
+  const [pendingFeature, setPendingFeature] = useState<string | undefined>()
 
   const promptLogin = (featureName?: string) => {
-    setPendingFeature(featureName);
-    setShowLoginPrompt(true);
-  };
+    setPendingFeature(featureName)
+    setShowLoginPrompt(true)
+  }
 
   const closePrompt = () => {
-    setShowLoginPrompt(false);
-    setPendingFeature(undefined);
-  };
+    setShowLoginPrompt(false)
+    setPendingFeature(undefined)
+  }
 
   return {
     showLoginPrompt,
@@ -89,15 +90,15 @@ export function useLoginPrompt() {
         featureName={pendingFeature}
       />
     ),
-  };
+  }
 }
 
 export function WelcomeBanner({ onDismiss }: { onDismiss: () => void }) {
-  const router = useRouter();
+  const router = useRouter()
 
   const _handleLogin = () => {
-    router.push('/auth/signin');
-  };
+    router.push('/auth/signin')
+  }
 
   return (
     <div className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-950/30 dark:to-indigo-950/30 border border-blue-200 dark:border-blue-800 rounded-xl p-4 mb-6">
@@ -107,7 +108,8 @@ export function WelcomeBanner({ onDismiss }: { onDismiss: () => void }) {
             👋 欢迎使用 EZTor 英语词典
           </h3>
           <p className="text-sm text-blue-700 dark:text-blue-300 mb-3">
-            当前为访客模式，您可以使用公共词库查词。登录后可解锁 AI 翻译、生词本、默写复习等完整功能。
+            当前为访客模式，您可以使用公共词库查词。登录后可解锁 AI
+            翻译、生词本、默写复习等完整功能。
           </p>
           <Button
             size="sm"
@@ -128,5 +130,5 @@ export function WelcomeBanner({ onDismiss }: { onDismiss: () => void }) {
         </Button>
       </div>
     </div>
-  );
+  )
 }

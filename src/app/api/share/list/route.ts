@@ -1,8 +1,8 @@
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-import prisma from "@/lib/prisma";
-import { createSuccessResponse, createErrorResponse } from "@/lib/apiErrorHandler";
-import { logger } from '@/lib/logger';
+import { getServerSession } from 'next-auth'
+import { authOptions } from '@/app/api/auth/[...nextauth]/route'
+import prisma from '@/lib/prisma'
+import { createSuccessResponse, createErrorResponse } from '@/lib/apiErrorHandler'
+import { logger } from '@/lib/logger'
 
 /**
  * GET /api/share/list
@@ -10,12 +10,12 @@ import { logger } from '@/lib/logger';
  */
 export async function GET() {
   try {
-    const session = await getServerSession(authOptions);
+    const session = await getServerSession(authOptions)
     if (!session?.user?.id) {
-      return createErrorResponse("请先登录", 401);
+      return createErrorResponse('请先登录', 401)
     }
 
-    const userId = session.user.id;
+    const userId = session.user.id
 
     // Query all shares created by current user
     const shares = await prisma.sharedVocabulary.findMany({
@@ -31,9 +31,9 @@ export async function GET() {
         },
       },
       orderBy: {
-        createdAt: "desc",
+        createdAt: 'desc',
       },
-    });
+    })
 
     // Transform data to match response schema
     const transformedShares = shares.map((share) => ({
@@ -49,11 +49,11 @@ export async function GET() {
       maxUses: share.maxUses,
       isActive: share.isActive,
       createdAt: share.createdAt.toISOString(),
-    }));
+    }))
 
-    return createSuccessResponse({ shares: transformedShares });
+    return createSuccessResponse({ shares: transformedShares })
   } catch (err: unknown) {
-    logger.error({ err }, "[Share List API] Error:");
-    return createErrorResponse("获取分享列表失败", 500);
+    logger.error({ err }, '[Share List API] Error:')
+    return createErrorResponse('获取分享列表失败', 500)
   }
 }

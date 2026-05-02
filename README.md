@@ -4,16 +4,16 @@ A full-stack Next.js application for English vocabulary learning, powered by LLM
 
 ## Tech Stack
 
-| Layer | Technology |
-|-------|-----------|
-| Framework | Next.js 16 (App Router) |
-| Language | TypeScript |
-| Database | PostgreSQL (Prisma ORM) |
-| Auth | NextAuth.js (JWT) |
-| UI | React 19, Tailwind CSS 4, shadcn/ui, Radix UI |
-| Logging | Pino |
-| Testing | Vitest |
-| Deployment | Docker + docker-compose |
+| Layer      | Technology                                    |
+| ---------- | --------------------------------------------- |
+| Framework  | Next.js 16 (App Router)                       |
+| Language   | TypeScript                                    |
+| Database   | PostgreSQL (Prisma ORM)                       |
+| Auth       | NextAuth.js (JWT)                             |
+| UI         | React 19, Tailwind CSS 4, shadcn/ui, Radix UI |
+| Logging    | Pino                                          |
+| Testing    | Vitest                                        |
+| Deployment | Docker + docker-compose                       |
 
 ## Quick Start
 
@@ -58,11 +58,11 @@ src/
 
 ## Documentation
 
-| Document | Description |
-|----------|------------|
-| [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | System architecture, design patterns, performance |
-| [docs/ADMIN_GUIDE.md](docs/ADMIN_GUIDE.md) | Admin operations manual |
-| [docs/SECURITY.md](docs/SECURITY.md) | Security guidelines and secret management |
-| [docs/BACKUP_RESTORE.md](docs/BACKUP_RESTORE.md) | Database backup and restore |
-| [prisma/schema.prisma](prisma/schema.prisma) | Data model definitions |
-| [AGENTS.md](AGENTS.md) | AI coding agent instructions |
+| Document                                         | Description                                       |
+| ------------------------------------------------ | ------------------------------------------------- |
+| [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)     | System architecture, design patterns, performance |
+| [docs/ADMIN_GUIDE.md](docs/ADMIN_GUIDE.md)       | Admin operations manual                           |
+| [docs/SECURITY.md](docs/SECURITY.md)             | Security guidelines and secret management         |
+| [docs/BACKUP_RESTORE.md](docs/BACKUP_RESTORE.md) | Database backup and restore                       |
+| [prisma/schema.prisma](prisma/schema.prisma)     | Data model definitions                            |
+| [AGENTS.md](AGENTS.md)                           | AI coding agent instructions                      |

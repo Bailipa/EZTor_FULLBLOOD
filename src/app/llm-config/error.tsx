@@ -1,19 +1,19 @@
-'use client';
+'use client'
 
-import { useEffect } from 'react';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { useEffect } from 'react'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
 export default function LlmConfigError({
   error,
   reset,
 }: {
-  error: Error & { digest?: string };
-  reset: () => void;
+  error: Error & { digest?: string }
+  reset: () => void
 }) {
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development') console.error('LLM Config page error:', error);
-  }, [error]);
+    if (process.env.NODE_ENV === 'development') console.error('LLM Config page error:', error)
+  }, [error])
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4 bg-background">
@@ -26,11 +26,15 @@ export default function LlmConfigError({
             {error.message || '加载 LLM 配置时发生错误。'}
           </p>
           <div className="flex gap-2">
-            <Button variant="outline" onClick={reset} className="flex-1">重试</Button>
-            <Button onClick={() => window.location.href = '/'} className="flex-1">返回首页</Button>
+            <Button variant="outline" onClick={reset} className="flex-1">
+              重试
+            </Button>
+            <Button onClick={() => (window.location.href = '/')} className="flex-1">
+              返回首页
+            </Button>
           </div>
         </CardContent>
       </Card>
     </div>
-  );
+  )
 }

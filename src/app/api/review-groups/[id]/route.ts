@@ -1,103 +1,103 @@
-import prisma from '@/lib/prisma';
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-import { handleApiError, createErrorResponse, createSuccessResponse } from '@/lib/apiErrorHandler';
+import prisma from '@/lib/prisma'
+import { getServerSession } from 'next-auth/next'
+import { authOptions } from '@/app/api/auth/[...nextauth]/route'
+import { handleApiError, createErrorResponse, createSuccessResponse } from '@/lib/apiErrorHandler'
 
 export async function GET(req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
-    const session = await getServerSession(authOptions);
+    const session = await getServerSession(authOptions)
     if (!session?.user?.id) {
-      return createErrorResponse('未授权访问', 401);
+      return createErrorResponse('未授权访问', 401)
     }
 
-    const { id } = await params;
+    const { id } = await params
 
     const group = await prisma.reviewGroup.findUnique({
       where: { id },
       include: {
         _count: {
-          select: { ReviewGroupWord: true }
-        }
-      }
-    });
+          select: { ReviewGroupWord: true },
+        },
+      },
+    })
 
     if (!group || group.userId !== session.user.id) {
-      return createErrorResponse('分组不存在或无权访问', 404);
+      return createErrorResponse('分组不存在或无权访问', 404)
     }
 
-    return createSuccessResponse({ data: group });
+    return createSuccessResponse({ data: group })
   } catch (err: unknown) {
-    return handleApiError(err, 'review-groups/[id] GET');
+    return handleApiError(err, 'review-groups/[id] GET')
   }
 }
 
 export async function PATCH(req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
-    const session = await getServerSession(authOptions);
+    const session = await getServerSession(authOptions)
     if (!session?.user?.id) {
-      return createErrorResponse('未授权访问', 401);
+      return createErrorResponse('未授权访问', 401)
     }
 
-    const { id } = await params;
-    const { name } = await req.json();
+    const { id } = await params
+    const { name } = await req.json()
 
     if (!name || name.trim() === '') {
-      return createErrorResponse('分组名称不能为空', 400);
+      return createErrorResponse('分组名称不能为空', 400)
     }
 
     const group = await prisma.reviewGroup.findUnique({
-      where: { id }
-    });
+      where: { id },
+    })
 
     if (!group || group.userId !== session.user.id) {
-      return createErrorResponse('分组不存在或无权访问', 404);
+      return createErrorResponse('分组不存在或无权访问', 404)
     }
 
     const updatedGroup = await prisma.reviewGroup.update({
       where: { id },
-      data: { name: name.trim() }
-    });
+      data: { name: name.trim() },
+    })
 
-    return createSuccessResponse({ data: updatedGroup });
+    return createSuccessResponse({ data: updatedGroup })
   } catch (err: unknown) {
     if ((err as { code?: string }).code === 'P2002') {
-      return createErrorResponse('该分组名称已存在', 400);
+      return createErrorResponse('该分组名称已存在', 400)
     }
-    return handleApiError(err, 'review-groups/[id] PATCH');
+    return handleApiError(err, 'review-groups/[id] PATCH')
   }
 }
 
 export async function DELETE(req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
-    const session = await getServerSession(authOptions);
+    const session = await getServerSession(authOptions)
     if (!session?.user?.id) {
-      return createErrorResponse('未授权访问', 401);
+      return createErrorResponse('未授权访问', 401)
     }
 
-    const { id } = await params;
+    const { id } = await params
 
     const group = await prisma.reviewGroup.findUnique({
-      where: { id }
-    });
+      where: { id },
+    })
 
     if (!group || group.userId !== session.user.id) {
-      return createErrorResponse('分组不存在或无权访问', 404);
+      return createErrorResponse('分组不存在或无权访问', 404)
     }
 
     // 删除相关的sharedVocabularyImport记录
     await prisma.sharedVocabularyImport.deleteMany({
       where: {
         targetGroupId: id,
-        importerId: session.user.id
-      }
-    });
+        importerId: session.user.id,
+      },
+    })
 
     await prisma.reviewGroup.delete({
-      where: { id }
-    });
+      where: { id },
+    })
 
-    return createSuccessResponse({});
+    return createSuccessResponse({})
   } catch (err: unknown) {
-    return handleApiError(err, 'review-groups/[id] DELETE');
+    return handleApiError(err, 'review-groups/[id] DELETE')
   }
 }

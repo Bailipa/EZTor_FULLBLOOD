@@ -1,48 +1,54 @@
-'use client';
+'use client'
 
-import { useState, useEffect, useRef, useCallback } from 'react';
-import { useSession } from 'next-auth/react';
-import { Danmaku } from '@/components/ui/danmaku';
-import { WordInputCard, TranslateOnlyCard, ResultsList, HomeHeader } from '@/components/home';
-import { GuestWordInputCard } from '@/components/home/GuestWordInputCard';
-import { WelcomeBanner, useLoginPrompt } from '@/components/ui/login-prompt-modal';
-import ErrorBoundary from '@/components/error-boundary';
-import type { WordResult, ReviewGroup } from '@/types/api';
-import { saveToStorage, loadFromStorage } from '@/lib/storage';
-import { usePageView } from '@/lib/analytics';
+import { useState, useEffect, useRef, useCallback } from 'react'
+import { useSession } from 'next-auth/react'
+import { Danmaku } from '@/components/ui/danmaku'
+import { WordInputCard, TranslateOnlyCard, ResultsList, HomeHeader } from '@/components/home'
+import { GuestWordInputCard } from '@/components/home/GuestWordInputCard'
+import { WelcomeBanner, useLoginPrompt } from '@/components/ui/login-prompt-modal'
+import ErrorBoundary from '@/components/error-boundary'
+import type { WordResult, ReviewGroup } from '@/types/api'
+import { saveToStorage, loadFromStorage } from '@/lib/storage'
+import { usePageView } from '@/lib/analytics'
 
 export default function HomeContent() {
-  usePageView('Home');
+  usePageView('Home')
 
-  const [wordsInput, setWordsInput] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const [showPos, _setShowPos] = useState(true);
-  const [showExample, _setShowExample] = useState(true);
-  const [results, setResults] = useState<WordResult[]>([]);
-  const [showDanmaku, setShowDanmaku] = useState(false);
-  const [groups, setGroups] = useState<ReviewGroup[]>([]);
-  const [selectedTargetGroupId, setSelectedTargetGroupId] = useState<string>('none');
-  const [showWelcomeBanner, setShowWelcomeBanner] = useState(true);
-  const resultsRef = useRef<HTMLDivElement>(null);
-  const prevResultsLengthRef = useRef(0);
-  const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const [wordsInput, setWordsInput] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
+  const [showPos, _setShowPos] = useState(true)
+  const [showExample, _setShowExample] = useState(true)
+  const [results, setResults] = useState<WordResult[]>([])
+  const [showDanmaku, setShowDanmaku] = useState(false)
+  const [groups, setGroups] = useState<ReviewGroup[]>([])
+  const [selectedTargetGroupId, setSelectedTargetGroupId] = useState<string>('none')
+  const [showWelcomeBanner, setShowWelcomeBanner] = useState(true)
+  const resultsRef = useRef<HTMLDivElement>(null)
+  const prevResultsLengthRef = useRef(0)
+  const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null)
 
-  const { data: session, status } = useSession();
-  const { showLoginPrompt: _showLoginPrompt, pendingFeature: _pendingFeature, promptLogin, closePrompt: _closePrompt, LoginPromptDialog } = useLoginPrompt();
+  const { data: session, status } = useSession()
+  const {
+    showLoginPrompt: _showLoginPrompt,
+    pendingFeature: _pendingFeature,
+    promptLogin,
+    closePrompt: _closePrompt,
+    LoginPromptDialog,
+  } = useLoginPrompt()
 
-  const isAuthenticated = status === 'authenticated' && session?.user;
-  const isGuestMode = !isAuthenticated;
+  const isAuthenticated = status === 'authenticated' && session?.user
+  const isGuestMode = !isAuthenticated
 
   useEffect(() => {
-    const savedDanmaku = loadFromStorage<boolean>('vocab_showDanmaku', false);
-    setShowDanmaku(savedDanmaku);
-    const savedBannerDismissed = loadFromStorage<boolean>('vocab_welcomeBannerDismissed', false);
-    setShowWelcomeBanner(!savedBannerDismissed);
-  }, []);
+    const savedDanmaku = loadFromStorage<boolean>('vocab_showDanmaku', false)
+    setShowDanmaku(savedDanmaku)
+    const savedBannerDismissed = loadFromStorage<boolean>('vocab_welcomeBannerDismissed', false)
+    setShowWelcomeBanner(!savedBannerDismissed)
+  }, [])
 
   useEffect(() => {
-    saveToStorage('vocab_showDanmaku', showDanmaku);
-  }, [showDanmaku]);
+    saveToStorage('vocab_showDanmaku', showDanmaku)
+  }, [showDanmaku])
 
   useEffect(() => {
     if (session?.user?.id) {
@@ -50,43 +56,48 @@ export default function HomeContent() {
         .then((res) => res.json())
         .then((data) => {
           if (data.success && data.data) {
-            setGroups(data.data);
+            setGroups(data.data)
           }
         })
-        .catch((err) => { if (process.env.NODE_ENV === 'development') console.error('Failed to fetch groups', err); });
+        .catch((err) => {
+          if (process.env.NODE_ENV === 'development') console.error('Failed to fetch groups', err)
+        })
     }
-  }, [session]);
+  }, [session])
 
   useEffect(() => {
     return () => {
       if (scrollTimeoutRef.current) {
-        clearTimeout(scrollTimeoutRef.current);
+        clearTimeout(scrollTimeoutRef.current)
       }
-    };
-  }, []);
+    }
+  }, [])
 
   useEffect(() => {
     if (results.length > 0 && prevResultsLengthRef.current === 0) {
       scrollTimeoutRef.current = setTimeout(() => {
         resultsRef.current?.scrollIntoView({
           behavior: 'smooth',
-          block: 'start'
-        });
-      }, 100);
+          block: 'start',
+        })
+      }, 100)
     }
-    prevResultsLengthRef.current = results.length;
-  }, [results.length]);
+    prevResultsLengthRef.current = results.length
+  }, [results.length])
 
-  const handleFeatureClick = useCallback((featureName: string) => {
-    if (isGuestMode) {
-      promptLogin(featureName);
-    }
-  }, [isGuestMode, promptLogin]);
+  const handleFeatureClick = useCallback(
+    (featureName: string) => {
+      if (isGuestMode) {
+        promptLogin(featureName)
+      }
+    },
+    [isGuestMode, promptLogin],
+  )
 
   const handleDismissBanner = useCallback(() => {
-    setShowWelcomeBanner(false);
-    saveToStorage('vocab_welcomeBannerDismissed', true);
-  }, []);
+    setShowWelcomeBanner(false)
+    saveToStorage('vocab_welcomeBannerDismissed', true)
+  }, [])
 
   return (
     <div className="min-h-screen bg-gray-50/50 dark:bg-background p-6 md:p-12 font-[family-name:var(--font-geist-sans)] relative transition-colors duration-300">
@@ -99,9 +110,7 @@ export default function HomeContent() {
           onFeatureClick={promptLogin}
         />
 
-        {isGuestMode && showWelcomeBanner && (
-          <WelcomeBanner onDismiss={handleDismissBanner} />
-        )}
+        {isGuestMode && showWelcomeBanner && <WelcomeBanner onDismiss={handleDismissBanner} />}
 
         <div className="grid grid-cols-1 gap-6 items-start">
           <div className="space-y-6 min-w-0">
@@ -147,7 +156,12 @@ export default function HomeContent() {
               </ErrorBoundary>
             )}
 
-            <ResultsList ref={resultsRef} results={results} showPos={showPos} showExample={showExample} />
+            <ResultsList
+              ref={resultsRef}
+              results={results}
+              showPos={showPos}
+              showExample={showExample}
+            />
           </div>
         </div>
       </main>
@@ -165,5 +179,5 @@ export default function HomeContent() {
 
       <LoginPromptDialog />
     </div>
-  );
+  )
 }

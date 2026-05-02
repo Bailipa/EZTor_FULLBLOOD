@@ -1,44 +1,43 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { randomUUID } from 'crypto';
-import prisma from '@/lib/prisma';
-import { sanitizeWordList } from '@/lib/security';
-import { rateLimit } from '@/lib/rateLimit';
-import { logger } from '@/lib/logger';
+import { NextRequest, NextResponse } from 'next/server'
+import { randomUUID } from 'crypto'
+import prisma from '@/lib/prisma'
+import { sanitizeWordList } from '@/lib/security'
+import { rateLimit } from '@/lib/rateLimit'
+import { logger } from '@/lib/logger'
 
 export async function POST(req: NextRequest) {
-  const startTime = Date.now();
-  const clientIp = req.headers.get('x-forwarded-for')?.split(',')[0] ||
-                   req.headers.get('x-real-ip') ||
-                   'unknown';
-  const userAgent = req.headers.get('user-agent') || 'unknown';
-  
+  const startTime = Date.now()
+  const clientIp =
+    req.headers.get('x-forwarded-for')?.split(',')[0] || req.headers.get('x-real-ip') || 'unknown'
+  const userAgent = req.headers.get('user-agent') || 'unknown'
+
   try {
-    const rateLimitKey = `public:${clientIp}`;
-    const rateLimitResult = await rateLimit(rateLimitKey);
+    const rateLimitKey = `public:${clientIp}`
+    const rateLimitResult = await rateLimit(rateLimitKey)
     if (!rateLimitResult.success) {
       return NextResponse.json(
         { error: 'Too many requests. Please try again later.' },
-        { status: 429, headers: { 'Retry-After': '60' } }
-      );
+        { status: 429, headers: { 'Retry-After': '60' } },
+      )
     }
 
-    const body = await req.json();
-    const { words } = body;
+    const body = await req.json()
+    const { words } = body
 
     if (!words || !Array.isArray(words) || words.length === 0) {
-      return NextResponse.json({ error: 'Words list is required' }, { status: 400 });
+      return NextResponse.json({ error: 'Words list is required' }, { status: 400 })
     }
 
-    const sanitizedWords = sanitizeWordList(words);
+    const sanitizedWords = sanitizeWordList(words)
     if (sanitizedWords.length === 0) {
-      return NextResponse.json({ error: 'Invalid words list' }, { status: 400 });
+      return NextResponse.json({ error: 'Invalid words list' }, { status: 400 })
     }
 
     const results = await prisma.publicWord.findMany({
       where: {
         word: {
-          in: sanitizedWords.map(w => w.toLowerCase())
-        }
+          in: sanitizedWords.map((w) => w.toLowerCase()),
+        },
       },
       select: {
         word: true,
@@ -48,99 +47,104 @@ export async function POST(req: NextRequest) {
         example: true,
         exampleTranslation: true,
         qualityScore: true,
-      }
-    });
+      },
+    })
 
-    const foundWords = new Set(results.map((r: { word: string }) => r.word));
-    const notFound = sanitizedWords.filter(w => !foundWords.has(w.toLowerCase()));
-    
-    const responseTime = Date.now() - startTime;
+    const foundWords = new Set(results.map((r: { word: string }) => r.word))
+    const notFound = sanitizedWords.filter((w) => !foundWords.has(w.toLowerCase()))
+
+    const responseTime = Date.now() - startTime
 
     await prisma.analyticsEvent.create({
       data: {
         id: randomUUID(),
         eventType: 'GUEST_TRANSLATE',
         userId: null,
-        sessionId: Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15),
+        sessionId:
+          Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15),
         metadata: JSON.stringify({
           totalWords: sanitizedWords.length,
           foundWords: results.length,
           notFoundWords: notFound.length,
-          responseTime
+          responseTime,
         }),
         ipAddress: clientIp,
-        userAgent: userAgent
-      }
-    });
+        userAgent: userAgent,
+      },
+    })
 
     await Promise.all(
-      results.map((r: {
-        word: string;
-        phonetic: string | null;
-        pos: string | null;
-        translation: string;
-        example: string | null;
-        exampleTranslation: string | null;
-      }) => 
-        prisma.translationRecord.create({
-          data: {
-            id: randomUUID(),
+      results.map(
+        (r: {
+          word: string
+          phonetic: string | null
+          pos: string | null
+          translation: string
+          example: string | null
+          exampleTranslation: string | null
+        }) =>
+          prisma.translationRecord.create({
+            data: {
+              id: randomUUID(),
+              word: r.word,
+              phonetic: r.phonetic,
+              pos: r.pos,
+              translation: r.translation,
+              example: r.example,
+              exampleTranslation: r.exampleTranslation,
+              isCached: true,
+              responseTime,
+              ipAddress: clientIp,
+              userAgent: userAgent,
+            },
+          }),
+      ),
+    )
+
+    return NextResponse.json({
+      success: true,
+      data: {
+        results: results.map(
+          (r: {
+            word: string
+            phonetic: string | null
+            pos: string | null
+            translation: string
+            example: string | null
+            exampleTranslation: string | null
+          }) => ({
             word: r.word,
             phonetic: r.phonetic,
             pos: r.pos,
             translation: r.translation,
             example: r.example,
             exampleTranslation: r.exampleTranslation,
-            isCached: true,
-            responseTime,
-            ipAddress: clientIp,
-            userAgent: userAgent,
-          }
-        })
-      )
-    );
-
-    return NextResponse.json({
-      success: true,
-      data: {
-        results: results.map((r: {
-          word: string;
-          phonetic: string | null;
-          pos: string | null;
-          translation: string;
-          example: string | null;
-          exampleTranslation: string | null;
-        }) => ({
-          word: r.word,
-          phonetic: r.phonetic,
-          pos: r.pos,
-          translation: r.translation,
-          example: r.example,
-          exampleTranslation: r.exampleTranslation,
-          isPublic: true,
-        })),
+            isPublic: true,
+          }),
+        ),
         notFound,
         isGuestMode: true,
-      }
-    });
+      },
+    })
   } catch (error) {
-    logger.error({ err: error }, 'Public translate error');
-    
+    logger.error({ err: error }, 'Public translate error')
+
     await prisma.analyticsEvent.create({
       data: {
         id: randomUUID(),
         eventType: 'GUEST_TRANSLATE_ERROR',
         userId: null,
-        sessionId: Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15),
+        sessionId:
+          Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15),
         metadata: JSON.stringify({
           error: error instanceof Error ? error.message : 'Unknown error',
-          responseTime: Date.now() - startTime
+          responseTime: Date.now() - startTime,
         }),
         ipAddress: clientIp,
-        userAgent: userAgent
-      }
-    });
-    
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+        userAgent: userAgent,
+      },
+    })
+
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
   }
 }

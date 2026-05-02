@@ -1,167 +1,187 @@
-import { NextResponse } from 'next/server';
-import prisma from '@/lib/prisma';
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-import { checkCsrfHeader } from '@/lib/csrf';
-import { logger } from '@/lib/logger';
+import { NextResponse } from 'next/server'
+import prisma from '@/lib/prisma'
+import { getServerSession } from 'next-auth/next'
+import { authOptions } from '@/app/api/auth/[...nextauth]/route'
+import { checkCsrfHeader } from '@/lib/csrf'
+import { logger } from '@/lib/logger'
 
 export async function POST(req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
-    const csrf = checkCsrfHeader(req);
+    const csrf = checkCsrfHeader(req)
     if (!csrf.valid) {
-      return NextResponse.json({ success: false, error: csrf.reason || 'Invalid origin' }, { status: 403 });
+      return NextResponse.json(
+        { success: false, error: csrf.reason || 'Invalid origin' },
+        { status: 403 },
+      )
     }
 
-    const session = await getServerSession(authOptions);
+    const session = await getServerSession(authOptions)
     if (!session?.user?.id) {
-      return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 });
+      return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 })
     }
 
-    const { id } = await params;
+    const { id } = await params
 
-    const body = await req.json();
-    const wordIds = body.wordIds;
+    const body = await req.json()
+    const wordIds = body.wordIds
 
     if (!wordIds || !Array.isArray(wordIds)) {
-      return NextResponse.json({ success: false, error: 'wordIds array is required' }, { status: 400 });
+      return NextResponse.json(
+        { success: false, error: 'wordIds array is required' },
+        { status: 400 },
+      )
     }
 
     const group = await prisma.reviewGroup.findUnique({
       where: { id },
       include: {
-        _count: { select: { ReviewGroupWord: true } }
-      }
-    });
+        _count: { select: { ReviewGroupWord: true } },
+      },
+    })
 
     if (!group || group.userId !== session.user.id) {
-      return NextResponse.json({ success: false, error: 'Group not found or unauthorized' }, { status: 404 });
+      return NextResponse.json(
+        { success: false, error: 'Group not found or unauthorized' },
+        { status: 404 },
+      )
     }
 
     const validWords = await prisma.word.findMany({
       where: {
         id: { in: wordIds },
-        userId: session.user.id
+        userId: session.user.id,
       },
-      select: { id: true }
-    });
+      select: { id: true },
+    })
 
-    const validWordIds = new Set(validWords.map(w => w.id));
+    const validWordIds = new Set(validWords.map((w) => w.id))
 
     const existingLinks = await prisma.reviewGroupWord.findMany({
       where: {
         reviewGroupId: id,
-        wordId: { in: wordIds }
+        wordId: { in: wordIds },
       },
-      select: { wordId: true }
-    });
+      select: { wordId: true },
+    })
 
-    const existingWordIds = new Set(existingLinks.map(l => l.wordId));
+    const existingWordIds = new Set(existingLinks.map((l) => l.wordId))
 
-    const newWordIds = wordIds.filter((wid: string) => validWordIds.has(wid) && !existingWordIds.has(wid));
+    const newWordIds = wordIds.filter(
+      (wid: string) => validWordIds.has(wid) && !existingWordIds.has(wid),
+    )
 
     if (newWordIds.length > 0) {
       await prisma.reviewGroupWord.createMany({
         data: newWordIds.map((wordId: string) => ({
           id: crypto.randomUUID(),
           reviewGroupId: id,
-          wordId
-        }))
-      });
+          wordId,
+        })),
+      })
     }
 
-    return NextResponse.json({ success: true, addedCount: newWordIds.length });
+    return NextResponse.json({ success: true, addedCount: newWordIds.length })
   } catch (err: unknown) {
-    logger.error({ err }, "Failed to add words to group:");
-    return NextResponse.json({ success: false, error: 'Failed to add words' }, { status: 500 });
+    logger.error({ err }, 'Failed to add words to group:')
+    return NextResponse.json({ success: false, error: 'Failed to add words' }, { status: 500 })
   }
 }
 
 export async function DELETE(req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
-    const csrf = checkCsrfHeader(req);
+    const csrf = checkCsrfHeader(req)
     if (!csrf.valid) {
-      return NextResponse.json({ success: false, error: csrf.reason || 'Invalid origin' }, { status: 403 });
+      return NextResponse.json(
+        { success: false, error: csrf.reason || 'Invalid origin' },
+        { status: 403 },
+      )
     }
 
-    const session = await getServerSession(authOptions);
+    const session = await getServerSession(authOptions)
     if (!session?.user?.id) {
-      return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 });
+      return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 })
     }
 
-    const { id } = await params;
-    const { searchParams } = new URL(req.url);
-    const action = searchParams.get('action');
-    const wordId = searchParams.get('wordId');
+    const { id } = await params
+    const { searchParams } = new URL(req.url)
+    const action = searchParams.get('action')
+    const wordId = searchParams.get('wordId')
 
     const group = await prisma.reviewGroup.findUnique({
-      where: { id }
-    });
+      where: { id },
+    })
 
     if (!group || group.userId !== session.user.id) {
-      return NextResponse.json({ success: false, error: 'Group not found or unauthorized' }, { status: 404 });
+      return NextResponse.json(
+        { success: false, error: 'Group not found or unauthorized' },
+        { status: 404 },
+      )
     }
 
     if (action === 'clear_all') {
       await prisma.reviewGroupWord.deleteMany({
-        where: { reviewGroupId: id }
-      });
-      return NextResponse.json({ success: true, message: 'Group cleared' });
+        where: { reviewGroupId: id },
+      })
+      return NextResponse.json({ success: true, message: 'Group cleared' })
     }
 
     if (action === 'batch') {
-      const body = await req.json();
-      const wordIds = body.wordIds;
+      const body = await req.json()
+      const wordIds = body.wordIds
       if (Array.isArray(wordIds) && wordIds.length > 0) {
         await prisma.reviewGroupWord.deleteMany({
           where: {
             reviewGroupId: id,
-            wordId: { in: wordIds }
-          }
-        });
-        return NextResponse.json({ success: true, message: 'Words removed from group' });
+            wordId: { in: wordIds },
+          },
+        })
+        return NextResponse.json({ success: true, message: 'Words removed from group' })
       }
-      return NextResponse.json({ success: false, error: 'Invalid wordIds array' }, { status: 400 });
+      return NextResponse.json({ success: false, error: 'Invalid wordIds array' }, { status: 400 })
     }
 
     if (wordId) {
       await prisma.reviewGroupWord.deleteMany({
         where: {
           reviewGroupId: id,
-          wordId: wordId
-        }
-      });
-      return NextResponse.json({ success: true, message: 'Word removed from group' });
+          wordId: wordId,
+        },
+      })
+      return NextResponse.json({ success: true, message: 'Word removed from group' })
     }
 
-    return NextResponse.json({ success: false, error: 'Invalid action' }, { status: 400 });
+    return NextResponse.json({ success: false, error: 'Invalid action' }, { status: 400 })
   } catch (err: unknown) {
-    logger.error({ err }, "Failed to remove words from group:");
-    return NextResponse.json({ success: false, error: 'Failed to remove words' }, { status: 500 });
+    logger.error({ err }, 'Failed to remove words from group:')
+    return NextResponse.json({ success: false, error: 'Failed to remove words' }, { status: 500 })
   }
 }
 
 export async function GET(req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
-    const session = await getServerSession(authOptions);
+    const session = await getServerSession(authOptions)
     if (!session?.user?.id) {
-      return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 });
+      return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 })
     }
 
-    const { id } = await params;
-    const { searchParams } = new URL(req.url);
-    const limitParam = searchParams.get('limit');
-    const cursorParam = searchParams.get('cursor');
-    const limit = limitParam ? Math.min(parseInt(limitParam, 10), 200) : 50;
+    const { id } = await params
+    const { searchParams } = new URL(req.url)
+    const limitParam = searchParams.get('limit')
+    const cursorParam = searchParams.get('cursor')
+    const limit = limitParam ? Math.min(parseInt(limitParam, 10), 200) : 50
 
     const group = await prisma.reviewGroup.findUnique({
-      where: { id }
-    });
+      where: { id },
+    })
 
     if (!group || group.userId !== session.user.id) {
-      return NextResponse.json({ success: false, error: 'Group not found or unauthorized' }, { status: 404 });
+      return NextResponse.json(
+        { success: false, error: 'Group not found or unauthorized' },
+        { status: 404 },
+      )
     }
 
-    const where = { reviewGroupId: id };
+    const where = { reviewGroupId: id }
 
     const [groupWords, total] = await Promise.all([
       prisma.reviewGroupWord.findMany({
@@ -176,41 +196,42 @@ export async function GET(req: Request, { params }: { params: Promise<{ id: stri
                   translation: true,
                   example: true,
                   exampleTranslation: true,
-                }
-              }
-            }
-          }
+                },
+              },
+            },
+          },
         },
         orderBy: { addedAt: 'desc' },
         take: limit + 1,
-        ...(cursorParam ? { cursor: { id: cursorParam }, skip: 1 } : {})
+        ...(cursorParam ? { cursor: { id: cursorParam }, skip: 1 } : {}),
       }),
-      prisma.reviewGroupWord.count({ where })
-    ]);
+      prisma.reviewGroupWord.count({ where }),
+    ])
 
-    const hasMore = groupWords.length > limit;
-    const data = hasMore ? groupWords.slice(0, -1) : groupWords;
-    const nextCursor = hasMore ? data[data.length - 1].id : null;
-    const words = data.map(gw => ({
+    const hasMore = groupWords.length > limit
+    const data = hasMore ? groupWords.slice(0, -1) : groupWords
+    const nextCursor = hasMore ? data[data.length - 1].id : null
+    const words = data.map((gw) => ({
       id: gw.Word.id,
       word: gw.Word.word,
       phonetic: gw.Word.phonetic ?? gw.Word.publicWord?.phonetic ?? null,
       pos: gw.Word.pos ?? gw.Word.publicWord?.pos ?? null,
       translation: gw.Word.translation ?? gw.Word.publicWord?.translation ?? '',
       example: gw.Word.example ?? gw.Word.publicWord?.example ?? null,
-      exampleTranslation: gw.Word.exampleTranslation ?? gw.Word.publicWord?.exampleTranslation ?? null,
+      exampleTranslation:
+        gw.Word.exampleTranslation ?? gw.Word.publicWord?.exampleTranslation ?? null,
       correctCount: gw.Word.correctCount,
       incorrectCount: gw.Word.incorrectCount,
-      updatedAt: gw.Word.updatedAt
-    }));
+      updatedAt: gw.Word.updatedAt,
+    }))
 
     return NextResponse.json({
       success: true,
       data: words,
-      pagination: { total, hasMore, nextCursor }
-    });
+      pagination: { total, hasMore, nextCursor },
+    })
   } catch (err: unknown) {
-    logger.error({ err }, "Failed to fetch group words:");
-    return NextResponse.json({ success: false, error: 'Failed to fetch words' }, { status: 500 });
+    logger.error({ err }, 'Failed to fetch group words:')
+    return NextResponse.json({ success: false, error: 'Failed to fetch words' }, { status: 500 })
   }
 }

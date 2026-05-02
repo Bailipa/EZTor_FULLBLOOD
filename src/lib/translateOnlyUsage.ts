@@ -16,7 +16,7 @@ export function getTodayDateUTC8(): string {
 export async function checkAndEnforceLimit(
   userId: string,
   isAdmin: boolean,
-  deviceId?: string
+  deviceId?: string,
 ): Promise<{ allowed: boolean; used: number; remaining: number }> {
   if (isAdmin) {
     return { allowed: true, used: 0, remaining: Infinity }
@@ -26,7 +26,7 @@ export async function checkAndEnforceLimit(
 
   if (deviceId) {
     const deviceUsageCount = await prisma.deviceUsageLog.count({
-      where: { deviceId, date: today }
+      where: { deviceId, date: today },
     })
     if (deviceUsageCount >= DAILY_LIMIT) {
       return { allowed: false, used: deviceUsageCount, remaining: 0 }
@@ -34,7 +34,7 @@ export async function checkAndEnforceLimit(
   }
 
   const usage = await prisma.translateOnlyUsage.findUnique({
-    where: { userId_date: { userId, date: today } }
+    where: { userId_date: { userId, date: today } },
   })
   const used = usage?.count ?? 0
 
@@ -48,7 +48,7 @@ export async function checkAndEnforceLimit(
 export async function incrementUsage(
   userId: string,
   isAdmin: boolean,
-  deviceId?: string
+  deviceId?: string,
 ): Promise<void> {
   if (isAdmin) return
 
@@ -77,7 +77,10 @@ export async function incrementUsage(
   }
 }
 
-export async function getUsage(userId: string, isAdmin: boolean): Promise<{
+export async function getUsage(
+  userId: string,
+  isAdmin: boolean,
+): Promise<{
   used: number
   limit: number
   remaining: number
@@ -89,7 +92,7 @@ export async function getUsage(userId: string, isAdmin: boolean): Promise<{
 
   const today = getTodayDateUTC8()
   const usage = await prisma.translateOnlyUsage.findUnique({
-    where: { userId_date: { userId, date: today } }
+    where: { userId_date: { userId, date: today } },
   })
   const used = usage?.count ?? 0
 

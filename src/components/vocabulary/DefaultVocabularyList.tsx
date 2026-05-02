@@ -1,92 +1,89 @@
-"use client";
+'use client'
 
-import React, { useState, useEffect } from "react";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { BookOpen, ChevronRight } from "lucide-react";
-import { cn } from "@/lib/utils";
+import React, { useState, useEffect } from 'react'
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import { Badge } from '@/components/ui/badge'
+import { BookOpen, ChevronRight } from 'lucide-react'
+import { cn } from '@/lib/utils'
 
 interface DefaultVocabulary {
-  id: string;
-  name: string;
-  description: string | null;
-  code: string;
-  wordCount: number;
-  sortOrder: number;
+  id: string
+  name: string
+  description: string | null
+  code: string
+  wordCount: number
+  sortOrder: number
 }
 
 interface DefaultVocabularyListProps {
-  onSelect: (code: string) => void;
-  className?: string;
+  onSelect: (code: string) => void
+  className?: string
 }
 
 interface DefaultVocabularyState {
-  isLoading: boolean;
-  data: DefaultVocabulary[];
-  error: string | null;
+  isLoading: boolean
+  data: DefaultVocabulary[]
+  error: string | null
 }
 
 /**
  * DefaultVocabularyList 组件
  * 显示默认词库列表，用户可点击选择
- * 
+ *
  * 功能特性：
  * - 自动加载默认词库
  * - 卡片式展示
  * - 点击选择自动填充密钥
  * - 显示词库信息（名称、描述、单词数）
  */
-export function DefaultVocabularyList({
-  onSelect,
-  className,
-}: DefaultVocabularyListProps) {
+export function DefaultVocabularyList({ onSelect, className }: DefaultVocabularyListProps) {
   const [state, setState] = useState<DefaultVocabularyState>({
     isLoading: true,
     data: [],
     error: null,
-  });
+  })
 
   useEffect(() => {
     const fetchDefaultVocabularies = async () => {
       try {
-        setState((prev) => ({ ...prev, isLoading: true, error: null }));
-        
-        const response = await fetch("/api/share/defaults");
-        const result = await response.json();
+        setState((prev) => ({ ...prev, isLoading: true, error: null }))
+
+        const response = await fetch('/api/share/defaults')
+        const result = await response.json()
 
         if (result.success && Array.isArray(result.data)) {
           setState({
             isLoading: false,
             data: result.data,
             error: null,
-          });
+          })
         } else {
           setState({
             isLoading: false,
             data: [],
-            error: result.error || "加载失败",
-          });
+            error: result.error || '加载失败',
+          })
         }
       } catch (_error) {
         setState({
           isLoading: false,
           data: [],
-          error: "网络错误，请稍后重试",
-        });
+          error: '网络错误，请稍后重试',
+        })
       }
-    };
+    }
 
-    fetchDefaultVocabularies();
-  }, []);
+    fetchDefaultVocabularies()
+  }, [])
 
   const handleSelect = (vocab: DefaultVocabulary) => {
-    onSelect(vocab.code);
-  };
+    onSelect(vocab.code)
+  }
 
   if (state.isLoading) {
     return (
-      <div className={cn("space-y-4", className)}>
+      <div className={cn('space-y-4', className)}>
         <h3 className="text-sm font-medium">默认词库（推荐）</h3>
         <div className="grid gap-3">
           {[1, 2, 3].map((i) => (
@@ -104,12 +101,12 @@ export function DefaultVocabularyList({
           ))}
         </div>
       </div>
-    );
+    )
   }
 
   if (state.error) {
     return (
-      <div className={cn("space-y-4", className)}>
+      <div className={cn('space-y-4', className)}>
         <h3 className="text-sm font-medium">默认词库（推荐）</h3>
         <Card className="border-destructive/50 bg-destructive/5">
           <CardContent className="p-4">
@@ -119,26 +116,24 @@ export function DefaultVocabularyList({
           </CardContent>
         </Card>
       </div>
-    );
+    )
   }
 
   if (state.data.length === 0) {
     return (
-      <div className={cn("space-y-4", className)}>
+      <div className={cn('space-y-4', className)}>
         <h3 className="text-sm font-medium">默认词库（推荐）</h3>
         <Card>
           <CardContent className="p-4">
-            <p className="text-sm text-muted-foreground text-center">
-              暂无默认词库
-            </p>
+            <p className="text-sm text-muted-foreground text-center">暂无默认词库</p>
           </CardContent>
         </Card>
       </div>
-    );
+    )
   }
 
   return (
-    <div className={cn("space-y-4", className)}>
+    <div className={cn('space-y-4', className)}>
       <h3 className="text-sm font-medium">默认词库（推荐）</h3>
       <div className="grid gap-3">
         {state.data.map((vocab) => (
@@ -154,9 +149,7 @@ export function DefaultVocabularyList({
                     <BookOpen className="size-5" />
                   </div>
                   <div>
-                    <CardTitle className="text-base font-medium">
-                      {vocab.name}
-                    </CardTitle>
+                    <CardTitle className="text-base font-medium">{vocab.name}</CardTitle>
                     {vocab.description && (
                       <CardDescription className="text-xs mt-1">
                         {vocab.description}
@@ -164,15 +157,12 @@ export function DefaultVocabularyList({
                     )}
                   </div>
                 </div>
-                <Badge 
-                  variant="secondary" 
-                  className="shrink-0"
-                >
+                <Badge variant="secondary" className="shrink-0">
                   {vocab.wordCount.toLocaleString()} 词
                 </Badge>
               </div>
             </CardHeader>
-            
+
             <CardContent>
               <div className="flex items-center justify-between pt-2">
                 <div className="flex items-center gap-2">
@@ -185,8 +175,8 @@ export function DefaultVocabularyList({
                   size="sm"
                   className="h-7 text-xs text-primary hover:text-primary hover:bg-primary/10"
                   onClick={(e) => {
-                    e.stopPropagation();
-                    handleSelect(vocab);
+                    e.stopPropagation()
+                    handleSelect(vocab)
                   }}
                 >
                   选择
@@ -198,65 +188,62 @@ export function DefaultVocabularyList({
         ))}
       </div>
     </div>
-  );
+  )
 }
 
 /**
  * 默认词库数据（备用，当 API 不可用时）
  * 参考 AI_DEVELOPMENT_SPEC.md Section 3.4
- * 
+ *
  * 注意：这些是示例密钥，实际应该从 API 获取
  * 密钥格式：XXX-XXX-XXX（3-3-3 格式）
  */
 export const DEFAULT_VOCABULARY_DATA: DefaultVocabulary[] = [
   {
-    id: "cet4",
-    name: "大学英语四级核心词汇",
-    description: "包含 CET-4 核心词汇，约 4500 词",
-    code: "FR3-QZS-NDA", // 实际密钥
+    id: 'cet4',
+    name: '大学英语四级核心词汇',
+    description: '包含 CET-4 核心词汇，约 4500 词',
+    code: 'FR3-QZS-NDA', // 实际密钥
     wordCount: 4544,
     sortOrder: 1,
   },
   {
-    id: "cet6",
-    name: "大学英语六级核心词汇",
-    description: "包含 CET-6 核心词汇，约 2100 词",
-    code: "XY3-HPV-FFU", // 实际密钥
+    id: 'cet6',
+    name: '大学英语六级核心词汇',
+    description: '包含 CET-6 核心词汇，约 2100 词',
+    code: 'XY3-HPV-FFU', // 实际密钥
     wordCount: 2118,
     sortOrder: 2,
   },
   {
-    id: "ielts",
-    name: "雅思核心词汇",
-    description: "雅思考试高频词汇，约 5000 词",
-    code: "L8E-QFX-52G", // 实际密钥
+    id: 'ielts',
+    name: '雅思核心词汇',
+    description: '雅思考试高频词汇，约 5000 词',
+    code: 'L8E-QFX-52G', // 实际密钥
     wordCount: 5054,
     sortOrder: 3,
   },
   {
-    id: "kaoyan",
-    name: "考研核心词汇",
-    description: "硕士研究生入学考试核心词汇，约 500 词",
-    code: "CRB-9UD-7VS", // 实际密钥
+    id: 'kaoyan',
+    name: '考研核心词汇',
+    description: '硕士研究生入学考试核心词汇，约 500 词',
+    code: 'CRB-9UD-7VS', // 实际密钥
     wordCount: 515,
     sortOrder: 4,
   },
-];
+]
 
 /**
  * 简化的 DefaultVocabularyList 组件（使用静态数据）
  * 适用于离线模式或 API 不可用的情况
  */
-export function DefaultVocabularyListStatic({
-  onSelect,
-  className,
-}: DefaultVocabularyListProps) {
+export function DefaultVocabularyListStatic({ onSelect, className }: DefaultVocabularyListProps) {
   const handleSelect = (vocab: DefaultVocabulary) => {
-    onSelect(vocab.code);
-  };
+    onSelect(vocab.code)
+  }
 
   return (
-    <div className={cn("space-y-4", className)}>
+    <div className={cn('space-y-4', className)}>
       <h3 className="text-sm font-medium">默认词库（推荐）</h3>
       <div className="grid gap-3">
         {DEFAULT_VOCABULARY_DATA.map((vocab) => (
@@ -272,9 +259,7 @@ export function DefaultVocabularyListStatic({
                     <BookOpen className="size-5" />
                   </div>
                   <div>
-                    <CardTitle className="text-base font-medium">
-                      {vocab.name}
-                    </CardTitle>
+                    <CardTitle className="text-base font-medium">{vocab.name}</CardTitle>
                     {vocab.description && (
                       <CardDescription className="text-xs mt-1">
                         {vocab.description}
@@ -282,15 +267,12 @@ export function DefaultVocabularyListStatic({
                     )}
                   </div>
                 </div>
-                <Badge 
-                  variant="secondary" 
-                  className="shrink-0"
-                >
+                <Badge variant="secondary" className="shrink-0">
                   {vocab.wordCount.toLocaleString()} 词
                 </Badge>
               </div>
             </CardHeader>
-            
+
             <CardContent>
               <div className="flex items-center justify-between pt-2">
                 <div className="flex items-center gap-2">
@@ -303,8 +285,8 @@ export function DefaultVocabularyListStatic({
                   size="sm"
                   className="h-7 text-xs text-primary hover:text-primary hover:bg-primary/10"
                   onClick={(e) => {
-                    e.stopPropagation();
-                    handleSelect(vocab);
+                    e.stopPropagation()
+                    handleSelect(vocab)
                   }}
                 >
                   选择
@@ -316,5 +298,5 @@ export function DefaultVocabularyListStatic({
         ))}
       </div>
     </div>
-  );
+  )
 }

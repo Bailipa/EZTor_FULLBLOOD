@@ -1,15 +1,15 @@
-'use client';
+'use client'
 
-import { useState, useEffect, useCallback } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Switch } from '@/components/ui/switch';
-import { 
-  Users, 
-  BookOpen, 
-  Languages, 
-  PenTool, 
+import { useState, useEffect, useCallback } from 'react'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import { Badge } from '@/components/ui/badge'
+import { Switch } from '@/components/ui/switch'
+import {
+  Users,
+  BookOpen,
+  Languages,
+  PenTool,
   AlertTriangle,
   TrendingUp,
   Activity,
@@ -18,69 +18,81 @@ import {
   ExternalLink,
   Database,
   BarChart3,
-  Filter
-} from 'lucide-react';
-import Link from 'next/link';
-import { useAdminCheck } from '@/hooks/useAdminCheck';
+  Filter,
+} from 'lucide-react'
+import Link from 'next/link'
+import { useAdminCheck } from '@/hooks/useAdminCheck'
 
 interface RecentEvent {
-  id: string;
-  eventType: string;
-  userId: string | null;
-  username: string | null;
-  sessionId: string | null;
-  metadata: Record<string, unknown> | null;
-  ipAddress: string | null;
-  userAgent: string | null;
-  createdAt: string;
+  id: string
+  eventType: string
+  userId: string | null
+  username: string | null
+  sessionId: string | null
+  metadata: Record<string, unknown> | null
+  ipAddress: string | null
+  userAgent: string | null
+  createdAt: string
 }
 
 interface GuestStats {
-  totalQueries: number;
-  totalFound: number;
-  totalNotFound: number;
-  successRate: number;
-  queryCount: number;
-  errorCount: number;
-  avgResponseTime: number;
-  errorReasons: { reason: string; count: number }[];
-  dailyTrend: { date: string; total: number; found: number; notFound: number; successRate: number }[];
+  totalQueries: number
+  totalFound: number
+  totalNotFound: number
+  successRate: number
+  queryCount: number
+  errorCount: number
+  avgResponseTime: number
+  errorReasons: { reason: string; count: number }[]
+  dailyTrend: {
+    date: string
+    total: number
+    found: number
+    notFound: number
+    successRate: number
+  }[]
 }
 
 interface UserStats {
-  totalQueries: number;
-  totalSuccess: number;
-  totalFailed: number;
-  successRate: number;
-  queryCount: number;
-  errorCount: number;
-  errorReasons: { reason: string; count: number }[];
-  dailyTrend: { date: string; total: number; success: number; failed: number; successRate: number }[];
+  totalQueries: number
+  totalSuccess: number
+  totalFailed: number
+  successRate: number
+  queryCount: number
+  errorCount: number
+  errorReasons: { reason: string; count: number }[]
+  dailyTrend: {
+    date: string
+    total: number
+    success: number
+    failed: number
+    successRate: number
+  }[]
 }
 
 interface TopWord {
-  word: string;
-  count: number;
+  word: string
+  count: number
 }
 
 interface AnalyticsData {
   overview: {
-    totalUsers: number;
-    newUsers: number;
-    dau: number;
-    totalWords: number;
-    totalTranslations: number;
-    totalDictations: number;
-    totalErrors: number;
-  };
-  userStats: UserStats;
-  guestStats: GuestStats;
-  topWords: TopWord[];
-  eventsByType: Record<string, number>;
-  dailyTrend: { date: string; count: number }[];
-  recentEvents: RecentEvent[];
-  range: string;
-  excludeTestUsers: boolean;
+    totalUsers: number
+    newUsers: number
+    dau: number
+    totalWords: number
+    totalTranslations: number
+    totalDictations: number
+    totalErrors: number
+  }
+  userStats: UserStats
+  guestStats: GuestStats
+  topWords: TopWord[]
+  eventsByType: Record<string, number>
+  dailyTrend: { date: string; count: number }[]
+  recentEvents: RecentEvent[]
+  range: string
+  excludeTestUsers: boolean
 }
 
 const eventTypeLabels: Record<string, string> = {
@@ -97,8 +109,8 @@ const eventTypeLabels: Record<string, string> = {
   ERROR: '错误',
   API_ERROR: 'API错误',
   GUEST_TRANSLATE: '游客查词',
-  GUEST_TRANSLATE_ERROR: '游客查词失败'
-};
+  GUEST_TRANSLATE_ERROR: '游客查词失败',
+}
 
 const eventTypeColors: Record<string, string> = {
   PAGE_VIEW: 'bg-gray-500',
@@ -114,115 +126,118 @@ const eventTypeColors: Record<string, string> = {
   ERROR: 'bg-red-500',
   API_ERROR: 'bg-red-600',
   GUEST_TRANSLATE: 'bg-teal-500',
-  GUEST_TRANSLATE_ERROR: 'bg-red-400'
-};
+  GUEST_TRANSLATE_ERROR: 'bg-red-400',
+}
 
 export default function AnalyticsPage() {
-  const { isLoading: authLoading, isAdmin, status } = useAdminCheck();
-  const [data, setData] = useState<AnalyticsData | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [range, setRange] = useState('7d');
-  const [exporting, setExporting] = useState(false);
-  const [excludeTestUsers, setExcludeTestUsers] = useState(true);
+  const { isLoading: authLoading, isAdmin, status } = useAdminCheck()
+  const [data, setData] = useState<AnalyticsData | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+  const [range, setRange] = useState('7d')
+  const [exporting, setExporting] = useState(false)
+  const [excludeTestUsers, setExcludeTestUsers] = useState(true)
 
   const fetchData = useCallback(async (selectedRange: string, exclude: boolean) => {
-    setLoading(true);
-    setError(null);
+    setLoading(true)
+    setError(null)
     try {
       const res = await fetch(`/api/analytics?range=${selectedRange}&excludeTestUsers=${exclude}`, {
-        cache: 'no-store'
-      });
-      const json = await res.json();
+        cache: 'no-store',
+      })
+      const json = await res.json()
       if (json.success) {
-        setData(json.data);
+        setData(json.data)
       } else {
-        setError(json.error || 'Failed to fetch data');
+        setError(json.error || 'Failed to fetch data')
       }
     } catch (_e) {
-      setError('Network error');
+      setError('Network error')
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  }, []);
+  }, [])
 
   useEffect(() => {
     if (isAdmin) {
-      fetchData(range, excludeTestUsers);
+      fetchData(range, excludeTestUsers)
     }
-  }, [range, isAdmin, excludeTestUsers, fetchData]);
+  }, [range, isAdmin, excludeTestUsers, fetchData])
 
   const handleExport = async (format: 'json' | 'csv') => {
-    setExporting(true);
+    setExporting(true)
     try {
-      const res = await fetch(`/api/analytics?range=${range}&format=${format}&excludeTestUsers=${excludeTestUsers}`, {
-        method: 'DELETE'
-      });
-      
+      const res = await fetch(
+        `/api/analytics?range=${range}&format=${format}&excludeTestUsers=${excludeTestUsers}`,
+        {
+          method: 'DELETE',
+        },
+      )
+
       if (format === 'csv') {
-        const blob = await res.blob();
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `analytics_${range}_${new Date().toISOString().split('T')[0]}.csv`;
-        a.click();
-        window.URL.revokeObjectURL(url);
+        const blob = await res.blob()
+        const url = window.URL.createObjectURL(blob)
+        const a = document.createElement('a')
+        a.href = url
+        a.download = `analytics_${range}_${new Date().toISOString().split('T')[0]}.csv`
+        a.click()
+        window.URL.revokeObjectURL(url)
       } else {
-        const json = await res.json();
+        const json = await res.json()
         if (json.success) {
-          const blob = new Blob([JSON.stringify(json.data, null, 2)], { type: 'application/json' });
-          const url = window.URL.createObjectURL(blob);
-          const a = document.createElement('a');
-          a.href = url;
-          a.download = `analytics_${range}_${new Date().toISOString().split('T')[0]}.json`;
-          a.click();
-          window.URL.revokeObjectURL(url);
+          const blob = new Blob([JSON.stringify(json.data, null, 2)], { type: 'application/json' })
+          const url = window.URL.createObjectURL(blob)
+          const a = document.createElement('a')
+          a.href = url
+          a.download = `analytics_${range}_${new Date().toISOString().split('T')[0]}.json`
+          a.click()
+          window.URL.revokeObjectURL(url)
         }
       }
     } catch (e) {
-      if (process.env.NODE_ENV === 'development') console.error('Export failed:', e);
+      if (process.env.NODE_ENV === 'development') console.error('Export failed:', e)
     } finally {
-      setExporting(false);
+      setExporting(false)
     }
-  };
+  }
 
   const formatTime = (isoString: string) => {
-    const date = new Date(isoString);
+    const date = new Date(isoString)
     return date.toLocaleString('zh-CN', {
       month: '2-digit',
       day: '2-digit',
       hour: '2-digit',
       minute: '2-digit',
-      second: '2-digit'
-    });
-  };
+      second: '2-digit',
+    })
+  }
 
   const getMetadataDisplay = (event: RecentEvent): string => {
-    if (!event.metadata) return '-';
-    const meta = event.metadata;
+    if (!event.metadata) return '-'
+    const meta = event.metadata
     if (event.eventType === 'TRANSLATE') {
-      return `${meta.wordCount || 0} 词${meta.cached ? ' (缓存)' : ''}`;
+      return `${meta.wordCount || 0} 词${meta.cached ? ' (缓存)' : ''}`
     }
     if (event.eventType === 'TRANSLATE_ONLY') {
-      return `${meta.charCount || 0} 字符`;
+      return `${meta.charCount || 0} 字符`
     }
     if (event.eventType === 'DICTATION_START') {
-      return `${meta.wordCount || 0} 词 ${meta.mode || '-'}`;
+      return `${meta.wordCount || 0} 词 ${meta.mode || '-'}`
     }
     if (event.eventType === 'DICTATION_COMPLETE') {
-      return `${meta.score || 0}/${meta.total || 0} (${meta.percentage || 0}%)`;
+      return `${meta.score || 0}/${meta.total || 0} (${meta.percentage || 0}%)`
     }
     if (event.eventType === 'PAGE_VIEW') {
-      return String(meta.pageName || meta.path || '-');
+      return String(meta.pageName || meta.path || '-')
     }
     if (event.eventType === 'GUEST_TRANSLATE') {
-      return `${meta.totalWords || 0} 词 成功率${meta.successRate || 0}%`;
+      return `${meta.totalWords || 0} 词 成功率${meta.successRate || 0}%`
     }
     if (event.eventType === 'GUEST_TRANSLATE_ERROR') {
-      return String(meta.error || 'Unknown error');
+      return String(meta.error || 'Unknown error')
     }
-    return JSON.stringify(meta);
-  };
+    return JSON.stringify(meta)
+  }
 
   if (authLoading) {
     return (
@@ -232,7 +247,7 @@ export default function AnalyticsPage() {
           <p className="text-muted-foreground">验证权限中...</p>
         </div>
       </div>
-    );
+    )
   }
 
   if (!isAdmin) {
@@ -247,13 +262,17 @@ export default function AnalyticsPage() {
                 ? '请先登录后再访问此页面。'
                 : '您没有管理员权限，无法访问此页面。'}
             </p>
-            <Button onClick={() => window.location.href = status === 'unauthenticated' ? '/auth/signin' : '/'}>
+            <Button
+              onClick={() =>
+                (window.location.href = status === 'unauthenticated' ? '/auth/signin' : '/')
+              }
+            >
               {status === 'unauthenticated' ? '前往登录' : '返回首页'}
             </Button>
           </CardContent>
         </Card>
       </div>
-    );
+    )
   }
 
   if (loading) {
@@ -261,7 +280,7 @@ export default function AnalyticsPage() {
       <div className="min-h-screen flex items-center justify-center">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
       </div>
-    );
+    )
   }
 
   if (error) {
@@ -277,13 +296,13 @@ export default function AnalyticsPage() {
           </CardContent>
         </Card>
       </div>
-    );
+    )
   }
 
-  if (!data) return null;
+  if (!data) return null
 
-  const maxDailyCount = Math.max(...data.dailyTrend.map(d => d.count), 1);
-  const _maxGuestDailyCount = Math.max(...data.guestStats.dailyTrend.map(d => d.total), 1);
+  const maxDailyCount = Math.max(...data.dailyTrend.map((d) => d.count), 1)
+  const _maxGuestDailyCount = Math.max(...data.guestStats.dailyTrend.map((d) => d.total), 1)
 
   return (
     <div className="min-h-screen bg-gray-50/50 dark:bg-background p-6 md:p-12">
@@ -345,10 +364,7 @@ export default function AnalyticsPage() {
                   <p className="text-sm text-muted-foreground">排除管理员和测试账号数据</p>
                 </div>
               </div>
-              <Switch
-                checked={excludeTestUsers}
-                onCheckedChange={setExcludeTestUsers}
-              />
+              <Switch checked={excludeTestUsers} onCheckedChange={setExcludeTestUsers} />
             </div>
           </CardContent>
         </Card>
@@ -361,9 +377,7 @@ export default function AnalyticsPage() {
                 <span className="text-sm text-muted-foreground">新增用户</span>
               </div>
               <p className="text-3xl font-bold mt-2">{data.overview.totalUsers}</p>
-              <p className="text-xs text-green-500 mt-1">
-                +{data.overview.newUsers} 用户
-              </p>
+              <p className="text-xs text-green-500 mt-1">+{data.overview.newUsers} 用户</p>
             </CardContent>
           </Card>
 
@@ -375,9 +389,10 @@ export default function AnalyticsPage() {
               </div>
               <p className="text-3xl font-bold mt-2">{data.overview.dau}</p>
               <p className="text-xs text-muted-foreground mt-1">
-                {data.overview.totalUsers > 0 
-                  ? Math.round((data.overview.dau / data.overview.totalUsers) * 100) 
-                  : 0}% 活跃率
+                {data.overview.totalUsers > 0
+                  ? Math.round((data.overview.dau / data.overview.totalUsers) * 100)
+                  : 0}
+                % 活跃率
               </p>
             </CardContent>
           </Card>
@@ -389,9 +404,7 @@ export default function AnalyticsPage() {
                 <span className="text-sm text-muted-foreground">翻译次数</span>
               </div>
               <p className="text-3xl font-bold mt-2">{data.overview.totalTranslations}</p>
-              <p className="text-xs text-muted-foreground mt-1">
-                核心功能使用
-              </p>
+              <p className="text-xs text-muted-foreground mt-1">核心功能使用</p>
             </CardContent>
           </Card>
 
@@ -402,9 +415,7 @@ export default function AnalyticsPage() {
                 <span className="text-sm text-muted-foreground">默写次数</span>
               </div>
               <p className="text-3xl font-bold mt-2">{data.overview.totalDictations}</p>
-              <p className="text-xs text-muted-foreground mt-1">
-                学习功能使用
-              </p>
+              <p className="text-xs text-muted-foreground mt-1">学习功能使用</p>
             </CardContent>
           </Card>
         </div>
@@ -420,27 +431,39 @@ export default function AnalyticsPage() {
           <CardContent>
             <div className="grid grid-cols-2 md:grid-cols-6 gap-4 mb-6">
               <div className="p-4 bg-indigo-50 dark:bg-indigo-950/30 rounded-lg text-center">
-                <p className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">{data.userStats.totalQueries}</p>
+                <p className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">
+                  {data.userStats.totalQueries}
+                </p>
                 <p className="text-sm text-muted-foreground">排除管理员和测试账号数据</p>
               </div>
               <div className="p-4 bg-green-50 dark:bg-green-950/30 rounded-lg text-center">
-                <p className="text-2xl font-bold text-green-600 dark:text-green-400">{data.userStats.totalSuccess}</p>
+                <p className="text-2xl font-bold text-green-600 dark:text-green-400">
+                  {data.userStats.totalSuccess}
+                </p>
                 <p className="text-sm text-muted-foreground">总成功事件</p>
               </div>
               <div className="p-4 bg-red-50 dark:bg-red-950/30 rounded-lg text-center">
-                <p className="text-2xl font-bold text-red-600 dark:text-red-400">{data.userStats.totalFailed}</p>
+                <p className="text-2xl font-bold text-red-600 dark:text-red-400">
+                  {data.userStats.totalFailed}
+                </p>
                 <p className="text-sm text-muted-foreground">总失败事件</p>
               </div>
               <div className="p-4 bg-blue-50 dark:bg-blue-950/30 rounded-lg text-center">
-                <p className="text-2xl font-bold text-blue-600 dark:text-blue-400">{data.userStats.successRate.toFixed(2)}%</p>
+                <p className="text-2xl font-bold text-blue-600 dark:text-blue-400">
+                  {data.userStats.successRate.toFixed(2)}%
+                </p>
                 <p className="text-sm text-muted-foreground">排除管理员和测试账号数据</p>
               </div>
               <div className="p-4 bg-purple-50 dark:bg-purple-950/30 rounded-lg text-center">
-                <p className="text-2xl font-bold text-purple-600 dark:text-purple-400">{data.userStats.queryCount}</p>
+                <p className="text-2xl font-bold text-purple-600 dark:text-purple-400">
+                  {data.userStats.queryCount}
+                </p>
                 <p className="text-sm text-muted-foreground">查询计数</p>
               </div>
               <div className="p-4 bg-orange-50 dark:bg-orange-950/30 rounded-lg text-center">
-                <p className="text-2xl font-bold text-orange-600 dark:text-orange-400">{data.userStats.errorCount}</p>
+                <p className="text-2xl font-bold text-orange-600 dark:text-orange-400">
+                  {data.userStats.errorCount}
+                </p>
                 <p className="text-sm text-muted-foreground">错误次数</p>
               </div>
             </div>
@@ -499,27 +522,39 @@ export default function AnalyticsPage() {
           <CardContent>
             <div className="grid grid-cols-2 md:grid-cols-6 gap-4 mb-6">
               <div className="p-4 bg-teal-50 dark:bg-teal-950/30 rounded-lg text-center">
-                <p className="text-2xl font-bold text-teal-600 dark:text-teal-400">{data.guestStats.totalQueries}</p>
+                <p className="text-2xl font-bold text-teal-600 dark:text-teal-400">
+                  {data.guestStats.totalQueries}
+                </p>
                 <p className="text-sm text-muted-foreground">排除管理员和测试账号数据</p>
               </div>
               <div className="p-4 bg-green-50 dark:bg-green-950/30 rounded-lg text-center">
-                <p className="text-2xl font-bold text-green-600 dark:text-green-400">{data.guestStats.totalFound}</p>
+                <p className="text-2xl font-bold text-green-600 dark:text-green-400">
+                  {data.guestStats.totalFound}
+                </p>
                 <p className="text-sm text-muted-foreground">成功找到</p>
               </div>
               <div className="p-4 bg-red-50 dark:bg-red-950/30 rounded-lg text-center">
-                <p className="text-2xl font-bold text-red-600 dark:text-red-400">{data.guestStats.totalNotFound}</p>
+                <p className="text-2xl font-bold text-red-600 dark:text-red-400">
+                  {data.guestStats.totalNotFound}
+                </p>
                 <p className="text-sm text-muted-foreground">排除管理员和测试账号数据</p>
               </div>
               <div className="p-4 bg-blue-50 dark:bg-blue-950/30 rounded-lg text-center">
-                <p className="text-2xl font-bold text-blue-600 dark:text-blue-400">{data.guestStats.successRate.toFixed(2)}%</p>
+                <p className="text-2xl font-bold text-blue-600 dark:text-blue-400">
+                  {data.guestStats.successRate.toFixed(2)}%
+                </p>
                 <p className="text-sm text-muted-foreground">排除管理员和测试账号数据</p>
               </div>
               <div className="p-4 bg-purple-50 dark:bg-purple-950/30 rounded-lg text-center">
-                <p className="text-2xl font-bold text-purple-600 dark:text-purple-400">{data.guestStats.queryCount}</p>
+                <p className="text-2xl font-bold text-purple-600 dark:text-purple-400">
+                  {data.guestStats.queryCount}
+                </p>
                 <p className="text-sm text-muted-foreground">其他功能点击数</p>
               </div>
               <div className="p-4 bg-orange-50 dark:bg-orange-950/30 rounded-lg text-center">
-                <p className="text-2xl font-bold text-orange-600 dark:text-orange-400">{data.guestStats.avgResponseTime}ms</p>
+                <p className="text-2xl font-bold text-orange-600 dark:text-orange-400">
+                  {data.guestStats.avgResponseTime}ms
+                </p>
                 <p className="text-sm text-muted-foreground">平均查询用时</p>
               </div>
             </div>
@@ -617,9 +652,7 @@ export default function AnalyticsPage() {
                           style={{ width: `${(item.count / maxDailyCount) * 100}%` }}
                         />
                       </div>
-                      <span className="text-xs font-medium w-10 text-right">
-                        {item.count}
-                      </span>
+                      <span className="text-xs font-medium w-10 text-right">{item.count}</span>
                     </div>
                   ))}
                 </div>
@@ -644,9 +677,14 @@ export default function AnalyticsPage() {
                 {Object.entries(data.eventsByType)
                   .sort(([, a], [, b]) => b - a)
                   .map(([type, count]) => (
-                    <div key={type} className="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
+                    <div
+                      key={type}
+                      className="flex items-center justify-between p-3 bg-muted/50 rounded-lg"
+                    >
                       <div className="flex items-center gap-2">
-                        <span className={`w-2 h-2 rounded-full ${eventTypeColors[type] || 'bg-gray-500'}`} />
+                        <span
+                          className={`w-2 h-2 rounded-full ${eventTypeColors[type] || 'bg-gray-500'}`}
+                        />
                         <span className="text-xs">{eventTypeLabels[type] || type}</span>
                       </div>
                       <span className="font-bold">{count}</span>
@@ -711,7 +749,9 @@ export default function AnalyticsPage() {
                           {formatTime(event.createdAt)}
                         </td>
                         <td className="py-2 px-2">
-                          <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs text-white ${eventTypeColors[event.eventType] || 'bg-gray-500'}`}>
+                          <span
+                            className={`inline-flex items-center px-2 py-0.5 rounded text-xs text-white ${eventTypeColors[event.eventType] || 'bg-gray-500'}`}
+                          >
                             {eventTypeLabels[event.eventType] || event.eventType}
                           </span>
                         </td>
@@ -740,12 +780,5 @@ export default function AnalyticsPage() {
         </Card>
       </div>
     </div>
-  );
+  )
 }
-
-
-
-
-
-
-

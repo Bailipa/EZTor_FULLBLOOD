@@ -1,7 +1,14 @@
 'use client'
 
 import { useState } from 'react'
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -39,7 +46,11 @@ export function LimitExceededModal({ open, onOpenChange, onSaved }: LimitExceede
       const res = await fetch('/api/custom-key/test', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ baseUrl: baseUrl.trim(), apiKey: apiKey.trim(), model: model.trim() }),
+        body: JSON.stringify({
+          baseUrl: baseUrl.trim(),
+          apiKey: apiKey.trim(),
+          model: model.trim(),
+        }),
       })
       const data = await res.json()
       if (data.success) {
@@ -72,7 +83,11 @@ export function LimitExceededModal({ open, onOpenChange, onSaved }: LimitExceede
       const res = await fetch('/api/custom-key', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ baseUrl: baseUrl.trim(), apiKey: apiKey.trim(), model: model.trim() }),
+        body: JSON.stringify({
+          baseUrl: baseUrl.trim(),
+          apiKey: apiKey.trim(),
+          model: model.trim(),
+        }),
       })
       const data = await res.json()
       if (data.success) {
@@ -96,15 +111,12 @@ export function LimitExceededModal({ open, onOpenChange, onSaved }: LimitExceede
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle className="text-lg font-medium">
-            每日翻译次数已用完
-          </DialogTitle>
+          <DialogTitle className="text-lg font-medium">每日翻译次数已用完</DialogTitle>
           <DialogDescription className="text-sm text-muted-foreground space-y-3 pt-2">
+            <p>出于运营成本考虑，每位用户每日可免费使用 30 次翻译功能。</p>
             <p>
-              出于运营成本考虑，每位用户每日可免费使用 30 次翻译功能。
-            </p>
-            <p>
-              如需继续使用，可以配置您自己的大模型 API，支持 OpenAI、DeepSeek、智谱、通义千问等兼容 OpenAI 接口的厂商。
+              如需继续使用，可以配置您自己的大模型 API，支持 OpenAI、DeepSeek、智谱、通义千问等兼容
+              OpenAI 接口的厂商。
             </p>
             <p className="text-xs text-muted-foreground/80">
               您的 API Key 将安全存储于服务器，通过 HTTPS 代理调用大模型，不会泄露给第三方。
@@ -122,7 +134,11 @@ export function LimitExceededModal({ open, onOpenChange, onSaved }: LimitExceede
               id="baseUrl"
               placeholder="https://api.openai.com/v1"
               value={baseUrl}
-              onChange={(e) => { setBaseUrl(e.target.value); setTestResult(null); setTestedSuccessfully(false) }}
+              onChange={(e) => {
+                setBaseUrl(e.target.value)
+                setTestResult(null)
+                setTestedSuccessfully(false)
+              }}
             />
           </div>
 
@@ -136,7 +152,11 @@ export function LimitExceededModal({ open, onOpenChange, onSaved }: LimitExceede
               type="password"
               placeholder="sk-••••••••••••••••••••"
               value={apiKey}
-              onChange={(e) => { setApiKey(e.target.value); setTestResult(null); setTestedSuccessfully(false) }}
+              onChange={(e) => {
+                setApiKey(e.target.value)
+                setTestResult(null)
+                setTestedSuccessfully(false)
+              }}
             />
           </div>
 
@@ -149,7 +169,11 @@ export function LimitExceededModal({ open, onOpenChange, onSaved }: LimitExceede
               id="model"
               placeholder="gpt-4o-mini"
               value={model}
-              onChange={(e) => { setModel(e.target.value); setTestResult(null); setTestedSuccessfully(false) }}
+              onChange={(e) => {
+                setModel(e.target.value)
+                setTestResult(null)
+                setTestedSuccessfully(false)
+              }}
             />
           </div>
 
@@ -161,7 +185,11 @@ export function LimitExceededModal({ open, onOpenChange, onSaved }: LimitExceede
                   : 'bg-red-50 text-red-700 dark:bg-red-950 dark:text-red-400'
               }`}
             >
-              {testResult.success ? <CheckCircle className="w-4 h-4 shrink-0" /> : <XCircle className="w-4 h-4 shrink-0" />}
+              {testResult.success ? (
+                <CheckCircle className="w-4 h-4 shrink-0" />
+              ) : (
+                <XCircle className="w-4 h-4 shrink-0" />
+              )}
               <span>{testResult.message}</span>
             </div>
           )}
@@ -174,7 +202,10 @@ export function LimitExceededModal({ open, onOpenChange, onSaved }: LimitExceede
               disabled={isTesting || !baseUrl || !apiKey || !model}
             >
               {isTesting ? (
-                <><Loader2 className="w-4 h-4 mr-1 animate-spin" />测试中</>
+                <>
+                  <Loader2 className="w-4 h-4 mr-1 animate-spin" />
+                  测试中
+                </>
               ) : (
                 '测试连接'
               )}

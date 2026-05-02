@@ -1,22 +1,23 @@
-import type { Metadata, Viewport } from "next";
-import "./globals.css";
-import { Toaster } from "sonner";
+import type { Metadata, Viewport } from 'next'
+import './globals.css'
+import { Toaster } from 'sonner'
 
-import { ThemeProvider } from "@/components/theme-provider"
-import { NextAuthProvider } from "@/components/providers/session-provider";
+import { ThemeProvider } from '@/components/theme-provider'
+import { NextAuthProvider } from '@/components/providers/session-provider'
 
 export const metadata: Metadata = {
   title: {
-    default: "EZTor - 智能英语翻译与词汇记忆工具",
-    template: "%s | EZTor",
+    default: 'EZTor - 智能英语翻译与词汇记忆工具',
+    template: '%s | EZTor',
   },
-  description: "EZTor 是一款简洁强大的英语翻译与词汇记忆工具，支持 AI 批量翻译、生词本管理、默写复习等功能。",
+  description:
+    'EZTor 是一款简洁强大的英语翻译与词汇记忆工具，支持 AI 批量翻译、生词本管理、默写复习等功能。',
   keywords: ['英语翻译', '词汇记忆', '单词本', 'AI翻译', '英语学习', 'EZTor'],
   robots: {
     index: true,
     follow: true,
   },
-};
+}
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -25,19 +26,15 @@ export const viewport: Viewport = {
     { media: '(prefers-color-scheme: light)', color: '#ffffff' },
     { media: '(prefers-color-scheme: dark)', color: '#171717' },
   ],
-};
+}
 
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: React.ReactNode
 }>) {
   return (
-    <html
-      lang="zh-CN"
-      suppressHydrationWarning
-      className="h-full antialiased font-sans"
-    >
+    <html lang="zh-CN" suppressHydrationWarning className="h-full antialiased font-sans">
       <body className="min-h-full flex flex-col">
         <NextAuthProvider>
           <ThemeProvider
@@ -52,5 +49,5 @@ export default function RootLayout({
         </NextAuthProvider>
       </body>
     </html>
-  );
+  )
 }

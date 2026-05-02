@@ -59,13 +59,13 @@ User Input → sentenceDetector (word vs sentence)
 
 ### Security Layers
 
-| Layer | Module |
-|-------|--------|
-| CSRF | `csrf.ts` → middleware for all non-public paths |
-| Prompt Injection | `injectionDetector.ts` (regex patterns), `security.ts` (sanitization) |
-| Rate Limiting | `rateLimit.ts` (sliding window, memory + Redis stores) |
-| Ban Escalation | `banManager.ts` (warning → 1h → 24h → permanent) |
-| Environment Validation | `envValidator.ts` → `instrumentation.ts` at startup |
+| Layer                  | Module                                                                |
+| ---------------------- | --------------------------------------------------------------------- |
+| CSRF                   | `csrf.ts` → middleware for all non-public paths                       |
+| Prompt Injection       | `injectionDetector.ts` (regex patterns), `security.ts` (sanitization) |
+| Rate Limiting          | `rateLimit.ts` (sliding window, memory + Redis stores)                |
+| Ban Escalation         | `banManager.ts` (warning → 1h → 24h → permanent)                      |
+| Environment Validation | `envValidator.ts` → `instrumentation.ts` at startup                   |
 
 ### Vocabulary Data Model
 
@@ -80,6 +80,7 @@ Public words cascade updates to all linked private words via `publicWordCascade.
 ### History Page Performance
 
 The history page (`/history`) uses `react-virtuoso` with:
+
 - `contain: layout style paint` CSS containment on cards
 - GPU acceleration via `transform: translateZ(0)` / `backface-visibility: hidden`
 - `overscan: 300` and `increaseViewportBy: { top: 500, bottom: 500 }`
@@ -89,6 +90,7 @@ The history page (`/history`) uses `react-virtuoso` with:
 ### Structured Logging
 
 Pino-based logger (`lib/logger.ts`) with:
+
 - JSON output in production, pretty-print in development
 - Per-request child loggers with `requestId` + `userId` context
 - Security event logging via `logger.security()`

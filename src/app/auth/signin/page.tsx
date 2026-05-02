@@ -1,72 +1,76 @@
-"use client";
+'use client'
 
-import { signIn } from "next-auth/react";
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
-import { RefreshCw } from "lucide-react";
+import { signIn } from 'next-auth/react'
+import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
+import { Label } from '@/components/ui/label'
+import { RefreshCw } from 'lucide-react'
 
 export default function SignIn() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [captchaInput, setCaptchaInput] = useState("");
-  const [captchaData, setCaptchaData] = useState<{ image: string; hash: string; timestamp: number } | null>(null);
-  const [error, setError] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const router = useRouter();
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const [captchaInput, setCaptchaInput] = useState('')
+  const [captchaData, setCaptchaData] = useState<{
+    image: string
+    hash: string
+    timestamp: number
+  } | null>(null)
+  const [error, setError] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
+  const router = useRouter()
 
   const fetchCaptcha = async () => {
     try {
-      const res = await fetch("/api/captcha");
-      const data = await res.json();
-      setCaptchaData(data);
-      setCaptchaInput("");
+      const res = await fetch('/api/captcha')
+      const data = await res.json()
+      setCaptchaData(data)
+      setCaptchaInput('')
     } catch (err) {
-      if (process.env.NODE_ENV === 'development') console.error("Failed to fetch captcha", err);
+      if (process.env.NODE_ENV === 'development') console.error('Failed to fetch captcha', err)
     }
-  };
+  }
 
   useEffect(() => {
-    fetchCaptcha();
-  }, []);
+    fetchCaptcha()
+  }, [])
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
-    setError("");
+    e.preventDefault()
+    setIsLoading(true)
+    setError('')
 
     if (!captchaData) {
-      setError("验证码未加载完成");
-      setIsLoading(false);
-      return;
+      setError('验证码未加载完成')
+      setIsLoading(false)
+      return
     }
 
     try {
-      const res = await signIn("credentials", {
+      const res = await signIn('credentials', {
         username,
         password,
         captchaInput,
         captchaHash: captchaData.hash,
         captchaTimestamp: captchaData.timestamp.toString(),
         redirect: false,
-      });
+      })
 
       if (res?.error) {
-        setError(res.error);
-        fetchCaptcha();
+        setError(res.error)
+        fetchCaptcha()
       } else {
-        router.push("/");
-        router.refresh();
+        router.push('/')
+        router.refresh()
       }
     } catch (_err) {
-      setError("发生未知错误");
+      setError('发生未知错误')
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
-  };
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-background p-4">
@@ -76,9 +80,13 @@ export default function SignIn() {
           <CardDescription>
             输入您的账号密码以访问您的个人词汇库。
             <br />
-            <span className="text-primary text-xs mt-2 inline-block">如果账号不存在，会自动创建。</span>
+            <span className="text-primary text-xs mt-2 inline-block">
+              如果账号不存在，会自动创建。
+            </span>
             <br />
-            <span className="text-red-500/80 text-xs mt-1 inline-block font-medium">⚠️ 为了保障您的隐私，请不要使用与学校账户相同的密码</span>
+            <span className="text-red-500/80 text-xs mt-1 inline-block font-medium">
+              ⚠️ 为了保障您的隐私，请不要使用与学校账户相同的密码
+            </span>
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -103,7 +111,7 @@ export default function SignIn() {
                 required
               />
             </div>
-            
+
             <div className="space-y-2">
               <Label htmlFor="captcha">验证码</Label>
               <div className="flex items-center gap-3">
@@ -136,11 +144,11 @@ export default function SignIn() {
 
             {error && <p className="text-sm text-red-500">{error}</p>}
             <Button type="submit" className="w-full" disabled={isLoading}>
-              {isLoading ? "登录中..." : "登录 / 注册"}
+              {isLoading ? '登录中...' : '登录 / 注册'}
             </Button>
           </form>
         </CardContent>
       </Card>
     </div>
-  );
+  )
 }

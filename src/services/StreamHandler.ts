@@ -1,36 +1,45 @@
-import { CachedWord } from './CacheService';
-import { TranslationService } from './TranslationService';
+import { CachedWord } from './CacheService'
+import { TranslationService } from './TranslationService'
 
 export class StreamHandler {
-  private readonly translationService: TranslationService;
+  private readonly translationService: TranslationService
 
   constructor(translationService: TranslationService) {
-    this.translationService = translationService;
+    this.translationService = translationService
   }
 
   createCacheStream(orderedCachedResults: CachedWord[]): ReadableStream {
-    const cacheJsonStr = JSON.stringify({ results: orderedCachedResults });
-    const encoder = new TextEncoder();
+    const cacheJsonStr = JSON.stringify({ results: orderedCachedResults })
+    const encoder = new TextEncoder()
     const stream = new ReadableStream({
       start(controller) {
-        controller.enqueue(encoder.encode(cacheJsonStr + '\n\n'));
-        controller.close();
-      }
-    });
-    return stream;
+        controller.enqueue(encoder.encode(cacheJsonStr + '\n\n'))
+        controller.close()
+      },
+    })
+    return stream
   }
 
-  createTranslationStream(response: AsyncIterable<{ choices?: Array<{ delta?: { content?: string | null } }> }>, orderedCachedResults: CachedWord[], targetGroupId?: string): ReadableStream {
-    const translationService = this.translationService;
+  createTranslationStream(
+    response: AsyncIterable<{ choices?: Array<{ delta?: { content?: string | null } }> }>,
+    orderedCachedResults: CachedWord[],
+    targetGroupId?: string,
+  ): ReadableStream {
+    const translationService = this.translationService
     const stream = new ReadableStream({
       async start(controller) {
-        await translationService.processTranslationStream(response, controller, orderedCachedResults, targetGroupId);
+        await translationService.processTranslationStream(
+          response,
+          controller,
+          orderedCachedResults,
+          targetGroupId,
+        )
       },
       cancel() {
         // Client disconnected — the TranslationService checks controller.signal.aborted internally
-      }
-    });
-    return stream;
+      },
+    })
+    return stream
   }
 
   createStreamResponse(stream: ReadableStream): Response {
@@ -38,8 +47,8 @@ export class StreamHandler {
       headers: {
         'Content-Type': 'text/event-stream',
         'Cache-Control': 'no-cache',
-        'Connection': 'keep-alive',
+        Connection: 'keep-alive',
       },
-    });
+    })
   }
 }

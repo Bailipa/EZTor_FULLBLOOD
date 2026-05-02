@@ -8,12 +8,12 @@ function truncateError(error: string): string {
 }
 
 interface ProviderMetrics {
-  totalRequests: number;
-  successfulRequests: number;
-  failedRequests: number;
-  totalDuration: number;
-  lastRequestAt: Date;
-  errors: Map<string, number>;
+  totalRequests: number
+  successfulRequests: number
+  failedRequests: number
+  totalDuration: number
+  lastRequestAt: Date
+  errors: Map<string, number>
 }
 
 class MonitoringService {

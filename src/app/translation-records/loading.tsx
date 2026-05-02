@@ -14,5 +14,5 @@ export default function TranslationRecordsLoading() {
         <div className="h-64 bg-muted/30 rounded-lg animate-pulse" />
       </div>
     </div>
-  );
+  )
 }

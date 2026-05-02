@@ -11,8 +11,14 @@
     "test:ui": "vitest --ui",
     "test:coverage": "vitest --coverage",
     "test:smoke": "vitest src/__tests__/smoke/",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "format": "prettier --write . --ignore-path .gitignore",
+    "db:generate": "prisma generate",
+    "db:migrate": "prisma migrate dev",
+    "db:deploy": "prisma migrate deploy",
+    "db:studio": "prisma studio"
   },
+  "postinstall": "prisma generate",
   "dependencies": {
     "@lobehub/tts": "^5.1.2",
     "@next/swc-darwin-arm64": "^16.2.3",
@@ -54,6 +60,7 @@
     "@vitest/coverage-v8": "^1.6.1",
     "eslint": "^9",
     "eslint-config-next": "^16.2.3",
+    "prettier": "^3.8.3",
     "prisma": "^5.14.0",
     "tailwindcss": "^4",
     "tsx": "^4.21.0",

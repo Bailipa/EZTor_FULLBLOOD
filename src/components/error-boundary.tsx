@@ -1,49 +1,53 @@
-'use client';
+'use client'
 
-import React from 'react';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import React from 'react'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
 interface ErrorBoundaryProps {
-  children: React.ReactNode;
-  fallback?: React.ReactNode;
+  children: React.ReactNode
+  fallback?: React.ReactNode
 }
 
 interface ErrorBoundaryState {
-  hasError: boolean;
-  error?: Error;
+  hasError: boolean
+  error?: Error
 }
 
 export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
   constructor(props: ErrorBoundaryProps) {
-    super(props);
-    this.state = { hasError: false };
+    super(props)
+    this.state = { hasError: false }
   }
 
   static getDerivedStateFromError(error: Error): ErrorBoundaryState {
-    return { hasError: true, error };
+    return { hasError: true, error }
   }
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo): void {
-    if (process.env.NODE_ENV === 'development') console.error('ErrorBoundary caught an error:', error, errorInfo);
+    if (process.env.NODE_ENV === 'development')
+      console.error('ErrorBoundary caught an error:', error, errorInfo)
   }
 
   handleRetry = (): void => {
-    this.setState({ hasError: false, error: undefined });
-  };
+    this.setState({ hasError: false, error: undefined })
+  }
 
   handleReload = (): void => {
-    window.location.reload();
-  };
+    window.location.reload()
+  }
 
   render(): React.ReactNode {
     if (this.state.hasError) {
       if (this.props.fallback) {
-        return this.props.fallback;
+        return this.props.fallback
       }
 
       return (
-        <div className="min-h-screen flex items-center justify-center p-4 bg-background" role="alert">
+        <div
+          className="min-h-screen flex items-center justify-center p-4 bg-background"
+          role="alert"
+        >
           <Card className="w-full max-w-md border-destructive/50">
             <CardHeader>
               <CardTitle className="text-destructive flex items-center gap-2">
@@ -70,7 +74,12 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
                 {this.state.error?.message || '发生了意外错误，请稍后重试。'}
               </p>
               <div className="flex gap-2">
-                <Button variant="outline" onClick={this.handleRetry} className="flex-1" aria-label="重试">
+                <Button
+                  variant="outline"
+                  onClick={this.handleRetry}
+                  className="flex-1"
+                  aria-label="重试"
+                >
                   重试
                 </Button>
                 <Button onClick={this.handleReload} className="flex-1" aria-label="刷新页面">
@@ -80,11 +89,11 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
             </CardContent>
           </Card>
         </div>
-      );
+      )
     }
 
-    return this.props.children;
+    return this.props.children
   }
 }
 
-export default ErrorBoundary;
+export default ErrorBoundary

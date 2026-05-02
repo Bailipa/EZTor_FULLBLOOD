@@ -1,12 +1,17 @@
-import { withLlmFailover, API_QUOTA_EXHAUSTED_MESSAGE, getProviderCandidates } from '@/lib/llmPool';
-import type { ProviderSelection } from '@/lib/llmPool';
-import { isSentence } from '@/lib/sentenceDetector';
-import prisma from '@/lib/prisma';
-import { randomUUID } from 'crypto';
-import PublicWordService, { type WordData } from '@/services/PublicWordService';
-import { getPendingRequest, getCompletedRequest, resolvePendingRequest, setPendingRequest } from '@/lib/requestDeduplication';
-import { logger } from '@/lib/logger';
-import type { Session } from 'next-auth';
+import { withLlmFailover, API_QUOTA_EXHAUSTED_MESSAGE, getProviderCandidates } from '@/lib/llmPool'
+import type { ProviderSelection } from '@/lib/llmPool'
+import { isSentence } from '@/lib/sentenceDetector'
+import prisma from '@/lib/prisma'
+import { randomUUID } from 'crypto'
+import PublicWordService, { type WordData } from '@/services/PublicWordService'
+import {
+  getPendingRequest,
+  getCompletedRequest,
+  resolvePendingRequest,
+  setPendingRequest,
+} from '@/lib/requestDeduplication'
+import { logger } from '@/lib/logger'
+import type { Session } from 'next-auth'
 
 const DEFAULT_SYSTEM_PROMPT = `你是一个专业的英语词典助手。你的唯一任务是解析和翻译用户提供的英语单词或词组。
 
@@ -98,54 +103,56 @@ const DEFAULT_SYSTEM_PROMPT = `你是一个专业的英语词典助手。你的�
       "exampleTranslation": "这些门户国家在国际贸易中发挥着至关重要的作用。"
     }
   ]
-}`;
+}`
 
 export interface TranslationOptions {
-  showPos?: boolean;
-  showExample?: boolean;
+  showPos?: boolean
+  showExample?: boolean
 }
 
 export interface TranslationResult {
-  word: string;
-  phonetic: string;
-  pos: string;
-  translation: string;
-  example: string;
-  exampleTranslation: string;
-  fromCache?: boolean;
+  word: string
+  phonetic: string
+  pos: string
+  translation: string
+  example: string
+  exampleTranslation: string
+  fromCache?: boolean
 }
 
 export class TranslationService {
-  private readonly session: Session | null;
-  private readonly inputWordMap: Map<string, string>;
+  private readonly session: Session | null
+  private readonly inputWordMap: Map<string, string>
 
   constructor(session: Session | null, words: string[]) {
-    this.session = session;
-    this.inputWordMap = new Map<string, string>();
-    words.forEach(word => {
-      this.inputWordMap.set(word.toLowerCase(), word);
-    });
+    this.session = session
+    this.inputWordMap = new Map<string, string>()
+    words.forEach((word) => {
+      this.inputWordMap.set(word.toLowerCase(), word)
+    })
   }
 
   async getProviderCandidates() {
     const apiConfig = await prisma.apiConfig.findUnique({
-      where: { id: "global" }
-    });
+      where: { id: 'global' },
+    })
 
-    const legacyApiKey = apiConfig?.apiKey || process.env.LLM_API_KEY;
-    const legacyBaseUrl = apiConfig?.baseUrl || process.env.LLM_API_URL;
-    const legacyModel = apiConfig?.model || process.env.LLM_MODEL || 'gpt-4o-mini';
+    const legacyApiKey = apiConfig?.apiKey || process.env.LLM_API_KEY
+    const legacyBaseUrl = apiConfig?.baseUrl || process.env.LLM_API_URL
+    const legacyModel = apiConfig?.model || process.env.LLM_MODEL || 'gpt-4o-mini'
 
     return getProviderCandidates({
       apiKey: legacyApiKey,
       baseUrl: legacyBaseUrl,
       model: legacyModel,
-    });
+    })
   }
 
-  async detectSpecialCases(words: string[]): Promise<{ filteredWords: string[], specialResults: TranslationResult[] }> {
-    const filteredWords: string[] = [];
-    const specialResults: TranslationResult[] = [];
+  async detectSpecialCases(
+    words: string[],
+  ): Promise<{ filteredWords: string[]; specialResults: TranslationResult[] }> {
+    const filteredWords: string[] = []
+    const specialResults: TranslationResult[] = []
 
     for (const word of words) {
       // 检测非英语输入
@@ -157,8 +164,8 @@ export class TranslationService {
           translation: '当前功能非英语不予翻译',
           example: '',
           exampleTranslation: '',
-        });
-      } 
+        })
+      }
       // 检测句子输入
       else if (isSentence(word)) {
         specialResults.push({
@@ -168,28 +175,32 @@ export class TranslationService {
           translation: '当前功能不能翻译句子，翻译句子请使用Translate Only',
           example: '',
           exampleTranslation: '',
-        });
-      } 
+        })
+      }
       // 正常单词
       else {
-        filteredWords.push(word);
+        filteredWords.push(word)
       }
     }
 
-    return { filteredWords, specialResults };
+    return { filteredWords, specialResults }
   }
 
-  async checkConcurrentRequests(words: string[]): Promise<{ completedResults: TranslationResult[], stillNeedFetch: string[] }> {
-    const completedResults: TranslationResult[] = [];
-    const stillNeedFetch: string[] = [];
-    
+  async checkConcurrentRequests(
+    words: string[],
+  ): Promise<{ completedResults: TranslationResult[]; stillNeedFetch: string[] }> {
+    const completedResults: TranslationResult[] = []
+    const stillNeedFetch: string[] = []
+
     for (const word of words) {
-      const completedKey = `translate:${word.toLowerCase()}`;
-      const completedResult = getCompletedRequest<TranslationResult[]>(completedKey);
+      const completedKey = `translate:${word.toLowerCase()}`
+      const completedResult = getCompletedRequest<TranslationResult[]>(completedKey)
       if (completedResult && completedResult.length > 0) {
-        const found = completedResult.find((r: TranslationResult) => r.word.toLowerCase() === word.toLowerCase());
+        const found = completedResult.find(
+          (r: TranslationResult) => r.word.toLowerCase() === word.toLowerCase(),
+        )
         if (found) {
-          logger.info({ word }, '[Concurrent] Found in completed cache');
+          logger.info({ word }, '[Concurrent] Found in completed cache')
           completedResults.push({
             word: this.inputWordMap.get(found.word.toLowerCase()) || found.word,
             phonetic: found.phonetic || '',
@@ -197,80 +208,93 @@ export class TranslationService {
             translation: found.translation,
             example: found.example || '',
             exampleTranslation: found.exampleTranslation || '',
-            fromCache: true
-          });
-          continue;
+            fromCache: true,
+          })
+          continue
         }
       }
-      stillNeedFetch.push(word);
+      stillNeedFetch.push(word)
     }
-    
-    return { completedResults, stillNeedFetch };
+
+    return { completedResults, stillNeedFetch }
   }
 
-  async waitForPendingRequests(words: string[]): Promise<{ completedResults: TranslationResult[], stillNeedFetch: string[] }> {
-    const CONCURRENT_WAIT_MS = 500;
-    const MAX_WAIT_ATTEMPTS = 10;
-    let stillNeedFetch = [...words];
-    const completedResults: TranslationResult[] = [];
-    
+  async waitForPendingRequests(
+    words: string[],
+  ): Promise<{ completedResults: TranslationResult[]; stillNeedFetch: string[] }> {
+    const CONCURRENT_WAIT_MS = 500
+    const MAX_WAIT_ATTEMPTS = 10
+    let stillNeedFetch = [...words]
+    const completedResults: TranslationResult[] = []
+
     for (let attempt = 0; attempt < MAX_WAIT_ATTEMPTS; attempt++) {
-      const pendingKey = `translate:${stillNeedFetch.sort().join(',')}`;
-      const pendingRequest = getPendingRequest(pendingKey);
-      
+      const pendingKey = `translate:${stillNeedFetch.sort().join(',')}`
+      const pendingRequest = getPendingRequest(pendingKey)
+
       if (pendingRequest) {
-        logger.info({ attempt: attempt + 1, pendingKey }, '[Concurrent] Waiting for pending request');
-        await new Promise(resolve => setTimeout(resolve, CONCURRENT_WAIT_MS));
-        
+        logger.info(
+          { attempt: attempt + 1, pendingKey },
+          '[Concurrent] Waiting for pending request',
+        )
+        await new Promise((resolve) => setTimeout(resolve, CONCURRENT_WAIT_MS))
+
         // 再次检查completedRequests（可能刚刚处理完）
-        const { completedResults: newCompletedResults, stillNeedFetch: newStillNeedFetch } = await this.checkConcurrentRequests(stillNeedFetch);
-        
+        const { completedResults: newCompletedResults, stillNeedFetch: newStillNeedFetch } =
+          await this.checkConcurrentRequests(stillNeedFetch)
+
         if (newCompletedResults.length > 0) {
-          completedResults.push(...newCompletedResults);
+          completedResults.push(...newCompletedResults)
         }
-        
+
         if (newStillNeedFetch.length === 0) {
-          logger.info('[Concurrent] All words found after waiting');
-          return { completedResults, stillNeedFetch: [] };
+          logger.info('[Concurrent] All words found after waiting')
+          return { completedResults, stillNeedFetch: [] }
         }
-        
-        stillNeedFetch = newStillNeedFetch;
+
+        stillNeedFetch = newStillNeedFetch
       } else {
-        break;
+        break
       }
     }
-    
+
     // 等待循环结束后，最后一次检查completedRequests
-    const { completedResults: finalCompletedResults, stillNeedFetch: finalStillNeedFetch } = await this.checkConcurrentRequests(stillNeedFetch);
-    completedResults.push(...finalCompletedResults);
-    
-    return { completedResults, stillNeedFetch: finalStillNeedFetch };
+    const { completedResults: finalCompletedResults, stillNeedFetch: finalStillNeedFetch } =
+      await this.checkConcurrentRequests(stillNeedFetch)
+    completedResults.push(...finalCompletedResults)
+
+    return { completedResults, stillNeedFetch: finalStillNeedFetch }
   }
 
   async saveWordsToDatabase(words: WordData[], targetGroupId?: string) {
-    const wordsToSave = words.filter((item: WordData) => 
-      item.pos !== "错误" && 
-      item.pos !== "风控" &&
-      item.pos !== "中断" &&
-      item.pos !== "非英语" &&
-      item.pos !== "句子" &&
-      !(item.translation && item.translation.includes("拼写错误或不存在")) &&
-      !(item.translation && item.translation.includes("粗俗或敏感")) &&
-      !(item.translation && item.translation.includes("⚠️"))
-    ).map((item: WordData) => ({
-      word: String(item.word || '').toLowerCase().trim(),
-      phonetic: item.phonetic || null,
-      pos: item.pos || null,
-      translation: item.translation || '',
-      example: item.example || null,
-      exampleTranslation: item.exampleTranslation || null,
-    })).filter((w: WordData) => w.word);
+    const wordsToSave = words
+      .filter(
+        (item: WordData) =>
+          item.pos !== '错误' &&
+          item.pos !== '风控' &&
+          item.pos !== '中断' &&
+          item.pos !== '非英语' &&
+          item.pos !== '句子' &&
+          !(item.translation && item.translation.includes('拼写错误或不存在')) &&
+          !(item.translation && item.translation.includes('粗俗或敏感')) &&
+          !(item.translation && item.translation.includes('⚠️')),
+      )
+      .map((item: WordData) => ({
+        word: String(item.word || '')
+          .toLowerCase()
+          .trim(),
+        phonetic: item.phonetic || null,
+        pos: item.pos || null,
+        translation: item.translation || '',
+        example: item.example || null,
+        exampleTranslation: item.exampleTranslation || null,
+      }))
+      .filter((w: WordData) => w.word)
 
-    const groupWordData: { id: string; reviewGroupId: string; wordId: string }[] = [];
-    const publicWordService = new PublicWordService(this.session!.user.id);
+    const groupWordData: { id: string; reviewGroupId: string; wordId: string }[] = []
+    const publicWordService = new PublicWordService(this.session!.user.id)
 
     for (const wordData of wordsToSave) {
-      const publicWordId = await publicWordService.saveWordToPublicLibrary(wordData);
+      const publicWordId = await publicWordService.saveWordToPublicLibrary(wordData)
 
       // 保存到用户私有库（仅存元数据 + publicWordId，避免冗余复制）
       try {
@@ -278,8 +302,8 @@ export class TranslationService {
           where: {
             word_userId: {
               word: wordData.word,
-              userId: this.session!.user.id
-            }
+              userId: this.session!.user.id,
+            },
           },
           update: {
             publicWordId,
@@ -298,14 +322,18 @@ export class TranslationService {
             sourceType: 'LLM',
             publicWordId,
             updatedAt: new Date(),
-          }
-        });
+          },
+        })
 
         if (targetGroupId && savedWord) {
-          groupWordData.push({ id: randomUUID(), reviewGroupId: targetGroupId, wordId: savedWord.id });
+          groupWordData.push({
+            id: randomUUID(),
+            reviewGroupId: targetGroupId,
+            wordId: savedWord.id,
+          })
         }
       } catch (err: unknown) {
-        logger.error({ err, word: wordData.word }, 'Failed to save mirrored word');
+        logger.error({ err, word: wordData.word }, 'Failed to save mirrored word')
       }
     }
 
@@ -314,156 +342,192 @@ export class TranslationService {
         await prisma.reviewGroupWord.createMany({
           data: groupWordData,
           skipDuplicates: true,
-        });
+        })
       } catch (err: unknown) {
-        logger.error({ err }, "Failed to batch add words to group");
+        logger.error({ err }, 'Failed to batch add words to group')
       }
     }
 
-    logger.info(`Saved ${wordsToSave.length} words to DB during stream for user ${this.session!.user.id}.`);
+    logger.info(
+      `Saved ${wordsToSave.length} words to DB during stream for user ${this.session!.user.id}.`,
+    )
   }
 
-  async processTranslationStream(response: AsyncIterable<{ choices?: Array<{ delta?: { content?: string | null } }> }>, controller: ReadableStreamDefaultController, orderedCachedResults: TranslationResult[], targetGroupId?: string) {
-    const encoder = new TextEncoder();
-    
+  async processTranslationStream(
+    response: AsyncIterable<{ choices?: Array<{ delta?: { content?: string | null } }> }>,
+    controller: ReadableStreamDefaultController,
+    orderedCachedResults: TranslationResult[],
+    targetGroupId?: string,
+  ) {
+    const encoder = new TextEncoder()
+
     // 如果有缓存结果，直接作为第一块完整的数据发送过去
     if (orderedCachedResults.length > 0) {
-      const cacheChunk = JSON.stringify({ results: orderedCachedResults });
-      controller.enqueue(encoder.encode(cacheChunk + '\n\n'));
+      const cacheChunk = JSON.stringify({ results: orderedCachedResults })
+      controller.enqueue(encoder.encode(cacheChunk + '\n\n'))
     }
 
-    let accumulatedAiText = "";
-    let aiParsedResults: WordData[] = [];
-    const MAX_ACCUMULATED_SIZE = 500 * 1024;
-    
+    let accumulatedAiText = ''
+    let aiParsedResults: WordData[] = []
+    const MAX_ACCUMULATED_SIZE = 500 * 1024
+
     try {
       // 接收大模型的流式数据
       for await (const chunk of response) {
-        const ctrl = controller as ReadableStreamDefaultController & { signal?: { aborted?: boolean } };
-        if (ctrl.signal?.aborted) {
-          logger.info('[TranslationService] Client disconnected, stopping stream');
-          break;
+        const ctrl = controller as ReadableStreamDefaultController & {
+          signal?: { aborted?: boolean }
         }
-        const content = chunk.choices?.[0]?.delta?.content || '';
+        if (ctrl.signal?.aborted) {
+          logger.info('[TranslationService] Client disconnected, stopping stream')
+          break
+        }
+        const content = chunk.choices?.[0]?.delta?.content || ''
         if (content) {
-          accumulatedAiText += content;
+          accumulatedAiText += content
           if (accumulatedAiText.length > MAX_ACCUMULATED_SIZE) {
-            logger.error('[TranslationService] Accumulated text exceeds limit, stopping stream');
-            break;
+            logger.error('[TranslationService] Accumulated text exceeds limit, stopping stream')
+            break
           }
-          
+
           // 直接发送给前端
-          controller.enqueue(encoder.encode(content));
+          controller.enqueue(encoder.encode(content))
         }
       }
 
-      logger.debug("=== AI Complete Text ===");
-      logger.debug(accumulatedAiText);
+      logger.debug('=== AI Complete Text ===')
+      logger.debug(accumulatedAiText)
 
-      let cleanText = accumulatedAiText.trim();
+      let cleanText = accumulatedAiText.trim()
       if (cleanText.startsWith('```json')) {
-        cleanText = cleanText.substring(7);
+        cleanText = cleanText.substring(7)
       }
       if (cleanText.startsWith('```')) {
-        cleanText = cleanText.substring(3);
+        cleanText = cleanText.substring(3)
       }
       if (cleanText.endsWith('```')) {
-        cleanText = cleanText.substring(0, cleanText.length - 3);
+        cleanText = cleanText.substring(0, cleanText.length - 3)
       }
-      cleanText = cleanText.trim();
-      
-      const startIndex = cleanText.indexOf('{');
-      const endIndex = cleanText.lastIndexOf('}');
-      
+      cleanText = cleanText.trim()
+
+      const startIndex = cleanText.indexOf('{')
+      const endIndex = cleanText.lastIndexOf('}')
+
       if (startIndex !== -1 && endIndex !== -1) {
-        const validJson = cleanText.substring(startIndex, endIndex + 1);
+        const validJson = cleanText.substring(startIndex, endIndex + 1)
         try {
-          const parsed = JSON.parse(validJson);
+          const parsed = JSON.parse(validJson)
           if (parsed && parsed.results) {
-        aiParsedResults = parsed.results.map((result: { word: string | string[]; phonetic?: string; pos?: string; translation?: string; example?: string; exampleTranslation?: string }) => ({
-          ...result,
-          word: this.inputWordMap.get((Array.isArray(result.word) ? result.word[0] : result.word).toLowerCase()) || (Array.isArray(result.word) ? result.word[0] : result.word)
-        }));
-      }
+            aiParsedResults = parsed.results.map(
+              (result: {
+                word: string | string[]
+                phonetic?: string
+                pos?: string
+                translation?: string
+                example?: string
+                exampleTranslation?: string
+              }) => ({
+                ...result,
+                word:
+                  this.inputWordMap.get(
+                    (Array.isArray(result.word) ? result.word[0] : result.word).toLowerCase(),
+                  ) || (Array.isArray(result.word) ? result.word[0] : result.word),
+              }),
+            )
+          }
         } catch (e) {
-          logger.error({ err: e }, "Failed to parse AI complete output");
+          logger.error({ err: e }, 'Failed to parse AI complete output')
         }
       }
 
       // 保证数据库写入完成再关闭流
       if (aiParsedResults.length > 0) {
-        await this.saveWordsToDatabase(aiParsedResults, targetGroupId);
+        await this.saveWordsToDatabase(aiParsedResults, targetGroupId)
       }
-
     } catch (err) {
-      logger.error({ err }, 'Stream processing error');
-      controller.error(err);
+      logger.error({ err }, 'Stream processing error')
+      controller.error(err)
     } finally {
       // 将AI处理结果保存到completed缓存，供后续并发请求使用
       if (aiParsedResults.length > 0) {
         // 为每个单词单独保存结果
         for (const result of aiParsedResults) {
-          const wordKey = `translate:${result.word.toLowerCase()}`;
+          const wordKey = `translate:${result.word.toLowerCase()}`
           // 使用resolvePendingRequest保存单个单词的结果
-          resolvePendingRequest(wordKey, [result]);
+          resolvePendingRequest(wordKey, [result])
         }
       }
-      controller.close();
+      controller.close()
     }
   }
 
-  async translate(words: string[], options: TranslationOptions = {}, targetGroupId?: string, providerCandidates: ProviderSelection[] = []) {
+  async translate(
+    words: string[],
+    options: TranslationOptions = {},
+    targetGroupId?: string,
+    providerCandidates: ProviderSelection[] = [],
+  ) {
     if (providerCandidates.length === 0) {
-      providerCandidates = await this.getProviderCandidates();
+      providerCandidates = await this.getProviderCandidates()
     }
 
     if (providerCandidates.length === 0) {
-      throw new Error(API_QUOTA_EXHAUSTED_MESSAGE);
+      throw new Error(API_QUOTA_EXHAUSTED_MESSAGE)
     }
 
     // 检测特殊情况
-    const { filteredWords, specialResults } = await this.detectSpecialCases(words);
+    const { filteredWords, specialResults } = await this.detectSpecialCases(words)
     if (filteredWords.length === 0) {
-      return specialResults;
+      return specialResults
     }
 
     // 检查并发请求
-    const { completedResults, stillNeedFetch } = await this.checkConcurrentRequests(filteredWords);
+    const { completedResults, stillNeedFetch } = await this.checkConcurrentRequests(filteredWords)
     if (stillNeedFetch.length === 0) {
-      return [...completedResults, ...specialResults];
+      return [...completedResults, ...specialResults]
     }
 
     // 等待正在处理的请求
-    const { completedResults: pendingCompletedResults, stillNeedFetch: finalStillNeedFetch } = await this.waitForPendingRequests(stillNeedFetch);
-    completedResults.push(...pendingCompletedResults);
+    const { completedResults: pendingCompletedResults, stillNeedFetch: finalStillNeedFetch } =
+      await this.waitForPendingRequests(stillNeedFetch)
+    completedResults.push(...pendingCompletedResults)
     if (finalStillNeedFetch.length === 0) {
-      return [...completedResults, ...specialResults];
+      return [...completedResults, ...specialResults]
     }
 
     // 发起新的翻译请求
-    const wordsList = finalStillNeedFetch.map(w => `"${w}"`).join(', ');
-    const userPrompt = `请翻译以下单词：${wordsList}。只需输出翻译结果，不要添加任何其他内容。`;
+    const wordsList = finalStillNeedFetch.map((w) => `"${w}"`).join(', ')
+    const userPrompt = `请翻译以下单词：${wordsList}。只需输出翻译结果，不要添加任何其他内容。`
 
     // 从数据库读取提示词，如果没有则使用默认值
     const apiConfig = await prisma.apiConfig.findUnique({
-      where: { id: "global" }
-    });
-    const rawPrompt = apiConfig?.systemPrompt || DEFAULT_SYSTEM_PROMPT;
-    
+      where: { id: 'global' },
+    })
+    const rawPrompt = apiConfig?.systemPrompt || DEFAULT_SYSTEM_PROMPT
+
     // 替换模板变量
     const systemPrompt = rawPrompt
       .replace(/\{\{showPos\}\}/g, options?.showPos ? '是' : '否')
       .replace(/\{\{showExample\}\}/g, options?.showExample ? '是' : '否')
-      .replace(/\{\{posField\}\}/g, options?.showPos ? '- pos: 概括该单词的所有主要词性，多个词性用斜杠分隔 (例如 n./v., adj./adv. 等)' : '')
-      .replace(/\{\{exampleFields\}\}/g, options?.showExample ? '- example: 一个包含该单词或词组的典型英文例句\n- exampleTranslation: 例句的中文翻译' : '');
+      .replace(
+        /\{\{posField\}\}/g,
+        options?.showPos
+          ? '- pos: 概括该单词的所有主要词性，多个词性用斜杠分隔 (例如 n./v., adj./adv. 等)'
+          : '',
+      )
+      .replace(
+        /\{\{exampleFields\}\}/g,
+        options?.showExample
+          ? '- example: 一个包含该单词或词组的典型英文例句\n- exampleTranslation: 例句的中文翻译'
+          : '',
+      )
 
     // 发起请求 (开启流式)
-    const pendingKey = `translate:${finalStillNeedFetch.sort().join(',')}`;
-    let resolvePending: (() => void) | null = null;
+    const pendingKey = `translate:${finalStillNeedFetch.sort().join(',')}`
+    let resolvePending: (() => void) | null = null
     const pendingPromise = new Promise<void>((resolve) => {
-      resolvePending = resolve;
-    });
-    setPendingRequest(pendingKey, pendingPromise);
+      resolvePending = resolve
+    })
+    setPendingRequest(pendingKey, pendingPromise)
 
     const response = await withLlmFailover(
       providerCandidates,
@@ -477,9 +541,9 @@ export class TranslationService {
           temperature: 0.1,
           stream: true,
         }),
-      1
-    );
+      1,
+    )
 
-    return { response, pendingKey, resolvePending };
+    return { response, pendingKey, resolvePending }
   }
 }

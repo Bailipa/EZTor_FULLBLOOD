@@ -14,7 +14,7 @@ export default function AnalyticsLoading() {
           </div>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {[1, 2, 3, 4].map(i => (
+          {[1, 2, 3, 4].map((i) => (
             <div key={i} className="h-24 bg-muted/30 rounded-lg animate-pulse" />
           ))}
         </div>
@@ -22,5 +22,5 @@ export default function AnalyticsLoading() {
         <div className="h-48 bg-muted/30 rounded-lg animate-pulse" />
       </div>
     </div>
-  );
+  )
 }

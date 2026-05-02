@@ -7,32 +7,34 @@
  *   npx tsx scripts/mirror-private-words.ts
  */
 
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from '@prisma/client'
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient()
 
 function norm(word: string): string {
-  return String(word || '').toLowerCase().trim();
+  return String(word || '')
+    .toLowerCase()
+    .trim()
 }
 
 function isBlank(value: unknown): boolean {
-  return value == null || (typeof value === 'string' && value.trim() === '');
+  return value == null || (typeof value === 'string' && value.trim() === '')
 }
 
 function sameText(a: unknown, b: unknown): boolean {
-  const aVal = isBlank(a) ? null : String(a);
-  const bVal = isBlank(b) ? null : String(b);
-  return aVal === bVal;
+  const aVal = isBlank(a) ? null : String(a)
+  const bVal = isBlank(b) ? null : String(b)
+  return aVal === bVal
 }
 
 async function main() {
-  const BATCH_SIZE = 500;
-  let cursor: string | undefined;
+  const BATCH_SIZE = 500
+  let cursor: string | undefined
 
-  let scanned = 0;
-  let linked = 0;
-  let cleared = 0;
-  let updated = 0;
+  let scanned = 0
+  let linked = 0
+  let cleared = 0
+  let updated = 0
 
   // Process deterministically to avoid skipping/duplication.
   while (true) {
@@ -49,16 +51,16 @@ async function main() {
         example: true,
         exampleTranslation: true,
         publicWordId: true,
-        sourceType: true
-      }
-    });
+        sourceType: true,
+      },
+    })
 
-    if (batch.length === 0) break;
-    scanned += batch.length;
-    cursor = batch[batch.length - 1].id;
+    if (batch.length === 0) break
+    scanned += batch.length
+    cursor = batch[batch.length - 1].id
 
-    const normalizedWords = Array.from(new Set(batch.map(w => norm(w.word)).filter(Boolean)));
-    if (normalizedWords.length === 0) continue;
+    const normalizedWords = Array.from(new Set(batch.map((w) => norm(w.word)).filter(Boolean)))
+    if (normalizedWords.length === 0) continue
 
     const publicWords = await prisma.publicWord.findMany({
       where: { word: { in: normalizedWords } },
@@ -69,55 +71,61 @@ async function main() {
         pos: true,
         translation: true,
         example: true,
-        exampleTranslation: true
-      }
-    });
+        exampleTranslation: true,
+      },
+    })
 
-    const publicWordByWord = new Map(publicWords.map(pw => [norm(pw.word), pw]));
+    const publicWordByWord = new Map(publicWords.map((pw) => [norm(pw.word), pw]))
 
     for (const userWord of batch) {
-      const key = norm(userWord.word);
-      const publicWord = publicWordByWord.get(key);
-      if (!publicWord) continue;
+      const key = norm(userWord.word)
+      const publicWord = publicWordByWord.get(key)
+      if (!publicWord) continue
 
-      const nextData: Record<string, any> = {};
-      let changed = false;
+      const nextData: Record<string, any> = {}
+      let changed = false
 
       if (userWord.publicWordId !== publicWord.id) {
-        nextData.publicWordId = publicWord.id;
-        linked++;
-        changed = true;
+        nextData.publicWordId = publicWord.id
+        linked++
+        changed = true
       }
 
-      const nextPhonetic = sameText(userWord.phonetic, publicWord.phonetic) ? null : userWord.phonetic;
-      const nextPos = sameText(userWord.pos, publicWord.pos) ? null : userWord.pos;
-      const nextTranslation = sameText(userWord.translation, publicWord.translation) || isBlank(userWord.translation)
+      const nextPhonetic = sameText(userWord.phonetic, publicWord.phonetic)
         ? null
-        : userWord.translation;
-      const nextExample = sameText(userWord.example, publicWord.example) ? null : userWord.example;
-      const nextExampleTranslation = sameText(userWord.exampleTranslation, publicWord.exampleTranslation)
+        : userWord.phonetic
+      const nextPos = sameText(userWord.pos, publicWord.pos) ? null : userWord.pos
+      const nextTranslation =
+        sameText(userWord.translation, publicWord.translation) || isBlank(userWord.translation)
+          ? null
+          : userWord.translation
+      const nextExample = sameText(userWord.example, publicWord.example) ? null : userWord.example
+      const nextExampleTranslation = sameText(
+        userWord.exampleTranslation,
+        publicWord.exampleTranslation,
+      )
         ? null
-        : userWord.exampleTranslation;
+        : userWord.exampleTranslation
 
       if (userWord.phonetic !== nextPhonetic) {
-        nextData.phonetic = nextPhonetic;
-        changed = true;
+        nextData.phonetic = nextPhonetic
+        changed = true
       }
       if (userWord.pos !== nextPos) {
-        nextData.pos = nextPos;
-        changed = true;
+        nextData.pos = nextPos
+        changed = true
       }
       if (userWord.translation !== nextTranslation) {
-        nextData.translation = nextTranslation;
-        changed = true;
+        nextData.translation = nextTranslation
+        changed = true
       }
       if (userWord.example !== nextExample) {
-        nextData.example = nextExample;
-        changed = true;
+        nextData.example = nextExample
+        changed = true
       }
       if (userWord.exampleTranslation !== nextExampleTranslation) {
-        nextData.exampleTranslation = nextExampleTranslation;
-        changed = true;
+        nextData.exampleTranslation = nextExampleTranslation
+        changed = true
       }
 
       const hasOverrides =
@@ -125,15 +133,15 @@ async function main() {
         !isBlank(nextPos) ||
         !isBlank(nextTranslation) ||
         !isBlank(nextExample) ||
-        !isBlank(nextExampleTranslation);
+        !isBlank(nextExampleTranslation)
 
       if (!hasOverrides && userWord.sourceType === 'USER') {
         // If it now mirrors public data with no overrides, mark as PUBLIC.
-        nextData.sourceType = 'PUBLIC';
-        changed = true;
+        nextData.sourceType = 'PUBLIC'
+        changed = true
       }
 
-      if (!changed) continue;
+      if (!changed) continue
 
       if (
         'phonetic' in nextData ||
@@ -142,33 +150,26 @@ async function main() {
         'example' in nextData ||
         'exampleTranslation' in nextData
       ) {
-        cleared++;
+        cleared++
       }
 
       await prisma.word.update({
         where: { id: userWord.id },
-        data: nextData
-      });
+        data: nextData,
+      })
 
-      updated++;
+      updated++
     }
   }
 
-  console.log(
-    JSON.stringify(
-      { scanned, updated, linked, cleared },
-      null,
-      2
-    )
-  );
+  console.log(JSON.stringify({ scanned, updated, linked, cleared }, null, 2))
 }
 
 main()
   .catch((e) => {
-    console.error(e);
-    process.exitCode = 1;
+    console.error(e)
+    process.exitCode = 1
   })
   .finally(async () => {
-    await prisma.$disconnect();
-  });
-
+    await prisma.$disconnect()
+  })

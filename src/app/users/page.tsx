@@ -1,64 +1,70 @@
-'use client';
+'use client'
 
-import { useCallback, useEffect, useState } from 'react';
-import Link from 'next/link';
-import { useAdminCheck } from '@/hooks/useAdminCheck';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Users, ArrowLeft, RefreshCw } from 'lucide-react';
+import { useCallback, useEffect, useState } from 'react'
+import Link from 'next/link'
+import { useAdminCheck } from '@/hooks/useAdminCheck'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
+import { Users, ArrowLeft, RefreshCw } from 'lucide-react'
 
 type UserRow = {
-  id: string;
-  username: string;
-  createdAt: string;
-  range: string;
-  totalEventsInRange: number;
-  activeDaysInRange: number;
-  sessionsInRange: number;
-  onlineMinutesInRange: number;
-  lastSeenAt: string | null;
-};
+  id: string
+  username: string
+  createdAt: string
+  range: string
+  totalEventsInRange: number
+  activeDaysInRange: number
+  sessionsInRange: number
+  onlineMinutesInRange: number
+  lastSeenAt: string | null
+}
 
 function fmt(iso: string | null) {
-  if (!iso) return '-';
-  const d = new Date(iso);
-  return d.toLocaleString('zh-CN');
+  if (!iso) return '-'
+  const d = new Date(iso)
+  return d.toLocaleString('zh-CN')
 }
 
 export default function AdminUsersPage() {
-  const { isLoading: authLoading, isAdmin, status } = useAdminCheck();
-  const [range, setRange] = useState<string>('30d');
-  const [rows, setRows] = useState<UserRow[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const { isLoading: authLoading, isAdmin, status } = useAdminCheck()
+  const [range, setRange] = useState<string>('30d')
+  const [rows, setRows] = useState<UserRow[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
   const fetchData = useCallback(async () => {
-    setLoading(true);
-    setError(null);
+    setLoading(true)
+    setError(null)
     try {
-      const res = await fetch(`/api/admin/users?range=${range}`, { cache: 'no-store' });
-      const json = await res.json();
-      if (json.success) setRows(json.data);
-      else setError(json.error || 'Failed to fetch users');
+      const res = await fetch(`/api/admin/users?range=${range}`, { cache: 'no-store' })
+      const json = await res.json()
+      if (json.success) setRows(json.data)
+      else setError(json.error || 'Failed to fetch users')
     } catch (error) {
-      if (process.env.NODE_ENV === 'development') console.error('Failed to fetch users:', error);
-      setError('Network error');
+      if (process.env.NODE_ENV === 'development') console.error('Failed to fetch users:', error)
+      setError('Network error')
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  }, [range]);
+  }, [range])
 
   useEffect(() => {
-    if (isAdmin) fetchData();
-  }, [isAdmin, fetchData]);
+    if (isAdmin) fetchData()
+  }, [isAdmin, fetchData])
 
   if (authLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-muted-foreground">验证权限中...</div>
       </div>
-    );
+    )
   }
 
   if (!isAdmin) {
@@ -73,14 +79,12 @@ export default function AdminUsersPage() {
                 : '您没有管理员权限，无法访问此页面。'}
             </p>
             <Link href={status === 'unauthenticated' ? '/auth/signin' : '/'}>
-              <Button>
-                {status === 'unauthenticated' ? '前往登录' : '返回首页'}
-              </Button>
+              <Button>{status === 'unauthenticated' ? '前往登录' : '返回首页'}</Button>
             </Link>
           </CardContent>
         </Card>
       </div>
-    );
+    )
   }
 
   return (
@@ -99,7 +103,9 @@ export default function AdminUsersPage() {
                 <Users className="w-6 h-6" />
                 用户列表
               </h1>
-              <p className="text-sm text-muted-foreground">注册时间、使用频率与在线时长（基于 analytics events 估算）</p>
+              <p className="text-sm text-muted-foreground">
+                注册时间、使用频率与在线时长（基于 analytics events 估算）
+              </p>
             </div>
           </div>
           <div className="flex items-center gap-2">
@@ -124,7 +130,9 @@ export default function AdminUsersPage() {
         <Card>
           <CardHeader>
             <CardTitle>注册用户</CardTitle>
-            <CardDescription>在线时长按 session 内首末事件差值估算，单 session 上限 30 分钟</CardDescription>
+            <CardDescription>
+              在线时长按 session 内首末事件差值估算，单 session 上限 30 分钟
+            </CardDescription>
           </CardHeader>
           <CardContent>
             {error ? (
@@ -149,8 +157,12 @@ export default function AdminUsersPage() {
                     {rows.map((u) => (
                       <tr key={u.id} className="border-b hover:bg-muted/30">
                         <td className="py-2 px-2 font-medium">{u.username}</td>
-                        <td className="py-2 px-2 text-muted-foreground whitespace-nowrap">{fmt(u.createdAt)}</td>
-                        <td className="py-2 px-2 text-muted-foreground whitespace-nowrap">{fmt(u.lastSeenAt)}</td>
+                        <td className="py-2 px-2 text-muted-foreground whitespace-nowrap">
+                          {fmt(u.createdAt)}
+                        </td>
+                        <td className="py-2 px-2 text-muted-foreground whitespace-nowrap">
+                          {fmt(u.lastSeenAt)}
+                        </td>
                         <td className="py-2 px-2 text-right">{u.totalEventsInRange}</td>
                         <td className="py-2 px-2 text-right">{u.activeDaysInRange}</td>
                         <td className="py-2 px-2 text-right">{u.sessionsInRange}</td>
@@ -165,6 +177,5 @@ export default function AdminUsersPage() {
         </Card>
       </div>
     </div>
-  );
+  )
 }
-

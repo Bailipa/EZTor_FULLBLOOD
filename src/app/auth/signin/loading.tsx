@@ -9,5 +9,5 @@ export default function SignInLoading() {
         <div className="h-10 bg-primary/30 rounded" />
       </div>
     </div>
-  );
+  )
 }

@@ -112,12 +112,8 @@ describe('rateLimit', () => {
   })
 
   it('handles concurrent requests from different keys independently', async () => {
-    const resultsA = await Promise.all(
-      Array.from({ length: 5 }, () => rateLimit('key-a'))
-    )
-    const resultsB = await Promise.all(
-      Array.from({ length: 5 }, () => rateLimit('key-b'))
-    )
+    const resultsA = await Promise.all(Array.from({ length: 5 }, () => rateLimit('key-a')))
+    const resultsB = await Promise.all(Array.from({ length: 5 }, () => rateLimit('key-b')))
 
     expect(resultsA.every((r) => r.success)).toBe(true)
     expect(resultsB.every((r) => r.success)).toBe(true)

@@ -14,7 +14,8 @@
 
 ## 安装
 
-### 方法 1: 
+### 方法 1:
+
 打开 Huggingface 页面，点击 `复制空间` 按钮，直接部署。
 
 [Huggingface 部署链接](https://huggingface.co/spaces/fuliai/edgetts-api-openai)
@@ -29,10 +30,9 @@
 ### 方法 3: 本地安装
 
 1. 克隆仓库:
-bash
-git clone https://github.com/aigem/edgeTTS-openai-api.git
-cd edgeTTS-openai-api/src/api
-
+   bash
+   git clone https://github.com/aigem/edgeTTS-openai-api.git
+   cd edgeTTS-openai-api/src/api
 
 2. 安装依赖:
 
@@ -49,10 +49,10 @@ cp .env.example .env
 
 ## 使用 API:
 
-   - 文本转语音: POST `/v1/audio/speech`
-   - 获取可用模型列表: GET/POST `/v1/models`
-   - 获取可用语音列表: GET/POST `/v1/voices`
-   - 获取所有可用语音: GET/POST `/v1/voices/all`
+- 文本转语音: POST `/v1/audio/speech`
+- 获取可用模型列表: GET/POST `/v1/models`
+- 获取可用语音列表: GET/POST `/v1/voices`
+- 获取所有可用语音: GET/POST `/v1/voices/all`
 
 ### API 使用示例
 
@@ -71,8 +71,8 @@ curl http://localhost:5050/v1/audio/speech \
 }' \
 --output speech.mp3
 
-
 #### 获取可用模型列表
+
 bash
 curl http://localhost:5050/v1/models \
 -H "Authorization: Bearer your_api_key_here"

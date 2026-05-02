@@ -1,5 +1,5 @@
-import { defineConfig } from 'vitest/config';
-import path from 'path';
+import { defineConfig } from 'vitest/config'
+import path from 'path'
 
 export default defineConfig({
   test: {
@@ -10,11 +10,11 @@ export default defineConfig({
     coverage: {
       reporter: ['text', 'json', 'html'],
       include: ['src/**/*.{js,ts,jsx,tsx}'],
-      exclude: [
-        'src/**/*.d.ts',
-        'src/**/*.{test,spec}.{js,ts,jsx,tsx}',
-        'src/lib/prisma/index.ts',
-      ],
+      exclude: ['src/**/*.d.ts', 'src/**/*.{test,spec}.{js,ts,jsx,tsx}', 'src/lib/prisma/index.ts'],
+      thresholds: {
+        lines: 50,
+        branches: 40,
+      },
     },
     setupFiles: [],
   },
@@ -23,4 +23,4 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
-});
+})

@@ -1,26 +1,26 @@
-import prisma from '@/lib/prisma';
-import { Prisma } from '@prisma/client';
+import prisma from '@/lib/prisma'
+import { Prisma } from '@prisma/client'
 
 type CascadeFields = {
-  word: string;
-  phonetic?: string | null;
-  pos?: string | null;
-  translation: string;
-  example?: string | null;
-  "exampleTranslation"?: string | null;
-};
+  word: string
+  phonetic?: string | null
+  pos?: string | null
+  translation: string
+  example?: string | null
+  exampleTranslation?: string | null
+}
 
 function normalizeWord(word: string): string {
-  return word.toLowerCase().trim();
+  return word.toLowerCase().trim()
 }
 
 export async function cascadePublicWordToPrivate(fields: CascadeFields): Promise<void> {
-  const word = normalizeWord(fields.word);
+  const word = normalizeWord(fields.word)
   const publicWord = await prisma.publicWord.findUnique({
-    where: { word }
-  });
+    where: { word },
+  })
 
-  if (!publicWord) return;
+  if (!publicWord) return
 
   // Mirror mode:
   // - Link Word.publicWordId so reads can join PublicWord.
@@ -51,6 +51,6 @@ export async function cascadePublicWordToPrivate(fields: CascadeFields): Promise
           ELSE "exampleTranslation"
         END
       WHERE lower(word) = ${word}
-    `
-  );
+    `,
+  )
 }

@@ -1,1 +1,1 @@
-export * from './SharePoster';
+export * from './SharePoster'

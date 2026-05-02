@@ -1,28 +1,28 @@
-import prisma from '@/lib/prisma';
-import { Prisma } from '@prisma/client';
-import { randomUUID } from 'crypto';
-import { calculateQualityScore } from '@/lib/qualityScoring';
-import { cascadePublicWordToPrivate } from '@/lib/publicWordCascade';
-import { logger } from '@/lib/logger';
+import prisma from '@/lib/prisma'
+import { Prisma } from '@prisma/client'
+import { randomUUID } from 'crypto'
+import { calculateQualityScore } from '@/lib/qualityScoring'
+import { cascadePublicWordToPrivate } from '@/lib/publicWordCascade'
+import { logger } from '@/lib/logger'
 
 export interface WordData {
-  word: string;
-  phonetic: string | null;
-  pos: string | null;
-  translation: string;
-  example: string | null;
-  exampleTranslation: string | null;
+  word: string
+  phonetic: string | null
+  pos: string | null
+  translation: string
+  example: string | null
+  exampleTranslation: string | null
 }
 
 export default class PublicWordService {
-  private readonly userId: string;
+  private readonly userId: string
 
   constructor(userId: string) {
-    this.userId = userId;
+    this.userId = userId
   }
 
   async saveWordToPublicLibrary(wordData: WordData): Promise<string | null> {
-    let publicWordId: string | null = null;
+    let publicWordId: string | null = null
     try {
       const qualityResult = calculateQualityScore(
         wordData.word,
@@ -30,12 +30,12 @@ export default class PublicWordService {
         wordData.pos,
         wordData.translation,
         wordData.example,
-        wordData.exampleTranslation
-      );
+        wordData.exampleTranslation,
+      )
 
       const existingPublicWord = await prisma.publicWord.findUnique({
-        where: { word: wordData.word }
-      });
+        where: { word: wordData.word },
+      })
 
       if (!existingPublicWord) {
         try {
@@ -50,9 +50,9 @@ export default class PublicWordService {
               exampleTranslation: wordData.exampleTranslation || null,
               qualityScore: qualityResult.score,
               updatedAt: new Date(),
-            }
-          });
-          publicWordId = created.id;
+            },
+          })
+          publicWordId = created.id
 
           await cascadePublicWordToPrivate({
             word: wordData.word,
@@ -60,11 +60,11 @@ export default class PublicWordService {
             phonetic: wordData.phonetic || null,
             pos: wordData.pos || null,
             example: wordData.example || null,
-            exampleTranslation: wordData.exampleTranslation || null
-          });
+            exampleTranslation: wordData.exampleTranslation || null,
+          })
         } catch (err: unknown) {
           if (!(err instanceof Prisma.PrismaClientKnownRequestError && err.code === 'P2002')) {
-            logger.error({ err }, "Failed to create public word");
+            logger.error({ err }, 'Failed to create public word')
           }
         }
       } else if (qualityResult.score > existingPublicWord.qualityScore) {
@@ -72,7 +72,7 @@ export default class PublicWordService {
           const updateResult = await prisma.publicWord.updateMany({
             where: {
               word: wordData.word,
-              version: existingPublicWord.version
+              version: existingPublicWord.version,
             },
             data: {
               translation: wordData.translation,
@@ -81,11 +81,11 @@ export default class PublicWordService {
               example: wordData.example || null,
               exampleTranslation: wordData.exampleTranslation || null,
               qualityScore: qualityResult.score,
-              version: { increment: 1 }
-            }
-          });
+              version: { increment: 1 },
+            },
+          })
           if (updateResult.count === 0) {
-            logger.info({ word: wordData.word }, '[PublicWord] Concurrent update detected, skipped');
+            logger.info({ word: wordData.word }, '[PublicWord] Concurrent update detected, skipped')
           } else {
             await cascadePublicWordToPrivate({
               word: wordData.word,
@@ -93,42 +93,42 @@ export default class PublicWordService {
               phonetic: wordData.phonetic || null,
               pos: wordData.pos || null,
               example: wordData.example || null,
-              exampleTranslation: wordData.exampleTranslation || null
-            });
+              exampleTranslation: wordData.exampleTranslation || null,
+            })
           }
         } catch (updateErr) {
-          logger.error({ err: updateErr }, "Failed to update public word");
+          logger.error({ err: updateErr }, 'Failed to update public word')
         }
       }
 
       if (!publicWordId) {
-        const pw = await prisma.publicWord.findUnique({ where: { word: wordData.word } });
-        publicWordId = pw?.id || null;
+        const pw = await prisma.publicWord.findUnique({ where: { word: wordData.word } })
+        publicWordId = pw?.id || null
       }
     } catch (err: unknown) {
-      logger.error({ err }, "Failed to save to public word");
+      logger.error({ err }, 'Failed to save to public word')
     }
 
-    return publicWordId;
+    return publicWordId
   }
 
   async getPublicWords(words: string[]): Promise<WordData[]> {
     if (words.length === 0) {
-      return [];
+      return []
     }
 
     return await prisma.publicWord.findMany({
       where: {
         word: {
-          in: words
-        }
-      }
-    });
+          in: words,
+        },
+      },
+    })
   }
 
   async getWordsNeedingRefresh(publicCachedWords: Record<string, unknown>[]): Promise<string[]> {
     return publicCachedWords
-      .filter(pw => !pw['translation'] || String(pw['translation']).trim() === '' || !pw['pos'])
-      .map(pw => pw['word'] as string);
+      .filter((pw) => !pw['translation'] || String(pw['translation']).trim() === '' || !pw['pos'])
+      .map((pw) => pw['word'] as string)
   }
 }

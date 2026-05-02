@@ -12,11 +12,11 @@ export default function HistoryLoading() {
           </div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {[1, 2, 3, 4, 5, 6].map(i => (
+          {[1, 2, 3, 4, 5, 6].map((i) => (
             <div key={i} className="h-32 bg-muted/30 rounded-lg animate-pulse" />
           ))}
         </div>
       </div>
     </div>
-  );
+  )
 }

@@ -1,30 +1,43 @@
-'use client';
+'use client'
 
-import React, { useState, useRef, useEffect, useCallback } from 'react';
-import { toast } from 'sonner';
-import { Button } from '@/components/ui/button';
-import { Textarea } from '@/components/ui/textarea';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { PenTool, Upload, Sparkles, Globe } from 'lucide-react';
-import type { WordResult, ReviewGroup } from '@/types/api';
-import { saveToStorage, loadFromStorage } from '@/lib/storage';
-import { useAnalytics } from '@/lib/analytics';
-import { isSentence } from '@/lib/sentenceDetector';
-import { useWordTranslation } from '@/hooks/useWordTranslation';
+import React, { useState, useRef, useEffect, useCallback } from 'react'
+import { toast } from 'sonner'
+import { Button } from '@/components/ui/button'
+import { Textarea } from '@/components/ui/textarea'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+  CardFooter,
+} from '@/components/ui/card'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
+import { PenTool, Upload, Sparkles, Globe } from 'lucide-react'
+import type { WordResult, ReviewGroup } from '@/types/api'
+import { saveToStorage, loadFromStorage } from '@/lib/storage'
+import { useAnalytics } from '@/lib/analytics'
+import { isSentence } from '@/lib/sentenceDetector'
+import { useWordTranslation } from '@/hooks/useWordTranslation'
 
 interface WordInputCardProps {
-  isLoading: boolean;
-  setIsLoading: (loading: boolean) => void;
-  showPos: boolean;
-  showExample: boolean;
-  groups: ReviewGroup[];
-  selectedTargetGroupId: string;
-  setSelectedTargetGroupId: (id: string) => void;
-  results: WordResult[];
-  setResults: (results: WordResult[] | ((prev: WordResult[]) => WordResult[])) => void;
-  wordsInput: string;
-  setWordsInput: (input: string | ((prev: string) => string)) => void;
+  isLoading: boolean
+  setIsLoading: (loading: boolean) => void
+  showPos: boolean
+  showExample: boolean
+  groups: ReviewGroup[]
+  selectedTargetGroupId: string
+  setSelectedTargetGroupId: (id: string) => void
+  results: WordResult[]
+  setResults: (results: WordResult[] | ((prev: WordResult[]) => WordResult[])) => void
+  wordsInput: string
+  setWordsInput: (input: string | ((prev: string) => string)) => void
 }
 
 export function WordInputCard({
@@ -40,10 +53,13 @@ export function WordInputCard({
   wordsInput,
   setWordsInput,
 }: WordInputCardProps) {
-  const [inputStatus, setInputStatus] = useState<{ type: 'normal' | 'non-english' | 'sentence'; message: string }>({ type: 'normal', message: '' });
-  const abortControllerRef = useRef<AbortController | null>(null);
-  const animatedWordsRef = useRef<Set<string>>(new Set());
-  const { trackTranslate } = useAnalytics();
+  const [inputStatus, setInputStatus] = useState<{
+    type: 'normal' | 'non-english' | 'sentence'
+    message: string
+  }>({ type: 'normal', message: '' })
+  const abortControllerRef = useRef<AbortController | null>(null)
+  const animatedWordsRef = useRef<Set<string>>(new Set())
+  const { trackTranslate } = useAnalytics()
 
   const {
     pendingWords,
@@ -57,48 +73,48 @@ export function WordInputCard({
     finishProcessing,
     clearFileInput,
     createKeyDownHandler,
-  } = useWordTranslation({ wordsInput, setWordsInput });
+  } = useWordTranslation({ wordsInput, setWordsInput })
 
   useEffect(() => {
-    const savedResults = loadFromStorage<WordResult[]>('vocab_results', []);
-    if (savedResults.length > 0) setResults(savedResults);
+    const savedResults = loadFromStorage<WordResult[]>('vocab_results', [])
+    if (savedResults.length > 0) setResults(savedResults)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [])
 
   useEffect(() => {
-    const trimmedInput = wordsInput.trim();
+    const trimmedInput = wordsInput.trim()
     if (!trimmedInput) {
-      setInputStatus({ type: 'normal', message: '' });
-      return;
+      setInputStatus({ type: 'normal', message: '' })
+      return
     }
 
-    const _lines = trimmedInput.split('\n').filter(line => line.trim());
-    
-    setInputStatus({ type: 'normal', message: '' });
-  }, [wordsInput]);
+    const _lines = trimmedInput.split('\n').filter((line) => line.trim())
+
+    setInputStatus({ type: 'normal', message: '' })
+  }, [wordsInput])
 
   useEffect(() => {
-    saveToStorage('vocab_results', results);
-  }, [results]);
+    saveToStorage('vocab_results', results)
+  }, [results])
 
   const handleProcess = useCallback(async () => {
-    if (isLoading) return;
+    if (isLoading) return
 
-    const words = parseWords();
-    if (words.length === 0) return;
-    if (!validateWordCount(words)) return;
+    const words = parseWords()
+    if (words.length === 0) return
+    if (!validateWordCount(words)) return
 
-    setIsLoading(true);
-    setResults([]);
-    beginProcessing(words);
-    animatedWordsRef.current.clear();
+    setIsLoading(true)
+    setResults([])
+    beginProcessing(words)
+    animatedWordsRef.current.clear()
 
-    const fixedResults: WordResult[] = [];
-    const normalWords: string[] = [];
+    const fixedResults: WordResult[] = []
+    const normalWords: string[] = []
 
     for (const word of words) {
-      let isNonEnglish = /[^\x00-\x7F]/.test(word);
-      let isSent = isSentence(word);
+      let isNonEnglish = /[^\x00-\x7F]/.test(word)
+      let isSent = isSentence(word)
 
       if (isNonEnglish) {
         fixedResults.push({
@@ -108,7 +124,7 @@ export function WordInputCard({
           translation: '当前功能非英语不予翻译',
           example: '',
           exampleTranslation: '',
-        });
+        })
       } else if (isSent) {
         fixedResults.push({
           word: word,
@@ -117,49 +133,48 @@ export function WordInputCard({
           translation: '当前功能不能翻译句子，翻译句子请使用Translate Only',
           example: '',
           exampleTranslation: '',
-        });
+        })
       } else {
-        normalWords.push(word);
+        normalWords.push(word)
       }
     }
 
-    setPendingWords(words);
-    
-    const fixedResultsMap = new Map<string, WordResult>();
-    fixedResults.forEach(result => {
-      fixedResultsMap.set(result.word.toLowerCase(), result);
-    });
+    setPendingWords(words)
 
-    const initialResults: WordResult[] = [];
-    words.forEach(word => {
-      const fixedResult = fixedResultsMap.get(word.toLowerCase());
+    const fixedResultsMap = new Map<string, WordResult>()
+    fixedResults.forEach((result) => {
+      fixedResultsMap.set(result.word.toLowerCase(), result)
+    })
+
+    const initialResults: WordResult[] = []
+    words.forEach((word) => {
+      const fixedResult = fixedResultsMap.get(word.toLowerCase())
       if (fixedResult) {
-        initialResults.push(fixedResult);
+        initialResults.push(fixedResult)
       }
-    });
+    })
 
     if (initialResults.length > 0) {
-      setResults(initialResults);
-      setPendingWords(prev => prev.filter(w => !fixedResultsMap.has(w.toLowerCase())));
-      setCompletedCount(initialResults.length);
+      setResults(initialResults)
+      setPendingWords((prev) => prev.filter((w) => !fixedResultsMap.has(w.toLowerCase())))
+      setCompletedCount(initialResults.length)
     }
 
     if (normalWords.length === 0) {
-      setWordsInput('');
-      trackTranslate(words.length, false);
-      setIsLoading(false);
-      return;
+      setWordsInput('')
+      trackTranslate(words.length, false)
+      setIsLoading(false)
+      return
     }
 
     try {
-
       if (abortControllerRef.current) {
-        abortControllerRef.current.abort();
+        abortControllerRef.current.abort()
       }
-      const controller = new AbortController();
-      abortControllerRef.current = controller;
+      const controller = new AbortController()
+      abortControllerRef.current = controller
 
-      const timeoutId = setTimeout(() => controller.abort(), 60000);
+      const timeoutId = setTimeout(() => controller.abort(), 60000)
 
       const response = await fetch('/api/translate', {
         method: 'POST',
@@ -175,157 +190,157 @@ export function WordInputCard({
           targetGroupId: selectedTargetGroupId === 'none' ? null : selectedTargetGroupId,
         }),
         signal: controller.signal,
-      });
+      })
 
-      clearTimeout(timeoutId);
+      clearTimeout(timeoutId)
 
       if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.error || `请求失败: ${response.statusText}`);
+        const errorData = await response.json().catch(() => ({}))
+        throw new Error(errorData.error || `请求失败: ${response.statusText}`)
       }
 
-      if (!response.body) throw new Error('ReadableStream not supported in this browser.');
+      if (!response.body) throw new Error('ReadableStream not supported in this browser.')
 
-      const reader = response.body.getReader();
-      const decoder = new TextDecoder('utf-8');
-      let done = false;
-      let accumulatedText = '';
-      let lastValidParsedData: { results?: WordResult[] } | null = null;
+      const reader = response.body.getReader()
+      const decoder = new TextDecoder('utf-8')
+      let done = false
+      let accumulatedText = ''
+      let lastValidParsedData: { results?: WordResult[] } | null = null
 
       while (!done) {
-        const { value, done: doneReading } = await reader.read();
-        done = doneReading;
+        const { value, done: doneReading } = await reader.read()
+        done = doneReading
         if (value) {
-          const chunkValue = decoder.decode(value, { stream: true });
-          accumulatedText += chunkValue;
+          const chunkValue = decoder.decode(value, { stream: true })
+          accumulatedText += chunkValue
 
-          const jsonBlocks = accumulatedText.split('\n\n').filter((b) => b.trim());
+          const jsonBlocks = accumulatedText.split('\n\n').filter((b) => b.trim())
 
-          let parsedData: { results?: WordResult[] } | null = null;
-          let currentAiBlock = jsonBlocks[jsonBlocks.length - 1] || '';
+          let parsedData: { results?: WordResult[] } | null = null
+          let currentAiBlock = jsonBlocks[jsonBlocks.length - 1] || ''
 
-          let cleanText = currentAiBlock.trim();
+          let cleanText = currentAiBlock.trim()
           if (cleanText.startsWith('```json')) {
-            cleanText = cleanText.substring(7);
+            cleanText = cleanText.substring(7)
           }
           if (cleanText.startsWith('```')) {
-            cleanText = cleanText.substring(3);
+            cleanText = cleanText.substring(3)
           }
           if (cleanText.endsWith('```')) {
-            cleanText = cleanText.substring(0, cleanText.length - 3);
+            cleanText = cleanText.substring(0, cleanText.length - 3)
           }
-          cleanText = cleanText.trim();
+          cleanText = cleanText.trim()
 
-          let jsonToParse = cleanText;
-          parsedData = null;
+          let jsonToParse = cleanText
+          parsedData = null
 
           try {
-            parsedData = JSON.parse(jsonToParse);
+            parsedData = JSON.parse(jsonToParse)
           } catch (_e) {
             try {
               if (jsonToParse.startsWith('{') && !jsonToParse.endsWith('}')) {
                 if (jsonToParse.includes('"results": [')) {
                   if (!jsonToParse.trim().endsWith(']')) {
-                    const lastBrace = jsonToParse.lastIndexOf('}');
+                    const lastBrace = jsonToParse.lastIndexOf('}')
                     if (lastBrace > jsonToParse.indexOf('[')) {
-                      jsonToParse = jsonToParse.substring(0, lastBrace + 1) + ']}';
+                      jsonToParse = jsonToParse.substring(0, lastBrace + 1) + ']}'
                     } else {
-                      jsonToParse += ']}';
+                      jsonToParse += ']}'
                     }
                   } else {
-                    jsonToParse += '}';
+                    jsonToParse += '}'
                   }
                 }
               }
-              parsedData = JSON.parse(jsonToParse);
+              parsedData = JSON.parse(jsonToParse)
             } catch (_err2) {
-              continue;
+              continue
             }
           }
 
           if (parsedData && parsedData.results && Array.isArray(parsedData.results)) {
-            lastValidParsedData = parsedData;
-            const aiResults = parsedData.results.filter((item) => item && item.word);
-            
-            const resultMap = new Map<string, WordResult>();
-            aiResults.forEach(result => {
-              resultMap.set(result.word.toLowerCase(), result);
-            });
-            
-            const newResults: WordResult[] = [];
-            const wordsToRemove: string[] = [];
-            
+            lastValidParsedData = parsedData
+            const aiResults = parsedData.results.filter((item) => item && item.word)
+
+            const resultMap = new Map<string, WordResult>()
+            aiResults.forEach((result) => {
+              resultMap.set(result.word.toLowerCase(), result)
+            })
+
+            const newResults: WordResult[] = []
+            const wordsToRemove: string[] = []
+
             for (const word of words) {
-              const normalizedWord = word.toLowerCase();
+              const normalizedWord = word.toLowerCase()
               if (resultMap.has(normalizedWord) && !animatedWordsRef.current.has(normalizedWord)) {
-                const result = resultMap.get(normalizedWord)!;
-                animatedWordsRef.current.add(normalizedWord);
-                newResults.push(result);
-                wordsToRemove.push(word);
+                const result = resultMap.get(normalizedWord)!
+                animatedWordsRef.current.add(normalizedWord)
+                newResults.push(result)
+                wordsToRemove.push(word)
               }
             }
-            
+
             if (newResults.length > 0) {
-              setPendingWords(prev => prev.filter(w => !wordsToRemove.includes(w)));
-              
-              setResults(prev => {
-                const mergedMap = new Map<string, WordResult>();
-                prev.forEach((p) => mergedMap.set(p.word.toLowerCase(), p));
-                newResults.forEach(result => {
-                  mergedMap.set(result.word.toLowerCase(), result);
-                });
-                
-                const orderedResults: WordResult[] = [];
-                words.forEach(word => {
-                  const wordLower = word.toLowerCase();
+              setPendingWords((prev) => prev.filter((w) => !wordsToRemove.includes(w)))
+
+              setResults((prev) => {
+                const mergedMap = new Map<string, WordResult>()
+                prev.forEach((p) => mergedMap.set(p.word.toLowerCase(), p))
+                newResults.forEach((result) => {
+                  mergedMap.set(result.word.toLowerCase(), result)
+                })
+
+                const orderedResults: WordResult[] = []
+                words.forEach((word) => {
+                  const wordLower = word.toLowerCase()
                   if (mergedMap.has(wordLower)) {
-                    orderedResults.push(mergedMap.get(wordLower)!);
+                    orderedResults.push(mergedMap.get(wordLower)!)
                   }
-                });
-                
+                })
+
                 mergedMap.forEach((result, key) => {
-                  if (!words.some(word => word.toLowerCase() === key)) {
-                    orderedResults.push(result);
+                  if (!words.some((word) => word.toLowerCase() === key)) {
+                    orderedResults.push(result)
                   }
-                });
-                
-                return orderedResults;
-              });
-              
-              setCompletedCount(prev => prev + newResults.length);
+                })
+
+                return orderedResults
+              })
+
+              setCompletedCount((prev) => prev + newResults.length)
             }
           }
         }
       }
 
-      let finalResults: WordResult[] = [];
+      let finalResults: WordResult[] = []
       try {
-        const jsonBlocks = accumulatedText.split('\n\n').filter((b) => b.trim());
+        const jsonBlocks = accumulatedText.split('\n\n').filter((b) => b.trim())
 
         for (const block of jsonBlocks) {
-          let finalText = block.trim();
-          const startIdx = finalText.indexOf('{');
-          const endIdx = finalText.lastIndexOf('}');
+          let finalText = block.trim()
+          const startIdx = finalText.indexOf('{')
+          const endIdx = finalText.lastIndexOf('}')
           if (startIdx !== -1 && endIdx !== -1) {
-            finalText = finalText.substring(startIdx, endIdx + 1);
+            finalText = finalText.substring(startIdx, endIdx + 1)
           }
 
           try {
-            const parsed = JSON.parse(finalText);
+            const parsed = JSON.parse(finalText)
             if (parsed && parsed.results && Array.isArray(parsed.results)) {
-              finalResults = [...finalResults, ...parsed.results];
+              finalResults = [...finalResults, ...parsed.results]
             }
           } catch {
             /* skip malformed blocks */
           }
         }
-        
+
         if (finalResults.length === 0 && lastValidParsedData?.results) {
-          finalResults = lastValidParsedData.results;
+          finalResults = lastValidParsedData.results
         }
       } catch {
         if (lastValidParsedData && lastValidParsedData.results) {
-          finalResults = lastValidParsedData.results;
+          finalResults = lastValidParsedData.results
         }
       }
 
@@ -333,31 +348,51 @@ export function WordInputCard({
         const specialCases = [
           /^[A-Z0-9]+$/,
           /^[A-Z][a-z]+(?:[A-Z][a-z]+)*$/,
-          'AI', 'API', 'CSS', 'HTML', 'HTTP', 'HTTPS', 'JSON', 'JS', 'TS', 'UI', 'UX',
-          'Google', 'Microsoft', 'Apple', 'Amazon', 'Facebook', 'Twitter', 'GitHub',
-          'React', 'Next.js', 'Node.js', 'JavaScript', 'TypeScript'
-        ];
+          'AI',
+          'API',
+          'CSS',
+          'HTML',
+          'HTTP',
+          'HTTPS',
+          'JSON',
+          'JS',
+          'TS',
+          'UI',
+          'UX',
+          'Google',
+          'Microsoft',
+          'Apple',
+          'Amazon',
+          'Facebook',
+          'Twitter',
+          'GitHub',
+          'React',
+          'Next.js',
+          'Node.js',
+          'JavaScript',
+          'TypeScript',
+        ]
 
         for (const casePattern of specialCases) {
           if (typeof casePattern === 'string' && text === casePattern) {
-            return text;
+            return text
           } else if (casePattern instanceof RegExp && casePattern.test(text)) {
-            return text;
+            return text
           }
         }
 
-        return text.toLowerCase();
-      };
+        return text.toLowerCase()
+      }
 
-      const normalize = (s: string) => normalizeCase(s).trim().replace(/\s+/g, ' ');
-      
-      const finalMergedData: WordResult[] = [...finalResults];
-      
-      const actualWords = finalMergedData.map((r: WordResult) => normalize(r.word));
-      const missingWords = normalWords.filter((w) => !actualWords.includes(normalize(w)));
+      const normalize = (s: string) => normalizeCase(s).trim().replace(/\s+/g, ' ')
+
+      const finalMergedData: WordResult[] = [...finalResults]
+
+      const actualWords = finalMergedData.map((r: WordResult) => normalize(r.word))
+      const missingWords = normalWords.filter((w) => !actualWords.includes(normalize(w)))
 
       if (missingWords.length > 0) {
-        const profanityRegex = /f\*\*k|fuck|shit|bitch|asshole|cunt|slut|dick|pussy/i;
+        const profanityRegex = /f\*\*k|fuck|shit|bitch|asshole|cunt|slut|dick|pussy/i
 
         const filterNotices = missingWords.map((word) => {
           if (profanityRegex.test(word)) {
@@ -368,7 +403,7 @@ export function WordInputCard({
               translation: '⚠️ 该词触发大模型安全策略，不予翻译',
               example: '',
               exampleTranslation: '',
-            };
+            }
           } else {
             return {
               word: word,
@@ -377,59 +412,59 @@ export function WordInputCard({
               translation: '受其它因素影响，解析结果改变或无法给出',
               example: '',
               exampleTranslation: '',
-            };
+            }
           }
-        });
-        finalMergedData.push(...filterNotices);
+        })
+        finalMergedData.push(...filterNotices)
       }
 
-      const allResults = [...fixedResults, ...finalMergedData];
-      
-      const seen = new Set<string>();
-      const uniqueResults = allResults.filter(item => {
-        const normalizedWord = normalize(item.word);
+      const allResults = [...fixedResults, ...finalMergedData]
+
+      const seen = new Set<string>()
+      const uniqueResults = allResults.filter((item) => {
+        const normalizedWord = normalize(item.word)
         if (seen.has(normalizedWord)) {
-          return false;
+          return false
         }
-        seen.add(normalizedWord);
-        return true;
-      });
-      
-      const inputOrderMap = new Map<string, number>();
+        seen.add(normalizedWord)
+        return true
+      })
+
+      const inputOrderMap = new Map<string, number>()
       words.forEach((word, index) => {
-        inputOrderMap.set(normalize(word), index);
-      });
-      
-      const orderedResults: WordResult[] = [];
-      const resultMap = new Map<string, WordResult>();
-      
-      uniqueResults.forEach(result => {
-        resultMap.set(normalize(result.word), result);
-      });
-      
-      words.forEach(word => {
-        const normalizedWord = normalize(word);
+        inputOrderMap.set(normalize(word), index)
+      })
+
+      const orderedResults: WordResult[] = []
+      const resultMap = new Map<string, WordResult>()
+
+      uniqueResults.forEach((result) => {
+        resultMap.set(normalize(result.word), result)
+      })
+
+      words.forEach((word) => {
+        const normalizedWord = normalize(word)
         if (resultMap.has(normalizedWord)) {
-          orderedResults.push(resultMap.get(normalizedWord)!);
-          resultMap.delete(normalizedWord);
+          orderedResults.push(resultMap.get(normalizedWord)!)
+          resultMap.delete(normalizedWord)
         }
-      });
-      
-      resultMap.forEach(result => {
-        orderedResults.push(result);
-      });
-      
-      setResults(orderedResults);
+      })
+
+      resultMap.forEach((result) => {
+        orderedResults.push(result)
+      })
+
+      setResults(orderedResults)
 
       setWordsInput((prevInput) => {
-        const lines = prevInput.split('\n');
-        const normalizedWords = orderedResults.map(res => normalize(res.word));
-        const filteredLines = lines.filter(line => {
-          const normalizedLine = normalize(line);
-          return normalizedLine === '' || !normalizedWords.includes(normalizedLine);
-        });
-        return filteredLines.join('\n');
-      });
+        const lines = prevInput.split('\n')
+        const normalizedWords = orderedResults.map((res) => normalize(res.word))
+        const filteredLines = lines.filter((line) => {
+          const normalizedLine = normalize(line)
+          return normalizedLine === '' || !normalizedWords.includes(normalizedLine)
+        })
+        return filteredLines.join('\n')
+      })
 
       const wordsToSave = finalMergedData.filter(
         (item: WordResult) =>
@@ -440,8 +475,8 @@ export function WordInputCard({
           item.pos !== '句子' &&
           !(item.translation && item.translation.includes('拼写错误或不存在')) &&
           !(item.translation && item.translation.includes('粗俗或敏感')) &&
-          !(item.translation && item.translation.includes('⚠️'))
-      );
+          !(item.translation && item.translation.includes('⚠️')),
+      )
 
       if (wordsToSave.length > 0) {
         fetch('/api/sync', {
@@ -449,123 +484,145 @@ export function WordInputCard({
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ results: wordsToSave }),
         })
-          .then(res => res.json())
+          .then((res) => res.json())
           .catch((err) => {
-            if (process.env.NODE_ENV === 'development') console.error('Silent sync failed:', err);
-          });
+            if (process.env.NODE_ENV === 'development') console.error('Silent sync failed:', err)
+          })
       }
 
-      trackTranslate(words.length, false);
-      finishProcessing(orderedResults.length);
+      trackTranslate(words.length, false)
+      finishProcessing(orderedResults.length)
     } catch (error: unknown) {
-      const err = error as Error & { name?: string };
+      const err = error as Error & { name?: string }
       if (err.name === 'AbortError') {
-        toast.error('请求超时：大模型响应时间过长，请检查网络或更换模型接入点。');
+        toast.error('请求超时：大模型响应时间过长，请检查网络或更换模型接入点。')
       } else {
-        toast.error(err.message);
+        toast.error(err.message)
       }
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
-  }, [isLoading, showPos, showExample, selectedTargetGroupId, trackTranslate, setIsLoading, setResults, setWordsInput, parseWords, validateWordCount, beginProcessing, finishProcessing, setPendingWords, setCompletedCount]);
+  }, [
+    isLoading,
+    showPos,
+    showExample,
+    selectedTargetGroupId,
+    trackTranslate,
+    setIsLoading,
+    setResults,
+    setWordsInput,
+    parseWords,
+    validateWordCount,
+    beginProcessing,
+    finishProcessing,
+    setPendingWords,
+    setCompletedCount,
+  ])
 
-  const handleKeyDown = createKeyDownHandler(handleProcess);
+  const handleKeyDown = createKeyDownHandler(handleProcess)
 
-  const handleFileUpload = useCallback(async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
+  const handleFileUpload = useCallback(
+    async (e: React.ChangeEvent<HTMLInputElement>) => {
+      const file = e.target.files?.[0]
+      if (!file) return
 
-    const reader = new FileReader();
-    reader.onload = async (event) => {
-      const text = event.target?.result as string;
-      if (!text) return;
+      const reader = new FileReader()
+      reader.onload = async (event) => {
+        const text = event.target?.result as string
+        if (!text) return
 
-      try {
-        setIsLoading(true);
-        const lines = text.split(/\r?\n/).filter((line) => line.trim());
-        if (lines.length < 2) {
-          toast.error('文件内容为空或格式不正确');
-          return;
-        }
-
-        const headers = lines[0]
-          .split(',')
-          .map((h) => h.replace(/^"|"$/g, '').trim().toLowerCase());
-
-        const uploadResults: WordResult[] = [];
-        for (let i = 1; i < lines.length; i++) {
-          const values: string[] = [];
-          let currentVal = '';
-          let inQuotes = false;
-          for (let char of lines[i]) {
-            if (char === '"') {
-              inQuotes = !inQuotes;
-            } else if (char === ',' && !inQuotes) {
-              values.push(currentVal);
-              currentVal = '';
-            } else {
-              currentVal += char;
-            }
+        try {
+          setIsLoading(true)
+          const lines = text.split(/\r?\n/).filter((line) => line.trim())
+          if (lines.length < 2) {
+            toast.error('文件内容为空或格式不正确')
+            return
           }
-          values.push(currentVal);
 
-          const wordObj: Partial<WordResult> = {};
-          headers.forEach((header, index) => {
-            if (values[index] !== undefined) {
-              const val = values[index].replace(/^"|"$/g, '').trim();
+          const headers = lines[0]
+            .split(',')
+            .map((h) => h.replace(/^"|"$/g, '').trim().toLowerCase())
 
-              if (header.includes('exampletranslation') || header.includes('例句翻译')) {
-                wordObj.exampleTranslation = val;
-              } else if (header.includes('example') || header.includes('例句')) {
-                wordObj.example = val;
-              } else if (header.includes('translation') || header.includes('翻译') || header.includes('释义')) {
-                wordObj.translation = val;
-              } else if (header.includes('word') || header.includes('单词')) {
-                wordObj.word = val;
-              } else if (header.includes('phonetic') || header.includes('音标')) {
-                wordObj.phonetic = val;
-              } else if (header.includes('pos') || header.includes('词性')) {
-                wordObj.pos = val;
-              } else if (header.includes('correct')) {
-                wordObj.correctCount = parseInt(val, 10) || 0;
-              } else if (header.includes('incorrect')) {
-                wordObj.incorrectCount = parseInt(val, 10) || 0;
+          const uploadResults: WordResult[] = []
+          for (let i = 1; i < lines.length; i++) {
+            const values: string[] = []
+            let currentVal = ''
+            let inQuotes = false
+            for (let char of lines[i]) {
+              if (char === '"') {
+                inQuotes = !inQuotes
+              } else if (char === ',' && !inQuotes) {
+                values.push(currentVal)
+                currentVal = ''
+              } else {
+                currentVal += char
               }
             }
-          });
+            values.push(currentVal)
 
-          if (wordObj.word) {
-            uploadResults.push(wordObj as WordResult);
+            const wordObj: Partial<WordResult> = {}
+            headers.forEach((header, index) => {
+              if (values[index] !== undefined) {
+                const val = values[index].replace(/^"|"$/g, '').trim()
+
+                if (header.includes('exampletranslation') || header.includes('例句翻译')) {
+                  wordObj.exampleTranslation = val
+                } else if (header.includes('example') || header.includes('例句')) {
+                  wordObj.example = val
+                } else if (
+                  header.includes('translation') ||
+                  header.includes('翻译') ||
+                  header.includes('释义')
+                ) {
+                  wordObj.translation = val
+                } else if (header.includes('word') || header.includes('单词')) {
+                  wordObj.word = val
+                } else if (header.includes('phonetic') || header.includes('音标')) {
+                  wordObj.phonetic = val
+                } else if (header.includes('pos') || header.includes('词性')) {
+                  wordObj.pos = val
+                } else if (header.includes('correct')) {
+                  wordObj.correctCount = parseInt(val, 10) || 0
+                } else if (header.includes('incorrect')) {
+                  wordObj.incorrectCount = parseInt(val, 10) || 0
+                }
+              }
+            })
+
+            if (wordObj.word) {
+              uploadResults.push(wordObj as WordResult)
+            }
           }
-        }
 
-        if (uploadResults.length === 0) {
-          toast.error('未能解析出有效的单词数据，请检查 CSV 格式是否包含 word/单词 列。');
-          return;
-        }
+          if (uploadResults.length === 0) {
+            toast.error('未能解析出有效的单词数据，请检查 CSV 格式是否包含 word/单词 列。')
+            return
+          }
 
-        const response = await fetch('/api/import-csv', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ results: uploadResults }),
-        });
+          const response = await fetch('/api/import-csv', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ results: uploadResults }),
+          })
 
-        const data = await response.json();
-        if (data.success) {
-          toast.success(`成功导入 ${data.savedCount} 个单词到数据库！`);
-        } else {
-          toast.error(`导入失败: ${data.error}`);
+          const data = await response.json()
+          if (data.success) {
+            toast.success(`成功导入 ${data.savedCount} 个单词到数据库！`)
+          } else {
+            toast.error(`导入失败: ${data.error}`)
+          }
+        } catch (err) {
+          if (process.env.NODE_ENV === 'development') console.error('CSV import error:', err)
+          toast.error('导入过程中发生错误，请检查控制台。')
+        } finally {
+          setIsLoading(false)
+          clearFileInput()
         }
-      } catch (err) {
-        if (process.env.NODE_ENV === 'development') console.error('CSV import error:', err);
-        toast.error('导入过程中发生错误，请检查控制台。');
-      } finally {
-        setIsLoading(false);
-        clearFileInput();
       }
-    };
-    reader.readAsText(file);
-  }, [setIsLoading, clearFileInput]);
+      reader.readAsText(file)
+    },
+    [setIsLoading, clearFileInput],
+  )
 
   return (
     <Card className="border-2 shadow-sm">
@@ -580,11 +637,21 @@ export function WordInputCard({
           </CardDescription>
         </div>
         <div className="w-full sm:w-auto">
-          <input type="file" accept=".csv" ref={fileInputRef} onChange={handleFileUpload} className="hidden" aria-label="上传CSV文件" />
+          <input
+            type="file"
+            accept=".csv"
+            ref={fileInputRef}
+            onChange={handleFileUpload}
+            className="hidden"
+            aria-label="上传CSV文件"
+          />
           <div className="flex flex-wrap items-center gap-2">
             {groups.length > 0 && (
               <Select value={selectedTargetGroupId} onValueChange={setSelectedTargetGroupId}>
-                <SelectTrigger className="w-[130px] sm:w-[140px] h-8 text-xs bg-muted/30" aria-label="选择目标分组">
+                <SelectTrigger
+                  className="w-[130px] sm:w-[140px] h-8 text-xs bg-muted/30"
+                  aria-label="选择目标分组"
+                >
                   <SelectValue placeholder="解析后存入..." />
                 </SelectTrigger>
                 <SelectContent>
@@ -612,7 +679,12 @@ export function WordInputCard({
       </CardHeader>
       <CardContent>
         {isLoading ? (
-          <div className="min-h-[150px] p-4 border rounded-md bg-muted/30 flex flex-wrap gap-2 content-start items-start overflow-y-auto relative" role="status" aria-live="polite" aria-label="正在处理中">
+          <div
+            className="min-h-[150px] p-4 border rounded-md bg-muted/30 flex flex-wrap gap-2 content-start items-start overflow-y-auto relative"
+            role="status"
+            aria-live="polite"
+            aria-label="正在处理中"
+          >
             {pendingWords.map((word, index) => (
               <span
                 key={`${index}-${word}`}
@@ -622,15 +694,13 @@ export function WordInputCard({
                 {word}
               </span>
             ))}
-            
+
             {pendingWords.length === 0 && (
               <div className="flex flex-col items-center justify-center w-full py-8 animate-[fadeIn_0.3s_ease-in-out]">
                 <div className="w-12 h-12 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center mb-3">
                   <Sparkles className="w-6 h-6 text-green-500" />
                 </div>
-                <span className="text-muted-foreground text-sm font-medium">
-                  查询完成
-                </span>
+                <span className="text-muted-foreground text-sm font-medium">查询完成</span>
                 <span className="text-muted-foreground text-xs mt-1">
                   已找到 {completedCount} 个结果
                 </span>
@@ -640,7 +710,9 @@ export function WordInputCard({
         ) : (
           <div>
             {inputStatus.type !== 'normal' && (
-              <div className={`p-3 mb-3 rounded-md flex items-center gap-2 ${inputStatus.type === 'non-english' ? 'bg-yellow-50 text-yellow-700 border border-yellow-200' : 'bg-blue-50 text-blue-700 border border-blue-200'}`}>
+              <div
+                className={`p-3 mb-3 rounded-md flex items-center gap-2 ${inputStatus.type === 'non-english' ? 'bg-yellow-50 text-yellow-700 border border-yellow-200' : 'bg-blue-50 text-blue-700 border border-blue-200'}`}
+              >
                 <Globe className="w-4 h-4" />
                 <span className="text-sm font-medium">{inputStatus.message}</span>
               </div>
@@ -661,11 +733,13 @@ take for granted`}
         )}
       </CardContent>
       <CardFooter className="flex justify-between items-center">
-        <span className="text-xs text-gray-400 dark:text-muted-foreground">支持 Ctrl+Enter 快捷解析</span>
+        <span className="text-xs text-gray-400 dark:text-muted-foreground">
+          支持 Ctrl+Enter 快捷解析
+        </span>
         <Button onClick={handleProcess} disabled={isLoading} aria-label="一键解析单词">
           {isLoading ? 'AI 正在处理...' : '一键解析'}
         </Button>
       </CardFooter>
     </Card>
-  );
+  )
 }

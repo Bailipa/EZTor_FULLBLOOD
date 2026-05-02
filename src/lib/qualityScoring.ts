@@ -1,23 +1,23 @@
-import { isSentence } from './sentenceDetector';
+import { isSentence } from './sentenceDetector'
 
 export interface QualityFactors {
-  hasPhonetic: boolean;
-  hasPos: boolean;
-  hasExample: boolean;
-  hasExampleTranslation: boolean;
-  translationLength: number;
-  exampleLength: number;
-  hasMultiplePos: boolean;
-  isError: boolean;
-  isSensitive: boolean;
-  isNonEnglish: boolean;
-  isSentence: boolean;
+  hasPhonetic: boolean
+  hasPos: boolean
+  hasExample: boolean
+  hasExampleTranslation: boolean
+  translationLength: number
+  exampleLength: number
+  hasMultiplePos: boolean
+  isError: boolean
+  isSensitive: boolean
+  isNonEnglish: boolean
+  isSentence: boolean
 }
 
 export interface QualityScore {
-  score: number;
-  factors: QualityFactors;
-  grade: 'A' | 'B' | 'C' | 'D';
+  score: number
+  factors: QualityFactors
+  grade: 'A' | 'B' | 'C' | 'D'
 }
 
 export function calculateQualityScore(
@@ -26,7 +26,7 @@ export function calculateQualityScore(
   pos: string | null,
   translation: string,
   example: string | null,
-  exampleTranslation: string | null
+  exampleTranslation: string | null,
 ): QualityScore {
   const factors: QualityFactors = {
     hasPhonetic: !!phonetic && phonetic.trim().length > 0,
@@ -39,56 +39,56 @@ export function calculateQualityScore(
     isError: pos === '错误' || translation.includes('拼写错误'),
     isSensitive: translation.includes('粗俗') || translation.includes('敏感'),
     isNonEnglish: /[^\x00-\x7F]/.test(word),
-    isSentence: isSentence(word)
-  };
-
-  let score = 0;
-
-  if (factors.isError || factors.isSensitive || factors.isNonEnglish || factors.isSentence) {
-    return { score: 0, factors, grade: 'D' };
+    isSentence: isSentence(word),
   }
 
-  if (factors.hasPhonetic) score += 15;
-  if (factors.hasPos) score += 15;
-  if (factors.hasExample) score += 20;
-  if (factors.hasExampleTranslation) score += 10;
-  
-  if (factors.translationLength > 10) score += 10;
-  if (factors.translationLength > 30) score += 5;
-  
-  if (factors.hasMultiplePos) score += 10;
-  
-  if (factors.exampleLength > 20) score += 10;
-  if (factors.exampleLength > 50) score += 5;
+  let score = 0
 
-  const grade = score >= 80 ? 'A' : score >= 60 ? 'B' : score >= 40 ? 'C' : 'D';
+  if (factors.isError || factors.isSensitive || factors.isNonEnglish || factors.isSentence) {
+    return { score: 0, factors, grade: 'D' }
+  }
 
-  return { score: Math.min(score, 100), factors, grade };
+  if (factors.hasPhonetic) score += 15
+  if (factors.hasPos) score += 15
+  if (factors.hasExample) score += 20
+  if (factors.hasExampleTranslation) score += 10
+
+  if (factors.translationLength > 10) score += 10
+  if (factors.translationLength > 30) score += 5
+
+  if (factors.hasMultiplePos) score += 10
+
+  if (factors.exampleLength > 20) score += 10
+  if (factors.exampleLength > 50) score += 5
+
+  const grade = score >= 80 ? 'A' : score >= 60 ? 'B' : score >= 40 ? 'C' : 'D'
+
+  return { score: Math.min(score, 100), factors, grade }
 }
 
 export function updatePublicWordQuality(
   currentScore: number,
   newScore: number,
-  currentVersion: number
+  currentVersion: number,
 ): { qualityScore: number; version: number } {
   if (newScore > currentScore) {
     return {
       qualityScore: newScore,
-      version: currentVersion + 1
-    };
+      version: currentVersion + 1,
+    }
   }
   return {
     qualityScore: currentScore,
-    version: currentVersion
-  };
+    version: currentVersion,
+  }
 }
 
 export function shouldUpdatePublicWord(
   currentWord: { qualityScore: number; version: number } | null,
-  newScore: number
+  newScore: number,
 ): boolean {
-  if (!currentWord) return true;
-  if (newScore > currentWord.qualityScore) return true;
-  if (newScore === currentWord.qualityScore && Math.random() > 0.5) return true;
-  return false;
+  if (!currentWord) return true
+  if (newScore > currentWord.qualityScore) return true
+  if (newScore === currentWord.qualityScore && Math.random() > 0.5) return true
+  return false
 }

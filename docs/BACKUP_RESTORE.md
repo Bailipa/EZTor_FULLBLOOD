@@ -8,10 +8,10 @@
 
 ## 现有备份文件
 
-| 文件 | 大小 | 格式 |
-|------|------|------|
-| `dev.db.backup.20260427_183453` | 438 KB | SQLite 二进制 |
-| `dev.db.backup.20260427_183458.sql` | 120 KB | SQL 文本 |
+| 文件                                | 大小   | 格式          |
+| ----------------------------------- | ------ | ------------- |
+| `dev.db.backup.20260427_183453`     | 438 KB | SQLite 二进制 |
+| `dev.db.backup.20260427_183458.sql` | 120 KB | SQL 文本      |
 
 ---
 
@@ -58,6 +58,7 @@ sqlite3 dev.db "SELECT 'Word' as tbl, COUNT(*) as cnt FROM Word UNION ALL SELECT
 ```
 
 预期输出：
+
 ```
 Word|60
 PublicWord|63

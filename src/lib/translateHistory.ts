@@ -26,7 +26,7 @@ export function addHistoryEntry(
   input: string,
   output: string,
   optimized: boolean,
-  existingHistory?: HistoryEntry[]
+  existingHistory?: HistoryEntry[],
 ): HistoryEntry[] {
   const history = existingHistory ?? loadHistory()
   const entry: HistoryEntry = {

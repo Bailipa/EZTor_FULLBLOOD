@@ -1,29 +1,32 @@
-import { NextResponse } from 'next/server';
-import prisma from '@/lib/prisma';
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "../../auth/[...nextauth]/route";
-import { logger } from '@/lib/logger';
+import { NextResponse } from 'next/server'
+import prisma from '@/lib/prisma'
+import { getServerSession } from 'next-auth/next'
+import { authOptions } from '../../auth/[...nextauth]/route'
+import { logger } from '@/lib/logger'
 
-export const dynamic = 'force-dynamic';
+export const dynamic = 'force-dynamic'
 
 export async function GET(req: Request) {
   try {
-    const session = await getServerSession(authOptions);
+    const session = await getServerSession(authOptions)
     if (!session?.user?.id) {
-      return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 });
+      return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 })
     }
 
-    const { searchParams } = new URL(req.url);
-    const limitParam = searchParams.get('limit');
-    const groupId = searchParams.get('groupId');
-    const limit = limitParam ? Math.min(parseInt(limitParam, 10), 100) : 20;
+    const { searchParams } = new URL(req.url)
+    const limitParam = searchParams.get('limit')
+    const groupId = searchParams.get('groupId')
+    const limit = limitParam ? Math.min(parseInt(limitParam, 10), 100) : 20
 
     if (groupId && groupId !== 'all') {
       const group = await prisma.reviewGroup.findUnique({
-        where: { id: groupId }
-      });
+        where: { id: groupId },
+      })
       if (!group || group.userId !== session.user.id) {
-        return NextResponse.json({ success: false, error: 'Group not found or unauthorized' }, { status: 404 });
+        return NextResponse.json(
+          { success: false, error: 'Group not found or unauthorized' },
+          { status: 404 },
+        )
       }
 
       const smartWords = await prisma.$queryRaw<Record<string, unknown>[]>`
@@ -51,9 +54,9 @@ export async function GET(req: Request) {
           END DESC,
           RANDOM()
         LIMIT ${limit}
-      `;
+      `
 
-      return NextResponse.json({ success: true, data: smartWords });
+      return NextResponse.json({ success: true, data: smartWords })
     }
 
     const smartWords = await prisma.$queryRaw<Record<string, unknown>[]>`
@@ -79,12 +82,14 @@ export async function GET(req: Request) {
         END DESC,
         RANDOM()
       LIMIT ${limit}
-    `;
+    `
 
-    return NextResponse.json({ success: true, data: smartWords });
-
+    return NextResponse.json({ success: true, data: smartWords })
   } catch (err: unknown) {
-    logger.error({ err }, "Failed to fetch smart dictation words:");
-    return NextResponse.json({ success: false, error: 'Failed to fetch smart data' }, { status: 500 });
+    logger.error({ err }, 'Failed to fetch smart dictation words:')
+    return NextResponse.json(
+      { success: false, error: 'Failed to fetch smart data' },
+      { status: 500 },
+    )
   }
 }

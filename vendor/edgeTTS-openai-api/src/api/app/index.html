@@ -1,874 +1,909 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Edge TTS API 测试平台</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { 
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-            overflow: hidden;
-        }
-        .header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 30px;
-            text-align: center;
-        }
-        .header h1 { font-size: 2em; margin-bottom: 10px; }
-        .header p { opacity: 0.9; }
-        .content { padding: 30px; }
-        .section {
-            margin-bottom: 40px;
-            padding: 25px;
-            background: #f8f9fa;
-            border-radius: 8px;
-            border-left: 4px solid #667eea;
-        }
-        .section h2 {
-            color: #333;
-            margin-bottom: 20px;
-            font-size: 1.5em;
-        }
-        .form-group {
-            margin-bottom: 15px;
-        }
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            color: #555;
-            font-weight: 500;
-        }
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            font-size: 14px;
-            transition: border-color 0.3s;
-        }
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: #667eea;
-        }
-        .form-group textarea {
-            min-height: 80px;
-            resize: vertical;
-        }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        padding: 20px;
+      }
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        overflow: hidden;
+      }
+      .header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 30px;
+        text-align: center;
+      }
+      .header h1 {
+        font-size: 2em;
+        margin-bottom: 10px;
+      }
+      .header p {
+        opacity: 0.9;
+      }
+      .content {
+        padding: 30px;
+      }
+      .section {
+        margin-bottom: 40px;
+        padding: 25px;
+        background: #f8f9fa;
+        border-radius: 8px;
+        border-left: 4px solid #667eea;
+      }
+      .section h2 {
+        color: #333;
+        margin-bottom: 20px;
+        font-size: 1.5em;
+      }
+      .form-group {
+        margin-bottom: 15px;
+      }
+      .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        color: #555;
+        font-weight: 500;
+      }
+      .form-group input,
+      .form-group select,
+      .form-group textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        font-size: 14px;
+        transition: border-color 0.3s;
+      }
+      .form-group input:focus,
+      .form-group select:focus,
+      .form-group textarea:focus {
+        outline: none;
+        border-color: #667eea;
+      }
+      .form-group textarea {
+        min-height: 80px;
+        resize: vertical;
+      }
+      .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+      }
+      .voice-search-wrapper {
+        position: relative;
+      }
+      .voice-search-input {
+        width: 100%;
+        padding: 10px 40px 10px 10px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        font-size: 14px;
+      }
+      .voice-search-input:focus {
+        outline: none;
+        border-color: #667eea;
+      }
+      .voice-dropdown {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: white;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        max-height: 300px;
+        overflow-y: auto;
+        z-index: 1000;
+        display: none;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        margin-top: 2px;
+      }
+      .voice-dropdown.show {
+        display: block;
+      }
+      .voice-option {
+        padding: 10px;
+        cursor: pointer;
+        transition: background 0.2s;
+        border-bottom: 1px solid #f0f0f0;
+      }
+      .voice-option:hover {
+        background: #f0f0f0;
+      }
+      .voice-option:last-child {
+        border-bottom: none;
+      }
+      .voice-option-name {
+        font-weight: 500;
+        color: #333;
+      }
+      .voice-option-info {
+        font-size: 12px;
+        color: #666;
+        margin-top: 2px;
+      }
+      .search-icon {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #999;
+        pointer-events: none;
+      }
+      .btn {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 500;
+        transition:
+          transform 0.2s,
+          box-shadow 0.2s;
+        margin-right: 10px;
+        margin-top: 10px;
+      }
+      .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+      }
+      .btn:active {
+        transform: translateY(0);
+      }
+      .btn-secondary {
+        background: #6c757d;
+      }
+      .btn-copy {
+        background: #28a745;
+        padding: 8px 16px;
+        font-size: 12px;
+        margin-left: 10px;
+      }
+      .result {
+        margin-top: 20px;
+        padding: 15px;
+        background: white;
+        border-radius: 6px;
+        border: 1px solid #ddd;
+        display: none;
+      }
+      .result.show {
+        display: block;
+      }
+      .result h3 {
+        margin-bottom: 10px;
+        color: #333;
+      }
+      .result pre {
+        background: #f8f9fa;
+        padding: 15px;
+        border-radius: 6px;
+        overflow-x: auto;
+        font-size: 12px;
+        line-height: 1.5;
+      }
+      .url-display {
+        background: #f8f9fa;
+        padding: 15px;
+        border-radius: 6px;
+        margin-top: 15px;
+        border: 1px solid #ddd;
+        word-break: break-all;
+      }
+      .url-display code {
+        color: #667eea;
+        font-size: 13px;
+      }
+      .audio-player {
+        margin-top: 15px;
+        width: 100%;
+      }
+      .loading {
+        display: none;
+        text-align: center;
+        padding: 20px;
+        color: #667eea;
+      }
+      .loading.show {
+        display: block;
+      }
+      .error {
+        color: #dc3545;
+        background: #f8d7da;
+        padding: 10px;
+        border-radius: 6px;
+        margin-top: 10px;
+      }
+      .success {
+        color: #155724;
+        background: #d4edda;
+        padding: 10px;
+        border-radius: 6px;
+        margin-top: 10px;
+      }
+      .voice-list {
+        max-height: 300px;
+        overflow-y: auto;
+        margin-top: 10px;
+      }
+      .voice-item {
+        padding: 8px;
+        border-bottom: 1px solid #eee;
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+      .voice-item:hover {
+        background: #f0f0f0;
+      }
+      .method-selector {
+        display: inline-block;
+        margin-bottom: 15px;
+      }
+      .method-selector label {
+        margin-right: 15px;
+        cursor: pointer;
+      }
+      .method-selector input[type='radio'] {
+        margin-right: 5px;
+      }
+      @media (max-width: 768px) {
         .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
+          grid-template-columns: 1fr;
         }
-        .voice-search-wrapper {
-            position: relative;
-        }
-        .voice-search-input {
-            width: 100%;
-            padding: 10px 40px 10px 10px;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            font-size: 14px;
-        }
-        .voice-search-input:focus {
-            outline: none;
-            border-color: #667eea;
-        }
-        .voice-dropdown {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            right: 0;
-            background: white;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            max-height: 300px;
-            overflow-y: auto;
-            z-index: 1000;
-            display: none;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            margin-top: 2px;
-        }
-        .voice-dropdown.show {
-            display: block;
-        }
-        .voice-option {
-            padding: 10px;
-            cursor: pointer;
-            transition: background 0.2s;
-            border-bottom: 1px solid #f0f0f0;
-        }
-        .voice-option:hover {
-            background: #f0f0f0;
-        }
-        .voice-option:last-child {
-            border-bottom: none;
-        }
-        .voice-option-name {
-            font-weight: 500;
-            color: #333;
-        }
-        .voice-option-info {
-            font-size: 12px;
-            color: #666;
-            margin-top: 2px;
-        }
-        .search-icon {
-            position: absolute;
-            right: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #999;
-            pointer-events: none;
-        }
-        .btn {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 500;
-            transition: transform 0.2s, box-shadow 0.2s;
-            margin-right: 10px;
-            margin-top: 10px;
-        }
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
-        }
-        .btn:active {
-            transform: translateY(0);
-        }
-        .btn-secondary {
-            background: #6c757d;
-        }
-        .btn-copy {
-            background: #28a745;
-            padding: 8px 16px;
-            font-size: 12px;
-            margin-left: 10px;
-        }
-        .result {
-            margin-top: 20px;
-            padding: 15px;
-            background: white;
-            border-radius: 6px;
-            border: 1px solid #ddd;
-            display: none;
-        }
-        .result.show {
-            display: block;
-        }
-        .result h3 {
-            margin-bottom: 10px;
-            color: #333;
-        }
-        .result pre {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 6px;
-            overflow-x: auto;
-            font-size: 12px;
-            line-height: 1.5;
-        }
-        .url-display {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 6px;
-            margin-top: 15px;
-            border: 1px solid #ddd;
-            word-break: break-all;
-        }
-        .url-display code {
-            color: #667eea;
-            font-size: 13px;
-        }
-        .audio-player {
-            margin-top: 15px;
-            width: 100%;
-        }
-        .loading {
-            display: none;
-            text-align: center;
-            padding: 20px;
-            color: #667eea;
-        }
-        .loading.show {
-            display: block;
-        }
-        .error {
-            color: #dc3545;
-            background: #f8d7da;
-            padding: 10px;
-            border-radius: 6px;
-            margin-top: 10px;
-        }
-        .success {
-            color: #155724;
-            background: #d4edda;
-            padding: 10px;
-            border-radius: 6px;
-            margin-top: 10px;
-        }
-        .voice-list {
-            max-height: 300px;
-            overflow-y: auto;
-            margin-top: 10px;
-        }
-        .voice-item {
-            padding: 8px;
-            border-bottom: 1px solid #eee;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-        .voice-item:hover {
-            background: #f0f0f0;
-        }
-        .method-selector {
-            display: inline-block;
-            margin-bottom: 15px;
-        }
-        .method-selector label {
-            margin-right: 15px;
-            cursor: pointer;
-        }
-        .method-selector input[type="radio"] {
-            margin-right: 5px;
-        }
-        @media (max-width: 768px) {
-            .form-row {
-                grid-template-columns: 1fr;
-            }
-        }
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="container">
-        <div class="header">
-            <h1>🎤 Edge TTS API 测试平台</h1>
-            <p>基于微软 Edge TTS 的 OpenAI TTS API 替代品</p>
+      <div class="header">
+        <h1>🎤 Edge TTS API 测试平台</h1>
+        <p>基于微软 Edge TTS 的 OpenAI TTS API 替代品</p>
+      </div>
+      <div class="content">
+        <!-- 普通TTS接口测试 -->
+        <div class="section">
+          <h2>📝 普通TTS接口 (/tts)</h2>
+          <div class="method-selector">
+            <label><input type="radio" name="tts-method" value="GET" checked /> GET</label>
+            <label><input type="radio" name="tts-method" value="POST" /> POST</label>
+          </div>
+          <div class="form-group">
+            <label>API密钥 (key):</label>
+            <input type="text" id="tts-key" placeholder="输入API密钥" value="sk" />
+          </div>
+          <div class="form-group">
+            <label>文本内容 (text):</label>
+            <textarea id="tts-text" placeholder="输入要合成的文本">
+你好，这是一个TTS API测试。</textarea
+            >
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>说话人 (voice):</label>
+              <div class="voice-search-wrapper">
+                <input
+                  type="text"
+                  id="tts-voice"
+                  class="voice-search-input"
+                  placeholder="搜索或输入说话人名称，例如: zh-CN-XiaoxiaoNeural"
+                  value="zh-CN-XiaoxiaoNeural"
+                  autocomplete="off"
+                  oninput="filterVoices('tts-voice', 'tts-voice-dropdown')"
+                  onfocus="showVoiceDropdown('tts-voice-dropdown')"
+                  onclick="showVoiceDropdown('tts-voice-dropdown')"
+                />
+                <span class="search-icon">🔍</span>
+                <div class="voice-dropdown" id="tts-voice-dropdown"></div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>音频格式 (format):</label>
+              <select id="tts-format">
+                <option value="mp3">MP3</option>
+                <option value="wav">WAV</option>
+                <option value="opus">OPUS</option>
+                <option value="aac">AAC</option>
+                <option value="flac">FLAC</option>
+                <option value="pcm">PCM</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>语速 (speed):</label>
+            <input type="number" id="tts-speed" step="0.1" min="0.5" max="2.0" value="1.0" />
+          </div>
+          <button class="btn" onclick="testSimpleTTS()">🚀 测试TTS接口</button>
+          <div class="loading" id="tts-loading">正在生成语音...</div>
+          <div class="result" id="tts-result">
+            <h3>结果:</h3>
+            <div class="url-display" id="tts-url-display" style="display: none">
+              <strong>GET URL:</strong>
+              <code id="tts-url"></code>
+              <button class="btn btn-copy" onclick="copyToClipboard('tts-url')">📋 复制</button>
+            </div>
+            <audio id="tts-audio" class="audio-player" controls></audio>
+            <div id="tts-message"></div>
+          </div>
         </div>
-        <div class="content">
-            <!-- 普通TTS接口测试 -->
-            <div class="section">
-                <h2>📝 普通TTS接口 (/tts)</h2>
-                <div class="method-selector">
-                    <label><input type="radio" name="tts-method" value="GET" checked> GET</label>
-                    <label><input type="radio" name="tts-method" value="POST"> POST</label>
-                </div>
-                <div class="form-group">
-                    <label>API密钥 (key):</label>
-                    <input type="text" id="tts-key" placeholder="输入API密钥" value="sk">
-                </div>
-                <div class="form-group">
-                    <label>文本内容 (text):</label>
-                    <textarea id="tts-text" placeholder="输入要合成的文本">你好，这是一个TTS API测试。</textarea>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>说话人 (voice):</label>
-                        <div class="voice-search-wrapper">
-                            <input type="text" id="tts-voice" class="voice-search-input" 
-                                   placeholder="搜索或输入说话人名称，例如: zh-CN-XiaoxiaoNeural" 
-                                   value="zh-CN-XiaoxiaoNeural"
-                                   autocomplete="off"
-                                   oninput="filterVoices('tts-voice', 'tts-voice-dropdown')"
-                                   onfocus="showVoiceDropdown('tts-voice-dropdown')"
-                                   onclick="showVoiceDropdown('tts-voice-dropdown')">
-                            <span class="search-icon">🔍</span>
-                            <div class="voice-dropdown" id="tts-voice-dropdown"></div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>音频格式 (format):</label>
-                        <select id="tts-format">
-                            <option value="mp3">MP3</option>
-                            <option value="wav">WAV</option>
-                            <option value="opus">OPUS</option>
-                            <option value="aac">AAC</option>
-                            <option value="flac">FLAC</option>
-                            <option value="pcm">PCM</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label>语速 (speed):</label>
-                    <input type="number" id="tts-speed" step="0.1" min="0.5" max="2.0" value="1.0">
-                </div>
-                <button class="btn" onclick="testSimpleTTS()">🚀 测试TTS接口</button>
-                <div class="loading" id="tts-loading">正在生成语音...</div>
-                <div class="result" id="tts-result">
-                    <h3>结果:</h3>
-                    <div class="url-display" id="tts-url-display" style="display: none;">
-                        <strong>GET URL:</strong>
-                        <code id="tts-url"></code>
-                        <button class="btn btn-copy" onclick="copyToClipboard('tts-url')">📋 复制</button>
-                    </div>
-                    <audio id="tts-audio" class="audio-player" controls></audio>
-                    <div id="tts-message"></div>
-                </div>
-            </div>
 
-            <!-- OpenAI格式TTS接口测试 -->
-            <div class="section">
-                <h2>🎯 OpenAI格式TTS接口 (/v1/audio/speech)</h2>
-                <div class="form-group">
-                    <label>API密钥 (Bearer Token):</label>
-                    <input type="text" id="openai-key" placeholder="输入API密钥" value="sk">
-                </div>
-                <div class="form-group">
-                    <label>文本内容 (input):</label>
-                    <textarea id="openai-input" placeholder="输入要合成的文本">Hello, this is a test of the OpenAI TTS API.</textarea>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>说话人 (voice):</label>
-                        <div class="voice-search-wrapper">
-                            <input type="text" id="openai-voice" class="voice-search-input" 
-                                   placeholder="搜索或输入说话人名称" 
-                                   value="en-US-AndrewNeural"
-                                   autocomplete="off"
-                                   oninput="filterVoices('openai-voice', 'openai-voice-dropdown')"
-                                   onfocus="showVoiceDropdown('openai-voice-dropdown')"
-                                   onclick="showVoiceDropdown('openai-voice-dropdown')">
-                            <span class="search-icon">🔍</span>
-                            <div class="voice-dropdown" id="openai-voice-dropdown"></div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>音频格式 (response_format):</label>
-                        <select id="openai-format">
-                            <option value="mp3">MP3</option>
-                            <option value="wav">WAV</option>
-                            <option value="opus">OPUS</option>
-                            <option value="aac">AAC</option>
-                            <option value="flac">FLAC</option>
-                            <option value="pcm">PCM</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label>语速 (speed):</label>
-                    <input type="number" id="openai-speed" step="0.1" min="0.5" max="2.0" value="1.0">
-                </div>
-                <button class="btn" onclick="testOpenAITTS()">🚀 测试OpenAI TTS接口</button>
-                <div class="loading" id="openai-loading">正在生成语音...</div>
-                <div class="result" id="openai-result">
-                    <h3>结果:</h3>
-                    <audio id="openai-audio" class="audio-player" controls></audio>
-                    <div id="openai-message"></div>
-                </div>
+        <!-- OpenAI格式TTS接口测试 -->
+        <div class="section">
+          <h2>🎯 OpenAI格式TTS接口 (/v1/audio/speech)</h2>
+          <div class="form-group">
+            <label>API密钥 (Bearer Token):</label>
+            <input type="text" id="openai-key" placeholder="输入API密钥" value="sk" />
+          </div>
+          <div class="form-group">
+            <label>文本内容 (input):</label>
+            <textarea id="openai-input" placeholder="输入要合成的文本">
+Hello, this is a test of the OpenAI TTS API.</textarea
+            >
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>说话人 (voice):</label>
+              <div class="voice-search-wrapper">
+                <input
+                  type="text"
+                  id="openai-voice"
+                  class="voice-search-input"
+                  placeholder="搜索或输入说话人名称"
+                  value="en-US-AndrewNeural"
+                  autocomplete="off"
+                  oninput="filterVoices('openai-voice', 'openai-voice-dropdown')"
+                  onfocus="showVoiceDropdown('openai-voice-dropdown')"
+                  onclick="showVoiceDropdown('openai-voice-dropdown')"
+                />
+                <span class="search-icon">🔍</span>
+                <div class="voice-dropdown" id="openai-voice-dropdown"></div>
+              </div>
             </div>
-
-            <!-- 列出模型 -->
-            <div class="section">
-                <h2>📋 列出模型 (/v1/models)</h2>
-                <div class="form-group">
-                    <label>API密钥 (Bearer Token):</label>
-                    <input type="text" id="models-key" placeholder="输入API密钥" value="sk">
-                </div>
-                <button class="btn" onclick="testListModels()">📋 获取模型列表</button>
-                <div class="loading" id="models-loading">正在获取模型列表...</div>
-                <div class="result" id="models-result">
-                    <h3>结果:</h3>
-                    <pre id="models-data"></pre>
-                </div>
+            <div class="form-group">
+              <label>音频格式 (response_format):</label>
+              <select id="openai-format">
+                <option value="mp3">MP3</option>
+                <option value="wav">WAV</option>
+                <option value="opus">OPUS</option>
+                <option value="aac">AAC</option>
+                <option value="flac">FLAC</option>
+                <option value="pcm">PCM</option>
+              </select>
             </div>
-
-            <!-- 列出语音 -->
-            <div class="section">
-                <h2>🗣️ 列出语音 (/v1/voices)</h2>
-                <div class="form-group">
-                    <label>API密钥 (Bearer Token):</label>
-                    <input type="text" id="voices-key" placeholder="输入API密钥" value="sk">
-                </div>
-                <div class="form-group">
-                    <label>语言代码 (language, 可选):</label>
-                    <input type="text" id="voices-language" placeholder="例如: zh-CN, en-US (留空获取默认语言)">
-                </div>
-                <button class="btn" onclick="testListVoices()">🗣️ 获取语音列表</button>
-                <div class="loading" id="voices-loading">正在获取语音列表...</div>
-                <div class="result" id="voices-result">
-                    <h3>结果:</h3>
-                    <div class="voice-list" id="voices-data"></div>
-                </div>
-            </div>
-
-            <!-- 列出所有语音 -->
-            <div class="section">
-                <h2>🌍 列出所有语音 (/v1/voices/all)</h2>
-                <div class="form-group">
-                    <label>API密钥 (Bearer Token):</label>
-                    <input type="text" id="all-voices-key" placeholder="输入API密钥" value="sk">
-                </div>
-                <button class="btn" onclick="testListAllVoices()">🌍 获取所有语音</button>
-                <div class="loading" id="all-voices-loading">正在获取所有语音列表...</div>
-                <div class="result" id="all-voices-result">
-                    <h3>结果:</h3>
-                    <div class="voice-list" id="all-voices-data"></div>
-                </div>
-            </div>
+          </div>
+          <div class="form-group">
+            <label>语速 (speed):</label>
+            <input type="number" id="openai-speed" step="0.1" min="0.5" max="2.0" value="1.0" />
+          </div>
+          <button class="btn" onclick="testOpenAITTS()">🚀 测试OpenAI TTS接口</button>
+          <div class="loading" id="openai-loading">正在生成语音...</div>
+          <div class="result" id="openai-result">
+            <h3>结果:</h3>
+            <audio id="openai-audio" class="audio-player" controls></audio>
+            <div id="openai-message"></div>
+          </div>
         </div>
+
+        <!-- 列出模型 -->
+        <div class="section">
+          <h2>📋 列出模型 (/v1/models)</h2>
+          <div class="form-group">
+            <label>API密钥 (Bearer Token):</label>
+            <input type="text" id="models-key" placeholder="输入API密钥" value="sk" />
+          </div>
+          <button class="btn" onclick="testListModels()">📋 获取模型列表</button>
+          <div class="loading" id="models-loading">正在获取模型列表...</div>
+          <div class="result" id="models-result">
+            <h3>结果:</h3>
+            <pre id="models-data"></pre>
+          </div>
+        </div>
+
+        <!-- 列出语音 -->
+        <div class="section">
+          <h2>🗣️ 列出语音 (/v1/voices)</h2>
+          <div class="form-group">
+            <label>API密钥 (Bearer Token):</label>
+            <input type="text" id="voices-key" placeholder="输入API密钥" value="sk" />
+          </div>
+          <div class="form-group">
+            <label>语言代码 (language, 可选):</label>
+            <input
+              type="text"
+              id="voices-language"
+              placeholder="例如: zh-CN, en-US (留空获取默认语言)"
+            />
+          </div>
+          <button class="btn" onclick="testListVoices()">🗣️ 获取语音列表</button>
+          <div class="loading" id="voices-loading">正在获取语音列表...</div>
+          <div class="result" id="voices-result">
+            <h3>结果:</h3>
+            <div class="voice-list" id="voices-data"></div>
+          </div>
+        </div>
+
+        <!-- 列出所有语音 -->
+        <div class="section">
+          <h2>🌍 列出所有语音 (/v1/voices/all)</h2>
+          <div class="form-group">
+            <label>API密钥 (Bearer Token):</label>
+            <input type="text" id="all-voices-key" placeholder="输入API密钥" value="sk" />
+          </div>
+          <button class="btn" onclick="testListAllVoices()">🌍 获取所有语音</button>
+          <div class="loading" id="all-voices-loading">正在获取所有语音列表...</div>
+          <div class="result" id="all-voices-result">
+            <h3>结果:</h3>
+            <div class="voice-list" id="all-voices-data"></div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <script>
-        const API_BASE = window.location.origin;
-        
-        // 默认中文语音列表（硬编码）
-        const chineseVoices = [
-            {name: 'wuu-CN-XiaotongNeural', gender: 'Female', language: 'wuu-CN'},
-            {name: 'wuu-CN-YunzheNeural', gender: 'Male', language: 'wuu-CN'},
-            {name: 'yue-CN-XiaoMinNeural', gender: 'Female', language: 'yue-CN'},
-            {name: 'yue-CN-YunSongNeural', gender: 'Male', language: 'yue-CN'},
-            {name: 'zh-CN-Xiaochen:DragonHDFlashLatestNeural', gender: 'Female', language: 'zh-CN'},
-            {name: 'zh-CN-Xiaochen:DragonHDLatestNeural', gender: 'Female', language: 'zh-CN'},
-            {name: 'zh-CN-XiaochenMultilingualNeural', gender: 'Female', language: 'zh-CN'},
-            {name: 'zh-CN-XiaochenNeural', gender: 'Female', language: 'zh-CN'},
-            {name: 'zh-CN-XiaohanNeural', gender: 'Female', language: 'zh-CN'},
-            {name: 'zh-CN-XiaomengNeural', gender: 'Female', language: 'zh-CN'},
-            {name: 'zh-CN-XiaomoNeural', gender: 'Female', language: 'zh-CN'},
-            {name: 'zh-CN-XiaoqiuNeural', gender: 'Female', language: 'zh-CN'},
-            {name: 'zh-CN-XiaorouNeural', gender: 'Female', language: 'zh-CN'},
-            {name: 'zh-CN-XiaoruiNeural', gender: 'Female', language: 'zh-CN'},
-            {name: 'zh-CN-Xiaoshuang:DragonHDFlashLatestNeural', gender: 'Female', language: 'zh-CN'},
-            {name: 'zh-CN-XiaoshuangMultilingualNeural', gender: 'Female', language: 'zh-CN'},
-            {name: 'zh-CN-XiaoshuangNeural', gender: 'Female', language: 'zh-CN'},
-            {name: 'zh-CN-Xiaoxiao2:DragonHDFlashLatestNeural', gender: 'Female', language: 'zh-CN'},
-            {name: 'zh-CN-Xiaoxiao:DragonHDFlashLatestNeural', gender: 'Female', language: 'zh-CN'},
-            {name: 'zh-CN-XiaoxiaoDialectsNeural', gender: 'Female', language: 'zh-CN'},
-            {name: 'zh-CN-XiaoxiaoMultilingualNeural', gender: 'Female', language: 'zh-CN'},
-            {name: 'zh-CN-XiaoxiaoNeural', gender: 'Female', language: 'zh-CN'},
-            {name: 'zh-CN-XiaoyanNeural', gender: 'Female', language: 'zh-CN'},
-            {name: 'zh-CN-XiaoyiNeural', gender: 'Female', language: 'zh-CN'},
-            {name: 'zh-CN-Xiaoyou:DragonHDFlashLatestNeural', gender: 'Female', language: 'zh-CN'},
-            {name: 'zh-CN-XiaoyouMultilingualNeural', gender: 'Female', language: 'zh-CN'},
-            {name: 'zh-CN-XiaoyouNeural', gender: 'Female', language: 'zh-CN'},
-            {name: 'zh-CN-XiaoyuMultilingualNeural', gender: 'Female', language: 'zh-CN'},
-            {name: 'zh-CN-XiaozhenNeural', gender: 'Female', language: 'zh-CN'},
-            {name: 'zh-CN-Yunfan:DragonHDLatestNeural', gender: 'Male', language: 'zh-CN'},
-            {name: 'zh-CN-YunfanMultilingualNeural', gender: 'Male', language: 'zh-CN'},
-            {name: 'zh-CN-YunfengNeural', gender: 'Male', language: 'zh-CN'},
-            {name: 'zh-CN-YunhaoNeural', gender: 'Male', language: 'zh-CN'},
-            {name: 'zh-CN-YunjianNeural', gender: 'Male', language: 'zh-CN'},
-            {name: 'zh-CN-YunjieNeural', gender: 'Male', language: 'zh-CN'},
-            {name: 'zh-CN-YunxiNeural', gender: 'Male', language: 'zh-CN'},
-            {name: 'zh-CN-Yunxia:DragonHDFlashLatestNeural', gender: 'Male', language: 'zh-CN'},
-            {name: 'zh-CN-YunxiaNeural', gender: 'Male', language: 'zh-CN'},
-            {name: 'zh-CN-Yunxiao:DragonHDFlashLatestNeural', gender: 'Male', language: 'zh-CN'},
-            {name: 'zh-CN-YunxiaoMultilingualNeural', gender: 'Male', language: 'zh-CN'},
-            {name: 'zh-CN-YunyangNeural', gender: 'Male', language: 'zh-CN'},
-            {name: 'zh-CN-Yunye:DragonHDFlashLatestNeural', gender: 'Male', language: 'zh-CN'},
-            {name: 'zh-CN-YunyeNeural', gender: 'Male', language: 'zh-CN'},
-            {name: 'zh-CN-Yunyi:DragonHDFlashLatestNeural', gender: 'Male', language: 'zh-CN'},
-            {name: 'zh-CN-YunyiMultilingualNeural', gender: 'Male', language: 'zh-CN'},
-            {name: 'zh-CN-YunzeNeural', gender: 'Male', language: 'zh-CN'},
-            {name: 'zh-CN-guangxi-YunqiNeural', gender: 'Male', language: 'zh-CN'},
-            {name: 'zh-CN-henan-YundengNeural', gender: 'Male', language: 'zh-CN'},
-            {name: 'zh-CN-liaoning-XiaobeiNeural', gender: 'Female', language: 'zh-CN'},
-            {name: 'zh-CN-liaoning-YunbiaoNeural', gender: 'Male', language: 'zh-CN'},
-            {name: 'zh-CN-shaanxi-XiaoniNeural', gender: 'Female', language: 'zh-CN'},
-            {name: 'zh-CN-shandong-YunxiangNeural', gender: 'Male', language: 'zh-CN'},
-            {name: 'zh-CN-sichuan-YunxiNeural', gender: 'Male', language: 'zh-CN'},
-            {name: 'zh-HK-HiuGaaiNeural', gender: 'Female', language: 'zh-HK'},
-            {name: 'zh-HK-HiuMaanNeural', gender: 'Female', language: 'zh-HK'},
-            {name: 'zh-HK-WanLungNeural', gender: 'Male', language: 'zh-HK'},
-            {name: 'zh-TW-HsiaoChenNeural', gender: 'Female', language: 'zh-TW'},
-            {name: 'zh-TW-HsiaoYuNeural', gender: 'Female', language: 'zh-TW'},
-            {name: 'zh-TW-YunJheNeural', gender: 'Male', language: 'zh-TW'}
-        ];
-        let allVoices = [];
+      const API_BASE = window.location.origin
 
-        // 页面加载时初始化语音下拉框
-        window.addEventListener('DOMContentLoaded', () => {
-            populateVoiceDropdown('tts-voice-dropdown', chineseVoices, 'tts-voice');
-            populateVoiceDropdown('openai-voice-dropdown', chineseVoices, 'openai-voice');
-        });
+      // 默认中文语音列表（硬编码）
+      const chineseVoices = [
+        { name: 'wuu-CN-XiaotongNeural', gender: 'Female', language: 'wuu-CN' },
+        { name: 'wuu-CN-YunzheNeural', gender: 'Male', language: 'wuu-CN' },
+        { name: 'yue-CN-XiaoMinNeural', gender: 'Female', language: 'yue-CN' },
+        { name: 'yue-CN-YunSongNeural', gender: 'Male', language: 'yue-CN' },
+        { name: 'zh-CN-Xiaochen:DragonHDFlashLatestNeural', gender: 'Female', language: 'zh-CN' },
+        { name: 'zh-CN-Xiaochen:DragonHDLatestNeural', gender: 'Female', language: 'zh-CN' },
+        { name: 'zh-CN-XiaochenMultilingualNeural', gender: 'Female', language: 'zh-CN' },
+        { name: 'zh-CN-XiaochenNeural', gender: 'Female', language: 'zh-CN' },
+        { name: 'zh-CN-XiaohanNeural', gender: 'Female', language: 'zh-CN' },
+        { name: 'zh-CN-XiaomengNeural', gender: 'Female', language: 'zh-CN' },
+        { name: 'zh-CN-XiaomoNeural', gender: 'Female', language: 'zh-CN' },
+        { name: 'zh-CN-XiaoqiuNeural', gender: 'Female', language: 'zh-CN' },
+        { name: 'zh-CN-XiaorouNeural', gender: 'Female', language: 'zh-CN' },
+        { name: 'zh-CN-XiaoruiNeural', gender: 'Female', language: 'zh-CN' },
+        { name: 'zh-CN-Xiaoshuang:DragonHDFlashLatestNeural', gender: 'Female', language: 'zh-CN' },
+        { name: 'zh-CN-XiaoshuangMultilingualNeural', gender: 'Female', language: 'zh-CN' },
+        { name: 'zh-CN-XiaoshuangNeural', gender: 'Female', language: 'zh-CN' },
+        { name: 'zh-CN-Xiaoxiao2:DragonHDFlashLatestNeural', gender: 'Female', language: 'zh-CN' },
+        { name: 'zh-CN-Xiaoxiao:DragonHDFlashLatestNeural', gender: 'Female', language: 'zh-CN' },
+        { name: 'zh-CN-XiaoxiaoDialectsNeural', gender: 'Female', language: 'zh-CN' },
+        { name: 'zh-CN-XiaoxiaoMultilingualNeural', gender: 'Female', language: 'zh-CN' },
+        { name: 'zh-CN-XiaoxiaoNeural', gender: 'Female', language: 'zh-CN' },
+        { name: 'zh-CN-XiaoyanNeural', gender: 'Female', language: 'zh-CN' },
+        { name: 'zh-CN-XiaoyiNeural', gender: 'Female', language: 'zh-CN' },
+        { name: 'zh-CN-Xiaoyou:DragonHDFlashLatestNeural', gender: 'Female', language: 'zh-CN' },
+        { name: 'zh-CN-XiaoyouMultilingualNeural', gender: 'Female', language: 'zh-CN' },
+        { name: 'zh-CN-XiaoyouNeural', gender: 'Female', language: 'zh-CN' },
+        { name: 'zh-CN-XiaoyuMultilingualNeural', gender: 'Female', language: 'zh-CN' },
+        { name: 'zh-CN-XiaozhenNeural', gender: 'Female', language: 'zh-CN' },
+        { name: 'zh-CN-Yunfan:DragonHDLatestNeural', gender: 'Male', language: 'zh-CN' },
+        { name: 'zh-CN-YunfanMultilingualNeural', gender: 'Male', language: 'zh-CN' },
+        { name: 'zh-CN-YunfengNeural', gender: 'Male', language: 'zh-CN' },
+        { name: 'zh-CN-YunhaoNeural', gender: 'Male', language: 'zh-CN' },
+        { name: 'zh-CN-YunjianNeural', gender: 'Male', language: 'zh-CN' },
+        { name: 'zh-CN-YunjieNeural', gender: 'Male', language: 'zh-CN' },
+        { name: 'zh-CN-YunxiNeural', gender: 'Male', language: 'zh-CN' },
+        { name: 'zh-CN-Yunxia:DragonHDFlashLatestNeural', gender: 'Male', language: 'zh-CN' },
+        { name: 'zh-CN-YunxiaNeural', gender: 'Male', language: 'zh-CN' },
+        { name: 'zh-CN-Yunxiao:DragonHDFlashLatestNeural', gender: 'Male', language: 'zh-CN' },
+        { name: 'zh-CN-YunxiaoMultilingualNeural', gender: 'Male', language: 'zh-CN' },
+        { name: 'zh-CN-YunyangNeural', gender: 'Male', language: 'zh-CN' },
+        { name: 'zh-CN-Yunye:DragonHDFlashLatestNeural', gender: 'Male', language: 'zh-CN' },
+        { name: 'zh-CN-YunyeNeural', gender: 'Male', language: 'zh-CN' },
+        { name: 'zh-CN-Yunyi:DragonHDFlashLatestNeural', gender: 'Male', language: 'zh-CN' },
+        { name: 'zh-CN-YunyiMultilingualNeural', gender: 'Male', language: 'zh-CN' },
+        { name: 'zh-CN-YunzeNeural', gender: 'Male', language: 'zh-CN' },
+        { name: 'zh-CN-guangxi-YunqiNeural', gender: 'Male', language: 'zh-CN' },
+        { name: 'zh-CN-henan-YundengNeural', gender: 'Male', language: 'zh-CN' },
+        { name: 'zh-CN-liaoning-XiaobeiNeural', gender: 'Female', language: 'zh-CN' },
+        { name: 'zh-CN-liaoning-YunbiaoNeural', gender: 'Male', language: 'zh-CN' },
+        { name: 'zh-CN-shaanxi-XiaoniNeural', gender: 'Female', language: 'zh-CN' },
+        { name: 'zh-CN-shandong-YunxiangNeural', gender: 'Male', language: 'zh-CN' },
+        { name: 'zh-CN-sichuan-YunxiNeural', gender: 'Male', language: 'zh-CN' },
+        { name: 'zh-HK-HiuGaaiNeural', gender: 'Female', language: 'zh-HK' },
+        { name: 'zh-HK-HiuMaanNeural', gender: 'Female', language: 'zh-HK' },
+        { name: 'zh-HK-WanLungNeural', gender: 'Male', language: 'zh-HK' },
+        { name: 'zh-TW-HsiaoChenNeural', gender: 'Female', language: 'zh-TW' },
+        { name: 'zh-TW-HsiaoYuNeural', gender: 'Female', language: 'zh-TW' },
+        { name: 'zh-TW-YunJheNeural', gender: 'Male', language: 'zh-TW' },
+      ]
+      let allVoices = []
 
-        // 填充语音下拉框
-        function populateVoiceDropdown(dropdownId, voices, inputId) {
-            const dropdown = document.getElementById(dropdownId);
-            dropdown.innerHTML = '';
-            
-            voices.forEach(voice => {
-                const option = document.createElement('div');
-                option.className = 'voice-option';
-                option.innerHTML = `
+      // 页面加载时初始化语音下拉框
+      window.addEventListener('DOMContentLoaded', () => {
+        populateVoiceDropdown('tts-voice-dropdown', chineseVoices, 'tts-voice')
+        populateVoiceDropdown('openai-voice-dropdown', chineseVoices, 'openai-voice')
+      })
+
+      // 填充语音下拉框
+      function populateVoiceDropdown(dropdownId, voices, inputId) {
+        const dropdown = document.getElementById(dropdownId)
+        dropdown.innerHTML = ''
+
+        voices.forEach((voice) => {
+          const option = document.createElement('div')
+          option.className = 'voice-option'
+          option.innerHTML = `
                     <div class="voice-option-name">${voice.name}</div>
                     <div class="voice-option-info">${voice.gender} · ${voice.language}</div>
-                `;
-                option.onclick = () => {
-                    document.getElementById(inputId).value = voice.name;
-                    dropdown.classList.remove('show');
-                };
-                dropdown.appendChild(option);
-            });
+                `
+          option.onclick = () => {
+            document.getElementById(inputId).value = voice.name
+            dropdown.classList.remove('show')
+          }
+          dropdown.appendChild(option)
+        })
+      }
+
+      // 显示语音下拉框
+      function showVoiceDropdown(dropdownId) {
+        const dropdown = document.getElementById(dropdownId)
+        dropdown.classList.add('show')
+      }
+
+      // 过滤语音
+      function filterVoices(inputId, dropdownId) {
+        const input = document.getElementById(inputId)
+        const dropdown = document.getElementById(dropdownId)
+        const searchTerm = input.value.toLowerCase()
+
+        const filtered = chineseVoices.filter(
+          (voice) =>
+            voice.name.toLowerCase().includes(searchTerm) ||
+            voice.language.toLowerCase().includes(searchTerm) ||
+            voice.gender.toLowerCase().includes(searchTerm),
+        )
+
+        populateVoiceDropdown(dropdownId, filtered, inputId)
+        dropdown.classList.add('show')
+      }
+
+      // 点击外部关闭下拉框
+      document.addEventListener('click', (e) => {
+        if (!e.target.closest('.voice-search-wrapper')) {
+          document.querySelectorAll('.voice-dropdown').forEach((dropdown) => {
+            dropdown.classList.remove('show')
+          })
+        }
+      })
+
+      // 普通TTS接口测试
+      async function testSimpleTTS() {
+        const method = document.querySelector('input[name="tts-method"]:checked').value
+        const key = document.getElementById('tts-key').value
+        const text = document.getElementById('tts-text').value
+        const voice = document.getElementById('tts-voice').value
+        const format = document.getElementById('tts-format').value
+        const speed = document.getElementById('tts-speed').value
+
+        if (!key || !text) {
+          showMessage('tts-message', '请填写API密钥和文本内容', 'error')
+          return
         }
 
-        // 显示语音下拉框
-        function showVoiceDropdown(dropdownId) {
-            const dropdown = document.getElementById(dropdownId);
-            dropdown.classList.add('show');
-        }
+        const loading = document.getElementById('tts-loading')
+        const result = document.getElementById('tts-result')
+        const audio = document.getElementById('tts-audio')
+        const urlDisplay = document.getElementById('tts-url-display')
+        const urlElement = document.getElementById('tts-url')
 
-        // 过滤语音
-        function filterVoices(inputId, dropdownId) {
-            const input = document.getElementById(inputId);
-            const dropdown = document.getElementById(dropdownId);
-            const searchTerm = input.value.toLowerCase();
-            
-            const filtered = chineseVoices.filter(voice => 
-                voice.name.toLowerCase().includes(searchTerm) ||
-                voice.language.toLowerCase().includes(searchTerm) ||
-                voice.gender.toLowerCase().includes(searchTerm)
-            );
-            
-            populateVoiceDropdown(dropdownId, filtered, inputId);
-            dropdown.classList.add('show');
-        }
+        loading.classList.add('show')
+        result.classList.remove('show')
 
-        // 点击外部关闭下拉框
-        document.addEventListener('click', (e) => {
-            if (!e.target.closest('.voice-search-wrapper')) {
-                document.querySelectorAll('.voice-dropdown').forEach(dropdown => {
-                    dropdown.classList.remove('show');
-                });
-            }
-        });
+        try {
+          let url = `${API_BASE}/tts?key=${encodeURIComponent(key)}&text=${encodeURIComponent(text)}&voice=${encodeURIComponent(voice)}&format=${format}&speed=${speed}`
 
-        // 普通TTS接口测试
-        async function testSimpleTTS() {
-            const method = document.querySelector('input[name="tts-method"]:checked').value;
-            const key = document.getElementById('tts-key').value;
-            const text = document.getElementById('tts-text').value;
-            const voice = document.getElementById('tts-voice').value;
-            const format = document.getElementById('tts-format').value;
-            const speed = document.getElementById('tts-speed').value;
+          // 显示GET URL
+          if (method === 'GET') {
+            urlElement.textContent = url
+            urlDisplay.style.display = 'block'
+          } else {
+            urlDisplay.style.display = 'none'
+          }
 
-            if (!key || !text) {
-                showMessage('tts-message', '请填写API密钥和文本内容', 'error');
-                return;
-            }
+          if (method === 'POST') {
+            const response = await fetch(`${API_BASE}/tts`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ key, text, voice, format, speed }),
+            })
 
-            const loading = document.getElementById('tts-loading');
-            const result = document.getElementById('tts-result');
-            const audio = document.getElementById('tts-audio');
-            const urlDisplay = document.getElementById('tts-url-display');
-            const urlElement = document.getElementById('tts-url');
-
-            loading.classList.add('show');
-            result.classList.remove('show');
-
-            try {
-                let url = `${API_BASE}/tts?key=${encodeURIComponent(key)}&text=${encodeURIComponent(text)}&voice=${encodeURIComponent(voice)}&format=${format}&speed=${speed}`;
-                
-                // 显示GET URL
-                if (method === 'GET') {
-                    urlElement.textContent = url;
-                    urlDisplay.style.display = 'block';
-                } else {
-                    urlDisplay.style.display = 'none';
-                }
-                
-                if (method === 'POST') {
-                    const response = await fetch(`${API_BASE}/tts`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({ key, text, voice, format, speed })
-                    });
-
-                    if (response.ok) {
-                        const blob = await response.blob();
-                        const audioUrl = URL.createObjectURL(blob);
-                        audio.src = audioUrl;
-                        result.classList.add('show');
-                        showMessage('tts-message', '语音生成成功！', 'success');
-                    } else {
-                        const error = await response.json();
-                        showMessage('tts-message', `错误: ${error.error || '生成失败'}`, 'error');
-                        result.classList.add('show');
-                    }
-                } else {
-                    const response = await fetch(url);
-                    if (response.ok) {
-                        const blob = await response.blob();
-                        const audioUrl = URL.createObjectURL(blob);
-                        audio.src = audioUrl;
-                        result.classList.add('show');
-                        showMessage('tts-message', '语音生成成功！', 'success');
-                    } else {
-                        const error = await response.json();
-                        showMessage('tts-message', `错误: ${error.error || '生成失败'}`, 'error');
-                        result.classList.add('show');
-                    }
-                }
-            } catch (error) {
-                showMessage('tts-message', `请求失败: ${error.message}`, 'error');
-                result.classList.add('show');
-            } finally {
-                loading.classList.remove('show');
-            }
-        }
-
-        // OpenAI格式TTS接口测试
-        async function testOpenAITTS() {
-            const key = document.getElementById('openai-key').value;
-            const input = document.getElementById('openai-input').value;
-            const voice = document.getElementById('openai-voice').value;
-            const format = document.getElementById('openai-format').value;
-            const speed = document.getElementById('openai-speed').value;
-
-            if (!key || !input) {
-                showMessage('openai-message', '请填写API密钥和文本内容', 'error');
-                return;
-            }
-
-            const loading = document.getElementById('openai-loading');
-            const result = document.getElementById('openai-result');
-            const audio = document.getElementById('openai-audio');
-
-            loading.classList.add('show');
-            result.classList.remove('show');
-
-            try {
-                const response = await fetch(`${API_BASE}/v1/audio/speech`, {
-                    method: 'POST',
-                    headers: {
-                        'Authorization': `Bearer ${key}`,
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        input: input,
-                        voice: voice,
-                        response_format: format,
-                        speed: parseFloat(speed)
-                    })
-                });
-
-                if (response.ok) {
-                    const blob = await response.blob();
-                    const audioUrl = URL.createObjectURL(blob);
-                    audio.src = audioUrl;
-                    result.classList.add('show');
-                    showMessage('openai-message', '语音生成成功！', 'success');
-                } else {
-                    const error = await response.json();
-                    showMessage('openai-message', `错误: ${error.error || '生成失败'}`, 'error');
-                    result.classList.add('show');
-                }
-            } catch (error) {
-                showMessage('openai-message', `请求失败: ${error.message}`, 'error');
-                result.classList.add('show');
-            } finally {
-                loading.classList.remove('show');
-            }
-        }
-
-        // 列出模型
-        async function testListModels() {
-            const key = document.getElementById('models-key').value;
-            if (!key) {
-                alert('请填写API密钥');
-                return;
-            }
-
-            const loading = document.getElementById('models-loading');
-            const result = document.getElementById('models-result');
-            const data = document.getElementById('models-data');
-
-            loading.classList.add('show');
-            result.classList.remove('show');
-
-            try {
-                const response = await fetch(`${API_BASE}/v1/models`, {
-                    headers: {
-                        'Authorization': `Bearer ${key}`
-                    }
-                });
-
-                if (response.ok) {
-                    const json = await response.json();
-                    data.textContent = JSON.stringify(json, null, 2);
-                    result.classList.add('show');
-                } else {
-                    const error = await response.json();
-                    data.innerHTML = `<div class="error">错误 ${response.status}: ${error.error || '请求失败'}</div>`;
-                    result.classList.add('show');
-                }
-            } catch (error) {
-                data.innerHTML = `<div class="error">请求失败: ${error.message}</div>`;
-                result.classList.add('show');
-            } finally {
-                loading.classList.remove('show');
-            }
-        }
-
-        // 列出语音
-        async function testListVoices() {
-            const key = document.getElementById('voices-key').value;
-            const language = document.getElementById('voices-language').value;
-            if (!key) {
-                alert('请填写API密钥');
-                return;
-            }
-
-            const loading = document.getElementById('voices-loading');
-            const result = document.getElementById('voices-result');
-            const data = document.getElementById('voices-data');
-
-            loading.classList.add('show');
-            result.classList.remove('show');
-
-            try {
-                let url = `${API_BASE}/v1/voices`;
-                if (language) {
-                    url += `?language=${encodeURIComponent(language)}`;
-                }
-                const response = await fetch(url, {
-                    headers: {
-                        'Authorization': `Bearer ${key}`
-                    }
-                });
-
-                if (response.ok) {
-                    const json = await response.json();
-                    displayVoices(data, json.voices || []);
-                    result.classList.add('show');
-                } else {
-                    const error = await response.json().catch(() => ({error: '请求失败'}));
-                    data.innerHTML = `<div class="error">错误 ${response.status}: ${error.error || '请求失败'}</div>`;
-                    result.classList.add('show');
-                }
-            } catch (error) {
-                data.innerHTML = `<div class="error">请求失败: ${error.message}</div>`;
-                result.classList.add('show');
-            } finally {
-                loading.classList.remove('show');
-            }
-        }
-
-        // 列出所有语音
-        async function testListAllVoices() {
-            const key = document.getElementById('all-voices-key').value;
-            if (!key) {
-                alert('请填写API密钥');
-                return;
-            }
-
-            const loading = document.getElementById('all-voices-loading');
-            const result = document.getElementById('all-voices-result');
-            const data = document.getElementById('all-voices-data');
-
-            loading.classList.add('show');
-            result.classList.remove('show');
-
-            try {
-                const response = await fetch(`${API_BASE}/v1/voices/all`, {
-                    headers: {
-                        'Authorization': `Bearer ${key}`
-                    }
-                });
-
-                if (response.ok) {
-                    const json = await response.json();
-                    displayVoices(data, json.voices || []);
-                    result.classList.add('show');
-                } else {
-                    const error = await response.json().catch(() => ({error: '请求失败'}));
-                    data.innerHTML = `<div class="error">错误 ${response.status}: ${error.error || '请求失败'}</div>`;
-                    result.classList.add('show');
-                }
-            } catch (error) {
-                data.innerHTML = `<div class="error">请求失败: ${error.message}</div>`;
-                result.classList.add('show');
-            } finally {
-                loading.classList.remove('show');
-            }
-        }
-
-        // 显示语音列表
-        function displayVoices(container, voices) {
-            if (voices.length === 0) {
-                container.innerHTML = '<div class="error">未找到语音</div>';
-                return;
-            }
-
-            container.innerHTML = voices.map(voice => {
-                return `<div class="voice-item" onclick="selectVoice('${voice.name}')">
-                    <strong>${voice.name}</strong> - ${voice.gender} (${voice.language})
-                </div>`;
-            }).join('');
-        }
-
-        // 选择语音
-        function selectVoice(voiceName) {
-            document.getElementById('tts-voice').value = voiceName;
-            document.getElementById('openai-voice').value = voiceName;
-            alert(`已选择语音: ${voiceName}`);
-        }
-
-        // 显示消息
-        function showMessage(elementId, message, type) {
-            const element = document.getElementById(elementId);
-            element.className = type;
-            element.textContent = message;
-        }
-
-        // 复制到剪贴板
-        function copyToClipboard(elementId) {
-            const element = document.getElementById(elementId);
-            const text = element.textContent;
-            
-            if (navigator.clipboard) {
-                navigator.clipboard.writeText(text).then(() => {
-                    alert('已复制到剪贴板！');
-                }).catch(err => {
-                    console.error('复制失败:', err);
-                    fallbackCopyTextToClipboard(text);
-                });
+            if (response.ok) {
+              const blob = await response.blob()
+              const audioUrl = URL.createObjectURL(blob)
+              audio.src = audioUrl
+              result.classList.add('show')
+              showMessage('tts-message', '语音生成成功！', 'success')
             } else {
-                fallbackCopyTextToClipboard(text);
+              const error = await response.json()
+              showMessage('tts-message', `错误: ${error.error || '生成失败'}`, 'error')
+              result.classList.add('show')
             }
+          } else {
+            const response = await fetch(url)
+            if (response.ok) {
+              const blob = await response.blob()
+              const audioUrl = URL.createObjectURL(blob)
+              audio.src = audioUrl
+              result.classList.add('show')
+              showMessage('tts-message', '语音生成成功！', 'success')
+            } else {
+              const error = await response.json()
+              showMessage('tts-message', `错误: ${error.error || '生成失败'}`, 'error')
+              result.classList.add('show')
+            }
+          }
+        } catch (error) {
+          showMessage('tts-message', `请求失败: ${error.message}`, 'error')
+          result.classList.add('show')
+        } finally {
+          loading.classList.remove('show')
+        }
+      }
+
+      // OpenAI格式TTS接口测试
+      async function testOpenAITTS() {
+        const key = document.getElementById('openai-key').value
+        const input = document.getElementById('openai-input').value
+        const voice = document.getElementById('openai-voice').value
+        const format = document.getElementById('openai-format').value
+        const speed = document.getElementById('openai-speed').value
+
+        if (!key || !input) {
+          showMessage('openai-message', '请填写API密钥和文本内容', 'error')
+          return
         }
 
-        // 备用复制方法
-        function fallbackCopyTextToClipboard(text) {
-            const textArea = document.createElement("textarea");
-            textArea.value = text;
-            textArea.style.top = "0";
-            textArea.style.left = "0";
-            textArea.style.position = "fixed";
-            document.body.appendChild(textArea);
-            textArea.focus();
-            textArea.select();
-            try {
-                document.execCommand('copy');
-                alert('已复制到剪贴板！');
-            } catch (err) {
-                console.error('复制失败:', err);
-                alert('复制失败，请手动复制');
-            }
-            document.body.removeChild(textArea);
+        const loading = document.getElementById('openai-loading')
+        const result = document.getElementById('openai-result')
+        const audio = document.getElementById('openai-audio')
+
+        loading.classList.add('show')
+        result.classList.remove('show')
+
+        try {
+          const response = await fetch(`${API_BASE}/v1/audio/speech`, {
+            method: 'POST',
+            headers: {
+              Authorization: `Bearer ${key}`,
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              input: input,
+              voice: voice,
+              response_format: format,
+              speed: parseFloat(speed),
+            }),
+          })
+
+          if (response.ok) {
+            const blob = await response.blob()
+            const audioUrl = URL.createObjectURL(blob)
+            audio.src = audioUrl
+            result.classList.add('show')
+            showMessage('openai-message', '语音生成成功！', 'success')
+          } else {
+            const error = await response.json()
+            showMessage('openai-message', `错误: ${error.error || '生成失败'}`, 'error')
+            result.classList.add('show')
+          }
+        } catch (error) {
+          showMessage('openai-message', `请求失败: ${error.message}`, 'error')
+          result.classList.add('show')
+        } finally {
+          loading.classList.remove('show')
         }
+      }
+
+      // 列出模型
+      async function testListModels() {
+        const key = document.getElementById('models-key').value
+        if (!key) {
+          alert('请填写API密钥')
+          return
+        }
+
+        const loading = document.getElementById('models-loading')
+        const result = document.getElementById('models-result')
+        const data = document.getElementById('models-data')
+
+        loading.classList.add('show')
+        result.classList.remove('show')
+
+        try {
+          const response = await fetch(`${API_BASE}/v1/models`, {
+            headers: {
+              Authorization: `Bearer ${key}`,
+            },
+          })
+
+          if (response.ok) {
+            const json = await response.json()
+            data.textContent = JSON.stringify(json, null, 2)
+            result.classList.add('show')
+          } else {
+            const error = await response.json()
+            data.innerHTML = `<div class="error">错误 ${response.status}: ${error.error || '请求失败'}</div>`
+            result.classList.add('show')
+          }
+        } catch (error) {
+          data.innerHTML = `<div class="error">请求失败: ${error.message}</div>`
+          result.classList.add('show')
+        } finally {
+          loading.classList.remove('show')
+        }
+      }
+
+      // 列出语音
+      async function testListVoices() {
+        const key = document.getElementById('voices-key').value
+        const language = document.getElementById('voices-language').value
+        if (!key) {
+          alert('请填写API密钥')
+          return
+        }
+
+        const loading = document.getElementById('voices-loading')
+        const result = document.getElementById('voices-result')
+        const data = document.getElementById('voices-data')
+
+        loading.classList.add('show')
+        result.classList.remove('show')
+
+        try {
+          let url = `${API_BASE}/v1/voices`
+          if (language) {
+            url += `?language=${encodeURIComponent(language)}`
+          }
+          const response = await fetch(url, {
+            headers: {
+              Authorization: `Bearer ${key}`,
+            },
+          })
+
+          if (response.ok) {
+            const json = await response.json()
+            displayVoices(data, json.voices || [])
+            result.classList.add('show')
+          } else {
+            const error = await response.json().catch(() => ({ error: '请求失败' }))
+            data.innerHTML = `<div class="error">错误 ${response.status}: ${error.error || '请求失败'}</div>`
+            result.classList.add('show')
+          }
+        } catch (error) {
+          data.innerHTML = `<div class="error">请求失败: ${error.message}</div>`
+          result.classList.add('show')
+        } finally {
+          loading.classList.remove('show')
+        }
+      }
+
+      // 列出所有语音
+      async function testListAllVoices() {
+        const key = document.getElementById('all-voices-key').value
+        if (!key) {
+          alert('请填写API密钥')
+          return
+        }
+
+        const loading = document.getElementById('all-voices-loading')
+        const result = document.getElementById('all-voices-result')
+        const data = document.getElementById('all-voices-data')
+
+        loading.classList.add('show')
+        result.classList.remove('show')
+
+        try {
+          const response = await fetch(`${API_BASE}/v1/voices/all`, {
+            headers: {
+              Authorization: `Bearer ${key}`,
+            },
+          })
+
+          if (response.ok) {
+            const json = await response.json()
+            displayVoices(data, json.voices || [])
+            result.classList.add('show')
+          } else {
+            const error = await response.json().catch(() => ({ error: '请求失败' }))
+            data.innerHTML = `<div class="error">错误 ${response.status}: ${error.error || '请求失败'}</div>`
+            result.classList.add('show')
+          }
+        } catch (error) {
+          data.innerHTML = `<div class="error">请求失败: ${error.message}</div>`
+          result.classList.add('show')
+        } finally {
+          loading.classList.remove('show')
+        }
+      }
+
+      // 显示语音列表
+      function displayVoices(container, voices) {
+        if (voices.length === 0) {
+          container.innerHTML = '<div class="error">未找到语音</div>'
+          return
+        }
+
+        container.innerHTML = voices
+          .map((voice) => {
+            return `<div class="voice-item" onclick="selectVoice('${voice.name}')">
+                    <strong>${voice.name}</strong> - ${voice.gender} (${voice.language})
+                </div>`
+          })
+          .join('')
+      }
+
+      // 选择语音
+      function selectVoice(voiceName) {
+        document.getElementById('tts-voice').value = voiceName
+        document.getElementById('openai-voice').value = voiceName
+        alert(`已选择语音: ${voiceName}`)
+      }
+
+      // 显示消息
+      function showMessage(elementId, message, type) {
+        const element = document.getElementById(elementId)
+        element.className = type
+        element.textContent = message
+      }
+
+      // 复制到剪贴板
+      function copyToClipboard(elementId) {
+        const element = document.getElementById(elementId)
+        const text = element.textContent
+
+        if (navigator.clipboard) {
+          navigator.clipboard
+            .writeText(text)
+            .then(() => {
+              alert('已复制到剪贴板！')
+            })
+            .catch((err) => {
+              console.error('复制失败:', err)
+              fallbackCopyTextToClipboard(text)
+            })
+        } else {
+          fallbackCopyTextToClipboard(text)
+        }
+      }
+
+      // 备用复制方法
+      function fallbackCopyTextToClipboard(text) {
+        const textArea = document.createElement('textarea')
+        textArea.value = text
+        textArea.style.top = '0'
+        textArea.style.left = '0'
+        textArea.style.position = 'fixed'
+        document.body.appendChild(textArea)
+        textArea.focus()
+        textArea.select()
+        try {
+          document.execCommand('copy')
+          alert('已复制到剪贴板！')
+        } catch (err) {
+          console.error('复制失败:', err)
+          alert('复制失败，请手动复制')
+        }
+        document.body.removeChild(textArea)
+      }
     </script>
-</body>
+  </body>
 </html>
-

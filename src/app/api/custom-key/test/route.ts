@@ -14,11 +14,17 @@ export async function POST(req: Request) {
   const { baseUrl, apiKey, model } = body || {}
 
   if (!baseUrl || !apiKey || !model) {
-    return NextResponse.json({ success: false, error: 'Base URL, API Key, and Model are required' }, { status: 400 })
+    return NextResponse.json(
+      { success: false, error: 'Base URL, API Key, and Model are required' },
+      { status: 400 },
+    )
   }
 
   if (!baseUrl.startsWith('http://') && !baseUrl.startsWith('https://')) {
-    return NextResponse.json({ success: false, error: 'Base URL must start with http:// or https://' }, { status: 400 })
+    return NextResponse.json(
+      { success: false, error: 'Base URL must start with http:// or https://' },
+      { status: 400 },
+    )
   }
 
   try {
@@ -32,7 +38,7 @@ export async function POST(req: Request) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${apiKey}`,
+        Authorization: `Bearer ${apiKey}`,
       },
       body: JSON.stringify({
         model,
@@ -51,7 +57,7 @@ export async function POST(req: Request) {
         const errJson = JSON.parse(errorText)
         errorMessage = errJson?.error?.message || errJson?.error?.code || `HTTP ${response.status}`
       } catch (error) {
-        logger.error({ err: error }, 'Failed to parse error response');
+        logger.error({ err: error }, 'Failed to parse error response')
       }
       return NextResponse.json({ success: false, error: errorMessage })
     }

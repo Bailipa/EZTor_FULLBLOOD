@@ -1,6 +1,6 @@
-'use client';
+'use client'
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react'
 import {
   Dialog,
   DialogContent,
@@ -8,41 +8,41 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
-import { Coffee, ExternalLink, Heart } from 'lucide-react';
+} from '@/components/ui/dialog'
+import { Button } from '@/components/ui/button'
+import { Coffee, ExternalLink, Heart } from 'lucide-react'
 
 interface DonationConfig {
-  title: string;
-  description: string | null;
-  imageUrl: string | null;
-  linkUrl: string | null;
-  isActive: boolean;
+  title: string
+  description: string | null
+  imageUrl: string | null
+  linkUrl: string | null
+  isActive: boolean
 }
 
 export function DonationButton() {
-  const [config, setConfig] = useState<DonationConfig | null>(null);
-  const [isOpen, setIsOpen] = useState(false);
+  const [config, setConfig] = useState<DonationConfig | null>(null)
+  const [isOpen, setIsOpen] = useState(false)
 
   const fetchConfig = useCallback(async () => {
     try {
-      const res = await fetch('/api/donation');
+      const res = await fetch('/api/donation')
       if (res.ok) {
-        const data = await res.json();
+        const data = await res.json()
         if (data.success && data.data) {
-          setConfig(data.data);
+          setConfig(data.data)
         }
       }
     } catch {
       // Silently fail
     }
-  }, []);
+  }, [])
 
   useEffect(() => {
-    fetchConfig();
-  }, [fetchConfig]);
+    fetchConfig()
+  }, [fetchConfig])
 
-  if (!config?.isActive) return null;
+  if (!config?.isActive) return null
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -62,9 +62,7 @@ export function DonationButton() {
             <Heart className="w-5 h-5 text-pink-500" aria-hidden="true" />
             {config.title}
           </DialogTitle>
-          {config.description && (
-            <DialogDescription>{config.description}</DialogDescription>
-          )}
+          {config.description && <DialogDescription>{config.description}</DialogDescription>}
         </DialogHeader>
         <div className="space-y-4">
           {config.imageUrl && (
@@ -75,7 +73,7 @@ export function DonationButton() {
                 alt="Donation QR code"
                 className="w-full max-w-[280px] mx-auto"
                 onError={(e) => {
-                  (e.target as HTMLImageElement).style.display = 'none';
+                  ;(e.target as HTMLImageElement).style.display = 'none'
                 }}
               />
             </div>
@@ -102,5 +100,5 @@ export function DonationButton() {
         </div>
       </DialogContent>
     </Dialog>
-  );
+  )
 }

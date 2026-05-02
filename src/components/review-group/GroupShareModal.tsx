@@ -1,7 +1,7 @@
-"use client";
+'use client'
 
-import React, { useState, useEffect, useCallback } from "react";
-import { toast } from "sonner";
+import React, { useState, useEffect, useCallback } from 'react'
+import { toast } from 'sonner'
 import {
   Dialog,
   DialogContent,
@@ -9,12 +9,12 @@ import {
   DialogTitle,
   DialogDescription,
   DialogFooter,
-} from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+} from '@/components/ui/dialog'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Card, CardContent } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
 import {
   Copy,
   Check,
@@ -26,218 +26,214 @@ import {
   Calendar,
   BookOpen,
   Link2,
-} from "lucide-react";
-import { cn } from "@/lib/utils";
+} from 'lucide-react'
+import { cn } from '@/lib/utils'
 
 interface ReviewGroup {
-  id: string;
-  name: string;
+  id: string
+  name: string
   _count?: {
-    ReviewGroupWord: number;
-  };
-  createdAt?: string;
+    ReviewGroupWord: number
+  }
+  createdAt?: string
 }
 
 interface ShareData {
-  id: string;
-  code: string;
-  name: string;
-  description: string | null;
-  expiresAt: string | null;
-  maxUses: number | null;
-  usedCount: number;
-  importedCount: number;
-  viewCount: number;
-  isActive: boolean;
-  createdAt: string;
-  reviewGroupId?: string;
+  id: string
+  code: string
+  name: string
+  description: string | null
+  expiresAt: string | null
+  maxUses: number | null
+  usedCount: number
+  importedCount: number
+  viewCount: number
+  isActive: boolean
+  createdAt: string
+  reviewGroupId?: string
 }
 
 interface GroupShareModalProps {
-  groupId: string;
-  isOpen: boolean;
-  onClose: () => void;
+  groupId: string
+  isOpen: boolean
+  onClose: () => void
 }
 
-export function GroupShareModal({
-  groupId,
-  isOpen,
-  onClose,
-}: GroupShareModalProps) {
-  const [group, setGroup] = useState<ReviewGroup | null>(null);
-  const [shareData, setShareData] = useState<ShareData | null>(null);
-  const [isLoading, _setIsLoading] = useState(false);
-  const [isCreating, setIsCreating] = useState(false);
-  const [isRevoking, setIsRevoking] = useState(false);
-  const [isRegenerating, setIsRegenerating] = useState(false);
-  const [copied, setCopied] = useState(false);
+export function GroupShareModal({ groupId, isOpen, onClose }: GroupShareModalProps) {
+  const [group, setGroup] = useState<ReviewGroup | null>(null)
+  const [shareData, setShareData] = useState<ShareData | null>(null)
+  const [isLoading, _setIsLoading] = useState(false)
+  const [isCreating, setIsCreating] = useState(false)
+  const [isRevoking, setIsRevoking] = useState(false)
+  const [isRegenerating, setIsRegenerating] = useState(false)
+  const [copied, setCopied] = useState(false)
 
   // 分享配置
-  const [shareName, setShareName] = useState("");
-  const [shareDescription, setShareDescription] = useState("");
-  const [expiresAt, setExpiresAt] = useState("");
-  const [maxUses, setMaxUses] = useState("");
+  const [shareName, setShareName] = useState('')
+  const [shareDescription, setShareDescription] = useState('')
+  const [expiresAt, setExpiresAt] = useState('')
+  const [maxUses, setMaxUses] = useState('')
 
   const fetchGroupInfo = useCallback(async () => {
     try {
-      const res = await fetch(`/api/review-groups/${groupId}`);
-      const data = await res.json();
+      const res = await fetch(`/api/review-groups/${groupId}`)
+      const data = await res.json()
       if (data.success) {
-        setGroup(data.data);
+        setGroup(data.data)
         if (!shareName) {
-          setShareName(`${data.data.name}的词库`);
+          setShareName(`${data.data.name}的词库`)
         }
       }
     } catch (error) {
-      if (process.env.NODE_ENV === 'development') console.error("Failed to fetch group info", error);
+      if (process.env.NODE_ENV === 'development') console.error('Failed to fetch group info', error)
     }
-  }, [groupId, shareName]);
+  }, [groupId, shareName])
 
   const fetchShareData = useCallback(async () => {
     try {
-      const res = await fetch(`/api/share/list`);
-      const data = await res.json();
+      const res = await fetch(`/api/share/list`)
+      const data = await res.json()
       if (data.success && Array.isArray(data.shares)) {
-        const share = data.shares.find((s: ShareData) => s.reviewGroupId === groupId);
-        setShareData(share || null);
+        const share = data.shares.find((s: ShareData) => s.reviewGroupId === groupId)
+        setShareData(share || null)
       }
     } catch (error) {
-      if (process.env.NODE_ENV === 'development') console.error("Failed to fetch share data", error);
+      if (process.env.NODE_ENV === 'development') console.error('Failed to fetch share data', error)
     }
-  }, [groupId]);
+  }, [groupId])
 
   useEffect(() => {
     if (isOpen && groupId) {
-      fetchGroupInfo();
-      fetchShareData();
+      fetchGroupInfo()
+      fetchShareData()
     }
-  }, [isOpen, groupId, fetchGroupInfo, fetchShareData]);
+  }, [isOpen, groupId, fetchGroupInfo, fetchShareData])
 
   const handleCreateShare = async () => {
-    if (!group) return;
+    if (!group) return
 
-    setIsCreating(true);
+    setIsCreating(true)
     try {
       const requestBody: Record<string, unknown> = {
         reviewGroupId: groupId,
         name: shareName || `${group.name}的词库`,
         description: shareDescription || null,
-      };
+      }
 
       if (expiresAt) {
-        requestBody.expiresAt = new Date(expiresAt).toISOString();
+        requestBody.expiresAt = new Date(expiresAt).toISOString()
       }
 
       if (maxUses && parseInt(maxUses) > 0) {
-        requestBody.maxUses = parseInt(maxUses);
+        requestBody.maxUses = parseInt(maxUses)
       }
 
-      const res = await fetch("/api/share/create", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+      const res = await fetch('/api/share/create', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(requestBody),
-      });
+      })
 
-      const data = await res.json();
+      const data = await res.json()
 
       if (data.success) {
-        await fetchShareData();
+        await fetchShareData()
       } else {
-        toast.error(data.message || "创建失败，请稍后重试");
+        toast.error(data.message || '创建失败，请稍后重试')
       }
     } catch (error) {
-      if (process.env.NODE_ENV === 'development') console.error("Failed to create share", error);
-      toast.error("创建失败，请稍后重试");
+      if (process.env.NODE_ENV === 'development') console.error('Failed to create share', error)
+      toast.error('创建失败，请稍后重试')
     } finally {
-      setIsCreating(false);
+      setIsCreating(false)
     }
-  };
+  }
 
   const handleCopyCode = async () => {
-    if (!shareData?.code) return;
+    if (!shareData?.code) return
 
     try {
-      await navigator.clipboard.writeText(shareData.code);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
+      await navigator.clipboard.writeText(shareData.code)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
     } catch (error) {
-      if (process.env.NODE_ENV === 'development') console.error("Failed to copy", error);
+      if (process.env.NODE_ENV === 'development') console.error('Failed to copy', error)
     }
-  };
+  }
 
   const handleRevoke = async () => {
-    if (!shareData?.id) return;
+    if (!shareData?.id) return
 
-    if (!confirm("确定要撤销该分享吗？撤销后密钥将失效。")) {
-      return;
+    if (!confirm('确定要撤销该分享吗？撤销后密钥将失效。')) {
+      return
     }
 
-    setIsRevoking(true);
+    setIsRevoking(true)
     try {
       const res = await fetch(`/api/share/${shareData.id}`, {
-        method: "DELETE",
-      });
+        method: 'DELETE',
+      })
 
-      const data = await res.json();
+      const data = await res.json()
 
       if (data.success) {
-        await fetchShareData();
+        await fetchShareData()
       } else {
-        toast.error(data.message || "撤销失败，请稍后重试");
+        toast.error(data.message || '撤销失败，请稍后重试')
       }
     } catch (error) {
-      if (process.env.NODE_ENV === 'development') console.error("Failed to revoke", error);
-      toast.error("撤销失败，请稍后重试");
+      if (process.env.NODE_ENV === 'development') console.error('Failed to revoke', error)
+      toast.error('撤销失败，请稍后重试')
     } finally {
-      setIsRevoking(false);
+      setIsRevoking(false)
     }
-  };
+  }
 
   const handleRegenerate = async () => {
-    if (!shareData?.id) return;
+    if (!shareData?.id) return
 
-    if (!confirm("确定要重新生成密钥吗？原密钥将失效。")) {
-      return;
+    if (!confirm('确定要重新生成密钥吗？原密钥将失效。')) {
+      return
     }
 
-    setIsRegenerating(true);
+    setIsRegenerating(true)
     try {
       const res = await fetch(`/api/share/${shareData.id}/regenerate`, {
-        method: "POST",
-      });
+        method: 'POST',
+      })
 
-      const data = await res.json();
+      const data = await res.json()
 
       if (data.success) {
-        await fetchShareData();
-        setCopied(false);
+        await fetchShareData()
+        setCopied(false)
       } else {
-        toast.error(data.message || "重新生成失败，请稍后重试");
+        toast.error(data.message || '重新生成失败，请稍后重试')
       }
     } catch (error) {
-      if (process.env.NODE_ENV === 'development') console.error("Failed to regenerate", error);
-      toast.error("重新生成失败，请稍后重试");
+      if (process.env.NODE_ENV === 'development') console.error('Failed to regenerate', error)
+      toast.error('重新生成失败，请稍后重试')
     } finally {
-      setIsRegenerating(false);
+      setIsRegenerating(false)
     }
-  };
+  }
 
   const handleViewStats = () => {
-    if (!shareData?.id) return;
+    if (!shareData?.id) return
     // TODO: 打开统计面板
-    toast.info("统计功能开发中...");
-  };
+    toast.info('统计功能开发中...')
+  }
 
   const formatExpiration = (expiresAt: string | null) => {
-    if (!expiresAt) return "永久有效";
-    const date = new Date(expiresAt);
-    return date.toLocaleDateString("zh-CN");
-  };
+    if (!expiresAt) return '永久有效'
+    const date = new Date(expiresAt)
+    return date.toLocaleDateString('zh-CN')
+  }
 
   const isExpired = (expiresAt: string | null) => {
-    if (!expiresAt) return false;
-    return new Date(expiresAt) < new Date();
-  };
+    if (!expiresAt) return false
+    return new Date(expiresAt) < new Date()
+  }
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
@@ -270,7 +266,10 @@ export function GroupShareModal({
                     <div className="flex items-center gap-1">
                       <Calendar className="size-3" />
                       <span>
-                        创建于 {group.createdAt ? new Date(group.createdAt).toLocaleDateString("zh-CN") : "-"}
+                        创建于{' '}
+                        {group.createdAt
+                          ? new Date(group.createdAt).toLocaleDateString('zh-CN')
+                          : '-'}
                       </span>
                     </div>
                   </div>
@@ -342,7 +341,7 @@ export function GroupShareModal({
 
             {/* C & D. 密钥生成/展示区域 */}
             {shareData ? (
-              <Card className={cn(!shareData.isActive && "border-destructive/50 bg-destructive/5")}>
+              <Card className={cn(!shareData.isActive && 'border-destructive/50 bg-destructive/5')}>
                 <CardContent className="p-4 space-y-4">
                   {/* 密钥展示 */}
                   <div className="space-y-2">
@@ -380,9 +379,7 @@ export function GroupShareModal({
                       </Button>
                     </div>
                     {copied && (
-                      <div className="text-xs text-green-600 text-center">
-                        密钥已复制到剪贴板
-                      </div>
+                      <div className="text-xs text-green-600 text-center">密钥已复制到剪贴板</div>
                     )}
                   </div>
 
@@ -399,7 +396,9 @@ export function GroupShareModal({
                     <div className="text-center">
                       <div className="text-xs text-muted-foreground">使用次数</div>
                       <div className="text-lg font-semibold">
-                        {shareData.maxUses ? `${shareData.usedCount}/${shareData.maxUses}` : shareData.usedCount}
+                        {shareData.maxUses
+                          ? `${shareData.usedCount}/${shareData.maxUses}`
+                          : shareData.usedCount}
                       </div>
                     </div>
                   </div>
@@ -485,7 +484,7 @@ export function GroupShareModal({
                       size="sm"
                     >
                       <Trash2 className="mr-2 size-3" />
-                      {isRevoking ? "撤销中..." : "撤销分享"}
+                      {isRevoking ? '撤销中...' : '撤销分享'}
                     </Button>
                   </div>
                 </CardContent>
@@ -505,5 +504,5 @@ export function GroupShareModal({
         </DialogFooter>
       </DialogContent>
     </Dialog>
-  );
+  )
 }
