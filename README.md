@@ -16,9 +16,7 @@
 
 A full-stack Next.js application for English vocabulary learning, powered by LLMs.
 
-<p align="center">
-  <img src="screenshot.png" alt="EZTor Screenshot" width="720">
-</p>
+![EZTor Screenshot](https://raw.githubusercontent.com/Bailipa/EZTor_FULLBLOOD/main/screenshot.png)
 
 ## How It Works
 
