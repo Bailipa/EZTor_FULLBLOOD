@@ -12,7 +12,7 @@ import { Languages, Copy, ClipboardPaste, Settings, Sparkles, History, Trash2, C
 import { useAnalytics } from '@/lib/analytics';
 import { getDeviceId } from '@/lib/deviceId';
 import { loadFromStorage, saveToStorage } from '@/lib/storage';
-import { LimitExceededModal, loadCustomApiConfig, saveCustomApiConfig } from './LimitExceededModal';
+import { LimitExceededModal } from './LimitExceededModal';
 import { loadHistory, addHistoryEntry, removeHistoryEntry, clearHistory, formatTime, HistoryEntry } from '@/lib/translateHistory';
 
 const MAX_LENGTH = 8000;
@@ -32,16 +32,27 @@ export function TranslateOnlyCard() {
   const [isAdmin, setIsAdmin] = useState(false);
   const [showLimitModal, setShowLimitModal] = useState(false);
   const [showClearApiDialog, setShowClearApiDialog] = useState(false);
-  const [customApi, setCustomApi] = useState<ReturnType<typeof loadCustomApiConfig>>(null);
+  const [customApi, setCustomApi] = useState<{ configured: boolean; model?: string } | null>(null);
   const [optimize, setOptimize] = useState(false);
   const [history, setHistory] = useState<HistoryEntry[]>([]);
   const [historyOpen, setHistoryOpen] = useState(false);
 
+  const fetchCustomApiStatus = useCallback(async () => {
+    try {
+      const res = await fetch('/api/custom-key');
+      if (!res.ok) return;
+      const data = await res.json();
+      if (data.success) {
+        setCustomApi(data.data);
+      }
+    } catch {}
+  }, []);
+
   useEffect(() => {
-    setCustomApi(loadCustomApiConfig());
+    fetchCustomApiStatus();
     setOptimize(loadFromStorage<boolean>('vocab_optimize_mode', false));
     setHistory(loadHistory());
-  }, []);
+  }, [fetchCustomApiStatus]);
 
   const charCount = input.length;
   const isOverLimit = charCount > MAX_LENGTH;
@@ -98,12 +109,14 @@ export function TranslateOnlyCard() {
     setTimeout(() => setProgress(0), 500);
   };
 
-  const handleCustomApiSaved = (config: { baseUrl: string; apiKey: string; model: string }) => {
-    setCustomApi(config);
+  const handleCustomApiSaved = () => {
+    fetchCustomApiStatus();
   };
 
-  const handleClearCustomApi = () => {
-    saveCustomApiConfig(null);
+  const handleClearCustomApi = async () => {
+    try {
+      await fetch('/api/custom-key', { method: 'DELETE' });
+    } catch {}
     setCustomApi(null);
     setShowClearApiDialog(false);
     fetchUsage();
@@ -118,7 +131,7 @@ export function TranslateOnlyCard() {
     if (!input.trim()) return;
     setIsClearConfirm(false);
 
-    if (!isAdmin && !customApi && remaining !== null && remaining <= 0) {
+    if (!isAdmin && !customApi?.configured && remaining !== null && remaining <= 0) {
       setShowLimitModal(true);
       return;
     }
@@ -127,6 +140,16 @@ export function TranslateOnlyCard() {
 
     setIsLoading(true);
     startFakeProgress();
+
+    const finishWithError = (message: string) => {
+      if (progressIntervalRef.current) {
+        clearInterval(progressIntervalRef.current);
+        progressIntervalRef.current = null;
+      }
+      setProgress(0);
+      alert(message);
+      setIsLoading(false);
+    };
 
     try {
       const controller = new AbortController();
@@ -140,20 +163,14 @@ export function TranslateOnlyCard() {
       }
       const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
 
-      const body: Record<string, unknown> = {
-        input: currentInput,
-        deviceId: getDeviceId(),
-        optimize,
-      };
-
-      if (customApi) {
-        body.customApi = customApi;
-      }
-
       const response = await fetch('/api/translate-only', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body),
+        body: JSON.stringify({
+          input: currentInput,
+          deviceId: getDeviceId(),
+          optimize,
+        }),
         signal: controller.signal,
       });
 
@@ -209,9 +226,9 @@ export function TranslateOnlyCard() {
       }
       setProgress(0);
       if (err.name === 'AbortError') {
-        alert('Translation request timed out. Please try again.');
+        finishWithError('Translation request timed out. Please try again.');
       } else {
-        alert(err.message || 'Translation failed');
+        finishWithError(err.message || 'Translation failed');
       }
     } finally {
       setIsLoading(false);
@@ -274,13 +291,13 @@ export function TranslateOnlyCard() {
 
   const usageText = isAdmin
     ? '管理员 · 无限制'
-    : customApi
+    : customApi?.configured
       ? '正在使用自定义 API'
       : remaining !== null
         ? `今日剩余免费次数：${remaining} / ${DAILY_LIMIT}`
         : null;
 
-  const isUsageLow = !isAdmin && !customApi && remaining !== null && remaining <= 3;
+  const isUsageLow = !isAdmin && !customApi?.configured && remaining !== null && remaining <= 3;
 
   return (
     <>
@@ -291,7 +308,7 @@ export function TranslateOnlyCard() {
               <CardTitle className="text-base sm:text-lg flex items-center gap-2">
                 <Languages className="w-4 h-4 sm:w-5 sm:h-5 text-primary" aria-hidden="true" />
                 Translate Only
-                {customApi && (
+                {customApi?.configured && (
                   <Badge
                     variant="outline"
                     className="ml-1 font-normal text-xs h-5 px-1.5 cursor-pointer gap-0.5"
@@ -350,7 +367,7 @@ export function TranslateOnlyCard() {
                   }`}
                 >
                   {usageText}
-                  {!customApi && (
+                  {!customApi?.configured && (
                     <>
                       {' · '}
                       <button
@@ -361,7 +378,7 @@ export function TranslateOnlyCard() {
                       </button>
                     </>
                   )}
-                  {customApi && (
+                  {customApi?.configured && (
                     <>
                       {' · '}
                       <button

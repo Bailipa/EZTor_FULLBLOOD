@@ -6,36 +6,17 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Globe, Key, Sparkles, CheckCircle, XCircle, Loader2 } from 'lucide-react'
-import { saveToStorage, loadFromStorage } from '@/lib/storage'
-
-interface CustomApiConfig {
-  baseUrl: string
-  apiKey: string
-  model: string
-}
-
-const STORAGE_KEY = 'vocab_custom_api'
-
-export function loadCustomApiConfig(): CustomApiConfig | null {
-  return loadFromStorage<CustomApiConfig | null>(STORAGE_KEY, null)
-}
-
-export function saveCustomApiConfig(config: CustomApiConfig | null): void {
-  saveToStorage(STORAGE_KEY, config)
-}
 
 interface LimitExceededModalProps {
   open: boolean
   onOpenChange: (open: boolean) => void
-  onSaved: (config: CustomApiConfig) => void
+  onSaved: () => void
 }
 
 export function LimitExceededModal({ open, onOpenChange, onSaved }: LimitExceededModalProps) {
-  const existingConfig = loadCustomApiConfig()
-
-  const [baseUrl, setBaseUrl] = useState(existingConfig?.baseUrl || '')
-  const [apiKey, setApiKey] = useState(existingConfig?.apiKey || '')
-  const [model, setModel] = useState(existingConfig?.model || '')
+  const [baseUrl, setBaseUrl] = useState('')
+  const [apiKey, setApiKey] = useState('')
+  const [model, setModel] = useState('')
   const [testResult, setTestResult] = useState<{ success: boolean; message: string } | null>(null)
   const [isTesting, setIsTesting] = useState(false)
   const [testedSuccessfully, setTestedSuccessfully] = useState(false)
@@ -55,10 +36,10 @@ export function LimitExceededModal({ open, onOpenChange, onSaved }: LimitExceede
     setTestResult(null)
 
     try {
-      const res = await fetch('/api/translate-only/test-connection', {
+      const res = await fetch('/api/custom-key/test', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ baseUrl, apiKey, model }),
+        body: JSON.stringify({ baseUrl: baseUrl.trim(), apiKey: apiKey.trim(), model: model.trim() }),
       })
       const data = await res.json()
       if (data.success) {
@@ -87,11 +68,24 @@ export function LimitExceededModal({ open, onOpenChange, onSaved }: LimitExceede
     }
 
     setSaving(true)
-    const config: CustomApiConfig = { baseUrl: baseUrl.trim(), apiKey: apiKey.trim(), model: model.trim() }
-    saveCustomApiConfig(config)
-    onSaved(config)
-    setSaving(false)
-    onOpenChange(false)
+    try {
+      const res = await fetch('/api/custom-key', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ baseUrl: baseUrl.trim(), apiKey: apiKey.trim(), model: model.trim() }),
+      })
+      const data = await res.json()
+      if (data.success) {
+        onSaved()
+        onOpenChange(false)
+      } else {
+        setTestResult({ success: false, message: data.error || '保存失败' })
+      }
+    } catch {
+      setTestResult({ success: false, message: '网络请求失败，请稍后重试' })
+    } finally {
+      setSaving(false)
+    }
   }
 
   const handleCancel = () => {
@@ -113,7 +107,7 @@ export function LimitExceededModal({ open, onOpenChange, onSaved }: LimitExceede
               如需继续使用，可以配置您自己的大模型 API，支持 OpenAI、DeepSeek、智谱、通义千问等兼容 OpenAI 接口的厂商。
             </p>
             <p className="text-xs text-muted-foreground/80">
-              您的 API Key 仅保存在本地浏览器中，使用时通过加密传输到服务器完成翻译，不会被持久化存储，请放心使用。
+              您的 API Key 将安全存储于服务器，通过 HTTPS 代理调用大模型，不会泄露给第三方。
             </p>
           </DialogDescription>
         </DialogHeader>
@@ -187,7 +181,7 @@ export function LimitExceededModal({ open, onOpenChange, onSaved }: LimitExceede
             </Button>
           </div>
           <p className="text-xs text-muted-foreground">
-            请妥善保管您的 API Key，它仅保存在本地浏览器中，不会被服务器持久化存储
+            请妥善保管您的 API Key，配置后将安全存储于服务器，通过代理调用大模型
           </p>
         </div>
 
