@@ -34,3 +34,4 @@ LLM 池参考了 https://github.com/songquanpeng/one-api 设计思路
 - TTS 引擎：@lobehub/tts (MIT) + edgeTTS-openai-api
 - 词典/词库数据：https://github.com/KyleBing/english-vocabulary (CET-4/CET-6/考研词汇)
 - 补充数据：https://github.com/skywind3000/ECDICT (英汉字典数据库)
+- 提示词/技能设计参考：https://github.com/forrestchang/andrej-karpathy-skills
