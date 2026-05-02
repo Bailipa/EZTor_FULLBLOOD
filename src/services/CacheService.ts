@@ -3,6 +3,8 @@ import { Prisma } from '@prisma/client';
 import { randomUUID } from 'crypto';
 import { checkAndSyncOnQuery } from '@/lib/wordSync';
 import { logger } from '@/lib/logger';
+import type { Session } from 'next-auth';
+import type { TranslationResult } from '@/services/TranslationService';
 
 export interface CachedWord {
   word: string;
@@ -15,10 +17,10 @@ export interface CachedWord {
 }
 
 export class CacheService {
-  private readonly session: any;
+  private readonly session: Session | null;
   private readonly inputWordMap: Map<string, string>;
 
-  constructor(session: any, words: string[]) {
+  constructor(session: Session | null, words: string[]) {
     this.session = session;
     this.inputWordMap = new Map<string, string>();
     words.forEach(word => {
@@ -26,9 +28,9 @@ export class CacheService {
     });
   }
 
-  async getCachedWords(normalizedWords: string[]): Promise<{ cachedWords: any[], cachedWordStrings: string[] }> {
+  async getCachedWords(normalizedWords: string[]): Promise<{ cachedWords: Record<string, unknown>[]; cachedWordStrings: string[] }> {
     // 查找数据库中已经存在的单词
-    const cachedWords = await prisma.$queryRaw<any[]>(
+    const cachedWords = await prisma.$queryRaw<Record<string, unknown>[]>(
       Prisma.sql`
           SELECT
             w.id,
@@ -47,22 +49,22 @@ export class CacheService {
             COALESCE(NULLIF(TRIM(w."exampleTranslation"), ''), pw."exampleTranslation", '') AS "exampleTranslation"
           FROM "Word" w
           LEFT JOIN "PublicWord" pw ON pw.id = w."publicWordId"
-          WHERE w."userId" = ${this.session.user.id}
+          WHERE w."userId" = ${this.session!.user.id}
             AND lower(w.word) IN (${Prisma.join(normalizedWords)})
       `
     );
 
-    const cachedWordStrings = cachedWords.map((cw: any) => String(cw.word).toLowerCase());
+    const cachedWordStrings = cachedWords.map(cw => String(cw['word']).toLowerCase());
     return { cachedWords, cachedWordStrings };
   }
 
-  async updateIncompleteCachedWords(cachedWords: any[]): Promise<any[]> {
+  async updateIncompleteCachedWords(cachedWords: Record<string, unknown>[]): Promise<Record<string, unknown>[]> {
     // Mirroring mode: private words read definitions via PublicWord reference.
     return cachedWords;
   }
 
-  async getPublicCachedWords(missingFromUserWords: string[]): Promise<{ publicCachedWords: any[], publicCachedWordStrings: string[] }> {
-    let publicCachedWords: any[] = [];
+  async getPublicCachedWords(missingFromUserWords: string[]): Promise<{ publicCachedWords: Record<string, unknown>[]; publicCachedWordStrings: string[] }> {
+    let publicCachedWords: Record<string, unknown>[] = [];
     if (missingFromUserWords.length > 0) {
       publicCachedWords = await prisma.publicWord.findMany({
         where: {
@@ -73,11 +75,11 @@ export class CacheService {
       });
     }
 
-    const publicCachedWordStrings = publicCachedWords.map(w => w.word);
+    const publicCachedWordStrings = publicCachedWords.map(w => w['word'] as string);
     return { publicCachedWords, publicCachedWordStrings };
   }
 
-  async copyPublicWordsToUserDb(publicCachedWords: any[], targetGroupId?: string): Promise<void> {
+  async copyPublicWordsToUserDb(publicCachedWords: Record<string, unknown>[], targetGroupId?: string): Promise<void> {
     if (publicCachedWords.length > 0) {
       try {
         const newlyCreatedWords = await Promise.all(
@@ -85,25 +87,25 @@ export class CacheService {
             prisma.word.upsert({
               where: {
                 word_userId: {
-                  word: w.word,
-                  userId: this.session.user.id
+                  word: w['word'] as string,
+                  userId: this.session!.user.id
                 }
               },
               update: {
-                publicWordId: w.id,
+                publicWordId: w['id'] as string,
                 updatedAt: new Date(),
               },
               create: {
                 id: randomUUID(),
-                word: w.word,
+                word: w['word'] as string,
                 translation: null,
                 phonetic: null,
                 pos: null,
                 example: null,
                 exampleTranslation: null,
-                userId: this.session.user.id,
+                userId: this.session!.user.id,
                 sourceType: 'PUBLIC',
-                publicWordId: w.id,
+                publicWordId: w['id'] as string,
                 updatedAt: new Date(),
               }
             }).catch(() => null)
@@ -115,7 +117,7 @@ export class CacheService {
           const groupWordData = newlyCreatedWords.filter(Boolean).map(w => ({
             id: randomUUID(),
             reviewGroupId: targetGroupId!,
-            wordId: (w as any).id as string,
+            wordId: (w as { id: string }).id,
           }));
           if (groupWordData.length > 0) {
             try {
@@ -123,8 +125,8 @@ export class CacheService {
                 data: groupWordData,
                 skipDuplicates: true,
               });
-            } catch (e: any) {
-              logger.error({ err: e }, "Failed to batch add to group");
+            } catch (err: unknown) {
+              logger.error({ err }, "Failed to batch add to group");
             }
           }
         }
@@ -139,7 +141,7 @@ export class CacheService {
       try {
         await prisma.word.updateMany({
           where: { 
-            userId: this.session.user.id,
+            userId: this.session!.user.id,
             word: { in: cachedWordStrings } 
           },
           data: { updatedAt: new Date() }
@@ -151,7 +153,7 @@ export class CacheService {
             const wordRecords = await prisma.word.findMany({
               where: {
                 word: { in: cachedWordStrings },
-                userId: this.session.user.id,
+                userId: this.session!.user.id,
               },
             });
             if (wordRecords.length > 0) {
@@ -164,8 +166,8 @@ export class CacheService {
                 skipDuplicates: true,
               });
             }
-          } catch (e: any) {
-            logger.error({ err: e }, "Failed to batch add cached words to group");
+          } catch (err: unknown) {
+            logger.error({ err }, "Failed to batch add cached words to group");
           }
         }
       } catch (updateErr) {
@@ -177,7 +179,7 @@ export class CacheService {
   async autoSync(cachedWordStrings: string[], formattedCachedResults: CachedWord[]): Promise<CachedWord[]> {
     if (cachedWordStrings.length > 0) {
       try {
-        const syncUpdates = await checkAndSyncOnQuery(this.session.user.id, cachedWordStrings);
+        const syncUpdates = await checkAndSyncOnQuery(this.session!.user.id, cachedWordStrings);
         
         for (const [wordKey, updatedData] of syncUpdates) {
           const existingIndex = formattedCachedResults.findIndex(
@@ -186,7 +188,7 @@ export class CacheService {
           if (existingIndex !== -1) {
             formattedCachedResults[existingIndex] = {
               ...formattedCachedResults[existingIndex],
-              ...updatedData,
+              ...(updatedData as Record<string, unknown>),
               fromCache: true
             };
           }
@@ -198,26 +200,32 @@ export class CacheService {
     return formattedCachedResults;
   }
 
-  formatCachedResults(cachedWords: any[], publicCachedWords: any[], specialResults: any[]): CachedWord[] {
+  formatCachedResults(cachedWords: Record<string, unknown>[], publicCachedWords: Record<string, unknown>[], specialResults: TranslationResult[]): CachedWord[] {
     return [
-      ...cachedWords.map(cw => ({
-        word: this.inputWordMap.get(cw.word.toLowerCase()) || cw.word,
-        phonetic: cw.phonetic || '',
-        pos: cw.pos || '',
-        translation: cw.translation,
-        example: cw.example || '',
-        exampleTranslation: cw.exampleTranslation || '',
-        fromCache: true
-      })),
-      ...publicCachedWords.map(pw => ({
-        word: this.inputWordMap.get(pw.word.toLowerCase()) || pw.word,
-        phonetic: pw.phonetic || '',
-        pos: pw.pos || '',
-        translation: pw.translation,
-        example: pw.example || '',
-        exampleTranslation: pw.exampleTranslation || '',
-        fromCache: true
-      })),
+      ...cachedWords.map(cw => {
+        const cwWord = cw['word'] as string;
+        return {
+          word: this.inputWordMap.get(cwWord.toLowerCase()) || cwWord,
+          phonetic: (cw['phonetic'] as string) || '',
+          pos: (cw['pos'] as string) || '',
+          translation: cw['translation'] as string,
+          example: (cw['example'] as string) || '',
+          exampleTranslation: (cw['example'] as string) || '',
+          fromCache: true
+        };
+      }),
+      ...publicCachedWords.map(pw => {
+        const pwWord = pw['word'] as string;
+        return {
+          word: this.inputWordMap.get(pwWord.toLowerCase()) || pwWord,
+          phonetic: (pw['phonetic'] as string) || '',
+          pos: (pw['pos'] as string) || '',
+          translation: pw['translation'] as string,
+          example: (pw['example'] as string) || '',
+          exampleTranslation: (pw['example'] as string) || '',
+          fromCache: true
+        };
+      }),
       ...specialResults.map(result => ({
         word: this.inputWordMap.get(result.word.toLowerCase()) || result.word,
         phonetic: result.phonetic || '',

@@ -319,8 +319,8 @@ export function ShareImportModal({
 
       const decoder = new TextDecoder();
       let buffer = "";
-      let _lastProgressData: any = null;
-      let finalResult: any = null;
+      let _lastProgressData: unknown = null;
+      let finalResult: Record<string, unknown> | null = null;
 
       while (true) {
         const { done, value } = await reader.read();
@@ -376,10 +376,11 @@ export function ShareImportModal({
       if (finalResult) {
         if (finalResult.success) {
           importProgressController.complete();
+          const fd = finalResult.data as { groupId: string; groupName: string; newWords: Word[] };
           onSuccess({
-            groupId: finalResult.data.groupId,
-            groupName: finalResult.data.groupName,
-            newWords: finalResult.data.newWords || []
+            groupId: fd.groupId,
+            groupName: fd.groupName,
+            newWords: fd.newWords || []
           });
           onClose();
         } else {
@@ -414,19 +415,20 @@ export function ShareImportModal({
         importProgressController.error();
         setError("导入完成但未收到有效响应，请检查词库是否已导入");
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       importProgressController.error();
+      const message = err instanceof Error ? err.message : String(err);
       let errorMessage = '网络错误';
       
-      if (err.message) {
-        if (err.message === '请先登录' || err.message === '未登录') {
+      if (message) {
+        if (message === '请先登录' || message === '未登录') {
           errorMessage = '请先登录后再导入词库\n\n💡 建议：点击右上角的登录按钮进行登录';
-        } else if (err.message.includes('Failed to fetch')) {
+        } else if (message.includes('Failed to fetch')) {
           errorMessage = '网络连接失败：无法连接到服务器\n\n💡 建议：请检查网络连接或刷新页面后重试';
-        } else if (err.message.includes('timeout')) {
+        } else if (message.includes('timeout')) {
           errorMessage = '请求超时：导入操作响应时间过长\n\n💡 建议：词汇数量较多时请耐心等待，或尝试分批导入';
         } else {
-          errorMessage = `网络错误：${err.message}\n\n💡 建议：请检查网络连接后重试`;
+          errorMessage = `网络错误：${message}\n\n💡 建议：请检查网络连接后重试`;
         }
       }
       

@@ -200,11 +200,12 @@ export async function POST(req: Request) {
       data: { translation, optimizedInput },
       usage: { used: updatedUsage.used, limit: DAILY_LIMIT, remaining: updatedUsage.remaining },
     })
-  } catch (error: any) {
-    logger.error({ err: error }, 'Translate-only failed')
-    if (String(error?.message || '') === API_QUOTA_EXHAUSTED_MESSAGE) {
-      return NextResponse.json({ success: false, error: API_QUOTA_EXHAUSTED_MESSAGE }, { status: 503 })
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : String(err);
+    logger.error({ err }, 'Translate-only failed');
+    if (String(message) === API_QUOTA_EXHAUSTED_MESSAGE) {
+      return NextResponse.json({ success: false, error: API_QUOTA_EXHAUSTED_MESSAGE }, { status: 503 });
     }
-    return NextResponse.json({ success: false, error: 'Translation service failed' }, { status: 500 })
+    return NextResponse.json({ success: false, error: 'Translation service failed' }, { status: 500 });
   }
 }

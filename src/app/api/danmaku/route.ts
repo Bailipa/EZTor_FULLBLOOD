@@ -44,8 +44,8 @@ export async function GET(req: Request) {
 
     return NextResponse.json({ success: true, data: randomWords });
 
-  } catch (error: any) {
-    logger.error({ err: error }, "Failed to fetch danmaku words:");
+  } catch (err: unknown) {
+    logger.error({ err }, "Failed to fetch danmaku words:");
     return NextResponse.json({ success: false, error: 'Failed to fetch danmaku data' }, { status: 500 });
   }
 }

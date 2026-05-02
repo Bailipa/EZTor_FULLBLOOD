@@ -64,8 +64,8 @@ export async function POST(
       version: updatedShare.version,
       message: "密钥已重新生成",
     });
-  } catch (error: any) {
-    logger.error({ err: error }, "[Share Regenerate API] Error:");
+  } catch (err: unknown) {
+    logger.error({ err }, "[Share Regenerate API] Error:");
     return createErrorResponse("重新生成密钥失败", 500);
   }
 }

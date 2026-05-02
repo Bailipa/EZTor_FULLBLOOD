@@ -35,7 +35,7 @@ export async function POST(_req: Request) {
     const sheetName = workbook.SheetNames[0];
     const worksheet = workbook.Sheets[sheetName];
     
-    const rawData = xlsx.utils.sheet_to_json<any[]>(worksheet, { header: 1 });
+    const rawData = xlsx.utils.sheet_to_json<unknown[]>(worksheet, { header: 1 });
 
     if (rawData.length > MAX_ROWS) {
       return NextResponse.json({ success: false, error: `Too many rows (${rawData.length}). Maximum allowed is ${MAX_ROWS}.` }, { status: 413 });
@@ -101,8 +101,8 @@ export async function POST(_req: Request) {
       message: `Imported ${savedCount} words from Excel. Errors: ${errorCount}` 
     });
 
-  } catch (error: any) {
-    logger.error({ err: error }, "Flashcard Import API Error:");
+  } catch (err: unknown) {
+    logger.error({ err }, "Flashcard Import API Error:");
     return NextResponse.json({ success: false, error: 'Internal Server Error' }, { status: 500 });
   }
 }

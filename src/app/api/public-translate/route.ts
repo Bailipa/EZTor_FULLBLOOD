@@ -56,7 +56,7 @@ export async function POST(req: NextRequest) {
     
     const responseTime = Date.now() - startTime;
 
-    await (prisma as any).analyticsEvent.create({
+    await prisma.analyticsEvent.create({
       data: {
         id: randomUUID(),
         eventType: 'GUEST_TRANSLATE',
@@ -82,7 +82,7 @@ export async function POST(req: NextRequest) {
         example: string | null;
         exampleTranslation: string | null;
       }) => 
-        (prisma as any).translationRecord.create({
+        prisma.translationRecord.create({
           data: {
             id: randomUUID(),
             word: r.word,
@@ -126,7 +126,7 @@ export async function POST(req: NextRequest) {
   } catch (error) {
     logger.error({ err: error }, 'Public translate error');
     
-    await (prisma as any).analyticsEvent.create({
+    await prisma.analyticsEvent.create({
       data: {
         id: randomUUID(),
         eventType: 'GUEST_TRANSLATE_ERROR',

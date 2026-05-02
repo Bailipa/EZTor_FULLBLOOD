@@ -7,8 +7,17 @@ function truncateError(error: string): string {
   return error.slice(0, TRUNCATED_ERROR_LENGTH) + '…'
 }
 
+interface ProviderMetrics {
+  totalRequests: number;
+  successfulRequests: number;
+  failedRequests: number;
+  totalDuration: number;
+  lastRequestAt: Date;
+  errors: Map<string, number>;
+}
+
 class MonitoringService {
-  private metrics: Map<string, any> = new Map()
+  private metrics: Map<string, ProviderMetrics> = new Map()
 
   recordRequest(providerId: string, duration: number, success: boolean, error?: string) {
     const key = `provider:${providerId}`
@@ -23,7 +32,7 @@ class MonitoringService {
       })
     }
 
-    const metric = this.metrics.get(key)
+    const metric = this.metrics.get(key)!
     metric.totalRequests++
     if (success) {
       metric.successfulRequests++

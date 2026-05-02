@@ -54,8 +54,8 @@ export async function DELETE(
     });
 
     return createSuccessResponse({ message: "分享已成功撤销" });
-  } catch (error: any) {
-    logger.error({ err: error }, "[Share Delete API] Error:");
+  } catch (err: unknown) {
+    logger.error({ err }, "[Share Delete API] Error:");
     return createErrorResponse("撤销分享失败", 500);
   }
 }

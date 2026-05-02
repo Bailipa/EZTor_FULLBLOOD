@@ -26,7 +26,7 @@ export async function GET(req: Request) {
         return NextResponse.json({ success: false, error: 'Group not found or unauthorized' }, { status: 404 });
       }
 
-      const smartWords = await prisma.$queryRaw<any[]>`
+      const smartWords = await prisma.$queryRaw<Record<string, unknown>[]>`
         SELECT
           w.id,
           w.word,
@@ -56,7 +56,7 @@ export async function GET(req: Request) {
       return NextResponse.json({ success: true, data: smartWords });
     }
 
-    const smartWords = await prisma.$queryRaw<any[]>`
+    const smartWords = await prisma.$queryRaw<Record<string, unknown>[]>`
       SELECT
         w.id,
         w.word,
@@ -83,8 +83,8 @@ export async function GET(req: Request) {
 
     return NextResponse.json({ success: true, data: smartWords });
 
-  } catch (error: any) {
-    logger.error({ err: error }, "Failed to fetch smart dictation words:");
+  } catch (err: unknown) {
+    logger.error({ err }, "Failed to fetch smart dictation words:");
     return NextResponse.json({ success: false, error: 'Failed to fetch smart data' }, { status: 500 });
   }
 }

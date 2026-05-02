@@ -103,13 +103,14 @@ export async function POST(req: Request) {
         shareUrl
       }
     });
-  } catch (error: any) {
-    if (error.code === 'P2002') {
+  } catch (err: unknown) {
+    const code = (err as { code?: string }).code;
+    if (code === 'P2002') {
       return createErrorResponse('分享密钥已存在，请重试', 400);
     }
-    if (error.code === 'P2003') {
+    if (code === 'P2003') {
       return createErrorResponse('关联的复习分组不存在', 404);
     }
-    return handleApiError(error, 'share/create POST');
+    return handleApiError(err, 'share/create POST');
   }
 }

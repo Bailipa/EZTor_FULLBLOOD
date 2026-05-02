@@ -111,7 +111,7 @@ export const authOptions: NextAuthOptions = {
     async jwt({ token, user }) {
       if (user) {
         token.sub = user.id;
-        token.isAdmin = (user as any).isAdmin;
+        token.isAdmin = (user as { isAdmin?: boolean }).isAdmin;
       }
       return token;
     }

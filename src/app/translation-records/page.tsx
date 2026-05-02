@@ -35,6 +35,13 @@ interface TranslationRecord {
   createdAt: string;
 }
 
+interface TranslationRecordsStats {
+  totalRecords: number;
+  cacheRate: number;
+  cachedCount: number;
+  avgResponseTime: number;
+}
+
 export default function TranslationRecordsPage() {
   const [selectedRecord, setSelectedRecord] = useState<TranslationRecord | null>(null);
   const [deleting, setDeleting] = useState(false);
@@ -46,7 +53,7 @@ export default function TranslationRecordsPage() {
     data: records,
     loading,
     error,
-    extra: stats,
+    extra,
     page,
     setPage,
     pagination,
@@ -62,12 +69,13 @@ export default function TranslationRecordsPage() {
       if (query) url += `&word=${encodeURIComponent(query)}`;
       return url;
     },
-    parseResponse: (json) => ({
-      data: json.data.records,
-      pagination: json.data.pagination,
-      extra: json.data.stats,
-    }),
+    parseResponse: (json) => {
+      const d = json.data as { records: TranslationRecord[]; pagination: { page: number; limit: number; total: number; totalPages: number }; stats: unknown };
+      return { data: d.records, pagination: d.pagination, extra: d.stats };
+    },
   });
+
+  const stats = extra as TranslationRecordsStats;
 
   if (authLoading) {
     return (

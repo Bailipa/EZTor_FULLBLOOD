@@ -51,9 +51,9 @@ export async function GET() {
       createdAt: share.createdAt.toISOString(),
     }));
 
-    return createSuccessResponse(transformedShares);
-  } catch (error: any) {
-    logger.error({ err: error }, "[Share List API] Error:");
+    return createSuccessResponse({ shares: transformedShares });
+  } catch (err: unknown) {
+    logger.error({ err }, "[Share List API] Error:");
     return createErrorResponse("获取分享列表失败", 500);
   }
 }

@@ -10,15 +10,15 @@ export interface PaginationInfo {
   totalPages: number;
 }
 
-export interface UseCrudTableConfig<T> {
+export interface UseCrudTableConfig<T extends { id: unknown }> {
   requireAdmin?: boolean;
   pageSize?: number;
   skipFetch?: boolean;
   buildUrl?: (page: number, pageSize: number, searchQuery: string) => string;
-  parseResponse?: (json: any) => { data: T[]; pagination: PaginationInfo; extra?: any };
+  parseResponse?: (json: Record<string, unknown>) => { data: T[]; pagination: PaginationInfo; extra?: unknown };
 }
 
-export function useCrudTable<T>(config: UseCrudTableConfig<T>) {
+export function useCrudTable<T extends { id: unknown }>(config: UseCrudTableConfig<T>) {
   const {
     requireAdmin = true,
     pageSize = 20,
@@ -32,7 +32,7 @@ export function useCrudTable<T>(config: UseCrudTableConfig<T>) {
   const [data, setData] = useState<T[] | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [extra, setExtra] = useState<any>(null);
+  const [extra, setExtra] = useState<unknown>(null);
   const [page, setPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState('');
   const [searchInput, setSearchInput] = useState('');
@@ -93,7 +93,7 @@ export function useCrudTable<T>(config: UseCrudTableConfig<T>) {
   }, []);
 
   const selectAll = useCallback(() => {
-    if (data) setSelectedIds(new Set(data.map((d: any) => d.id)));
+    if (data) setSelectedIds(new Set(data.map((d) => String(d.id))));
   }, [data]);
 
   const clearSelection = useCallback(() => {

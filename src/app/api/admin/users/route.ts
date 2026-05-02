@@ -15,7 +15,7 @@ async function requireAdmin() {
     where: { id: session.user.id },
     select: { isAdmin: true },
   });
-  if (!(user as any)?.isAdmin) {
+  if (!user?.isAdmin) {
     return { ok: false as const, res: NextResponse.json({ success: false, error: 'Forbidden' }, { status: 403 }) };
   }
 
@@ -53,7 +53,7 @@ export async function GET(req: NextRequest) {
   });
 
   // Pull events in range for all users (used for frequency + online duration estimation).
-  const events = await (prisma as any).analyticsEvent.findMany({
+  const events = await prisma.analyticsEvent.findMany({
     where: {
       userId: { not: null },
       createdAt: { gte: startDate },
@@ -75,7 +75,7 @@ export async function GET(req: NextRequest) {
     lastSeenAt: number;
   }>();
 
-  for (const e of events as any[]) {
+  for (const e of events) {
     const userId: string | null = e.userId;
     if (!userId) continue;
     const t = new Date(e.createdAt).getTime();

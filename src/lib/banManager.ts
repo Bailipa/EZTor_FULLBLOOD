@@ -39,13 +39,13 @@ export async function checkUserBan(userId: string): Promise<BanCheckResult> {
     return { isBanned: false };
   }
 
-  const userData = user as any;
+  const userData = user as { isBanned?: boolean; banReason?: string | null; banExpiresAt?: string | Date | null; [key: string]: unknown };
 
   if (userData.isBanned) {
     if (userData.banExpiresAt && new Date() > new Date(userData.banExpiresAt)) {
       await prisma.user.update({
         where: { id: userId },
-        data: { isBanned: false, banReason: null, banExpiresAt: null } as any
+        data: { isBanned: false, banReason: null, banExpiresAt: null }
       });
       return { isBanned: false };
     }
@@ -62,7 +62,7 @@ export async function checkUserBan(userId: string): Promise<BanCheckResult> {
 
 export async function checkIpBan(ipAddress: string): Promise<BanCheckResult> {
   try {
-    const ipBan = await (prisma as any).ipBan.findUnique({
+    const ipBan = await prisma.ipBan.findUnique({
       where: { ipAddress }
     });
 
@@ -78,7 +78,7 @@ export async function checkIpBan(ipAddress: string): Promise<BanCheckResult> {
     }
 
     if (ipBan.expiresAt && new Date() > new Date(ipBan.expiresAt)) {
-      await (prisma as any).ipBan.delete({
+      await prisma.ipBan.delete({
         where: { ipAddress }
       });
       return { isBanned: false };
@@ -104,7 +104,7 @@ export async function recordViolation(
   const truncatedInput = inputValue.substring(0, 500);
 
   try {
-    await (prisma as any).securityViolation.create({
+    await prisma.securityViolation.create({
       data: {
         id: randomUUID(),
         userId,
@@ -120,7 +120,7 @@ export async function recordViolation(
 
   let recentViolations = 0;
   try {
-    recentViolations = await (prisma as any).securityViolation.count({
+    recentViolations = await prisma.securityViolation.count({
       where: {
         userId,
         detectedAt: {
@@ -143,12 +143,12 @@ export async function recordViolation(
           isBanned: true,
           banReason: '永久封禁：多次尝试提示词注入攻击',
           banExpiresAt: null
-        } as any
+        }
       });
       
       if (ipAddress) {
         try {
-          await (prisma as any).ipBan.upsert({
+          await prisma.ipBan.upsert({
             where: { ipAddress },
             create: {
               ipAddress,
@@ -173,12 +173,12 @@ export async function recordViolation(
           isBanned: true,
           banReason: '临时封禁24小时：多次尝试提示词注入攻击',
           banExpiresAt: expiresAt
-        } as any
+        }
       });
       
       if (ipAddress) {
         try {
-          await (prisma as any).ipBan.upsert({
+          await prisma.ipBan.upsert({
             where: { ipAddress },
             create: {
               ipAddress,
@@ -203,7 +203,7 @@ export async function recordViolation(
           isBanned: true,
           banReason: '临时封禁1小时：尝试提示词注入攻击',
           banExpiresAt: expiresAt
-        } as any
+        }
       });
       
       banApplied = true;

@@ -147,13 +147,14 @@ export async function GET(
         creator: share.User.username
       }
     });
-  } catch (error: any) {
-    if (error.code === 'P2002') {
+  } catch (err: unknown) {
+    const code = (err as { code?: string }).code;
+    if (code === 'P2002') {
       return createErrorResponse('数据已存在', 409);
     }
-    if (error.code === 'P2025') {
+    if (code === 'P2025') {
       return createErrorResponse('记录不存在', 404);
     }
-    return handleApiError(error, 'share/validate GET');
+    return handleApiError(err, 'share/validate GET');
   }
 }

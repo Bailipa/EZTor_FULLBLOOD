@@ -42,7 +42,7 @@ export async function syncUserWordWithPublic(
       return { updated: false, reason: 'PUBLIC_WORD_NOT_FOUND' };
     }
 
-    const nextData: Record<string, any> = {
+    const nextData: Record<string, unknown> = {
       publicWordId: publicWord.id
     };
 
@@ -161,8 +161,8 @@ export async function syncAllUserWordsWithPublic(userId: string): Promise<SyncRe
 export async function checkAndSyncOnQuery(
   userId: string,
   words: string[]
-): Promise<Map<string, any>> {
-  const syncUpdates = new Map<string, any>();
+): Promise<Map<string, unknown>> {
+  const syncUpdates = new Map<string, unknown>();
 
   try {
     // Mirror mode: the UI reads definitions from PublicWord automatically via join.

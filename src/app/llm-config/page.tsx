@@ -99,7 +99,7 @@ export default function LlmConfigPage() {
   );
 
   const save = async () => {
-    const payload: any = {
+    const payload: Record<string, unknown> = {
       name: form.name.trim(),
       baseUrl: form.baseUrl.trim(),
       model: form.model.trim(),
@@ -135,8 +135,9 @@ export default function LlmConfigPage() {
       setOpen(false);
       resetForm();
       fetchData();
-    } catch (e: any) {
-      toast.error(e?.message || '保存失败');
+    } catch (e: unknown) {
+      const message = e instanceof Error ? e.message : String(e);
+      toast.error(message || '保存失败');
     }
   };
 

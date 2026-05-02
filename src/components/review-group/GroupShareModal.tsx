@@ -118,7 +118,7 @@ export function GroupShareModal({
 
     setIsCreating(true);
     try {
-      const requestBody: any = {
+      const requestBody: Record<string, unknown> = {
         reviewGroupId: groupId,
         name: shareName || `${group.name}的词库`,
         description: shareDescription || null,

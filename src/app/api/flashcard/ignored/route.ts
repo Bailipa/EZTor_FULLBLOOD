@@ -18,8 +18,8 @@ export async function GET(_req: Request) {
 
     return NextResponse.json({ success: true, data: ignoredWords });
 
-  } catch (error: any) {
-    logger.error({ err: error }, "Failed to fetch ignored words:");
+  } catch (err: unknown) {
+    logger.error({ err }, "Failed to fetch ignored words:");
     return NextResponse.json({ success: false, error: 'Failed to fetch ignored words' }, { status: 500 });
   }
 }

@@ -21,10 +21,12 @@ const ERROR_MAP: Record<string, ApiError> = {
   'RATE_LIMIT': { message: '请求过于频繁，请稍后再试', statusCode: 429, isPublic: true },
 };
 
-function getErrorCode(error: any): string | null {
-  if (error?.code) return error.code;
-  if (error?.meta?.code) return error.meta.code;
-  if (error?.name === 'PrismaClientKnownRequestError') return error.code;
+function getErrorCode(error: unknown): string | null {
+  const e = error as Record<string, unknown> | null | undefined;
+  if (e?.code) return String(e.code);
+  const meta = e?.meta as Record<string, unknown> | null | undefined;
+  if (meta?.code) return String(meta.code);
+  if (e?.name === 'PrismaClientKnownRequestError') return String(e.code);
   return null;
 }
 
@@ -32,12 +34,13 @@ function isDevelopment(): boolean {
   return process.env.NODE_ENV === 'development';
 }
 
-export function handleApiError(error: any, context?: string): NextResponse {
+export function handleApiError(error: unknown, context?: string): NextResponse {
   const errorCode = getErrorCode(error);
   const mappedError = errorCode ? ERROR_MAP[errorCode] : null;
 
   if (mappedError) {
-    logger.error({ code: errorCode, message: error.message }, `[API Error] ${context || 'Unknown'}`);
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    logger.error({ code: errorCode, message: errorMessage }, `[API Error] ${context || 'Unknown'}`);
     
     return NextResponse.json(
       { success: false, error: mappedError.message },
@@ -87,7 +90,7 @@ export function createErrorResponse(message: string, statusCode: number = 400): 
   );
 }
 
-export function createSuccessResponse(data: any, statusCode: number = 200): NextResponse {
+export function createSuccessResponse(data: Record<string, unknown>, statusCode: number = 200): NextResponse {
   return NextResponse.json(
     { success: true, ...data },
     { status: statusCode }

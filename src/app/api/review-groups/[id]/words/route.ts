@@ -70,8 +70,8 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
     }
 
     return NextResponse.json({ success: true, addedCount: newWordIds.length });
-  } catch (error: any) {
-    logger.error({ err: error }, "Failed to add words to group:");
+  } catch (err: unknown) {
+    logger.error({ err }, "Failed to add words to group:");
     return NextResponse.json({ success: false, error: 'Failed to add words' }, { status: 500 });
   }
 }
@@ -134,8 +134,8 @@ export async function DELETE(req: Request, { params }: { params: Promise<{ id: s
     }
 
     return NextResponse.json({ success: false, error: 'Invalid action' }, { status: 400 });
-  } catch (error: any) {
-    logger.error({ err: error }, "Failed to remove words from group:");
+  } catch (err: unknown) {
+    logger.error({ err }, "Failed to remove words from group:");
     return NextResponse.json({ success: false, error: 'Failed to remove words' }, { status: 500 });
   }
 }
@@ -209,8 +209,8 @@ export async function GET(req: Request, { params }: { params: Promise<{ id: stri
       data: words,
       pagination: { total, hasMore, nextCursor }
     });
-  } catch (error: any) {
-    logger.error({ err: error }, "Failed to fetch group words:");
+  } catch (err: unknown) {
+    logger.error({ err }, "Failed to fetch group words:");
     return NextResponse.json({ success: false, error: 'Failed to fetch words' }, { status: 500 });
   }
 }

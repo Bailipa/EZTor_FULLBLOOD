@@ -38,7 +38,7 @@ export async function GET(req: NextRequest) {
       select: { isAdmin: true }
     });
 
-    if (!(user as any)?.isAdmin) {
+    if (!user?.isAdmin) {
       return NextResponse.json({ success: false, error: 'Forbidden' }, { status: 403 });
     }
 
@@ -52,7 +52,8 @@ export async function GET(req: NextRequest) {
 
     const skip = (page - 1) * limit;
 
-    const where: any = {};
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const where: Record<string, any> = {};
     if (userId) where.userId = userId;
     if (word) where.word = { contains: word.toLowerCase() };
     if (startDate || endDate) {
@@ -214,7 +215,7 @@ export async function DELETE(req: NextRequest) {
       select: { isAdmin: true }
     });
 
-    if (!(user as any)?.isAdmin) {
+    if (!user?.isAdmin) {
       return NextResponse.json({ success: false, error: 'Forbidden' }, { status: 403 });
     }
 

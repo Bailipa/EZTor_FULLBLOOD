@@ -35,6 +35,14 @@ interface PublicWord {
   updatedAt: string;
 }
 
+interface PublicWordsStats {
+  totalWords: number;
+  avgQuality: number;
+  maxQuality: number;
+  minQuality: number;
+  qualityDistribution: { score: number; count: number }[];
+}
+
 export default function PublicWordsPage() {
   const [sortBy, setSortBy] = useState('updatedAt');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
@@ -63,7 +71,7 @@ export default function PublicWordsPage() {
     data: words,
     loading,
     error,
-    extra: stats,
+    extra,
     page,
     setPage,
     pagination,
@@ -75,12 +83,13 @@ export default function PublicWordsPage() {
     requireAdmin: true,
     pageSize: 20,
     buildUrl,
-    parseResponse: (json) => ({
-      data: json.data.words,
-      pagination: json.data.pagination,
-      extra: json.data.stats,
-    }),
+    parseResponse: (json) => {
+      const d = json.data as { words: PublicWord[]; pagination: { page: number; limit: number; total: number; totalPages: number }; stats: unknown };
+      return { data: d.words, pagination: d.pagination, extra: d.stats };
+    },
   });
+
+  const stats = extra as PublicWordsStats;
 
   if (authLoading) {
     return (

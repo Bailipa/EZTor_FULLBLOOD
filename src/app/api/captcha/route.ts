@@ -49,8 +49,8 @@ export async function GET() {
       hash: hash,
       timestamp: timestamp
     });
-  } catch (error: any) {
-    logger.error({ err: error }, "CAPTCHA Generation Error:");
+  } catch (err: unknown) {
+    logger.error({ err }, "CAPTCHA Generation Error:");
     return NextResponse.json({ error: 'Failed to generate captcha' }, { status: 500 });
   }
 }

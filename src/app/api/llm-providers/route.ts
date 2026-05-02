@@ -16,7 +16,7 @@ async function requireAdmin() {
     where: { id: session.user.id },
     select: { isAdmin: true },
   });
-  if (!(user as any)?.isAdmin) return { ok: false as const, res: NextResponse.json({ success: false, error: 'Forbidden' }, { status: 403 }) };
+  if (!user?.isAdmin) return { ok: false as const, res: NextResponse.json({ success: false, error: 'Forbidden' }, { status: 403 }) };
 
   return { ok: true as const, session };
 }
@@ -74,8 +74,8 @@ export async function POST(req: NextRequest) {
         updatedAt: now
       }
     });
-  } catch (e: any) {
-    const msg = String(e?.message || 'create failed');
+  } catch (err: unknown) {
+    const msg = String(err instanceof Error ? err.message : String(err));
     return NextResponse.json({ success: false, error: msg }, { status: 500 });
   }
 
@@ -90,7 +90,7 @@ export async function PUT(req: NextRequest) {
   const id = String(body.id || '').trim();
   if (!id) return badRequest('id is required');
 
-  const fields: Record<string, any> = {};
+  const fields: Record<string, unknown> = {};
   for (const key of ['name', 'apiKey', 'baseUrl', 'model']) {
     if (body[key] !== undefined) fields[key] = String(body[key]).trim();
   }
@@ -112,8 +112,8 @@ export async function PUT(req: NextRequest) {
       where: { id },
       data: fields,
     });
-  } catch (e: any) {
-    const msg = String(e?.message || 'update failed');
+  } catch (err: unknown) {
+    const msg = String(err instanceof Error ? err.message : String(err));
     return NextResponse.json({ success: false, error: msg }, { status: 500 });
   }
 
@@ -132,8 +132,8 @@ export async function DELETE(req: NextRequest) {
     await prisma.llmApiProvider.delete({
       where: { id },
     });
-  } catch (e: any) {
-    const msg = String(e?.message || 'delete failed');
+  } catch (err: unknown) {
+    const msg = String(err instanceof Error ? err.message : String(err));
     return NextResponse.json({ success: false, error: msg }, { status: 500 });
   }
 

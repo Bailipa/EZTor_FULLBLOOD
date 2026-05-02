@@ -86,7 +86,7 @@ export async function POST(req: Request) {
 
     const sessionId = req.headers.get('x-session-id') || generateSessionId();
 
-    await (prisma as any).analyticsEvent.create({
+    await prisma.analyticsEvent.create({
       data: {
         id: randomUUID(),
         eventType,
@@ -124,7 +124,7 @@ export async function GET(req: Request) {
       select: { isAdmin: true }
     });
 
-    if (!(user as any)?.isAdmin) {
+    if (!user?.isAdmin) {
       return NextResponse.json({ success: false, error: 'Forbidden' }, { status: 403 });
     }
 
@@ -178,18 +178,18 @@ export async function GET(req: Request) {
     ]);
 
     const [totalTranslations, totalDictations, totalErrors] = await Promise.all([
-      (prisma as any).analyticsEvent.count({
+      prisma.analyticsEvent.count({
         where: { ...baseWhere, eventType: 'TRANSLATE' }
       }),
-      (prisma as any).analyticsEvent.count({
+      prisma.analyticsEvent.count({
         where: { ...baseWhere, eventType: { in: ['DICTATION_START', 'DICTATION_COMPLETE'] } }
       }),
-      (prisma as any).analyticsEvent.count({
+      prisma.analyticsEvent.count({
         where: { ...baseWhere, eventType: { in: ['ERROR', 'API_ERROR'] } }
       })
     ]);
 
-    const userTranslateEvents = await (prisma as any).analyticsEvent.findMany({
+    const userTranslateEvents = await prisma.analyticsEvent.findMany({
       where: { 
         ...baseWhere,
         eventType: 'TRANSLATE',
@@ -198,7 +198,7 @@ export async function GET(req: Request) {
       select: { metadata: true, createdAt: true, userId: true }
     });
 
-    const userTranslateErrorEvents = await (prisma as any).analyticsEvent.findMany({
+    const userTranslateErrorEvents = await prisma.analyticsEvent.findMany({
       where: { 
         ...baseWhere,
         eventType: { in: ['ERROR', 'API_ERROR'] },
@@ -213,7 +213,7 @@ export async function GET(req: Request) {
     const userDailyStats: Record<string, { total: number; success: number; failed: number }> = {};
     const userErrorReasons: Record<string, number> = {};
 
-    userTranslateEvents.forEach((event: any) => {
+    userTranslateEvents.forEach((event: { metadata: string | null; createdAt: Date; userId: string | null }) => {
       const metadata = parseMetadataObject(event.metadata);
       const date = event.createdAt.toISOString().split('T')[0];
       const wordCount = typeof metadata.wordCount === 'number' ? metadata.wordCount : 1;
@@ -228,7 +228,7 @@ export async function GET(req: Request) {
       userDailyStats[date].success += wordCount;
     });
 
-    userTranslateErrorEvents.forEach((event: any) => {
+    userTranslateErrorEvents.forEach((event: { metadata: string | null; createdAt: Date }) => {
       const metadata = parseMetadataObject(event.metadata);
       const date = event.createdAt.toISOString().split('T')[0];
       const error = typeof metadata.error === 'string' ? metadata.error : 'Unknown error';
@@ -257,7 +257,7 @@ export async function GET(req: Request) {
       }))
       .sort((a, b) => a.date.localeCompare(b.date));
 
-    const guestTranslateEvents = await (prisma as any).analyticsEvent.findMany({
+    const guestTranslateEvents = await prisma.analyticsEvent.findMany({
       where: { 
         createdAt: { gte: startDate }, 
         eventType: 'GUEST_TRANSLATE' 
@@ -265,7 +265,7 @@ export async function GET(req: Request) {
       select: { metadata: true, createdAt: true }
     });
 
-    const guestTranslateErrorEvents = await (prisma as any).analyticsEvent.findMany({
+    const guestTranslateErrorEvents = await prisma.analyticsEvent.findMany({
       where: { 
         createdAt: { gte: startDate }, 
         eventType: 'GUEST_TRANSLATE_ERROR' 
@@ -279,7 +279,7 @@ export async function GET(req: Request) {
     const guestDailyStats: Record<string, { total: number; found: number; notFound: number }> = {};
     const guestErrorReasons: Record<string, number> = {};
 
-    guestTranslateEvents.forEach((event: any) => {
+    guestTranslateEvents.forEach((event: { metadata: string | null; createdAt: Date }) => {
       const metadata = parseMetadataObject(event.metadata);
       const date = event.createdAt.toISOString().split('T')[0];
       const totalWords = typeof metadata.totalWords === 'number' ? metadata.totalWords : 0;
@@ -298,7 +298,7 @@ export async function GET(req: Request) {
       guestDailyStats[date].notFound += notFoundWords;
     });
 
-    guestTranslateErrorEvents.forEach((event: any) => {
+    guestTranslateErrorEvents.forEach((event: { metadata: string | null; createdAt: Date }) => {
       const metadata = parseMetadataObject(event.metadata);
       const error = typeof metadata.error === 'string' ? metadata.error : 'Unknown error';
       guestErrorReasons[error] = (guestErrorReasons[error] || 0) + 1;
@@ -322,7 +322,7 @@ export async function GET(req: Request) {
       count: Number(row.count),
     }));
 
-    const avgResponseTimeResult = await (prisma as any).translationRecord.aggregate({
+    const avgResponseTimeResult = await prisma.translationRecord.aggregate({
       where: { createdAt: { gte: startDate } },
       _avg: { responseTime: true },
     });
@@ -331,7 +331,7 @@ export async function GET(req: Request) {
       ? Math.round(avgResponseTimeResult._avg.responseTime * 100) / 100
       : 0;
 
-    const dailyActiveUsers = await (prisma as any).analyticsEvent.groupBy({
+    const dailyActiveUsers = await prisma.analyticsEvent.groupBy({
       by: ['userId'],
       where: { 
         ...baseWhere,
@@ -342,14 +342,14 @@ export async function GET(req: Request) {
 
     const dau = dailyActiveUsers.length;
 
-    const eventsByType = await (prisma as any).analyticsEvent.groupBy({
+    const eventsByType = await prisma.analyticsEvent.groupBy({
       by: ['eventType'],
       where: baseWhere,
       _count: true
     });
 
     const eventTypeMap: Record<string, number> = {};
-    eventsByType.forEach((item: any) => {
+    eventsByType.forEach((item: { eventType: string; _count: number }) => {
       eventTypeMap[item.eventType] = item._count;
     });
 
@@ -385,7 +385,7 @@ export async function GET(req: Request) {
       }))
       .sort((a, b) => a.date.localeCompare(b.date));
 
-    const recentEventsRaw = await (prisma as any).analyticsEvent.findMany({
+    const recentEventsRaw = await prisma.analyticsEvent.findMany({
       where: baseWhere,
       orderBy: { createdAt: 'desc' },
       take: 50,
@@ -401,14 +401,23 @@ export async function GET(req: Request) {
       }
     });
 
-    const userIds = [...new Set(recentEventsRaw.map((e: any) => e.userId).filter(Boolean))] as string[];
+    const userIds = [...new Set(recentEventsRaw.map((e: { userId: string | null }) => e.userId).filter(Boolean))] as string[];
     const users = await prisma.user.findMany({
       where: { id: { in: userIds } },
       select: { id: true, username: true }
     });
     const userMap = new Map(users.map(u => [u.id, u.username]));
 
-    const recentEvents = recentEventsRaw.map((event: any) => ({
+    const recentEvents = recentEventsRaw.map((event: {
+      id: string;
+      eventType: string;
+      userId: string | null;
+      sessionId: string | null;
+      metadata: string | null;
+      ipAddress: string | null;
+      userAgent: string | null;
+      createdAt: Date;
+    }) => ({
       id: event.id,
       eventType: event.eventType,
       userId: event.userId,
@@ -496,7 +505,7 @@ export async function DELETE(req: Request) {
       select: { isAdmin: true }
     });
 
-    if (!(user as any)?.isAdmin) {
+    if (!user?.isAdmin) {
       return NextResponse.json({ success: false, error: 'Forbidden' }, { status: 403 });
     }
 
@@ -528,7 +537,7 @@ export async function DELETE(req: Request) {
       : [];
     const excludedUserIds = excludedUsers.map((u: { id: string }) => u.id);
 
-    const eventsRaw = await (prisma as any).analyticsEvent.findMany({
+    const eventsRaw = await prisma.analyticsEvent.findMany({
       where: { 
         createdAt: { gte: startDate },
         ...(excludeTestUsers && excludedUserIds.length > 0 
@@ -548,14 +557,23 @@ export async function DELETE(req: Request) {
       }
     });
 
-    const userIds = [...new Set(eventsRaw.map((e: any) => e.userId).filter(Boolean))] as string[];
+    const userIds = [...new Set(eventsRaw.map((e: { userId: string | null }) => e.userId).filter(Boolean))] as string[];
     const users = await prisma.user.findMany({
       where: { id: { in: userIds } },
       select: { id: true, username: true }
     });
     const userMap = new Map(users.map(u => [u.id, u.username]));
 
-    const events = eventsRaw.map((event: any) => ({
+    const events = eventsRaw.map((event: {
+      id: string;
+      eventType: string;
+      userId: string | null;
+      sessionId: string | null;
+      metadata: string | null;
+      ipAddress: string | null;
+      userAgent: string | null;
+      createdAt: Date;
+    }) => ({
       id: event.id,
       eventType: event.eventType,
       userId: event.userId,
@@ -577,7 +595,17 @@ export async function DELETE(req: Request) {
       };
       
       const csvHeader = 'ID,事件类型,用户ID,用户名,Session ID,元数据,IP地址,User Agent,创建时间\n';
-      const csvRows = events.map((e: any) => 
+      const csvRows = events.map((e: {
+        id: string;
+        eventType: string;
+        userId: string | null;
+        username: string | null;
+        sessionId: string | null;
+        metadata: Record<string, unknown> | null;
+        ipAddress: string | null;
+        userAgent: string | null;
+        createdAt: string;
+      }) => 
         `${escapeCSV(e.id)},${escapeCSV(e.eventType)},${escapeCSV(e.userId || '')},${escapeCSV(e.username || '')},${escapeCSV(e.sessionId || '')},${escapeCSV(JSON.stringify(e.metadata || {}))},${escapeCSV(e.ipAddress || '')},${escapeCSV(e.userAgent || '')},${escapeCSV(e.createdAt)}`
       ).join('\n');
       

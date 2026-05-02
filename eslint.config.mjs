@@ -7,9 +7,6 @@ const eslintConfig = defineConfig([
   ...nextTs,
   {
     rules: {
-      // This codebase intentionally uses flexible typing in many places.
-      "@typescript-eslint/no-explicit-any": "off",
-      // These rules generate lots of false positives in UI code here.
       "react-hooks/set-state-in-effect": "off",
       "react/no-unescaped-entities": "off",
       "prefer-const": "off",
@@ -31,11 +28,11 @@ const eslintConfig = defineConfig([
     "build/**",
     "next-env.d.ts",
     "src/_deprecated/**",
+    "coverage/**",
   ]),
   {
-    files: ["src/app/api/**/*.ts", "src/app/api/**/*.tsx"],
+    files: ["**/__tests__/**/*.ts", "**/__tests__/**/*.tsx", "scripts/**/*.ts"],
     rules: {
-      // Keep route handlers permissive.
       "@typescript-eslint/no-explicit-any": "off",
     },
   },

@@ -36,8 +36,8 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ success: true, message: 'Word restored' });
 
-  } catch (error: any) {
-    logger.error({ err: error }, "Failed to restore word:");
+  } catch (err: unknown) {
+    logger.error({ err }, "Failed to restore word:");
     return NextResponse.json({ success: false, error: 'Failed to restore word' }, { status: 500 });
   }
 }

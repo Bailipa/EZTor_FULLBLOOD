@@ -61,8 +61,8 @@ export async function GET(req: Request) {
 
     return NextResponse.json({ success: true, data: words });
 
-  } catch (error: any) {
-    logger.error({ err: error }, "Failed to fetch public flashcard words:");
+  } catch (err: unknown) {
+    logger.error({ err }, "Failed to fetch public flashcard words:");
     return NextResponse.json({ success: false, error: 'Failed to fetch flashcard data' }, { status: 500 });
   }
 }

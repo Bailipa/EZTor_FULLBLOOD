@@ -8,7 +8,7 @@ import { handleApiError, createErrorResponse, createSuccessResponse } from '@/li
  * 缓存 TTL: 1 小时
  */
 interface CacheEntry {
-  data: any[];
+  data: Record<string, unknown>[];
   timestamp: number;
 }
 
@@ -98,7 +98,7 @@ export async function GET() {
     const vocabularies = await getDefaultVocabularies();
 
     return createSuccessResponse({ data: vocabularies });
-  } catch (error: any) {
-    return handleApiError(error, 'share/defaults GET');
+  } catch (err: unknown) {
+    return handleApiError(err, 'share/defaults GET');
   }
 }

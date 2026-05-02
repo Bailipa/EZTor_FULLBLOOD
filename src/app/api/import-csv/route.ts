@@ -58,8 +58,9 @@ export async function POST(req: Request) {
           });
           savedCount++;
           break;
-        } catch (dbErr: any) {
-          if (dbErr.message?.includes('database is locked')) {
+        } catch (dbErr: unknown) {
+          const dbMessage = dbErr instanceof Error ? dbErr.message : String(dbErr);
+          if (dbMessage.includes('database is locked')) {
             retries--;
             await new Promise(resolve => setTimeout(resolve, 100 + Math.random() * 200));
           } else {
@@ -71,7 +72,7 @@ export async function POST(req: Request) {
     }
 
     return createSuccessResponse({ savedCount });
-  } catch (error: any) {
-    return handleApiError(error, 'import-csv');
+  } catch (err: unknown) {
+    return handleApiError(err, 'import-csv');
   }
 }

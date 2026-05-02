@@ -1,4 +1,5 @@
 import prisma from '@/lib/prisma';
+import { Prisma } from '@prisma/client';
 import { randomUUID } from 'crypto';
 import { calculateQualityScore } from '@/lib/qualityScoring';
 import { cascadePublicWordToPrivate } from '@/lib/publicWordCascade';
@@ -61,9 +62,9 @@ export default class PublicWordService {
             example: wordData.example || null,
             exampleTranslation: wordData.exampleTranslation || null
           });
-        } catch (createErr: any) {
-          if (createErr.code !== 'P2002') {
-            logger.error({ err: createErr }, "Failed to create public word");
+        } catch (err: unknown) {
+          if (!(err instanceof Prisma.PrismaClientKnownRequestError && err.code === 'P2002')) {
+            logger.error({ err }, "Failed to create public word");
           }
         }
       } else if (qualityResult.score > existingPublicWord.qualityScore) {
@@ -104,14 +105,14 @@ export default class PublicWordService {
         const pw = await prisma.publicWord.findUnique({ where: { word: wordData.word } });
         publicWordId = pw?.id || null;
       }
-    } catch (publicDbErr: any) {
-      logger.error({ err: publicDbErr }, "Failed to save to public word");
+    } catch (err: unknown) {
+      logger.error({ err }, "Failed to save to public word");
     }
 
     return publicWordId;
   }
 
-  async getPublicWords(words: string[]): Promise<any[]> {
+  async getPublicWords(words: string[]): Promise<WordData[]> {
     if (words.length === 0) {
       return [];
     }
@@ -125,9 +126,9 @@ export default class PublicWordService {
     });
   }
 
-  async getWordsNeedingRefresh(publicCachedWords: any[]): Promise<string[]> {
+  async getWordsNeedingRefresh(publicCachedWords: Record<string, unknown>[]): Promise<string[]> {
     return publicCachedWords
-      .filter((pw: any) => !pw.translation || pw.translation.trim() === '' || !pw.pos)
-      .map((pw: any) => pw.word);
+      .filter(pw => !pw['translation'] || String(pw['translation']).trim() === '' || !pw['pos'])
+      .map(pw => pw['word'] as string);
   }
 }

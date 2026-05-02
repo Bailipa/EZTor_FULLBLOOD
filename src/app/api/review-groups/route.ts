@@ -22,8 +22,8 @@ export async function GET(_req: Request) {
     });
 
     return createSuccessResponse({ data: groups });
-  } catch (error: any) {
-    return handleApiError(error, 'review-groups GET');
+  } catch (err: unknown) {
+    return handleApiError(err, 'review-groups GET');
   }
 }
 
@@ -57,10 +57,10 @@ export async function POST(req: Request) {
     });
 
     return createSuccessResponse({ data: group });
-  } catch (error: any) {
-    if (error.code === 'P2002') {
+  } catch (err: unknown) {
+    if ((err as { code?: string }).code === 'P2002') {
       return createErrorResponse('该分组名称已存在', 400);
     }
-    return handleApiError(error, 'review-groups POST');
+    return handleApiError(err, 'review-groups POST');
   }
 }

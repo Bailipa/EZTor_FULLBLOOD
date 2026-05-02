@@ -34,9 +34,10 @@ function normalizeBaseUrl(url?: string): string {
   return trimmed;
 }
 
-export function isQuotaError(err: any): boolean {
-  const status = err?.status ?? err?.response?.status;
-  const message = String(err?.message || '');
+export function isQuotaError(err: unknown): boolean {
+  const e = err as { status?: unknown; message?: unknown; response?: { status?: unknown } };
+  const status = e?.status ?? e?.response?.status;
+  const message = String(e?.message || '');
   return (
     status === 402 ||
     status === 429 ||
@@ -46,9 +47,10 @@ export function isQuotaError(err: any): boolean {
   );
 }
 
-export function isRateLimitError(err: any): boolean {
-  const status = err?.status ?? err?.response?.status;
-  const message = String(err?.message || '');
+export function isRateLimitError(err: unknown): boolean {
+  const e = err as { status?: unknown; message?: unknown; response?: { status?: unknown } };
+  const status = e?.status ?? e?.response?.status;
+  const message = String(e?.message || '');
   return (
     status === 429 ||
     /rate[_ ]limit/i.test(message) ||
@@ -56,9 +58,10 @@ export function isRateLimitError(err: any): boolean {
   );
 }
 
-export function isConnectionError(err: any): boolean {
-  const message = String(err?.message || '');
-  const code = String(err?.code || '');
+export function isConnectionError(err: unknown): boolean {
+  const e = err as { message?: unknown; code?: unknown };
+  const message = String(e?.message || '');
+  const code = String(e?.code || '');
   return (
     /connection/i.test(message) ||
     /timeout/i.test(message) ||
@@ -148,7 +151,7 @@ async function seedDefaultProviderFromLegacyConfigIfEmpty(): Promise<void> {
 
   const legacyDb = await prisma.apiConfig
     .findUnique({ where: { id: 'global' }, select: { apiKey: true, baseUrl: true, model: true } })
-    .catch(() => null as any);
+    .catch(() => null);
 
   const apiKey = String(legacyDb?.apiKey || process.env.LLM_API_KEY || '').trim();
   const baseUrl = String(legacyDb?.baseUrl || process.env.LLM_API_URL || '').trim();
@@ -291,9 +294,9 @@ export async function getProviderCandidates(fallback?: {
 
 export async function createOpenAiClient(sel: ProviderSelection): Promise<{ client: OpenAI; model: string }> {
   const provider = sel.provider;
-  const baseURL = normalizeBaseUrl((provider as any).baseUrl);
-  const apiKey = (provider as any).apiKey;
-  const model = (provider as any).model;
+  const baseURL = normalizeBaseUrl(provider.baseUrl);
+  const apiKey = provider.apiKey;
+  const model = provider.model;
   const client = connectionPool.getClient(apiKey, baseURL);
   return { client, model };
 }
@@ -307,7 +310,7 @@ export async function withLlmFailover<T>(
     throw new Error(API_QUOTA_EXHAUSTED_MESSAGE);
   }
 
-  let lastErr: any = null;
+  let lastErr: unknown = null;
   for (const sel of candidates) {
     if (sel.kind === 'db') {
       if (!(sel.provider.quotaRemaining === null || sel.provider.quotaRemaining > 0)) continue;
@@ -330,27 +333,28 @@ export async function withLlmFailover<T>(
         await noteProviderUsed(sel.provider.id, quotaCost);
       }
       return result;
-    } catch (err: any) {
+    } catch (err: unknown) {
       const duration = Date.now() - startTime;
       lastErr = err;
+      const errMessage = err instanceof Error ? err.message : String(err);
       
       // Record monitoring data
       monitoringService.recordRequest(
         sel.kind === 'db' ? sel.provider.id : 'legacy',
         duration,
         false,
-        err?.message
+        errMessage
       );
       
       if (sel.kind === 'db') {
         if (isQuotaError(err)) {
-          await markProviderQuotaExhausted(sel.provider.id, String(err?.message || 'quota exhausted'));
+          await markProviderQuotaExhausted(sel.provider.id, String(errMessage || 'quota exhausted'));
         } else if (isRateLimitError(err)) {
-          await markProviderError(sel.provider.id, String(err?.message || 'rate limit exceeded'));
+          await markProviderError(sel.provider.id, String(errMessage || 'rate limit exceeded'));
         } else if (isConnectionError(err)) {
-          await markProviderError(sel.provider.id, String(err?.message || 'connection error'));
+          await markProviderError(sel.provider.id, String(errMessage || 'connection error'));
         } else {
-          await markProviderError(sel.provider.id, String(err?.message || 'error'));
+          await markProviderError(sel.provider.id, String(errMessage || 'error'));
         }
       }
       continue;

@@ -73,8 +73,8 @@ export async function POST(req: Request) {
       message: `Sync complete. Saved: ${savedCount}, Errors: ${errorCount}` 
     });
 
-  } catch (error: any) {
-    logger.error({ err: error }, "Sync API Error:");
+  } catch (err: unknown) {
+    logger.error({ err }, "Sync API Error:");
     return NextResponse.json({ success: false, error: 'Internal Server Error' }, { status: 500 });
   }
 }

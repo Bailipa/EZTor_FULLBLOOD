@@ -38,8 +38,8 @@ export async function GET(req: Request) {
       isInVocabularyBook: !!existingWord 
     });
 
-  } catch (error: any) {
-    logger.error({ err: error }, "Failed to check vocabulary book status:");
+  } catch (err: unknown) {
+    logger.error({ err }, "Failed to check vocabulary book status:");
     return NextResponse.json({ success: false, error: 'Failed to check vocabulary book status' }, { status: 500 });
   }
 }

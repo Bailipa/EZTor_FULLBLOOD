@@ -74,7 +74,7 @@ export default function HistoryPage() {
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [isClearing, setIsClearing] = useState(false);
 
-  const [groups, setGroups] = useState<any[]>([]);
+  const [groups, setGroups] = useState<{ id: string; name: string; _count?: { ReviewGroupWord: number }; [key: string]: unknown }[]>([]);
   const [currentViewGroupId, setCurrentViewGroupId] = useState<string>("all");
 
   const {
@@ -184,7 +184,7 @@ export default function HistoryPage() {
   const handleImportSuccess = useCallback((data?: {
     groupId: string;
     groupName: string;
-    newWords: any[];
+    newWords: WordData[];
   }) => {
     if (data) {
       setCurrentViewGroupId(data.groupId);

@@ -10,15 +10,34 @@ import { useSession } from "next-auth/react";
 import { speakText } from "@/lib/ttsBrowser";
 import { IgnoredWords } from "./ignored-words";
 
+interface FlashcardWord {
+  word: string;
+  translation: string;
+  phonetic?: string;
+  pos?: string;
+  example?: string;
+  exampleTranslation?: string;
+  [key: string]: unknown;
+}
+
+interface FlashcardGroup {
+  id: string;
+  name: string;
+  _count?: {
+    ReviewGroupWord: number;
+  };
+  [key: string]: unknown;
+}
+
 export function FlashcardWidget() {
   const { data: session, status } = useSession();
-  const [words, setWords] = useState<any[]>([]);
+  const [words, setWords] = useState<FlashcardWord[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [showAnswer, setShowAnswer] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
-  const [groups, setGroups] = useState<any[]>([]);
+  const [groups, setGroups] = useState<FlashcardGroup[]>([]);
   const [selectedGroupId, setSelectedGroupId] = useState<string>("public");
   const [isUpdating, setIsUpdating] = useState(false);
   const [isInVocabularyBook, setIsInVocabularyBook] = useState(false);
@@ -104,7 +123,7 @@ export function FlashcardWidget() {
       } else {
         throw new Error(data.error || '添加失败');
       }
-    } catch (e: any) {
+    } catch (e: unknown) {
       if (process.env.NODE_ENV === 'development') console.error("Failed to save word:", e);
       // 可以使用更友好的提示方式，比如 toast
     } finally {
@@ -178,7 +197,7 @@ export function FlashcardWidget() {
             throw new Error(data.error || '更新失败');
           }
         }
-      } catch (e: any) {
+      } catch (e: unknown) {
         if (process.env.NODE_ENV === 'development') console.error("Failed to update stats:", e);
         // 不阻止用户继续，只记录错误
       } finally {
@@ -232,7 +251,7 @@ export function FlashcardWidget() {
       } else {
         throw new Error(data.error || '标记失败');
       }
-    } catch (e: any) {
+    } catch (e: unknown) {
       if (process.env.NODE_ENV === 'development') console.error("Failed to ignore word:", e);
       // 可以使用更友好的提示方式，比如 toast
     }

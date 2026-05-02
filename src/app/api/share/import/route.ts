@@ -235,11 +235,11 @@ export async function POST(req: Request) {
 
     push(JSON.stringify({ progress: 10, step: '准备词库数据' }));
     
-    const words: WordData[] = share.ReviewGroup.ReviewGroupWord.map((rgw: any) => ({
+    const words: WordData[] = share.ReviewGroup.ReviewGroupWord.map((rgw) => ({
       word: rgw.Word.word,
       phonetic: rgw.Word.phonetic,
       pos: rgw.Word.pos,
-      translation: rgw.Word.translation,
+      translation: rgw.Word.translation ?? '',
       example: rgw.Word.example,
       exampleTranslation: rgw.Word.exampleTranslation
     }));
@@ -386,8 +386,9 @@ export async function POST(req: Request) {
                     }
                   });
                   publicWordId = createdPublic.id;
-                } catch (e: any) {
-                  if (e.code === 'P2002') {
+                } catch (e: unknown) {
+                  const ec = (e as { code?: string }).code;
+                  if (ec === 'P2002') {
                     const pw = await tx.publicWord.findUnique({ where: { word: normalizedWord } });
                     publicWordId = pw?.id || null;
                   } else {
@@ -421,8 +422,9 @@ export async function POST(req: Request) {
               });
 
               imported++;
-            } catch (wordError: any) {
-              if (wordError.code === 'P2002') {
+            } catch (wordError: unknown) {
+              const wec = (wordError as { code?: string }).code;
+              if (wec === 'P2002') {
                 skipped++;
                 continue;
               }
@@ -516,13 +518,15 @@ export async function POST(req: Request) {
       }
       
       return new Response(nodeReadableToWebStream(stream), { headers: { 'Content-Type': 'text/plain' } });
-    } catch (transactionError: any) {
+    } catch (err: unknown) {
+      const tranCode = (err as { code?: string }).code;
+      const tranMsg = err instanceof Error ? err.message : String(err);
       // 记录详细错误信息
-      logger.error({ err: transactionError }, 'Transaction error');
+      logger.error({ err }, 'Transaction error');
       
       // 处理测试环境中的错误
       if (isTest) {
-        if (transactionError.code === 'P2002') {
+        if (tranCode === 'P2002') {
           const errorResponse = {
             success: false, 
             error: '数据已存在',
@@ -534,7 +538,7 @@ export async function POST(req: Request) {
             status: 409,
             headers: { 'Content-Type': 'application/json' }
           });
-        } else if (transactionError.code === 'P2025') {
+        } else if (tranCode === 'P2025') {
           const errorResponse = {
             success: false, 
             error: '记录不存在',
@@ -554,19 +558,19 @@ export async function POST(req: Request) {
       let errorCode = 'IMPORT_FAILED';
       let suggestion = '请检查网络连接后重试';
       
-      if (transactionError.code === 'SQLITE_CONSTRAINT') {
+      if (tranCode === 'SQLITE_CONSTRAINT') {
         errorMessage = '数据约束冲突：部分词汇已存在于您的词库中';
         errorCode = 'DATA_CONSTRAINT';
         suggestion = '系统已自动跳过重复词汇，如仍有问题请清空目标分组后重试';
-      } else if (transactionError.code === 'SQLITE_FULL') {
+      } else if (tranCode === 'SQLITE_FULL') {
         errorMessage = '存储空间不足：无法写入更多词汇数据';
         errorCode = 'STORAGE_FULL';
         suggestion = '请清理部分不需要的词汇或联系管理员增加存储配额';
-      } else if (transactionError.message?.includes('timeout')) {
+      } else if (tranMsg.includes('timeout')) {
         errorMessage = '数据库操作超时：词汇量较大，处理时间超过限制';
         errorCode = 'TIMEOUT';
         suggestion = '系统已自动采用分批处理策略（每批 50 个词汇），如仍超时建议：1) 联系分享者拆分词库 2) 选择词汇数较少的词库 3) 稍后重试';
-      } else if (transactionError.message?.includes('connection')) {
+      } else if (tranMsg.includes('connection')) {
         errorMessage = '数据库连接失败：无法访问词汇数据';
         errorCode = 'CONNECTION_ERROR';
         suggestion = '请检查数据库连接状态或刷新页面后重试';
@@ -576,7 +580,7 @@ export async function POST(req: Request) {
         success: false, 
         error: errorCode, 
         message: errorMessage,
-        details: transactionError.message,
+        details: tranMsg,
         suggestion: suggestion,
         step: '词汇导入阶段'
       };
@@ -593,9 +597,11 @@ export async function POST(req: Request) {
       
       return new Response(nodeReadableToWebStream(stream), { headers: { 'Content-Type': 'text/plain' } });
     }
-  } catch (error: any) {
+  } catch (err: unknown) {
+    const outerCode = (err as { code?: string }).code;
+    const outerMeta = (err as { meta?: { field_name?: string } }).meta;
     // 根据错误类型返回具体的错误信息
-    if (error.code === 'P2002') {
+    if (outerCode === 'P2002') {
       const errorResponse = {
         success: false, 
         error: 'DUPLICATE_DATA',
@@ -616,7 +622,7 @@ export async function POST(req: Request) {
       
       return new Response(nodeReadableToWebStream(stream), { headers: { 'Content-Type': 'text/plain' } });
     }
-    if (error.code === 'P2025') {
+    if (outerCode === 'P2025') {
       const errorResponse = {
         success: false, 
         error: 'NOT_FOUND',
@@ -637,15 +643,15 @@ export async function POST(req: Request) {
       
       return new Response(nodeReadableToWebStream(stream), { headers: { 'Content-Type': 'text/plain' } });
     }
-    if (error.code === 'P2003') {
-      logger.error({ err: error, fieldName: error.meta?.field_name }, '[ShareImport] P2003 FK constraint');
+    if (outerCode === 'P2003') {
+      logger.error({ err, fieldName: outerMeta?.field_name }, '[ShareImport] P2003 FK constraint');
       const errorResponse = {
         success: false, 
         error: 'FOREIGN_KEY_ERROR',
         message: '分组关联失败：目标分组不存在或已被删除',
         suggestion: '请尝试创建新分组或选择其他现有分组',
         step: '分组创建阶段',
-        detail: 'FK: ' + (error.meta?.field_name || 'unknown')
+        detail: 'FK: ' + (outerMeta?.field_name || 'unknown')
       };
       
       push(JSON.stringify(errorResponse));

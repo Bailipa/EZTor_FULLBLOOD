@@ -20,7 +20,7 @@ export class StreamHandler {
     return stream;
   }
 
-  createTranslationStream(response: any, orderedCachedResults: CachedWord[], targetGroupId?: string): ReadableStream {
+  createTranslationStream(response: AsyncIterable<{ choices?: Array<{ delta?: { content?: string | null } }> }>, orderedCachedResults: CachedWord[], targetGroupId?: string): ReadableStream {
     const translationService = this.translationService;
     const stream = new ReadableStream({
       async start(controller) {

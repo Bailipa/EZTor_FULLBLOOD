@@ -30,8 +30,8 @@ let ttsSingleton: EdgeSpeechTTS | null = null;
 
 function getEdgeTts(): EdgeSpeechTTS {
   // Node.js doesn't provide a WebSocket global; EdgeSpeechTTS needs it.
-  if (!(globalThis as any).WebSocket) {
-    (globalThis as any).WebSocket = WebSocket as any;
+  if (!(globalThis as Record<string, unknown>).WebSocket) {
+    (globalThis as Record<string, unknown>).WebSocket = WebSocket;
   }
   if (!ttsSingleton) ttsSingleton = new EdgeSpeechTTS();
   return ttsSingleton;
@@ -70,13 +70,12 @@ export async function synthesizeSpeech(req: TtsRequest): Promise<Response> {
   }
 
   // EdgeSpeechTTS currently produces mp3 (audio-24khz-48kbitrate-mono-mp3).
-  const response = await getEdgeTts().create({
+  const tts = getEdgeTts() as unknown as { create: (args: Record<string, unknown>) => Promise<Response> };
+  const response = await tts.create({
     input,
-    // `@lobehub/tts` types currently only expose `voice`, but the underlying SSML
-    // generator supports `rate`/`pitch`. We pass `rate` at runtime intentionally.
-    options: { voice, rate: speed } as any,
+    options: { voice, rate: speed },
     signal: abortController.signal,
-  } as any);
+  });
 
   clearTimeout(timeoutId);
   return response;

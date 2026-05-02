@@ -17,7 +17,14 @@ const RECORD_TRANSLATIONS = true;
 
 async function safeRecordTranslation(
   userId: string,
-  wordData: any,
+  wordData: {
+    word?: string | null;
+    phonetic?: string | null;
+    pos?: string | null;
+    translation?: string | null;
+    example?: string | null;
+    exampleTranslation?: string | null;
+  },
   isCached: boolean,
   clientIp: string | null,
   userAgent: string | null
@@ -210,7 +217,7 @@ export async function POST(req: Request) {
     // Handle case where all words were found in concurrent requests
     if ('response' in translationResult) {
       const { response } = translationResult;
-      const translationStream = streamHandler.createTranslationStream(response, orderedCachedResults, targetGroupId);
+      const translationStream = streamHandler.createTranslationStream(response as AsyncIterable<{ choices?: Array<{ delta?: { content?: string } }> }>, orderedCachedResults, targetGroupId);
       return streamHandler.createStreamResponse(translationStream);
     } else {
       // All words were found in cache or concurrent requests
@@ -218,34 +225,36 @@ export async function POST(req: Request) {
       return streamHandler.createStreamResponse(cacheStream);
     }
 
-  } catch (error: any) {
-    logger.error({ err: error, message: error?.message, stack: error?.stack }, 'API Error');
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : String(err);
+    const code = (err as { code?: string }).code;
+    logger.error({ err, message, stack: err instanceof Error ? err.stack : undefined }, 'API Error');
     
-    if (String(error?.message || '') === API_QUOTA_EXHAUSTED_MESSAGE) {
+    if (String(message) === API_QUOTA_EXHAUSTED_MESSAGE) {
       return NextResponse.json({ 
         error: API_QUOTA_EXHAUSTED_MESSAGE 
       }, { status: 503 });
     }
     
-    const details = process.env.NODE_ENV !== 'production' ? error?.message : 'Translation service error';
+    const details = process.env.NODE_ENV !== 'production' ? message : 'Translation service error';
 
-    if (error?.code === 'SELF_SIGNED_CERT_IN_CHAIN' || 
-        error?.message?.includes('certificate')) {
+    if (code === 'SELF_SIGNED_CERT_IN_CHAIN' || 
+        message.includes('certificate')) {
       return NextResponse.json({ 
         error: 'SSL 证书验证失败，请联系管理员检查证书配置',
         details
       }, { status: 503 });
     }
     
-    if (/connection|timeout|network|ECONNREFUSED|ENOTFOUND/i.test(error?.message || '')) {
+    if (/connection|timeout|network|ECONNREFUSED|ENOTFOUND/i.test(message)) {
       return NextResponse.json({ 
         error: '无法连接到翻译服务，请检查网络连接',
         details
       }, { status: 503 });
     }
     
-    if (error?.message?.includes('SetLimitExceeded') || 
-        error?.message?.includes('inference limit')) {
+    if (message.includes('SetLimitExceeded') || 
+        message.includes('inference limit')) {
       return NextResponse.json({ 
         error: '模型配额已用尽，请联系管理员调整配额或切换模型',
         details

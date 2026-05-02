@@ -26,8 +26,8 @@ export async function GET(req: Request, { params }: { params: Promise<{ id: stri
     }
 
     return createSuccessResponse({ data: group });
-  } catch (error: any) {
-    return handleApiError(error, 'review-groups/[id] GET');
+  } catch (err: unknown) {
+    return handleApiError(err, 'review-groups/[id] GET');
   }
 }
 
@@ -59,11 +59,11 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
     });
 
     return createSuccessResponse({ data: updatedGroup });
-  } catch (error: any) {
-    if (error.code === 'P2002') {
+  } catch (err: unknown) {
+    if ((err as { code?: string }).code === 'P2002') {
       return createErrorResponse('该分组名称已存在', 400);
     }
-    return handleApiError(error, 'review-groups/[id] PATCH');
+    return handleApiError(err, 'review-groups/[id] PATCH');
   }
 }
 
@@ -97,7 +97,7 @@ export async function DELETE(req: Request, { params }: { params: Promise<{ id: s
     });
 
     return createSuccessResponse({});
-  } catch (error: any) {
-    return handleApiError(error, 'review-groups/[id] DELETE');
+  } catch (err: unknown) {
+    return handleApiError(err, 'review-groups/[id] DELETE');
   }
 }

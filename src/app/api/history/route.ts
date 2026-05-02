@@ -63,8 +63,8 @@ export async function GET(req: Request) {
       pagination: { total, hasMore, nextCursor }
     });
 
-  } catch (error: any) {
-    logger.error({ err: error }, "Failed to fetch history words:");
+  } catch (err: unknown) {
+    logger.error({ err }, "Failed to fetch history words:");
     return NextResponse.json({ success: false, error: 'Failed to fetch history data' }, { status: 500 });
   }
 }
@@ -123,8 +123,8 @@ export async function DELETE(req: Request) {
 
     return NextResponse.json({ success: false, error: 'Invalid request parameters' }, { status: 400 });
 
-  } catch (error: any) {
-    logger.error({ err: error }, "Failed to delete history:");
+  } catch (err: unknown) {
+    logger.error({ err }, "Failed to delete history:");
     return NextResponse.json({ success: false, error: 'Failed to delete history data' }, { status: 500 });
   }
 }

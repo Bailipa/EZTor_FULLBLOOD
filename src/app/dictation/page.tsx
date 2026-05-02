@@ -23,7 +23,7 @@ type QuizMode = 'dictation' | 'sentence_blank';
 export default function DictationPage() {
   usePageView('Dictation');
   const { trackDictationStart, trackDictationComplete } = useAnalytics();
-  const [words, setWords] = useState<any[]>([]);
+  const [words, setWords] = useState<{ word: string; translation: string; phonetic?: string; example?: string; correctCount?: number; incorrectCount?: number; [key: string]: unknown }[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [mode, setMode] = useState<QuizMode>('dictation');
   
@@ -37,7 +37,7 @@ export default function DictationPage() {
   const [isFinished, setIsFinished] = useState(false);
   const [isStarted, setIsStarted] = useState(false); // 新增状态：是否已经开始测试
   const [testCount, setTestCount] = useState<number | 'custom'>(10); // 默认测试数量，增加 'custom' 选项
-  const [mistakes, setMistakes] = useState<any[]>([]); // 收集本次测试中做错的单词
+  const [mistakes, setMistakes] = useState<{ word: string; translation: string; phonetic?: string; example?: string; correctCount?: number; incorrectCount?: number; [key: string]: unknown }[]>([]); // 收集本次测试中做错的单词
   const [_isRetesting, setIsRetesting] = useState(false); // 是否处于错题重测模式
   const [answers, setAnswers] = useState<Record<number, { userInput: string, isCorrect: boolean }>>({}); // 记录每道题的答题状态
   
@@ -46,7 +46,7 @@ export default function DictationPage() {
   const [hideChinese, setHideChinese] = useState(false);
   const [reviewMode, setReviewMode] = useState<'random' | 'smart'>('smart'); // 新增：复习模式
   const [selectedGroupId, setSelectedGroupId] = useState<string>("all");
-  const [groups, setGroups] = useState<any[]>([]);
+  const [groups, setGroups] = useState<{ id: string; name: string; _count?: { ReviewGroupWord: number }; [key: string]: unknown }[]>([]);
 
   // Fetch groups
   const fetchGroups = async () => {
@@ -66,7 +66,7 @@ export default function DictationPage() {
   const incorrectAudioRef = useRef<HTMLAudioElement | null>(null);
   
   // 自定义模式状态
-  const [allHistoryWords, setAllHistoryWords] = useState<any[]>([]);
+  const [allHistoryWords, setAllHistoryWords] = useState<{ word: string; translation: string; phonetic?: string; example?: string; correctCount?: number; incorrectCount?: number; [key: string]: unknown }[]>([]);
   const [selectedWords, setSelectedWords] = useState<string[]>([]);
   const [isCustomModalOpen, setIsCustomModalOpen] = useState(false);
   const [customSearchQuery, setCustomSearchQuery] = useState("");
@@ -596,12 +596,12 @@ export default function DictationPage() {
                                       </div>
                                       
                                       {/* 显示历史统计数据 */}
-                                      {(wordObj.correctCount > 0 || wordObj.incorrectCount > 0) ? (
+                                      {(wordObj.correctCount! > 0 || wordObj.incorrectCount! > 0) ? (
                                         <div className="flex items-center gap-3 text-xs opacity-80">
-                                          <span className="text-green-600 dark:text-green-500">对: {wordObj.correctCount}</span>
-                                          <span className="text-red-600 dark:text-red-500">错: {wordObj.incorrectCount}</span>
+                                          <span className="text-green-600 dark:text-green-500">对: {wordObj.correctCount!}</span>
+                                          <span className="text-red-600 dark:text-red-500">错: {wordObj.incorrectCount!}</span>
                                           <span className="text-muted-foreground ml-auto bg-muted/50 px-1.5 rounded">
-                                            正确率: {Math.round((wordObj.correctCount / (wordObj.correctCount + wordObj.incorrectCount)) * 100)}%
+                                            正确率: {Math.round((wordObj.correctCount! / (wordObj.correctCount! + wordObj.incorrectCount!)) * 100)}%
                                           </span>
                                         </div>
                                       ) : (

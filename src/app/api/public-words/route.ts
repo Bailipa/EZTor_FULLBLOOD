@@ -34,7 +34,8 @@ export async function GET(req: NextRequest) {
 
     const skip = (page - 1) * limit;
 
-    const where: any = {};
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const where: Record<string, any> = {};
     if (word) {
       where.word = { contains: word.toLowerCase() };
     }
@@ -44,7 +45,7 @@ export async function GET(req: NextRequest) {
       if (maxQuality !== undefined) where.qualityScore.lte = maxQuality;
     }
 
-    const orderBy: any = {};
+    const orderBy: Record<string, unknown> = {};
     orderBy[sortBy] = sortOrder;
 
     const [words, total] = await Promise.all([
@@ -136,9 +137,10 @@ export async function DELETE(req: NextRequest) {
     });
 
     return NextResponse.json({ success: true });
-  } catch (error: any) {
-    logger.error({ err: error }, 'Public word delete error');
-    if (error.code === 'P2025') {
+  } catch (err: unknown) {
+    const code = (err as { code?: string }).code;
+    logger.error({ err }, 'Public word delete error');
+    if (code === 'P2025') {
       return NextResponse.json({ success: false, error: 'Word not found' }, { status: 404 });
     }
     return NextResponse.json({ success: false, error: 'Internal server error' }, { status: 500 });
@@ -184,7 +186,7 @@ export async function PUT(req: NextRequest) {
       }
     }
 
-    const updateData: any = {};
+    const updateData: Record<string, unknown> = {};
     if (phonetic !== undefined) updateData.phonetic = phonetic || null;
     if (pos !== undefined) updateData.pos = pos || null;
     if (translation !== undefined) updateData.translation = translation;
@@ -207,12 +209,13 @@ export async function PUT(req: NextRequest) {
     });
 
     return NextResponse.json({ success: true, data: updated });
-  } catch (error: any) {
-    logger.error({ err: error }, 'Public word update error');
-    if (error.code === 'P2025') {
+  } catch (err: unknown) {
+    const code = (err as { code?: string }).code;
+    logger.error({ err }, 'Public word update error');
+    if (code === 'P2025') {
       return NextResponse.json({ success: false, error: 'Word not found' }, { status: 404 });
     }
-    if (error.code === 'P2002') {
+    if (code === 'P2002') {
       return NextResponse.json({ success: false, error: 'Word already exists' }, { status: 409 });
     }
     return NextResponse.json({ success: false, error: 'Internal server error' }, { status: 500 });
@@ -267,9 +270,10 @@ export async function POST(req: NextRequest) {
     });
 
     return NextResponse.json({ success: true, data: created });
-  } catch (error: any) {
-    logger.error({ err: error }, 'Public word create error');
-    if (error.code === 'P2002') {
+  } catch (err: unknown) {
+    const code = (err as { code?: string }).code;
+    logger.error({ err }, 'Public word create error');
+    if (code === 'P2002') {
       return NextResponse.json({ success: false, error: 'Word already exists' }, { status: 409 });
     }
     return NextResponse.json({ success: false, error: 'Internal server error' }, { status: 500 });

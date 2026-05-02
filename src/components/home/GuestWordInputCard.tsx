@@ -22,6 +22,16 @@ interface NotFoundWord {
   suggestions?: string[];
 }
 
+interface TranslateResultItem {
+  word: string;
+  translation: string;
+  phonetic?: string;
+  pos?: string;
+  example?: string;
+  exampleTranslation?: string;
+  [key: string]: unknown;
+}
+
 export function GuestWordInputCard({
   isLoading,
   setIsLoading,
@@ -76,7 +86,7 @@ export function GuestWordInputCard({
           inputWordMap.set(word.toLowerCase(), word);
         });
 
-        const publicResults: WordResult[] = data.data.results.map((r: any) => ({
+        const publicResults: WordResult[] = data.data.results.map((r: TranslateResultItem) => ({
           word: inputWordMap.get(r.word.toLowerCase()) || r.word,
           phonetic: r.phonetic || undefined,
           pos: r.pos || undefined,
@@ -86,7 +96,7 @@ export function GuestWordInputCard({
           isPublic: true,
         }));
         
-        const foundWords = new Set(data.data.results.map((r: any) => r.word.toLowerCase()));
+        const foundWords = new Set(data.data.results.map((r: TranslateResultItem) => r.word.toLowerCase()));
         const notFound = words.filter(w => !foundWords.has(w.toLowerCase()));
         
         const allResults: WordResult[] = [...publicResults];
@@ -161,9 +171,10 @@ export function GuestWordInputCard({
           })
         }).catch(() => {});
       }
-    } catch (error: any) {
-      if (process.env.NODE_ENV === 'development') console.error('Translation error:', error);
-      toast.error(error.message || '查询失败，请稍后重试');
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : String(err);
+      if (process.env.NODE_ENV === 'development') console.error('Translation error:', err);
+      toast.error(message || '查询失败，请稍后重试');
       
       await fetch('/api/analytics', {
         method: 'POST',
@@ -171,7 +182,7 @@ export function GuestWordInputCard({
         body: JSON.stringify({
           eventType: 'GUEST_TRANSLATE_ERROR',
           metadata: {
-            error: error.message,
+            error: message,
             wordCount: words.length,
           }
         })
@@ -182,8 +193,8 @@ export function GuestWordInputCard({
     }
   };
 
-  const findSimilarWords = async (word: string, results: any[]): Promise<string[]> => {
-    const allWords = results.map((r: any) => r.word);
+  const findSimilarWords = async (word: string, results: TranslateResultItem[]): Promise<string[]> => {
+    const allWords = results.map((r: TranslateResultItem) => r.word);
     const suggestions: string[] = [];
     const lowerWord = word.toLowerCase();
     

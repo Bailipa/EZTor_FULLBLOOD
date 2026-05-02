@@ -89,16 +89,17 @@ export interface AiOutput {
   results: AiOutputItem[];
 }
 
-export function validateAiOutput(output: any): { valid: boolean; data?: AiOutput } {
+export function validateAiOutput(output: unknown): { valid: boolean; data?: AiOutput } {
   if (!output || typeof output !== 'object') {
     return { valid: false };
   }
 
-  if (!output.results || !Array.isArray(output.results)) {
+  const obj = output as Record<string, unknown>;
+  if (!obj.results || !Array.isArray(obj.results)) {
     return { valid: false };
   }
 
-  for (const item of output.results) {
+  for (const item of obj.results as Array<Record<string, unknown>>) {
     if (typeof item.word !== 'string' || item.word.length === 0) {
       return { valid: false };
     }
@@ -113,8 +114,8 @@ export function validateAiOutput(output: any): { valid: boolean; data?: AiOutput
     ];
     
     for (const pattern of injectionPatterns) {
-      if (pattern.test(item.translation) || 
-          (item.example && pattern.test(item.example))) {
+      if (pattern.test(item.translation as string) || 
+          (item.example && pattern.test(item.example as string))) {
         return { valid: false };
       }
     }

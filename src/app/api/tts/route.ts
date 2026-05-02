@@ -45,8 +45,8 @@ export async function POST(req: Request) {
         'Cache-Control': 'no-store',
       },
     });
-  } catch (error: any) {
-    logger.error({ err: error }, '[TTS] Failed');
+  } catch (err: unknown) {
+    logger.error({ err }, '[TTS] Failed');
     return NextResponse.json({ success: false, error: 'TTS failed' }, { status: 500 });
   }
 }

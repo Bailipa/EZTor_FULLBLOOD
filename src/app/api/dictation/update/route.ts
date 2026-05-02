@@ -31,7 +31,7 @@ export async function POST(req: Request) {
       where: { word: normalizedWord }
     });
 
-    const existingWords = await prisma.$queryRaw<any[]>`
+    const existingWords = await prisma.$queryRaw<Record<string, unknown>[]>`
       SELECT * FROM "Word"
       WHERE userId = ${session.user.id}
         AND lower(word) = ${normalizedWord}
@@ -40,7 +40,7 @@ export async function POST(req: Request) {
 
     if (existingWords.length > 0) {
       await prisma.word.update({
-        where: { id: existingWords[0].id },
+        where: { id: existingWords[0].id as string },
         data: {
           ...updateData,
           updatedAt: new Date(),
@@ -69,8 +69,8 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ success: true });
 
-  } catch (error: any) {
-    logger.error({ err: error }, "Failed to update dictation stats:");
+  } catch (err: unknown) {
+    logger.error({ err }, "Failed to update dictation stats:");
     return NextResponse.json({ success: false, error: 'Failed to update stats' }, { status: 500 });
   }
 }

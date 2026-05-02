@@ -83,8 +83,8 @@ export async function GET(
       importCount: share.importedCount,
       imports: transformedImports,
     });
-  } catch (error: any) {
-    logger.error({ err: error }, "[Share Stats API] Error:");
+  } catch (err: unknown) {
+    logger.error({ err }, "[Share Stats API] Error:");
     return createErrorResponse("获取统计信息失败", 500);
   }
 }

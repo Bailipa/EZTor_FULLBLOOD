@@ -1,14 +1,14 @@
 import { logger } from '@/lib/logger';
 
 type PendingRequest = {
-  promise: Promise<any>;
+  promise: Promise<unknown>;
   timestamp: number;
   subscribers: number;
 };
 
 type CompletedRequest = {
   timestamp: number;
-  result: any;
+  result: unknown;
 };
 
 const pendingRequests = new Map<string, PendingRequest>();
@@ -73,7 +73,7 @@ export function isAtCapacity(): boolean {
   return pendingRequests.size >= MAX_PENDING_REQUESTS;
 }
 
-export function resolvePendingRequest(key: string, result?: any): void {
+export function resolvePendingRequest(key: string, result?: unknown): void {
   if (result !== undefined) {
     if (completedRequests.size >= MAX_COMPLETED_ENTRIES) {
       const oldestKey = completedRequests.keys().next().value;

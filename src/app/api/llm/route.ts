@@ -26,10 +26,11 @@ export async function POST(req: NextRequest) {
     );
 
     return NextResponse.json(result);
-  } catch (error: any) {
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : String(err);
     return NextResponse.json({
       error: 'LLM request failed',
-      ...(process.env.NODE_ENV !== 'production' ? { details: String(error?.message || error) } : {}),
+      ...(process.env.NODE_ENV !== 'production' ? { details: message } : {}),
     }, { status: 500 });
   }
 }

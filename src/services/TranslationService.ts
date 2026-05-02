@@ -1,10 +1,12 @@
 import { withLlmFailover, API_QUOTA_EXHAUSTED_MESSAGE, getProviderCandidates } from '@/lib/llmPool';
+import type { ProviderSelection } from '@/lib/llmPool';
 import { isSentence } from '@/lib/sentenceDetector';
 import prisma from '@/lib/prisma';
 import { randomUUID } from 'crypto';
-import PublicWordService from '@/services/PublicWordService';
+import PublicWordService, { type WordData } from '@/services/PublicWordService';
 import { getPendingRequest, getCompletedRequest, resolvePendingRequest, setPendingRequest } from '@/lib/requestDeduplication';
 import { logger } from '@/lib/logger';
+import type { Session } from 'next-auth';
 
 const DEFAULT_SYSTEM_PROMPT = `你是一个专业的英语词典助手。你的唯一任务是解析和翻译用户提供的英语单词或词组。
 
@@ -114,10 +116,10 @@ export interface TranslationResult {
 }
 
 export class TranslationService {
-  private readonly session: any;
+  private readonly session: Session | null;
   private readonly inputWordMap: Map<string, string>;
 
-  constructor(session: any, words: string[]) {
+  constructor(session: Session | null, words: string[]) {
     this.session = session;
     this.inputWordMap = new Map<string, string>();
     words.forEach(word => {
@@ -183,9 +185,9 @@ export class TranslationService {
     
     for (const word of words) {
       const completedKey = `translate:${word.toLowerCase()}`;
-      const completedResult = getCompletedRequest<any[]>(completedKey);
+      const completedResult = getCompletedRequest<TranslationResult[]>(completedKey);
       if (completedResult && completedResult.length > 0) {
-        const found = completedResult.find((r: any) => r.word.toLowerCase() === word.toLowerCase());
+        const found = completedResult.find((r: TranslationResult) => r.word.toLowerCase() === word.toLowerCase());
         if (found) {
           logger.info({ word }, '[Concurrent] Found in completed cache');
           completedResults.push({
@@ -245,8 +247,8 @@ export class TranslationService {
     return { completedResults, stillNeedFetch: finalStillNeedFetch };
   }
 
-  async saveWordsToDatabase(words: any[], targetGroupId?: string) {
-    const wordsToSave = words.filter((item: any) => 
+  async saveWordsToDatabase(words: WordData[], targetGroupId?: string) {
+    const wordsToSave = words.filter((item: WordData) => 
       item.pos !== "错误" && 
       item.pos !== "风控" &&
       item.pos !== "中断" &&
@@ -255,17 +257,17 @@ export class TranslationService {
       !(item.translation && item.translation.includes("拼写错误或不存在")) &&
       !(item.translation && item.translation.includes("粗俗或敏感")) &&
       !(item.translation && item.translation.includes("⚠️"))
-    ).map((item: any) => ({
+    ).map((item: WordData) => ({
       word: String(item.word || '').toLowerCase().trim(),
       phonetic: item.phonetic || null,
       pos: item.pos || null,
       translation: item.translation || '',
       example: item.example || null,
       exampleTranslation: item.exampleTranslation || null,
-    })).filter((w: any) => w.word);
+    })).filter((w: WordData) => w.word);
 
     const groupWordData: { id: string; reviewGroupId: string; wordId: string }[] = [];
-    const publicWordService = new PublicWordService(this.session.user.id);
+    const publicWordService = new PublicWordService(this.session!.user.id);
 
     for (const wordData of wordsToSave) {
       const publicWordId = await publicWordService.saveWordToPublicLibrary(wordData);
@@ -276,7 +278,7 @@ export class TranslationService {
           where: {
             word_userId: {
               word: wordData.word,
-              userId: this.session.user.id
+              userId: this.session!.user.id
             }
           },
           update: {
@@ -292,7 +294,7 @@ export class TranslationService {
             pos: null,
             example: null,
             exampleTranslation: null,
-            userId: this.session.user.id,
+            userId: this.session!.user.id,
             sourceType: 'LLM',
             publicWordId,
             updatedAt: new Date(),
@@ -302,8 +304,8 @@ export class TranslationService {
         if (targetGroupId && savedWord) {
           groupWordData.push({ id: randomUUID(), reviewGroupId: targetGroupId, wordId: savedWord.id });
         }
-      } catch (dbErr: any) {
-        logger.error({ err: dbErr, word: wordData.word }, 'Failed to save mirrored word');
+      } catch (err: unknown) {
+        logger.error({ err, word: wordData.word }, 'Failed to save mirrored word');
       }
     }
 
@@ -313,15 +315,15 @@ export class TranslationService {
           data: groupWordData,
           skipDuplicates: true,
         });
-      } catch (e: any) {
-        logger.error({ err: e }, "Failed to batch add words to group");
+      } catch (err: unknown) {
+        logger.error({ err }, "Failed to batch add words to group");
       }
     }
 
-    logger.info(`Saved ${wordsToSave.length} words to DB during stream for user ${this.session.user.id}.`);
+    logger.info(`Saved ${wordsToSave.length} words to DB during stream for user ${this.session!.user.id}.`);
   }
 
-  async processTranslationStream(response: any, controller: ReadableStreamDefaultController, orderedCachedResults: TranslationResult[], targetGroupId?: string) {
+  async processTranslationStream(response: AsyncIterable<{ choices?: Array<{ delta?: { content?: string | null } }> }>, controller: ReadableStreamDefaultController, orderedCachedResults: TranslationResult[], targetGroupId?: string) {
     const encoder = new TextEncoder();
     
     // 如果有缓存结果，直接作为第一块完整的数据发送过去
@@ -331,17 +333,18 @@ export class TranslationService {
     }
 
     let accumulatedAiText = "";
-    let aiParsedResults: any[] = [];
+    let aiParsedResults: WordData[] = [];
     const MAX_ACCUMULATED_SIZE = 500 * 1024;
     
     try {
       // 接收大模型的流式数据
       for await (const chunk of response) {
-        if ((controller as any).signal?.aborted) {
+        const ctrl = controller as ReadableStreamDefaultController & { signal?: { aborted?: boolean } };
+        if (ctrl.signal?.aborted) {
           logger.info('[TranslationService] Client disconnected, stopping stream');
           break;
         }
-        const content = chunk.choices[0]?.delta?.content || '';
+        const content = chunk.choices?.[0]?.delta?.content || '';
         if (content) {
           accumulatedAiText += content;
           if (accumulatedAiText.length > MAX_ACCUMULATED_SIZE) {
@@ -377,7 +380,7 @@ export class TranslationService {
         try {
           const parsed = JSON.parse(validJson);
           if (parsed && parsed.results) {
-        aiParsedResults = parsed.results.map((result: any) => ({
+        aiParsedResults = parsed.results.map((result: { word: string | string[]; phonetic?: string; pos?: string; translation?: string; example?: string; exampleTranslation?: string }) => ({
           ...result,
           word: this.inputWordMap.get((Array.isArray(result.word) ? result.word[0] : result.word).toLowerCase()) || (Array.isArray(result.word) ? result.word[0] : result.word)
         }));
@@ -409,7 +412,7 @@ export class TranslationService {
     }
   }
 
-  async translate(words: string[], options: TranslationOptions = {}, targetGroupId?: string, providerCandidates: any[] = []) {
+  async translate(words: string[], options: TranslationOptions = {}, targetGroupId?: string, providerCandidates: ProviderSelection[] = []) {
     if (providerCandidates.length === 0) {
       providerCandidates = await this.getProviderCandidates();
     }
@@ -456,7 +459,7 @@ export class TranslationService {
 
     // 发起请求 (开启流式)
     const pendingKey = `translate:${finalStillNeedFetch.sort().join(',')}`;
-    let resolvePending: ((result?: any) => void) | null = null;
+    let resolvePending: (() => void) | null = null;
     const pendingPromise = new Promise<void>((resolve) => {
       resolvePending = resolve;
     });

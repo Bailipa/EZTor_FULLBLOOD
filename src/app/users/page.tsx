@@ -28,7 +28,7 @@ function fmt(iso: string | null) {
 
 export default function AdminUsersPage() {
   const { isLoading: authLoading, isAdmin, status } = useAdminCheck();
-  const [range, setRange] = useState<'7d' | '30d' | '90d' | '24h'>('30d');
+  const [range, setRange] = useState<string>('30d');
   const [rows, setRows] = useState<UserRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -103,7 +103,7 @@ export default function AdminUsersPage() {
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <Select value={range} onValueChange={(v) => setRange(v as any)}>
+            <Select value={range} onValueChange={setRange}>
               <SelectTrigger className="w-[120px]">
                 <SelectValue placeholder="范围" />
               </SelectTrigger>
