@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
@@ -74,7 +74,7 @@ export function WordInputCard({
     saveToStorage('vocab_results', results);
   }, [results]);
 
-  const handleProcess = async () => {
+  const handleProcess = useCallback(async () => {
     if (isLoading) return;
     if (!wordsInput.trim()) return;
 
@@ -469,16 +469,16 @@ export function WordInputCard({
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [isLoading, wordsInput, showPos, showExample, selectedTargetGroupId, trackTranslate, setIsLoading, setResults, setWordsInput]);
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+  const handleKeyDown = useCallback((e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
       e.preventDefault();
       handleProcess();
     }
-  };
+  }, [handleProcess]);
 
-  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileUpload = useCallback(async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
@@ -574,7 +574,7 @@ export function WordInputCard({
       }
     };
     reader.readAsText(file);
-  };
+  }, [setIsLoading]);
 
   return (
     <Card className="border-2 shadow-sm">

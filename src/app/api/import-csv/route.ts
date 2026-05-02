@@ -33,6 +33,7 @@ export async function POST(req: Request) {
         exampleTranslation: item.exampleTranslation || null,
         correctCount: item.correctCount ? parseInt(item.correctCount, 10) : 0,
         incorrectCount: item.incorrectCount ? parseInt(item.incorrectCount, 10) : 0,
+        totalAttempts: (item.correctCount ? parseInt(item.correctCount, 10) : 0) + (item.incorrectCount ? parseInt(item.incorrectCount, 10) : 0),
       };
 
       let retries = 3;

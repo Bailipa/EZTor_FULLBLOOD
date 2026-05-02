@@ -24,8 +24,8 @@ export async function POST(req: Request) {
     }
 
     const updateData = isCorrect 
-      ? { correctCount: { increment: 1 } }
-      : { incorrectCount: { increment: 1 } };
+      ? { correctCount: { increment: 1 }, totalAttempts: { increment: 1 } }
+      : { incorrectCount: { increment: 1 }, totalAttempts: { increment: 1 } };
 
     const publicWord = await prisma.publicWord.findUnique({
       where: { word: normalizedWord }
@@ -61,6 +61,7 @@ export async function POST(req: Request) {
           exampleTranslation: null,
           correctCount: isCorrect ? 1 : 0,
           incorrectCount: isCorrect ? 0 : 1,
+          totalAttempts: 1,
           updatedAt: new Date(),
         }
       });

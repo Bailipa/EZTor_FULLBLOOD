@@ -112,13 +112,19 @@ export class CacheService {
 
         // 如果指定了目标分组，将这些从公共库复制来的词加入分组
         if (targetGroupId) {
-          for (const w of newlyCreatedWords.filter(Boolean)) {
+          const groupWordData = newlyCreatedWords.filter(Boolean).map(w => ({
+            id: randomUUID(),
+            reviewGroupId: targetGroupId!,
+            wordId: (w as any).id as string,
+          }));
+          if (groupWordData.length > 0) {
             try {
-              await prisma.reviewGroupWord.create({
-                data: { id: randomUUID(), reviewGroupId: targetGroupId, wordId: (w as any).id }
+              await prisma.reviewGroupWord.createMany({
+                data: groupWordData,
+                skipDuplicates: true,
               });
             } catch (e: any) {
-              if (e.code !== 'P2002') logger.error({ err: e }, "Failed to add to group");
+              logger.error({ err: e }, "Failed to batch add to group");
             }
           }
         }
@@ -141,24 +147,25 @@ export class CacheService {
 
         // 如果指定了目标分组，将这些已在私有库的词加入分组
         if (targetGroupId) {
-          for (const word of cachedWordStrings) {
-            try {
-              const wordRecord = await prisma.word.findUnique({
-                where: {
-                  word_userId: {
-                    word,
-                    userId: this.session.user.id
-                  }
-                }
+          try {
+            const wordRecords = await prisma.word.findMany({
+              where: {
+                word: { in: cachedWordStrings },
+                userId: this.session.user.id,
+              },
+            });
+            if (wordRecords.length > 0) {
+              await prisma.reviewGroupWord.createMany({
+                data: wordRecords.map(w => ({
+                  id: randomUUID(),
+                  reviewGroupId: targetGroupId!,
+                  wordId: w.id,
+                })),
+                skipDuplicates: true,
               });
-              if (wordRecord) {
-                await prisma.reviewGroupWord.create({
-                  data: { id: randomUUID(), reviewGroupId: targetGroupId, wordId: wordRecord.id }
-                });
-              }
-            } catch (e: any) {
-              if (e.code !== 'P2002') logger.error({ err: e }, "Failed to add cached word to group");
             }
+          } catch (e: any) {
+            logger.error({ err: e }, "Failed to batch add cached words to group");
           }
         }
       } catch (updateErr) {

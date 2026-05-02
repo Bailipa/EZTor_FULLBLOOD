@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { randomUUID } from 'crypto';
+import { Prisma } from '@prisma/client';
 import prisma from '@/lib/prisma';
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from '../auth/[...nextauth]/route';
@@ -307,34 +308,28 @@ export async function GET(req: Request) {
       ? Math.round((totalGuestFound / totalGuestQueries) * 10000) / 100 
       : 0;
 
-    const translationRecords = await (prisma as any).translationRecord.findMany({
+    const topWordsRaw = await prisma.$queryRaw<Array<{ word: string; count: bigint }>>`
+      SELECT LOWER("word") as word, COUNT(*)::int as count
+      FROM "TranslationRecord"
+      WHERE "createdAt" >= ${startDate}
+      GROUP BY LOWER("word")
+      ORDER BY count DESC
+      LIMIT 20
+    `;
+
+    const topWords = topWordsRaw.map((row) => ({
+      word: row.word,
+      count: Number(row.count),
+    }));
+
+    const avgResponseTimeResult = await (prisma as any).translationRecord.aggregate({
       where: { createdAt: { gte: startDate } },
-      select: { word: true, createdAt: true, responseTime: true }
+      _avg: { responseTime: true },
     });
 
-    const wordFrequency: Record<string, number> = {};
-    let totalResponseTime = 0;
-    let responseTimeCount = 0;
-    
-    translationRecords.forEach((record: any) => {
-      if (!record.word || typeof record.word !== 'string') return;
-      const word = record.word.toLowerCase();
-      wordFrequency[word] = (wordFrequency[word] || 0) + 1;
-      
-      if (record.responseTime) {
-        totalResponseTime += record.responseTime;
-        responseTimeCount++;
-      }
-    });
-
-    const avgResponseTime = responseTimeCount > 0 
-      ? Math.round((totalResponseTime / responseTimeCount) * 100) / 100 
+    const avgResponseTime = avgResponseTimeResult._avg?.responseTime
+      ? Math.round(avgResponseTimeResult._avg.responseTime * 100) / 100
       : 0;
-
-    const topWords = Object.entries(wordFrequency)
-      .sort((a, b) => b[1] - a[1])
-      .slice(0, 20)
-      .map(([word, count]) => ({ word, count }));
 
     const dailyActiveUsers = await (prisma as any).analyticsEvent.groupBy({
       by: ['userId'],
@@ -358,21 +353,27 @@ export async function GET(req: Request) {
       eventTypeMap[item.eventType] = item._count;
     });
 
-    const events = await (prisma as any).analyticsEvent.findMany({
-      where: baseWhere,
-      select: { createdAt: true },
-      orderBy: { createdAt: 'asc' }
-    });
+    const eventsRaw: Array<{ date: string; count: number }> = excludeTestUsers && excludedUserIds.length > 0
+      ? await prisma.$queryRaw`
+        SELECT DATE("createdAt") as date, COUNT(*)::int as count
+        FROM "AnalyticsEvent"
+        WHERE "createdAt" >= ${startDate}
+        AND "userId" NOT IN (${Prisma.join(excludedUserIds)})
+        GROUP BY DATE("createdAt")
+        ORDER BY date ASC
+      `
+      : await prisma.$queryRaw`
+        SELECT DATE("createdAt") as date, COUNT(*)::int as count
+        FROM "AnalyticsEvent"
+        WHERE "createdAt" >= ${startDate}
+        GROUP BY DATE("createdAt")
+        ORDER BY date ASC
+      `;
 
-    const dateMap = new Map<string, number>();
-    events.forEach((event: any) => {
-      const date = event.createdAt.toISOString().split('T')[0];
-      dateMap.set(date, (dateMap.get(date) || 0) + 1);
-    });
-
-    const dailyTrend = Array.from(dateMap.entries())
-      .map(([date, count]) => ({ date, count }))
-      .sort((a, b) => a.date.localeCompare(b.date));
+    const dailyTrend = eventsRaw.map((row) => ({
+      date: row.date,
+      count: Number(row.count),
+    }));
 
     const guestDailyTrend = Object.entries(guestDailyStats)
       .map(([date, stats]) => ({

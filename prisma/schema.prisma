@@ -326,6 +326,7 @@ model Word {
   exampleTranslation String?
   correctCount       Int               @default(0)
   incorrectCount     Int               @default(0)
+  totalAttempts      Int               @default(0)
   createdAt          DateTime          @default(now())
   updatedAt          DateTime
   userId             String
@@ -339,6 +340,7 @@ model Word {
   @@index([userId, word])
   @@index([publicWordId])
   @@index([userId, updatedAt(sort: Desc)])
+  @@index([totalAttempts])
 }
 
 model DonationConfig {

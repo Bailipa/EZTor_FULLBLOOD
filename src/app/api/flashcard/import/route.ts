@@ -3,7 +3,6 @@ import { randomUUID } from 'crypto';
 import prisma from '@/lib/prisma';
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "../../auth/[...nextauth]/route";
-import * as xlsx from 'xlsx';
 import path from 'path';
 import fs from 'fs';
 import { logger } from '@/lib/logger';
@@ -29,6 +28,8 @@ export async function POST(_req: Request) {
     if (stats.size > MAX_FILE_SIZE) {
       return NextResponse.json({ success: false, error: `File too large (${(stats.size / 1024 / 1024).toFixed(1)} MB). Maximum allowed is 10 MB.` }, { status: 413 });
     }
+
+    const xlsx = await import('xlsx');
 
     const workbook = xlsx.readFile(filePath);
     const sheetName = workbook.SheetNames[0];

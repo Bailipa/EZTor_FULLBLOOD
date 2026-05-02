@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { useSession } from 'next-auth/react';
 import { Danmaku } from '@/components/ui/danmaku';
 import { WordInputCard, TranslateOnlyCard, ResultsList, HomeHeader } from '@/components/home';
@@ -77,16 +77,16 @@ export default function HomeContent() {
     prevResultsLengthRef.current = results.length;
   }, [results.length]);
 
-  const handleFeatureClick = (featureName: string) => {
+  const handleFeatureClick = useCallback((featureName: string) => {
     if (isGuestMode) {
       promptLogin(featureName);
     }
-  };
+  }, [isGuestMode, promptLogin]);
 
-  const handleDismissBanner = () => {
+  const handleDismissBanner = useCallback(() => {
     setShowWelcomeBanner(false);
     saveToStorage('vocab_welcomeBannerDismissed', true);
-  };
+  }, []);
 
   return (
     <div className="min-h-screen bg-gray-50/50 dark:bg-background p-6 md:p-12 font-[family-name:var(--font-geist-sans)] relative transition-colors duration-300">

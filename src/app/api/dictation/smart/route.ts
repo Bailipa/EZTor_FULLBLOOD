@@ -37,6 +37,7 @@ export async function GET(req: Request) {
           COALESCE(NULLIF(TRIM(w."exampleTranslation"), ''), pw."exampleTranslation", '') AS exampleTranslation,
           w."correctCount",
           w."incorrectCount",
+          w."totalAttempts",
           w."updatedAt"
         FROM "Word" w
         JOIN "ReviewGroupWord" rgw ON w.id = rgw.wordId
@@ -44,9 +45,9 @@ export async function GET(req: Request) {
         WHERE w."userId" = ${session.user.id}
           AND rgw."reviewGroupId" = ${groupId}
         ORDER BY
-          (w."correctCount" + w."incorrectCount") ASC,
-          CASE WHEN (w."correctCount" + w."incorrectCount") = 0 THEN 0
-               ELSE CAST(w."incorrectCount" AS FLOAT) / (w."correctCount" + w."incorrectCount")
+          w."totalAttempts" ASC,
+          CASE WHEN w."totalAttempts" = 0 THEN 0
+               ELSE CAST(w."incorrectCount" AS FLOAT) / w."totalAttempts"
           END DESC,
           RANDOM()
         LIMIT ${limit}
@@ -66,14 +67,15 @@ export async function GET(req: Request) {
         COALESCE(NULLIF(TRIM(w."exampleTranslation"), ''), pw."exampleTranslation", '') AS exampleTranslation,
         w."correctCount",
         w."incorrectCount",
+        w."totalAttempts",
         w."updatedAt"
       FROM "Word" w
       LEFT JOIN "PublicWord" pw ON pw.id = w."publicWordId"
       WHERE w."userId" = ${session.user.id}
       ORDER BY
-        (w."correctCount" + w."incorrectCount") ASC,
-        CASE WHEN (w."correctCount" + w."incorrectCount") = 0 THEN 0
-             ELSE CAST(w."incorrectCount" AS FLOAT) / (w."correctCount" + w."incorrectCount")
+        w."totalAttempts" ASC,
+        CASE WHEN w."totalAttempts" = 0 THEN 0
+             ELSE CAST(w."incorrectCount" AS FLOAT) / w."totalAttempts"
         END DESC,
         RANDOM()
       LIMIT ${limit}

@@ -265,6 +265,8 @@ export class TranslationService {
       exampleTranslation: item.exampleTranslation || null,
     })).filter((w: any) => w.word);
 
+    const groupWordData: { id: string; reviewGroupId: string; wordId: string }[] = [];
+
     for (const wordData of wordsToSave) {
       // 1) 保存到公共库 (带质量评分和乐观锁)
       let publicWordId: string | null = null;
@@ -377,16 +379,21 @@ export class TranslationService {
         });
 
         if (targetGroupId && savedWord) {
-          try {
-            await prisma.reviewGroupWord.create({
-              data: { id: randomUUID(), reviewGroupId: targetGroupId, wordId: savedWord.id }
-            });
-          } catch (e: any) {
-            if (e.code !== 'P2002') logger.error({ err: e }, "Failed to add new word to group");
-          }
+          groupWordData.push({ id: randomUUID(), reviewGroupId: targetGroupId, wordId: savedWord.id });
         }
       } catch (dbErr: any) {
         logger.error({ err: dbErr, word: wordData.word }, 'Failed to save mirrored word');
+      }
+    }
+
+    if (groupWordData.length > 0) {
+      try {
+        await prisma.reviewGroupWord.createMany({
+          data: groupWordData,
+          skipDuplicates: true,
+        });
+      } catch (e: any) {
+        logger.error({ err: e }, "Failed to batch add words to group");
       }
     }
 

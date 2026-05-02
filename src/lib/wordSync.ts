@@ -83,11 +83,70 @@ export async function syncAllUserWordsWithPublic(userId: string): Promise<SyncRe
   };
 
   try {
-    const userWords = await prisma.word.findMany({ where: { userId }, select: { word: true } });
+    const userWords = await prisma.word.findMany({
+      where: { userId },
+      select: { id: true, word: true, phonetic: true, pos: true, translation: true, example: true, exampleTranslation: true, publicWordId: true }
+    });
+    if (userWords.length === 0) return result;
+
+    const wordStrings = userWords.map(uw => normalizeWord(uw.word));
+    const publicWords = await prisma.publicWord.findMany({
+      where: { word: { in: wordStrings } },
+      select: { id: true, word: true, phonetic: true, pos: true, translation: true, example: true, exampleTranslation: true }
+    });
+    const publicWordMap = new Map(publicWords.map(pw => [normalizeWord(pw.word), pw]));
+
+    const updateGroups = new Map<string, { ids: string[]; data: Record<string, unknown> }>();
+
     for (const uw of userWords) {
-      const r = await syncUserWordWithPublic(userId, uw.word);
-      if (r.updated) result.synced++;
-      else result.skipped++;
+      const pw = publicWordMap.get(normalizeWord(uw.word));
+      if (!pw) {
+        result.skipped++;
+        continue;
+      }
+
+      const nextData: Record<string, unknown> = {};
+      let needsUpdate = false;
+
+      if (uw.publicWordId !== pw.id) {
+        nextData.publicWordId = pw.id;
+        needsUpdate = true;
+      }
+
+      if (sameText(uw.phonetic, pw.phonetic) || isBlank(uw.phonetic)) {
+        if (uw.phonetic !== null) { nextData.phonetic = null; needsUpdate = true; }
+      }
+      if (sameText(uw.pos, pw.pos) || isBlank(uw.pos)) {
+        if (uw.pos !== null) { nextData.pos = null; needsUpdate = true; }
+      }
+      if (sameText(uw.translation, pw.translation) || isBlank(uw.translation)) {
+        if (uw.translation !== null) { nextData.translation = null; needsUpdate = true; }
+      }
+      if (sameText(uw.example, pw.example) || isBlank(uw.example)) {
+        if (uw.example !== null) { nextData.example = null; needsUpdate = true; }
+      }
+      if (sameText(uw.exampleTranslation, pw.exampleTranslation) || isBlank(uw.exampleTranslation)) {
+        if (uw.exampleTranslation !== null) { nextData.exampleTranslation = null; needsUpdate = true; }
+      }
+
+      if (!needsUpdate) {
+        result.skipped++;
+        continue;
+      }
+
+      const sig = JSON.stringify(nextData);
+      if (!updateGroups.has(sig)) {
+        updateGroups.set(sig, { ids: [], data: nextData });
+      }
+      updateGroups.get(sig)!.ids.push(uw.id);
+      result.synced++;
+    }
+
+    for (const [, group] of updateGroups) {
+      await prisma.word.updateMany({
+        where: { id: { in: group.ids } },
+        data: group.data
+      });
     }
 
     logger.info({ userId, result }, '[WordSync] Sync completed');
@@ -121,18 +180,28 @@ export async function checkAndSyncOnQuery(
       where: { userId, word: { in: normalized } }
     });
 
+    const syncIdsByPublicWordId = new Map<string, { uwIds: string[]; publicWord: typeof publicWords[0] }>();
+
     for (const uw of userWords) {
       const pw = publicWordMap.get(normalizeWord(uw.word));
       if (!pw) continue;
       if (uw.publicWordId === pw.id) continue;
 
-      await prisma.word.update({
-        where: { id: uw.id },
+      if (!syncIdsByPublicWordId.has(pw.id)) {
+        syncIdsByPublicWordId.set(pw.id, { uwIds: [], publicWord: pw });
+      }
+      syncIdsByPublicWordId.get(pw.id)!.uwIds.push(uw.id);
+    }
+
+    for (const [, group] of syncIdsByPublicWordId) {
+      const pw = group.publicWord;
+      await prisma.word.updateMany({
+        where: { id: { in: group.uwIds } },
         data: { publicWordId: pw.id }
       });
 
-      syncUpdates.set(normalizeWord(uw.word), {
-        word: uw.word,
+      syncUpdates.set(normalizeWord(pw.word), {
+        word: pw.word,
         phonetic: pw.phonetic || '',
         pos: pw.pos || '',
         translation: pw.translation || '',
