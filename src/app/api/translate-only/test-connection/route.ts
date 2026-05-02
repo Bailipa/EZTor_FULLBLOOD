@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth/next'
 import { authOptions } from '@/app/api/auth/[...nextauth]/route'
 import { logger } from '@/lib/logger'
+import { fetchInsecure } from '@/lib/fetchInsecure'
 
 export async function POST(req: Request) {
   const session = await getServerSession(authOptions)
@@ -27,7 +28,7 @@ export async function POST(req: Request) {
     const controller = new AbortController()
     const timeoutId = setTimeout(() => controller.abort(), 5000)
 
-    const response = await fetch(chatUrl, {
+    const response = await fetchInsecure(chatUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

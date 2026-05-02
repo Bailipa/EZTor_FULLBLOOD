@@ -9,6 +9,7 @@ import { checkUserBan, checkIpBan } from '@/lib/banManager'
 import { API_QUOTA_EXHAUSTED_MESSAGE, getProviderCandidates, withLlmFailover } from '@/lib/llmPool'
 import { checkAndEnforceLimit, incrementUsage } from '@/lib/translateOnlyUsage'
 import { logger } from '@/lib/logger'
+import { fetchInsecure } from '@/lib/fetchInsecure'
 
 const DEFAULT_TRANSLATE_ONLY_PROMPT = `你是一个专业翻译助手。你的唯一任务是翻译用户提供的文本。
 
@@ -130,7 +131,7 @@ async function customApiCompletion(
   const normalizedUrl = customApi.baseUrl.replace(/\/+$/, '')
   const chatUrl = `${normalizedUrl}/chat/completions`
 
-  const response = await fetch(chatUrl, {
+  const response = await fetchInsecure(chatUrl, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
