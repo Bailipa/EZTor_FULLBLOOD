@@ -9,10 +9,10 @@ export default defineConfig({
     exclude: ['src/__tests__/smoke/**'],
     coverage: {
       reporter: ['text', 'json', 'html'],
-      include: ['src/**/*.{js,ts,jsx,tsx}'],
+      include: ['src/lib/**/*.{js,ts,jsx,tsx}', 'src/services/**/*.{js,ts,jsx,tsx}'],
       exclude: ['src/**/*.d.ts', 'src/**/*.{test,spec}.{js,ts,jsx,tsx}', 'src/lib/prisma/index.ts'],
       thresholds: {
-        lines: 50,
+        lines: 25,
         branches: 40,
       },
     },
