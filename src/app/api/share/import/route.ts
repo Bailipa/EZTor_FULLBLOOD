@@ -6,6 +6,7 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 import { isValidShareCode } from '@/lib/share/codeGenerator';
 import { sanitizeInput } from '@/lib/security';
+import { logger } from '@/lib/logger';
 
 // 辅助函数：将 Node.js Readable 流转换为标准 ReadableStream
 function nodeReadableToWebStream(nodeReadable: Readable): ReadableStream {
@@ -517,7 +518,7 @@ export async function POST(req: Request) {
       return new Response(nodeReadableToWebStream(stream), { headers: { 'Content-Type': 'text/plain' } });
     } catch (transactionError: any) {
       // 记录详细错误信息
-      console.error('Transaction error:', transactionError);
+      logger.error({ err: transactionError }, 'Transaction error');
       
       // 处理测试环境中的错误
       if (isTest) {
@@ -637,7 +638,7 @@ export async function POST(req: Request) {
       return new Response(nodeReadableToWebStream(stream), { headers: { 'Content-Type': 'text/plain' } });
     }
     if (error.code === 'P2003') {
-      console.error('[ShareImport] P2003 FK constraint:', error.meta?.field_name, '| message:', error.message);
+      logger.error({ err: error, fieldName: error.meta?.field_name }, '[ShareImport] P2003 FK constraint');
       const errorResponse = {
         success: false, 
         error: 'FOREIGN_KEY_ERROR',

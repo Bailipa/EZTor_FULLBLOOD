@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { rateLimit, getClientKey } from '@/lib/rateLimit';
 import { synthesizeSpeech } from '@/lib/tts';
+import { logger } from '@/lib/logger';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -45,7 +46,7 @@ export async function POST(req: Request) {
       },
     });
   } catch (error: any) {
-    console.error('[TTS] Failed:', error);
+    logger.error({ err: error }, '[TTS] Failed');
     return NextResponse.json({ success: false, error: 'TTS failed' }, { status: 500 });
   }
 }

@@ -1,4 +1,5 @@
 import prisma from '@/lib/prisma';
+import { logger } from '@/lib/logger';
 
 interface SyncResult {
   synced: number;
@@ -69,7 +70,7 @@ export async function syncUserWordWithPublic(
 
     return { updated: changed, reason: changed ? 'MIRRORED_AND_CLEARED' : 'ALREADY_MIRRORED' };
   } catch (error) {
-    console.error(`[WordSync] Error syncing word "${word}":`, error);
+    logger.error({ err: error, word }, '[WordSync] Error syncing word');
     return { updated: false, reason: 'ERROR' };
   }
 }
@@ -89,10 +90,10 @@ export async function syncAllUserWordsWithPublic(userId: string): Promise<SyncRe
       else result.skipped++;
     }
 
-    console.log(`[WordSync] Sync completed for user ${userId}:`, result);
+    logger.info({ userId, result }, '[WordSync] Sync completed');
     return result;
   } catch (error) {
-    console.error(`[WordSync] Error in batch sync:`, error);
+    logger.error({ err: error }, '[WordSync] Error in batch sync');
     result.errors.push(error instanceof Error ? error.message : 'Unknown error');
     return result;
   }
@@ -143,7 +144,7 @@ export async function checkAndSyncOnQuery(
 
     return syncUpdates;
   } catch (error) {
-    console.error('[WordSync] Error in checkAndSyncOnQuery:', error);
+    logger.error({ err: error }, '[WordSync] Error in checkAndSyncOnQuery');
     return syncUpdates;
   }
 }
@@ -191,13 +192,13 @@ export async function deduplicateUserWords(userId: string): Promise<{
           where: { id: { in: toRemove } }
         });
 
-        console.log(`[WordSync] Deduplicated "${wordKey}": kept 1, removed ${toRemove.length}`);
+        logger.info({ wordKey, removedCount: toRemove.length }, '[WordSync] Deduplicated');
       }
     }
 
     return result;
   } catch (error) {
-    console.error('[WordSync] Error in deduplication:', error);
+    logger.error({ err: error }, '[WordSync] Error in deduplication');
     return result;
   }
 }
@@ -223,7 +224,7 @@ export async function getSyncStats(userId: string): Promise<{
       userOnlyWords: userWords.length - syncedWithPublic
     };
   } catch (error) {
-    console.error('[WordSync] Error getting sync stats:', error);
+    logger.error({ err: error }, '[WordSync] Error getting sync stats');
     return {
       totalUserWords: 0,
       syncedWithPublic: 0,

@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from '../auth/[...nextauth]/route';
+import { logger } from '@/lib/logger';
 
 export async function GET() {
   try {
@@ -22,7 +23,7 @@ export async function GET() {
 
     return NextResponse.json({ success: true, data: config });
   } catch (error) {
-    console.error('Failed to get donation config:', error);
+    logger.error({ err: error }, 'Failed to get donation config');
     return NextResponse.json({ success: false, error: 'Failed to get donation config' }, { status: 500 });
   }
 }
@@ -60,7 +61,7 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ success: true, data: config });
   } catch (error) {
-    console.error('Failed to update donation config:', error);
+    logger.error({ err: error }, 'Failed to update donation config');
     return NextResponse.json({ success: false, error: 'Failed to update donation config' }, { status: 500 });
   }
 }

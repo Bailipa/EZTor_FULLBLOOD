@@ -12,7 +12,7 @@ export default function HistoryError({
   reset: () => void;
 }) {
   useEffect(() => {
-    console.error('History page error:', error);
+    if (process.env.NODE_ENV === 'development') console.error('History page error:', error);
   }, [error]);
 
   return (

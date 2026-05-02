@@ -53,7 +53,7 @@ export default function HomeContent() {
             setGroups(data.data);
           }
         })
-        .catch((err) => console.error('Failed to fetch groups', err));
+        .catch((err) => { if (process.env.NODE_ENV === 'development') console.error('Failed to fetch groups', err); });
     }
   }, [session]);
 

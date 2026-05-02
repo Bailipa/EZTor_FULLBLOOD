@@ -308,7 +308,7 @@ export async function POST(req: Request) {
       usage: { used: updatedUsage.used, limit: 10, remaining: updatedUsage.remaining },
     })
   } catch (error: any) {
-    console.error('Translate-only failed:', error)
+    logger.error({ err: error }, 'Translate-only failed')
     if (String(error?.message || '') === API_QUOTA_EXHAUSTED_MESSAGE) {
       return NextResponse.json({ success: false, error: API_QUOTA_EXHAUSTED_MESSAGE }, { status: 503 })
     }

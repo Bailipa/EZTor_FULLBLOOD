@@ -87,7 +87,7 @@ export default class PublicWordService {
             }
           });
           if (updateResult.count === 0) {
-            console.log(`[PublicWord] Concurrent update detected for "${wordData.word}", skipped`);
+            logger.info({ word: wordData.word }, '[PublicWord] Concurrent update detected, skipped');
           } else {
             await cascadePublicWordToPrivate({
               word: wordData.word,

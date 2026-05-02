@@ -299,10 +299,6 @@ export function WordInputCard({
         }
       }
 
-      console.log('=== STREAM END ===');
-      console.log('Accumulated Raw Text:', accumulatedText);
-      console.log('Last Valid Parsed Data:', lastValidParsedData);
-
       let finalResults: WordResult[] = [];
       try {
         const jsonBlocks = accumulatedText.split('\n\n').filter((b) => b.trim());
@@ -320,23 +316,19 @@ export function WordInputCard({
             if (parsed && parsed.results && Array.isArray(parsed.results)) {
               finalResults = [...finalResults, ...parsed.results];
             }
-          } catch (_innerE) {
-            console.warn('Failed to parse one of the blocks:', finalText);
+          } catch {
+            /* skip malformed blocks */
           }
         }
         
         if (finalResults.length === 0 && lastValidParsedData?.results) {
-          console.log('Using lastValidParsedData as fallback');
           finalResults = lastValidParsedData.results;
         }
-      } catch (_e) {
-        console.warn('Final JSON parse failed overall.');
+      } catch {
         if (lastValidParsedData && lastValidParsedData.results) {
           finalResults = lastValidParsedData.results;
         }
       }
-
-      console.log('finalResults after parsing:', finalResults);
 
       const normalizeCase = (text: string): string => {
         const specialCases = [
@@ -452,22 +444,16 @@ export function WordInputCard({
           !(item.translation && item.translation.includes('⚠️'))
       );
 
-      console.log('=== SYNC DEBUG ===');
-      console.log('finalMergedData:', finalMergedData);
-      console.log('wordsToSave:', wordsToSave);
-
       if (wordsToSave.length > 0) {
-        console.log('Calling /api/sync with:', { results: wordsToSave });
         fetch('/api/sync', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ results: wordsToSave }),
         })
           .then(res => res.json())
-          .then(data => console.log('Sync response:', data))
-          .catch((err) => console.error('Silent sync failed:', err));
-      } else {
-        console.log('No words to save');
+          .catch((err) => {
+            if (process.env.NODE_ENV === 'development') console.error('Silent sync failed:', err);
+          });
       }
 
       trackTranslate(words.length, false);
@@ -578,7 +564,7 @@ export function WordInputCard({
           alert(`导入失败: ${data.error}`);
         }
       } catch (err) {
-        console.error('CSV import error:', err);
+        if (process.env.NODE_ENV === 'development') console.error('CSV import error:', err);
         alert('导入过程中发生错误，请检查控制台。');
       } finally {
         setIsLoading(false);

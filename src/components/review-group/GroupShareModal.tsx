@@ -88,7 +88,7 @@ export function GroupShareModal({
         }
       }
     } catch (error) {
-      console.error("Failed to fetch group info", error);
+      if (process.env.NODE_ENV === 'development') console.error("Failed to fetch group info", error);
     }
   }, [groupId, shareName]);
 
@@ -101,7 +101,7 @@ export function GroupShareModal({
         setShareData(share || null);
       }
     } catch (error) {
-      console.error("Failed to fetch share data", error);
+      if (process.env.NODE_ENV === 'development') console.error("Failed to fetch share data", error);
     }
   }, [groupId]);
 
@@ -145,7 +145,7 @@ export function GroupShareModal({
         alert(data.message || "创建失败，请稍后重试");
       }
     } catch (error) {
-      console.error("Failed to create share", error);
+      if (process.env.NODE_ENV === 'development') console.error("Failed to create share", error);
       alert("创建失败，请稍后重试");
     } finally {
       setIsCreating(false);
@@ -160,7 +160,7 @@ export function GroupShareModal({
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch (error) {
-      console.error("Failed to copy", error);
+      if (process.env.NODE_ENV === 'development') console.error("Failed to copy", error);
     }
   };
 
@@ -185,7 +185,7 @@ export function GroupShareModal({
         alert(data.message || "撤销失败，请稍后重试");
       }
     } catch (error) {
-      console.error("Failed to revoke", error);
+      if (process.env.NODE_ENV === 'development') console.error("Failed to revoke", error);
       alert("撤销失败，请稍后重试");
     } finally {
       setIsRevoking(false);
@@ -214,7 +214,7 @@ export function GroupShareModal({
         alert(data.message || "重新生成失败，请稍后重试");
       }
     } catch (error) {
-      console.error("Failed to regenerate", error);
+      if (process.env.NODE_ENV === 'development') console.error("Failed to regenerate", error);
       alert("重新生成失败，请稍后重试");
     } finally {
       setIsRegenerating(false);

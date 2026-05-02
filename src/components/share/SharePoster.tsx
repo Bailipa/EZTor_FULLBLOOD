@@ -51,7 +51,7 @@ export function SharePoster({ open, onOpenChange }: SharePosterProps) {
         setSelectedQuoteIndex(Math.floor(Math.random() * data.data.quotes.length));
       }
     } catch (e) {
-      console.error('Failed to fetch stats:', e);
+      if (process.env.NODE_ENV === 'development') console.error('Failed to fetch stats:', e);
     } finally {
       setLoading(false);
     }
@@ -96,7 +96,7 @@ export function SharePoster({ open, onOpenChange }: SharePosterProps) {
       previewUrlRef.current = objectUrl;
       setPreviewUrl(objectUrl);
     } catch (e) {
-      console.error('Failed to generate poster:', e);
+      if (process.env.NODE_ENV === 'development') console.error('Failed to generate poster:', e);
     }
   }, [stats, isDark]);
 

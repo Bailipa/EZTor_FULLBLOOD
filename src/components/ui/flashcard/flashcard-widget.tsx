@@ -32,7 +32,7 @@ export function FlashcardWidget() {
         setGroups(data.data);
       }
     } catch (error) {
-      console.error("Failed to fetch groups", error);
+      if (process.env.NODE_ENV === 'development') console.error("Failed to fetch groups", error);
     }
   };
 
@@ -51,7 +51,7 @@ export function FlashcardWidget() {
         setShowAnswer(false);
       }
     } catch (error) {
-      console.error("Failed to fetch words", error);
+      if (process.env.NODE_ENV === 'development') console.error("Failed to fetch words", error);
     } finally {
       setIsLoading(false);
     }
@@ -105,7 +105,7 @@ export function FlashcardWidget() {
         throw new Error(data.error || '添加失败');
       }
     } catch (e: any) {
-      console.error("Failed to save word:", e);
+      if (process.env.NODE_ENV === 'development') console.error("Failed to save word:", e);
       // 可以使用更友好的提示方式，比如 toast
     } finally {
       setIsSaving(false);
@@ -129,7 +129,7 @@ export function FlashcardWidget() {
           setIsInVocabularyBook(data.isInVocabularyBook);
         }
       } catch (error) {
-        console.error("Failed to check vocabulary book status:", error);
+        if (process.env.NODE_ENV === 'development') console.error("Failed to check vocabulary book status:", error);
         setIsInVocabularyBook(false);
       }
     };
@@ -173,13 +173,13 @@ export function FlashcardWidget() {
         
         if (!res.ok) {
           if (res.status === 401) {
-            console.warn("Session expired, continuing without saving stats");
+            if (process.env.NODE_ENV === 'development') console.warn("Session expired, continuing without saving stats");
           } else {
             throw new Error(data.error || '更新失败');
           }
         }
       } catch (e: any) {
-        console.error("Failed to update stats:", e);
+        if (process.env.NODE_ENV === 'development') console.error("Failed to update stats:", e);
         // 不阻止用户继续，只记录错误
       } finally {
         setIsUpdating(false);
@@ -233,7 +233,7 @@ export function FlashcardWidget() {
         throw new Error(data.error || '标记失败');
       }
     } catch (e: any) {
-      console.error("Failed to ignore word:", e);
+      if (process.env.NODE_ENV === 'development') console.error("Failed to ignore word:", e);
       // 可以使用更友好的提示方式，比如 toast
     }
   };

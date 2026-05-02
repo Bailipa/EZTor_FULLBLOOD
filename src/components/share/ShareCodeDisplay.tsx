@@ -41,7 +41,7 @@ export function ShareCodeDisplay({
         onCopy();
       }
     } catch (error) {
-      console.error("Failed to copy code:", error);
+      if (process.env.NODE_ENV === 'development') console.error("Failed to copy code:", error);
     }
   }, [code, onCopy]);
 

@@ -1,3 +1,5 @@
+import { logger } from '@/lib/logger';
+
 interface RateLimitEntry {
   count: number;
   resetTime: number;
@@ -103,13 +105,13 @@ let isRedisEnabled = false;
 export function initializeRedisStore(redisClient: unknown, keyPrefix?: string): void {
   store = new RedisRateLimitStore(redisClient, keyPrefix);
   isRedisEnabled = true;
-  console.log('Rate limiting: Redis store initialized');
+  logger.info('Rate limiting: Redis store initialized');
 }
 
 export function useMemoryStore(): void {
   store = new MemoryRateLimitStore();
   isRedisEnabled = false;
-  console.log('Rate limiting: Memory store initialized');
+  logger.info('Rate limiting: Memory store initialized');
 }
 
 export function isRedisStoreEnabled(): boolean {
@@ -167,7 +169,7 @@ export async function cleanupExpiredEntries(): Promise<void> {
 }
 
 setInterval(() => {
-  cleanupExpiredEntries().catch(console.error);
+  cleanupExpiredEntries().catch((err) => logger.error({ err }, 'cleanupExpiredEntries failed'));
 }, 15 * 1000);
 
 export type { RateLimitStore, RateLimitEntry, RateLimitResult };

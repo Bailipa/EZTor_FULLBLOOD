@@ -59,7 +59,7 @@ export function useAnalytics() {
         body: JSON.stringify({ eventType, metadata })
       });
     } catch (error) {
-      console.error('Analytics track error:', error);
+      if (process.env.NODE_ENV === 'development') console.error('Analytics track error:', error);
     }
   }, []);
 

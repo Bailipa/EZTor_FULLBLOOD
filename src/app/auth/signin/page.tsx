@@ -25,7 +25,7 @@ export default function SignIn() {
       setCaptchaData(data);
       setCaptchaInput("");
     } catch (err) {
-      console.error("Failed to fetch captcha", err);
+      if (process.env.NODE_ENV === 'development') console.error("Failed to fetch captcha", err);
     }
   };
 

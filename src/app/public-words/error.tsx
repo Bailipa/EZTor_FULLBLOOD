@@ -12,7 +12,7 @@ export default function PublicWordsError({
   reset: () => void;
 }) {
   useEffect(() => {
-    console.error('Public words page error:', error);
+    if (process.env.NODE_ENV === 'development') console.error('Public words page error:', error);
   }, [error]);
 
   return (

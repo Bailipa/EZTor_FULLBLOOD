@@ -12,7 +12,7 @@ export default function DictationError({
   reset: () => void;
 }) {
   useEffect(() => {
-    console.error('Dictation page error:', error);
+    if (process.env.NODE_ENV === 'development') console.error('Dictation page error:', error);
   }, [error]);
 
   return (

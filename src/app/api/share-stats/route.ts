@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import prisma from '@/lib/prisma';
+import { logger } from '@/lib/logger';
 
 const DEFAULT_QUOTES = [
   '坚持学习，每天进步一点点',
@@ -95,7 +96,7 @@ export async function GET(request: NextRequest) {
       },
     });
   } catch (error) {
-    console.error('Share stats error:', error);
+    logger.error({ err: error }, 'Share stats error');
     return NextResponse.json(
       { success: false, error: '获取数据失败' },
       { status: 500 }

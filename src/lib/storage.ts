@@ -23,7 +23,7 @@ export function saveToStorage<T>(key: string, data: T): void {
     };
     localStorage.setItem(key, JSON.stringify(storageData));
   } catch (error) {
-    console.error(`Failed to save ${key} to localStorage:`, error);
+    if (process.env.NODE_ENV === 'development') console.error(`Failed to save ${key} to localStorage:`, error);
   }
 }
 
@@ -43,7 +43,7 @@ export function loadFromStorage<T>(key: string, defaultValue: T, migrations?: Mi
     const parsed = parsedUnknown as StorageData<unknown>;
 
     if (!parsed.version || !parsed.data) {
-      console.warn(`Storage ${key} has invalid format, using default`);
+      if (process.env.NODE_ENV === 'development') console.warn(`Storage ${key} has invalid format, using default`);
       return defaultValue;
     }
 
@@ -57,15 +57,15 @@ export function loadFromStorage<T>(key: string, defaultValue: T, migrations?: Mi
         saveToStorage(key, migratedData);
         return migratedData;
       } catch (migrationError) {
-        console.error(`Migration failed for ${key}:`, migrationError);
+        if (process.env.NODE_ENV === 'development') console.error(`Migration failed for ${key}:`, migrationError);
         return defaultValue;
       }
     }
 
-    console.warn(`Storage ${key} version ${parsed.version} mismatch, expected ${STORAGE_VERSION}`);
+    if (process.env.NODE_ENV === 'development') console.warn(`Storage ${key} version ${parsed.version} mismatch, expected ${STORAGE_VERSION}`);
     return defaultValue;
   } catch (error) {
-    console.error(`Failed to load ${key} from localStorage:`, error);
+    if (process.env.NODE_ENV === 'development') console.error(`Failed to load ${key} from localStorage:`, error);
     return defaultValue;
   }
 }
@@ -76,7 +76,7 @@ export function removeFromStorage(key: string): void {
   try {
     localStorage.removeItem(key);
   } catch (error) {
-    console.error(`Failed to remove ${key} from localStorage:`, error);
+    if (process.env.NODE_ENV === 'development') console.error(`Failed to remove ${key} from localStorage:`, error);
   }
 }
 
@@ -99,7 +99,7 @@ export function clearAllStorage(): void {
       }
     });
   } catch (error) {
-    console.error('Failed to clear localStorage:', error);
+    if (process.env.NODE_ENV === 'development') console.error('Failed to clear localStorage:', error);
   }
 }
 

@@ -3,6 +3,7 @@ import { randomUUID } from 'crypto';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import prisma from '@/lib/prisma';
+import { logger } from '@/lib/logger';
 
 const MAX_RECORDS_PER_USER = 1000;
 const MAX_RECORDS_TOTAL = 50000;
@@ -124,7 +125,7 @@ export async function GET(req: NextRequest) {
       }
     });
   } catch (error) {
-    console.error('Translation records fetch error:', error);
+    logger.error({ err: error }, 'Translation records fetch error');
     return NextResponse.json(
       { success: false, error: 'Failed to fetch translation records' },
       { status: 500 }
@@ -192,7 +193,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ success: true, data: record });
   } catch (error) {
-    console.error('Translation record create error:', error);
+    logger.error({ err: error }, 'Translation record create error');
     return NextResponse.json(
       { success: false, error: 'Failed to create translation record' },
       { status: 500 }
@@ -240,7 +241,7 @@ export async function DELETE(req: NextRequest) {
       message: `Deleted all ${result.count} translation records`
     });
   } catch (error) {
-    console.error('Translation records delete error:', error);
+    logger.error({ err: error }, 'Translation records delete error');
     return NextResponse.json(
       { success: false, error: 'Failed to delete translation records' },
       { status: 500 }

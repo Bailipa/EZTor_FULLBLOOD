@@ -2,6 +2,7 @@ import prisma from '@/lib/prisma';
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "../auth/[...nextauth]/route";
 import { handleApiError, createErrorResponse, createSuccessResponse } from '@/lib/apiErrorHandler';
+import { logger } from '@/lib/logger';
 
 export async function POST(req: Request) {
   try {
@@ -61,7 +62,7 @@ export async function POST(req: Request) {
             retries--;
             await new Promise(resolve => setTimeout(resolve, 100 + Math.random() * 200));
           } else {
-            console.error(`[Import] Failed to save word ${wordData.word}:`, dbErr.code || dbErr.message);
+            logger.error({ err: dbErr, word: wordData.word }, '[Import] Failed to save word');
             break;
           }
         }

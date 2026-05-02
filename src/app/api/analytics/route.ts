@@ -102,7 +102,7 @@ export async function POST(req: Request) {
       sessionId
     });
   } catch (error) {
-    console.error('Analytics track error:', error);
+    logger.error({ err: error }, 'Analytics track error');
     return NextResponse.json(
       { success: false, error: 'Failed to track event' },
       { status: 500 }
@@ -470,7 +470,7 @@ export async function GET(req: Request) {
     });
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
-    console.error('Analytics fetch error:', message, error);
+    logger.error({ err: error, details: message }, 'Analytics fetch error');
     return NextResponse.json(
       {
         success: false,
@@ -599,7 +599,7 @@ export async function DELETE(req: Request) {
       }
     });
   } catch (error) {
-    console.error('Analytics export error:', error);
+    logger.error({ err: error }, 'Analytics export error');
     return NextResponse.json(
       { success: false, error: 'Failed to export analytics' },
       { status: 500 }

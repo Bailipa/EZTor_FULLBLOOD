@@ -180,7 +180,7 @@ export default function AnalyticsPage() {
         }
       }
     } catch (e) {
-      console.error('Export failed:', e);
+      if (process.env.NODE_ENV === 'development') console.error('Export failed:', e);
     } finally {
       setExporting(false);
     }

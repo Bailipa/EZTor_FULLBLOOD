@@ -35,7 +35,7 @@ export function IgnoredWords({ open, onOpenChange }: IgnoredWordsProps) {
         setIgnoredWords(data.data);
       }
     } catch (error) {
-      console.error("Failed to fetch ignored words:", error);
+      if (process.env.NODE_ENV === 'development') console.error("Failed to fetch ignored words:", error);
     } finally {
       setIsLoading(false);
     }
@@ -54,7 +54,7 @@ export function IgnoredWords({ open, onOpenChange }: IgnoredWordsProps) {
         setIgnoredWords(prev => prev.filter(w => w.word !== word));
       }
     } catch (error) {
-      console.error("Failed to restore word:", error);
+      if (process.env.NODE_ENV === 'development') console.error("Failed to restore word:", error);
     } finally {
       setIsRestoring(null);
     }

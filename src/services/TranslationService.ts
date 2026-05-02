@@ -188,7 +188,7 @@ export class TranslationService {
       if (completedResult && completedResult.length > 0) {
         const found = completedResult.find((r: any) => r.word.toLowerCase() === word.toLowerCase());
         if (found) {
-          console.log(`[Concurrent] Found in completed cache: ${word}`);
+          logger.info({ word }, '[Concurrent] Found in completed cache');
           completedResults.push({
             word: this.inputWordMap.get(found.word.toLowerCase()) || found.word,
             phonetic: found.phonetic || '',
@@ -218,7 +218,7 @@ export class TranslationService {
       const pendingRequest = getPendingRequest(pendingKey);
       
       if (pendingRequest) {
-        console.log(`[Concurrent] Waiting for pending request (attempt ${attempt + 1}): ${pendingKey}`);
+        logger.info({ attempt: attempt + 1, pendingKey }, '[Concurrent] Waiting for pending request');
         await new Promise(resolve => setTimeout(resolve, CONCURRENT_WAIT_MS));
         
         // 再次检查completedRequests（可能刚刚处理完）
@@ -229,7 +229,7 @@ export class TranslationService {
         }
         
         if (newStillNeedFetch.length === 0) {
-          console.log(`[Concurrent] All words found after waiting`);
+          logger.info('[Concurrent] All words found after waiting');
           return { completedResults, stillNeedFetch: [] };
         }
         
@@ -321,7 +321,7 @@ export class TranslationService {
               }
             });
             if (updateResult.count === 0) {
-              console.log(`[PublicWord] Concurrent update detected for "${wordData.word}", skipped`);
+              logger.info({ word: wordData.word }, '[PublicWord] Concurrent update detected, skipped');
             }
           } catch (updateErr) {
             logger.error({ err: updateErr }, "Failed to update public word");
@@ -386,7 +386,7 @@ export class TranslationService {
           }
         }
       } catch (dbErr: any) {
-        console.error(`Failed to save mirrored word ${wordData.word}:`, dbErr);
+        logger.error({ err: dbErr, word: wordData.word }, 'Failed to save mirrored word');
       }
     }
 
@@ -410,7 +410,7 @@ export class TranslationService {
       // 接收大模型的流式数据
       for await (const chunk of response) {
         if ((controller as any).signal?.aborted) {
-          console.log('[TranslationService] Client disconnected, stopping stream');
+          logger.info('[TranslationService] Client disconnected, stopping stream');
           break;
         }
         const content = chunk.choices[0]?.delta?.content || '';

@@ -7,6 +7,7 @@ import {
   getSyncStats,
   syncUserWordWithPublic 
 } from '@/lib/wordSync';
+import { logger } from '@/lib/logger';
 
 export async function GET(req: NextRequest) {
   try {
@@ -27,7 +28,7 @@ export async function GET(req: NextRequest) {
         return NextResponse.json({ error: 'Invalid action' }, { status: 400 });
     }
   } catch (error) {
-    console.error('[WordSyncAPI] Error:', error);
+    logger.error({ err: error }, '[WordSyncAPI] Error');
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
@@ -76,7 +77,7 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ error: 'Invalid action' }, { status: 400 });
     }
   } catch (error) {
-    console.error('[WordSyncAPI] Error:', error);
+    logger.error({ err: error }, '[WordSyncAPI] Error');
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

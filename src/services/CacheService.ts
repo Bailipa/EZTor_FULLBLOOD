@@ -185,7 +185,7 @@ export class CacheService {
           }
         }
       } catch (syncErr) {
-        console.error('[Translate] Auto-sync error:', syncErr);
+        logger.error({ err: syncErr }, '[Translate] Auto-sync error');
       }
     }
     return formattedCachedResults;

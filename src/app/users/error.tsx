@@ -12,7 +12,7 @@ export default function UsersError({
   reset: () => void;
 }) {
   useEffect(() => {
-    console.error('Users page error:', error);
+    if (process.env.NODE_ENV === 'development') console.error('Users page error:', error);
   }, [error]);
 
   return (

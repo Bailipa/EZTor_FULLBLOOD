@@ -4,6 +4,7 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import prisma from '@/lib/prisma';
 import { cascadePublicWordToPrivate } from '@/lib/publicWordCascade';
+import { logger } from '@/lib/logger';
 
 export async function GET(req: NextRequest) {
   try {
@@ -92,7 +93,7 @@ export async function GET(req: NextRequest) {
       }
     });
   } catch (error) {
-    console.error('Public words fetch error:', error);
+    logger.error({ err: error }, 'Public words fetch error');
     return NextResponse.json({ success: false, error: 'Internal server error' }, { status: 500 });
   }
 }
@@ -136,7 +137,7 @@ export async function DELETE(req: NextRequest) {
 
     return NextResponse.json({ success: true });
   } catch (error: any) {
-    console.error('Public word delete error:', error);
+    logger.error({ err: error }, 'Public word delete error');
     if (error.code === 'P2025') {
       return NextResponse.json({ success: false, error: 'Word not found' }, { status: 404 });
     }
@@ -207,7 +208,7 @@ export async function PUT(req: NextRequest) {
 
     return NextResponse.json({ success: true, data: updated });
   } catch (error: any) {
-    console.error('Public word update error:', error);
+    logger.error({ err: error }, 'Public word update error');
     if (error.code === 'P2025') {
       return NextResponse.json({ success: false, error: 'Word not found' }, { status: 404 });
     }
@@ -267,7 +268,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ success: true, data: created });
   } catch (error: any) {
-    console.error('Public word create error:', error);
+    logger.error({ err: error }, 'Public word create error');
     if (error.code === 'P2002') {
       return NextResponse.json({ success: false, error: 'Word already exists' }, { status: 409 });
     }

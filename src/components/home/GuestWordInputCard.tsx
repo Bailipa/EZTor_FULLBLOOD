@@ -172,7 +172,7 @@ export function GuestWordInputCard({
         }).catch(() => {});
       }
     } catch (error: any) {
-      console.error('Translation error:', error);
+      if (process.env.NODE_ENV === 'development') console.error('Translation error:', error);
       alert(error.message || '查询失败，请稍后重试');
       
       await fetch('/api/analytics', {

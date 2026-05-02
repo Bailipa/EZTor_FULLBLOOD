@@ -3,6 +3,7 @@ import { randomUUID } from 'crypto';
 import prisma from '@/lib/prisma';
 import { sanitizeWordList } from '@/lib/security';
 import { rateLimit } from '@/lib/rateLimit';
+import { logger } from '@/lib/logger';
 
 export async function POST(req: NextRequest) {
   const startTime = Date.now();
@@ -123,7 +124,7 @@ export async function POST(req: NextRequest) {
       }
     });
   } catch (error) {
-    console.error('Public translate error:', error);
+    logger.error({ err: error }, 'Public translate error');
     
     await (prisma as any).analyticsEvent.create({
       data: {

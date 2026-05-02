@@ -12,7 +12,7 @@ export default function TranslationRecordsError({
   reset: () => void;
 }) {
   useEffect(() => {
-    console.error('Translation records page error:', error);
+    if (process.env.NODE_ENV === 'development') console.error('Translation records page error:', error);
   }, [error]);
 
   return (

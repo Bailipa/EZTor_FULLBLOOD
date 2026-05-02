@@ -12,7 +12,7 @@ export default function LlmConfigError({
   reset: () => void;
 }) {
   useEffect(() => {
-    console.error('LLM Config page error:', error);
+    if (process.env.NODE_ENV === 'development') console.error('LLM Config page error:', error);
   }, [error]);
 
   return (

@@ -128,7 +128,7 @@ export function Danmaku({ isVisible }: { isVisible: boolean }) {
           });
         }
       } catch (err) {
-        console.error("Failed to generate danmaku:", err);
+        if (process.env.NODE_ENV === 'development') console.error("Failed to generate danmaku:", err);
       }
     };
 

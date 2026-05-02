@@ -56,7 +56,7 @@ export default function DictationPage() {
         setGroups(data.data);
       }
     } catch (error) {
-      console.error("Failed to fetch groups", error);
+      if (process.env.NODE_ENV === 'development') console.error("Failed to fetch groups", error);
     }
   };
 
@@ -93,7 +93,7 @@ export default function DictationPage() {
         }
       }
     } catch (error) {
-      console.error("Failed to fetch dictation words", error);
+      if (process.env.NODE_ENV === 'development') console.error("Failed to fetch dictation words", error);
     } finally {
       setIsLoading(false);
     }
@@ -108,7 +108,7 @@ export default function DictationPage() {
         setAllHistoryWords(data.data);
       }
     } catch (error) {
-      console.error("Failed to fetch history words for custom dictation", error);
+      if (process.env.NODE_ENV === 'development') console.error("Failed to fetch history words for custom dictation", error);
     }
   };
 
@@ -141,13 +141,13 @@ export default function DictationPage() {
     try {
       if (type === 'correct' && correctAudioRef.current) {
         correctAudioRef.current.currentTime = 0;
-        correctAudioRef.current.play().catch(e => console.error("Audio play failed:", e));
+        correctAudioRef.current.play().catch(e => { if (process.env.NODE_ENV === 'development') console.error("Audio play failed:", e); });
       } else if (type === 'incorrect' && incorrectAudioRef.current) {
         incorrectAudioRef.current.currentTime = 0;
-        incorrectAudioRef.current.play().catch(e => console.error("Audio play failed:", e));
+        incorrectAudioRef.current.play().catch(e => { if (process.env.NODE_ENV === 'development') console.error("Audio play failed:", e); });
       }
     } catch (e) {
-      console.error("Audio system error:", e);
+      if (process.env.NODE_ENV === 'development') console.error("Audio system error:", e);
     }
   };
 
@@ -214,7 +214,7 @@ export default function DictationPage() {
         body: JSON.stringify({ word: currentWord.word, isCorrect: correct })
       });
     } catch (e) {
-      console.error("Failed to update stats", e);
+      if (process.env.NODE_ENV === 'development') console.error("Failed to update stats", e);
     }
   };
 

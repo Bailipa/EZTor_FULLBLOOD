@@ -3,6 +3,7 @@ import prisma from '@/lib/prisma';
 import { Prisma } from '@prisma/client';
 import { connectionPool } from './connectionPool';
 import { monitoringService } from './monitoring';
+import { logger } from '@/lib/logger';
 
 export const API_QUOTA_EXHAUSTED_MESSAGE = 'API额度用尽！请联系管理员填充。';
 
@@ -101,7 +102,7 @@ export async function checkQuotaThresholds(): Promise<void> {
 
 async function sendQuotaWarning(providerId: string, providerName: string, remaining: number): Promise<void> {
   // Implement quota warning logic here
-  console.warn(`Quota warning for ${providerName}: ${remaining} remaining`);
+  logger.warn({ providerName, remaining }, 'Quota warning');
 }
 
 let didSeedDefaultProvider = false;

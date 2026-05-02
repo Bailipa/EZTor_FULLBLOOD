@@ -1,3 +1,5 @@
+import { logger } from '@/lib/logger';
+
 type PendingRequest = {
   promise: Promise<any>;
   timestamp: number;
@@ -56,7 +58,7 @@ export function getCompletedRequest<T>(key: string): T | null {
 
 export function setPendingRequest<T>(key: string, promise: Promise<T>): boolean {
   if (pendingRequests.size >= MAX_PENDING_REQUESTS) {
-    console.warn(`[RequestDeduplication] Max pending requests reached: ${MAX_PENDING_REQUESTS}`);
+    logger.warn({ maxPendingRequests: MAX_PENDING_REQUESTS }, '[RequestDeduplication] Max pending requests reached');
     return false;
   }
   pendingRequests.set(key, {

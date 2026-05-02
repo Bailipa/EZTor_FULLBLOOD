@@ -12,7 +12,7 @@ export default function SignInError({
   reset: () => void;
 }) {
   useEffect(() => {
-    console.error('Sign in page error:', error);
+    if (process.env.NODE_ENV === 'development') console.error('Sign in page error:', error);
   }, [error]);
 
   return (

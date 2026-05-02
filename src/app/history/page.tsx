@@ -138,7 +138,7 @@ export default function HistoryPage() {
         setNextCursor(pagination.nextCursor);
       }
     } catch (error) {
-      console.error("Failed to fetch words", error);
+      if (process.env.NODE_ENV === 'development') console.error("Failed to fetch words", error);
     } finally {
       if (isFirstPage) {
         setIsLoading(false);
@@ -157,7 +157,7 @@ export default function HistoryPage() {
         if (data.data.length > 0) setTargetGroupId(data.data[0].id);
       }
     } catch (error) {
-      console.error("Failed to fetch groups", error);
+      if (process.env.NODE_ENV === 'development') console.error("Failed to fetch groups", error);
     }
   }, []);
 
@@ -285,7 +285,7 @@ export default function HistoryPage() {
         }
       }
     } catch (error) {
-      console.error("Delete failed", error);
+      if (process.env.NODE_ENV === 'development') console.error("Delete failed", error);
       fetchWords(groupIdRef.current);
     } finally {
       setDeletingId(null);
@@ -314,7 +314,7 @@ export default function HistoryPage() {
         }
       }
     } catch (error) {
-      console.error("Clear all failed", error);
+      if (process.env.NODE_ENV === 'development') console.error("Clear all failed", error);
       fetchWords(currentViewGroupId);
     } finally {
       setIsClearing(false);
@@ -360,7 +360,7 @@ export default function HistoryPage() {
         }
       }
     } catch (error) {
-      console.error("Batch delete failed", error);
+      if (process.env.NODE_ENV === 'development') console.error("Batch delete failed", error);
       fetchWords(currentViewGroupId);
     }
   }, [selectedSet, currentViewGroupId, fetchWords, fetchGroups]);
@@ -413,7 +413,7 @@ export default function HistoryPage() {
         alert(addData.error);
       }
     } catch (error) {
-      console.error("Failed to add to group", error);
+      if (process.env.NODE_ENV === 'development') console.error("Failed to add to group", error);
       alert("添加失败，请重试");
     } finally {
       setIsSavingGroup(false);
@@ -436,7 +436,7 @@ export default function HistoryPage() {
         alert(data.error);
       }
     } catch (error) {
-      console.error("Rename failed", error);
+      if (process.env.NODE_ENV === 'development') console.error("Rename failed", error);
     }
   }, [renameValue, renamingGroupId, fetchGroups]);
 
@@ -456,7 +456,7 @@ export default function HistoryPage() {
         fetchGroups();
       }
     } catch (error) {
-      console.error("Delete group failed", error);
+      if (process.env.NODE_ENV === 'development') console.error("Delete group failed", error);
     } finally {
       setIsDeleteGroupModalOpen(false);
       setGroupToDelete("");

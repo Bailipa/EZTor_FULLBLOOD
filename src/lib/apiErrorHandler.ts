@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { logger } from '@/lib/logger';
 
 const GENERIC_ERROR_MESSAGE = 'An unexpected error occurred';
 const GENERIC_ERROR_MESSAGE_CN = '服务器内部错误';
@@ -36,10 +37,7 @@ export function handleApiError(error: any, context?: string): NextResponse {
   const mappedError = errorCode ? ERROR_MAP[errorCode] : null;
 
   if (mappedError) {
-    console.error(`[API Error] ${context || 'Unknown'}:`, {
-      code: errorCode,
-      message: error.message,
-    });
+    logger.error({ code: errorCode, message: error.message }, `[API Error] ${context || 'Unknown'}`);
     
     return NextResponse.json(
       { success: false, error: mappedError.message },
@@ -70,10 +68,7 @@ export function handleApiError(error: any, context?: string): NextResponse {
     }
   }
 
-  console.error(`[API Error] ${context || 'Unknown'}:`, {
-    error: error instanceof Error ? error.message : String(error),
-    stack: error instanceof Error ? error.stack : undefined,
-  });
+  logger.error({ error: error instanceof Error ? error.message : String(error), stack: error instanceof Error ? error.stack : undefined }, `[API Error] ${context || 'Unknown'}`);
 
   const responseError = isDevelopment() 
     ? (error instanceof Error ? error.message : GENERIC_ERROR_MESSAGE)

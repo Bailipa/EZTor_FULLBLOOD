@@ -12,7 +12,7 @@ export default function AnalyticsError({
   reset: () => void;
 }) {
   useEffect(() => {
-    console.error('Analytics page error:', error);
+    if (process.env.NODE_ENV === 'development') console.error('Analytics page error:', error);
   }, [error]);
 
   return (
