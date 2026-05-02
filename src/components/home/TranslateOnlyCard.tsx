@@ -16,7 +16,7 @@ import { LimitExceededModal, loadCustomApiConfig, saveCustomApiConfig } from './
 import { loadHistory, addHistoryEntry, removeHistoryEntry, clearHistory, formatTime, HistoryEntry } from '@/lib/translateHistory';
 
 const MAX_LENGTH = 8000;
-const DAILY_LIMIT = 10;
+const DAILY_LIMIT = 30;
 
 export function TranslateOnlyCard() {
   const [isOpen, setIsOpen] = useState(false);
@@ -514,7 +514,7 @@ export function TranslateOnlyCard() {
           <AlertDialogHeader>
             <AlertDialogTitle>清除自定义 API 配置？</AlertDialogTitle>
             <AlertDialogDescription>
-              清除后将恢复使用每日 10 次免费翻译额度。
+              清除后将恢复使用每日 30 次免费翻译额度。
               {remaining !== null && remaining <= 0 && ' 当前今日免费次数已用完，清除后需配置新的 API 或等待次日刷新。'}
             </AlertDialogDescription>
           </AlertDialogHeader>

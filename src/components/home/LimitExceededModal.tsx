@@ -107,7 +107,7 @@ export function LimitExceededModal({ open, onOpenChange, onSaved }: LimitExceede
           </DialogTitle>
           <DialogDescription className="text-sm text-muted-foreground space-y-3 pt-2">
             <p>
-              出于运营成本考虑，每位用户每日可免费使用 10 次翻译功能。
+              出于运营成本考虑，每位用户每日可免费使用 30 次翻译功能。
             </p>
             <p>
               如需继续使用，可以配置您自己的大模型 API，支持 OpenAI、DeepSeek、智谱、通义千问等兼容 OpenAI 接口的厂商。

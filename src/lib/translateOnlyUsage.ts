@@ -1,7 +1,7 @@
 import crypto from 'crypto'
 import prisma from '@/lib/prisma'
 
-const DAILY_LIMIT = 10
+export const DAILY_LIMIT = 30
 
 function generateId(): string {
   return crypto.randomUUID()

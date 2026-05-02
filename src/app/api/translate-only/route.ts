@@ -7,7 +7,7 @@ import { rateLimit, getClientKey } from '@/lib/rateLimit'
 import { detectPromptInjection } from '@/lib/injectionDetector'
 import { checkUserBan, checkIpBan } from '@/lib/banManager'
 import { API_QUOTA_EXHAUSTED_MESSAGE, getProviderCandidates, withLlmFailover } from '@/lib/llmPool'
-import { checkAndEnforceLimit, incrementUsage } from '@/lib/translateOnlyUsage'
+import { checkAndEnforceLimit, incrementUsage, DAILY_LIMIT } from '@/lib/translateOnlyUsage'
 import { logger } from '@/lib/logger'
 import { fetchInsecure } from '@/lib/fetchInsecure'
 
@@ -284,7 +284,7 @@ export async function POST(req: Request) {
     const limitCheck = await checkAndEnforceLimit(userId, isAdmin, deviceId)
     if (!limitCheck.allowed) {
       return NextResponse.json(
-        { success: false, error: 'DAILY_LIMIT_EXCEEDED', message: '每日免费翻译次数已用完', limit: 10 },
+        { success: false, error: 'DAILY_LIMIT_EXCEEDED', message: '每日免费翻译次数已用完', limit: DAILY_LIMIT },
         { status: 429 }
       )
     }
@@ -306,7 +306,7 @@ export async function POST(req: Request) {
     return NextResponse.json({
       success: true,
       data: { translation, optimizedInput },
-      usage: { used: updatedUsage.used, limit: 10, remaining: updatedUsage.remaining },
+      usage: { used: updatedUsage.used, limit: DAILY_LIMIT, remaining: updatedUsage.remaining },
     })
   } catch (error: any) {
     logger.error({ err: error }, 'Translate-only failed')
