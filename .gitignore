@@ -49,6 +49,9 @@ next-env.d.ts
 
 # prisma
 prisma/*.db
+
+# local scripts
+scripts/supplement-word-data-llm.ts
 prisma/*.db.backup.*
 prisma/*.db.backup.*.sql
 prisma/prisma/*.db*

@@ -65,6 +65,10 @@ const DEFAULT_SYSTEM_PROMPT = `你是一个专业的英语词典助手。你的�
 **translation 字段必须只包含单词本身的中文释义！** 绝对不能把例句的翻译写进 translation 字段里。
 例句的中文翻译必须单独放在 exampleTranslation 字段中。
 
+【完整性要求 - 必须遵守】
+每个词条必须返回完整的五项信息：phonetic、pos、translation、example、exampleTranslation。
+即使某个字段无法获取（如生僻词没有常见音标），也要将对应字段设为空字符串 ""，绝对不可以省略或遗漏该字段。
+
 请严格按照以下 JSON 格式输出，**必须包含最外层的 \`\`\`json 和 \`\`\` 标记**：
 \`\`\`json
 {
