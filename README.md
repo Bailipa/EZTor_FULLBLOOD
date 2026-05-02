@@ -6,6 +6,25 @@
 
 A full-stack Next.js application for English vocabulary learning, powered by LLMs.
 
+## How It Works
+
+```
+User Input → Security (CSRF, injection detection, rate limit, ban check)
+          → Cache (LRU + DB) / Dedup
+          → LLM Provider Pool (failover, quota management)
+          → Translation Service (prompt engineering, quality scoring)
+          → Stream response → Word sync to DB
+```
+
+The translation pipeline starts with multi-layer security checks, then queries a hot cache, selects an LLM provider with automatic failover, scores the result quality, and streams it back to the user—all within a single request lifecycle. High-quality results are automatically upserted to a public word library shared by all users.
+
+Pain points solved:
+
+- **Unusable single-word lookups** — LLM gives rich context: phonetic, POS, examples, countability, example translation
+- **API vendor lock-in** — Configurable provider pool with automatic failover on quota depletion (402) or rate limits (429)
+- **No auth friction** — 30 free daily translations without login; full word bank features after login
+- **Public-facing security** — 5-layer defense: CSRF, injection detection, rate limiting, ban escalation, env validation
+
 ## Tech Stack
 
 | Layer      | Technology                                    |
