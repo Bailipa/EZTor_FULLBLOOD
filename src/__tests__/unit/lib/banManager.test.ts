@@ -23,7 +23,7 @@ vi.mock('@/lib/prisma', () => ({
   },
 }))
 
-const prisma = (await import('@/lib/prisma')).default
+const prisma = (await import('@/lib/prisma')).default as any
 
 beforeEach(() => {
   vi.clearAllMocks()

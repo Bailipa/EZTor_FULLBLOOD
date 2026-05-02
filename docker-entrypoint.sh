@@ -1,5 +1,5 @@
 #!/bin/sh
 set -e
-prisma generate
-prisma migrate deploy
+npx prisma generate
+npx prisma migrate deploy
 exec node server.js
