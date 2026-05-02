@@ -1,3 +1,7 @@
+<p align="center">
+  <a href="README.zh-CN.md">中文</a> · <strong>English</strong>
+</p>
+
 # EZTor — Vocabulary Learning Platform
 
 A full-stack Next.js application for English vocabulary learning, powered by LLMs.
