@@ -619,14 +619,14 @@ export default function HistoryPage() {
     <main className="min-h-screen bg-gray-50/50 dark:bg-background p-6 md:p-12 transition-colors duration-300">
       <div className="max-w-5xl mx-auto space-y-8">
         {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white dark:bg-card p-6 rounded-xl shadow-sm border border-gray-100 dark:border-border transition-colors duration-300">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white dark:bg-card p-4 sm:p-6 rounded-xl shadow-sm border border-gray-100 dark:border-border transition-colors duration-300">
           <div className="flex items-center gap-4">
             <Link href="/">
               <Button variant="outline" size="icon" className="rounded-full">
                 <ArrowLeft className="w-4 h-4" />
               </Button>
             </Link>
-            <div className="flex items-center gap-3">
+            <div className="flex flex-col sm:flex-row sm:items-center gap-3">
               <div>
                 <h1 className="text-2xl font-bold text-gray-900 dark:text-foreground">
                   {isGroupView
@@ -640,7 +640,7 @@ export default function HistoryPage() {
 
               <div className="flex items-center gap-2">
                 <Select value={currentViewGroupId} onValueChange={setCurrentViewGroupId}>
-                  <SelectTrigger className="w-[180px] h-8">
+                  <SelectTrigger className="w-full sm:w-[180px] h-8">
                     <SelectValue placeholder="切换视图" />
                   </SelectTrigger>
                   <SelectContent>
