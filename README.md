@@ -16,6 +16,8 @@
 
 A full-stack Next.js application for English vocabulary learning, powered by LLMs.
 
+**🌐 Live Demo: [dogeggcode.cyou](https://dogeggcode.cyou)**
+
 ![EZTor Screenshot](https://raw.githubusercontent.com/Bailipa/EZTor_FULLBLOOD/main/screenshot.png)
 
 ## How It Works
