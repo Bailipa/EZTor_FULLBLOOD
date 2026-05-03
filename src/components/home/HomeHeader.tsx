@@ -5,7 +5,7 @@ import { ModeToggle } from '@/components/mode-toggle'
 import { FlashcardWidget } from '@/components/ui/flashcard/flashcard-widget'
 import { GameWidget } from '@/components/ui/game/GameWidget'
 import { SharePoster } from '@/components/share'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Share2 } from 'lucide-react'
 import {
   AlertDialog,
@@ -33,6 +33,8 @@ export function HomeHeader({ showDanmaku, onToggleDanmaku, onFeatureClick }: Hom
   const { data: session, status } = useSession()
   const isAuthenticated = status === 'authenticated' && session?.user
   const [shareOpen, setShareOpen] = useState(false)
+  const [githubDialogOpen, setGithubDialogOpen] = useState(false)
+  const [countdown, setCountdown] = useState(5)
 
   const handleFeatureClick = (featureName: string, callback?: () => void) => {
     if (!isAuthenticated && onFeatureClick) {
@@ -41,6 +43,30 @@ export function HomeHeader({ showDanmaku, onToggleDanmaku, onFeatureClick }: Hom
       callback()
     }
   }
+
+  const handleGithubClick = async () => {
+    try {
+      const controller = new AbortController()
+      const timeoutId = setTimeout(() => controller.abort(), 3000)
+      await fetch('https://github.com', { mode: 'no-cors', signal: controller.signal })
+      clearTimeout(timeoutId)
+      window.open('https://github.com/Bailipa/EZTor_FULLBLOOD', '_blank', 'noopener,noreferrer')
+    } catch {
+      setCountdown(5)
+      setGithubDialogOpen(true)
+    }
+  }
+
+  useEffect(() => {
+    if (!githubDialogOpen) return
+    if (countdown === 0) {
+      setGithubDialogOpen(false)
+      window.location.href = `${window.location.origin}/`
+      return
+    }
+    const timer = setTimeout(() => setCountdown(c => c - 1), 1000)
+    return () => clearTimeout(timer)
+  }, [githubDialogOpen, countdown])
 
   return (
     <header className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white dark:bg-card p-4 sm:p-6 rounded-xl shadow-sm border border-gray-100 dark:border-border transition-colors duration-300">
@@ -113,6 +139,46 @@ export function HomeHeader({ showDanmaku, onToggleDanmaku, onFeatureClick }: Hom
           </Link>
         )}
         <ModeToggle />
+        <Button
+          variant="outline"
+          size="icon"
+          className="shadow-sm shrink-0 h-8 w-8 sm:h-9 sm:w-9"
+          aria-label="GitHub"
+          onClick={handleGithubClick}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="w-3.5 h-3.5 sm:w-4 sm:h-4"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            aria-hidden="true"
+          >
+            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.387.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.73.083-.73 1.205.085 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.605-.015 2.896-.015 3.285 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12 24 5.37 18.63 0 12 0Z" />
+          </svg>
+        </Button>
+        <AlertDialog open={githubDialogOpen} onOpenChange={setGithubDialogOpen}>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>无法打开 GitHub 喵</AlertDialogTitle>
+              <AlertDialogDescription>
+                你无法打开GitHub喵，这不是你的错喵，{countdown}秒后返回eztor喵
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel onClick={() => setGithubDialogOpen(false)}>
+                关闭
+              </AlertDialogCancel>
+              <AlertDialogAction
+                onClick={() => {
+                  setGithubDialogOpen(false)
+                  window.location.href = `${window.location.origin}/`
+                }}
+              >
+                返回首页
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
         <DonationButton />
         {isAuthenticated && (
           <AlertDialog>
