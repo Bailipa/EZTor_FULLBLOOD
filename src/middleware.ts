@@ -9,6 +9,7 @@ const OPTIONAL_AUTH_PATHS = [
   '/api/public-translate',
   '/api/tts',
   '/api/donation',
+  '/api/analytics',
 ]
 
 const PUBLIC_PATHS = ['/auth/signin', '/api/auth', '/api/captcha', '/api/health']
@@ -19,7 +20,6 @@ const ADMIN_PATHS = [
   '/llm-config',
   '/public-words',
   '/translation-records',
-  '/api/analytics',
   '/api/admin/users',
   '/api/llm-providers',
   '/api/public-words',
