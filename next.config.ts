@@ -4,11 +4,11 @@ const isProduction = process.env.NODE_ENV === 'production'
 
 const cspProduction = [
   "default-src 'self'",
-  "script-src 'self' 'unsafe-inline'",
-  "style-src 'self' https://fonts.googleapis.com",
+  "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
+  "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
   "img-src 'self' data: blob:",
   "font-src 'self' data: https://fonts.gstatic.com",
-  "connect-src 'self' https:",
+  "connect-src 'self' https: wss:",
   "frame-ancestors 'self'",
   "base-uri 'self'",
   "form-action 'self'",

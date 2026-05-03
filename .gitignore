@@ -52,6 +52,7 @@ prisma/*.db
 
 # local scripts
 scripts/supplement-word-data-llm.ts
+scripts/fix-multi-pos-examples.ts
 prisma/*.db.backup.*
 prisma/*.db.backup.*.sql
 prisma/prisma/*.db*
