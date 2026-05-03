@@ -147,15 +147,13 @@ const WordCard = memo(
             )}
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="text-sm text-gray-700 dark:text-gray-300 font-medium leading-relaxed">
             {item.pos && (
-              <Badge variant="secondary" className="text-xs px-1.5 py-0">
+              <Badge variant="secondary" className="text-xs px-1.5 py-0 mr-1.5 align-middle">
                 {item.pos}
               </Badge>
             )}
-            <span className="text-sm text-gray-700 dark:text-gray-300 font-medium">
-              {item.translation}
-            </span>
+            {item.translation}
           </div>
 
           {(() => {

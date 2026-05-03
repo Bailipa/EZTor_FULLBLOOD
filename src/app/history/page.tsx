@@ -619,204 +619,205 @@ export default function HistoryPage() {
     <main className="min-h-screen bg-gray-50/50 dark:bg-background p-6 md:p-12 transition-colors duration-300">
       <div className="max-w-5xl mx-auto space-y-8">
         {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white dark:bg-card p-4 sm:p-6 rounded-xl shadow-sm border border-gray-100 dark:border-border transition-colors duration-300">
-          <div className="flex items-center gap-4">
+        <div className="bg-white dark:bg-card p-4 sm:p-6 rounded-xl shadow-sm border border-gray-100 dark:border-border transition-colors duration-300">
+          {/* Top section: back + title + controls */}
+          <div className="flex flex-wrap items-start gap-x-4 gap-y-3">
             <Link href="/">
-              <Button variant="outline" size="icon" className="rounded-full">
+              <Button variant="outline" size="icon" className="rounded-full shrink-0">
                 <ArrowLeft className="w-4 h-4" />
               </Button>
             </Link>
-            <div className="flex flex-col sm:flex-row sm:items-center gap-3">
-              <div>
-                <h1 className="text-2xl font-bold text-gray-900 dark:text-foreground">
-                  {isGroupView
-                    ? groups.find((g) => g.id === currentViewGroupId)?.name || '分组'
-                    : '我的生词本'}
-                </h1>
-                <p className="text-sm text-gray-500 dark:text-muted-foreground mt-1">
-                  共收录 {totalCount} 个词条
-                </p>
-              </div>
-
-              <div className="flex items-center gap-2">
-                <Select value={currentViewGroupId} onValueChange={setCurrentViewGroupId}>
-                  <SelectTrigger className="w-full sm:w-[180px] h-8">
-                    <SelectValue placeholder="切换视图" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">全部生词</SelectItem>
-                    {groups.map((g) => (
-                      <SelectItem key={g.id} value={g.id}>
-                        <div className="flex items-center justify-between w-full pr-2">
-                          <span>{g.name}</span>
-                        </div>
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-
-                {isGroupView && (
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="gap-1.5 h-8"
-                    onClick={() => {
-                      setSharingGroupId(currentViewGroupId)
-                      setIsGroupShareModalOpen(true)
-                    }}
-                  >
-                    <Share2 className="w-3.5 h-3.5" />
-                    分享
-                  </Button>
-                )}
-
-                {isGroupView && (
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" size="icon" className="h-8 w-8 ml-1">
-                        <MoreVertical className="w-4 h-4 text-muted-foreground" />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuItem
-                        onClick={() => {
-                          setRenamingGroupId(currentViewGroupId)
-                          setRenameValue(
-                            groups.find((g) => g.id === currentViewGroupId)?.name || '',
-                          )
-                          setIsRenameModalOpen(true)
-                        }}
-                      >
-                        <Edit2 className="w-4 h-4 mr-2" />
-                        重命名
-                      </DropdownMenuItem>
-                      <DropdownMenuItem
-                        className="text-red-600 focus:bg-red-50 focus:text-red-700"
-                        onClick={() => handleDeleteGroup(currentViewGroupId)}
-                      >
-                        <Trash2 className="w-4 h-4 mr-2" />
-                        删除分组
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                )}
-              </div>
+            <div className="flex-1 min-w-[120px]">
+              <h1 className="text-2xl font-bold text-gray-900 dark:text-foreground">
+                {isGroupView
+                  ? groups.find((g) => g.id === currentViewGroupId)?.name || '分组'
+                  : '我的生词本'}
+              </h1>
+              <p className="text-sm text-gray-500 dark:text-muted-foreground mt-1">
+                共收录 {totalCount} 个词条
+              </p>
+            </div>
+            <div className="flex items-center gap-2 shrink-0">
+              <Select value={currentViewGroupId} onValueChange={setCurrentViewGroupId}>
+                <SelectTrigger className="w-[160px] sm:w-[180px] h-8">
+                  <SelectValue placeholder="切换视图" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">全部生词</SelectItem>
+                  {groups.map((g) => (
+                    <SelectItem key={g.id} value={g.id}>
+                      <div className="flex items-center justify-between w-full pr-2">
+                        <span>{g.name}</span>
+                      </div>
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              {isGroupView && (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="gap-1.5 h-8"
+                  onClick={() => {
+                    setSharingGroupId(currentViewGroupId)
+                    setIsGroupShareModalOpen(true)
+                  }}
+                >
+                  <Share2 className="w-3.5 h-3.5" />
+                  分享
+                </Button>
+              )}
+              {isGroupView && (
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" size="icon" className="h-8 w-8">
+                      <MoreVertical className="w-4 h-4 text-muted-foreground" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    <DropdownMenuItem
+                      onClick={() => {
+                        setRenamingGroupId(currentViewGroupId)
+                        setRenameValue(
+                          groups.find((g) => g.id === currentViewGroupId)?.name || '',
+                        )
+                        setIsRenameModalOpen(true)
+                      }}
+                    >
+                      <Edit2 className="w-4 h-4 mr-2" />
+                      重命名
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                      className="text-red-600 focus:bg-red-50 focus:text-red-700"
+                      onClick={() => handleDeleteGroup(currentViewGroupId)}
+                    >
+                      <Trash2 className="w-4 h-4 mr-2" />
+                      删除分组
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              )}
             </div>
           </div>
 
-          <div className="flex flex-wrap items-center gap-2 sm:gap-3 w-full sm:w-auto sm:justify-end mt-4 sm:mt-0">
-            <ModeToggle />
-
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setIsImportModalOpen(true)}
-              className="gap-1.5"
-            >
-              <Share2 className="w-3.5 h-3.5" />
-              密钥导入
-            </Button>
-
-            {isSelectionMode ? (
-              <div className="flex flex-wrap items-center gap-2 animate-in fade-in zoom-in duration-200">
+          {/* Divider + action buttons grid */}
+          <div className="mt-4 pt-4 border-t border-gray-100 dark:border-border">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+              <ModeToggle />
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setIsImportModalOpen(true)}
+                className="gap-1.5"
+              >
+                <Share2 className="w-3.5 h-3.5" />
+                密钥导入
+              </Button>
+              {isSelectionMode ? (
+                <>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      if (selectedCount === words.length) {
+                        setSelectedIds(new Set())
+                      } else {
+                        setSelectedIds(new Set(words.map((w) => w.id)))
+                      }
+                    }}
+                  >
+                    {selectedCount === words.length && words.length > 0 ? '取消全选' : '全选'}
+                  </Button>
+                  <Button variant="outline" size="sm" onClick={() => clearSelection()}>
+                    取消
+                  </Button>
+                  <Button
+                    size="sm"
+                    onClick={() => setIsGroupModalOpen(true)}
+                    disabled={selectedCount === 0}
+                    className="gap-1"
+                  >
+                    <FolderPlus className="w-4 h-4" />
+                    加入分组 ({selectedCount})
+                  </Button>
+                  <Button
+                    variant="destructive"
+                    size="sm"
+                    onClick={handleBatchDelete}
+                    disabled={selectedCount === 0}
+                    className="gap-1"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                    删除 ({selectedCount})
+                  </Button>
+                </>
+              ) : (
                 <Button
                   variant="outline"
-                  onClick={() => {
-                    if (selectedCount === words.length) {
-                      setSelectedIds(new Set())
-                    } else {
-                      setSelectedIds(new Set(words.map((w) => w.id)))
-                    }
-                  }}
-                  className="px-2 sm:px-4"
-                >
-                  {selectedCount === words.length && words.length > 0 ? '取消全选' : '全选'}
-                </Button>
-                <Button variant="outline" onClick={() => clearSelection()} className="px-2 sm:px-4">
-                  取消
-                </Button>
-                <Button
-                  onClick={() => setIsGroupModalOpen(true)}
-                  disabled={selectedCount === 0}
-                  className="gap-1 sm:gap-2 bg-primary px-2 sm:px-4"
-                >
-                  <FolderPlus className="w-4 h-4" />
-                  <span className="hidden sm:inline">加入分组</span> ({selectedCount})
-                </Button>
-                <Button
-                  variant="destructive"
-                  onClick={handleBatchDelete}
-                  disabled={selectedCount === 0}
-                  className="gap-1 sm:gap-2 px-2 sm:px-4"
-                >
-                  <Trash2 className="w-4 h-4" />
-                  <span className="hidden sm:inline">删除</span> ({selectedCount})
-                </Button>
-              </div>
-            ) : (
-              <Button
-                variant="outline"
-                onClick={() => setIsSelectionMode(true)}
-                disabled={words.length === 0}
-                className="gap-1 sm:gap-2 px-2 sm:px-4"
-              >
-                <FolderOpen className="w-4 h-4" />
-                管理分组
-              </Button>
-            )}
-
-            <Link href="/dictation">
-              <Button
-                variant="outline"
-                className="gap-1 sm:gap-2 border-primary/20 text-primary hover:bg-primary/5 px-2 sm:px-4"
-              >
-                <PenTool className="w-4 h-4" />
-                去默写
-              </Button>
-            </Link>
-            <Button
-              variant="outline"
-              onClick={exportToCSV}
-              disabled={words.length === 0}
-              className="gap-1 sm:gap-2 px-2 sm:px-4"
-            >
-              <Download className="w-4 h-4" />
-              导出
-            </Button>
-
-            <AlertDialog open={isClearing} onOpenChange={setIsClearing}>
-              <AlertDialogTrigger asChild>
-                <Button
-                  variant="destructive"
+                  size="sm"
+                  onClick={() => setIsSelectionMode(true)}
                   disabled={words.length === 0}
-                  className="gap-1 sm:gap-2 px-2 sm:px-4"
+                  className="gap-1"
                 >
-                  <Trash2 className="w-4 h-4" />
-                  {isGroupView ? '清空本组' : '清空'}
+                  <FolderOpen className="w-4 h-4" />
+                  管理分组
                 </Button>
-              </AlertDialogTrigger>
-              <AlertDialogContent>
-                <AlertDialogHeader>
-                  <AlertDialogTitle>
-                    {isGroupView ? '确定要清空该分组吗？' : '确定要清空生词本吗？'}
-                  </AlertDialogTitle>
-                  <AlertDialogDescription>
-                    {isGroupView
-                      ? `此操作将把 ${totalCount} 个单词移出该分组，但单词仍会保留在您的总生词本中。`
-                      : `此操作将永久删除您保存的所有 ${totalCount} 个单词，该操作不可撤销。`}
-                  </AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                  <AlertDialogCancel>取消</AlertDialogCancel>
-                  <AlertDialogAction
-                    onClick={handleClearAll}
-                    className="bg-red-600 hover:bg-red-700"
+              )}
+              <Link href="/dictation">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="gap-1 w-full border-primary/20 text-primary hover:bg-primary/5"
+                >
+                  <PenTool className="w-4 h-4" />
+                  去默写
+                </Button>
+              </Link>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={exportToCSV}
+                disabled={words.length === 0}
+                className="gap-1"
+              >
+                <Download className="w-4 h-4" />
+                导出
+              </Button>
+              <AlertDialog open={isClearing} onOpenChange={setIsClearing}>
+                <AlertDialogTrigger asChild>
+                  <Button
+                    variant="destructive"
+                    size="sm"
+                    disabled={words.length === 0}
+                    className="gap-1"
                   >
-                    确定清空
-                  </AlertDialogAction>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
+                    <Trash2 className="w-4 h-4" />
+                    {isGroupView ? '清空本组' : '清空'}
+                  </Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>
+                      {isGroupView ? '确定要清空该分组吗？' : '确定要清空生词本吗？'}
+                    </AlertDialogTitle>
+                    <AlertDialogDescription>
+                      {isGroupView
+                        ? `此操作将把 ${totalCount} 个单词移出该分组，但单词仍会保留在您的总生词本中。`
+                        : `此操作将永久删除您保存的所有 ${totalCount} 个单词，该操作不可撤销。`}
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>取消</AlertDialogCancel>
+                    <AlertDialogAction
+                      onClick={handleClearAll}
+                      className="bg-red-600 hover:bg-red-700"
+                    >
+                      确定清空
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+            </div>
           </div>
         </div>
 

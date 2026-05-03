@@ -90,27 +90,25 @@ export default function AdminUsersPage() {
   return (
     <div className="min-h-screen bg-gray-50/50 dark:bg-background p-6 md:p-12">
       <div className="max-w-7xl mx-auto space-y-6">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <Link href="/analytics">
-              <Button variant="outline" size="sm">
-                <ArrowLeft className="w-4 h-4 mr-2" />
-                返回
-              </Button>
-            </Link>
-            <div>
-              <h1 className="text-2xl font-bold flex items-center gap-2">
-                <Users className="w-6 h-6" />
-                用户列表
-              </h1>
-              <p className="text-sm text-muted-foreground">
-                注册时间、使用频率与在线时长（基于 analytics events 估算）
-              </p>
-            </div>
+        <div className="flex flex-wrap items-start gap-x-4 gap-y-3">
+          <Link href="/analytics">
+            <Button variant="outline" size="sm" className="shrink-0">
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              返回
+            </Button>
+          </Link>
+          <div className="flex-1 min-w-[120px]">
+            <h1 className="text-2xl font-bold flex items-center gap-2">
+              <Users className="w-6 h-6" />
+              用户列表
+            </h1>
+            <p className="text-sm text-muted-foreground">
+              注册时间、使用频率与在线时长（基于 analytics events 估算）
+            </p>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 shrink-0">
             <Select value={range} onValueChange={setRange}>
-              <SelectTrigger className="w-full sm:w-[120px]">
+              <SelectTrigger className="w-[100px] sm:w-[120px]">
                 <SelectValue placeholder="范围" />
               </SelectTrigger>
               <SelectContent>
