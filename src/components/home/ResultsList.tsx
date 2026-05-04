@@ -41,7 +41,7 @@ export const ResultsList = forwardRef<HTMLDivElement, ResultsListProps>(function
           <div className="w-8 h-8 rounded-full bg-gradient-to-r from-teal-400 to-cyan-500 flex items-center justify-center animate-[scaleIn_0.3s_ease-out_0.1s_both]">
             <Sparkles className="w-4 h-4 text-white" />
           </div>
-          <h3 className="text-lg font-medium">解析结果 ({results.length})</h3>
+          <h3 className="text-lg font-medium" style={{ minWidth: 'max-content', whiteSpace: 'nowrap' }}>解析结果 ({results.length})</h3>
         </div>
         <span className="text-sm text-muted-foreground animate-[fadeIn_0.3s_ease-in-out_0.2s_both]">
           ↓ 向下滚动查看详情

@@ -627,8 +627,8 @@ export function WordInputCard({
   return (
     <Card className="border-2 shadow-sm">
       <CardHeader className="pb-3 flex flex-col sm:flex-row sm:items-start justify-between space-y-3 sm:space-y-0">
-        <div>
-          <CardTitle className="text-base sm:text-lg flex items-center gap-2">
+        <div style={{ minWidth: 'max-content' }}>
+          <CardTitle className="text-base sm:text-lg flex items-center gap-2" style={{ whiteSpace: 'nowrap' }}>
             <PenTool className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
             批量单词/词组输入
           </CardTitle>

@@ -84,7 +84,6 @@ const GridItem = forwardRef<
     ref={ref}
     {...props}
     style={{
-      contain: 'layout style paint',
       backfaceVisibility: 'hidden',
       WebkitBackfaceVisibility: 'hidden',
       ...style,
@@ -627,8 +626,8 @@ export default function HistoryPage() {
                 <ArrowLeft className="w-4 h-4" />
               </Button>
             </Link>
-            <div className="flex-1 min-w-[120px]">
-              <h1 className="text-2xl font-bold text-gray-900 dark:text-foreground">
+            <div className="flex-1 min-w-[120px]" style={{ minWidth: 'max-content' }}>
+              <h1 className="text-2xl font-bold text-gray-900 dark:text-foreground" style={{ whiteSpace: 'nowrap' }}>
                 {isGroupView
                   ? groups.find((g) => g.id === currentViewGroupId)?.name || '分组'
                   : '我的生词本'}

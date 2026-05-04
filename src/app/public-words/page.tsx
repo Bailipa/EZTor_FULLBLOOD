@@ -242,7 +242,7 @@ export default function PublicWordsPage() {
     <div className="min-h-screen bg-gray-50 p-4 md:p-8">
       <div className="max-w-7xl mx-auto">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 flex items-center gap-3">
+          <h1 className="text-3xl font-bold text-gray-900 flex items-center gap-3" style={{ minWidth: 'max-content', whiteSpace: 'nowrap' }}>
             <Database className="h-8 w-8 text-blue-500" />
             公共词库管理
           </h1>

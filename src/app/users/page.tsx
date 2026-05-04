@@ -97,8 +97,8 @@ export default function AdminUsersPage() {
               返回
             </Button>
           </Link>
-          <div className="flex-1 min-w-[120px]">
-            <h1 className="text-2xl font-bold flex items-center gap-2">
+          <div className="flex-1 min-w-[120px]" style={{ minWidth: 'max-content' }}>
+            <h1 className="text-2xl font-bold flex items-center gap-2" style={{ whiteSpace: 'nowrap' }}>
               <Users className="w-6 h-6" />
               用户列表
             </h1>

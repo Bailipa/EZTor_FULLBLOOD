@@ -330,7 +330,7 @@ export function TranslateOnlyCard() {
       <Card className="border-2 shadow-sm">
         <Collapsible open={isOpen} onOpenChange={setIsOpen}>
           <CardHeader className="pb-3 flex flex-col sm:flex-row sm:items-center justify-between space-y-3 sm:space-y-0">
-            <div>
+            <div style={{ minWidth: 'max-content' }}>
               <CardTitle className="text-base sm:text-lg flex items-center gap-2">
                 <Languages className="w-4 h-4 sm:w-5 sm:h-5 text-primary" aria-hidden="true" />
                 Translate Only

@@ -180,8 +180,8 @@ export default function TranslationRecordsPage() {
     <div className="min-h-screen bg-gray-50/50 dark:bg-background p-6 md:p-12">
       <div className="max-w-7xl mx-auto space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div>
-            <h1 className="text-2xl font-bold">翻译记录</h1>
+          <div style={{ minWidth: 'max-content' }}>
+            <h1 className="text-2xl font-bold" style={{ whiteSpace: 'nowrap' }}>翻译记录</h1>
             <p className="text-muted-foreground">查看用户翻译单词的详细记录</p>
           </div>
         </div>
@@ -237,8 +237,8 @@ export default function TranslationRecordsPage() {
         <Card>
           <CardHeader>
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-              <div>
-                <CardTitle>翻译记录列表</CardTitle>
+              <div style={{ minWidth: 'max-content' }}>
+                <CardTitle style={{ whiteSpace: 'nowrap' }}>翻译记录列表</CardTitle>
                 <CardDescription>点击记录查看详情</CardDescription>
               </div>
               <div className="flex gap-2">

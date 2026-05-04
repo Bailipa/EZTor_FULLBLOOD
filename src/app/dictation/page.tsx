@@ -579,8 +579,8 @@ export default function DictationPage() {
                 <ArrowLeft className="w-4 h-4" />
               </Button>
             </Link>
-            <div>
-              <h1 className="text-2xl font-bold text-gray-900 dark:text-foreground">多维默写本</h1>
+            <div style={{ minWidth: 'max-content' }}>
+              <h1 className="text-2xl font-bold text-gray-900 dark:text-foreground" style={{ whiteSpace: 'nowrap' }}>多维默写本</h1>
               <p className="text-sm text-gray-500 dark:text-muted-foreground mt-1">
                 检测你的真实记忆水平
               </p>
@@ -596,8 +596,8 @@ export default function DictationPage() {
               <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center">
                 <RefreshCw className="w-10 h-10 text-primary" />
               </div>
-              <div className="space-y-2">
-                <h2 className="text-2xl font-bold">配置本次默写</h2>
+              <div className="space-y-2" style={{ minWidth: 'max-content' }}>
+                <h2 className="text-2xl font-bold" style={{ whiteSpace: 'nowrap' }}>配置本次默写</h2>
                 <p className="text-muted-foreground">
                   根据你的时间安排，选择本次要复习的单词数量。
                 </p>
@@ -979,7 +979,7 @@ export default function DictationPage() {
               <div className="w-24 h-24 rounded-full bg-primary/10 flex items-center justify-center mb-4">
                 <CheckCircle2 className="w-12 h-12 text-primary" />
               </div>
-              <h2 className="text-3xl font-bold text-gray-900 dark:text-foreground">默写完成！</h2>
+              <h2 className="text-3xl font-bold text-gray-900 dark:text-foreground" style={{ minWidth: 'max-content', whiteSpace: 'nowrap' }}>默写完成！</h2>
               <div className="space-y-2">
                 <p className="text-5xl font-black text-primary">
                   {Math.round((score.correct / words.length) * 100)}{' '}

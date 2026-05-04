@@ -265,7 +265,7 @@ export function GuestWordInputCard({
     <>
       <Card className="overflow-hidden border-2 shadow-sm">
         <CardHeader className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-950/30 dark:to-indigo-950/30 pb-3">
-          <CardTitle className="flex items-center gap-2 text-base sm:text-lg">
+          <CardTitle className="flex items-center gap-2 text-base sm:text-lg" style={{ minWidth: 'max-content', whiteSpace: 'nowrap' }}>
             <Database className="h-4 w-4 sm:h-5 sm:w-5 text-blue-500" />
             公共词库查词
             <span className="text-xs font-normal text-blue-600 dark:text-blue-400 bg-blue-100 dark:bg-blue-900 px-2 py-0.5 rounded-full">

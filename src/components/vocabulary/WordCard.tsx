@@ -85,7 +85,7 @@ const WordCard = memo(
       >
         <CardContent
           className="p-5 space-y-3 relative"
-          style={{ minHeight: '200px', contain: 'layout' }}
+          style={{ minHeight: '200px' }}
         >
           {isSelectionMode && (
             <div className="absolute top-5 right-5 z-10">

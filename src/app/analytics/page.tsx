@@ -308,8 +308,8 @@ export default function AnalyticsPage() {
     <div className="min-h-screen bg-gray-50/50 dark:bg-background p-6 md:p-12">
       <div className="max-w-7xl mx-auto space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div>
-            <h1 className="text-2xl font-bold">数据分析看板</h1>
+          <div style={{ minWidth: 'max-content' }}>
+            <h1 className="text-2xl font-bold" style={{ whiteSpace: 'nowrap' }}>数据分析看板</h1>
             <p className="text-muted-foreground">查看应用使用情况和关键指标</p>
           </div>
           <div className="flex flex-wrap gap-2 items-center">

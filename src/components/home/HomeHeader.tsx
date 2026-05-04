@@ -70,7 +70,7 @@ export function HomeHeader({ showDanmaku, onToggleDanmaku, onFeatureClick }: Hom
 
   return (
     <header className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white dark:bg-card p-4 sm:p-6 rounded-xl shadow-sm border border-gray-100 dark:border-border transition-colors duration-300">
-      <div className="space-y-1.5">
+      <div className="space-y-1.5" style={{ minWidth: 'max-content' }}>
         <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-foreground">EZTor</h1>
         <p className="text-sm sm:text-base text-gray-500 dark:text-muted-foreground">
           An Easier Translator.

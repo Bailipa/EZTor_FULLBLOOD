@@ -209,8 +209,8 @@ export default function LlmConfigPage() {
                 返回
               </Button>
             </Link>
-            <div className="shrink-0 w-full sm:w-auto">
-              <h1 className="text-2xl font-bold flex items-center gap-2">
+            <div className="shrink-0 w-full sm:w-auto" style={{ minWidth: 'max-content' }}>
+              <h1 className="text-2xl font-bold flex items-center gap-2" style={{ whiteSpace: 'nowrap' }}>
                 <Settings2 className="w-6 h-6" />
                 大模型 API 配置
               </h1>
