@@ -95,6 +95,9 @@ export default function SignIn() {
             <span className="text-red-500/80 text-xs mt-1 inline-block font-medium">
               ⚠️ 为了保障您的隐私，请不要使用与学校账户相同的密码
             </span>
+            <span className="text-amber-500/80 text-xs mt-2 inline-block font-medium">
+              ⚠️ 密码无法修改也无法找回，请务必牢记您的密码
+            </span>
           </CardDescription>
         </CardHeader>
         <CardContent>

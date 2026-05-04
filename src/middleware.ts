@@ -5,6 +5,7 @@ import { validateCsrf } from '@/lib/csrf'
 
 const OPTIONAL_AUTH_PATHS = [
   '/',
+  '/promo',
   '/api/translate',
   '/api/public-translate',
   '/api/tts',
@@ -12,7 +13,7 @@ const OPTIONAL_AUTH_PATHS = [
   '/api/analytics',
 ]
 
-const PUBLIC_PATHS = ['/auth/signin', '/api/auth', '/api/captcha', '/api/health']
+const PUBLIC_PATHS = ['/auth/signin', '/api/auth', '/api/captcha', '/api/health', '/models', '/shot-home.png', '/shot-result.png', '/promo', '/audio']
 
 const ADMIN_PATHS = [
   '/analytics',
