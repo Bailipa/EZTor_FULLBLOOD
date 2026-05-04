@@ -4,9 +4,7 @@ import prisma from '@/lib/prisma'
 import bcrypt from 'bcryptjs'
 import crypto from 'crypto'
 import { rateLimit } from '@/lib/rateLimit'
-import { getRequiredEnvVar } from '@/lib/envValidator'
-
-const SECRET_KEY = getRequiredEnvVar('NEXTAUTH_SECRET')
+import { getSecretKey } from '@/lib/envValidator'
 
 const AUTH_ERROR_MESSAGE = '用户名或密码错误 / Invalid username or password'
 
@@ -15,7 +13,7 @@ async function simulatePasswordHash(): Promise<void> {
 }
 
 export const authOptions: NextAuthOptions = {
-  secret: SECRET_KEY,
+  secret: process.env.NEXTAUTH_SECRET,
   providers: [
     CredentialsProvider({
       name: 'Credentials',
@@ -53,7 +51,7 @@ export const authOptions: NextAuthOptions = {
         }
 
         const expectedHash = crypto
-          .createHmac('sha256', SECRET_KEY)
+          .createHmac('sha256', getSecretKey())
           .update(`${credentials.captchaInput.toLowerCase()}:${credentials.captchaTimestamp}`)
           .digest('hex')
 

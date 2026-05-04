@@ -121,6 +121,31 @@ export function getRequiredEnvVar(name: string): string {
   return value
 }
 
+let _secretKeyLogged = false
+
+export function getSecretKey(): string {
+  const secret = process.env.NEXTAUTH_SECRET
+  if (!secret) {
+    throw new Error(
+      'NEXTAUTH_SECRET is not set. The JWT signing key is missing — this will cause all auth sessions to fail.\n' +
+        'Ensure .env (with NEXTAUTH_SECRET) is copied to .next/standalone/ before starting the server.',
+    )
+  }
+  if (secret.startsWith('BUILD_PLACEHOLDER_')) {
+    throw new Error(
+      `NEXTAUTH_SECRET is still the build placeholder (${secret.substring(0, 40)}...). ` +
+        'A real .env file must be present at runtime. The placeholder was baked in at build time — ' +
+        'copy .env to .next/standalone/ and restart the server.',
+    )
+  }
+  if (!_secretKeyLogged) {
+    _secretKeyLogged = true
+    const preview = secret.substring(0, 4) + '****' + secret.substring(secret.length - 4)
+    console.log(`[AUTH] NEXTAUTH_SECRET loaded (${preview}, length=${secret.length})`)
+  }
+  return secret
+}
+
 export function getOptionalEnvVar(name: string, defaultValue?: string): string | undefined {
   const value = process.env[name]
   if (!value) {

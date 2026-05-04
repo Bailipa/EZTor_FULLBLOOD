@@ -1,10 +1,8 @@
 import { NextResponse } from 'next/server'
 import svgCaptcha from 'svg-captcha'
 import crypto from 'crypto'
-import { getRequiredEnvVar } from '@/lib/envValidator'
+import { getSecretKey } from '@/lib/envValidator'
 import { logger } from '@/lib/logger'
-
-const SECRET_KEY = getRequiredEnvVar('NEXTAUTH_SECRET')
 
 function sanitizeSvg(svg: string): string {
   return svg
@@ -40,7 +38,7 @@ export async function GET() {
     const text = captcha.text.toLowerCase()
     const timestamp = Date.now()
     const dataToHash = `${text}:${timestamp}`
-    const hash = crypto.createHmac('sha256', SECRET_KEY).update(dataToHash).digest('hex')
+    const hash = crypto.createHmac('sha256', getSecretKey()).update(dataToHash).digest('hex')
 
     const imageBase64 = svgToBase64(captcha.data)
 
