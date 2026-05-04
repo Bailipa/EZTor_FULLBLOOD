@@ -1,186 +1,185 @@
-# 工作报告 — 2026-05-04 会话（三阶段）
+# 工作报告 — 2026-05-04 会话（最终版）
 
 ---
 
-## 第一阶段：移动端布局修复（继承自 05-03 会话的待修复清单）
+## ⚡ 快速接手摘要
 
-来源：上一会话 WORK_REPORT.md "待修复" 章节。全部 15 项已修复完毕。
+本会话完成了大量修复（移动端布局、Safari 登录、分享海报、GitHub UX、打赏图片、LLM 鉴权等），但 **`所有人共享登录会话` 的 bug 仍未解决**。
+
+**最关键的未解线索**：
+1. 宝塔反向代理缓存已关闭（用户确认），但 bug 依然存在
+2. `page.tsx` 已加 `export const dynamic = 'force-dynamic'`（消除 x-nextjs-cache: HIT），无效
+3. `envValidator.ts` 的 crash loop 已修复（`process.exit(1)` → warn-and-continue），`↺ 83` 不会再出现
+4. `server.js` 第 4 行有 `process.chdir(__dirname)`（自身 Next.js 生成，非手写），将工作目录切到 `.next/standalone/`，影响 `.env` 加载路径
+5. 验证码已加显式 Cache-Control 头，中间件也对所有响应加了 anti-cache
+
+**建议下一会话方向**：
+- 直接 SSH 到服务器，在 Next.js 进程内打印 `process.env.NEXTAUTH_SECRET` 看是否正确
+- 检查 `SECRET_KEY` 在 route handler 模块层的值（可能被 build-time placeholder 替换）
+- 用 `curl -H "Cookie: ..."` 直接测试 `/api/auth/session`，看是否返回固定账号
+- 检查数据库是否有同名 session 记录
+
+---
+
+## 第一阶段：移动端布局修复（继承自 05-03 会话）
+
+全部 15 项已修复完毕。
 
 ### HIGH — 统计卡片长标签溢出 (analytics/page.tsx)
-5 处 "排除管理员和测试账号数据" 标签在 grid-cols-2 中溢出。
-修复：`text-sm` → `text-xs sm:text-sm break-words`
+5 处 "排除管理员和测试账号数据" 标签：`text-sm` → `text-xs sm:text-sm break-words`
 
 ### MEDIUM — 弹窗表单 grid-cols-2 在移动端太窄
-| 文件 | 位置 | 改动 |
-|------|------|------|
-| `public-words/page.tsx:576` | 编辑弹窗 | `grid-cols-2` → `grid-cols-1 sm:grid-cols-2` |
-| `public-words/page.tsx:700` | 新增弹窗 | 同上 |
-| `llm-config/page.tsx:252,277,294` | API 配置弹窗 (3处) | 同上 |
+`public-words/page.tsx` (2处) + `llm-config/page.tsx` (3处)：`grid-cols-2` → `grid-cols-1 sm:grid-cols-2`
 
-### LOW — 其他次要问题
-| 文件 | 改动 |
-|------|------|
-| `dictation/page.tsx:984` | 分数 `text-5xl` → `text-3xl sm:text-4xl md:text-5xl` |
-| `dictation/page.tsx:609` | select `max-w-[150px]` → `sm:max-w-[180px]` |
-| `translation-records/page.tsx:250` | 搜索框 `w-48` → `w-full sm:w-48 max-w-[200px]` |
-| `WordCard.tsx:150` | translation div 加 `break-words` |
-| `ResultsList.tsx:122` | 词条行加 `flex-wrap` |
-| `GameWidget.tsx:239` | cell text 加 `break-all` |
-| `public-words/page.tsx:331` | `min-w-[200px]` → `min-w-0 sm:min-w-[200px]` |
+### LOW — 次要问题
+`dictation/page.tsx` 分数 + select、`translation-records/page.tsx` 搜索框、`WordCard.tsx` break-words、`ResultsList.tsx` flex-wrap、`GameWidget.tsx` break-all、`public-words/page.tsx` min-w — **全部已修复**。
 
 ---
 
 ## 第二阶段：Safari iOS 登录 + SharePoster + TranslateOnly
 
-### Safari iOS 登录修复
-**根因**：NextAuth v4 在 iOS Safari 上存在 cookie 同步竞态 — `signIn` 成功后 `router.push('/')` 立即执行，但 Safari 可能尚未 ingest session cookie，导致中间件 `getToken` 返回 null → 重定向回 signin → 循环。
+### Safari iOS 登录修复 (signin/page.tsx)
+根因：NextAuth v4 cookie 同步竞态。修复：用 `useEffect` 监听 `status === 'authenticated'` 后跳转，支持 `callbackUrl`。
 
-**修复 (signin/page.tsx)**：移除 `router.push('/')`，改用 `useEffect` 监听 `status === 'authenticated'` 后再跳转。同时读取 `searchParams.get('callbackUrl')` 支持回跳（之前始终跳 `/`）。
+### ⚠️ 回退的修复（重要，别再重蹈）
+- `authOptions` 显式 `cookies` 配置 → **回退**，NextAuth 自动检测即可
+- middleware `getToken` 显式 `secret` → **回退**，Edge Runtime 拿不到 `process.env`
 
-**⚠️ 尝试过的修复（已回退）**：
-- 在 `authOptions` 添加显式 `cookies` 配置含 `__Secure-` 前缀 → **回退**，让 NextAuth 自动检测即可
-- 在 middleware `getToken` 中显式传 `secret: process.env.NEXTAUTH_SECRET` → **回退**，Edge Runtime 中 `process.env` 访问非 `NEXT_PUBLIC_` 变量返回 undefined，导致 getToken 永远失败。`getToken({ req: request })` 内部自动读取即可。
+### SharePoster 修复 (SharePoster.tsx)
+1. CSP：去掉 `fetch(dataUrl)` 链
+2. 跨域 CSS：加 `skipFonts: true`
+3. 响应式：去掉 `width:'90vw'` + `maxWidth:360` → `w-full`；缩小所有间距和字号
 
-### SharePoster 修复
-1. **CSP 违规**：`fetch(dataUrl)` 因 `connect-src` 不含 `data:` 被阻止。修复：移除 `fetch` 链，`toPng()` 返回 data URL 可直接用。
-2. **跨域 CSS 警告**：`html-to-image` 读取 `fonts.googleapis.com` 的 `cssRules` 失败。修复：加 `skipFonts: true`（poster 用系统字体）。
-3. **移动端溢出**：缩小 responsive 尺寸（padding/gap/font-size 加 sm: 断点）。
-
-### TranslateOnly 副标题
-移除 "，仅返回翻译文本，不写入生词本" — `TranslateOnlyCard.tsx:349`。
+### TranslateOnly 副标题 (TranslateOnlyCard.tsx)
+移除 "，仅返回翻译文本，不写入生词本"
 
 ---
 
-## 第三阶段：打赏图片修复 + GitHub 按钮 UX + 全局 anti-cache
+## 第三阶段：打赏图片 + GitHub UX + 全局 anti-cache + window.location → router.push
 
 ### 打赏图片不显示
-**根因**：`deploy.sh` 只复制了 `.next/static`，没有复制 `public/` 目录。Next.js standalone 模式下 `public/giveme.jpg` 从未被部署到服务器 → 404 → `onError` 静默隐藏图片。
+根因：`deploy.sh` 未复制 `public/` 到 standalone。修复：加 `cp -r public .next/standalone/public`；DonationModal 加失败文字提示。
 
-**修复**：
-- `deploy.sh` 加 `cp -r public .next/standalone/public`
-- `DonationModal.tsx` onError 改为显示 "图片加载失败，请稍后再试" 文字提示
+### GitHub 按钮 UX (HomeHeader.tsx)
+点击→立刻弹窗"正在检测"→能连就新标签打开→不能连就喵系提醒→关闭（无刷新）。
 
-### GitHub 按钮 UX 重构
-**旧行为**：点击 → 静默等待 3s 检测 → 能连就新标签打开 → 不能连就弹倒计时窗口 → 倒计时结束 `router.push('/')` 刷新整页。
-
-**新行为** (`HomeHeader.tsx`)：点击 → **立刻弹出** "正在检测网络环境，请稍后"（带旋转动画）→ 能连就关闭弹窗打开 GitHub → 不能连就切换到喵系提醒，点击 "好的喵" 关闭弹窗，全程无页面刷新。
-
-### 登录后跳转修复
-**旧行为**：登录后始终 `router.push('/')`，忽略中间件传递的 `callbackUrl`。
-
-**修复** (`signin/page.tsx`)：`useEffect` 中读取 `searchParams.get('callbackUrl')`，有则跳转到原目标路径。
-
-### window.location.href → router.push
-15 处 `window.location.href =` 改为 `router.push()`，消除整页重载。涉及：
-- `analytics/page.tsx` — 无权限/未登录跳转按钮
-- `translation-records/page.tsx` — 同上
-- `public-words/page.tsx` — 同上
-- `HomeHeader.tsx` — 登出、GitHub 倒计时、GitHub 回退（3 处）
-
-### /api/llm 服务端鉴权
-`route.ts` 原来仅靠中间件拦截未登录用户，handler 层无 `getServerSession`。修复：添加 `getServerSession(authOptions)` 检查。
+### 其他
+- 15 处 `window.location.href` → `router.push`（消除整页重载）
+- `/api/llm` 加 `getServerSession` 鉴权
+- 登录后支持 `callbackUrl` 回跳
+- normalize.css 已安装
 
 ---
 
-## 🚨 未修复：宝塔 nginx 反向代理缓存（最严重 bug）
+## 第四阶段：尝试修复共享登录 session bug（未成功）
 
-### 症状
-1. **所有人访问网站自动登录为同一账号**（如 "dogegg"），无需任何操作即显示已登录状态
-2. **所有访客看到同一个验证码**，填完信息点击登录无反应（captcha hash/timestamp 是旧的）
-3. 过一段时间（缓存过期）自动退出登录，然后又能登录但又是共享账号
+### 尝试 1：中间件全局 Cache-Control
+对**所有响应**（含 API）加 `no-store, no-cache, must-revalidate, proxy-revalidate` + `Pragma: no-cache` + `Expires: 0`。
+结果：**无效**。用户后来手动关闭宝塔面板缓存，bug 仍存在。
 
-### 根因分析
-宝塔面板的 nginx 反向代理配置 `location ^~ /` 将所有请求（包括 API）proxy 到 `http://127.0.0.1:3000`，且**启用了响应缓存**。API 返回的 JSON（验证码、auth callback）和 SSR HTML 被缓存后，nginx 将缓存内容分发给所有访客，无视请求的 Cookie 头。
+### 尝试 2：export const dynamic = 'force-dynamic'
+`page.tsx` 加 `export const dynamic = 'force-dynamic'` 消除 Next.js 内置的 `x-nextjs-cache: HIT`。
+结果：**无效**。首页缓存已消除，但共享 session 问题不在此层。
 
-关键线索：`/api/captcha` 在 `PUBLIC_PATHS` 中，中间件早期版本对该路径不设置 Cache-Control，导致 nginx 将其作为可缓存内容处理。
+### 尝试 3：envValidator crash loop 修复
+`logEnvStatus()` 中 `process.exit(1)` → warn-and-continue。之前 PM2 显示 `↺ 83` 重启次。
+结果：**已修复**，不会再 crash loop。
 
-### 已尝试的修复（无效）
-- **中间件**：对所有响应加 `Cache-Control: no-store, no-cache, must-revalidate, proxy-revalidate` + `Pragma: no-cache` + `Expires: 0`
-- **captcha route**：handler 层面显式加 Cache-Control 头
-- **signin page**：改进错误处理逻辑
-
-**以上修复均无效**，说明 nginx 配置存在 `proxy_ignore_headers` 或类似指令，忽略后端返回的 Cache-Control 头，强制缓存所有响应。
-
-### 建议给下一会话的方向
-这个问题**必须通过修改服务器上的 nginx 配置解决**，代码层面的 Cache-Control 头无效。
-
-**排查步骤**：
-1. 找到宝塔面板中该站点的 nginx 配置文件（通常在 `/www/server/panel/vhost/nginx/`）
-2. 搜索关键字：`proxy_cache`、`proxy_cache_valid`、`proxy_ignore_headers`、`proxy_cache_path`、`expires`
-3. 可能的修复方案：
-   - **方案 A**：在 `location ^~ /` 块内添加 `proxy_cache off;`
-   - **方案 B**：移除或注释掉 `proxy_cache` 相关指令
-   - **方案 C**：只缓存静态资源路径（`_next/static`），不缓存 `/` 和 `/api/`
-   - **方案 D**：如果宝塔面板无法修改，在面板中关闭该站点的"缓存"功能
-
-**验证修复是否成功**：
+### 线上验证发现的线索
 ```bash
-# 多次请求验证码，每次应返回不同内容
-curl -s https://dogeggcode.cyou/api/captcha | grep -o '"timestamp":[0-9]*' | sort | uniq -c
-# 正常情况：每次 timestamp 不同，uniq -c 每行应该只有 1
-# 缓存状态：所有 timestamp 相同 → 缓存未关闭
+# 服务器端验证命令输出
+curl -sI https://dogeggcode.cyou
+x-nextjs-cache: HIT          # ← Next.js 自身缓存（已用 force-dynamic 修复）
+cache-control: s-maxage=31536000  # ← 1 年缓存
 
-# 检查响应头
-curl -sI https://dogeggcode.cyou/api/captcha | grep -i cache
-# 检查是否包含 X-Cache、X-Proxy-Cache、Age 等命中标记
+# server.js 第 4 行（Next.js 自动生成，非手写）
+process.chdir(__dirname)     # ← 将 CWD 切到 .next/standalone/
+```
+
+---
+
+## 🚨 未修复：所有人共享登录会话（最严重，下一会话接手）
+
+### 当前症状（2026-05-04 最新）
+1. 任何访客打开 `https://dogeggcode.cyou` 都显示已登录为某个账号（如 "dogegg"）
+2. 验证码有时统一（代理缓存阶段）、有时不同（关闭缓存后），但登录后仍回共享状态
+3. **宝塔代理缓存已关闭** → 证明 bug 不在 nginx 层
+4. **Next.js 页面缓存已关闭** (`force-dynamic`) → 证明 bug 不在 Next.js SSG 层
+5. `pm2 status` 无 crash loop（envValidator 已修）
+
+### 未探索的方向
+
+**方向 A：模块级 `SECRET_KEY` 在 build 时可能被 placeholder 替换**
+`src/app/api/auth/[...nextauth]/route.ts` 第 9 行和 `src/app/api/captcha/route.ts` 第 7 行：
+```ts
+const SECRET_KEY = getRequiredEnvVar('NEXTAUTH_SECRET')
+```
+`getRequiredEnvVar` (envValidator.ts:102-122) 在变量缺失且 `isBuildTime=true` 时返回 `BUILD_PLACEHOLDER_*`。如果 .env 在 build 时不可见，模块常量就是 placeholder → 所有 JWT 签名用同一密钥 → 所有 token 等效。
+**验证方法**：在服务器上直接打印 `process.env.NEXTAUTH_SECRET` 的前 8 位。
+
+**方向 B：NextAuth session 回调可能固定返回同一用户**
+`route.ts:106-111` session callback：
+```ts
+async session({ session, token }) {
+  session.user.id = token.sub as string
+  session.user.isAdmin = token.isAdmin as boolean
+  return session
+}
+```
+若 token.sub 始终为 dogegg 的 ID（因为 SECRET_KEY 统一导致 token 解析固定），则所有 session 都返回 dogegg。
+
+**方向 C：`process.chdir(__dirname)` 导致 .env 加载路径错误**
+`server.js:4` 改变 CWD 到 `.next/standalone/`。若 `.env` 未复制到该目录，`process.env` 缺失关键变量。部署脚本已包含 `cp .env .next/standalone/.env`，但需确认每次部署都执行了。
+
+**方向 D：数据库 session 或 prisma 连接池共享状态**
+若 prisma 连接复用了某次请求中的 session 状态，出现跨请求污染。
+
+### 给下一会话的排查命令
+```bash
+# 1. 检查服务器 env 是否正确加载
+ssh root@114.55.58.90 "cd /www/wwwroot/114.55.58.90 && node -e 'process.chdir(\".next/standalone\"); require(\"dotenv\").config(); console.log(process.env.NEXTAUTH_SECRET?.substring(0,8))'"
+
+# 2. 直接用 curl 测试 /api/auth/session（带不同 cookie）
+# 先获取一个 session cookie
+curl -v -X POST https://dogeggcode.cyou/api/auth/callback/credentials \
+  -H "Content-Type: application/json" \
+  -d '{"username":"testuser","password":"testpass",...}'
+
+# 3. 检查当前运行的 Next.js 版本和 middleware 是否生效
+pm2 logs cet4-web --lines 20
+
+# 4. 检查数据库中的用户表
+# 确认 dogegg 是真实用户还是某次自动注册的产物
 ```
 
 ---
 
 ## 完整改动文件清单（本会话，已 commit + push）
 
-| 文件 | 本会话改动 |
-|------|-----------|
+| 文件 | 改动 |
+|------|------|
 | `src/app/globals.css` | 加 `@import 'normalize.css'` |
+| `src/app/page.tsx` | `export const dynamic = 'force-dynamic'` |
 | `src/app/analytics/page.tsx` | stat 标签 break-words；window.location → router.push |
 | `src/app/translation-records/page.tsx` | dialog grid-cols；搜索框 responsive；window.location → router.push |
 | `src/app/public-words/page.tsx` | dialog grid-cols；搜索容器 min-w；window.location → router.push |
 | `src/app/llm-config/page.tsx` | dialog grid-cols (3处) |
 | `src/app/dictation/page.tsx` | 分数 responsive sizing；select max-w |
-| `src/components/home/TranslateOnlyCard.tsx` | 副标题文案缩短 |
-| `src/components/home/HomeHeader.tsx` | window.location → router.push (3处)；GitHub 按钮 UX 重构 |
-| `src/components/share/SharePoster.tsx` | 去掉 fetch(dataUrl)；skipFonts；responsive 尺寸 |
+| `src/app/auth/signin/page.tsx` | useSession sync redirect；callbackUrl；loading 状态 |
+| `src/app/api/auth/[...nextauth]/route.ts` | 添加/回退 cookies config |
+| `src/app/api/llm/route.ts` | 添加 getServerSession 鉴权 |
+| `src/app/api/captcha/route.ts` | 添加 Cache-Control 响应头 |
+| `src/middleware.ts` | Cache-Control 全覆盖；添加/回退显式 secret |
+| `src/lib/envValidator.ts` | `process.exit(1)` → warn-and-continue |
+| `src/components/home/TranslateOnlyCard.tsx` | 副标题缩短 |
+| `src/components/home/HomeHeader.tsx` | window.location → router.push (3处)；GitHub UX 重构 |
+| `src/components/share/SharePoster.tsx` | 去掉 fetch(dataUrl)；skipFonts；响应式 w-full |
 | `src/components/home/ResultsList.tsx` | flex-wrap |
 | `src/components/ui/game/GameWidget.tsx` | break-all |
 | `src/components/vocabulary/WordCard.tsx` | break-words |
 | `src/components/home/DonationModal.tsx` | 图片加载失败显示文字 |
-| `src/app/auth/signin/page.tsx` | useSession 同步 redirect；callbackUrl support；loading 状态改进 |
-| `src/app/api/auth/[...nextauth]/route.ts` | 添加/回退 cookies config |
-| `src/app/api/llm/route.ts` | 添加 getServerSession 鉴权 |
-| `src/app/api/captcha/route.ts` | 添加 Cache-Control 响应头 |
-| `src/middleware.ts` | Cache-Control 全覆盖（含 API）；添加/回退显式 secret |
 | `deploy.sh` | 添加 `cp -r public` 步骤 |
 | `package.json` | 添加 normalize.css 依赖 |
-
----
-
-## 部署/运维备忘
-
-### 部署流程（更新）
-```bash
-# 本地
-npm run build
-bash deploy.sh
-# 上传 deploy_*.tar.gz 到服务器
-
-# 服务器
-cd /www/wwwroot/114.55.58.90
-tar -xzf deploy_*.tar.gz
-cp .env .next/standalone/.env   # ⚠️ 每次必做
-pm2 restart cet4-web
-```
-
-### 排查命令
-```bash
-# 检查进程
-pm2 status
-
-# 检查验证码是否仍被缓存（关键）
-for i in 1 2 3; do
-  curl -s https://dogeggcode.cyou/api/captcha | python3 -c "import sys,json; d=json.load(sys.stdin); print(d['timestamp'])"
-done
-# 如果三次 timestamp 相同 → nginx 仍在缓存 API 响应
-```
 
 ---
 
@@ -188,27 +187,32 @@ done
 
 | 用途 | 路径 |
 |------|------|
-| 首页 | `src/app/page.tsx` |
-| 首页内容 (client) | `src/components/home/HomeContent.tsx` |
-| 首页 Header | `src/components/home/HomeHeader.tsx` |
-| 登录页 | `src/app/auth/signin/page.tsx` |
-| NextAuth 配置 | `src/app/api/auth/[...nextauth]/route.ts` |
+| **首页（含 force-dynamic）** | `src/app/page.tsx` |
+| **NextAuth 配置（SECRET_KEY 模块级）** | `src/app/api/auth/[...nextauth]/route.ts` |
+| **验证码 API（SECRET_KEY 模块级）** | `src/app/api/captcha/route.ts` |
 | 中间件 (auth/csrf/cache) | `src/middleware.ts` |
-| 验证码 API | `src/app/api/captcha/route.ts` |
-| LLM API | `src/app/api/llm/route.ts` |
-| CSRF 校验 | `src/lib/csrf.ts` |
-| 环境校验 | `src/lib/envValidator.ts` |
-| 启动校验 | `src/instrumentation.ts` |
-| 历史/生词本 | `src/app/history/page.tsx` |
-| 用户管理 | `src/app/users/page.tsx` |
-| 默写 | `src/app/dictation/page.tsx` |
-| 分析看板 | `src/app/analytics/page.tsx` |
-| 翻译记录 | `src/app/translation-records/page.tsx` |
-| 公共词库管理 | `src/app/public-words/page.tsx` |
-| LLM 配置 | `src/app/llm-config/page.tsx` |
+| 环境校验（crash loop 已修） | `src/lib/envValidator.ts` |
+| 首页 Header | `src/components/home/HomeHeader.tsx` |
 | 分享海报 | `src/components/share/SharePoster.tsx` |
-| 打赏弹窗 | `src/components/home/DonationModal.tsx` |
-| 全局 CSS | `src/app/globals.css` |
-| Next 配置 | `next.config.ts` |
+| 登录页 | `src/app/auth/signin/page.tsx` |
 | 部署脚本 | `deploy.sh` |
 | PM2 配置 | `ecosystem.config.js` |
+| Next 配置 | `next.config.ts` |
+
+---
+
+## 部署备忘
+
+```bash
+# 本地
+npm run build && bash deploy.sh
+
+# 服务器（⚠️ 顺序关键）
+cd /www/wwwroot/114.55.58.90
+rm -rf .next                          # 先彻底清
+tar -xzf deploy_*.tar.gz              # 解压
+cp .env .next/standalone/.env         # ⚠️ 必须做，server.js 的 chdir 需要
+cp -r .next/static .next/standalone/.next/static 2>/dev/null
+pm2 restart cet4-web
+pm2 status   # 确认 ↺ 不再增长
+```
