@@ -247,7 +247,7 @@ export default function TranslationRecordsPage() {
                   value={searchInput}
                   onChange={(e) => setSearchInput(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-                  className="w-48"
+                  className="w-full sm:w-48 max-w-[200px]"
                 />
                 <Button variant="outline" size="sm" onClick={handleSearch}>
                   <Search className="w-4 h-4" />

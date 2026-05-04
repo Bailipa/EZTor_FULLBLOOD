@@ -236,7 +236,7 @@ export function GameWidget() {
                         }}
                         disabled={!isUserTurn || winner !== null}
                         className={`
-                          aspect-square w-full rounded-lg border-2 text-4xl font-bold
+                          aspect-square w-full rounded-lg border-2 text-4xl font-bold break-all
                           transition-all duration-150
                           ${
                             cell === null

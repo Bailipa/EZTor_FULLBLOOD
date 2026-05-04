@@ -607,7 +607,7 @@ export default function DictationPage() {
                 <div className="flex justify-between items-center bg-muted/30 p-4 rounded-lg border">
                   <span className="font-medium">复习范围</span>
                   <select
-                    className="bg-background border rounded-md px-3 py-1.5 text-sm outline-none focus:ring-2 focus:ring-primary max-w-[150px]"
+                    className="bg-background border rounded-md px-3 py-1.5 text-sm outline-none focus:ring-2 focus:ring-primary max-w-[150px] sm:max-w-[180px]"
                     value={selectedGroupId}
                     onChange={(e) => setSelectedGroupId(e.target.value)}
                     disabled={testCount === 'custom'}
@@ -981,7 +981,7 @@ export default function DictationPage() {
               </div>
               <h2 className="text-3xl font-bold text-gray-900 dark:text-foreground" style={{ minWidth: 'max-content', whiteSpace: 'nowrap' }}>默写完成！</h2>
               <div className="space-y-2">
-                <p className="text-5xl font-black text-primary">
+                <p className="text-3xl sm:text-4xl md:text-5xl font-black text-primary">
                   {Math.round((score.correct / words.length) * 100)}{' '}
                   <span className="text-2xl text-muted-foreground font-medium">分</span>
                 </p>

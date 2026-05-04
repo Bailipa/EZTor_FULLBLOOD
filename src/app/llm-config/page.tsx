@@ -249,7 +249,7 @@ export default function LlmConfigPage() {
                   <DialogTitle>{isEditing ? '编辑 API' : '新增 API'}</DialogTitle>
                 </DialogHeader>
                 <div className="space-y-3">
-                  <div className="grid grid-cols-2 gap-3">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
                       <div className="text-sm mb-1">名称 *</div>
                       <Input
@@ -274,7 +274,7 @@ export default function LlmConfigPage() {
                     />
                   </div>
 
-                  <div className="grid grid-cols-2 gap-3">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
                       <div className="text-sm mb-1">Base URL</div>
                       <Input
@@ -291,7 +291,7 @@ export default function LlmConfigPage() {
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-3 items-end">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 items-end">
                     <div>
                       <div className="text-sm mb-1">剩余额度（请求数，留空=无限）</div>
                       <Input

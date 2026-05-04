@@ -345,8 +345,8 @@ export function TranslateOnlyCard() {
                   </Badge>
                 )}
               </CardTitle>
-              <CardDescription className="mt-1.5 text-xs sm:text-sm">
-                中英互译，最多 {charCount}/{MAX_LENGTH} 字符，仅返回翻译文本，不写入生词本
+              <CardDescription className="mt-1.5 text-xs sm:text-sm break-words">
+                中英互译，最多 {charCount}/{MAX_LENGTH} 字符
               </CardDescription>
             </div>
             <CollapsibleTrigger asChild>

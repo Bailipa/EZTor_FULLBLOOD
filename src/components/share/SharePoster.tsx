@@ -33,7 +33,6 @@ export function SharePoster({ open, onOpenChange }: SharePosterProps) {
   const [mounted, setMounted] = useState(false)
   const { resolvedTheme } = useTheme()
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
-  const previewUrlRef = useRef<string | null>(null)
 
   const isDark = resolvedTheme === 'dark'
 
@@ -86,15 +85,9 @@ export function SharePoster({ open, onOpenChange }: SharePosterProps) {
         quality: 1.0,
         pixelRatio: 2,
         backgroundColor: isDark ? '#0a0a0a' : '#ffffff',
+        skipFonts: true,
       })
-      const response = await fetch(dataUrl)
-      const blob = await response.blob()
-      const objectUrl = URL.createObjectURL(blob)
-      if (previewUrlRef.current) {
-        URL.revokeObjectURL(previewUrlRef.current)
-      }
-      previewUrlRef.current = objectUrl
-      setPreviewUrl(objectUrl)
+      setPreviewUrl(dataUrl)
     } catch (e) {
       if (process.env.NODE_ENV === 'development') console.error('Failed to generate poster:', e)
     }
@@ -114,17 +107,7 @@ export function SharePoster({ open, onOpenChange }: SharePosterProps) {
 
   useEffect(() => {
     if (!open) {
-      if (previewUrlRef.current) {
-        URL.revokeObjectURL(previewUrlRef.current)
-        previewUrlRef.current = null
-      }
       setPreviewUrl(null)
-    }
-    return () => {
-      if (previewUrlRef.current) {
-        URL.revokeObjectURL(previewUrlRef.current)
-        previewUrlRef.current = null
-      }
     }
   }, [open])
 
@@ -167,7 +150,7 @@ export function SharePoster({ open, onOpenChange }: SharePosterProps) {
 
             <div
               ref={cardRef}
-              className="p-8 rounded-2xl"
+              className="p-5 sm:p-8 rounded-2xl"
               style={{
                 width: '90vw',
                 maxWidth: 360,
@@ -175,7 +158,7 @@ export function SharePoster({ open, onOpenChange }: SharePosterProps) {
                 backgroundColor: isDark ? '#0a0a0a' : '#ffffff',
               }}
             >
-              <div className="text-center mb-8">
+              <div className="text-center mb-6 sm:mb-8">
                 <div
                   className="text-xs tracking-widest mb-2"
                   style={{ color: isDark ? '#737373' : '#a3a3a3' }}
@@ -183,26 +166,26 @@ export function SharePoster({ open, onOpenChange }: SharePosterProps) {
                   EZTor
                 </div>
                 <div
-                  className="text-2xl font-semibold"
+                  className="text-xl sm:text-2xl font-semibold"
                   style={{ color: isDark ? '#fafafa' : '#171717' }}
                 >
                   学习成果
                 </div>
               </div>
 
-              <div className="text-center mb-8">
+              <div className="text-center mb-6 sm:mb-8">
                 <div className="text-sm" style={{ color: isDark ? '#a3a3a3' : '#737373' }}>
                   @{stats.username}
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-4 mb-8">
+              <div className="grid grid-cols-2 gap-3 sm:gap-4 mb-6 sm:mb-8">
                 <div
-                  className="text-center p-4 rounded-xl"
+                  className="text-center p-3 sm:p-4 rounded-xl"
                   style={{ backgroundColor: isDark ? '#171717' : '#f5f5f5' }}
                 >
                   <div
-                    className="text-3xl font-bold"
+                    className="text-2xl sm:text-3xl font-bold"
                     style={{ color: isDark ? '#fafafa' : '#171717' }}
                   >
                     {stats.totalWords}
@@ -212,11 +195,11 @@ export function SharePoster({ open, onOpenChange }: SharePosterProps) {
                   </div>
                 </div>
                 <div
-                  className="text-center p-4 rounded-xl"
+                  className="text-center p-3 sm:p-4 rounded-xl"
                   style={{ backgroundColor: isDark ? '#171717' : '#f5f5f5' }}
                 >
                   <div
-                    className="text-3xl font-bold"
+                    className="text-2xl sm:text-3xl font-bold"
                     style={{ color: isDark ? '#fafafa' : '#171717' }}
                   >
                     {stats.studyDays}
@@ -227,13 +210,13 @@ export function SharePoster({ open, onOpenChange }: SharePosterProps) {
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-4 mb-8">
+              <div className="grid grid-cols-2 gap-3 sm:gap-4 mb-6 sm:mb-8">
                 <div
-                  className="text-center p-4 rounded-xl"
+                  className="text-center p-3 sm:p-4 rounded-xl"
                   style={{ backgroundColor: isDark ? '#171717' : '#f5f5f5' }}
                 >
                   <div
-                    className="text-3xl font-bold"
+                    className="text-2xl sm:text-3xl font-bold"
                     style={{ color: isDark ? '#fafafa' : '#171717' }}
                   >
                     {stats.accuracy}%
@@ -243,11 +226,11 @@ export function SharePoster({ open, onOpenChange }: SharePosterProps) {
                   </div>
                 </div>
                 <div
-                  className="text-center p-4 rounded-xl"
+                  className="text-center p-3 sm:p-4 rounded-xl"
                   style={{ backgroundColor: isDark ? '#171717' : '#f5f5f5' }}
                 >
                   <div
-                    className="text-3xl font-bold"
+                    className="text-2xl sm:text-3xl font-bold"
                     style={{ color: isDark ? '#fafafa' : '#171717' }}
                   >
                     {stats.todayWords}
@@ -258,8 +241,8 @@ export function SharePoster({ open, onOpenChange }: SharePosterProps) {
                 </div>
               </div>
 
-              <div className="text-center mb-6">
-                <div className="text-sm italic" style={{ color: isDark ? '#d4d4d4' : '#525252' }}>
+              <div className="text-center mb-5 sm:mb-6">
+                <div className="text-xs sm:text-sm italic" style={{ color: isDark ? '#d4d4d4' : '#525252' }}>
                   "{getCurrentQuote()}"
                 </div>
               </div>

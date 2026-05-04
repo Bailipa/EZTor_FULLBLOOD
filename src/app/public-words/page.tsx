@@ -328,7 +328,7 @@ export default function PublicWordsPage() {
         <Card className="mb-6">
           <CardContent className="pt-6">
             <div className="flex flex-wrap gap-4 items-center">
-              <div className="flex gap-2 flex-1 min-w-[200px]">
+              <div className="flex gap-2 flex-1 min-w-0 sm:min-w-[200px]">
                 <Input
                   placeholder="搜索单词..."
                   value={searchInput}
@@ -573,7 +573,7 @@ export default function PublicWordsPage() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                       <label className="text-sm text-gray-500">单词</label>
                       <Input
@@ -697,7 +697,7 @@ function AddWordForm({
 
   return (
     <div className="space-y-4">
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
           <label className="text-sm text-gray-500">单词 *</label>
           <Input

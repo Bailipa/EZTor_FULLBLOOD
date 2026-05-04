@@ -434,7 +434,7 @@ export default function AnalyticsPage() {
                 <p className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">
                   {data.userStats.totalQueries}
                 </p>
-                <p className="text-sm text-muted-foreground">排除管理员和测试账号数据</p>
+                <p className="text-xs sm:text-sm text-muted-foreground break-words">排除管理员和测试账号数据</p>
               </div>
               <div className="p-4 bg-green-50 dark:bg-green-950/30 rounded-lg text-center">
                 <p className="text-2xl font-bold text-green-600 dark:text-green-400">
@@ -452,7 +452,7 @@ export default function AnalyticsPage() {
                 <p className="text-2xl font-bold text-blue-600 dark:text-blue-400">
                   {data.userStats.successRate.toFixed(2)}%
                 </p>
-                <p className="text-sm text-muted-foreground">排除管理员和测试账号数据</p>
+                <p className="text-xs sm:text-sm text-muted-foreground break-words">排除管理员和测试账号数据</p>
               </div>
               <div className="p-4 bg-purple-50 dark:bg-purple-950/30 rounded-lg text-center">
                 <p className="text-2xl font-bold text-purple-600 dark:text-purple-400">
@@ -525,7 +525,7 @@ export default function AnalyticsPage() {
                 <p className="text-2xl font-bold text-teal-600 dark:text-teal-400">
                   {data.guestStats.totalQueries}
                 </p>
-                <p className="text-sm text-muted-foreground">排除管理员和测试账号数据</p>
+                <p className="text-xs sm:text-sm text-muted-foreground break-words">排除管理员和测试账号数据</p>
               </div>
               <div className="p-4 bg-green-50 dark:bg-green-950/30 rounded-lg text-center">
                 <p className="text-2xl font-bold text-green-600 dark:text-green-400">
@@ -537,13 +537,13 @@ export default function AnalyticsPage() {
                 <p className="text-2xl font-bold text-red-600 dark:text-red-400">
                   {data.guestStats.totalNotFound}
                 </p>
-                <p className="text-sm text-muted-foreground">排除管理员和测试账号数据</p>
+                <p className="text-xs sm:text-sm text-muted-foreground break-words">排除管理员和测试账号数据</p>
               </div>
               <div className="p-4 bg-blue-50 dark:bg-blue-950/30 rounded-lg text-center">
                 <p className="text-2xl font-bold text-blue-600 dark:text-blue-400">
                   {data.guestStats.successRate.toFixed(2)}%
                 </p>
-                <p className="text-sm text-muted-foreground">排除管理员和测试账号数据</p>
+                <p className="text-xs sm:text-sm text-muted-foreground break-words">排除管理员和测试账号数据</p>
               </div>
               <div className="p-4 bg-purple-50 dark:bg-purple-950/30 rounded-lg text-center">
                 <p className="text-2xl font-bold text-purple-600 dark:text-purple-400">

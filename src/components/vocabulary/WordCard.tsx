@@ -147,7 +147,7 @@ const WordCard = memo(
             )}
           </div>
 
-          <div className="text-sm text-gray-700 dark:text-gray-300 font-medium leading-relaxed">
+          <div className="text-sm text-gray-700 dark:text-gray-300 font-medium leading-relaxed break-words">
             {item.pos && (
               <Badge variant="secondary" className="text-xs px-1.5 py-0 mr-1.5 align-middle">
                 {item.pos}

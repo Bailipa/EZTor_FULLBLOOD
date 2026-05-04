@@ -119,7 +119,7 @@ function ResultCard({
         className={`h-1 animate-[scaleX_0.4s_ease-out_${index * 0.03 + 0.1}s_both] origin-left ${item.isNotFound ? 'bg-gradient-to-r from-amber-400 to-orange-400' : 'bg-gradient-to-r from-teal-400 via-cyan-400 to-blue-400'}`}
       />
       <CardContent className="p-4 space-y-2">
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 flex-wrap">
           <span className="text-xl font-bold text-primary">{item.word}</span>
           {item.phonetic && (
             <span className="text-sm text-gray-500 font-mono">[{item.phonetic}]</span>

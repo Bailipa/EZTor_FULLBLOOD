@@ -1,6 +1,6 @@
 'use client'
 
-import { signIn } from 'next-auth/react'
+import { signIn, useSession } from 'next-auth/react'
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
@@ -21,6 +21,13 @@ export default function SignIn() {
   const [error, setError] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
+  const { status } = useSession()
+
+  useEffect(() => {
+    if (status === 'authenticated') {
+      router.push('/')
+    }
+  }, [status, router])
 
   const fetchCaptcha = async () => {
     try {
@@ -61,9 +68,7 @@ export default function SignIn() {
       if (res?.error) {
         setError(res.error)
         fetchCaptcha()
-      } else {
-        router.push('/')
-        router.refresh()
+        setIsLoading(false)
       }
     } catch (_err) {
       setError('发生未知错误')
