@@ -125,7 +125,7 @@ export function SharePoster({ open, onOpenChange }: SharePosterProps) {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[440px] p-4">
+      <DialogContent className="max-w-md w-[calc(100vw-2rem)] p-3 sm:p-4">
         <DialogHeader className="pb-2">
           <DialogTitle className="text-base">分享学习成果</DialogTitle>
         </DialogHeader>
@@ -150,108 +150,106 @@ export function SharePoster({ open, onOpenChange }: SharePosterProps) {
 
             <div
               ref={cardRef}
-              className="p-5 sm:p-8 rounded-2xl"
+              className="w-full p-4 sm:p-6 rounded-2xl"
               style={{
-                width: '90vw',
-                maxWidth: 360,
                 fontFamily: 'system-ui, -apple-system, sans-serif',
                 backgroundColor: isDark ? '#0a0a0a' : '#ffffff',
               }}
             >
-              <div className="text-center mb-6 sm:mb-8">
+              <div className="text-center mb-4 sm:mb-6">
                 <div
-                  className="text-xs tracking-widest mb-2"
+                  className="text-xs tracking-widest mb-1"
                   style={{ color: isDark ? '#737373' : '#a3a3a3' }}
                 >
                   EZTor
                 </div>
                 <div
-                  className="text-xl sm:text-2xl font-semibold"
+                  className="text-lg sm:text-xl font-semibold"
                   style={{ color: isDark ? '#fafafa' : '#171717' }}
                 >
                   学习成果
                 </div>
               </div>
 
-              <div className="text-center mb-6 sm:mb-8">
-                <div className="text-sm" style={{ color: isDark ? '#a3a3a3' : '#737373' }}>
+              <div className="text-center mb-4 sm:mb-6">
+                <div className="text-xs sm:text-sm" style={{ color: isDark ? '#a3a3a3' : '#737373' }}>
                   @{stats.username}
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-3 sm:gap-4 mb-6 sm:mb-8">
+              <div className="grid grid-cols-2 gap-2 sm:gap-3 mb-4 sm:mb-6">
                 <div
-                  className="text-center p-3 sm:p-4 rounded-xl"
+                  className="text-center p-2 sm:p-3 rounded-xl"
                   style={{ backgroundColor: isDark ? '#171717' : '#f5f5f5' }}
                 >
                   <div
-                    className="text-2xl sm:text-3xl font-bold"
+                    className="text-xl sm:text-2xl font-bold"
                     style={{ color: isDark ? '#fafafa' : '#171717' }}
                   >
                     {stats.totalWords}
                   </div>
-                  <div className="text-xs mt-1" style={{ color: isDark ? '#a3a3a3' : '#737373' }}>
+                  <div className="text-[10px] sm:text-xs mt-0.5" style={{ color: isDark ? '#a3a3a3' : '#737373' }}>
                     已学单词
                   </div>
                 </div>
                 <div
-                  className="text-center p-3 sm:p-4 rounded-xl"
+                  className="text-center p-2 sm:p-3 rounded-xl"
                   style={{ backgroundColor: isDark ? '#171717' : '#f5f5f5' }}
                 >
                   <div
-                    className="text-2xl sm:text-3xl font-bold"
+                    className="text-xl sm:text-2xl font-bold"
                     style={{ color: isDark ? '#fafafa' : '#171717' }}
                   >
                     {stats.studyDays}
                   </div>
-                  <div className="text-xs mt-1" style={{ color: isDark ? '#a3a3a3' : '#737373' }}>
+                  <div className="text-[10px] sm:text-xs mt-0.5" style={{ color: isDark ? '#a3a3a3' : '#737373' }}>
                     学习天数
                   </div>
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-3 sm:gap-4 mb-6 sm:mb-8">
+              <div className="grid grid-cols-2 gap-2 sm:gap-3 mb-4 sm:mb-6">
                 <div
-                  className="text-center p-3 sm:p-4 rounded-xl"
+                  className="text-center p-2 sm:p-3 rounded-xl"
                   style={{ backgroundColor: isDark ? '#171717' : '#f5f5f5' }}
                 >
                   <div
-                    className="text-2xl sm:text-3xl font-bold"
+                    className="text-xl sm:text-2xl font-bold"
                     style={{ color: isDark ? '#fafafa' : '#171717' }}
                   >
                     {stats.accuracy}%
                   </div>
-                  <div className="text-xs mt-1" style={{ color: isDark ? '#a3a3a3' : '#737373' }}>
+                  <div className="text-[10px] sm:text-xs mt-0.5" style={{ color: isDark ? '#a3a3a3' : '#737373' }}>
                     默写正确率
                   </div>
                 </div>
                 <div
-                  className="text-center p-3 sm:p-4 rounded-xl"
+                  className="text-center p-2 sm:p-3 rounded-xl"
                   style={{ backgroundColor: isDark ? '#171717' : '#f5f5f5' }}
                 >
                   <div
-                    className="text-2xl sm:text-3xl font-bold"
+                    className="text-xl sm:text-2xl font-bold"
                     style={{ color: isDark ? '#fafafa' : '#171717' }}
                   >
                     {stats.todayWords}
                   </div>
-                  <div className="text-xs mt-1" style={{ color: isDark ? '#a3a3a3' : '#737373' }}>
+                  <div className="text-[10px] sm:text-xs mt-0.5" style={{ color: isDark ? '#a3a3a3' : '#737373' }}>
                     今日学习
                   </div>
                 </div>
               </div>
 
-              <div className="text-center mb-5 sm:mb-6">
-                <div className="text-xs sm:text-sm italic" style={{ color: isDark ? '#d4d4d4' : '#525252' }}>
+              <div className="text-center mb-4 sm:mb-5">
+                <div className="text-[10px] sm:text-xs italic leading-relaxed" style={{ color: isDark ? '#d4d4d4' : '#525252' }}>
                   "{getCurrentQuote()}"
                 </div>
               </div>
 
               <div className="text-center">
-                <div className="text-xs" style={{ color: isDark ? '#525252' : '#a3a3a3' }}>
+                <div className="text-[10px] sm:text-xs" style={{ color: isDark ? '#525252' : '#a3a3a3' }}>
                   {stats.baseUrl}
                 </div>
-                <div className="text-xs mt-1" style={{ color: isDark ? '#404040' : '#d4d4d4' }}>
+                <div className="text-[10px] sm:text-xs mt-0.5" style={{ color: isDark ? '#404040' : '#d4d4d4' }}>
                   {new Date().toLocaleDateString('zh-CN')}
                 </div>
               </div>
