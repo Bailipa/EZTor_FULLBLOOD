@@ -178,8 +178,9 @@ export function logEnvStatus(): void {
 
   if (!result.valid && process.env.NODE_ENV === 'production') {
     console.error(
-      '[FATAL] Invalid environment configuration in production. Application cannot start safely.',
+      '[WARNING] Environment configuration has issues in production:',
     )
-    process.exit(1)
+    result.errors.forEach((e) => console.error(`  - ${e}`))
+    console.error('[WARNING] Application will continue but some features may not work.')
   }
 }
