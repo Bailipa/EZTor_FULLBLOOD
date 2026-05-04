@@ -36,9 +36,19 @@ function isPathMatch(pathname: string, paths: string[]): boolean {
 
 export default async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
+  const isApi = pathname.startsWith('/api/')
+  const responseHeaders: Record<string, string> = {}
+
+  if (!isApi) {
+    responseHeaders['Cache-Control'] = 'private, no-cache, no-store, must-revalidate'
+  }
 
   if (isPathMatch(pathname, PUBLIC_PATHS)) {
-    return NextResponse.next()
+    const res = NextResponse.next()
+    if (!isApi) {
+      res.headers.set('Cache-Control', 'private, no-cache, no-store, must-revalidate')
+    }
+    return res
   }
 
   const csrfResult = validateCsrf(request)
@@ -50,39 +60,37 @@ export default async function middleware(request: NextRequest) {
     )
   }
 
-  const cookieName =
-    process.env.NODE_ENV === 'production'
-      ? '__Secure-next-auth.session-token'
-      : 'next-auth.session-token'
-
-  const token = await getToken({
-    req: request,
-    secret: process.env.AUTH_SECRET || process.env.NEXTAUTH_SECRET,
-    cookieName,
-  })
+  const token = await getToken({ req: request })
 
   if (!token) {
     const isOptionalAuth = isPathMatch(pathname, OPTIONAL_AUTH_PATHS)
     if (!isOptionalAuth) {
-      // fetch() 跟随 307 会保留 POST，重定向到 /auth/signin 会导致 405
-      if (pathname.startsWith('/api/')) {
+      if (isApi) {
         return NextResponse.json({ success: false, error: '未登录' }, { status: 401 })
       }
       const signInUrl = new URL('/auth/signin', request.url)
       signInUrl.searchParams.set('callbackUrl', pathname)
-      return NextResponse.redirect(signInUrl)
+      const res = NextResponse.redirect(signInUrl)
+      res.headers.set('Cache-Control', 'private, no-cache, no-store, must-revalidate')
+      return res
     }
   } else {
     const isAdminPath = isPathMatch(pathname, ADMIN_PATHS)
     if (isAdminPath && !token.isAdmin) {
-      if (pathname.startsWith('/api/')) {
+      if (isApi) {
         return NextResponse.json({ success: false, error: '需要管理员权限' }, { status: 403 })
       }
-      return NextResponse.redirect(new URL('/', request.url))
+      const res = NextResponse.redirect(new URL('/', request.url))
+      res.headers.set('Cache-Control', 'private, no-cache, no-store, must-revalidate')
+      return res
     }
   }
 
-  return NextResponse.next()
+  const res = NextResponse.next()
+  if (!isApi) {
+    res.headers.set('Cache-Control', 'private, no-cache, no-store, must-revalidate')
+  }
+  return res
 }
 
 export const config = {
