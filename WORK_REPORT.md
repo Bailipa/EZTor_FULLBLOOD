@@ -1,149 +1,162 @@
-# 工作报告 — 2026-05-04 会话（含上一会话记录）
+# 工作报告 — 2026-05-04 会话（三阶段）
 
 ---
 
-## 上一会话 (05-03 → 05-04 接手) 改动
+## 第一阶段：移动端布局修复（继承自 05-03 会话的待修复清单）
 
-### 1. 全局 CSS 修复 (globals.css:130-132)
-```css
-h1, h2, h3, h4, h5, h6 {
-  word-break: keep-all;
-  overflow-wrap: break-word;   /* ← 后来发现是元凶之一 */
-}
-```
+来源：上一会话 WORK_REPORT.md "待修复" 章节。全部 15 项已修复完毕。
 
-### 2. 内联 style 防御 (15 处)
-所有含 CJK 文字的 flex 容器添加了 `style={{ minWidth: ... }}`，部分加了 `whiteSpace:'nowrap'`
+### HIGH — 统计卡片长标签溢出 (analytics/page.tsx)
+5 处 "排除管理员和测试账号数据" 标签在 grid-cols-2 中溢出。
+修复：`text-sm` → `text-xs sm:text-sm break-words`
 
-### 3. CSS Containment 移除
-- WordCard.tsx CardContent 移除 `contain:'layout'`（但 Card 本身 line 74 仍保留了 `contain:'layout style paint'`）
-- history/page.tsx GridItem 移除 `contain:'layout style paint'`
+### MEDIUM — 弹窗表单 grid-cols-2 在移动端太窄
+| 文件 | 位置 | 改动 |
+|------|------|------|
+| `public-words/page.tsx:576` | 编辑弹窗 | `grid-cols-2` → `grid-cols-1 sm:grid-cols-2` |
+| `public-words/page.tsx:700` | 新增弹窗 | 同上 |
+| `llm-config/page.tsx:252,277,294` | API 配置弹窗 (3处) | 同上 |
 
-### 4. 部署管道修复
-- server.js `process.chdir(__dirname)` 导致静态资源路径错位
-- 打包前 `cp -r .next/static .next/standalone/.next/static`
-- deploy.sh 已创建，排除 `.env*`
-
----
-
-## 本会话 (05-04) 根因分析与修复
-
-### 根因 1: CSS 属性冲突导致 CJK 竖排
-
-**`overflow-wrap: break-word` 是元凶**。当容器宽度不足时，`break-word` 强制在任何字符间换行，即使有 `white-space: nowrap` 也会在某些边缘情况下介入，导致 CJK 文本逐字竖排。`keep-all` 本身是正确的（阻止 CJK 自动断字），但不应该配 `break-word`。
-
-**修复** (globals.css:130-132):
-```css
-h1, h2, h3, h4, h5, h6 {
-  word-break: keep-all;
-  /* 已移除 overflow-wrap: break-word */
-}
-```
-
-### 根因 2: `min-width: fit-content` 塌缩
-
-`fit-content` = `min(max-content, max(min-content, available))`。在移动端窄视口下 `available` 很小，`fit-content` 塌缩成 `available`，容器宽度不足以容纳 CJK 文本。
-
-**修复**：全部 15 处 `fit-content` → `max-content`
-
-### 根因 3: 缺失 `whiteSpace: 'nowrap'`
-
-上一会话只给 3 个页面加了 `nowrap`，其余 8 个文件（analytics, translation-records, public-words, llm-config, ResultsList, WordInputCard, TranslateOnlyCard, GuestWordInputCard, HomeHeader）只加了 `fit-content` 没有 `nowrap`。
-
-**修复**：6 处 CJK 标题补充了 `style={{ whiteSpace: 'nowrap' }}`
-
-### 根因 4: 宝塔反向代理缓存 + 路径覆盖
-
-宝塔面板的 proxy 配置 `location ^~ /` 使用 `^~` 前缀，优先级高于手动添加的 `location /_next/`（无 `^~`）。而且 proxy 配置里对 CSS/JS 加了 `expires 1m`，导致 nginx 缓存旧 CSS/JS 返回给浏览器。
-
-**修复** (nginx 配置):
-1. `location /_next/` 改为 `location ^~ /_next/` 提升优先级
-2. 移到 proxy include 之前
-3. 添加 `Cache-Control: no-cache, no-store, must-revalidate` + `expires -1`
-
-### 根因 5: env validator crash loop
-
-`src/instrumentation.ts` 调用 `logEnvStatus()` → `envValidator.ts:179` `process.exit(1)` 导致 PM2 重启 47 次。根因是每次解压 tarball 后 `.env` 未复制到 `.next/standalone/.env`，Next.js 的 CWD 在 standalone 目录中找不到 `.env`。
-
-**修复**：服务器上 `cp .env .next/standalone/.env` 后重启
-
----
-
-## 当前已修复的文件清单 (15 files, 已 commit + push)
-
+### LOW — 其他次要问题
 | 文件 | 改动 |
 |------|------|
-| `src/app/globals.css` | 移除 h1-h6 的 `overflow-wrap: break-word` |
-| `src/app/history/page.tsx` | 已有 `max-content` + `nowrap`（上会话，确认无误） |
-| `src/app/users/page.tsx` | 同上 |
-| `src/app/dictation/page.tsx` | 同上（3 处） |
-| `src/app/analytics/page.tsx` | `fit-content` → `max-content` + h1 `nowrap` |
-| `src/app/translation-records/page.tsx` | 2 处：`fit-content` → `max-content` + `nowrap` |
-| `src/app/public-words/page.tsx` | h1 `fit-content` → `max-content` + `nowrap` |
-| `src/app/llm-config/page.tsx` | `fit-content` → `max-content` + h1 `nowrap` |
-| `src/components/home/HomeHeader.tsx` | `fit-content` → `max-content` |
-| `src/components/home/WordInputCard.tsx` | `fit-content` → `max-content` + CardTitle `nowrap` |
-| `src/components/home/TranslateOnlyCard.tsx` | `fit-content` → `max-content` |
-| `src/components/home/GuestWordInputCard.tsx` | `fit-content` → `max-content` + CardTitle `nowrap` |
-| `src/components/home/ResultsList.tsx` | `fit-content` → `max-content` + h3 `nowrap` |
-| `deploy.sh` | 新增部署脚本 |
+| `dictation/page.tsx:984` | 分数 `text-5xl` → `text-3xl sm:text-4xl md:text-5xl` |
+| `dictation/page.tsx:609` | select `max-w-[150px]` → `sm:max-w-[180px]` |
+| `translation-records/page.tsx:250` | 搜索框 `w-48` → `w-full sm:w-48 max-w-[200px]` |
+| `WordCard.tsx:150` | translation div 加 `break-words` |
+| `ResultsList.tsx:122` | 词条行加 `flex-wrap` |
+| `GameWidget.tsx:239` | cell text 加 `break-all` |
+| `public-words/page.tsx:331` | `min-w-[200px]` → `min-w-0 sm:min-w-[200px]` |
 
 ---
 
-## 待修复：剩余移动端布局问题
+## 第二阶段：Safari iOS 登录 + SharePoster + TranslateOnly
 
-以下问题已排查确认，待下一会话修复。
+### Safari iOS 登录修复
+**根因**：NextAuth v4 在 iOS Safari 上存在 cookie 同步竞态 — `signIn` 成功后 `router.push('/')` 立即执行，但 Safari 可能尚未 ingest session cookie，导致中间件 `getToken` 返回 null → 重定向回 signin → 循环。
 
-### HIGH: 统计卡片长标签溢出 (analytics/page.tsx:432-503)
+**修复 (signin/page.tsx)**：移除 `router.push('/')`，改用 `useEffect` 监听 `status === 'authenticated'` 后再跳转。同时读取 `searchParams.get('callbackUrl')` 支持回跳（之前始终跳 `/`）。
 
-`grid grid-cols-2` 在 320px 手机屏上每列仅 ~150px，标签 "排除管理员和测试账号数据"（14 字）明显溢出或被截断。用户统计(432) 和访客统计(523) 两处。
+**⚠️ 尝试过的修复（已回退）**：
+- 在 `authOptions` 添加显式 `cookies` 配置含 `__Secure-` 前缀 → **回退**，让 NextAuth 自动检测即可
+- 在 middleware `getToken` 中显式传 `secret: process.env.NEXTAUTH_SECRET` → **回退**，Edge Runtime 中 `process.env` 访问非 `NEXT_PUBLIC_` 变量返回 undefined，导致 getToken 永远失败。`getToken({ req: request })` 内部自动读取即可。
 
-```tsx
-// 当前
-<p className="text-sm text-muted-foreground">排除管理员和测试账号数据</p>
+### SharePoster 修复
+1. **CSP 违规**：`fetch(dataUrl)` 因 `connect-src` 不含 `data:` 被阻止。修复：移除 `fetch` 链，`toPng()` 返回 data URL 可直接用。
+2. **跨域 CSS 警告**：`html-to-image` 读取 `fonts.googleapis.com` 的 `cssRules` 失败。修复：加 `skipFonts: true`（poster 用系统字体）。
+3. **移动端溢出**：缩小 responsive 尺寸（padding/gap/font-size 加 sm: 断点）。
 
-// 建议：加 break-words + mobile-first font size
-<p className="text-xs sm:text-sm text-muted-foreground break-words">排除管理员和测试账号数据</p>
+### TranslateOnly 副标题
+移除 "，仅返回翻译文本，不写入生词本" — `TranslateOnlyCard.tsx:349`。
+
+---
+
+## 第三阶段：打赏图片修复 + GitHub 按钮 UX + 全局 anti-cache
+
+### 打赏图片不显示
+**根因**：`deploy.sh` 只复制了 `.next/static`，没有复制 `public/` 目录。Next.js standalone 模式下 `public/giveme.jpg` 从未被部署到服务器 → 404 → `onError` 静默隐藏图片。
+
+**修复**：
+- `deploy.sh` 加 `cp -r public .next/standalone/public`
+- `DonationModal.tsx` onError 改为显示 "图片加载失败，请稍后再试" 文字提示
+
+### GitHub 按钮 UX 重构
+**旧行为**：点击 → 静默等待 3s 检测 → 能连就新标签打开 → 不能连就弹倒计时窗口 → 倒计时结束 `router.push('/')` 刷新整页。
+
+**新行为** (`HomeHeader.tsx`)：点击 → **立刻弹出** "正在检测网络环境，请稍后"（带旋转动画）→ 能连就关闭弹窗打开 GitHub → 不能连就切换到喵系提醒，点击 "好的喵" 关闭弹窗，全程无页面刷新。
+
+### 登录后跳转修复
+**旧行为**：登录后始终 `router.push('/')`，忽略中间件传递的 `callbackUrl`。
+
+**修复** (`signin/page.tsx`)：`useEffect` 中读取 `searchParams.get('callbackUrl')`，有则跳转到原目标路径。
+
+### window.location.href → router.push
+15 处 `window.location.href =` 改为 `router.push()`，消除整页重载。涉及：
+- `analytics/page.tsx` — 无权限/未登录跳转按钮
+- `translation-records/page.tsx` — 同上
+- `public-words/page.tsx` — 同上
+- `HomeHeader.tsx` — 登出、GitHub 倒计时、GitHub 回退（3 处）
+
+### /api/llm 服务端鉴权
+`route.ts` 原来仅靠中间件拦截未登录用户，handler 层无 `getServerSession`。修复：添加 `getServerSession(authOptions)` 检查。
+
+---
+
+## 🚨 未修复：宝塔 nginx 反向代理缓存（最严重 bug）
+
+### 症状
+1. **所有人访问网站自动登录为同一账号**（如 "dogegg"），无需任何操作即显示已登录状态
+2. **所有访客看到同一个验证码**，填完信息点击登录无反应（captcha hash/timestamp 是旧的）
+3. 过一段时间（缓存过期）自动退出登录，然后又能登录但又是共享账号
+
+### 根因分析
+宝塔面板的 nginx 反向代理配置 `location ^~ /` 将所有请求（包括 API）proxy 到 `http://127.0.0.1:3000`，且**启用了响应缓存**。API 返回的 JSON（验证码、auth callback）和 SSR HTML 被缓存后，nginx 将缓存内容分发给所有访客，无视请求的 Cookie 头。
+
+关键线索：`/api/captcha` 在 `PUBLIC_PATHS` 中，中间件早期版本对该路径不设置 Cache-Control，导致 nginx 将其作为可缓存内容处理。
+
+### 已尝试的修复（无效）
+- **中间件**：对所有响应加 `Cache-Control: no-store, no-cache, must-revalidate, proxy-revalidate` + `Pragma: no-cache` + `Expires: 0`
+- **captcha route**：handler 层面显式加 Cache-Control 头
+- **signin page**：改进错误处理逻辑
+
+**以上修复均无效**，说明 nginx 配置存在 `proxy_ignore_headers` 或类似指令，忽略后端返回的 Cache-Control 头，强制缓存所有响应。
+
+### 建议给下一会话的方向
+这个问题**必须通过修改服务器上的 nginx 配置解决**，代码层面的 Cache-Control 头无效。
+
+**排查步骤**：
+1. 找到宝塔面板中该站点的 nginx 配置文件（通常在 `/www/server/panel/vhost/nginx/`）
+2. 搜索关键字：`proxy_cache`、`proxy_cache_valid`、`proxy_ignore_headers`、`proxy_cache_path`、`expires`
+3. 可能的修复方案：
+   - **方案 A**：在 `location ^~ /` 块内添加 `proxy_cache off;`
+   - **方案 B**：移除或注释掉 `proxy_cache` 相关指令
+   - **方案 C**：只缓存静态资源路径（`_next/static`），不缓存 `/` 和 `/api/`
+   - **方案 D**：如果宝塔面板无法修改，在面板中关闭该站点的"缓存"功能
+
+**验证修复是否成功**：
+```bash
+# 多次请求验证码，每次应返回不同内容
+curl -s https://dogeggcode.cyou/api/captcha | grep -o '"timestamp":[0-9]*' | sort | uniq -c
+# 正常情况：每次 timestamp 不同，uniq -c 每行应该只有 1
+# 缓存状态：所有 timestamp 相同 → 缓存未关闭
+
+# 检查响应头
+curl -sI https://dogeggcode.cyou/api/captcha | grep -i cache
+# 检查是否包含 X-Cache、X-Proxy-Cache、Age 等命中标记
 ```
 
-同样的问题存在于同文件的多处统计标签（"排除管理和测试账号数据"出现在 line 437, 464, 537, 564）。
+---
 
-### MEDIUM: 弹窗表单 grid-cols-2 在移动端太窄
+## 完整改动文件清单（本会话，已 commit + push）
 
-文件 | 位置 | 问题
----|---|---
-`public-words/page.tsx:576` | 编辑单词弹窗 | `grid grid-cols-2` → 输入框各约 140px
-`public-words/page.tsx:700` | 新增单词弹窗 | 同上
-`llm-config/page.tsx:252` | API 配置弹窗 | `grid grid-cols-2 gap-3` → 输入框约 130px
-`llm-config/page.tsx:277` | API 配置弹窗 | 同上
-`llm-config/page.tsx:294` | API 配置弹窗 | 同上
-
-```tsx
-// 修复示例
-<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-```
-
-### LOW: 其他次要问题
-
-| 文件 | 行 | 问题 | 建议 |
-|------|--|------|------|
-| `dictation/page.tsx` | 984 | `text-5xl` 分数在手机上过大 | `text-3xl sm:text-4xl md:text-5xl` |
-| `dictation/page.tsx` | 609 | 原生 `<select>` `max-w-[150px]` 可能截断分组名 | 用 shadcn Select 组件替代，或放宽到 `sm:max-w-[180px]` |
-| `translation-records/page.tsx` | 250 | 搜索框 `w-48` 固定宽度 | `w-full sm:w-48 max-w-[200px]` |
-| `WordCard.tsx:150-157` | 150 | translation 无 `break-words` | 添加 `break-words` 类 |
-| `ResultsList.tsx:122-136` | 122 | 词条行无 `flex-wrap` | 父层加 `flex-wrap` |
-| `GameWidget.tsx:239` | 239 | `text-4xl` 无防护 | 添加 `break-all` |
-| `public-words/page.tsx:331` | 331 | `min-w-[200px]` 在手机上强制最小宽度 | `min-w-0 sm:min-w-[200px]` |
-
-### NOTE: `nowrap` + `max-content` 不构成溢出（无需修改）
-
-当前所有标题（"我的生词本"/"多维默写本"/"数据分析看板"等）均为 3-6 个中文字符，在 24px 字号下宽度约 72-144px，远小于 320px 手机宽度。`nowrap` + `max-content` 组合在这里不会导致水平溢出，无需回退。
+| 文件 | 本会话改动 |
+|------|-----------|
+| `src/app/globals.css` | 加 `@import 'normalize.css'` |
+| `src/app/analytics/page.tsx` | stat 标签 break-words；window.location → router.push |
+| `src/app/translation-records/page.tsx` | dialog grid-cols；搜索框 responsive；window.location → router.push |
+| `src/app/public-words/page.tsx` | dialog grid-cols；搜索容器 min-w；window.location → router.push |
+| `src/app/llm-config/page.tsx` | dialog grid-cols (3处) |
+| `src/app/dictation/page.tsx` | 分数 responsive sizing；select max-w |
+| `src/components/home/TranslateOnlyCard.tsx` | 副标题文案缩短 |
+| `src/components/home/HomeHeader.tsx` | window.location → router.push (3处)；GitHub 按钮 UX 重构 |
+| `src/components/share/SharePoster.tsx` | 去掉 fetch(dataUrl)；skipFonts；responsive 尺寸 |
+| `src/components/home/ResultsList.tsx` | flex-wrap |
+| `src/components/ui/game/GameWidget.tsx` | break-all |
+| `src/components/vocabulary/WordCard.tsx` | break-words |
+| `src/components/home/DonationModal.tsx` | 图片加载失败显示文字 |
+| `src/app/auth/signin/page.tsx` | useSession 同步 redirect；callbackUrl support；loading 状态改进 |
+| `src/app/api/auth/[...nextauth]/route.ts` | 添加/回退 cookies config |
+| `src/app/api/llm/route.ts` | 添加 getServerSession 鉴权 |
+| `src/app/api/captcha/route.ts` | 添加 Cache-Control 响应头 |
+| `src/middleware.ts` | Cache-Control 全覆盖（含 API）；添加/回退显式 secret |
+| `deploy.sh` | 添加 `cp -r public` 步骤 |
+| `package.json` | 添加 normalize.css 依赖 |
 
 ---
 
 ## 部署/运维备忘
 
-### 部署流程
+### 部署流程（更新）
 ```bash
 # 本地
 npm run build
@@ -157,35 +170,16 @@ cp .env .next/standalone/.env   # ⚠️ 每次必做
 pm2 restart cet4-web
 ```
 
-### Nginx 关键配置 (114.55.58.90.conf)
-```nginx
-# ⚠️ _next 必须用 ^~ 前缀且放 proxy include 之前
-location ^~ /_next/ {
-    proxy_pass http://127.0.0.1:3000;
-    add_header Cache-Control "no-cache, no-store, must-revalidate" always;
-    expires -1;
-    ...
-}
-```
-
-### 宝塔面板反向代理
-- Baota 的 proxy 配置 `^~ /` 会覆盖 `/_next/` 的匹配
-- 如需修改 Baota 面板代理设置，确保不重新引入 CSS/JS 缓存
-- 当前配置已通过 Baota 面板开启缓存后解决
-
-### 排查部署是否生效
+### 排查命令
 ```bash
-# 1. 检查进程
-pm2 status                    # status 应为 online，↺ 应为 0
+# 检查进程
+pm2 status
 
-# 2. 检查新 CSS 是否存在
-ls .next/standalone/.next/static/chunks/*.css
-
-# 3. 检查 SSR HTML
-curl -s http://localhost:3000/history | grep -c "nowrap"
-
-# 4. 检查 nginx 返回
-curl -I https://dogeggcode.cyou/_next/static/chunks/XXX.css | grep cache
+# 检查验证码是否仍被缓存（关键）
+for i in 1 2 3; do
+  curl -s https://dogeggcode.cyou/api/captcha | python3 -c "import sys,json; d=json.load(sys.stdin); print(d['timestamp'])"
+done
+# 如果三次 timestamp 相同 → nginx 仍在缓存 API 响应
 ```
 
 ---
@@ -194,6 +188,17 @@ curl -I https://dogeggcode.cyou/_next/static/chunks/XXX.css | grep cache
 
 | 用途 | 路径 |
 |------|------|
+| 首页 | `src/app/page.tsx` |
+| 首页内容 (client) | `src/components/home/HomeContent.tsx` |
+| 首页 Header | `src/components/home/HomeHeader.tsx` |
+| 登录页 | `src/app/auth/signin/page.tsx` |
+| NextAuth 配置 | `src/app/api/auth/[...nextauth]/route.ts` |
+| 中间件 (auth/csrf/cache) | `src/middleware.ts` |
+| 验证码 API | `src/app/api/captcha/route.ts` |
+| LLM API | `src/app/api/llm/route.ts` |
+| CSRF 校验 | `src/lib/csrf.ts` |
+| 环境校验 | `src/lib/envValidator.ts` |
+| 启动校验 | `src/instrumentation.ts` |
 | 历史/生词本 | `src/app/history/page.tsx` |
 | 用户管理 | `src/app/users/page.tsx` |
 | 默写 | `src/app/dictation/page.tsx` |
@@ -201,16 +206,9 @@ curl -I https://dogeggcode.cyou/_next/static/chunks/XXX.css | grep cache
 | 翻译记录 | `src/app/translation-records/page.tsx` |
 | 公共词库管理 | `src/app/public-words/page.tsx` |
 | LLM 配置 | `src/app/llm-config/page.tsx` |
-| 首页 Header | `src/components/home/HomeHeader.tsx` |
-| 单词查词卡片 | `src/components/home/WordInputCard.tsx` |
-| 翻译卡片 | `src/components/home/TranslateOnlyCard.tsx` |
-| 访客查词卡片 | `src/components/home/GuestWordInputCard.tsx` |
-| 结果列表 | `src/components/home/ResultsList.tsx` |
-| 单词卡片 | `src/components/vocabulary/WordCard.tsx` |
-| 游戏组件 | `src/components/ui/game/GameWidget.tsx` |
+| 分享海报 | `src/components/share/SharePoster.tsx` |
+| 打赏弹窗 | `src/components/home/DonationModal.tsx` |
 | 全局 CSS | `src/app/globals.css` |
-| 环境校验 | `src/lib/envValidator.ts` |
-| 启动校验 | `src/instrumentation.ts` |
 | Next 配置 | `next.config.ts` |
 | 部署脚本 | `deploy.sh` |
 | PM2 配置 | `ecosystem.config.js` |
