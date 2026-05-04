@@ -5,7 +5,7 @@ import { ModeToggle } from '@/components/mode-toggle'
 import { FlashcardWidget } from '@/components/ui/flashcard/flashcard-widget'
 import { GameWidget } from '@/components/ui/game/GameWidget'
 import { SharePoster } from '@/components/share'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { Share2 } from 'lucide-react'
 import {
   AlertDialog,
@@ -35,7 +35,7 @@ export function HomeHeader({ showDanmaku, onToggleDanmaku, onFeatureClick }: Hom
   const isAuthenticated = status === 'authenticated' && session?.user
   const [shareOpen, setShareOpen] = useState(false)
   const [githubDialogOpen, setGithubDialogOpen] = useState(false)
-  const [countdown, setCountdown] = useState(5)
+  const [githubState, setGithubState] = useState<'checking' | 'fail'>('checking')
   const router = useRouter()
 
   const handleFeatureClick = (featureName: string, callback?: () => void) => {
@@ -47,28 +47,20 @@ export function HomeHeader({ showDanmaku, onToggleDanmaku, onFeatureClick }: Hom
   }
 
   const handleGithubClick = async () => {
+    setGithubState('checking')
+    setGithubDialogOpen(true)
+
     try {
       const controller = new AbortController()
       const timeoutId = setTimeout(() => controller.abort(), 3000)
       await fetch('https://github.com', { mode: 'no-cors', signal: controller.signal })
       clearTimeout(timeoutId)
+      setGithubDialogOpen(false)
       window.open('https://github.com/Bailipa/EZTor_FULLBLOOD', '_blank', 'noopener,noreferrer')
     } catch {
-      setCountdown(5)
-      setGithubDialogOpen(true)
+      setGithubState('fail')
     }
   }
-
-  useEffect(() => {
-    if (!githubDialogOpen) return
-    if (countdown === 0) {
-      setGithubDialogOpen(false)
-      router.push('/')
-      return
-    }
-    const timer = setTimeout(() => setCountdown(c => c - 1), 1000)
-    return () => clearTimeout(timer)
-  }, [githubDialogOpen, countdown])
 
   return (
     <header className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white dark:bg-card p-4 sm:p-6 rounded-xl shadow-sm border border-gray-100 dark:border-border transition-colors duration-300">
@@ -160,25 +152,30 @@ export function HomeHeader({ showDanmaku, onToggleDanmaku, onFeatureClick }: Hom
         </Button>
         <AlertDialog open={githubDialogOpen} onOpenChange={setGithubDialogOpen}>
           <AlertDialogContent>
-            <AlertDialogHeader>
-              <AlertDialogTitle>无法打开 GitHub 喵</AlertDialogTitle>
-              <AlertDialogDescription>
-                你无法打开GitHub喵，这不是你的错喵，{countdown}秒后返回eztor喵
-              </AlertDialogDescription>
-            </AlertDialogHeader>
-            <AlertDialogFooter>
-              <AlertDialogCancel onClick={() => setGithubDialogOpen(false)}>
-                关闭
-              </AlertDialogCancel>
-              <AlertDialogAction
-                onClick={() => {
-                    setGithubDialogOpen(false)
-                    router.push('/')
-                  }}
-              >
-                返回首页
-              </AlertDialogAction>
-            </AlertDialogFooter>
+            {githubState === 'checking' ? (
+              <>
+                <AlertDialogHeader>
+                  <AlertDialogTitle className="flex items-center gap-2">
+                    <span className="inline-block w-4 h-4 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+                    正在检测网络环境，请稍后
+                  </AlertDialogTitle>
+                </AlertDialogHeader>
+              </>
+            ) : (
+              <>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>无法打开 GitHub 喵</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    你无法打开GitHub喵，这不是你的错喵
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel onClick={() => setGithubDialogOpen(false)}>
+                    好的喵
+                  </AlertDialogCancel>
+                </AlertDialogFooter>
+              </>
+            )}
           </AlertDialogContent>
         </AlertDialog>
         <DonationButton />
