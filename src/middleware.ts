@@ -37,17 +37,12 @@ function isPathMatch(pathname: string, paths: string[]): boolean {
 export default async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
   const isApi = pathname.startsWith('/api/')
-  const responseHeaders: Record<string, string> = {}
-
-  if (!isApi) {
-    responseHeaders['Cache-Control'] = 'private, no-cache, no-store, must-revalidate'
-  }
 
   if (isPathMatch(pathname, PUBLIC_PATHS)) {
     const res = NextResponse.next()
-    if (!isApi) {
-      res.headers.set('Cache-Control', 'private, no-cache, no-store, must-revalidate')
-    }
+    res.headers.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate')
+    res.headers.set('Pragma', 'no-cache')
+    res.headers.set('Expires', '0')
     return res
   }
 
@@ -71,7 +66,7 @@ export default async function middleware(request: NextRequest) {
       const signInUrl = new URL('/auth/signin', request.url)
       signInUrl.searchParams.set('callbackUrl', pathname)
       const res = NextResponse.redirect(signInUrl)
-      res.headers.set('Cache-Control', 'private, no-cache, no-store, must-revalidate')
+      res.headers.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate')
       return res
     }
   } else {
@@ -81,15 +76,15 @@ export default async function middleware(request: NextRequest) {
         return NextResponse.json({ success: false, error: '需要管理员权限' }, { status: 403 })
       }
       const res = NextResponse.redirect(new URL('/', request.url))
-      res.headers.set('Cache-Control', 'private, no-cache, no-store, must-revalidate')
+      res.headers.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate')
       return res
     }
   }
 
   const res = NextResponse.next()
-  if (!isApi) {
-    res.headers.set('Cache-Control', 'private, no-cache, no-store, must-revalidate')
-  }
+  res.headers.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate')
+  res.headers.set('Pragma', 'no-cache')
+  res.headers.set('Expires', '0')
   return res
 }
 

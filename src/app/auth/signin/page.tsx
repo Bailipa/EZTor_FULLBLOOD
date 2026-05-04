@@ -72,9 +72,10 @@ export default function SignIn() {
         fetchCaptcha()
         setIsLoading(false)
       }
+      // On success: keep isLoading=true, useEffect will redirect when status=authenticated
     } catch (_err) {
-      setError('发生未知错误')
-    } finally {
+      setError('发生未知错误，请刷新页面后重试')
+      fetchCaptcha()
       setIsLoading(false)
     }
   }

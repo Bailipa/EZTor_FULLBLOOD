@@ -44,11 +44,20 @@ export async function GET() {
 
     const imageBase64 = svgToBase64(captcha.data)
 
-    return NextResponse.json({
-      image: imageBase64,
-      hash: hash,
-      timestamp: timestamp,
-    })
+    return NextResponse.json(
+      {
+        image: imageBase64,
+        hash: hash,
+        timestamp: timestamp,
+      },
+      {
+        headers: {
+          'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+          Pragma: 'no-cache',
+          Expires: '0',
+        },
+      },
+    )
   } catch (err: unknown) {
     logger.error({ err }, 'CAPTCHA Generation Error:')
     return NextResponse.json({ error: 'Failed to generate captcha' }, { status: 500 })
