@@ -73,7 +73,12 @@ export function DonationButton() {
                 alt="Donation QR code"
                 className="w-full max-w-[280px] mx-auto"
                 onError={(e) => {
-                  ;(e.target as HTMLImageElement).style.display = 'none'
+                  const el = e.target as HTMLImageElement
+                  const parent = el.parentElement
+                  if (parent) {
+                    parent.innerHTML =
+                      '<p class="text-xs text-muted-foreground text-center py-8">图片加载失败，请稍后再试</p>'
+                  }
                 }}
               />
             </div>

@@ -18,6 +18,7 @@ import {
   Zap,
 } from 'lucide-react'
 import { useCrudTable } from '@/hooks/useCrudTable'
+import { useRouter } from 'next/navigation'
 
 interface TranslationRecord {
   id: string
@@ -45,6 +46,7 @@ interface TranslationRecordsStats {
 export default function TranslationRecordsPage() {
   const [selectedRecord, setSelectedRecord] = useState<TranslationRecord | null>(null)
   const [deleting, setDeleting] = useState(false)
+  const router = useRouter()
 
   const {
     authLoading,
@@ -106,7 +108,7 @@ export default function TranslationRecordsPage() {
             </p>
             <Button
               onClick={() =>
-                (window.location.href = status === 'unauthenticated' ? '/auth/signin' : '/')
+                router.push(status === 'unauthenticated' ? '/auth/signin' : '/')
               }
             >
               {status === 'unauthenticated' ? '前往登录' : '返回首页'}

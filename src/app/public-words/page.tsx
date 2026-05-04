@@ -20,6 +20,7 @@ import {
   BarChart3,
 } from 'lucide-react'
 import { useCrudTable } from '@/hooks/useCrudTable'
+import { useRouter } from 'next/navigation'
 
 interface PublicWord {
   id: string
@@ -53,6 +54,7 @@ export default function PublicWordsPage() {
   const [showAddForm, setShowAddForm] = useState(false)
   const [saving, setSaving] = useState(false)
 
+  const router = useRouter()
   const buildUrl = useCallback(
     (pageNum: number, pageSize: number, query: string) => {
       let url = `/api/public-words?page=${pageNum}&limit=${pageSize}&sortBy=${sortBy}&sortOrder=${sortOrder}`
@@ -120,7 +122,7 @@ export default function PublicWordsPage() {
             </p>
             <Button
               onClick={() =>
-                (window.location.href = status === 'unauthenticated' ? '/auth/signin' : '/')
+                router.push(status === 'unauthenticated' ? '/auth/signin' : '/')
               }
             >
               {status === 'unauthenticated' ? '前往登录' : '返回首页'}

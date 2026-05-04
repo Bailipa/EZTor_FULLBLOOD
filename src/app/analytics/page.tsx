@@ -21,6 +21,7 @@ import {
   Filter,
 } from 'lucide-react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { useAdminCheck } from '@/hooks/useAdminCheck'
 
 interface RecentEvent {
@@ -131,6 +132,7 @@ const eventTypeColors: Record<string, string> = {
 
 export default function AnalyticsPage() {
   const { isLoading: authLoading, isAdmin, status } = useAdminCheck()
+  const router = useRouter()
   const [data, setData] = useState<AnalyticsData | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -264,7 +266,7 @@ export default function AnalyticsPage() {
             </p>
             <Button
               onClick={() =>
-                (window.location.href = status === 'unauthenticated' ? '/auth/signin' : '/')
+                router.push(status === 'unauthenticated' ? '/auth/signin' : '/')
               }
             >
               {status === 'unauthenticated' ? '前往登录' : '返回首页'}

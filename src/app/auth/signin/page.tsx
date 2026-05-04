@@ -2,7 +2,7 @@
 
 import { signIn, useSession } from 'next-auth/react'
 import { useState, useEffect } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
@@ -21,13 +21,15 @@ export default function SignIn() {
   const [error, setError] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
+  const searchParams = useSearchParams()
   const { status } = useSession()
 
   useEffect(() => {
     if (status === 'authenticated') {
-      router.push('/')
+      const callbackUrl = searchParams.get('callbackUrl')
+      router.push(callbackUrl || '/')
     }
-  }, [status, router])
+  }, [status, router, searchParams])
 
   const fetchCaptcha = async () => {
     try {

@@ -22,6 +22,7 @@ import { signOut, useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { MonitorPlay, PenTool, BookOpen, LogIn } from 'lucide-react'
 import { DonationButton } from './DonationModal'
+import { useRouter } from 'next/navigation'
 
 interface HomeHeaderProps {
   showDanmaku: boolean
@@ -35,6 +36,7 @@ export function HomeHeader({ showDanmaku, onToggleDanmaku, onFeatureClick }: Hom
   const [shareOpen, setShareOpen] = useState(false)
   const [githubDialogOpen, setGithubDialogOpen] = useState(false)
   const [countdown, setCountdown] = useState(5)
+  const router = useRouter()
 
   const handleFeatureClick = (featureName: string, callback?: () => void) => {
     if (!isAuthenticated && onFeatureClick) {
@@ -61,7 +63,7 @@ export function HomeHeader({ showDanmaku, onToggleDanmaku, onFeatureClick }: Hom
     if (!githubDialogOpen) return
     if (countdown === 0) {
       setGithubDialogOpen(false)
-      window.location.href = `${window.location.origin}/`
+      router.push('/')
       return
     }
     const timer = setTimeout(() => setCountdown(c => c - 1), 1000)
@@ -170,9 +172,9 @@ export function HomeHeader({ showDanmaku, onToggleDanmaku, onFeatureClick }: Hom
               </AlertDialogCancel>
               <AlertDialogAction
                 onClick={() => {
-                  setGithubDialogOpen(false)
-                  window.location.href = `${window.location.origin}/`
-                }}
+                    setGithubDialogOpen(false)
+                    router.push('/')
+                  }}
               >
                 返回首页
               </AlertDialogAction>
@@ -218,9 +220,7 @@ export function HomeHeader({ showDanmaku, onToggleDanmaku, onFeatureClick }: Hom
                 <AlertDialogAction
                   onClick={async () => {
                     await signOut({ redirect: false })
-                    if (typeof window !== 'undefined') {
-                      window.location.href = `${window.location.origin}/`
-                    }
+                    router.push('/')
                   }}
                 >
                   确认退出

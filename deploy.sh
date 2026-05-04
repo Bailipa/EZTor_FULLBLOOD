@@ -13,8 +13,10 @@ npm run build
 echo ""
 echo "[2/4] Fixing static file paths for standalone mode..."
 rm -rf .next/standalone/.next/static
+rm -rf .next/standalone/public
 cp -r .next/static .next/standalone/.next/static
-echo "  Static files copied to .next/standalone/.next/static/"
+cp -r public .next/standalone/public
+echo "  Static files and public assets copied to .next/standalone/"
 
 echo ""
 echo "[3/4] Creating deployment tarball..."
