@@ -38,14 +38,6 @@ export function HomeHeader({ showDanmaku, onToggleDanmaku, onFeatureClick }: Hom
   const [githubState, setGithubState] = useState<'checking' | 'fail'>('checking')
   const router = useRouter()
 
-  const handleFeatureClick = (featureName: string, callback?: () => void) => {
-    if (!isAuthenticated && onFeatureClick) {
-      onFeatureClick(featureName)
-    } else if (callback) {
-      callback()
-    }
-  }
-
   const handleGithubClick = async () => {
     setGithubState('checking')
     setGithubDialogOpen(true)
@@ -75,6 +67,7 @@ export function HomeHeader({ showDanmaku, onToggleDanmaku, onFeatureClick }: Hom
     if (showDanmaku) {
       setDanmakuStatus('active')
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
