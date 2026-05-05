@@ -284,8 +284,13 @@ export function FlashcardWidget() {
         </DialogTrigger>
         <DialogContent className="sm:max-w-md p-0 overflow-hidden bg-transparent border-none shadow-none">
           <DialogTitle className="sr-only">Flashcard Review</DialogTitle>
-          <Card className="border-2 shadow-xl flex flex-col h-[450px] w-full relative bg-card">
-            <div className="absolute top-2 left-2 z-20">
+          <Card className="border-2 shadow-xl flex flex-col min-h-[300px] max-h-[80dvh] w-full relative bg-card">
+            <div className="flex flex-wrap items-center gap-1.5 p-2 shrink-0">
+              {!isLoading && words.length > 0 && (
+                <span className="text-xs text-muted-foreground bg-white/80 dark:bg-black/80 px-2 py-0.5 rounded-full shrink-0">
+                  {currentIndex + 1} / {words.length}
+                </span>
+              )}
               <Select value={selectedGroupId} onValueChange={handleGroupChange}>
                 <SelectTrigger className="h-8 w-[140px] text-xs bg-white/80 dark:bg-black/80 backdrop-blur-sm border-primary/20">
                   <SelectValue placeholder="选择复习来源" />
@@ -299,29 +304,6 @@ export function FlashcardWidget() {
                   ))}
                 </SelectContent>
               </Select>
-            </div>
-
-            <div className="absolute top-2 right-10 flex gap-2 z-10">
-              <Button
-                variant="outline"
-                size="icon"
-                onClick={handlePrevious}
-                disabled={currentIndex === 0}
-                className="h-8 w-8 bg-white/80 dark:bg-black/80 backdrop-blur-sm"
-                title="上一个单词"
-              >
-                ←
-              </Button>
-              <Button
-                variant="outline"
-                size="icon"
-                onClick={() => handleNext()}
-                disabled={isUpdating}
-                className="h-8 w-8 bg-white/80 dark:bg-black/80 backdrop-blur-sm"
-                title="下一个单词"
-              >
-                →
-              </Button>
               {currentWord && session?.user && (
                 <Button
                   variant={isInVocabularyBook ? 'default' : 'outline'}
@@ -353,11 +335,27 @@ export function FlashcardWidget() {
               </div>
             ) : (
               <>
-                <div className="text-xs text-muted-foreground absolute top-3 left-3 z-10 bg-white/80 dark:bg-black/80 px-2 py-0.5 rounded-full">
-                  {currentIndex + 1} / {words.length}
-                </div>
-
-                <CardContent className="flex-1 flex flex-col items-center justify-center p-6 relative mt-6">
+                <CardContent className="flex-1 flex flex-col items-center justify-center p-6 relative">
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={handlePrevious}
+                    disabled={currentIndex === 0}
+                    className="absolute left-1 top-1/2 -translate-y-1/2 h-8 w-8 bg-white/80 dark:bg-black/80 backdrop-blur-sm z-10"
+                    title="上一个单词"
+                  >
+                    ←
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={() => handleNext()}
+                    disabled={isUpdating}
+                    className="absolute right-1 top-1/2 -translate-y-1/2 h-8 w-8 bg-white/80 dark:bg-black/80 backdrop-blur-sm z-10"
+                    title="下一个单词"
+                  >
+                    →
+                  </Button>
                   <div className="flex items-center justify-center gap-3 w-full">
                     <h2 className="text-4xl font-bold text-gray-900 dark:text-gray-100 tracking-wide text-center break-words">
                       {currentWord.word}
@@ -382,7 +380,7 @@ export function FlashcardWidget() {
                     className={`transition-all duration-300 w-full flex-1 flex flex-col justify-center items-center overflow-y-auto ${showAnswer ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'}`}
                   >
                     {showAnswer && (
-                      <div className="w-full text-center px-4 space-y-4">
+                      <div className="w-full text-center break-words px-4 space-y-4">
                         <p className="text-lg font-medium text-gray-800 dark:text-gray-200">
                           {currentWord.translation}
                         </p>

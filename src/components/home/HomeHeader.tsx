@@ -5,7 +5,7 @@ import { ModeToggle } from '@/components/mode-toggle'
 import { FlashcardWidget } from '@/components/ui/flashcard/flashcard-widget'
 import { GameWidget } from '@/components/ui/game/GameWidget'
 import { SharePoster } from '@/components/share'
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Share2 } from 'lucide-react'
 import {
   AlertDialog,
@@ -62,6 +62,96 @@ export function HomeHeader({ showDanmaku, onToggleDanmaku, onFeatureClick }: Hom
     }
   }
 
+  const [danmakuStatus, setDanmakuStatus] = useState<'idle' | 'counting' | 'active' | 'empty'>('idle')
+  const [countdownValue, setCountdownValue] = useState(5)
+  const timersRef = useRef<ReturnType<typeof setTimeout>[]>([])
+
+  const clearTimers = () => {
+    timersRef.current.forEach(clearTimeout)
+    timersRef.current = []
+  }
+
+  useEffect(() => {
+    if (showDanmaku) {
+      setDanmakuStatus('active')
+    }
+  }, [])
+
+  useEffect(() => {
+    return () => clearTimers()
+  }, [])
+
+  const handleDanmakuToggle = async () => {
+    if (!isAuthenticated && onFeatureClick) {
+      onFeatureClick('弹幕复习')
+      return
+    }
+
+    if (danmakuStatus === 'empty') {
+      clearTimers()
+      setDanmakuStatus('idle')
+      onToggleDanmaku()
+      return
+    }
+
+    if (danmakuStatus === 'active') {
+      clearTimers()
+      setDanmakuStatus('idle')
+      onToggleDanmaku()
+      return
+    }
+
+    if (danmakuStatus !== 'idle') return
+
+    clearTimers()
+    setDanmakuStatus('counting')
+    setCountdownValue(5)
+    onToggleDanmaku()
+
+    const intervalId = setInterval(() => {
+      setCountdownValue((prev) => {
+        if (prev <= 1) {
+          clearInterval(intervalId)
+          return 1
+        }
+        return prev - 1
+      })
+    }, 1000)
+    timersRef.current.push(intervalId)
+
+    try {
+      const res = await fetch(`/api/danmaku?limit=1&t=${Date.now()}`)
+      const result = await res.json()
+      const hasWords = result.success && result.data && result.data.length > 0
+
+      const doneTimer = setTimeout(() => {
+        clearTimers()
+        if (hasWords) {
+          setDanmakuStatus('active')
+        } else {
+          setDanmakuStatus('empty')
+          const resetTimer = setTimeout(() => {
+            setDanmakuStatus('idle')
+            onToggleDanmaku()
+          }, 3000)
+          timersRef.current.push(resetTimer)
+        }
+      }, 5000)
+      timersRef.current.push(doneTimer)
+    } catch {
+      const doneTimer = setTimeout(() => {
+        clearTimers()
+        setDanmakuStatus('empty')
+        const resetTimer = setTimeout(() => {
+          setDanmakuStatus('idle')
+          onToggleDanmaku()
+        }, 3000)
+        timersRef.current.push(resetTimer)
+      }, 5000)
+      timersRef.current.push(doneTimer)
+    }
+  }
+
   return (
     <header className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white dark:bg-card p-4 sm:p-6 rounded-xl shadow-sm border border-gray-100 dark:border-border transition-colors duration-300">
       <div className="space-y-1.5" style={{ minWidth: 'max-content' }}>
@@ -82,14 +172,33 @@ export function HomeHeader({ showDanmaku, onToggleDanmaku, onFeatureClick }: Hom
         {isAuthenticated && <FlashcardWidget />}
         {isAuthenticated && <GameWidget />}
         <Button
-          variant={showDanmaku ? 'default' : 'outline'}
-          onClick={() => handleFeatureClick('弹幕复习', onToggleDanmaku)}
-          className="gap-1.5 sm:gap-2 shadow-sm transition-all h-8 px-2.5 text-xs sm:h-9 sm:px-4 sm:text-sm"
-          aria-label={showDanmaku ? '关闭弹幕复习' : '开启弹幕复习'}
-          aria-pressed={showDanmaku}
+          variant={danmakuStatus === 'active' ? 'default' : 'outline'}
+          onClick={handleDanmakuToggle}
+          className="gap-1.5 sm:gap-2 shadow-sm transition-all h-8 min-w-[120px] px-2.5 text-xs sm:h-9 sm:px-4 sm:text-sm"
+          aria-label={
+            danmakuStatus === 'counting' ? `弹幕倒计时 ${countdownValue}` :
+            danmakuStatus === 'active' ? '关闭弹幕复习' :
+            danmakuStatus === 'empty' ? '先添加单词吧' :
+            '开启弹幕复习'
+          }
+          aria-pressed={danmakuStatus === 'active'}
         >
-          <MonitorPlay className="w-3.5 h-3.5 sm:w-4 sm:h-4" aria-hidden="true" />
-          <span>{showDanmaku ? '关闭弹幕复习' : '开启弹幕复习'}</span>
+          {danmakuStatus === 'counting' && (
+            <span className="font-mono tabular-nums" aria-hidden="true">{countdownValue}</span>
+          )}
+          {danmakuStatus === 'active' && (
+            <>
+              <MonitorPlay className="w-3.5 h-3.5 sm:w-4 sm:h-4" aria-hidden="true" />
+              <span>关闭弹幕复习</span>
+            </>
+          )}
+          {danmakuStatus === 'empty' && <span>先添加单词吧</span>}
+          {danmakuStatus === 'idle' && (
+            <>
+              <MonitorPlay className="w-3.5 h-3.5 sm:w-4 sm:h-4" aria-hidden="true" />
+              <span>开启弹幕复习</span>
+            </>
+          )}
         </Button>
         {isAuthenticated ? (
           <>
