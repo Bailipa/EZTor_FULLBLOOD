@@ -33,8 +33,8 @@ export async function POST(req: Request) {
 
     const existingWords = await prisma.$queryRaw<Record<string, unknown>[]>`
       SELECT * FROM "Word"
-      WHERE userId = ${session.user.id}
-        AND lower(word) = ${normalizedWord}
+      WHERE "userId" = ${session.user.id}
+        AND lower("word") = ${normalizedWord}
       LIMIT 1
     `
 
@@ -50,7 +50,7 @@ export async function POST(req: Request) {
       await prisma.word.create({
         data: {
           id: randomUUID(),
-          word: normalizedWord,
+          word: String(word).trim(),
           userId: session.user.id,
           sourceType: 'PUBLIC',
           publicWordId: publicWord?.id || null,
@@ -69,7 +69,8 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ success: true })
   } catch (err: unknown) {
-    logger.error({ err }, 'Failed to update dictation stats:')
-    return NextResponse.json({ success: false, error: 'Failed to update stats' }, { status: 500 })
+    const msg = err instanceof Error ? err.message : String(err)
+    logger.error({ err }, `Failed to update dictation stats: ${msg}`)
+    return NextResponse.json({ success: false, error: msg }, { status: 500 })
   }
 }

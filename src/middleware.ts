@@ -44,6 +44,7 @@ export default async function middleware(request: NextRequest) {
     res.headers.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate')
     res.headers.set('Pragma', 'no-cache')
     res.headers.set('Expires', '0')
+    res.headers.set('X-Build-Id', process.env.NEXT_PUBLIC_BUILD_ID || 'dev')
     return res
   }
 
@@ -86,6 +87,7 @@ export default async function middleware(request: NextRequest) {
   res.headers.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate')
   res.headers.set('Pragma', 'no-cache')
   res.headers.set('Expires', '0')
+  res.headers.set('X-Build-Id', process.env.NEXT_PUBLIC_BUILD_ID || 'dev')
   return res
 }
 

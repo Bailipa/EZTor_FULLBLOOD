@@ -421,3 +421,63 @@ pm2 restart cet4-web
 | `src/components/ui/danmaku.tsx` | 修改 | visibilitychange 前后台恢复 + skipDelay |
 | `src/lib/ttsBrowser.ts` | 修改 | unlockAudio() + Audio 同步创建 |
 | `WORK_REPORT.md` | 修改 | 本次会话报告 |
+| `WORK_REPORT.md` | 修改 | 部署问题修复报告 |
+
+---
+
+## ✅ 续接会话 — 2026-05-05（部署缓存问题修复）
+
+### 问题回顾
+
+**🚨 部署问题**：本地 `deploy.sh` 构建 tarball → 上传服务器 → PM2 重启后浏览器仍显示旧版 JS/CSS。
+
+### 根因分析
+
+1. **无法验证部署是否生效** — 部署前后无从比对，浏览器是否拿到新版本全靠猜测
+2. **tarball 提取命令混乱** — `deploy.sh` 输出指令与 WORK_REPORT 记录的实际服务器命令不一致（`-C .next/standalone` 会导致路径双嵌套）
+3. **缺少构建唯一标识** — 每次构建产物相同目录结构，无从区分版本
+
+### 修复内容
+
+| 改动 | 文件 | 说明 |
+|------|------|------|
+| BUILD_ID 环境变量 | `deploy.sh` | 构建前 `export NEXT_PUBLIC_BUILD_ID=$(date +%Y%m%d_%H%M%S)` |
+| HTML 嵌入 Build ID | `src/app/layout.tsx` | `<html data-build-id="20260505_204019">` — DevTools 可查 |
+| HTTP 响应头 | `src/middleware.ts` | 所有页面/API 返回 `X-Build-Id: 20260505_204019` 响应头 |
+| 服务端标识文件 | `deploy.sh` | 构建时写入 `.next/standalone/BUILD_ID.txt` |
+| 统一部署指令 | `deploy.sh` | 修正并输出完整的 scp/ssh/server 一条龙命令 |
+| .env 排除加固 | `deploy.sh` | 明确排除 `.env` `.env.production` `.env.local` 三种文件 |
+
+### 部署验证三步法
+
+```
+# Step 1: 服务器上确认
+cat /www/wwwroot/114.55.58.90/.next/standalone/BUILD_ID.txt
+
+# Step 2: 浏览器 DevTools → Elements → <html> 标签
+#    检查 data-build-id 属性值与 Step 1 是否一致
+
+# Step 3: 浏览器 DevTools → Network → 任意页面请求
+#    检查响应头 X-Build-Id 是否匹配
+```
+
+### 当前 tarball
+
+- `deploy_clean.tar.gz` (54MB) — 最新构建
+- `deploy_20260505_204019.tar.gz` (54MB) — 带时间戳版本，用于追溯
+
+### 正确部署命令（服务器端）
+
+```bash
+cd /www/wwwroot/114.55.58.90
+rm -rf .next/standalone
+tar -xzf deploy_clean.tar.gz
+# 恢复生产环境配置（不随 tarball 携带）
+cp .next.bak/standalone/.env .next/standalone/.env 2>/dev/null || true
+rm -f .next/standalone/.env.production
+# 重启服务
+pm2 restart cet4-web
+# 验证
+cat .next/standalone/BUILD_ID.txt
+# 浏览器清缓存 + 硬刷新验证 <html> data-build-id
+```

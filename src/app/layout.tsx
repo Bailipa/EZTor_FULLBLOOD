@@ -28,13 +28,15 @@ export const viewport: Viewport = {
   ],
 }
 
+const BUILD_ID = process.env.NEXT_PUBLIC_BUILD_ID || 'dev'
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
   return (
-    <html lang="zh-CN" suppressHydrationWarning className="h-full antialiased font-sans">
+    <html lang="zh-CN" suppressHydrationWarning className="h-full antialiased font-sans" data-build-id={BUILD_ID}>
       <body className="min-h-full flex flex-col">
         <NextAuthProvider>
           <ThemeProvider

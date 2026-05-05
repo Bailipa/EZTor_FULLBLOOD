@@ -1,5 +1,7 @@
 'use client'
 
+import { toast } from 'sonner'
+
 type SpeakOptions = {
   voice?: string
   speed?: number
@@ -58,6 +60,7 @@ export async function speakText(text: string, opts: SpeakOptions = {}): Promise<
   currentAudio = audio
 
   // Prefer server-side Edge TTS (consistent voices), fallback to browser TTS.
+  let serverOk = false
   try {
     const res = await fetch('/api/tts', {
       method: 'POST',
@@ -71,29 +74,42 @@ export async function speakText(text: string, opts: SpeakOptions = {}): Promise<
     })
 
     if (res.ok) {
+      serverOk = true
       const blob = await res.blob()
       const url = URL.createObjectURL(blob)
       currentUrl = url
       audio.src = url
 
-      await audio.play()
-      audio.addEventListener(
-        'ended',
-        () => {
-          stopSpeech()
-        },
-        { once: true },
-      )
-      return
+      try {
+        await audio.play()
+        audio.addEventListener(
+          'ended',
+          () => {
+            stopSpeech()
+          },
+          { once: true },
+        )
+        return
+      } catch (playErr) {
+        const msg = playErr instanceof Error ? playErr.name : String(playErr)
+        stopSpeech()
+        if (msg === 'NotAllowedError' || msg.includes('NotAllowed')) {
+          toast.error('播放被浏览器拦截，请再次点击发音按钮')
+        } else if (msg === 'NotSupportedError' || msg.includes('NotSupported')) {
+          toast.error('浏览器不支持此音频格式')
+        }
+      }
     }
   } catch {
-    // Server TTS failed, stop and fallback to browser TTS
-    stopSpeech()
+    // server TTS network error — silently fallback
   }
 
+  // Fallback: browser speechSynthesis
   if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
     const utterance = new SpeechSynthesisUtterance(input)
     utterance.lang = 'en-US'
     window.speechSynthesis.speak(utterance)
+  } else if (!serverOk) {
+    toast.error('当前环境不支持语音播放')
   }
 }

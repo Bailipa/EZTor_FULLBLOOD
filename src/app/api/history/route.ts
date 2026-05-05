@@ -86,6 +86,9 @@ export async function DELETE(req: Request) {
       await prisma.word.deleteMany({
         where: { userId: session.user.id },
       })
+      await prisma.reviewGroup.deleteMany({
+        where: { userId: session.user.id },
+      })
       return NextResponse.json({ success: true, message: 'All records cleared' })
     }
 

@@ -269,11 +269,14 @@ export default function DictationPage() {
     setScore((prev) => ({ ...prev, total: prev.total + 1 }))
 
     try {
-      await fetch('/api/dictation/update', {
+      const res = await fetch('/api/dictation/update', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ word: currentWord.word, isCorrect: correct }),
       })
+      if (!res.ok && process.env.NODE_ENV === 'development') {
+        console.error('Dictation update failed:', res.status, await res.text())
+      }
     } catch (e) {
       if (process.env.NODE_ENV === 'development') console.error('Failed to update stats', e)
     }
@@ -326,6 +329,7 @@ export default function DictationPage() {
   }, [])
 
   const restartQuiz = () => {
+    setWords([])
     setScore({ correct: 0, total: 0 })
     setCurrentIndex(0)
     setIsFinished(false)
@@ -333,7 +337,7 @@ export default function DictationPage() {
     setIsRetesting(false)
     setAnswers({})
     resetTurn()
-    fetchWords() // 重新拉取一批新词
+    fetchWords()
   }
 
   const startRetest = () => {
@@ -388,6 +392,7 @@ export default function DictationPage() {
     if (!isFinished) return
 
     const handleFinishedKeyDown = (e: KeyboardEvent) => {
+      if ((e.target as HTMLElement)?.tagName === 'BUTTON') return
       if (e.key === 'Enter') {
         e.preventDefault()
         restartQuiz()

@@ -1,6 +1,7 @@
 import type { NextConfig } from 'next'
 
 const isProduction = process.env.NODE_ENV === 'production'
+const BUILD_ID = process.env.NEXT_PUBLIC_BUILD_ID || 'dev'
 
 const cspProduction = [
   "default-src 'self'",
@@ -66,6 +67,10 @@ const nextConfig: NextConfig = {
           {
             key: 'X-XSS-Protection',
             value: '1; mode=block',
+          },
+          {
+            key: 'X-Build-Id',
+            value: BUILD_ID,
           },
           ...(isProduction
             ? [

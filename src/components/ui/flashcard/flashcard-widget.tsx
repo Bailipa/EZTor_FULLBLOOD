@@ -13,6 +13,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { useSession } from 'next-auth/react'
+import { toast } from 'sonner'
 import { speakText } from '@/lib/ttsBrowser'
 import { IgnoredWords } from './ignored-words'
 
@@ -100,9 +101,8 @@ export function FlashcardWidget() {
   const handleSaveToPrivate = async () => {
     if (!currentWord) return
 
-    // 🔧 BUG FIX: 检查登录状态
     if (status !== 'authenticated' || !session?.user) {
-      // 可以使用更友好的提示方式，比如 toast
+      toast.error('请先登录')
       return
     }
 
@@ -117,22 +117,21 @@ export function FlashcardWidget() {
 
       if (!res.ok) {
         if (res.status === 401) {
-          // 可以使用更友好的提示方式，比如 toast
+          toast.error('登录已过期，请重新登录')
         } else {
-          throw new Error(data.error || '添加失败')
+          toast.error(`[${res.status}] ${data.error || '添加失败'}`)
         }
         return
       }
 
       if (data.success) {
         setIsInVocabularyBook(true)
-        // 可以使用更友好的提示方式，比如 toast
+        toast.success('已加入生词本')
       } else {
-        throw new Error(data.error || '添加失败')
+        toast.error(data.error || '添加失败')
       }
-    } catch (e: unknown) {
-      if (process.env.NODE_ENV === 'development') console.error('Failed to save word:', e)
-      // 可以使用更友好的提示方式，比如 toast
+    } catch {
+      toast.error('网络错误，请重试')
     } finally {
       setIsSaving(false)
     }
@@ -310,7 +309,7 @@ export function FlashcardWidget() {
                   size="sm"
                   onClick={handleSaveToPrivate}
                   disabled={isSaving || isInVocabularyBook}
-                  className={`h-8 text-xs ${isInVocabularyBook ? 'bg-primary text-white' : 'bg-white/80 dark:bg-black/80 backdrop-blur-sm'}`}
+                  className={`h-8 text-xs min-w-[110px] ${isInVocabularyBook ? 'bg-primary text-white' : 'bg-white/80 dark:bg-black/80 backdrop-blur-sm'}`}
                   title={isInVocabularyBook ? '已在生词本中' : '添加到我的生词本'}
                 >
                   {isSaving ? (

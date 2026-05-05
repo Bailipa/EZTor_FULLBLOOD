@@ -262,7 +262,7 @@ export function GameWidget() {
                 return (
                   <div
                     key={`outer-${row}-${col}`}
-                    className="absolute rounded-lg flex items-center justify-center text-xl font-bold"
+                    className="absolute z-10 rounded-lg flex items-center justify-center text-xl font-bold bg-white/80 dark:bg-black/80 backdrop-blur-sm shadow-sm border border-border/50 pointer-events-none"
                     style={{ left, top, width: size, height: size }}
                   >
                     <span className={cell === 'X' ? 'text-blue-500' : 'text-red-500'}>{cell}</span>
