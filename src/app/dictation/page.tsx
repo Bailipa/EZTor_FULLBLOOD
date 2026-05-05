@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { toast } from 'sonner'
+import { getIrregularForms, getFormHint, isCorrectAnswer, getAlternateStems } from '@/lib/irregularForms'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
@@ -242,10 +243,9 @@ export default function DictationPage() {
     if (!userInput.trim()) return
     if (answers[currentIndex]) return // 如果已经答过了，不再重复判断
 
-    const targetWord = currentWord.word.toLowerCase().trim()
     const userWord = userInput.toLowerCase().trim()
 
-    const correct = targetWord === userWord
+    const correct = isCorrectAnswer(userWord, currentWord.word)
     setIsCorrect(correct)
     setIsChecked(true)
 
@@ -384,72 +384,67 @@ export default function DictationPage() {
     }
   }, [isChecked, handleNext, isFinished])
 
+  useEffect(() => {
+    if (!isFinished) return
+
+    const handleFinishedKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Enter') {
+        e.preventDefault()
+        restartQuiz()
+        return
+      }
+      if ((e.key === 'r' || e.key === 'R') && mistakes.length > 0) {
+        e.preventDefault()
+        startRetest()
+      }
+    }
+
+    window.addEventListener('keydown', handleFinishedKeyDown)
+    return () => window.removeEventListener('keydown', handleFinishedKeyDown)
+  }, [isFinished, mistakes.length])
+
   // 生成挖空例句 (强大的正则词形匹配)
   const getBlankedSentence = (sentence: string, word: string) => {
     if (!sentence || !word) return sentence || '此单词没有例句，请切换其他模式'
 
-    // 如果原词长度太短，不进行模糊匹配，防止误杀（比如 a, an, in）
     if (word.length <= 2) {
       const regex = new RegExp(`\\b${word}\\b`, 'gi')
       return sentence.replace(regex, '________')
     }
 
-    // 智能词形匹配：获取单词词干（去除常见的后缀 s, es, ed, ing, d, y）
-    let stem = word.toLowerCase()
+    // Generate stem and alternates (drop-e, f→v, y→i, ie→y)
+    const allStems = getAlternateStems(word)
+    const stem = allStems[0]
+    const altStems = allStems.slice(1)
 
-    // 简单的词干提取规则，按照从长到短的顺序匹配
-    if (stem.endsWith('ing')) {
-      stem = stem.slice(0, -3)
-    } else if (stem.endsWith('ies')) {
-      stem = stem.slice(0, -3) + 'y'
-    } else if (stem.endsWith('ed')) {
-      stem = stem.slice(0, -2)
-    } else if (stem.endsWith('es')) {
-      stem = stem.slice(0, -2)
-    } else if (stem.endsWith('s') && !stem.endsWith('ss') && !stem.endsWith('is')) {
-      stem = stem.slice(0, -1)
-    }
+    const lowerWord = word.toLowerCase()
 
-    // 如果提取词干后太短（比如只剩1个字母），退回到使用原词匹配
-    if (stem.length < 2) {
-      stem = word.toLowerCase()
-    }
-
-    // 构建正则表达式，匹配以词干开头的整个单词
-    const regex = new RegExp(`\\b${stem}[a-z]*\\b`, 'gi')
+    // Look up known irregular forms for this word
+    const irregulars = getIrregularForms(lowerWord)
+    const stems = [stem, ...altStems, ...irregulars]
+    const stemPattern = stems.length > 1 ? `(${stems.join('|')})[a-z]*` : `${stem}[a-z]*`
+    const regex = new RegExp(`\\b${stemPattern}\\b`, 'gi')
 
     const blankLength = word.length > 4 ? 6 : 4
     const blankStr = '_'.repeat(blankLength)
 
-    // 自定义替换逻辑
     const replaced = sentence.replace(regex, (match) => {
-      // 目标是让用户填入完整的 word（比如 "dance"）
-      // match 是例句中实际出现的单词（比如 "danced" 或 "dancing"）
-
       const lowerMatch = match.toLowerCase()
-      const lowerWord = word.toLowerCase()
 
-      // 情况 1: 例句里的词和要考的词一模一样 (dance == dance)
       if (lowerMatch === lowerWord) {
         return blankStr
       }
 
-      // 情况 2: 例句里的词包含要考的词，只是多了后缀 (danced 包含 dance)
-      // 提取出多出来的后缀 (danced 扣掉 dance，剩下 d)
       if (lowerMatch.startsWith(lowerWord)) {
         const suffix = match.slice(word.length)
         return `${blankStr}${suffix}`
       }
 
-      // 情况 3: 发生了去 e 加 ing 等词干变形 (dancing 不直接包含 dance)
-      // 此时我们只能隐藏整个 match，因为没办法完美切分。
-      // 为了不让用户填成 danceing，我们只能在后面用括号提示原词的变形后缀，或者直接全挖空。
-      // 这里为了严谨，对于复杂的变形，直接把整个变形后的词挖空，用户填变形后的词。
-      return blankStr
+      const hint = getFormHint(match)
+      return hint ? `${blankStr} ${hint}` : blankStr
     })
 
     if (replaced === sentence) {
-      // 如果基于词干的正则没匹配到任何东西，退回到绝对精确匹配
       const strictRegex = new RegExp(`\\b${word}\\b`, 'gi')
       return sentence.replace(strictRegex, '________')
     }
@@ -990,21 +985,23 @@ export default function DictationPage() {
                 </p>
               </div>
 
-              <div className="flex gap-4 pt-8 w-full max-w-md">
+              <div className="flex flex-wrap gap-4 pt-8 w-full max-w-md justify-center">
                 <Button
                   variant="outline"
-                  className="flex-1 h-12"
+                  className="h-12"
                   onClick={() => (window.location.href = '/')}
                 >
                   返回首页
                 </Button>
                 {mistakes.length > 0 && (
-                  <Button variant="destructive" className="flex-1 h-12 gap-2" onClick={startRetest}>
-                    <RefreshCw className="w-4 h-4" /> 重测错题 ({mistakes.length})
+                  <Button variant="destructive" className="h-12 gap-1" onClick={startRetest}>
+                    <RefreshCw className="w-4 h-4 flex-shrink-0" /> 重测错题 ({mistakes.length})
+                    <kbd className="ml-0.5 px-1 py-0.5 text-[10px] font-mono leading-none border rounded bg-white/20">R</kbd>
                   </Button>
                 )}
-                <Button className="flex-1 h-12 gap-2" onClick={restartQuiz}>
-                  <RefreshCw className="w-4 h-4" /> 新的一组
+                <Button className="h-12 gap-1" onClick={restartQuiz}>
+                  <RefreshCw className="w-4 h-4 flex-shrink-0" /> 新的一组
+                  <kbd className="ml-0.5 px-1 py-0.5 text-[10px] font-mono leading-none border rounded bg-white/20">Enter</kbd>
                 </Button>
               </div>
             </CardContent>

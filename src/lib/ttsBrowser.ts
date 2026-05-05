@@ -8,6 +8,27 @@ type SpeakOptions = {
 let currentAudio: HTMLAudioElement | null = null
 let currentUrl: string | null = null
 
+let audioUnlocked = false
+
+export function unlockAudio(): void {
+  if (audioUnlocked || typeof window === 'undefined') return
+  try {
+    const AudioCtx = window.AudioContext || (window as unknown as Record<string, unknown>).webkitAudioContext as typeof AudioContext
+    if (AudioCtx) {
+      const ctx = new AudioCtx()
+      const buffer = ctx.createBuffer(1, 1, 22050)
+      const source = ctx.createBufferSource()
+      source.buffer = buffer
+      source.connect(ctx.destination)
+      source.start(0)
+      ctx.resume()
+      audioUnlocked = true
+    }
+  } catch {
+    // silent surface-level short noise buffer is non-critical
+  }
+}
+
 export function stopSpeech(): void {
   if (currentAudio) {
     currentAudio.pause()
@@ -29,6 +50,13 @@ export async function speakText(text: string, opts: SpeakOptions = {}): Promise<
 
   stopSpeech()
 
+  // Unlock audio context so async play() works on mobile autoplay policy
+  unlockAudio()
+
+  // Create Audio element synchronously (user-gesture context) before async fetch
+  const audio = new Audio()
+  currentAudio = audio
+
   // Prefer server-side Edge TTS (consistent voices), fallback to browser TTS.
   try {
     const res = await fetch('/api/tts', {
@@ -45,9 +73,8 @@ export async function speakText(text: string, opts: SpeakOptions = {}): Promise<
     if (res.ok) {
       const blob = await res.blob()
       const url = URL.createObjectURL(blob)
-      const audio = new Audio(url)
-      currentAudio = audio
       currentUrl = url
+      audio.src = url
 
       await audio.play()
       audio.addEventListener(
@@ -60,7 +87,8 @@ export async function speakText(text: string, opts: SpeakOptions = {}): Promise<
       return
     }
   } catch {
-    // ignore and fallback
+    // Server TTS failed, stop and fallback to browser TTS
+    stopSpeech()
   }
 
   if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
