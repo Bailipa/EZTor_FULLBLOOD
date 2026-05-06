@@ -23,6 +23,18 @@ export default function SignIn() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const { status } = useSession()
+  const wasKicked = searchParams.get('kicked') === '1'
+
+  const [onlineCount, setOnlineCount] = useState<number | null>(null)
+
+  useEffect(() => {
+    const match = document.cookie.match(/(?:^|; )online_limit=([^;]*)/)
+    if (match) {
+      setOnlineCount(parseInt(match[1], 10))
+    }
+  }, [])
+
+  const isBlocked = wasKicked || onlineCount !== null
 
   useEffect(() => {
     if (status === 'authenticated') {
@@ -101,6 +113,16 @@ export default function SignIn() {
           </CardDescription>
         </CardHeader>
         <CardContent>
+          {wasKicked && (
+            <div className="mb-4 p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-md text-sm text-red-700 dark:text-red-400 text-center">
+              当前服务器资源紧张，监测到您五分钟没有操作，判定为挂机，如需使用请尝试重新登录
+            </div>
+          )}
+          {onlineCount !== null && (
+            <div className="mb-4 p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-md text-sm text-red-700 dark:text-red-400 text-center">
+              在线人数过多（当前在线 {onlineCount} 人），服务器资源紧张，请稍后再试
+            </div>
+          )}
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="username">用户名</Label>
@@ -154,8 +176,8 @@ export default function SignIn() {
             </div>
 
             {error && <p className="text-sm text-red-500">{error}</p>}
-            <Button type="submit" className="w-full" disabled={isLoading}>
-              {isLoading ? '登录中...' : '登录 / 注册'}
+            <Button type="submit" className="w-full" disabled={isLoading || isBlocked}>
+              {isBlocked ? '当前不可用' : isLoading ? '登录中...' : '登录 / 注册'}
             </Button>
           </form>
         </CardContent>

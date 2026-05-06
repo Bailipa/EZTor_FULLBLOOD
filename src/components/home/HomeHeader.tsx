@@ -23,6 +23,7 @@ import Link from 'next/link'
 import { MonitorPlay, PenTool, BookOpen, LogIn, ChevronDown, ChevronUp } from 'lucide-react'
 import { DonationButton } from './DonationModal'
 import { useRouter } from 'next/navigation'
+import { toast } from 'sonner'
 
 interface HomeHeaderProps {
   showDanmaku: boolean
@@ -237,15 +238,21 @@ export function HomeHeader({ showDanmaku, onToggleDanmaku, onFeatureClick }: Hom
               </Button>
             </>
           ) : (
-            <Link href="/auth/signin" aria-label="前往登录页面">
-              <Button
-                variant="default"
-                className="gap-1.5 sm:gap-2 shadow-sm h-8 px-2.5 text-xs sm:h-9 sm:px-4 sm:text-sm"
-              >
-                <LogIn className="w-3.5 h-3.5 sm:w-4 sm:h-4" aria-hidden="true" />
-                <span>登录</span>
-              </Button>
-            </Link>
+            <Button
+              variant="default"
+              onClick={() => {
+                const match = document.cookie.match(/(?:^|; )online_limit=([^;]*)/)
+                if (match) {
+                  toast.error(`在线人数过多（当前在线 ${match[1]} 人），请稍后再试`)
+                  return
+                }
+                router.push('/auth/signin')
+              }}
+              className="gap-1.5 sm:gap-2 shadow-sm h-8 px-2.5 text-xs sm:h-9 sm:px-4 sm:text-sm"
+            >
+              <LogIn className="w-3.5 h-3.5 sm:w-4 sm:h-4" aria-hidden="true" />
+              <span>登录</span>
+            </Button>
           )}
           <ModeToggle />
           <Button

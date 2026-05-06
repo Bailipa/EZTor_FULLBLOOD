@@ -5,6 +5,7 @@ import bcrypt from 'bcryptjs'
 import crypto from 'crypto'
 import { rateLimit } from '@/lib/rateLimit'
 import { getSecretKey } from '@/lib/envValidator'
+import { removeKick } from '@/lib/onlineTracker'
 
 const AUTH_ERROR_MESSAGE = '用户名或密码错误 / Invalid username or password'
 
@@ -112,6 +113,7 @@ export const authOptions: NextAuthOptions = {
       if (user) {
         token.sub = user.id
         token.isAdmin = (user as { isAdmin?: boolean }).isAdmin
+        removeKick(user.id)
       }
       return token
     },

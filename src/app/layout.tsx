@@ -4,6 +4,7 @@ import { Toaster } from 'sonner'
 
 import { ThemeProvider } from '@/components/theme-provider'
 import { NextAuthProvider } from '@/components/providers/session-provider'
+import { OnlineLimitBanner } from '@/components/OnlineLimitBanner'
 
 export const metadata: Metadata = {
   title: {
@@ -38,6 +39,7 @@ export default function RootLayout({
   return (
     <html lang="zh-CN" suppressHydrationWarning className="h-full antialiased font-sans" data-build-id={BUILD_ID}>
       <body className="min-h-full flex flex-col">
+        <OnlineLimitBanner />
         <NextAuthProvider>
           <ThemeProvider
             attribute="class"

@@ -58,3 +58,5 @@ prisma/*.db.backup.*.sql
 prisma/prisma/*.db*
 /src/generated/prisma
 scripts/fix-multi-pos-examples.ts
+*.tar.gz
+captcha.png
