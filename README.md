@@ -37,7 +37,7 @@ Pain points solved:
 
 - **Unusable single-word lookups** — LLM gives rich context: phonetic, POS, examples, countability, example translation
 - **API vendor lock-in** — Configurable provider pool with automatic failover on quota depletion (402) or rate limits (429)
-- **No auth friction** — 30 free daily translations without login; full word bank features after login
+- **No auth friction** — full word bank features after login
 - **Public-facing security** — 5-layer defense: CSRF, injection detection, rate limiting, ban escalation, env validation
 
 ## Tech Stack
