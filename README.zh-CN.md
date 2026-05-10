@@ -16,7 +16,7 @@
 
 **🌐 在线演示: [dogeggcode.cyou](https://dogeggcode.cyou)**
 
-![EZTor 截图](https://raw.githubusercontent.com/Bailipa/EZTor_FULLBLOOD/main/screenshot.png)
+
 
 基于 Next.js 的全栈英语词汇学习应用，由大语言模型驱动。
 
