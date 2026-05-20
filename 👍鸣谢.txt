@@ -29,6 +29,8 @@ LLM 池参考了 https://github.com/songquanpeng/one-api 设计思路
 - ZJY 男 支持
 - CR 女 支持
 - LRY 男 25¥ 资金支持
+- XJH 女 首页UI登录提示排版优化提出
+- StarsWhere 男 图标提供
 
 使用的开源项目：
 - TTS 引擎：@lobehub/tts (MIT) + edgeTTS-openai-api
