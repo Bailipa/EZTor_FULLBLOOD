@@ -14,7 +14,7 @@
 
 # EZTor — 英语词汇学习平台
 
-**🌐 在线演示: [dogeggcode.cyou](https://dogeggcode.cyou)**
+**🌐 在线演示: [dogeggcode.cyou](https://eztor.dogeggcode.cyou)**
 
 ![EZTor Demo](https://raw.githubusercontent.com/Bailipa/EZTor_FULLBLOOD/main/yanshitupian.png)
 
