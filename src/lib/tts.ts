@@ -1,5 +1,5 @@
-import { EdgeSpeechTTS } from '@lobehub/tts'
-import WebSocket from 'ws'
+const TTS_PROXY_URL = process.env.TTS_PROXY_URL || 'http://localhost:5050/v1/audio/speech'
+const TTS_PROXY_API_KEY = process.env.TTS_PROXY_API_KEY || ''
 
 export type TtsResponseFormat = 'mp3'
 
@@ -26,22 +26,6 @@ function normalizeVoice(voice: string | undefined): string {
   return v || DEFAULT_VOICE
 }
 
-let ttsSingleton: EdgeSpeechTTS | null = null
-
-function getEdgeTts(): EdgeSpeechTTS {
-  // Node.js doesn't provide a WebSocket global; EdgeSpeechTTS needs it.
-  if (!(globalThis as Record<string, unknown>).WebSocket) {
-    ;(globalThis as Record<string, unknown>).WebSocket = WebSocket
-  }
-  if (!ttsSingleton) ttsSingleton = new EdgeSpeechTTS()
-  return ttsSingleton
-}
-
-/**
- * Generate speech audio using Microsoft Edge TTS.
- * This is an in-process alternative to the python-based OpenAI-compatible server:
- * https://github.com/Ikaros-521/edgeTTS-openai-api
- */
 export async function synthesizeSpeech(req: TtsRequest): Promise<Response> {
   const input = (req.input || '').trim()
   if (!input) throw new Error('input is required')
@@ -74,16 +58,22 @@ export async function synthesizeSpeech(req: TtsRequest): Promise<Response> {
     }
   }
 
-  // EdgeSpeechTTS currently produces mp3 (audio-24khz-48kbitrate-mono-mp3).
-  const tts = getEdgeTts() as unknown as {
-    create: (args: Record<string, unknown>) => Promise<Response>
-  }
-  const response = await tts.create({
-    input,
-    options: { voice, rate: speed },
+  const headers: Record<string, string> = { 'Content-Type': 'application/json' }
+  if (TTS_PROXY_API_KEY) headers['Authorization'] = `Bearer ${TTS_PROXY_API_KEY}`
+
+  const response = await fetch(TTS_PROXY_URL, {
+    method: 'POST',
+    headers,
+    body: JSON.stringify({ input, voice, speed, response_format: 'mp3' }),
     signal: abortController.signal,
   })
 
   clearTimeout(timeoutId)
+
+  if (!response.ok) {
+    const body = await response.json().catch(() => ({ error: response.statusText }))
+    throw new Error(`TTS proxy error: ${body.error || response.statusText}`)
+  }
+
   return response
 }
