@@ -19,7 +19,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { PenTool, Upload, Sparkles, Globe } from 'lucide-react'
+import { PenTool, Upload, Sparkles, Globe, Plus, X } from 'lucide-react'
 import type { WordResult, ReviewGroup } from '@/types/api'
 import { saveToStorage, loadFromStorage } from '@/lib/storage'
 import { useAnalytics } from '@/lib/analytics'
@@ -105,7 +105,6 @@ export function WordInputCard({
     if (!validateWordCount(words)) return
 
     setIsLoading(true)
-    setResults([])
     beginProcessing(words)
     animatedWordsRef.current.clear()
 
@@ -328,17 +327,19 @@ export function WordInputCard({
           try {
             const parsed = JSON.parse(finalText)
             if (parsed && parsed.results && Array.isArray(parsed.results)) {
-              finalResults = [...finalResults, ...parsed.results]
+              const items = (parsed.results as Array<Record<string, unknown>>).filter((item) => item && item.word)
+              finalResults = [...finalResults, ...items] as WordResult[]
             }
-          } catch {
-            /* skip malformed blocks */
+            } catch (e) {
+            if (process.env.NODE_ENV === 'development') console.error('Final parse block failed:', e)
           }
         }
 
         if (finalResults.length === 0 && lastValidParsedData?.results) {
           finalResults = lastValidParsedData.results
         }
-      } catch {
+      } catch (e) {
+        if (process.env.NODE_ENV === 'development') console.error('Final parse outer failed:', e)
         if (lastValidParsedData && lastValidParsedData.results) {
           finalResults = lastValidParsedData.results
         }
@@ -499,6 +500,23 @@ export function WordInputCard({
       } else {
         toast.error(err.message)
       }
+
+      setResults((prev) => {
+        if (prev.length > 0) return prev
+        const errorEntries = words.map((w) => {
+          const fixed = fixedResultsMap.get(w.toLowerCase())
+          if (fixed) return fixed
+          return {
+            word: w,
+            phonetic: '',
+            pos: '查询失败',
+            translation: `请求失败: ${err.message || '未知错误'}`,
+            example: '',
+            exampleTranslation: '',
+          } as WordResult
+        })
+        return errorEntries
+      })
     } finally {
       setIsLoading(false)
     }
@@ -520,6 +538,69 @@ export function WordInputCard({
   ])
 
   const handleKeyDown = createKeyDownHandler(handleProcess)
+
+  const handleNewline = () => {
+    const textarea = document.getElementById('word-input-textarea') as HTMLTextAreaElement | null
+    if (!textarea) return
+    const start = textarea.selectionStart
+    const end = textarea.selectionEnd
+    setWordsInput((prev) => prev.substring(0, start) + '\n' + prev.substring(end))
+    requestAnimationFrame(() => {
+      textarea.focus()
+      textarea.setSelectionRange(start + 1, start + 1)
+    })
+  }
+
+  const removeLine = (lineIndex: number) => {
+    setWordsInput((prev) => {
+      const lines = prev.split('\n')
+      lines.splice(lineIndex, 1)
+      return lines.join('\n')
+    })
+  }
+
+  const addLine = () => {
+    setWordsInput((prev) => prev + '\n')
+    requestAnimationFrame(() => {
+      const textarea = document.getElementById('word-input-textarea') as HTMLTextAreaElement | null
+      if (!textarea) return
+      textarea.focus()
+      textarea.setSelectionRange(textarea.value.length, textarea.value.length)
+    })
+  }
+
+  const MAX_WORD_COUNT = 50
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const newValue = e.target.value
+    const lines = newValue.split('\n')
+    const nonEmptyLines = lines.filter((l) => l.trim())
+
+    if (nonEmptyLines.length > MAX_WORD_COUNT) {
+      toast.error(`单次最多只能输入 ${MAX_WORD_COUNT} 个单词或词组，仅保留前 ${MAX_WORD_COUNT} 个`)
+
+      let count = 0
+      const truncatedLines = lines.filter((l) => {
+        if (l.trim()) {
+          count++
+          return count <= MAX_WORD_COUNT
+        }
+        return true
+      })
+      const truncated = truncatedLines.join('\n')
+      setWordsInput(truncated)
+
+      requestAnimationFrame(() => {
+        const textarea = document.getElementById('word-input-textarea') as HTMLTextAreaElement | null
+        if (!textarea) return
+        textarea.selectionStart = truncated.length
+        textarea.selectionEnd = truncated.length
+      })
+      return
+    }
+
+    setWordsInput(newValue)
+  }
 
   const handleFileUpload = useCallback(
     async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -717,18 +798,71 @@ export function WordInputCard({
                 <span className="text-sm font-medium">{inputStatus.message}</span>
               </div>
             )}
-            <Textarea
-              placeholder={`例如:
+            <div className="relative">
+              <Textarea
+                id="word-input-textarea"
+                placeholder={`例如:
 apple
 gateway countries
 take for granted`}
-              className="min-h-[150px] resize-y"
-              style={{ whiteSpace: 'pre-wrap' }}
-              value={wordsInput}
-              onChange={(e) => setWordsInput(e.target.value)}
-              onKeyDown={handleKeyDown}
-              aria-label="输入单词或词组"
-            />
+                className="min-h-[150px] resize-y pr-20"
+                style={{ whiteSpace: 'pre-wrap' }}
+                value={wordsInput}
+                onChange={handleInputChange}
+                onKeyDown={handleKeyDown}
+                aria-label="输入单词或词组"
+              />
+              <button
+                type="button"
+                onClick={handleNewline}
+                className="absolute right-3 bottom-3 rounded-full p-1.5 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+                title="换行"
+                aria-label="换行"
+                tabIndex={-1}
+              >
+                <span className="text-sm font-bold">⏎</span>
+              </button>
+            </div>
+
+            {wordsInput.trim() && (
+              <div className="mt-3 rounded-md border bg-muted/20 p-3 text-left">
+                <div className="flex flex-wrap gap-2 justify-start">
+                  {wordsInput.split('\n').map((line, originalIndex) => {
+                    const word = line.trim()
+                    if (!word) return null
+                    return (
+                      <span
+                        key={`chip-${originalIndex}-${word}`}
+                        className="inline-flex items-center gap-1 rounded-md border border-primary/20 bg-primary/10 px-2.5 py-1 text-sm font-medium text-primary shadow-sm"
+                      >
+                        {word}
+                        <button
+                          type="button"
+                          onClick={() => removeLine(originalIndex)}
+                          className="ml-0.5 rounded-full p-0.5 text-primary/60 transition-colors hover:bg-primary/20 hover:text-primary"
+                          aria-label={`删除 ${word}`}
+                        >
+                          <X className="h-3 w-3" />
+                        </button>
+                      </span>
+                    )
+                  })}
+                </div>
+                <div className="mt-2 flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={addLine}
+                    className="inline-flex items-center gap-1 rounded-md border border-dashed border-muted-foreground/30 px-3 py-1 text-xs text-muted-foreground transition-colors hover:border-primary/40 hover:text-primary"
+                  >
+                    <Plus className="h-3 w-3" />
+                    添加单词/词组
+                  </button>
+                  <span className="text-xs text-muted-foreground">
+                    {wordsInput.split('\n').filter((l) => l.trim()).length} 个词
+                  </span>
+                </div>
+              </div>
+            )}
           </div>
         )}
       </CardContent>

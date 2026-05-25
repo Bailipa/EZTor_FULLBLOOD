@@ -5,10 +5,9 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Volume2, Sparkles } from 'lucide-react'
 import { useTheme } from '@wrksz/themes/client'
+import { useBrandTheme } from '@/components/brand-theme-provider'
 import type { WordResult } from '@/types/api'
 import { speakText } from '@/lib/ttsBrowser'
-import { Virtuoso } from 'react-virtuoso'
-
 interface ResultsListProps {
   results: WordResult[]
   showPos: boolean
@@ -20,7 +19,9 @@ export const ResultsList = forwardRef<HTMLDivElement, ResultsListProps>(function
   ref,
 ) {
   const { resolvedTheme } = useTheme()
+  const { brandTheme } = useBrandTheme()
   const [mounted, setMounted] = useState(false)
+  const isPurple = brandTheme === 'purple'
 
   useEffect(() => {
     setMounted(true)
@@ -36,38 +37,24 @@ export const ResultsList = forwardRef<HTMLDivElement, ResultsListProps>(function
 
   return (
     <div ref={ref} className="space-y-4">
-      <div className="flex items-center gap-2 animate-[fadeIn_0.3s_ease-in-out]">
-        <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-full bg-gradient-to-r from-teal-400 to-cyan-500 flex items-center justify-center animate-[scaleIn_0.3s_ease-out_0.1s_both]">
-            <Sparkles className="w-4 h-4 text-white" />
+      <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between animate-[fadeIn_0.3s_ease-in-out]">
+        <div className="flex items-center gap-3">
+          <div className="flex h-9 w-9 items-center justify-center rounded-full bg-accent text-primary animate-[scaleIn_0.3s_ease-out_0.1s_both]">
+            <Sparkles className="h-4 w-4" />
           </div>
-          <h3 className="text-lg font-medium" style={{ minWidth: 'max-content', whiteSpace: 'nowrap' }}>解析结果 ({results.length})</h3>
+          <div>
+            <h3 className="text-lg font-semibold text-foreground">这组词已经查清楚了</h3>
+            <p className="text-sm text-muted-foreground">共 {results.length} 条结果</p>
+          </div>
         </div>
         <span className="text-sm text-muted-foreground animate-[fadeIn_0.3s_ease-in-out_0.2s_both]">
-          ↓ 向下滚动查看详情
+          向下查看释义、词性和例句
         </span>
       </div>
-      <p className="text-sm text-gray-500 dark:text-muted-foreground mt-1">
+      <p className="mt-1 text-xs text-muted-foreground">
         提示：发音功能默认优先使用服务器内置的 Edge TTS；失败时会回退到浏览器自带的朗读引擎。
       </p>
-      {results.length > 20 ? (
-        <Virtuoso
-          data={results}
-          overscan={200}
-          itemContent={(index, item) => (
-            <ResultCard
-              key={`${index}-${item.word}`}
-              item={item}
-              index={index}
-              showPos={showPos}
-              showExample={showExample}
-              mounted={mounted}
-              isDark={isDark}
-              playAudio={playAudio}
-            />
-          )}
-        />
-      ) : (
+      {results.length > 0 && (
         <div className="grid gap-4">
           {results.map((item, index) => (
             <ResultCard
@@ -78,6 +65,7 @@ export const ResultsList = forwardRef<HTMLDivElement, ResultsListProps>(function
               showExample={showExample}
               mounted={mounted}
               isDark={isDark}
+              isPurple={isPurple}
               playAudio={playAudio}
             />
           ))}
@@ -94,6 +82,7 @@ interface ResultCardProps {
   showExample: boolean
   mounted: boolean
   isDark: boolean
+  isPurple: boolean
   playAudio: (text: string) => void
 }
 
@@ -104,11 +93,18 @@ function ResultCard({
   showExample,
   mounted,
   isDark,
+  isPurple,
   playAudio,
 }: ResultCardProps) {
+  const gradientClass = item.isNotFound
+    ? 'bg-gradient-to-r from-muted-foreground to-caption'
+    : isPurple
+      ? 'bg-gradient-to-r from-[#6B5CE7] to-[#A99DF8]'
+      : 'bg-gradient-to-r from-cyan-400 via-blue-400 to-blue-500'
+
   return (
     <Card
-      className={`overflow-hidden animate-[slideIn_0.35s_ease-out_${index * 0.03}s_both] ${item.isNotFound ? 'border-amber-200 dark:border-amber-800' : 'border-transparent'}`}
+      className={`overflow-hidden rounded-[20px] border-border shadow-sm animate-[slideIn_0.35s_ease-out_${index * 0.03}s_both]`}
       style={{
         backgroundColor: mounted ? (isDark ? 'rgb(38, 38, 38)' : 'rgb(255, 255, 255)') : undefined,
         color: mounted ? (isDark ? 'rgb(245, 245, 245)' : 'rgb(23, 23, 23)') : undefined,
@@ -116,37 +112,27 @@ function ResultCard({
       }}
     >
       <div
-        className={`h-1 animate-[scaleX_0.4s_ease-out_${index * 0.03 + 0.1}s_both] origin-left ${item.isNotFound ? 'bg-gradient-to-r from-amber-400 to-orange-400' : 'bg-gradient-to-r from-teal-400 via-cyan-400 to-blue-400'}`}
+        className={`h-1 animate-[scaleX_0.4s_ease-out_${index * 0.03 + 0.1}s_both] origin-left ${gradientClass}`}
       />
-      <CardContent className="p-4 space-y-2">
-        <div className="flex items-center gap-3 flex-wrap">
-          <span className="text-xl font-bold text-primary">{item.word}</span>
+      <CardContent className="space-y-2 p-4">
+        <div className="flex flex-wrap items-center gap-3">
+          <span className="text-xl font-semibold text-foreground">{item.word}</span>
           {item.phonetic && (
-            <span className="text-sm text-gray-500 font-mono">[{item.phonetic}]</span>
+            <span className="font-mono text-sm text-muted-foreground">[{item.phonetic}]</span>
           )}
           <button
             onClick={() => playAudio(item.word)}
-            className="p-1.5 text-gray-400 hover:text-primary hover:bg-primary/10 rounded-full transition-colors"
+            className="rounded-full p-1.5 text-muted-foreground transition-colors hover:bg-primary/10 hover:text-primary"
             title="点击发音"
             aria-label={`播放 ${item.word} 的发音`}
           >
             <Volume2 size={18} />
           </button>
           {showPos && item.pos && <Badge variant="secondary">{item.pos}</Badge>}
-          <span className="text-gray-700 dark:text-gray-300 font-medium">{item.translation}</span>
+          <span className="font-medium text-muted-foreground">{item.translation}</span>
         </div>
         {showExample && item.example && (
-          <div
-            className="mt-2 text-sm p-3 rounded-md space-y-3"
-            style={{
-              backgroundColor: mounted
-                ? isDark
-                  ? 'rgba(255, 255, 255, 0.05)'
-                  : 'rgb(249, 250, 251)'
-                : undefined,
-              color: mounted ? (isDark ? 'rgb(156, 163, 175)' : 'rgb(75, 85, 99)') : undefined,
-            }}
-          >
+          <div className="mt-2 space-y-3 rounded-md bg-muted/50 p-3 text-sm">
             {item.example.split('\n').map((ex: string, i: number) => {
               const translations = item.exampleTranslation
                 ? item.exampleTranslation.split('\n')
@@ -155,17 +141,17 @@ function ResultCard({
               return (
                 <div key={i} className="space-y-1">
                   <div className="flex items-start gap-2">
-                    <p className="italic flex-1">"{ex}"</p>
+                    <p className="flex-1 italic">"{ex}"</p>
                     <button
                       onClick={() => playAudio(ex)}
-                      className="p-1 text-gray-400 hover:text-primary rounded transition-colors shrink-0"
+                      className="shrink-0 rounded p-1 text-muted-foreground transition-colors hover:text-primary"
                       title="朗读例句"
                       aria-label={`朗读例句: ${ex}`}
                     >
                       <Volume2 size={14} />
                     </button>
                   </div>
-                  {trans && <p className="text-gray-500 dark:text-gray-400">{trans}</p>}
+                  {trans && <p className="text-caption">{trans}</p>}
                 </div>
               )
             })}
