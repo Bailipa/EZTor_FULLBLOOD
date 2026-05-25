@@ -4,7 +4,6 @@ import React, { useState, useEffect, useCallback, useRef, forwardRef } from 'rea
 import Link from 'next/link'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
-import { ModeToggle } from '@/components/mode-toggle'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -615,14 +614,14 @@ export default function HistoryPage() {
   )
 
   return (
-    <main className="min-h-screen bg-gray-50/50 dark:bg-background p-6 md:p-12 transition-colors duration-300">
+    <main className="min-h-screen bg-background p-6 md:p-12 transition-colors duration-300">
       <div className="max-w-5xl mx-auto space-y-8">
         {/* Header */}
-        <div className="bg-white dark:bg-card p-4 sm:p-6 rounded-xl shadow-sm border border-gray-100 dark:border-border transition-colors duration-300">
+        <div className="bg-card p-4 sm:p-6 rounded-xl shadow-sm border border-border transition-colors duration-300">
           {/* Top section: back + title + controls */}
           <div className="flex flex-wrap items-start gap-x-4 gap-y-3">
             <Link href="/">
-              <Button variant="outline" size="icon" className="rounded-full shrink-0">
+              <Button variant="outline" size="icon" className="rounded-full shrink-0 text-primary">
                 <ArrowLeft className="w-4 h-4" />
               </Button>
             </Link>
@@ -656,7 +655,7 @@ export default function HistoryPage() {
                 <Button
                   variant="outline"
                   size="sm"
-                  className="gap-1.5 h-8"
+                  className="gap-1.5 h-8 text-primary"
                   onClick={() => {
                     setSharingGroupId(currentViewGroupId)
                     setIsGroupShareModalOpen(true)
@@ -700,17 +699,16 @@ export default function HistoryPage() {
           </div>
 
           {/* Divider + action buttons grid */}
-          <div className="mt-4 pt-4 border-t border-gray-100 dark:border-border">
+          <div className="mt-4 pt-4 border-t border-border">
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-              <ModeToggle />
               <Button
                 variant="outline"
                 size="sm"
                 onClick={() => setIsImportModalOpen(true)}
-                className="gap-1.5"
+                className="gap-1.5 text-primary"
               >
                 <Share2 className="w-3.5 h-3.5" />
-                密钥导入
+                四六级词
               </Button>
               {isSelectionMode ? (
                 <>
@@ -724,10 +722,11 @@ export default function HistoryPage() {
                         setSelectedIds(new Set(words.map((w) => w.id)))
                       }
                     }}
+                    className="text-primary"
                   >
                     {selectedCount === words.length && words.length > 0 ? '取消全选' : '全选'}
                   </Button>
-                  <Button variant="outline" size="sm" onClick={() => clearSelection()}>
+                  <Button variant="outline" size="sm" onClick={() => clearSelection()} className="text-primary">
                     取消
                   </Button>
                   <Button
@@ -756,7 +755,7 @@ export default function HistoryPage() {
                   size="sm"
                   onClick={() => setIsSelectionMode(true)}
                   disabled={words.length === 0}
-                  className="gap-1"
+                  className="gap-1 text-primary"
                 >
                   <FolderOpen className="w-4 h-4" />
                   管理分组
@@ -777,7 +776,7 @@ export default function HistoryPage() {
                 size="sm"
                 onClick={exportToCSV}
                 disabled={words.length === 0}
-                className="gap-1"
+                className="gap-1 text-primary"
               >
                 <Download className="w-4 h-4" />
                 导出
@@ -826,7 +825,7 @@ export default function HistoryPage() {
             <Loader2 className="w-8 h-8 animate-spin text-primary" />
           </div>
         ) : words.length === 0 ? (
-          <div className="text-center py-20 bg-white dark:bg-card rounded-xl border border-gray-100 dark:border-border shadow-sm">
+          <div className="text-center py-20 bg-card rounded-xl border border-border shadow-sm">
             <p className="text-gray-500 dark:text-muted-foreground text-lg">
               生词本空空如也，快去查几个单词吧！
             </p>
@@ -850,7 +849,7 @@ export default function HistoryPage() {
 
             {hasMore && words.length < MAX_VISIBLE_WORDS && (
               <div className="flex justify-center py-4">
-                <Button variant="outline" onClick={loadMore} disabled={isLoadingMore}>
+                <Button variant="outline" onClick={loadMore} disabled={isLoadingMore} className="text-primary">
                   {isLoadingMore ? '加载中...' : '加载更多'}
                 </Button>
               </div>
@@ -909,7 +908,7 @@ export default function HistoryPage() {
             )}
           </div>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setIsGroupModalOpen(false)}>
+            <Button variant="outline" onClick={() => setIsGroupModalOpen(false)} className="text-primary">
               取消
             </Button>
             <Button onClick={handleAddToGroup} disabled={isSavingGroup}>
@@ -933,7 +932,7 @@ export default function HistoryPage() {
             />
           </div>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setIsRenameModalOpen(false)}>
+            <Button variant="outline" onClick={() => setIsRenameModalOpen(false)} className="text-primary">
               取消
             </Button>
             <Button onClick={handleRenameGroup}>保存</Button>

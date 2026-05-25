@@ -20,7 +20,6 @@ import {
   EyeOff,
   ListChecks,
 } from 'lucide-react'
-import { ModeToggle } from '@/components/mode-toggle'
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Progress } from '@/components/ui/progress'
 import { diffChars } from 'diff'
@@ -109,6 +108,7 @@ export default function DictationPage() {
   // Audio refs for sound effects
   const correctAudioRef = useRef<HTMLAudioElement | null>(null)
   const incorrectAudioRef = useRef<HTMLAudioElement | null>(null)
+  const questionCardRef = useRef<HTMLDivElement>(null)
 
   // 自定义模式状态
   const [allHistoryWords, setAllHistoryWords] = useState<
@@ -236,6 +236,15 @@ export default function DictationPage() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentIndex, mode, words, isChecked, isFinished, isMuted])
+
+  // 答题后 / 换题后自动滚动到题目区域
+  useEffect(() => {
+    if (words.length > 0 && !isFinished) {
+      setTimeout(() => {
+        questionCardRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      }, 100)
+    }
+  }, [currentIndex, isChecked])
 
   const currentWord = words[currentIndex]
 
@@ -549,7 +558,7 @@ export default function DictationPage() {
 
   if (isStarted && isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50/50 dark:bg-background">
+      <div className="min-h-screen flex items-center justify-center bg-background">
         <Loader2 className="w-8 h-8 animate-spin text-primary" />
       </div>
     )
@@ -557,7 +566,7 @@ export default function DictationPage() {
 
   if (isStarted && words.length === 0) {
     return (
-      <div className="min-h-screen bg-gray-50/50 dark:bg-background p-6 flex flex-col items-center justify-center">
+      <div className="min-h-screen bg-background p-6 flex flex-col items-center justify-center">
         <p className="text-gray-500 dark:text-muted-foreground text-lg mb-4">
           生词本数量不足，无法开启默写！
         </p>
@@ -569,10 +578,10 @@ export default function DictationPage() {
   }
 
   return (
-    <main className="min-h-screen bg-gray-50/50 dark:bg-background p-6 md:p-12 transition-colors duration-300">
+    <main className="min-h-screen bg-background p-6 md:p-12 transition-colors duration-300">
       <div className="max-w-3xl mx-auto space-y-8">
         {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white dark:bg-card p-6 rounded-xl shadow-sm border border-gray-100 dark:border-border transition-colors duration-300">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-card p-6 rounded-xl shadow-sm border border-border transition-colors duration-300">
           <div className="flex items-center gap-4">
             <Link href="/">
               <Button variant="outline" size="icon" className="rounded-full">
@@ -586,7 +595,6 @@ export default function DictationPage() {
               </p>
             </div>
           </div>
-          <ModeToggle />
         </div>
 
         {!isStarted ? (
@@ -808,7 +816,7 @@ export default function DictationPage() {
               </div>
             </div>
 
-            <Card className="border-2 shadow-sm relative overflow-hidden">
+            <Card ref={questionCardRef} className="border-2 shadow-sm relative overflow-hidden">
               {/* 顶部进度条 */}
               <div className="absolute top-0 left-0 right-0">
                 <Progress

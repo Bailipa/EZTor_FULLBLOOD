@@ -88,7 +88,7 @@ export default function AdminUsersPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50/50 dark:bg-background p-6 md:p-12">
+    <div className="min-h-screen bg-background p-6 md:p-12">
       <div className="max-w-7xl mx-auto space-y-6">
         <div className="flex flex-wrap items-start gap-x-4 gap-y-3">
           <Link href="/analytics">

@@ -179,7 +179,7 @@ export default function TranslationRecordsPage() {
   if (!records) return null
 
   return (
-    <div className="min-h-screen bg-gray-50/50 dark:bg-background p-6 md:p-12">
+    <div className="min-h-screen bg-background p-6 md:p-12">
       <div className="max-w-7xl mx-auto space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div style={{ minWidth: 'max-content' }}>

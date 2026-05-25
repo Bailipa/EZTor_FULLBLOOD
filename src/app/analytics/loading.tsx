@@ -1,6 +1,6 @@
 export default function AnalyticsLoading() {
   return (
-    <div className="min-h-screen bg-gray-50/50 dark:bg-background p-6 md:p-12">
+    <div className="min-h-screen bg-background p-6 md:p-12">
       <div className="max-w-7xl mx-auto space-y-6">
         <div className="flex items-center justify-between animate-pulse">
           <div>

@@ -1,8 +1,8 @@
 export default function HistoryLoading() {
   return (
-    <div className="min-h-screen bg-gray-50/50 dark:bg-background p-6 md:p-12">
+    <div className="min-h-screen bg-background p-6 md:p-12">
       <div className="max-w-5xl mx-auto space-y-8">
-        <div className="bg-white dark:bg-card p-6 rounded-xl shadow-sm border border-gray-100 dark:border-border animate-pulse">
+        <div className="bg-card p-6 rounded-xl shadow-sm border border-border animate-pulse">
           <div className="flex items-center gap-4">
             <div className="h-10 w-10 bg-muted rounded-full" />
             <div>

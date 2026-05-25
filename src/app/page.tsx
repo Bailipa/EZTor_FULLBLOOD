@@ -18,9 +18,9 @@ export const metadata: Metadata = {
 
 function HomeSkeleton() {
   return (
-    <div className="min-h-screen bg-gray-50/50 dark:bg-background p-6 md:p-12 font-[family-name:var(--font-geist-sans)]">
+    <div className="min-h-screen bg-background p-6 md:p-12 font-[family-name:var(--font-geist-sans)]">
       <main className="max-w-7xl mx-auto space-y-6">
-        <div className="bg-white dark:bg-card p-4 sm:p-6 rounded-xl shadow-sm border border-gray-100 dark:border-border animate-pulse">
+        <div className="bg-card p-4 sm:p-6 rounded-xl shadow-sm border border-border animate-pulse">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div className="space-y-2">
               <div className="h-8 w-32 bg-muted rounded" />
