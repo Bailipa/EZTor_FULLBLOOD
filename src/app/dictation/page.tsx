@@ -7,6 +7,7 @@ import { getIrregularForms, getFormHint, isCorrectAnswer, getAlternateStems } fr
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
+import AppLayout from '@/components/layout/AppLayout'
 import {
   ArrowLeft,
   ArrowRight,
@@ -578,24 +579,20 @@ export default function DictationPage() {
   }
 
   return (
-    <main className="min-h-screen bg-background p-6 md:p-12 transition-colors duration-300">
-      <div className="max-w-3xl mx-auto space-y-8">
-        {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-card p-6 rounded-xl shadow-sm border border-border transition-colors duration-300">
-          <div className="flex items-center gap-4">
-            <Link href="/">
-              <Button variant="outline" size="icon" className="rounded-full">
-                <ArrowLeft className="w-4 h-4" />
-              </Button>
-            </Link>
-            <div style={{ minWidth: 'max-content' }}>
-              <h1 className="text-2xl font-bold text-gray-900 dark:text-foreground" style={{ whiteSpace: 'nowrap' }}>多维默写本</h1>
-              <p className="text-sm text-gray-500 dark:text-muted-foreground mt-1">
-                检测你的真实记忆水平
-              </p>
+    <AppLayout>
+      <main className="min-h-screen bg-background p-6 md:p-12 transition-colors duration-300">
+        <div className="max-w-3xl mx-auto space-y-8">
+          {/* Header */}
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-card p-6 rounded-xl shadow-sm border border-border transition-colors duration-300">
+            <div className="flex items-center gap-4">
+              <div style={{ minWidth: 'max-content' }}>
+                <h1 className="text-2xl font-bold text-gray-900 dark:text-foreground" style={{ whiteSpace: 'nowrap' }}>多维默写本</h1>
+                <p className="text-sm text-gray-500 dark:text-muted-foreground mt-1">
+                  检测你的真实记忆水平
+                </p>
+              </div>
             </div>
           </div>
-        </div>
 
         {!isStarted ? (
           /* 设置与启动页面 */
@@ -1020,7 +1017,8 @@ export default function DictationPage() {
             </CardContent>
           </Card>
         )}
-      </div>
-    </main>
+        </div>
+      </main>
+    </AppLayout>
   )
 }

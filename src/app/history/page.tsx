@@ -37,8 +37,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import AppLayout from '@/components/layout/AppLayout'
 import {
-  ArrowLeft,
   Download,
   Trash2,
   Loader2,
@@ -614,18 +614,14 @@ export default function HistoryPage() {
   )
 
   return (
-    <main className="min-h-screen bg-background p-6 md:p-12 transition-colors duration-300">
-      <div className="max-w-5xl mx-auto space-y-8">
-        {/* Header */}
-        <div className="bg-card p-4 sm:p-6 rounded-xl shadow-sm border border-border transition-colors duration-300">
-          {/* Top section: back + title + controls */}
-          <div className="flex flex-wrap items-start gap-x-4 gap-y-3">
-            <Link href="/">
-              <Button variant="outline" size="icon" className="rounded-full shrink-0 text-primary">
-                <ArrowLeft className="w-4 h-4" />
-              </Button>
-            </Link>
-            <div className="flex-1 min-w-[120px]" style={{ minWidth: 'max-content' }}>
+    <AppLayout>
+      <main className="min-h-screen bg-background p-6 md:p-12 transition-colors duration-300">
+        <div className="max-w-5xl mx-auto space-y-8">
+          {/* Header */}
+          <div className="bg-card p-4 sm:p-6 rounded-xl shadow-sm border border-border transition-colors duration-300">
+            {/* Top section: title + controls */}
+            <div className="flex flex-wrap items-start gap-x-4 gap-y-3">
+              <div className="flex-1 min-w-[120px]" style={{ minWidth: 'max-content' }}>
               <h1 className="text-2xl font-bold text-gray-900 dark:text-foreground" style={{ whiteSpace: 'nowrap' }}>
                 {isGroupView
                   ? groups.find((g) => g.id === currentViewGroupId)?.name || '分组'
@@ -974,6 +970,7 @@ export default function HistoryPage() {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
-    </main>
+      </main>
+    </AppLayout>
   )
 }
