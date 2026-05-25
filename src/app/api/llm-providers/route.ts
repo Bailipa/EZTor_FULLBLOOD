@@ -84,8 +84,11 @@ export async function POST(req: NextRequest) {
       },
     })
   } catch (err: unknown) {
-    const msg = String(err instanceof Error ? err.message : String(err))
-    return NextResponse.json({ success: false, error: msg }, { status: 500 })
+    const message = String(err instanceof Error ? err.message : String(err))
+    if (message.includes('Unique constraint') && message.includes('name')) {
+      return badRequest(`LLM 提供商 "${name}" 已存在`)
+    }
+    return NextResponse.json({ success: false, error: message }, { status: 500 })
   }
 
   return NextResponse.json({ success: true })
@@ -122,8 +125,11 @@ export async function PUT(req: NextRequest) {
       data: fields,
     })
   } catch (err: unknown) {
-    const msg = String(err instanceof Error ? err.message : String(err))
-    return NextResponse.json({ success: false, error: msg }, { status: 500 })
+    const message = String(err instanceof Error ? err.message : String(err))
+    if (message.includes('Unique constraint') && message.includes('name')) {
+      return badRequest(`LLM 提供商 "${fields.name}" 已存在`)
+    }
+    return NextResponse.json({ success: false, error: message }, { status: 500 })
   }
 
   return NextResponse.json({ success: true })
