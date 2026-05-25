@@ -4,8 +4,8 @@ import { useState, useEffect, useRef, useCallback } from 'react'
 import { useSession } from 'next-auth/react'
 import { Danmaku } from '@/components/ui/danmaku'
 import { WordInputCard, TranslateOnlyCard, ResultsList, HomeHeader } from '@/components/home'
-import { GuestWordInputCard } from '@/components/home/GuestWordInputCard'
-import { WelcomeBanner, useLoginPrompt } from '@/components/ui/login-prompt-modal'
+import { GuestHomepage } from '@/components/home/guest/GuestHomepage'
+import { useLoginPrompt } from '@/components/ui/login-prompt-modal'
 import ErrorBoundary from '@/components/error-boundary'
 import type { WordResult, ReviewGroup } from '@/types/api'
 import { saveToStorage, loadFromStorage } from '@/lib/storage'
@@ -22,8 +22,7 @@ export default function HomeContent() {
   const [showDanmaku, setShowDanmaku] = useState(false)
   const [groups, setGroups] = useState<ReviewGroup[]>([])
   const [selectedTargetGroupId, setSelectedTargetGroupId] = useState<string>('none')
-  const [showWelcomeBanner, setShowWelcomeBanner] = useState(true)
-  const resultsRef = useRef<HTMLDivElement>(null)
+  const resultsRef = useRef<HTMLDivElement | null>(null)
   const prevResultsLengthRef = useRef(0)
   const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null)
 
@@ -42,8 +41,6 @@ export default function HomeContent() {
   useEffect(() => {
     const savedDanmaku = loadFromStorage<boolean>('vocab_showDanmaku', false)
     setShowDanmaku(savedDanmaku)
-    const savedBannerDismissed = loadFromStorage<boolean>('vocab_welcomeBannerDismissed', false)
-    setShowWelcomeBanner(!savedBannerDismissed)
   }, [])
 
   useEffect(() => {
@@ -94,67 +91,59 @@ export default function HomeContent() {
     [isGuestMode, promptLogin],
   )
 
-  const handleDismissBanner = useCallback(() => {
-    setShowWelcomeBanner(false)
-    saveToStorage('vocab_welcomeBannerDismissed', true)
-  }, [])
+  if (isGuestMode) {
+    return (
+      <div className="relative min-h-screen bg-background font-[family-name:var(--font-geist-sans)] transition-colors duration-300">
+        <main className="relative z-10">
+          <GuestHomepage
+            isLoading={isLoading}
+            setIsLoading={setIsLoading}
+            setResults={setResults}
+            wordsInput={wordsInput}
+            setWordsInput={setWordsInput}
+            results={results}
+            showPos={showPos}
+            showExample={showExample}
+            resultsRef={resultsRef}
+            onFeatureClick={handleFeatureClick}
+          />
+        </main>
+
+        <LoginPromptDialog />
+      </div>
+    )
+  }
 
   return (
-    <div className="min-h-screen bg-gray-50/50 dark:bg-background p-6 md:p-12 font-[family-name:var(--font-geist-sans)] relative transition-colors duration-300">
+    <div className="relative min-h-screen bg-background p-6 font-[family-name:var(--font-geist-sans)] transition-colors duration-300 md:p-12">
       {showDanmaku && isAuthenticated && <Danmaku isVisible={showDanmaku} />}
 
-      <main className="max-w-7xl mx-auto space-y-6 relative z-10">
+      <main className="relative z-10 mx-auto max-w-7xl space-y-6">
         <HomeHeader
           showDanmaku={showDanmaku}
           onToggleDanmaku={() => setShowDanmaku(!showDanmaku)}
           onFeatureClick={promptLogin}
         />
 
-        {isGuestMode && showWelcomeBanner && <WelcomeBanner onDismiss={handleDismissBanner} />}
+        <div className="grid grid-cols-1 items-start gap-6">
+          <div className="min-w-0 space-y-6">
+            <WordInputCard
+              isLoading={isLoading}
+              setIsLoading={setIsLoading}
+              showPos={showPos}
+              showExample={showExample}
+              groups={groups}
+              selectedTargetGroupId={selectedTargetGroupId}
+              setSelectedTargetGroupId={setSelectedTargetGroupId}
+              results={results}
+              setResults={setResults}
+              wordsInput={wordsInput}
+              setWordsInput={setWordsInput}
+            />
 
-        <div className="grid grid-cols-1 gap-6 items-start">
-          <div className="space-y-6 min-w-0">
-            {isGuestMode ? (
-              <GuestWordInputCard
-                isLoading={isLoading}
-                setIsLoading={setIsLoading}
-                setResults={setResults}
-                wordsInput={wordsInput}
-                setWordsInput={setWordsInput}
-              />
-            ) : (
-              <WordInputCard
-                isLoading={isLoading}
-                setIsLoading={setIsLoading}
-                showPos={showPos}
-                showExample={showExample}
-                groups={groups}
-                selectedTargetGroupId={selectedTargetGroupId}
-                setSelectedTargetGroupId={setSelectedTargetGroupId}
-                results={results}
-                setResults={setResults}
-                wordsInput={wordsInput}
-                setWordsInput={setWordsInput}
-              />
-            )}
-
-            {isGuestMode ? (
-              <div
-                className="cursor-pointer opacity-50 hover:opacity-70 transition-opacity"
-                onClick={() => handleFeatureClick('AI 智能翻译')}
-              >
-                <ErrorBoundary>
-                  <TranslateOnlyCard />
-                </ErrorBoundary>
-                <p className="text-center text-sm text-muted-foreground mt-2">
-                  🔒 登录后解锁 AI 智能翻译
-                </p>
-              </div>
-            ) : (
-              <ErrorBoundary>
-                <TranslateOnlyCard />
-              </ErrorBoundary>
-            )}
+            <ErrorBoundary>
+              <TranslateOnlyCard />
+            </ErrorBoundary>
 
             <ResultsList
               ref={resultsRef}
@@ -171,7 +160,7 @@ export default function HomeContent() {
           href="https://beian.miit.gov.cn/"
           target="_blank"
           rel="noopener noreferrer"
-          className="hover:text-foreground transition-colors"
+          className="transition-colors hover:text-foreground"
         >
           ICP备案号：粤ICP备2026008729号
         </a>
