@@ -29,77 +29,69 @@ interface TrackEventBody {
 
 const EXCLUDED_USERNAMES = ['creator', 'tester']
 
-function parseMetadataObject(raw: string | null | undefined): Record<string, unknown> {
-  if (!raw) return {}
+function parseMetadataObject(
+  metadata: string | object | null | undefined,
+): Record<string, unknown> {
+  if (!metadata) return {}
+  if (typeof metadata === 'object') return metadata as Record<string, unknown>
   try {
-    const parsed = JSON.parse(raw) as unknown
-    if (parsed !== null && typeof parsed === 'object' && !Array.isArray(parsed)) {
-      return parsed as Record<string, unknown>
-    }
+    return JSON.parse(metadata)
   } catch (error) {
     logger.debug({ err: error }, 'Failed to parse metadata object')
+    return {}
   }
-  return {}
 }
 
-function parseMetadataForResponse(raw: string | null | undefined): Record<string, unknown> | null {
-  if (!raw) return null
+function parseMetadataForResponse(
+  metadata: string | object | null | undefined,
+): Record<string, unknown> {
+  if (!metadata) return {}
+  if (typeof metadata === 'object') return metadata as Record<string, unknown>
   try {
-    const parsed = JSON.parse(raw) as unknown
-    if (parsed !== null && typeof parsed === 'object' && !Array.isArray(parsed)) {
-      return parsed as Record<string, unknown>
-    }
+    return JSON.parse(metadata)
   } catch (error) {
     logger.debug({ err: error }, 'Failed to parse metadata for response')
+    return {}
   }
-  return null
 }
 
-function getClientIp(req: Request): string {
-  return (
-    req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
-    req.headers.get('x-real-ip') ||
-    'unknown'
-  )
-}
-
-function getUserAgent(req: Request): string {
-  return req.headers.get('user-agent') || 'unknown'
-}
-
-function generateSessionId(): string {
-  return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
+async function safePrismaQuery<T>(label: string, fn: () => Promise<T>, fallback: T): Promise<T> {
+  try {
+    return await fn()
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error)
+    logger.error({ err: error, step: label, details: message }, `Analytics query ${label} failed`)
+    return fallback
+  }
 }
 
 export async function POST(req: Request) {
   try {
-    const session = await getServerSession(authOptions)
     const body: TrackEventBody = await req.json()
-
     const { eventType, metadata } = body
 
     if (!eventType) {
       return NextResponse.json({ success: false, error: 'Event type is required' }, { status: 400 })
     }
 
-    const sessionId = req.headers.get('x-session-id') || generateSessionId()
+    const session = await getServerSession(authOptions)
+    const userId = session?.user?.id || null
+    const ipAddress = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 'unknown'
+    const userAgent = req.headers.get('user-agent') || 'unknown'
 
-    await prisma.analyticsEvent.create({
+    const event = await prisma.analyticsEvent.create({
       data: {
         id: randomUUID(),
-        eventType,
-        userId: session?.user?.id || null,
-        sessionId,
-        metadata: metadata ? JSON.stringify(metadata) : null,
-        ipAddress: getClientIp(req),
-        userAgent: getUserAgent(req),
+        eventType: eventType as string,
+        userId,
+        sessionId: null,
+        metadata: typeof metadata === 'object' ? JSON.stringify(metadata) : metadata || null,
+        ipAddress,
+        userAgent,
       },
     })
 
-    return NextResponse.json({
-      success: true,
-      sessionId,
-    })
+    return NextResponse.json({ success: true, data: { id: event.id } })
   } catch (error) {
     logger.error({ err: error }, 'Analytics track error')
     return NextResponse.json({ success: false, error: 'Failed to track event' }, { status: 500 })
@@ -142,11 +134,15 @@ export async function GET(req: Request) {
         startDate = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000)
     }
 
+    // STEP 0: get excluded users
     const excludedUsers = excludeTestUsers
-      ? await prisma.user.findMany({
-          where: { username: { in: EXCLUDED_USERNAMES } },
-          select: { id: true },
-        })
+      ? await safePrismaQuery('excludedUsers', () =>
+          prisma.user.findMany({
+            where: { username: { in: EXCLUDED_USERNAMES } },
+            select: { id: true },
+          }),
+          [] as Array<{ id: string }>,
+        )
       : []
     const excludedUserIds = excludedUsers.map((u: { id: string }) => u.id)
 
@@ -157,48 +153,50 @@ export async function GET(req: Request) {
         : {}),
     }
 
-    const [totalUsers, newUsers, totalWords] = await Promise.all([
-      prisma.user.count({
-        where: excludeTestUsers ? { username: { notIn: EXCLUDED_USERNAMES } } : {},
-      }),
-      prisma.user.count({
-        where: {
-          createdAt: { gte: startDate },
-          ...(excludeTestUsers ? { username: { notIn: EXCLUDED_USERNAMES } } : {}),
-        },
-      }),
-      prisma.word.count(),
-    ])
+    // STEP 1: overview counts
+    const [totalUsers, newUsers] = await safePrismaQuery('overviewCounts', () =>
+      Promise.all([
+        prisma.user.count({
+          where: excludeTestUsers ? { username: { notIn: EXCLUDED_USERNAMES } } : {},
+        }),
+        prisma.user.count({
+          where: {
+            createdAt: { gte: startDate },
+            ...(excludeTestUsers ? { username: { notIn: EXCLUDED_USERNAMES } } : {}),
+          },
+        }),
+      ]),
+      [0, 0] as [number, number],
+    )
 
-    const [totalTranslations, totalDictations, totalErrors] = await Promise.all([
-      prisma.analyticsEvent.count({
+    const [totalTranslations, totalDictations] = await safePrismaQuery('eventCounts', () =>
+      Promise.all([
+        prisma.analyticsEvent.count({
+          where: { ...baseWhere, eventType: 'TRANSLATE' },
+        }),
+        prisma.analyticsEvent.count({
+          where: { ...baseWhere, eventType: { in: ['DICTATION_START', 'DICTATION_COMPLETE'] } },
+        }),
+      ]),
+      [0, 0] as [number, number],
+    )
+
+    // STEP 2: user translate events
+    const userTranslateEvents = await safePrismaQuery('userTranslateEvents', () =>
+      prisma.analyticsEvent.findMany({
         where: { ...baseWhere, eventType: 'TRANSLATE' },
+        select: { metadata: true, createdAt: true, userId: true },
       }),
-      prisma.analyticsEvent.count({
-        where: { ...baseWhere, eventType: { in: ['DICTATION_START', 'DICTATION_COMPLETE'] } },
-      }),
-      prisma.analyticsEvent.count({
+      [] as Array<{ metadata: string | null; createdAt: Date; userId: string | null }>,
+    )
+
+    const userTranslateErrorEvents = await safePrismaQuery('userTranslateErrorEvents', () =>
+      prisma.analyticsEvent.findMany({
         where: { ...baseWhere, eventType: { in: ['ERROR', 'API_ERROR'] } },
+        select: { metadata: true, createdAt: true },
       }),
-    ])
-
-    const userTranslateEvents = await prisma.analyticsEvent.findMany({
-      where: {
-        ...baseWhere,
-        eventType: 'TRANSLATE',
-        userId: { not: null },
-      },
-      select: { metadata: true, createdAt: true, userId: true },
-    })
-
-    const userTranslateErrorEvents = await prisma.analyticsEvent.findMany({
-      where: {
-        ...baseWhere,
-        eventType: { in: ['ERROR', 'API_ERROR'] },
-        userId: { not: null },
-      },
-      select: { metadata: true, createdAt: true },
-    })
+      [] as Array<{ metadata: string | null; createdAt: Date }>,
+    )
 
     let totalUserQueries = 0
     let totalUserSuccess = 0
@@ -210,7 +208,7 @@ export async function GET(req: Request) {
       (event: { metadata: string | null; createdAt: Date; userId: string | null }) => {
         const metadata = parseMetadataObject(event.metadata)
         const date = event.createdAt.toISOString().split('T')[0]
-        const wordCount = typeof metadata.wordCount === 'number' ? metadata.wordCount : 1
+        const wordCount = typeof metadata.wordCount === 'number' ? metadata.wordCount : 0
 
         totalUserQueries += wordCount
         totalUserSuccess += wordCount
@@ -251,21 +249,22 @@ export async function GET(req: Request) {
       }))
       .sort((a, b) => a.date.localeCompare(b.date))
 
-    const guestTranslateEvents = await prisma.analyticsEvent.findMany({
-      where: {
-        createdAt: { gte: startDate },
-        eventType: 'GUEST_TRANSLATE',
-      },
-      select: { metadata: true, createdAt: true },
-    })
+    // STEP 3: guest events
+    const guestTranslateEvents = await safePrismaQuery('guestTranslateEvents', () =>
+      prisma.analyticsEvent.findMany({
+        where: { createdAt: { gte: startDate }, eventType: 'GUEST_TRANSLATE' },
+        select: { metadata: true, createdAt: true },
+      }),
+      [] as Array<{ metadata: string | null; createdAt: Date }>,
+    )
 
-    const guestTranslateErrorEvents = await prisma.analyticsEvent.findMany({
-      where: {
-        createdAt: { gte: startDate },
-        eventType: 'GUEST_TRANSLATE_ERROR',
-      },
-      select: { metadata: true, createdAt: true },
-    })
+    const guestTranslateErrorEvents = await safePrismaQuery('guestTranslateErrorEvents', () =>
+      prisma.analyticsEvent.findMany({
+        where: { createdAt: { gte: startDate }, eventType: 'GUEST_TRANSLATE_ERROR' },
+        select: { metadata: true, createdAt: true },
+      }),
+      [] as Array<{ metadata: string | null; createdAt: Date }>,
+    )
 
     let totalGuestQueries = 0
     let totalGuestFound = 0
@@ -301,70 +300,105 @@ export async function GET(req: Request) {
     const guestSuccessRate =
       totalGuestQueries > 0 ? Math.round((totalGuestFound / totalGuestQueries) * 10000) / 100 : 0
 
-    const topWordsRaw = await prisma.$queryRaw<Array<{ word: string; count: bigint }>>`
-      SELECT LOWER("word") as word, COUNT(*)::int as count
-      FROM "TranslationRecord"
-      WHERE "createdAt" >= ${startDate}
-      GROUP BY LOWER("word")
-      ORDER BY count DESC
-      LIMIT 20
-    `
+    // STEP 4: top words (raw SQL - prone to failure, use safe wrapper)
+    const topWordsRaw = await safePrismaQuery('topWordsRaw', () =>
+      prisma.$queryRaw<Array<{ word: string; count: bigint }>>`
+        SELECT LOWER("word") as word, COUNT(*)::int as count
+        FROM "TranslationRecord"
+        WHERE "createdAt" >= ${startDate}
+        GROUP BY LOWER("word")
+        ORDER BY count DESC
+        LIMIT 20
+      `,
+      [] as Array<{ word: string; count: bigint }>,
+    )
 
-    const topWords = topWordsRaw.map((row) => ({
+    const topWords = (Array.isArray(topWordsRaw) ? topWordsRaw : []).map((row) => ({
       word: row.word,
       count: Number(row.count),
     }))
 
-    const avgResponseTimeResult = await prisma.translationRecord.aggregate({
-      where: { createdAt: { gte: startDate } },
-      _avg: { responseTime: true },
-    })
+    // STEP 5: avg response time
+    const avgResponseTimeResult = await safePrismaQuery('avgResponseTime', () =>
+      prisma.translationRecord.aggregate({
+        where: { createdAt: { gte: startDate } },
+        _avg: { responseTime: true },
+      }),
+      { _avg: { responseTime: null } } as { _avg: { responseTime: number | null } },
+    )
 
     const avgResponseTime = avgResponseTimeResult._avg?.responseTime
       ? Math.round(avgResponseTimeResult._avg.responseTime * 100) / 100
       : 0
 
-    const dailyActiveUsers = await prisma.analyticsEvent.groupBy({
-      by: ['userId'],
-      where: {
-        ...baseWhere,
-        userId: { not: null },
-      },
-      _count: true,
-    })
+    // STEP 6: DAU (raw SQL)
+    const dauRaw = await safePrismaQuery('dauRaw', () =>
+      excludeTestUsers && excludedUserIds.length > 0
+        ? prisma.$queryRaw<Array<{ date: string; count: number }>>`
+          SELECT DATE("createdAt") as date, COUNT(DISTINCT "userId")::int as count
+          FROM "AnalyticsEvent"
+          WHERE "createdAt" >= ${startDate}
+          AND "userId" IS NOT NULL
+          AND "userId" NOT IN (${Prisma.join(excludedUserIds)})
+          GROUP BY DATE("createdAt")
+          ORDER BY date ASC
+        `
+        : prisma.$queryRaw<Array<{ date: string; count: number }>>`
+          SELECT DATE("createdAt") as date, COUNT(DISTINCT "userId")::int as count
+          FROM "AnalyticsEvent"
+          WHERE "createdAt" >= ${startDate}
+          AND "userId" IS NOT NULL
+          GROUP BY DATE("createdAt")
+          ORDER BY date ASC
+        `,
+      [] as Array<{ date: string; count: number }>,
+    )
 
-    const dau = dailyActiveUsers.length
+    const safeDau = Array.isArray(dauRaw) ? dauRaw : ([] as Array<{ date: string; count: number }>)
+    const dau = safeDau.length > 0
+      ? Math.round(safeDau.reduce((sum, r) => sum + r.count, 0) / safeDau.length)
+      : 0
 
-    const eventsByType = await prisma.analyticsEvent.groupBy({
-      by: ['eventType'],
-      where: baseWhere,
-      _count: true,
-    })
+    // STEP 7: events by type
+    const eventsByType = await safePrismaQuery('eventsByType', () =>
+      prisma.analyticsEvent.groupBy({
+        by: ['eventType'],
+        where: baseWhere,
+        _count: true,
+      }),
+      [] as Array<{ eventType: string; _count: number }>,
+    )
 
     const eventTypeMap: Record<string, number> = {}
-    eventsByType.forEach((item: { eventType: string; _count: number }) => {
-      eventTypeMap[item.eventType] = item._count
-    })
+    ;(Array.isArray(eventsByType) ? eventsByType : []).forEach(
+      (item: { eventType: string; _count: number }) => {
+        eventTypeMap[item.eventType] = item._count
+      },
+    )
 
-    const eventsRaw: Array<{ date: string; count: number }> =
+    // STEP 8: daily trend (raw SQL)
+    const eventsRaw = await safePrismaQuery('dailyTrendRaw', () =>
       excludeTestUsers && excludedUserIds.length > 0
-        ? await prisma.$queryRaw`
-        SELECT DATE("createdAt") as date, COUNT(*)::int as count
-        FROM "AnalyticsEvent"
-        WHERE "createdAt" >= ${startDate}
-        AND "userId" NOT IN (${Prisma.join(excludedUserIds)})
-        GROUP BY DATE("createdAt")
-        ORDER BY date ASC
-      `
-        : await prisma.$queryRaw`
-        SELECT DATE("createdAt") as date, COUNT(*)::int as count
-        FROM "AnalyticsEvent"
-        WHERE "createdAt" >= ${startDate}
-        GROUP BY DATE("createdAt")
-        ORDER BY date ASC
-      `
+        ? prisma.$queryRaw<Array<{ date: string; count: number }>>`
+          SELECT DATE("createdAt") as date, COUNT(*)::int as count
+          FROM "AnalyticsEvent"
+          WHERE "createdAt" >= ${startDate}
+          AND ("userId" NOT IN (${Prisma.join(excludedUserIds)}) OR "userId" IS NULL)
+          GROUP BY DATE("createdAt")
+          ORDER BY date ASC
+        `
+        : prisma.$queryRaw<Array<{ date: string; count: number }>>`
+          SELECT DATE("createdAt") as date, COUNT(*)::int as count
+          FROM "AnalyticsEvent"
+          WHERE "createdAt" >= ${startDate}
+          GROUP BY DATE("createdAt")
+          ORDER BY date ASC
+        `,
+      [] as Array<{ date: string; count: number }>,
+    )
 
-    const dailyTrend = eventsRaw.map((row) => ({
+    const safeEventsRaw = Array.isArray(eventsRaw) ? eventsRaw : ([] as Array<{ date: string; count: number }>)
+    const dailyTrend = safeEventsRaw.map((row) => ({
       date: row.date,
       count: Number(row.count),
     }))
@@ -379,41 +413,47 @@ export async function GET(req: Request) {
       }))
       .sort((a, b) => a.date.localeCompare(b.date))
 
-    const recentEventsRaw = await prisma.analyticsEvent.findMany({
-      where: baseWhere,
-      orderBy: { createdAt: 'desc' },
-      take: 50,
-      select: {
-        id: true,
-        eventType: true,
-        userId: true,
-        sessionId: true,
-        metadata: true,
-        ipAddress: true,
-        userAgent: true,
-        createdAt: true,
-      },
-    })
+    // STEP 9: recent events
+    const recentEventsRaw = await safePrismaQuery('recentEvents', () =>
+      prisma.analyticsEvent.findMany({
+        where: baseWhere,
+        orderBy: { createdAt: 'desc' },
+        take: 50,
+        select: {
+          id: true,
+          eventType: true,
+          userId: true,
+          sessionId: true,
+          metadata: true,
+          ipAddress: true,
+          userAgent: true,
+          createdAt: true,
+        },
+      }),
+      [] as Array<{
+        id: string; eventType: string; userId: string | null; sessionId: string | null;
+        metadata: string | null; ipAddress: string | null; userAgent: string | null; createdAt: Date
+      }>,
+    )
 
     const userIds = [
       ...new Set(recentEventsRaw.map((e: { userId: string | null }) => e.userId).filter(Boolean)),
     ] as string[]
-    const users = await prisma.user.findMany({
-      where: { id: { in: userIds } },
-      select: { id: true, username: true },
-    })
+    const users = userIds.length > 0
+      ? await safePrismaQuery('userMap', () =>
+          prisma.user.findMany({
+            where: { id: { in: userIds } },
+            select: { id: true, username: true },
+          }),
+          [] as Array<{ id: string; username: string }>,
+        )
+      : []
     const userMap = new Map(users.map((u) => [u.id, u.username]))
 
     const recentEvents = recentEventsRaw.map(
       (event: {
-        id: string
-        eventType: string
-        userId: string | null
-        sessionId: string | null
-        metadata: string | null
-        ipAddress: string | null
-        userAgent: string | null
-        createdAt: Date
+        id: string; eventType: string; userId: string | null; sessionId: string | null;
+        metadata: string | null; ipAddress: string | null; userAgent: string | null; createdAt: Date
       }) => ({
         id: event.id,
         eventType: event.eventType,
@@ -435,10 +475,8 @@ export async function GET(req: Request) {
             totalUsers,
             newUsers,
             dau,
-            totalWords,
             totalTranslations,
             totalDictations,
-            totalErrors,
           },
           userStats: {
             totalQueries: totalUserQueries,
@@ -474,20 +512,14 @@ export async function GET(req: Request) {
         },
       },
       {
-        headers: {
-          'Cache-Control': 'no-store, no-cache, must-revalidate',
-        },
+        headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate' },
       },
     )
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error)
     logger.error({ err: error, details: message }, 'Analytics fetch error')
     return NextResponse.json(
-      {
-        success: false,
-        error: 'Failed to fetch analytics',
-        ...(process.env.NODE_ENV !== 'production' ? { details: message } : {}),
-      },
+      { success: false, error: 'Failed to fetch analytics', ...(process.env.NODE_ENV !== 'production' ? { details: message } : {}) },
       { status: 500 },
     )
   }
@@ -511,14 +543,13 @@ export async function DELETE(req: Request) {
     }
 
     const { searchParams } = new URL(req.url)
-    const exportRange = searchParams.get('range') || '7d'
-    const format = searchParams.get('format') || 'json'
+    const range = searchParams.get('range') || '7d'
     const excludeTestUsers = searchParams.get('excludeTestUsers') !== 'false'
+    const format = searchParams.get('format') || 'json'
 
     const now = new Date()
     let startDate: Date
-
-    switch (exportRange) {
+    switch (range) {
       case '24h':
         startDate = new Date(now.getTime() - 24 * 60 * 60 * 1000)
         break
@@ -538,23 +569,19 @@ export async function DELETE(req: Request) {
       : []
     const excludedUserIds = excludedUsers.map((u: { id: string }) => u.id)
 
+    const baseWhere = {
+      createdAt: { gte: startDate },
+      ...(excludeTestUsers && excludedUserIds.length > 0
+        ? { userId: { notIn: excludedUserIds } }
+        : {}),
+    }
+
     const eventsRaw = await prisma.analyticsEvent.findMany({
-      where: {
-        createdAt: { gte: startDate },
-        ...(excludeTestUsers && excludedUserIds.length > 0
-          ? { userId: { notIn: excludedUserIds } }
-          : {}),
-      },
+      where: baseWhere,
       orderBy: { createdAt: 'desc' },
       select: {
-        id: true,
-        eventType: true,
-        userId: true,
-        sessionId: true,
-        metadata: true,
-        ipAddress: true,
-        userAgent: true,
-        createdAt: true,
+        id: true, eventType: true, userId: true, sessionId: true,
+        metadata: true, ipAddress: true, userAgent: true, createdAt: true,
       },
     })
 
@@ -569,14 +596,8 @@ export async function DELETE(req: Request) {
 
     const events = eventsRaw.map(
       (event: {
-        id: string
-        eventType: string
-        userId: string | null
-        sessionId: string | null
-        metadata: string | null
-        ipAddress: string | null
-        userAgent: string | null
-        createdAt: Date
+        id: string; eventType: string; userId: string | null; sessionId: string | null;
+        metadata: string | null; ipAddress: string | null; userAgent: string | null; createdAt: Date
       }) => ({
         id: event.id,
         eventType: event.eventType,
@@ -591,55 +612,25 @@ export async function DELETE(req: Request) {
     )
 
     if (format === 'csv') {
-      const escapeCSV = (str: string) => {
-        let cleanStr = str.replace(/"/g, '""')
-        if (/^[=+\-@]/.test(cleanStr)) {
-          cleanStr = "'" + cleanStr
-        }
-        return `"${cleanStr}"`
-      }
-
-      const csvHeader = 'ID,事件类型,用户ID,用户名,Session ID,元数据,IP地址,User Agent,创建时间\n'
-      const csvRows = events
-        .map(
-          (e: {
-            id: string
-            eventType: string
-            userId: string | null
-            username: string | null
-            sessionId: string | null
-            metadata: Record<string, unknown> | null
-            ipAddress: string | null
-            userAgent: string | null
-            createdAt: string
-          }) =>
-            `${escapeCSV(e.id)},${escapeCSV(e.eventType)},${escapeCSV(e.userId || '')},${escapeCSV(e.username || '')},${escapeCSV(e.sessionId || '')},${escapeCSV(JSON.stringify(e.metadata || {}))},${escapeCSV(e.ipAddress || '')},${escapeCSV(e.userAgent || '')},${escapeCSV(e.createdAt)}`,
-        )
+      const csvHeaders = ['ID', '事件类型', '用户ID', '用户名', '会话ID', '元数据', 'IP地址', 'User-Agent', '创建时间']
+      const csvRows = events.map((event: any) => [
+        event.id, event.eventType, event.userId, event.username, event.sessionId,
+        JSON.stringify(event.metadata), event.ipAddress, event.userAgent, event.createdAt,
+      ])
+      const csv = [csvHeaders, ...csvRows]
+        .map((row) => row.map((cell) => `"${String(cell).replace(/"/g, '""')}"`).join(','))
         .join('\n')
-
-      return new Response('\uFEFF' + csvHeader + csvRows, {
+      return new NextResponse(csv, {
         headers: {
           'Content-Type': 'text/csv; charset=utf-8',
-          'Content-Disposition': `attachment; filename="analytics_${exportRange}_${now.toISOString().split('T')[0]}.csv"`,
+          'Content-Disposition': `attachment; filename="analytics-${range}-${new Date().toISOString().split('T')[0]}.csv"`,
         },
       })
     }
 
-    return NextResponse.json({
-      success: true,
-      data: {
-        exportRange,
-        exportedAt: now.toISOString(),
-        totalCount: events.length,
-        excludeTestUsers,
-        events,
-      },
-    })
+    return NextResponse.json({ success: true, data: { events, total: events.length } })
   } catch (error) {
     logger.error({ err: error }, 'Analytics export error')
-    return NextResponse.json(
-      { success: false, error: 'Failed to export analytics' },
-      { status: 500 },
-    )
+    return NextResponse.json({ success: false, error: 'Failed to export analytics' }, { status: 500 })
   }
 }
