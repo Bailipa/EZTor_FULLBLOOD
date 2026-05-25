@@ -5,6 +5,7 @@ import { Toaster } from 'sonner'
 import { ThemeProvider } from '@/components/theme-provider'
 import { NextAuthProvider } from '@/components/providers/session-provider'
 import { OnlineLimitBanner } from '@/components/OnlineLimitBanner'
+import { BrandThemeProvider } from '@/components/brand-theme-provider'
 
 export const metadata: Metadata = {
   title: {
@@ -17,6 +18,9 @@ export const metadata: Metadata = {
   robots: {
     index: true,
     follow: true,
+  },
+  icons: {
+    icon: '/favicon.ico',
   },
 }
 
@@ -37,18 +41,27 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="zh-CN" suppressHydrationWarning className="h-full antialiased font-sans" data-build-id={BUILD_ID}>
+    <html lang="zh-CN" suppressHydrationWarning className="h-full antialiased font-sans" data-build-id={BUILD_ID} data-brand-theme="purple">
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){if(localStorage.getItem('brand-theme')==='neutral')document.documentElement.removeAttribute('data-brand-theme')})()`,
+          }}
+        />
+      </head>
       <body className="min-h-full flex flex-col">
         <OnlineLimitBanner />
         <NextAuthProvider>
           <ThemeProvider
             attribute="class"
-            defaultTheme="system"
+            defaultTheme="light"
             enableSystem
             disableTransitionOnChange
           >
-            {children}
-            <Toaster />
+            <BrandThemeProvider>
+              {children}
+              <Toaster />
+            </BrandThemeProvider>
           </ThemeProvider>
         </NextAuthProvider>
       </body>

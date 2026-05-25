@@ -40,6 +40,14 @@
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
+
+  --color-surface: var(--color-surface);
+  --color-surface-alt: var(--color-surface-alt);
+  --color-brand-light: var(--color-brand-light);
+  --color-brand-light-fg: var(--color-brand-light-fg);
+  --color-brand-subtle: var(--color-brand-subtle);
+  --color-caption: var(--color-caption);
+
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
   --radius-lg: var(--radius);
@@ -82,6 +90,13 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+
+  --color-surface: var(--background);
+  --color-surface-alt: var(--muted);
+  --color-brand-light: var(--accent);
+  --color-brand-light-fg: var(--accent-foreground);
+  --color-brand-subtle: var(--muted-foreground);
+  --color-caption: oklch(0.556 0 0);
 }
 
 .dark {
@@ -118,6 +133,66 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
+/* ──────────── Purple brand theme (light) ──────────── */
+[data-brand-theme='purple'] {
+  --primary: #6B5CE7;
+  --primary-foreground: #FFFFFF;
+  --background: #F5F5F7;
+  --foreground: #1F1F1F;
+  --card: #FFFFFF;
+  --card-foreground: #1F1F1F;
+  --popover: #FFFFFF;
+  --popover-foreground: #1F1F1F;
+  --secondary: #F0F0F0;
+  --secondary-foreground: #1F1F1F;
+  --muted: #F0F0F0;
+  --muted-foreground: #666666;
+  --accent: #EAE6FF;
+  --accent-foreground: #5A4BD1;
+  --border: #E5E5E5;
+  --input: #F0F0F0;
+  --ring: #6B5CE7;
+  --destructive: oklch(0.577 0.245 27.325);
+  --radius: 1rem;
+
+  --color-surface: #F5F5F7;
+  --color-surface-alt: #F3F1FF;
+  --color-brand-light: #EAE6FF;
+  --color-brand-light-fg: #5A4BD1;
+  --color-brand-subtle: #5A5A7A;
+  --color-caption: #888888;
+}
+
+/* ──────────── Purple brand theme (dark) ──────────── */
+.dark[data-brand-theme='purple'] {
+  --primary: #8B7CF6;
+  --primary-foreground: #FFFFFF;
+  --background: oklch(0.16 0.02 285);
+  --foreground: oklch(0.92 0.01 285);
+  --card: oklch(0.20 0.025 285);
+  --card-foreground: oklch(0.92 0.01 285);
+  --popover: oklch(0.20 0.025 285);
+  --popover-foreground: oklch(0.92 0.01 285);
+  --secondary: oklch(0.25 0.03 285);
+  --secondary-foreground: oklch(0.85 0.02 285);
+  --muted: oklch(0.25 0.03 285);
+  --muted-foreground: oklch(0.62 0.02 285);
+  --accent: oklch(0.28 0.06 285);
+  --accent-foreground: oklch(0.80 0.04 285);
+  --border: oklch(0.30 0.03 285);
+  --input: oklch(0.25 0.03 285);
+  --ring: #8B7CF6;
+  --destructive: oklch(0.704 0.191 22.216);
+  --radius: 1rem;
+
+  --color-surface: oklch(0.16 0.02 285);
+  --color-surface-alt: oklch(0.20 0.03 285);
+  --color-brand-light: oklch(0.25 0.06 285);
+  --color-brand-light-fg: oklch(0.80 0.05 285);
+  --color-brand-subtle: #B8B0D8;
+  --color-caption: oklch(0.62 0.02 285);
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
@@ -148,13 +223,11 @@
     background-size: 1rem 1rem;
   }
 
-  /* Optimize scrolling performance */
   .scroll-smooth-optimize {
     -webkit-overflow-scrolling: touch;
     scroll-behavior: smooth;
   }
 
-  /* Prevent layout shifts during virtual scrolling */
   .virtuoso-grid-list {
     contain: layout style;
     transform: translateZ(0);
@@ -162,7 +235,6 @@
     -webkit-backface-visibility: hidden;
   }
 
-  /* Optimize card rendering */
   .word-card-optimized {
     contain: layout style paint;
     backface-visibility: hidden;
@@ -170,7 +242,6 @@
     transform: translateZ(0);
   }
 
-  /* Smooth scrolling container */
   .smooth-scroll-container {
     -webkit-overflow-scrolling: touch;
     overflow-anchor: none;
