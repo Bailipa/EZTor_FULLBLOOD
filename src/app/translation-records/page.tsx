@@ -17,6 +17,7 @@ import {
   Database,
   Zap,
 } from 'lucide-react'
+import { usePageView } from '@/lib/analytics'
 import { useCrudTable } from '@/hooks/useCrudTable'
 import { useRouter } from 'next/navigation'
 
@@ -44,6 +45,7 @@ interface TranslationRecordsStats {
 }
 
 export default function TranslationRecordsPage() {
+  usePageView('Translation Records')
   const [selectedRecord, setSelectedRecord] = useState<TranslationRecord | null>(null)
   const [deleting, setDeleting] = useState(false)
   const router = useRouter()

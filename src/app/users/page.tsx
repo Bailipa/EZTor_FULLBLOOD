@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import Link from 'next/link'
 import { useAdminCheck } from '@/hooks/useAdminCheck'
+import { usePageView } from '@/lib/analytics'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import {
@@ -33,6 +34,7 @@ function fmt(iso: string | null) {
 }
 
 export default function AdminUsersPage() {
+  usePageView('Users')
   const { isLoading: authLoading, isAdmin, status } = useAdminCheck()
   const [range, setRange] = useState<string>('30d')
   const [rows, setRows] = useState<UserRow[]>([])

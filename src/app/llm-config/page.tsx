@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { toast } from 'sonner'
 import Link from 'next/link'
 import { useAdminCheck } from '@/hooks/useAdminCheck'
+import { usePageView } from '@/lib/analytics'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -48,6 +49,7 @@ function toNullableNumber(v: string) {
 }
 
 export default function LlmConfigPage() {
+  usePageView('LLM Config')
   const { isLoading: authLoading, isAdmin, status } = useAdminCheck()
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)

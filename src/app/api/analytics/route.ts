@@ -78,13 +78,14 @@ export async function POST(req: Request) {
     const userId = session?.user?.id || null
     const ipAddress = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 'unknown'
     const userAgent = req.headers.get('user-agent') || 'unknown'
+    const sessionId = req.headers.get('x-session-id') || null
 
     const event = await prisma.analyticsEvent.create({
       data: {
         id: randomUUID(),
         eventType: eventType as string,
         userId,
-        sessionId: null,
+        sessionId,
         metadata: typeof metadata === 'object' ? JSON.stringify(metadata) : metadata || null,
         ipAddress,
         userAgent,
@@ -467,6 +468,53 @@ export async function GET(req: Request) {
       }),
     )
 
+    // STEP 10: page view stats (raw SQL)
+    const pageViewWhere = excludeTestUsers && excludedUserIds.length > 0
+      ? Prisma.sql`WHERE ae."eventType" = 'PAGE_VIEW' AND ae."createdAt" >= ${startDate} AND (ae."userId" NOT IN (${Prisma.join(excludedUserIds)}) OR ae."userId" IS NULL)`
+      : Prisma.sql`WHERE ae."eventType" = 'PAGE_VIEW' AND ae."createdAt" >= ${startDate}`
+
+    const topPagesRaw = await safePrismaQuery('topPages', () =>
+      prisma.$queryRaw<Array<{ pageName: string; path: string; uniqueVisitors: number; totalViews: number }>>`
+        SELECT
+          COALESCE(ae."metadata"::json->>'pageName', 'Unknown') as "pageName",
+          COALESCE(ae."metadata"::json->>'path', '/') as "path",
+          COUNT(DISTINCT COALESCE(ae."userId", ae."sessionId"))::int as "uniqueVisitors",
+          COUNT(*)::int as "totalViews"
+        FROM "AnalyticsEvent" ae
+        ${pageViewWhere}
+        GROUP BY ae."metadata"::json->>'pageName', ae."metadata"::json->>'path'
+        ORDER BY "uniqueVisitors" DESC
+        LIMIT 15
+      `,
+      [] as Array<{ pageName: string; path: string; uniqueVisitors: number; totalViews: number }>,
+    )
+
+    const visitorTrendRaw = await safePrismaQuery('visitorTrend', () =>
+      prisma.$queryRaw<Array<{ date: string; uniqueVisitors: number; guestVisitors: number; authenticatedVisitors: number }>>`
+        SELECT
+          DATE(ae."createdAt")::text as date,
+          COUNT(DISTINCT COALESCE(ae."userId", ae."sessionId"))::int as "uniqueVisitors",
+          COUNT(DISTINCT CASE WHEN ae."userId" IS NULL THEN ae."sessionId" END)::int as "guestVisitors",
+          COUNT(DISTINCT ae."userId")::int as "authenticatedVisitors"
+        FROM "AnalyticsEvent" ae
+        ${pageViewWhere}
+        GROUP BY DATE(ae."createdAt")
+        ORDER BY date ASC
+      `,
+      [] as Array<{ date: string; uniqueVisitors: number; guestVisitors: number; authenticatedVisitors: number }>,
+    )
+
+    const safeTopPages = Array.isArray(topPagesRaw) ? topPagesRaw : []
+    const safeVisitorTrend = Array.isArray(visitorTrendRaw) ? visitorTrendRaw : []
+
+    const totalPageViews = safeTopPages.reduce((sum, p) => sum + p.totalViews, 0)
+    const totalUniqueVisitors = safeVisitorTrend.reduce((sum, d) => sum + d.uniqueVisitors, 0)
+    const totalGuestVisitors = safeVisitorTrend.reduce((sum, d) => sum + d.guestVisitors, 0)
+    const totalAuthenticatedVisitors = safeVisitorTrend.reduce((sum, d) => sum + d.authenticatedVisitors, 0)
+
+    const today = new Date().toISOString().split('T')[0]
+    const todayStats = safeVisitorTrend.find((d) => d.date === today)
+
     return NextResponse.json(
       {
         success: true,
@@ -507,6 +555,17 @@ export async function GET(req: Request) {
           eventsByType: eventTypeMap,
           dailyTrend,
           recentEvents,
+          pageViewStats: {
+            totalPageViews,
+            totalUniqueVisitors,
+            totalGuestVisitors,
+            totalAuthenticatedVisitors,
+            todayPageViews: todayStats?.uniqueVisitors ?? 0,
+            todayGuestVisitors: todayStats?.guestVisitors ?? 0,
+            todayAuthenticatedVisitors: todayStats?.authenticatedVisitors ?? 0,
+            topPages: safeTopPages,
+            visitorTrend: safeVisitorTrend,
+          },
           range,
           excludeTestUsers,
         },
@@ -613,7 +672,7 @@ export async function DELETE(req: Request) {
 
     if (format === 'csv') {
       const csvHeaders = ['ID', '事件类型', '用户ID', '用户名', '会话ID', '元数据', 'IP地址', 'User-Agent', '创建时间']
-      const csvRows = events.map((event: any) => [
+      const csvRows = events.map((event) => [
         event.id, event.eventType, event.userId, event.username, event.sessionId,
         JSON.stringify(event.metadata), event.ipAddress, event.userAgent, event.createdAt,
       ])

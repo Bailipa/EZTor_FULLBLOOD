@@ -19,10 +19,14 @@ import {
   Database,
   BarChart3,
   Filter,
+  Eye,
+  UserCheck,
+  UserX,
 } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useAdminCheck } from '@/hooks/useAdminCheck'
+import { usePageView } from '@/lib/analytics'
 
 interface RecentEvent {
   id: string
@@ -76,6 +80,32 @@ interface TopWord {
   count: number
 }
 
+interface TopPage {
+  pageName: string
+  path: string
+  uniqueVisitors: number
+  totalViews: number
+}
+
+interface VisitorTrend {
+  date: string
+  uniqueVisitors: number
+  guestVisitors: number
+  authenticatedVisitors: number
+}
+
+interface PageViewStats {
+  totalPageViews: number
+  totalUniqueVisitors: number
+  totalGuestVisitors: number
+  totalAuthenticatedVisitors: number
+  todayPageViews: number
+  todayGuestVisitors: number
+  todayAuthenticatedVisitors: number
+  topPages: TopPage[]
+  visitorTrend: VisitorTrend[]
+}
+
 interface AnalyticsData {
   overview: {
     totalUsers: number
@@ -90,6 +120,7 @@ interface AnalyticsData {
   eventsByType: Record<string, number>
   dailyTrend: { date: string; count: number }[]
   recentEvents: RecentEvent[]
+  pageViewStats?: PageViewStats
   range: string
   excludeTestUsers: boolean
 }
@@ -129,6 +160,7 @@ const eventTypeColors: Record<string, string> = {
 }
 
 export default function AnalyticsPage() {
+  usePageView('Analytics')
   const { isLoading: authLoading, isAdmin, status } = useAdminCheck()
   const router = useRouter()
   const [data, setData] = useState<AnalyticsData | null>(null)
@@ -419,6 +451,152 @@ export default function AnalyticsPage() {
             </CardContent>
           </Card>
         </div>
+
+        {(() => {
+          const pvs = data.pageViewStats
+          if (!pvs) return null
+          return (
+            <>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <Card>
+                  <CardContent className="pt-6">
+                    <div className="flex items-center gap-2">
+                      <Eye className="w-5 h-5 text-cyan-500" />
+                      <span className="text-sm text-muted-foreground">今日访客</span>
+                    </div>
+                    <p className="text-3xl font-bold mt-2">{pvs.todayPageViews}</p>
+                    <p className="text-xs text-muted-foreground mt-1">
+                      {pvs.todayAuthenticatedVisitors} 登录 + {pvs.todayGuestVisitors} 游客
+                    </p>
+                  </CardContent>
+                </Card>
+
+                <Card>
+                  <CardContent className="pt-6">
+                    <div className="flex items-center gap-2">
+                      <Users className="w-5 h-5 text-blue-500" />
+                      <span className="text-sm text-muted-foreground">总独立访客</span>
+                    </div>
+                    <p className="text-3xl font-bold mt-2">{pvs.totalUniqueVisitors}</p>
+                    <p className="text-xs text-muted-foreground mt-1">所选范围内</p>
+                  </CardContent>
+                </Card>
+
+                <Card>
+                  <CardContent className="pt-6">
+                    <div className="flex items-center gap-2">
+                      <UserCheck className="w-5 h-5 text-green-500" />
+                      <span className="text-sm text-muted-foreground">登录用户</span>
+                    </div>
+                    <p className="text-3xl font-bold mt-2">{pvs.totalAuthenticatedVisitors}</p>
+                    <p className="text-xs text-muted-foreground mt-1">
+                      {pvs.totalUniqueVisitors > 0
+                        ? Math.round((pvs.totalAuthenticatedVisitors / pvs.totalUniqueVisitors) * 100)
+                        : 0}% 占比
+                    </p>
+                  </CardContent>
+                </Card>
+
+                <Card>
+                  <CardContent className="pt-6">
+                    <div className="flex items-center gap-2">
+                      <UserX className="w-5 h-5 text-amber-500" />
+                      <span className="text-sm text-muted-foreground">游客</span>
+                    </div>
+                    <p className="text-3xl font-bold mt-2">{pvs.totalGuestVisitors}</p>
+                    <p className="text-xs text-muted-foreground mt-1">
+                      {pvs.totalUniqueVisitors > 0
+                        ? Math.round((pvs.totalGuestVisitors / pvs.totalUniqueVisitors) * 100)
+                        : 0}% 占比
+                    </p>
+                  </CardContent>
+                </Card>
+              </div>
+
+              <div className="grid md:grid-cols-2 gap-6">
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <BarChart3 className="w-5 h-5" />
+                      页面访问排行榜
+                    </CardTitle>
+                    <CardDescription>按独立访客数排列</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    {pvs.topPages.length > 0 ? (
+                      <div className="space-y-3">
+                        {pvs.topPages.slice(0, 10).map((page, idx) => (
+                          <div key={page.path} className="flex items-center gap-3">
+                            <span className="text-xs font-medium w-6 text-muted-foreground">
+                              {idx + 1}
+                            </span>
+                            <div className="flex-1 min-w-0">
+                              <p className="text-sm font-medium truncate">{page.pageName}</p>
+                              <p className="text-xs text-muted-foreground truncate">{page.path}</p>
+                            </div>
+                            <div className="text-right shrink-0">
+                              <Badge variant="secondary">{page.uniqueVisitors} 人</Badge>
+                              <p className="text-xs text-muted-foreground mt-0.5">{page.totalViews} 次</p>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <p className="text-center text-muted-foreground py-8">暂无数据</p>
+                    )}
+                  </CardContent>
+                </Card>
+
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <TrendingUp className="w-5 h-5" />
+                      访客日趋势
+                    </CardTitle>
+                    <CardDescription>每日独立访客数</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    {pvs.visitorTrend.length > 0 ? (
+                      <div className="space-y-2">
+                        {pvs.visitorTrend.slice(-7).map((item) => {
+                          const maxV = Math.max(...pvs.visitorTrend.slice(-7).map((d) => d.uniqueVisitors), 1)
+                          return (
+                            <div key={item.date} className="flex items-center gap-3">
+                              <span className="text-xs text-muted-foreground w-20">{item.date.slice(5)}</span>
+                              <div className="flex-1 bg-muted rounded-full h-5 overflow-hidden flex">
+                                <div
+                                  className="h-full bg-blue-500 transition-all duration-300"
+                                  style={{ width: `${(item.authenticatedVisitors / maxV) * 100}%` }}
+                                  title={`登录: ${item.authenticatedVisitors}`}
+                                />
+                                <div
+                                  className="h-full bg-amber-400 transition-all duration-300"
+                                  style={{ width: `${(item.guestVisitors / maxV) * 100}%` }}
+                                  title={`游客: ${item.guestVisitors}`}
+                                />
+                              </div>
+                              <span className="text-xs font-medium w-16 text-right shrink-0">{item.uniqueVisitors}</span>
+                            </div>
+                          )
+                        })}
+                        <div className="flex items-center gap-4 pt-2 text-xs text-muted-foreground">
+                          <span className="flex items-center gap-1">
+                            <span className="w-2 h-2 rounded-full bg-blue-500 inline-block" /> 登录
+                          </span>
+                          <span className="flex items-center gap-1">
+                            <span className="w-2 h-2 rounded-full bg-amber-400 inline-block" /> 游客
+                          </span>
+                        </div>
+                      </div>
+                    ) : (
+                      <p className="text-center text-muted-foreground py-8">暂无数据</p>
+                    )}
+                  </CardContent>
+                </Card>
+              </div>
+            </>
+          )
+        })()}
 
         <Card className="border-indigo-200 dark:border-indigo-800">
           <CardHeader>

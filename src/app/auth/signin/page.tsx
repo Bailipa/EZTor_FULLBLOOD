@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
+import { usePageView } from '@/lib/analytics'
 import { Input } from '@/components/ui/input'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { Label } from '@/components/ui/label'
@@ -12,6 +13,7 @@ import { RefreshCw } from 'lucide-react'
 import { isXiaoYingWebView } from '@/lib/isXiaoYingWebView'
 
 export default function SignIn() {
+  usePageView('Sign In')
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [captchaInput, setCaptchaInput] = useState('')
