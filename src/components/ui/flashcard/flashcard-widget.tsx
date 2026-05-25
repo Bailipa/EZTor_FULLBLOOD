@@ -49,6 +49,7 @@ export function FlashcardWidget() {
   const [isUpdating, setIsUpdating] = useState(false)
   const [isInVocabularyBook, setIsInVocabularyBook] = useState(false)
   const [isIgnoredWordsOpen, setIsIgnoredWordsOpen] = useState(false)
+  const [fetchError, setFetchError] = useState<string | null>(null)
 
   const fetchGroups = async () => {
     try {
@@ -64,6 +65,7 @@ export function FlashcardWidget() {
 
   const fetchWords = async (groupId: string = selectedGroupId) => {
     setIsLoading(true)
+    setFetchError(null)
     try {
       const url =
         groupId === 'public'
@@ -76,8 +78,11 @@ export function FlashcardWidget() {
         setWords(data.data)
         setCurrentIndex(0)
         setShowAnswer(false)
+      } else if (!data.success) {
+        setFetchError(data.error || '获取单词失败')
       }
     } catch (error) {
+      setFetchError('网络错误，请检查连接后重试')
       if (process.env.NODE_ENV === 'development') console.error('Failed to fetch words', error)
     } finally {
       setIsLoading(false)
@@ -330,7 +335,9 @@ export function FlashcardWidget() {
               </div>
             ) : words.length === 0 ? (
               <div className="flex-1 flex flex-col items-center justify-center p-6 text-center">
-                <p className="text-sm text-muted-foreground mb-4">公共词库中暂时没有单词</p>
+                <p className="text-sm text-muted-foreground mb-4">
+                  {fetchError || '公共词库中暂时没有单词'}
+                </p>
               </div>
             ) : (
               <>

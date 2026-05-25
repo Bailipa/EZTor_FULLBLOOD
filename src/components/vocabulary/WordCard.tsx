@@ -185,7 +185,7 @@ const WordCard = memo(
           })()}
 
           {item.example && (
-            <div className="pt-3 mt-3 border-t border-gray-100 dark:border-border space-y-2">
+            <div className="pt-3 mt-3 border-t border-border space-y-2">
               {item.example.split('\n').map((ex: string, i: number) => {
                 if (!ex.trim()) return null
 

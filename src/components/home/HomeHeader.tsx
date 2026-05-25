@@ -20,10 +20,11 @@ import {
 } from '@/components/ui/alert-dialog'
 import { signOut, useSession } from 'next-auth/react'
 import Link from 'next/link'
-import { MonitorPlay, PenTool, BookOpen, LogIn, ChevronDown, ChevronUp } from 'lucide-react'
+import { MonitorPlay, PenTool, BookOpen, LogIn, ChevronDown, ChevronUp, MessageCircle } from 'lucide-react'
 import { DonationButton } from './DonationModal'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
+import { useQQGroupUrl } from '@/lib/siteConfig'
 
 interface HomeHeaderProps {
   showDanmaku: boolean
@@ -39,6 +40,7 @@ export function HomeHeader({ showDanmaku, onToggleDanmaku, onFeatureClick }: Hom
   const [githubState, setGithubState] = useState<'checking' | 'fail'>('checking')
   const [cardExpanded, setCardExpanded] = useState(false)
   const router = useRouter()
+  const qqGroupUrl = useQQGroupUrl()
 
   const handleGithubClick = async () => {
     setGithubState('checking')
@@ -148,7 +150,7 @@ export function HomeHeader({ showDanmaku, onToggleDanmaku, onFeatureClick }: Hom
   }
 
   return (
-    <header className="flex flex-col bg-white dark:bg-card p-4 sm:p-6 rounded-xl shadow-sm border border-gray-100 dark:border-border transition-colors duration-300">
+    <header className="flex flex-col bg-white dark:bg-card p-4 sm:p-6 rounded-xl shadow-sm border border-border transition-colors duration-300">
       <button
         type="button"
         onClick={() => setCardExpanded((v) => !v)}
@@ -181,7 +183,7 @@ export function HomeHeader({ showDanmaku, onToggleDanmaku, onFeatureClick }: Hom
           <Button
             variant={danmakuStatus === 'active' ? 'default' : 'outline'}
             onClick={handleDanmakuToggle}
-            className="gap-1.5 sm:gap-2 shadow-sm transition-all h-8 min-w-[120px] px-2.5 text-xs sm:h-9 sm:px-4 sm:text-sm"
+            className="gap-1.5 sm:gap-2 shadow-sm transition-all h-8 min-w-[120px] px-2.5 text-xs sm:h-9 sm:px-4 sm:text-sm text-primary"
             aria-label={
               danmakuStatus === 'counting' ? `弹幕倒计时 ${countdownValue}` :
               danmakuStatus === 'active' ? '关闭弹幕复习' :
@@ -221,7 +223,7 @@ export function HomeHeader({ showDanmaku, onToggleDanmaku, onFeatureClick }: Hom
               <Link href="/history" aria-label="前往生词本页面">
                 <Button
                   variant="outline"
-                  className="gap-1.5 sm:gap-2 shadow-sm h-8 px-2.5 text-xs sm:h-9 sm:px-4 sm:text-sm"
+                  className="gap-1.5 sm:gap-2 shadow-sm h-8 px-2.5 text-xs sm:h-9 sm:px-4 sm:text-sm text-primary"
                 >
                   <BookOpen className="w-3.5 h-3.5 sm:w-4 sm:h-4" aria-hidden="true" />
                   <span>生词本</span>
@@ -230,7 +232,7 @@ export function HomeHeader({ showDanmaku, onToggleDanmaku, onFeatureClick }: Hom
               <Button
                 variant="outline"
                 onClick={() => setShareOpen(true)}
-                className="gap-1.5 sm:gap-2 shadow-sm h-8 px-2.5 text-xs sm:h-9 sm:px-4 sm:text-sm"
+                className="gap-1.5 sm:gap-2 shadow-sm h-8 px-2.5 text-xs sm:h-9 sm:px-4 sm:text-sm text-primary"
                 aria-label="分享"
               >
                 <Share2 className="w-3.5 h-3.5 sm:w-4 sm:h-4" aria-hidden="true" />
@@ -258,7 +260,7 @@ export function HomeHeader({ showDanmaku, onToggleDanmaku, onFeatureClick }: Hom
           <Button
             variant="outline"
             size="icon"
-            className="shadow-sm shrink-0 h-8 w-8 sm:h-9 sm:w-9"
+            className="shadow-sm shrink-0 h-8 w-8 sm:h-9 sm:w-9 text-primary"
             aria-label="GitHub"
             onClick={handleGithubClick}
           >
@@ -301,13 +303,22 @@ export function HomeHeader({ showDanmaku, onToggleDanmaku, onFeatureClick }: Hom
             </AlertDialogContent>
           </AlertDialog>
           <DonationButton />
+          <Button
+            variant="outline"
+            className="gap-1.5 sm:gap-2 shadow-sm h-8 px-2.5 text-xs sm:h-9 sm:px-4 sm:text-sm text-primary"
+            onClick={() => window.open(qqGroupUrl, '_blank', 'noopener,noreferrer')}
+            aria-label="反馈"
+          >
+            <MessageCircle className="w-3.5 h-3.5 sm:w-4 sm:h-4" aria-hidden="true" />
+            <span>反馈</span>
+          </Button>
           {isAuthenticated && (
             <AlertDialog>
               <AlertDialogTrigger asChild>
                 <Button
                   variant="outline"
                   size="icon"
-                  className="shadow-sm shrink-0 h-8 w-8 sm:h-9 sm:w-9"
+                  className="shadow-sm shrink-0 h-8 w-8 sm:h-9 sm:w-9 text-primary"
                   aria-label="退出登录"
                 >
                   <svg
