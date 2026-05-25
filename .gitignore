@@ -60,3 +60,16 @@ prisma/prisma/*.db*
 scripts/fix-multi-pos-examples.ts
 *.tar.gz
 captcha.png
+
+# dev artifacts
+--width
+LB/
+docs/ezor-ops-log-*.txt
+docs/opencode-session-summary-*.md
+
+# favicon
+public/favicon.ico
+public/eztor_favicon.ico
+
+# promo
+eztor-promo/
