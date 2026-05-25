@@ -50,7 +50,7 @@ npm install
 ### 2.3 构建
 ```bash
 npx prisma generate
-NEXT_PUBLIC_APP_URL=https://dogeggcode.cyou npm run build
+NEXT_PUBLIC_APP_URL=https://eztor.dogeggcode.cyou npm run build
 ```
 
 ### 2.4 创建 .env
@@ -58,7 +58,7 @@ NEXT_PUBLIC_APP_URL=https://dogeggcode.cyou npm run build
 cat > .env << EOF
 DB_PASSWORD=$(tr -dc 'a-zA-Z0-9' < /dev/urandom | fold -w 24 | head -n 1)
 NEXTAUTH_SECRET=$(tr -dc 'a-zA-Z0-9' < /dev/urandom | fold -w 44 | head -n 1)
-NEXTAUTH_URL=https://dogeggcode.cyou
+NEXTAUTH_URL=https://eztor.dogeggcode.cyou
 LLM_API_KEY=你的API密钥
 LLM_API_URL=https://ark.cn-beijing.volces.com/api/v3/chat/completions
 LLM_MODEL=deepseek-v3-250324
@@ -115,7 +115,7 @@ docker exec eztor-db psql -U postgres -d eztor -c "UPDATE \"DonationConfig\" SET
 ## 三、Nginx 反向代理
 
 ### 3.1 宝塔面板配置
-- 网站 → 添加站点 `dogeggcode.cyou`
+- 网站 → 添加站点 `eztor.dogeggcode.cyou`
 - SSL → Let's Encrypt 证书
 - 反向代理 → 目标 `http://127.0.0.1:3000`，代理目录 `/`
 - WebSocket 支持头：

@@ -81,7 +81,7 @@ If curl to `localhost:3000` shows new content but browser shows old content, Ngi
 ```bash
 # Compare: direct vs proxied
 curl -sI http://localhost:3000/ | grep -i x-build-id
-curl -sI https://dogeggcode.cyou/ | grep -i x-build-id
+curl -sI https://eztor.dogeggcode.cyou/ | grep -i x-build-id
 ```
 
 ### Reload nginx after changes
