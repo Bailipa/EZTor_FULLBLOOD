@@ -32,6 +32,7 @@ LLM 池参考了 https://github.com/songquanpeng/one-api 设计思路
 - XJH 女 首页UI登录提示排版优化提出
 - StarsWhere 男 图标提供
 - Cation Prime 男 “感觉可以提示一下，比如login的时候，请牢记密码，密码不能修改这样子”
+- 帕帝 男 移动端UI优化反馈建议
 
 使用的开源项目：
 - TTS 引擎：@lobehub/tts (MIT) + edgeTTS-openai-api
