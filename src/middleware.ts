@@ -23,7 +23,7 @@ const OPTIONAL_AUTH_PATHS = [
   '/api/analytics',
 ]
 
-const PUBLIC_PATHS = ['/site-config.json', '/auth/signin', '/api/auth', '/api/captcha', '/api/health']
+const PUBLIC_PATHS = ['/site-config.json', '/auth/signin', '/api/auth', '/api/captcha', '/api/health', '/api/auth/xiaoying']
 
 const ADMIN_PATHS = [
   '/analytics',

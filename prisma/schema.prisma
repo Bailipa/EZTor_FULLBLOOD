@@ -355,6 +355,19 @@ model CustomApiKey {
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
+model ExternalIdentity {
+  id          String   @id @default(cuid())
+  provider    String
+  issuer      String
+  subject     String
+  localUserId String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([provider, issuer, subject])
+  @@index([localUserId])
+}
+
 model DonationConfig {
   id          String   @id @default("global")
   title       String   @default("Support EZTor")

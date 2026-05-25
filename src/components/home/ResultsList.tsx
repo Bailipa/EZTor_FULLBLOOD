@@ -3,7 +3,8 @@
 import { forwardRef, useEffect, useState } from 'react'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { Volume2, Sparkles } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { Volume2, Sparkles, Search } from 'lucide-react'
 import { useTheme } from '@wrksz/themes/client'
 import { useBrandTheme } from '@/components/brand-theme-provider'
 import type { WordResult } from '@/types/api'
@@ -12,10 +13,39 @@ interface ResultsListProps {
   results: WordResult[]
   showPos: boolean
   showExample: boolean
+  onClear?: () => void
+}
+
+
+function EmptyPlaceholder() {
+  return (
+    <div className="flex flex-col items-center justify-center py-16 px-4 text-center">
+      <div className="w-16 h-16 rounded-full bg-accent flex items-center justify-center mb-4">
+        <Search className="w-8 h-8 text-primary" />
+      </div>
+      <h3 className="text-xl font-semibold text-foreground mb-3">
+        欢迎使用 EZTor
+      </h3>
+      <div className="text-sm text-muted-foreground space-y-3 max-w-sm leading-relaxed">
+        <p>
+          在左侧输入单词或词组，📝 一键查询即可获取翻译结果。
+        </p>
+        <p>
+          📚 查询后的单词可以保存到生词本，随时通过默写复习巩固记忆。
+        </p>
+        <p>
+          🤖 AI 翻译引擎为你提供精准的释义和贴近语境的例句。
+        </p>
+        <p className="text-foreground font-medium pt-2">
+          在左侧输入单词开始吧 ✨
+        </p>
+      </div>
+    </div>
+  )
 }
 
 export const ResultsList = forwardRef<HTMLDivElement, ResultsListProps>(function ResultsList(
-  { results, showPos, showExample },
+  { results, showPos, showExample, onClear },
   ref,
 ) {
   const { resolvedTheme } = useTheme()
@@ -33,7 +63,7 @@ export const ResultsList = forwardRef<HTMLDivElement, ResultsListProps>(function
     speakText(text)
   }
 
-  if (results.length === 0) return null
+  if (results.length === 0) return <EmptyPlaceholder />
 
   return (
     <div ref={ref} className="space-y-4">
@@ -47,30 +77,35 @@ export const ResultsList = forwardRef<HTMLDivElement, ResultsListProps>(function
             <p className="text-sm text-muted-foreground">共 {results.length} 条结果</p>
           </div>
         </div>
-        <span className="text-sm text-muted-foreground animate-[fadeIn_0.3s_ease-in-out_0.2s_both]">
-          向下查看释义、词性和例句
-        </span>
+        <div className="flex items-center gap-2">
+          <span className="text-sm text-muted-foreground animate-[fadeIn_0.3s_ease-in-out_0.2s_both]">
+            向下查看释义、词性和例句
+          </span>
+          {onClear && (
+            <Button variant="outline" size="sm" onClick={onClear}>
+              清空结果
+            </Button>
+          )}
+        </div>
       </div>
       <p className="mt-1 text-xs text-muted-foreground">
         提示：发音功能默认优先使用服务器内置的 Edge TTS；失败时会回退到浏览器自带的朗读引擎。
       </p>
-      {results.length > 0 && (
-        <div className="grid gap-4">
-          {results.map((item, index) => (
-            <ResultCard
-              key={`${index}-${item.word}`}
-              item={item}
-              index={index}
-              showPos={showPos}
-              showExample={showExample}
-              mounted={mounted}
-              isDark={isDark}
-              isPurple={isPurple}
-              playAudio={playAudio}
-            />
-          ))}
-        </div>
-      )}
+      <div className="grid gap-4">
+        {results.map((item, index) => (
+          <ResultCard
+            key={`${index}-${item.word}`}
+            item={item}
+            index={index}
+            showPos={showPos}
+            showExample={showExample}
+            mounted={mounted}
+            isDark={isDark}
+            isPurple={isPurple}
+            playAudio={playAudio}
+          />
+        ))}
+      </div>
     </div>
   )
 })

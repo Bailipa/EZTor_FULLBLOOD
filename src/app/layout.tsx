@@ -22,6 +22,13 @@ export const metadata: Metadata = {
   icons: {
     icon: '/favicon.ico',
   },
+  openGraph: {
+    title: 'EZTor - 智能英语翻译与词汇记忆工具',
+    description:
+      'EZTor 是一款简洁强大的英语翻译与词汇记忆工具，支持 AI 批量翻译、生词本管理、默写复习等功能。',
+    type: 'website',
+    images: '/favicon.ico',
+  },
 }
 
 export const viewport: Viewport = {

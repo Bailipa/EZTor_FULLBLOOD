@@ -6,6 +6,7 @@ import { Danmaku } from '@/components/ui/danmaku'
 import { WordInputCard, TranslateOnlyCard, ResultsList, HomeHeader } from '@/components/home'
 import { GuestHomepage } from '@/components/home/guest/GuestHomepage'
 import { useLoginPrompt } from '@/components/ui/login-prompt-modal'
+import AppLayout from '@/components/layout/AppLayout'
 import ErrorBoundary from '@/components/error-boundary'
 import type { WordResult, ReviewGroup } from '@/types/api'
 import { saveToStorage, loadFromStorage } from '@/lib/storage'
@@ -115,56 +116,75 @@ export default function HomeContent() {
   }
 
   return (
-    <div className="relative min-h-screen bg-background p-6 font-[family-name:var(--font-geist-sans)] transition-colors duration-300 md:p-12">
+    <div className="relative min-h-screen bg-background font-[family-name:var(--font-geist-sans)] transition-colors duration-300">
       {showDanmaku && isAuthenticated && <Danmaku isVisible={showDanmaku} />}
 
-      <main className="relative z-10 mx-auto max-w-7xl space-y-6">
-        <HomeHeader
-          showDanmaku={showDanmaku}
-          onToggleDanmaku={() => setShowDanmaku(!showDanmaku)}
-          onFeatureClick={promptLogin}
-        />
+      <AppLayout>
+        <div className="flex flex-col xl:h-screen">
+          <HomeHeader
+            showDanmaku={showDanmaku}
+            onToggleDanmaku={() => setShowDanmaku(!showDanmaku)}
+            onFeatureClick={promptLogin}
+          />
 
-        <div className="grid grid-cols-1 items-start gap-6">
-          <div className="min-w-0 space-y-6">
-            <WordInputCard
-              isLoading={isLoading}
-              setIsLoading={setIsLoading}
-              showPos={showPos}
-              showExample={showExample}
-              groups={groups}
-              selectedTargetGroupId={selectedTargetGroupId}
-              setSelectedTargetGroupId={setSelectedTargetGroupId}
-              results={results}
-              setResults={setResults}
-              wordsInput={wordsInput}
-              setWordsInput={setWordsInput}
-            />
+          <div className="flex-1 flex flex-col xl:flex-row min-h-0 xl:overflow-hidden">
+            <div className="flex flex-col xl:w-[440px] xl:shrink-0 xl:overflow-y-auto xl:border-r xl:border-border">
+              <div className="p-4 md:p-6 lg:p-8 xl:pr-4 space-y-6">
+                <WordInputCard
+                  isLoading={isLoading}
+                  setIsLoading={setIsLoading}
+                  showPos={showPos}
+                  showExample={showExample}
+                  groups={groups}
+                  selectedTargetGroupId={selectedTargetGroupId}
+                  setSelectedTargetGroupId={setSelectedTargetGroupId}
+                  results={results}
+                  setResults={setResults}
+                  wordsInput={wordsInput}
+                  setWordsInput={setWordsInput}
+                />
 
-            <ErrorBoundary>
-              <TranslateOnlyCard />
-            </ErrorBoundary>
+                <ErrorBoundary>
+                  <TranslateOnlyCard />
+                </ErrorBoundary>
+              </div>
+            </div>
 
-            <ResultsList
-              ref={resultsRef}
-              results={results}
-              showPos={showPos}
-              showExample={showExample}
-            />
+            <div className="flex-1 flex flex-col xl:overflow-y-auto">
+              <div className="p-4 md:p-6 lg:p-8 xl:pl-4">
+                <ResultsList
+                  ref={resultsRef}
+                  results={results}
+                  showPos={showPos}
+                  showExample={showExample}
+                  onClear={() => setResults([])}
+                />
+              </div>
+              <footer className="hidden xl:block py-6 px-4 md:px-6 lg:px-8 text-center text-sm text-muted-foreground">
+                <a
+                  href="https://beian.miit.gov.cn/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="transition-colors hover:text-foreground"
+                >
+                  ICP备案号：粤ICP备2026008729号
+                </a>
+              </footer>
+            </div>
           </div>
-        </div>
-      </main>
 
-      <footer className="mt-12 py-6 text-center text-sm text-muted-foreground">
-        <a
-          href="https://beian.miit.gov.cn/"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="transition-colors hover:text-foreground"
-        >
-          ICP备案号：粤ICP备2026008729号
-        </a>
-      </footer>
+          <footer className="xl:hidden py-6 px-4 md:px-6 lg:px-8 text-center text-sm text-muted-foreground">
+            <a
+              href="https://beian.miit.gov.cn/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="transition-colors hover:text-foreground"
+            >
+              ICP备案号：粤ICP备2026008729号
+            </a>
+          </footer>
+        </div>
+      </AppLayout>
 
       <LoginPromptDialog />
     </div>

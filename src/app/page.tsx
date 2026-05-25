@@ -13,6 +13,7 @@ export const metadata: Metadata = {
     title: 'EZTor - 智能英语翻译与词汇记忆工具',
     description: '支持 AI 批量翻译、生词本管理、默写复习，助你高效记忆英语单词。',
     type: 'website',
+    images: '/favicon.ico',
   },
 }
 

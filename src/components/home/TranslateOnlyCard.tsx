@@ -516,15 +516,15 @@ export function TranslateOnlyCard() {
                   />
                   <span className="flex-1" />
                   {history.length > 0 && (
-                    <button
+                    <span
                       onClick={(e) => {
                         e.stopPropagation()
                         handleHistoryClear()
                       }}
-                      className="text-xs text-muted-foreground hover:text-destructive"
+                      className="text-xs text-muted-foreground hover:text-destructive cursor-pointer"
                     >
                       清空全部
-                    </button>
+                    </span>
                   )}
                 </button>
                 {historyOpen && (
@@ -556,16 +556,16 @@ export function TranslateOnlyCard() {
                                 <span className="text-[10px] text-muted-foreground whitespace-nowrap">
                                   {formatTime(entry.timestamp)}
                                 </span>
-                                <button
+                                <span
                                   onClick={(e) => {
                                     e.stopPropagation()
                                     handleHistoryDelete(entry.id)
                                   }}
-                                  className="opacity-0 group-hover:opacity-100 text-muted-foreground hover:text-destructive transition-opacity"
+                                  className="opacity-0 group-hover:opacity-100 text-muted-foreground hover:text-destructive transition-opacity cursor-pointer"
                                   title="删除此条记录"
                                 >
                                   <Trash2 className="w-3 h-3" />
-                                </button>
+                                </span>
                               </div>
                             </div>
                           </button>
