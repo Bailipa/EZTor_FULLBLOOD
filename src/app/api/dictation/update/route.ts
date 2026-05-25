@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import prisma from '@/lib/prisma'
 import { getServerSession } from 'next-auth/next'
 import { authOptions } from '../../auth/[...nextauth]/route'
+import { safeQueryRaw } from '@/lib/safeQueryRaw'
 import { randomUUID } from 'crypto'
 import { logger } from '@/lib/logger'
 
@@ -31,12 +32,12 @@ export async function POST(req: Request) {
       where: { word: normalizedWord },
     })
 
-    const existingWords = await prisma.$queryRaw<Record<string, unknown>[]>`
+    const existingWords = await safeQueryRaw('dictationUpdate', () => prisma.$queryRaw<Record<string, unknown>[]>`
       SELECT * FROM "Word"
       WHERE "userId" = ${session.user.id}
         AND lower("word") = ${normalizedWord}
       LIMIT 1
-    `
+    `, [] as Record<string, unknown>[])
 
     if (existingWords.length > 0) {
       await prisma.word.update({

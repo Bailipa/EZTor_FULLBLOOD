@@ -3,6 +3,7 @@ import prisma from '@/lib/prisma'
 import { getServerSession } from 'next-auth/next'
 import { authOptions } from '../auth/[...nextauth]/route'
 import { logger } from '@/lib/logger'
+import { safeQueryRaw } from '@/lib/safeQueryRaw'
 
 export const dynamic = 'force-dynamic' // 禁止缓存，每次获取最新的随机数据
 
@@ -29,7 +30,7 @@ export async function GET(req: Request) {
 
     // SQLite 没有很好的原生 ORDER BY RANDOM() 性能优化，但对于个人生词本来说数据量小，直接用也可以。
     // 这里使用 Prisma 的 queryRaw 执行原生 SQL 以获取随机记录
-    const randomWords = await prisma.$queryRaw`
+    const randomWords = await safeQueryRaw('danmaku', () => prisma.$queryRaw`
       SELECT
         w.word,
         COALESCE(NULLIF(TRIM(w.translation), ''), pw.translation, '') AS translation,
@@ -40,7 +41,7 @@ export async function GET(req: Request) {
       WHERE w."userId" = ${session.user.id}
       ORDER BY RANDOM() 
       LIMIT ${limit}
-    `
+    `, [] as Record<string, unknown>[])
 
     return NextResponse.json({ success: true, data: randomWords })
   } catch (err: unknown) {

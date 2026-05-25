@@ -3,6 +3,7 @@ import prisma from '@/lib/prisma'
 import { getServerSession } from 'next-auth/next'
 import { authOptions } from '../../auth/[...nextauth]/route'
 import { logger } from '@/lib/logger'
+import { safeQueryRaw } from '@/lib/safeQueryRaw'
 
 export const dynamic = 'force-dynamic'
 
@@ -34,7 +35,7 @@ export async function GET(req: Request) {
       }
 
       // Fetch random words from the specific Review Group
-      words = await prisma.$queryRaw`
+      words = await safeQueryRaw('flashcard_group', () => prisma.$queryRaw`
         SELECT
           w.id,
           w.word,
@@ -47,19 +48,19 @@ export async function GET(req: Request) {
           w."incorrectCount",
           w."updatedAt"
         FROM "Word" w
-        JOIN "ReviewGroupWord" rgw ON w.id = rgw.wordId
+        JOIN "ReviewGroupWord" rgw ON w.id = rgw."wordId"
         LEFT JOIN "PublicWord" pw ON pw.id = w."publicWordId"
         WHERE rgw."reviewGroupId" = ${groupId}
         ORDER BY RANDOM() 
         LIMIT ${limit}
-      `
+      `, [] as Record<string, unknown>[])
     } else {
       // Fallback: Fetch random words from the PUBLIC word bank
-      words = await prisma.$queryRaw`
+      words = await safeQueryRaw('flashcard_public', () => prisma.$queryRaw`
         SELECT * FROM "PublicWord" 
         ORDER BY RANDOM() 
         LIMIT ${limit}
-      `
+      `, [] as Record<string, unknown>[])
     }
 
     return NextResponse.json({ success: true, data: words })

@@ -3,6 +3,7 @@ import { Prisma } from '@prisma/client'
 import { randomUUID } from 'crypto'
 import { checkAndSyncOnQuery } from '@/lib/wordSync'
 import { logger } from '@/lib/logger'
+import { safeQueryRaw } from '@/lib/safeQueryRaw'
 import type { Session } from 'next-auth'
 import type { TranslationResult } from '@/services/TranslationService'
 
@@ -32,7 +33,7 @@ export class CacheService {
     normalizedWords: string[],
   ): Promise<{ cachedWords: Record<string, unknown>[]; cachedWordStrings: string[] }> {
     // 查找数据库中已经存在的单词
-    const cachedWords = await prisma.$queryRaw<Record<string, unknown>[]>(
+    const cachedWords = await safeQueryRaw('cacheService', () => prisma.$queryRaw<Record<string, unknown>[]>(
       Prisma.sql`
           SELECT
             w.id,
@@ -54,7 +55,7 @@ export class CacheService {
           WHERE w."userId" = ${this.session!.user.id}
             AND lower(w.word) IN (${Prisma.join(normalizedWords)})
       `,
-    )
+    ), [] as Record<string, unknown>[])
 
     const cachedWordStrings = cachedWords.map((cw) => String(cw['word']).toLowerCase())
     return { cachedWords, cachedWordStrings }
