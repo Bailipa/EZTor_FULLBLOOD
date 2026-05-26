@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>EZTor 功能预览</title>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --p:#6B5CE7;--p2:#8B7CF6;--pf:#fff;
+  --bg:#F5F5F7;--fg:#1A1A2E;--card:#fff;
+  --muted:#F0F0F0;--mf:#6B7280;--border:#E5E7EB;
+  --caption:#9CA3AF;
+  --font:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;
+}
+html,body{height:100%;font-family:var(--font);-webkit-font-smoothing:antialiased;background:var(--bg);overflow:hidden}
+
+.overlay{position:fixed;inset:0;z-index:9999;background:var(--bg);display:flex;flex-direction:column;opacity:0;transition:opacity 0.4s}
+.overlay.open{opacity:1}
+
+.scroll{flex:1;overflow-y:scroll;scroll-snap-type:y mandatory;height:100%;-webkit-overflow-scrolling:touch}
+.scroll::-webkit-scrollbar{display:none}
+
+.snap{scroll-snap-align:start;height:100dvh;display:flex;flex-direction:column;position:relative;overflow:hidden}
+
+/* Close */
+
+
+/* Dots */
+.dots{position:fixed;right:10px;top:50%;transform:translateY(-50%);z-index:100;display:flex;flex-direction:column;gap:8px}
+.dots button{width:5px;height:5px;border-radius:50%;border:none;background:var(--border);cursor:pointer;padding:0;transition:all .35s}
+.dots button.act{background:var(--p);width:8px;height:8px;box-shadow:0 0 8px rgba(107,92,231,.35)}
+
+/* Decorative blobs */
+.blob{position:absolute;border-radius:50%;pointer-events:none;opacity:.5;filter:blur(60px)}
+
+/* ============ HERO ============ */
+.hero{background:linear-gradient(165deg,#F0EDFF 0%,#F5F5F7 45%,#EEF2FF 100%);justify-content:center;align-items:center;padding:0 20px}
+.hero .blob1{width:280px;height:280px;background:rgba(107,92,231,.12);top:-80px;right:-80px}
+.hero .blob2{width:200px;height:200px;background:rgba(139,124,246,.1);bottom:-60px;left:-60px}
+.hero-inner{display:flex;flex-direction:column;align-items:center;position:relative;z-index:1}
+.hero-badge{font-size:13px;font-weight:600;color:var(--p);background:rgba(107,92,231,.1);padding:5px 16px;border-radius:20px;margin-bottom:12px;letter-spacing:.02em}
+.hero h1{font-size:40px;font-weight:800;text-align:center;letter-spacing:-.03em;color:var(--fg);line-height:1.1;overflow-wrap:break-word;word-break:break-word}
+.hero h1 span{background:linear-gradient(135deg,var(--p),#A78BFA);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero-sub{font-size:15px;color:var(--mf);text-align:center;margin-top:10px;line-height:1.6;max-width:280px}
+
+.fw{position:relative;width:200px;height:200px;margin:22px auto 0}
+.fw::before{content:'';position:absolute;inset:-20px;border-radius:50%;background:radial-gradient(circle,rgba(107,92,231,.06) 0%,transparent 70%)}
+.fw-ri{position:absolute;inset:4px;border-radius:50%;border:2px dashed rgba(107,92,231,.2);animation:spin 20s linear infinite}
+.fw-ri2{position:absolute;inset:16px;border-radius:50%;border:1.5px dashed rgba(107,92,231,.08);animation:spin 25s linear infinite reverse}
+@keyframes spin{to{transform:rotate(360deg)}}
+.fw-a{position:absolute;font-size:12px;color:rgba(107,92,231,.3);animation:pulse 2s ease-in-out infinite;pointer-events:none}
+.fw-a:nth-child(3){top:66px;right:38px;transform:rotate(45deg)}
+.fw-a:nth-child(4){bottom:55px;left:50%;transform:translateX(-50%) rotate(90deg);animation-delay:.7s}
+.fw-a:nth-child(5){top:74px;left:38px;transform:rotate(-135deg);animation-delay:1.4s}
+@keyframes pulse{0%,100%{opacity:.3}50%{opacity:.7}}
+.fw-n{position:absolute;width:58px;height:58px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;font-weight:600;font-size:12px;box-shadow:0 4px 12px rgba(0,0,0,.12)}
+.fw-n .i{font-size:17px;margin-bottom:1px}
+.fw-n1{top:0;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#7C5CF0,var(--p));width:64px;height:64px;z-index:2;box-shadow:0 4px 16px rgba(107,92,231,.35)}
+.fw-n2{right:0;bottom:22px;background:linear-gradient(135deg,#059669,#047857)}
+.fw-n3{left:0;bottom:22px;background:linear-gradient(135deg,#7C3AED,#6D28D9)}
+.hero-tag{font-size:13px;color:var(--mf);margin-top:16px;display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.hero-tag span{background:rgba(255,255,255,.7);backdrop-filter:blur(4px);padding:5px 14px;border-radius:20px;border:1px solid var(--border);flex-shrink:0}
+.hero-swipe{display:flex;flex-direction:column;align-items:center;gap:2px;color:var(--caption);font-size:12px;margin-top:16px;animation:bounce 2s ease-in-out infinite}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+
+/* ============ FEATURE SCREENS ============ */
+.feat{background:linear-gradient(165deg,#F0EDFF 0%,#F5F5F7 40%,#EEF2FF 100%);padding:0;justify-content:flex-start}
+.feat-inner{flex:1;overflow-y:auto;width:100%;max-width:400px;margin:0 auto;padding:48px 12px 20px;display:flex;flex-direction:column;gap:0;-webkit-overflow-scrolling:touch}
+.feat-inner::-webkit-scrollbar{display:none}
+
+.feat-head{text-align:center;margin-bottom:20px;flex-shrink:0}
+.feat-head .fi{font-size:32px;margin-bottom:4px}
+.feat-head h2{font-size:20px;font-weight:800;color:var(--fg);letter-spacing:-.02em;overflow-wrap:break-word;word-break:break-word}
+.feat-head p{font-size:13px;color:var(--mf);margin-top:3px;overflow-wrap:break-word;word-break:break-word}
+
+.c{border-radius:20px;background:var(--card);border:1px solid var(--border);overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.04);margin-bottom:16px;flex-shrink:0}
+.c-h{display:flex;align-items:center;gap:6px;padding:14px 14px 4px;flex-wrap:wrap;min-width:0}
+.c-h svg{width:18px;height:18px;color:var(--p);flex-shrink:0}
+.c-h h3{font-size:14px;font-weight:600;color:var(--fg);overflow-wrap:break-word;word-break:break-word;min-width:0}
+.c-desc{padding:0 14px 10px;font-size:13px;color:var(--mf);line-height:1.5;overflow-wrap:break-word;word-break:break-word}
+.c-body{padding:0 14px 12px;min-width:0}
+
+.fta{background:var(--muted);border:1px solid var(--border);border-radius:12px;padding:10px 12px;font-size:13px;color:var(--fg);line-height:1.8;font-family:var(--font);overflow-wrap:break-word;word-break:break-word;min-width:0}
+.fta .dim{color:var(--caption)}
+.fch{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.fch span{display:inline-flex;align-items:center;gap:3px;border:1px solid rgba(107,92,231,.18);background:rgba(107,92,231,.06);color:var(--p);padding:5px 12px;border-radius:8px;font-size:13px;font-weight:500}
+.fb{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-top:1px solid var(--border);flex-wrap:wrap;gap:8px;min-width:0}
+.fb .note{font-size:13px;color:var(--caption);flex-shrink:0}
+.fbt{display:inline-flex;align-items:center;gap:5px;height:36px;padding:0 18px;border-radius:10px;font-size:14px;font-weight:600;border:none;background:var(--p);color:var(--pf);box-shadow:0 2px 8px rgba(107,92,231,.2);cursor:pointer;transition:all .2s;user-select:none}
+.fbt:active{transform:scale(.95)}
+.fbt-out{background:#f3f4f6;color:#6b7280;border:1px solid #e5e7eb;box-shadow:none;cursor:pointer;transition:all .2s;user-select:none;font-size:14px;font-weight:600;height:36px;padding:0 18px;border-radius:10px;display:inline-flex;align-items:center;gap:5px}
+.tag-pill{cursor:pointer;transition:all .2s;user-select:none}
+.tag-pill:active{transform:scale(.93)}
+.tag-pill.act{background:rgba(107,92,231,.1)!important;color:var(--p)!important;font-weight:600!important;border-radius:16px!important}
+.interactive{cursor:pointer;transition:all .2s;user-select:none}
+.interactive:active{transform:scale(.92)}
+.interactive.done{background:#059669!important;color:#fff!important}
+.pulse-el{cursor:pointer;transition:transform .15s}
+.pulse-el:active{transform:scale(1.25)}
+.fbt.done{background:#059669!important;color:#fff!important}
+.fbt-out.done{background:#059669!important;color:#fff!important;border-color:#059669!important}
+
+.fr{border-radius:12px;border:1px solid var(--border);overflow:hidden;min-width:0}
+.fr-b{height:3px;background:linear-gradient(90deg,var(--p),#A78BFA)}
+.fr-bd{padding:10px 12px;min-width:0}
+.fr-w{display:flex;align-items:center;gap:6px;flex-wrap:wrap;min-width:0}
+.fr-w .w{font-size:16px;font-weight:600;color:var(--fg);overflow-wrap:break-word;word-break:break-word;min-width:0}
+.fr-w .ph{font-size:12px;font-family:monospace;color:var(--caption);overflow-wrap:break-word;word-break:break-word;min-width:0}
+.fr-w .so{font-size:13px;color:var(--mf);margin-left:auto;flex-shrink:0}
+.fr-pos .tag{font-size:12px;background:var(--muted);padding:2px 9px;border-radius:5px;color:var(--mf)}
+.fr-pos .tr{font-size:13px;color:var(--fg)}
+
+.frow{display:flex;align-items:center;justify-content:space-between;margin-top:10px;flex-wrap:wrap;gap:6px}
+.frow:first-of-type{margin-top:0}
+.frow label{font-size:13px;color:var(--fg);font-weight:500;flex-shrink:0}
+.fsel{height:32px;border:1px solid var(--border);border-radius:8px;background:var(--muted);padding:0 10px;font-size:13px;color:var(--fg);font-family:var(--font);min-width:0;max-width:100%;flex:1 1 auto}
+.fprog{height:4px;border-radius:3px;background:var(--muted);overflow:hidden;margin-top:14px}
+.fprog-b{height:100%;width:60%;border-radius:3px;background:linear-gradient(90deg,var(--p),#A78BFA)}
+.fsc{display:flex;align-items:center;gap:12px;margin-top:12px}
+.fsc-c{width:36px;height:36px;border-radius:50%;border:2px solid var(--p);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--p)}
+.fsc-i{font-size:13px;color:var(--caption)}
+.fsc-i span{display:inline-flex;gap:20px}
+.fusg{font-size:13px;color:var(--caption);display:flex;align-items:center;gap:4px}
+.fusg.w{color:#D97706}
+
+.f-bot{display:flex;flex-direction:column;align-items:center;gap:2px;color:var(--caption);font-size:12px;margin-top:auto;padding:8px 0 4px;flex-shrink:0}
+
+/* ============ CTA ============ */
+.cta{background:linear-gradient(165deg,#F5F5F7 0%,#F0EDFF 100%);justify-content:center;align-items:center;padding:0 20px}
+.cta .blob1{width:240px;height:240px;background:rgba(107,92,231,.1);top:-100px;right:-80px}
+.cta .blob2{width:180px;height:180px;background:rgba(139,124,246,.08);bottom:-80px;left:-60px}
+.cta-inner{display:flex;flex-direction:column;align-items:center;text-align:center;position:relative;z-index:1}
+.cta-badge{font-size:13px;font-weight:600;color:var(--p);background:rgba(107,92,231,.1);padding:5px 16px;border-radius:20px;margin-bottom:10px}
+.cta h2{font-size:28px;font-weight:800;color:var(--fg);letter-spacing:-.03em}
+.cta p{font-size:14px;color:var(--mf);margin-top:6px;line-height:1.6;max-width:280px}
+.cta-btns{margin-top:24px;display:flex;flex-direction:column;gap:10px;width:100%;max-width:280px}
+.cta-btn{display:flex;align-items:center;justify-content:center;gap:8px;height:50px;border-radius:14px;font-size:16px;font-weight:600;border:none;cursor:pointer;text-decoration:none;font-family:var(--font);transition:all .2s}
+.cta-btn.pri{background:linear-gradient(135deg,var(--p),#7C5CF0);color:var(--pf);box-shadow:0 4px 16px rgba(107,92,231,.3)}
+.cta-btn.pri:active{transform:scale(.97);opacity:.9}
+.cta-btn.gh{background:transparent;color:var(--caption);font-weight:500;font-size:14px;padding:0}
+.cta-btn.gh:active{color:var(--fg)}
+.cta-note{font-size:13px;color:var(--caption);margin-top:12px}
+
+@media(min-width:500px){
+  .hero h1{font-size:48px}
+  .fw{width:220px;height:220px}
+  .feat-inner{max-width:420px}
+  .cta h2{font-size:32px}
+}
+</style>
+</head>
+<body>
+
+<div class="overlay" id="overlay">
+  <div class="dots" id="dots">
+    <button data-idx="0"></button>
+    <button data-idx="1"></button>
+    <button data-idx="2"></button>
+    <button data-idx="3"></button>
+    <button data-idx="4"></button>
+    <button data-idx="5"></button>
+    <button data-idx="6"></button>
+  </div>
+
+  <div class="scroll" id="scroll">
+
+    <!-- ===== 1: Hero ===== -->
+    <div class="snap hero">
+      <div class="blob blob1"></div>
+      <div class="blob blob2"></div>
+      <div class="hero-inner">
+        <div class="hero-badge">EZTor · 功能预览</div>
+        <h1>英语学习<br><span>闭环</span></h1>
+        <p class="hero-sub">查词 → 记录 → 默写<br>三步形成你的专属学习闭环</p>
+        <div class="fw">
+          <div class="fw-ri"></div>
+          <div class="fw-ri2"></div>
+          <span class="fw-a">➜</span>
+          <span class="fw-a">➜</span>
+          <span class="fw-a">➜</span>
+          <div class="fw-n fw-n1"><span class="i">🔍</span><span>查词</span></div>
+          <div class="fw-n fw-n2"><span class="i">📚</span><span>记录</span></div>
+          <div class="fw-n fw-n3"><span class="i">✍️</span><span>默写</span></div>
+        </div>
+        <div class="hero-tag">
+          <span>AI 翻译</span>
+          <span>例句解析</span>
+          <span>Translate Only</span>
+          <span>弹幕复习</span>
+          <span>当然</span>
+        </div>
+        <div class="hero-swipe">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 13l5 5 5-5M7 6l5 5 5-5"/></svg>
+          <span>上滑探索</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== 2: AI 智能查词（含结果） ===== -->
+    <div class="snap feat">
+      <div class="feat-inner">
+        <div class="feat-head">
+          <div class="fi">🔍</div>
+          <h2>AI 智能查词</h2>
+          <p>输入即查 · 精准翻译 · 音标发音 · 一键收录</p>
+        </div>
+        <div class="c">
+          <div class="c-h">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            <h3>输入 · 解析一条龙</h3>
+            <span style="font-size:12px;color:var(--caption);margin-left:auto">3 条结果</span>
+          </div>
+          <div class="c-desc">每行一个单词</div>
+          <div class="c-body" style="display:flex;flex-direction:column;gap:8px">
+            <div class="fta" style="font-size:13px;padding:8px 12px;min-height:48px"><span class="dim">apple</span><br><span class="dim">inevitable</span><br><span class="dim">take for granted</span></div>
+            <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;min-width:0">
+              <span class="fbt" data-btn="parse" style="flex-shrink:0">🔍 一键解析</span>
+              <span class="note" style="font-size:12px"></span>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:8px;margin-top:4px">
+              <div class="fr">
+                <div class="fr-b"></div>
+                <div class="fr-bd">
+                  <div class="fr-w"><span class="w">apple</span><span class="ph">/ˈæp.əl/</span><span class="so pulse-el"> </span></div>
+                  <div class="fr-pos"><span class="tag">noun</span><span class="tr">苹果；苹果树</span></div>
+                </div>
+              </div>
+              <div class="fr">
+                <div class="fr-b"></div>
+                <div class="fr-bd">
+                  <div class="fr-w"><span class="w">inevitable</span><span class="ph">/ɪˈnevɪtəbl/</span><span class="so pulse-el"> </span></div>
+                  <div class="fr-pos"><span class="tag">adj.</span><span class="tr">不可避免的；必然的</span></div>
+                </div>
+              </div>
+              <div class="fr">
+                <div class="fr-b"></div>
+                <div class="fr-bd">
+                  <div class="fr-w"><span class="w">take for granted</span><span class="ph">/teɪk fɔːr ˈɡræntɪd/</span><span class="so pulse-el"> </span></div>
+                  <div class="fr-pos"><span class="tag">phrase</span><span class="tr">认为…理所当然</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="fb"><span class="note"></span><span class="fbt" data-btn="save">📚 自动存入生词本</span></div>
+        </div>
+        <div class="f-bot">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 13l5 5 5-5M7 6l5 5 5-5"/></svg>
+          <span>继续</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== 3: 默写 ===== -->
+    <div class="snap feat">
+      <div class="feat-inner">
+        <div class="feat-head">
+          <div class="fi">✍️</div>
+          <h2>多维默写本</h2>
+          <p>看中文写英文 · 智能拼写纠错 · 智能复习</p>
+        </div>
+        <div class="c">
+          <div class="c-h" style="gap:4px">
+            <span class="tag-pill act" style="font-size:12px;padding:3px 12px;border-radius:16px" data-btn="tab">综合默写</span>
+            <span class="interactive" style="margin-left:auto;font-size:14px" title="静音" data-btn="mute"> </span>
+          </div>
+          <div class="c-desc">根据中文释义默写英文，自动判分</div>
+          <div class="c-body" style="display:flex;flex-direction:column;gap:6px">
+            <!-- progress -->
+            <div style="display:flex;align-items:center;gap:8px">
+              <div style="flex:1;height:4px;background:#e5e7eb;border-radius:2px;overflow:hidden">
+                <div style="width:40%;height:100%;background:var(--p);border-radius:2px"></div>
+              </div>
+              <span style="font-size:12px;color:var(--caption);white-space:nowrap">4/10 · 得分 3</span>
+            </div>
+            <!-- word display -->
+            <div style="text-align:center;padding:4px 0">
+              <div style="font-size:13px;color:var(--p);font-weight:500;margin-bottom:2px">请写出以下单词的英文：</div>
+              <div class="dict-cn" style="font-size:26px;font-weight:700;color:#1f2937">不可避免的</div>
+              
+            </div>
+            <!-- answer area with diff -->
+            <div style="background:#f9fafb;border-radius:10px;padding:10px 12px">
+              <div style="font-size:13px;color:var(--caption);margin-bottom:4px">你的输入:</div>
+              <div style="font-family:monospace;font-size:17px;padding:6px 10px;background:#fef2f2;border:1px solid #fecaca;border-radius:8px;color:#991b1b">
+                inevi<span style="color:#dc2626;font-weight:700">tible</span>
+              </div>
+              <div style="font-size:13px;color:var(--caption);margin-top:6px;margin-bottom:4px">正确答案:</div>
+              <div style="font-family:monospace;font-size:17px;padding:6px 10px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;color:#166534">
+                inevi<span style="color:#16a34a;font-weight:700">table</span>
+              </div>
+            </div>
+            <!-- nav -->
+          </div>
+        </div>
+        <div class="f-bot">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 13l5 5 5-5M7 6l5 5 5-5"/></svg>
+          <span>继续</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== 4: 弹幕 ===== -->
+    <div class="snap feat">
+      <div class="feat-inner">
+        <div class="feat-head">
+          <div class="fi">🎬</div>
+          <h2>弹幕复习</h2>
+          <p>像看弹幕一样复习单词，轻松又高效</p>
+        </div>
+        <div class="c">
+          <div class="c-h">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            <h3>弹幕复习</h3>
+            <span style="font-size:12px;color:var(--p);background:rgba(107,92,231,.1);padding:3px 12px;border-radius:20px;font-weight:500;margin-left:auto">边看边记</span>
+          </div>
+          <div class="c-desc">单词从右向左飞过屏幕，翻译紧随其后，碎片时间轻松巩固</div>
+          <div class="c-body">
+            <div style="position:relative;background:linear-gradient(135deg,#1E1B4B,#0F172A);border-radius:14px;height:140px;overflow:hidden;display:flex;align-items:center;justify-content:center">
+              <div style="position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 13px,rgba(255,255,255,.03) 13px,rgba(255,255,255,.03) 14px)"></div>
+              <div class="dm" style="position:absolute;white-space:nowrap;padding:6px 16px;border-radius:20px;background:rgba(255,255,255,.15);backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;gap:10px;animation:dm1 5s linear infinite;top:18px">
+                <span style="font-weight:700;font-size:14px;color:#fff">inevitable</span>
+                <span style="font-size:13px;color:rgba(255,255,255,.7)">不可避免的</span>
+              </div>
+              <div class="dm" style="position:absolute;white-space:nowrap;padding:6px 16px;border-radius:20px;background:rgba(255,255,255,.12);backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,.08);display:flex;align-items:center;gap:10px;animation:dm2 7s linear infinite;top:52px">
+                <span style="font-weight:700;font-size:14px;color:#fff">take for granted</span>
+                <span style="font-size:13px;color:rgba(255,255,255,.7)">认为理所当然</span>
+              </div>
+              <div class="dm" style="position:absolute;white-space:nowrap;padding:6px 16px;border-radius:20px;background:rgba(255,255,255,.1);backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,.06);display:flex;align-items:center;gap:10px;animation:dm3 6.5s linear infinite;top:86px">
+                <span style="font-weight:700;font-size:14px;color:#fff">apple</span>
+                <span style="font-size:13px;color:rgba(255,255,255,.7)">苹果</span>
+              </div>
+              <div class="dm" style="position:absolute;white-space:nowrap;padding:6px 16px;border-radius:20px;background:rgba(255,255,255,.13);backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,.08);display:flex;align-items:center;gap:10px;animation:dm4 4s linear infinite;top:110px">
+                <span style="font-weight:700;font-size:13px;color:#fff">persistent</span>
+                <span style="font-size:12px;color:rgba(255,255,255,.7)">持久的</span>
+              </div>
+              <div style="position:relative;z-index:1;font-size:12px;color:rgba(255,255,255,.25);text-align:center;letter-spacing:.1em">
+                <span>▶ 弹幕播放中</span>
+              </div>
+            </div>
+          </div>
+          <style>
+            @keyframes dm1{0%{transform:translateX(420px)}100%{transform:translateX(-320px)}}
+            @keyframes dm2{0%{transform:translateX(360px)}100%{transform:translateX(-380px)}}
+            @keyframes dm3{0%{transform:translateX(440px)}100%{transform:translateX(-300px)}}
+            @keyframes dm4{0%{transform:translateX(380px)}100%{transform:translateX(-340px)}}
+          </style>
+          <div class="fb">
+            <span class="note">一键开启 · 自动轮播</span>
+            <span class="fbt" data-btn="danmaku">🎬 开启弹幕复习</span>
+          </div>
+        </div>
+        <div class="f-bot">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 13l5 5 5-5M7 6l5 5 5-5"/></svg>
+          <span>继续</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== 5: 当然 (Flashcard) ===== -->
+    <div class="snap feat">
+      <div class="feat-inner">
+        <div class="feat-head">
+          <div class="fi">🧠</div>
+          <h2>当然</h2>
+          <p>闪卡复习 · 不认识标记 · 智能轮播</p>
+        </div>
+        <div class="c">
+          <div class="c-h">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+            <h3>当然</h3>
+            <span class="fusg w" style="margin-left:auto">公共词库</span>
+          </div>
+          <div class="c-desc">浏览单词，点击显示释义，标记认识/不认识。</div>
+          <div class="c-body tc" style="padding:16px 14px;min-width:0">
+            <div style="display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;min-width:0">
+              <span style="font-size:28px;font-weight:700;color:#1f2937;letter-spacing:-.3px;overflow-wrap:break-word;word-break:break-word">phenomenon</span>
+            </div>
+            
+            <div style="margin-top:12px;padding-top:12px;border-top:1px solid #e5e7eb;width:100%">
+              <div style="font-size:15px;color:#374151;font-weight:500;margin-bottom:6px">n. 现象</div>
+              <div style="font-size:13px;color:#6b7280;font-style:italic;background:#f9fafb;padding:8px 12px;border-radius:8px;margin-top:4px">"The phenomenon of social media has changed how we communicate."</div>
+              <div style="font-size:13px;color:#9ca3af;margin-top:4px">社交媒体现象改变了我们沟通的方式。</div>
+            </div>
+          </div>
+          <div class="fb" style="gap:4px">
+            <span class="fbt" style="flex:1;text-align:center;background:var(--p);color:#fff" data-btn="know">认识 ✅</span>
+            <span class="fbt-out" style="flex:1;text-align:center;padding:0 16px;border-radius:10px;height:32px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600" data-btn="dontknow">不认识 ❌</span>
+          </div>
+        </div>
+        <div class="f-bot">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 13l5 5 5-5M7 6l5 5 5-5"/></svg>
+          <span>继续</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== 6: Translate Only ===== -->
+    <div class="snap feat">
+      <div class="feat-inner">
+        <div class="feat-head">
+          <div class="fi">🌐</div>
+          <h2>Translate Only</h2>
+          <p>中英互译 · 长文本</p>
+        </div>
+        <div class="c">
+          <div class="c-h">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            <h3>Translate Only</h3>
+          </div>
+          <div class="c-desc">中英互译，最多 8000 字符。</div>
+          <div class="c-body">
+            <div class="fta" style="min-height:36px"><span style="color:var(--fg)">人工智能正在改变我们学习和工作的方式</span></div>
+            <div style="margin-top:8px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:12px;padding:10px 12px;min-width:0">
+              <div style="font-size:12px;color:var(--caption);margin-bottom:3px">翻译结果</div>
+              <div style="font-size:14px;color:#166534;font-weight:500;overflow-wrap:break-word;word-break:break-word">Artificial intelligence is changing the way we learn and work.</div>
+            </div>
+            <div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;min-width:0">
+            </div>
+          </div>
+          <div class="fb"><span class="note"></span><span class="fbt" data-btn="start-trans">开始翻译</span></div>
+        </div>
+        <div class="f-bot">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 13l5 5 5-5M7 6l5 5 5-5"/></svg>
+          <span>继续</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== 7: CTA ===== -->
+    <div class="snap cta">
+      <div class="blob blob1"></div>
+      <div class="blob blob2"></div>
+      <div class="cta-inner">
+        <div class="cta-badge">无需手机号</div>
+        <h2>准备好了吗？</h2>
+        <div class="cta-btns">
+          <a class="cta-btn pri" href="https://eztor.dogeggcode.cyou/api/auth/xiaoying/start">☝️ 小应登录</a>
+          <a class="cta-btn gh" href="https://eztor.dogeggcode.cyou">受限模式 · 先逛逛</a>
+        </div>
+        <p class="cta-note">可以用小应账号直接登录啦！</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+(function(){
+  var o=document.getElementById('overlay'),s=document.getElementById('scroll'),dt=document.querySelectorAll('#dots button')
+  o.classList.add('open')
+  function up(){var ss=s.querySelectorAll('.snap'),idx=0;ss.forEach(function(s,i){var r=s.getBoundingClientRect();if(r.top+r.height/2>0&&r.top+r.height/2<window.innerHeight)idx=i});dt.forEach(function(d,i){d.classList.toggle('act',i===idx)})}
+  s.addEventListener('scroll',up);up()
+  dt.forEach(function(d){d.addEventListener('click',function(){var idx=parseInt(d.getAttribute('data-idx'));var t=s.querySelectorAll('.snap')[idx];if(t)t.scrollIntoView({behavior:'smooth'})})})
+  function dv(){document.documentElement.style.setProperty('--dvh',window.innerHeight+'px')}
+  dv();window.addEventListener('resize',dv)
+
+  // -- btn interactions: static realistic toggles --
+  function $q(sel){return document.querySelectorAll(sel)}
+  function on(els,ev,fn){els.forEach(function(e){e.addEventListener(ev,fn)})}
+
+  // 一键解析: one-way toggle
+  on($q('[data-btn=parse]'),'click',function(){
+    this.classList.add('done')
+    this.textContent='✅ 已解析'
+  })
+
+  // 存入生词本: one-way toggle (stays "已存入")
+  on($q('[data-btn=save]'),'click',function(){
+    this.classList.add('done')
+    this.textContent='✅ 已存入生词本'
+  })
+
+  // 认识/不认识: radio-like toggle
+  on($q('[data-btn=know]'),'click',function(){
+    var fb=this.closest('.fb')
+    fb.querySelector('[data-btn=know]').className='fbt done'
+    fb.querySelector('[data-btn=know]').textContent='✅ 已掌握'
+    var nb=fb.querySelector('[data-btn=dontknow]')
+    nb.className='fbt-out'
+    nb.textContent='不认识 ❌'
+  })
+  on($q('[data-btn=dontknow]'),'click',function(){
+    var fb=this.closest('.fb')
+    fb.querySelector('[data-btn=dontknow]').className='fbt done'
+    fb.querySelector('[data-btn=dontknow]').textContent='❌ 已标记'
+    var kb=fb.querySelector('[data-btn=know]')
+    kb.className='fbt-out'
+    kb.textContent='认识 ✅'
+  })
+
+  // dictation tabs: simple toggle
+  on($q('[data-btn=tab]'),'click',function(){
+    var p=this.parentElement
+    p.querySelectorAll('[data-btn=tab]').forEach(function(t){t.classList.remove('act')})
+    this.classList.add('act')
+  })
+})()
+</script>
+</body>
+</html>

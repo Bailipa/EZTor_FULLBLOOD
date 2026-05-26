@@ -104,7 +104,7 @@ export function GuestHomepage({
 
   return (
     <div className="min-h-screen bg-background text-slate-950">
-      <GuestHomeHeader onStart={() => scrollToSection(SEARCH_SECTION_ID, true)} />
+      <GuestHomeHeader />
 
       <section className="bg-[linear-gradient(180deg,var(--color-surface-alt)_0%,var(--background)_40%,var(--color-card)_100%)]">
         <div className="mx-auto max-w-[1440px] px-4 pb-12 pt-4 sm:px-6 lg:grid lg:grid-cols-[0.88fr_1fr] lg:items-center lg:gap-12 lg:px-16 lg:pb-24 lg:pt-24 xl:px-[72px]">

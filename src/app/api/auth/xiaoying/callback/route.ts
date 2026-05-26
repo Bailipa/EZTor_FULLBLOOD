@@ -46,7 +46,7 @@ export async function GET(request: Request) {
       return getErrorRedirect('invalid_request')
     }
 
-    const attempt = consumeAttempt(state)
+    const attempt = await consumeAttempt(state)
     if (!attempt) {
       logger.security(`[XiaoyingOIDC] Invalid or expired state (state=${state.slice(0, 8)})`)
       return getErrorRedirect('invalid_state')

@@ -1,57 +1,47 @@
+import prisma from '@/lib/prisma'
 import { logger } from '@/lib/logger'
 
-interface OidcAttempt {
+const TTL_MS = 10 * 60 * 1000
+
+export async function createAttempt(
+  state: string,
+  nonce: string,
+  codeVerifier: string,
+  redirectTo: string,
+): Promise<void> {
+  await prisma.oidcAttempt.create({
+    data: { state, nonce, codeVerifier, redirectTo },
+  })
+}
+
+export async function consumeAttempt(state: string): Promise<{
   state: string
   nonce: string
   codeVerifier: string
   redirectTo: string
   createdAt: number
-}
+} | null> {
+  const cutoff = new Date(Date.now() - TTL_MS)
 
-const TTL_MS = 10 * 60 * 1000
-const CLEANUP_INTERVAL_MS = 60 * 1000
-
-const store = new Map<string, OidcAttempt>()
-
-function cleanup(): void {
-  const now = Date.now()
-  let removed = 0
-  for (const [key, entry] of store.entries()) {
-    if (now - entry.createdAt > TTL_MS) {
-      store.delete(key)
-      removed++
-    }
-  }
-  if (removed > 0) {
-    logger.debug(`[OidcAttempts] Cleanup: removed ${removed} expired attempts. Remaining: ${store.size}`)
-  }
-}
-
-setInterval(cleanup, CLEANUP_INTERVAL_MS)
-
-export function createAttempt(
-  state: string,
-  nonce: string,
-  codeVerifier: string,
-  redirectTo: string,
-): void {
-  store.set(state, {
-    state,
-    nonce,
-    codeVerifier,
-    redirectTo,
-    createdAt: Date.now(),
+  await prisma.oidcAttempt.deleteMany({
+    where: { createdAt: { lt: cutoff } },
   })
-}
 
-export function consumeAttempt(state: string): OidcAttempt | null {
-  const attempt = store.get(state)
+  const attempt = await prisma.oidcAttempt.findUnique({
+    where: { state },
+  })
   if (!attempt) return null
-  store.delete(state)
-  if (Date.now() - attempt.createdAt > TTL_MS) return null
-  return attempt
+
+  await prisma.oidcAttempt.delete({ where: { state } })
+
+  if (attempt.createdAt.getTime() < cutoff.getTime()) return null
+
+  return {
+    ...attempt,
+    createdAt: attempt.createdAt.getTime(),
+  }
 }
 
-export function getAttemptCount(): number {
-  return store.size
+export async function getAttemptCount(): Promise<number> {
+  return prisma.oidcAttempt.count()
 }

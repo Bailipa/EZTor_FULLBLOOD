@@ -22,7 +22,7 @@ export async function GET(request: Request) {
   const codeChallenge = generateCodeChallenge(codeVerifier)
   const redirectTo = new URL(request.url).searchParams.get('redirectTo') || '/'
 
-  createAttempt(state, nonce, codeVerifier, redirectTo)
+  await createAttempt(state, nonce, codeVerifier, redirectTo)
 
   const authUrl = buildAuthorizationUrl(clientId, redirectUri, state, nonce, codeChallenge)
 

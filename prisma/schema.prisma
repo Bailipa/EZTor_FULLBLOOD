@@ -368,6 +368,16 @@ model ExternalIdentity {
   @@index([localUserId])
 }
 
+model OidcAttempt {
+  state        String   @id
+  nonce        String
+  codeVerifier String
+  redirectTo   String
+  createdAt    DateTime @default(now())
+
+  @@index([createdAt])
+}
+
 model DonationConfig {
   id          String   @id @default("global")
   title       String   @default("Support EZTor")

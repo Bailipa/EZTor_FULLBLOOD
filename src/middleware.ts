@@ -23,7 +23,7 @@ const OPTIONAL_AUTH_PATHS = [
   '/api/analytics',
 ]
 
-const PUBLIC_PATHS = ['/site-config.json', '/auth/signin', '/api/auth', '/api/captcha', '/api/health', '/api/auth/xiaoying']
+const PUBLIC_PATHS = ['/site-config.json', '/auth/signin', '/api/auth', '/api/captcha', '/api/health', '/api/auth/xiaoying', '/flywheel-preview']
 
 const ADMIN_PATHS = [
   '/analytics',
@@ -85,6 +85,18 @@ export default async function middleware(request: NextRequest) {
       res.cookies.delete('online_limit')
     }
     return res
+  }
+
+  // --- Mobile guest → preview redirect ---
+  if (pathname === '/') {
+    const ua = request.headers.get('user-agent')?.toLowerCase() || ''
+    const isMobile = /mobile|android|iphone|ipad|webos|blackberry|iemobile|opera mini/i.test(ua)
+    if (isMobile) {
+      const token = await getToken({ req: request })
+      if (!token) {
+        return NextResponse.redirect(new URL('/flywheel-preview', request.url))
+      }
+    }
   }
 
   // --- CSRF ---

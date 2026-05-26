@@ -6,15 +6,11 @@ import { BookOpen, MessageCircle } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useQQGroupUrl } from '@/lib/siteConfig'
 
-interface GuestHomeHeaderProps {
-  onStart: () => void
-}
-
 const navItems = [
   { label: '使用方式', href: '#workflow' },
 ]
 
-export function GuestHomeHeader({ onStart }: GuestHomeHeaderProps) {
+export function GuestHomeHeader() {
   const router = useRouter()
   const qqGroupUrl = useQQGroupUrl()
 
@@ -57,10 +53,10 @@ export function GuestHomeHeader({ onStart }: GuestHomeHeaderProps) {
             登录
           </Button>
           <Button
-            className="hidden sm:inline-flex h-10 rounded-2xl bg-primary px-6 text-sm font-semibold text-primary-foreground shadow-md hover:brightness-90"
-            onClick={onStart}
+            className="inline-flex h-10 rounded-2xl bg-primary px-6 text-sm font-semibold text-primary-foreground shadow-md hover:brightness-90"
+            onClick={() => window.location.href = '/flywheel-preview'}
           >
-            免费开始
+            查看介绍
           </Button>
         </div>
       </div>
