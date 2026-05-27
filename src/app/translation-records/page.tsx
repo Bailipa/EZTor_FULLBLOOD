@@ -44,6 +44,21 @@ interface TranslationRecordsStats {
   avgResponseTime: number
 }
 
+function buildUrl(pageNum: number, pageSize: number, query: string) {
+  let url = `/api/translation-records?page=${pageNum}&limit=${pageSize}`
+  if (query) url += `&word=${encodeURIComponent(query)}`
+  return url
+}
+
+function parseResponse(json: Record<string, unknown>) {
+  const d = json.data as {
+    records: TranslationRecord[]
+    pagination: { page: number; limit: number; total: number; totalPages: number }
+    stats: unknown
+  }
+  return { data: d.records, pagination: d.pagination, extra: d.stats }
+}
+
 export default function TranslationRecordsPage() {
   usePageView('Translation Records')
   const [selectedRecord, setSelectedRecord] = useState<TranslationRecord | null>(null)
@@ -68,19 +83,8 @@ export default function TranslationRecordsPage() {
   } = useCrudTable<TranslationRecord>({
     requireAdmin: true,
     pageSize: 20,
-    buildUrl: (pageNum, pageSize, query) => {
-      let url = `/api/translation-records?page=${pageNum}&limit=${pageSize}`
-      if (query) url += `&word=${encodeURIComponent(query)}`
-      return url
-    },
-    parseResponse: (json) => {
-      const d = json.data as {
-        records: TranslationRecord[]
-        pagination: { page: number; limit: number; total: number; totalPages: number }
-        stats: unknown
-      }
-      return { data: d.records, pagination: d.pagination, extra: d.stats }
-    },
+    buildUrl,
+    parseResponse,
   })
 
   const stats = extra as TranslationRecordsStats
