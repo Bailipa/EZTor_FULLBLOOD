@@ -799,18 +799,6 @@ export default function DictationPage() {
                 <Button
                   variant="outline"
                   size="icon"
-                  onClick={() => setIsSfxMuted(!isSfxMuted)}
-                  title={isSfxMuted ? '开启提示音' : '关闭提示音'}
-                >
-                  {isSfxMuted ? (
-                    <span className="text-sm">🔇</span>
-                  ) : (
-                    <span className="text-sm">🔔</span>
-                  )}
-                </Button>
-                <Button
-                  variant="outline"
-                  size="icon"
                   onClick={() => setIsMuted(!isMuted)}
                   title={isMuted ? '取消静音' : '静音'}
                 >
@@ -953,6 +941,19 @@ export default function DictationPage() {
                           disabled={!userInput.trim()}
                         >
                           提交答案 (Enter)
+                        </Button>
+                        <Button
+                          variant="outline"
+                          size="icon"
+                          className="h-12 w-12 shrink-0"
+                          onClick={() => setIsSfxMuted(!isSfxMuted)}
+                          title={isSfxMuted ? '开启提示音' : '关闭提示音'}
+                        >
+                          {isSfxMuted ? (
+                            <span className="text-base">🔇</span>
+                          ) : (
+                            <span className="text-base">🔔</span>
+                          )}
                         </Button>
                       </div>
                     ) : (
