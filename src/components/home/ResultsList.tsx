@@ -88,9 +88,6 @@ export const ResultsList = forwardRef<HTMLDivElement, ResultsListProps>(function
           )}
         </div>
       </div>
-      <p className="mt-1 text-xs text-muted-foreground">
-        提示：发音功能默认优先使用服务器内置的 Edge TTS；失败时会回退到浏览器自带的朗读引擎。
-      </p>
       <div className="grid gap-4">
         {results.map((item, index) => (
           <ResultCard
