@@ -86,6 +86,7 @@ export default function DictationPage() {
 
   // Settings State
   const [isMuted, setIsMuted] = useState(true)
+  const [isSfxMuted, setIsSfxMuted] = useState(false)
   const [hideChinese, setHideChinese] = useState(false)
   const [reviewMode, setReviewMode] = useState<'random' | 'smart'>('smart') // 新增：复习模式
   const [selectedGroupId, setSelectedGroupId] = useState<string>('all')
@@ -197,6 +198,7 @@ export default function DictationPage() {
 
   // 播放音效的辅助函数
   const playSoundEffect = (type: 'correct' | 'incorrect') => {
+    if (isSfxMuted) return
     try {
       if (type === 'correct' && correctAudioRef.current) {
         correctAudioRef.current.currentTime = 0
@@ -794,6 +796,18 @@ export default function DictationPage() {
               </Tabs>
 
               <div className="flex gap-2">
+                <Button
+                  variant="outline"
+                  size="icon"
+                  onClick={() => setIsSfxMuted(!isSfxMuted)}
+                  title={isSfxMuted ? '开启提示音' : '关闭提示音'}
+                >
+                  {isSfxMuted ? (
+                    <span className="text-sm">🔇</span>
+                  ) : (
+                    <span className="text-sm">🔔</span>
+                  )}
+                </Button>
                 <Button
                   variant="outline"
                   size="icon"
