@@ -85,7 +85,7 @@ export default function DictationPage() {
   ) // 记录每道题的答题状态
 
   // Settings State
-  const [isMuted, setIsMuted] = useState(false)
+  const [isMuted, setIsMuted] = useState(true)
   const [hideChinese, setHideChinese] = useState(false)
   const [reviewMode, setReviewMode] = useState<'random' | 'smart'>('smart') // 新增：复习模式
   const [selectedGroupId, setSelectedGroupId] = useState<string>('all')
@@ -821,6 +821,24 @@ export default function DictationPage() {
                   className="h-1 rounded-none"
                 />
               </div>
+
+              {isMuted && (
+                <div className="bg-muted/50 border-b border-border px-4 py-2 flex items-center justify-center gap-2">
+                  <span className="text-sm text-muted-foreground">发音已关闭</span>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="h-7 text-xs gap-1"
+                    onClick={() => {
+                      setIsMuted(false)
+                      playAudio(currentWord.word)
+                    }}
+                  >
+                    <Volume2 className="w-3.5 h-3.5" />
+                    开启发音
+                  </Button>
+                </div>
+              )}
 
               <CardContent className="p-8 md:p-12 space-y-8">
                 <div className="flex justify-between text-sm text-muted-foreground">

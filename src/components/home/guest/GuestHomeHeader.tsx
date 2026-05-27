@@ -43,7 +43,7 @@ export function GuestHomeHeader() {
             onClick={() => window.open(qqGroupUrl, '_blank', 'noopener,noreferrer')}
           >
             <MessageCircle className="h-4 w-4" />
-            反馈
+            进群
           </Button>
           <Button
             variant="ghost"

@@ -213,10 +213,10 @@ export function HomeHeader({ showDanmaku, onToggleDanmaku, onFeatureClick }: Hom
               variant="outline"
               onClick={() => setShareOpen(true)}
               className="gap-1.5 sm:gap-2 shadow-sm h-8 px-2.5 text-xs sm:h-9 sm:px-4 sm:text-sm text-primary"
-              aria-label="分享"
+              aria-label="收获"
             >
               <Share2 className="w-3.5 h-3.5 sm:w-4 sm:h-4" aria-hidden="true" />
-              <span>分享</span>
+              <span>收获</span>
             </Button>
           ) : (
             <Button
@@ -288,10 +288,10 @@ export function HomeHeader({ showDanmaku, onToggleDanmaku, onFeatureClick }: Hom
             variant="outline"
             className="gap-1.5 sm:gap-2 shadow-sm h-8 px-2.5 text-xs sm:h-9 sm:px-4 sm:text-sm text-primary xl:hidden"
             onClick={() => window.open(qqGroupUrl, '_blank', 'noopener,noreferrer')}
-            aria-label="反馈"
+            aria-label="进群"
           >
             <MessageCircle className="w-3.5 h-3.5 sm:w-4 sm:h-4" aria-hidden="true" />
-            <span>反馈</span>
+            <span>进群</span>
           </Button>
           {isAuthenticated && (
             <div className="xl:hidden">
