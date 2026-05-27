@@ -379,9 +379,11 @@ export default function DictationPage() {
     setIsChecked(false)
     setIsCorrect(false)
     setShowHint(false)
-    setTimeout(() => {
-      inputRef.current?.focus()
-    }, 100)
+    if (typeof window !== 'undefined' && window.innerWidth >= 1280) {
+      setTimeout(() => {
+        inputRef.current?.focus()
+      }, 100)
+    }
   }, [])
 
   const restartQuiz = () => {
@@ -968,7 +970,7 @@ export default function DictationPage() {
                       onChange={(e) => setUserInput(e.target.value)}
                       onKeyDown={handleKeyDown}
                       disabled={isChecked}
-                      autoFocus
+                      autoFocus={typeof window !== 'undefined' && window.innerWidth >= 1280}
                     />
                     {/* 状态图标 */}
                     {isChecked && (

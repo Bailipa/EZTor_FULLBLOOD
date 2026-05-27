@@ -162,7 +162,7 @@ export default function HomeContent() {
               </div>
               <footer className="hidden xl:block py-6 px-4 md:px-6 lg:px-8 text-center text-sm text-muted-foreground">
                 <a
-                  href="https://beian.miit.gov.cn/"
+                  href="https://blog.dogeggcode.cyou"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="transition-colors hover:text-foreground"
@@ -175,7 +175,7 @@ export default function HomeContent() {
 
           <footer className="xl:hidden py-6 px-4 md:px-6 lg:px-8 text-center text-sm text-muted-foreground">
             <a
-              href="https://beian.miit.gov.cn/"
+              href="https://blog.dogeggcode.cyou"
               target="_blank"
               rel="noopener noreferrer"
               className="transition-colors hover:text-foreground"

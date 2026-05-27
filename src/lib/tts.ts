@@ -3,7 +3,7 @@ import { logger } from '@/lib/logger'
 const MIMO_API_KEY = process.env.MIMO_API_KEY || ''
 const MIMO_BASE_URL = 'https://api.xiaomimimo.com/v1/chat/completions'
 const MIMO_MODEL = 'mimo-v2.5-tts'
-const MIMO_VOICE = 'mimo_default'
+const MIMO_VOICE = process.env.MIMO_VOICE || 'Chloe'
 
 export type TtsResponseFormat = 'wav'
 
@@ -48,7 +48,7 @@ async function callMiMo(
     messages: [
       {
         role: 'user' as const,
-        content: 'Read this English word or phrase clearly, naturally, and at a moderate pace. Use standard American English pronunciation.',
+        content: 'Read this word or phrase in natural English. Standard American accent, normal pace.',
       },
       {
         role: 'assistant' as const,
