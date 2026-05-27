@@ -39,12 +39,17 @@ export async function POST(req: Request) {
       signal: req.signal,
     })
 
-    return new Response(ttsResponse.body, {
-      headers: {
-        'Content-Type': 'audio/mpeg',
-        'Cache-Control': 'no-store',
-      },
-    })
+    const headers: Record<string, string> = {
+      'Content-Type': 'audio/wav',
+      'Cache-Control': 'no-store',
+    }
+
+    const contentLength = ttsResponse.headers.get('Content-Length')
+    if (contentLength) {
+      headers['Content-Length'] = contentLength
+    }
+
+    return new Response(ttsResponse.body, { headers })
   } catch (err: unknown) {
     logger.error({ err }, '[TTS] Failed')
     return NextResponse.json({ success: false, error: 'TTS failed' }, { status: 500 })

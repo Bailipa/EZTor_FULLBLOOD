@@ -1,29 +1,71 @@
-const TTS_PROXY_URL = process.env.TTS_PROXY_URL || 'http://localhost:5050/v1/audio/speech'
-const TTS_PROXY_API_KEY = process.env.TTS_PROXY_API_KEY || ''
+import { logger } from '@/lib/logger'
 
-export type TtsResponseFormat = 'mp3'
+const MIMO_API_KEY = process.env.MIMO_API_KEY || ''
+const MIMO_BASE_URL = 'https://api.xiaomimimo.com/v1/chat/completions'
+const MIMO_MODEL = 'mimo-v2.5-tts'
+const MIMO_VOICE = 'mimo_default'
+
+export type TtsResponseFormat = 'wav'
 
 export type TtsRequest = {
   input: string
   voice?: string
-  speed?: number // 0.5 ~ 2.0
+  speed?: number
   response_format?: TtsResponseFormat
   signal?: AbortSignal
 }
 
 const MAX_INPUT_LENGTH = 500
 const TTS_TIMEOUT_MS = 30000
+const MAX_RETRIES = 1
+const RETRY_DELAY_MS = 500
 
-const DEFAULT_VOICE = 'en-US-GuyNeural'
-
-function clampSpeed(speed: number | undefined): number {
-  if (!Number.isFinite(speed)) return 1
-  return Math.min(2, Math.max(0.5, speed!))
+function sleep(ms: number, signal?: AbortSignal): Promise<void> {
+  return new Promise((resolve, reject) => {
+    if (signal?.aborted) {
+      reject(signal.reason)
+      return
+    }
+    const timer = setTimeout(resolve, ms)
+    signal?.addEventListener(
+      'abort',
+      () => {
+        clearTimeout(timer)
+        reject(signal.reason)
+      },
+      { once: true },
+    )
+  })
 }
 
-function normalizeVoice(voice: string | undefined): string {
-  const v = (voice || '').trim()
-  return v || DEFAULT_VOICE
+async function callMiMo(
+  input: string,
+  voice: string,
+  signal?: AbortSignal,
+): Promise<Response> {
+  const body = {
+    model: MIMO_MODEL,
+    messages: [
+      {
+        role: 'assistant' as const,
+        content: input,
+      },
+    ],
+    audio: {
+      format: 'wav',
+      voice,
+    },
+  }
+
+  return fetch(MIMO_BASE_URL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'api-key': MIMO_API_KEY,
+    },
+    body: JSON.stringify(body),
+    signal,
+  })
 }
 
 export async function synthesizeSpeech(req: TtsRequest): Promise<Response> {
@@ -32,8 +74,11 @@ export async function synthesizeSpeech(req: TtsRequest): Promise<Response> {
   if (input.length > MAX_INPUT_LENGTH)
     throw new Error(`Input exceeds maximum length of ${MAX_INPUT_LENGTH} characters`)
 
-  const voice = normalizeVoice(req.voice)
-  const speed = clampSpeed(req.speed)
+  if (!MIMO_API_KEY) {
+    throw new Error('MIMO_API_KEY is not configured')
+  }
+
+  const voice = (req.voice || '').trim() || MIMO_VOICE
 
   const abortController = new AbortController()
   const timeoutId = setTimeout(
@@ -58,22 +103,52 @@ export async function synthesizeSpeech(req: TtsRequest): Promise<Response> {
     }
   }
 
-  const headers: Record<string, string> = { 'Content-Type': 'application/json' }
-  if (TTS_PROXY_API_KEY) headers['Authorization'] = `Bearer ${TTS_PROXY_API_KEY}`
+  let lastError: Error | null = null
 
-  const response = await fetch(TTS_PROXY_URL, {
-    method: 'POST',
-    headers,
-    body: JSON.stringify({ input, voice, speed, response_format: 'mp3' }),
-    signal: abortController.signal,
-  })
+  for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
+    if (attempt > 0) {
+      logger.info({ attempt }, '[TTS] Retrying MiMo TTS')
+      await sleep(RETRY_DELAY_MS, abortController.signal)
+    }
 
-  clearTimeout(timeoutId)
+    try {
+      const response = await callMiMo(input, voice, abortController.signal)
 
-  if (!response.ok) {
-    const body = await response.json().catch(() => ({ error: response.statusText }))
-    throw new Error(`TTS proxy error: ${body.error || response.statusText}`)
+      if (response.ok) {
+        clearTimeout(timeoutId)
+        const data = await response.json()
+        const audioData = data?.choices?.[0]?.message?.audio?.data
+        if (!audioData) {
+          throw new Error('MiMo TTS returned no audio data')
+        }
+
+        const audioBuffer = Buffer.from(audioData, 'base64')
+
+        return new Response(audioBuffer, {
+          headers: {
+            'Content-Type': 'audio/wav',
+            'Content-Length': String(audioBuffer.length),
+          },
+        })
+      }
+
+      const errBody = await response.json().catch(() => ({ error: response.statusText }))
+      lastError = new Error(
+        `MiMo TTS error: ${errBody.error?.message || errBody.error || response.statusText}`,
+      )
+
+      if (response.status >= 400 && response.status < 500) {
+        break
+      }
+    } catch (err: unknown) {
+      if (err instanceof DOMException && err.name === 'AbortError') {
+        clearTimeout(timeoutId)
+        throw err
+      }
+      lastError = err instanceof Error ? err : new Error(String(err))
+    }
   }
 
-  return response
+  clearTimeout(timeoutId)
+  throw lastError || new Error('MiMo TTS failed after retries')
 }

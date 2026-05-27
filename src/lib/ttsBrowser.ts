@@ -59,7 +59,7 @@ export async function speakText(text: string, opts: SpeakOptions = {}): Promise<
   const audio = new Audio()
   currentAudio = audio
 
-  // Prefer server-side Edge TTS (consistent voices), fallback to browser TTS.
+  // Prefer server-side MiMo TTS, fallback to browser TTS.
   let serverOk = false
   try {
     const res = await fetch('/api/tts', {
@@ -69,7 +69,7 @@ export async function speakText(text: string, opts: SpeakOptions = {}): Promise<
         input,
         voice: opts.voice,
         speed: opts.speed,
-        response_format: 'mp3',
+        response_format: 'wav',
       }),
     })
 
