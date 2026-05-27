@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, useMemo } from 'react'
 import Link from 'next/link'
 import { toast } from 'sonner'
 import { getIrregularForms, getFormHint, isCorrectAnswer, getAlternateStems } from '@/lib/irregularForms'
@@ -90,6 +90,7 @@ export default function DictationPage() {
   const [hideChinese, setHideChinese] = useState(false)
   const [reviewMode, setReviewMode] = useState<'random' | 'smart'>('smart') // 新增：复习模式
   const [selectedGroupId, setSelectedGroupId] = useState<string>('all')
+  const [extraOptions, setExtraOptions] = useState<string[]>([])
   const [groups, setGroups] = useState<
     { id: string; name: string; _count?: { ReviewGroupWord: number }; [key: string]: unknown }[]
   >([])
@@ -147,7 +148,26 @@ export default function DictationPage() {
         const res = await fetch(url)
         const data = await res.json()
         if (data.success && data.data) {
-          setWords(data.data)
+          const wordList = data.data
+          // 词库不足 4 词时，从公共词库补充干扰项（不混入测试题库）
+          if (wordList.length < 4) {
+            try {
+              const extraRes = await fetch(`/api/danmaku?limit=10&t=${Date.now()}`)
+              const extraData = await extraRes.json()
+              if (extraData.success && extraData.data) {
+                const existingWords = new Set(wordList.map((w: { word: string }) => w.word.toLowerCase()))
+                const extras = extraData.data
+                  .filter((w: { word: string }) => !existingWords.has(w.word.toLowerCase()))
+                  .slice(0, 10)
+                setExtraOptions(extras.map((w: { word: string }) => w.word))
+              }
+            } catch {
+              // 静默失败
+            }
+          } else {
+            setExtraOptions([])
+          }
+          setWords(wordList)
         }
       }
     } catch (error) {
@@ -250,6 +270,30 @@ export default function DictationPage() {
   }, [currentIndex, isChecked])
 
   const currentWord = words[currentIndex]
+
+  // 生成四选一选项（综合默写模式）
+  const options = useMemo(() => {
+    if (mode !== 'dictation' || !currentWord || isChecked) return []
+
+    // 先从测试题库取干扰项（排除当前词）
+    let wrongs = words
+      .filter((w) => w.word !== currentWord.word)
+      .map((w) => w.word)
+
+    // 不够 3 个时从 extraOptions 补
+    if (wrongs.length < 3) {
+      const need = 3 - wrongs.length
+      const extras = extraOptions
+        .filter((w) => w !== currentWord.word && !wrongs.includes(w))
+        .slice(0, need)
+      wrongs = [...wrongs, ...extras]
+    }
+
+    if (wrongs.length < 3) return []
+    const picked = wrongs.sort(() => Math.random() - 0.5).slice(0, 3)
+    return [...picked, currentWord.word].sort(() => Math.random() - 0.5)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentIndex, mode, isChecked, words, extraOptions])
 
   const handleCheck = async () => {
     if (!userInput.trim()) return
@@ -868,6 +912,21 @@ export default function DictationPage() {
                       >
                         <Volume2 className="w-10 h-10 text-primary" />
                       </Button>
+                      {options.length > 0 && (
+                        <div className="grid grid-cols-2 gap-3 w-full max-w-sm">
+                          {options.map((opt) => (
+                            <Button
+                              key={opt}
+                              variant={userInput === opt ? 'default' : 'outline'}
+                              className="h-12 text-base font-medium truncate"
+                              onClick={() => setUserInput(opt)}
+                              disabled={!!isChecked}
+                            >
+                              {opt}
+                            </Button>
+                          ))}
+                        </div>
+                      )}
                     </div>
                   )}
 
