@@ -35,6 +35,61 @@ function EmptyPlaceholder() {
         </p>
         <p>
           🤖 AI 翻译引擎为你提供精准的释义和贴近语境的例句。
+        </p>
+        <p className="text-foreground font-medium pt-2">
+          在左侧输入单词开始吧 ✨
+        </p>
+      </div>
+    </div>
+  )
+}
+
+export const ResultsList = forwardRef<HTMLDivElement, ResultsListProps>(function ResultsList(
+  { results, showPos, showExample, onClear },
+  ref,
+) {
+  const { resolvedTheme } = useTheme()
+  const { brandTheme } = useBrandTheme()
+  const [mounted, setMounted] = useState(false)
+  const isPurple = brandTheme === 'purple'
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  const isDark = resolvedTheme === 'dark'
+
+  const playAudio = (text: string) => {
+    speakText(text)
+  }
+
+  if (results.length === 0) return <EmptyPlaceholder />
+
+  return (
+    <div ref={ref} className="space-y-4">
+      <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between animate-[fadeIn_0.3s_ease-in-out]">
+        <div className="flex items-center gap-3">
+          <div className="flex h-9 w-9 items-center justify-center rounded-full bg-accent text-primary animate-[scaleIn_0.3s_ease-out_0.1s_both]">
+            <Sparkles className="h-4 w-4" />
+          </div>
+          <div>
+            <h3 className="text-lg font-semibold text-foreground">这组词已经查清楚了</h3>
+            <p className="text-sm text-muted-foreground">共 {results.length} 条结果</p>
+          </div>
+        </div>
+        <div className="flex items-center gap-2">
+          <span className="text-sm text-muted-foreground animate-[fadeIn_0.3s_ease-in-out_0.2s_both]">
+            向下查看释义、词性和例句
+          </span>
+          {onClear && (
+            <Button variant="outline" size="sm" onClick={onClear}>
+              清空结果
+            </Button>
+          )}
+        </div>
+      </div>
+      <p className="mt-1 text-xs text-muted-foreground">
+        提示：发音功能默认优先使用服务器内置的 Edge TTS；失败时会回退到浏览器自带的朗读引擎。
       </p>
       <div className="grid gap-4">
         {results.map((item, index) => (
