@@ -47,6 +47,10 @@ async function callMiMo(
     model: MIMO_MODEL,
     messages: [
       {
+        role: 'user' as const,
+        content: 'Read this English word or phrase clearly, naturally, and at a moderate pace. Use standard American English pronunciation.',
+      },
+      {
         role: 'assistant' as const,
         content: input,
       },
