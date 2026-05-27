@@ -23,7 +23,7 @@ const OPTIONAL_AUTH_PATHS = [
   '/api/analytics',
 ]
 
-const PUBLIC_PATHS = ['/site-config.json', '/auth/signin', '/api/auth', '/api/captcha', '/api/health', '/api/auth/xiaoying', '/flywheel-preview']
+const PUBLIC_PATHS = ['/site-config.json', '/auth/signin', '/api/auth', '/api/captcha', '/api/health', '/api/auth/xiaoying', '/flywheel-preview.html']
 
 const ADMIN_PATHS = [
   '/analytics',
@@ -89,12 +89,15 @@ export default async function middleware(request: NextRequest) {
 
   // --- Mobile guest → preview redirect ---
   if (pathname === '/') {
-    const ua = request.headers.get('user-agent')?.toLowerCase() || ''
-    const isMobile = /mobile|android|iphone|ipad|webos|blackberry|iemobile|opera mini/i.test(ua)
-    if (isMobile) {
-      const token = await getToken({ req: request })
-      if (!token) {
-        return NextResponse.redirect(new URL('/flywheel-preview', request.url))
+    const skip = request.nextUrl.searchParams.has('skip-preview')
+    if (!skip) {
+      const ua = request.headers.get('user-agent')?.toLowerCase() || ''
+      const isMobile = /mobile|android|iphone|ipad|webos|blackberry|iemobile|opera mini/i.test(ua)
+      if (isMobile) {
+        const token = await getToken({ req: request })
+        if (!token) {
+          return NextResponse.redirect(new URL('/flywheel-preview.html', request.url))
+        }
       }
     }
   }
@@ -205,5 +208,5 @@ export default async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/((?!_next/static|_next/image|favicon.ico|public).*)'],
+  matcher: ['/((?!_next/static|_next/image|favicon.ico|public|xiaoying-icon\\.svg).*)'],
 }

@@ -138,6 +138,8 @@ html,body{height:100%;font-family:var(--font);-webkit-font-smoothing:antialiased
 .cta-btn{display:flex;align-items:center;justify-content:center;gap:8px;height:50px;border-radius:14px;font-size:16px;font-weight:600;border:none;cursor:pointer;text-decoration:none;font-family:var(--font);transition:all .2s}
 .cta-btn.pri{background:linear-gradient(135deg,var(--p),#7C5CF0);color:var(--pf);box-shadow:0 4px 16px rgba(107,92,231,.3)}
 .cta-btn.pri:active{transform:scale(.97);opacity:.9}
+.xiaoying-btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;width:100%;min-height:48px;padding:0 20px;border:1px solid #d9d9df;border-radius:12px;background:#fff;color:#1f1f24;font-size:16px;font-weight:600;line-height:1;cursor:pointer;text-decoration:none;font-family:var(--font)}
+.xiaoying-btn:hover{background:#f7f7f9}
 .cta-btn.gh{background:transparent;color:var(--caption);font-weight:500;font-size:14px;padding:0}
 .cta-btn.gh:active{color:var(--fg)}
 .cta-note{font-size:13px;color:var(--caption);margin-top:12px}
@@ -161,6 +163,7 @@ html,body{height:100%;font-family:var(--font);-webkit-font-smoothing:antialiased
     <button data-idx="4"></button>
     <button data-idx="5"></button>
     <button data-idx="6"></button>
+    <button data-idx="7"></button>
   </div>
 
   <div class="scroll" id="scroll">
@@ -171,8 +174,8 @@ html,body{height:100%;font-family:var(--font);-webkit-font-smoothing:antialiased
       <div class="blob blob2"></div>
       <div class="hero-inner">
         <div class="hero-badge">EZTor · 功能预览</div>
-        <h1>英语学习<br><span>闭环</span></h1>
-        <p class="hero-sub">查词 → 记录 → 默写<br>三步形成你的专属学习闭环</p>
+        <h1>四六级考试临近<br><span>词汇量够了吗？</span></h1>
+        <p class="hero-sub">不懂的词查了就忘？用EZTor！<br>查词 → 记录 → 默写，三步闭环</p>
         <div class="fw">
           <div class="fw-ri"></div>
           <div class="fw-ri2"></div>
@@ -189,6 +192,7 @@ html,body{height:100%;font-family:var(--font);-webkit-font-smoothing:antialiased
           <span>Translate Only</span>
           <span>弹幕复习</span>
           <span>当然</span>
+          <span>四六级词库</span>
         </div>
         <div class="hero-swipe">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 13l5 5 5-5M7 6l5 5 5-5"/></svg>
@@ -197,7 +201,53 @@ html,body{height:100%;font-family:var(--font);-webkit-font-smoothing:antialiased
       </div>
     </div>
 
-    <!-- ===== 2: AI 智能查词（含结果） ===== -->
+    <!-- ===== 2: 四六级词库 ===== -->
+    <div class="snap feat">
+      <div class="feat-inner">
+        <div class="feat-head">
+          <div class="fi">📖</div>
+          <h2>四六级词库</h2>
+          <p>预制词库 · 一键导入 · 即查即学</p>
+        </div>
+        <div class="c">
+          <div class="c-h">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+            <h3>默认词库推荐</h3>
+            <span style="font-size:12px;color:var(--p);background:rgba(107,92,231,.1);padding:3px 12px;border-radius:20px;font-weight:500;margin-left:auto">持续更新</span>
+          </div>
+          <div class="c-desc">内置 CET-4/CET-6 等预制词库，一键导入即可开始学习</div>
+          <div class="c-body" style="display:flex;flex-direction:column;gap:10px">
+            <div class="fr">
+              <div class="fr-b" style="background:linear-gradient(90deg,#7C5CF0,#A78BFA)"></div>
+              <div class="fr-bd" style="display:flex;align-items:center;justify-content:space-between;gap:8px">
+                <div style="min-width:0">
+                  <div class="fr-w"><span class="w">CET-4 词汇</span></div>
+                  <div style="font-size:12px;color:var(--caption);margin-top:2px">约 4500 词 · 大学英语四级考纲</div>
+                </div>
+                <span class="fbt interactive" data-btn="import-cet4" style="flex-shrink:0;font-size:12px;height:32px;padding:0 14px;white-space:nowrap">一键导入</span>
+              </div>
+            </div>
+            <div class="fr">
+              <div class="fr-b" style="background:linear-gradient(90deg,#059669,#047857)"></div>
+              <div class="fr-bd" style="display:flex;align-items:center;justify-content:space-between;gap:8px">
+                <div style="min-width:0">
+                  <div class="fr-w"><span class="w">CET-6 词汇</span></div>
+                  <div style="font-size:12px;color:var(--caption);margin-top:2px">约 6000 词 · 大学英语六级考纲</div>
+                </div>
+                <span class="fbt interactive" data-btn="import-cet6" style="flex-shrink:0;font-size:12px;height:32px;padding:0 14px;white-space:nowrap">一键导入</span>
+              </div>
+            </div>
+          </div>
+          <div class="fb"><span class="note">登录后即可导入 · 导入后自动加入学习计划</span><span class="fbt" data-btn="import-all">📚 一键导入全部</span></div>
+        </div>
+        <div class="f-bot">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 13l5 5 5-5M7 6l5 5 5-5"/></svg>
+          <span>继续</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== 3: AI 智能查词（含结果） ===== -->
     <div class="snap feat">
       <div class="feat-inner">
         <div class="feat-head">
@@ -357,7 +407,7 @@ html,body{height:100%;font-family:var(--font);-webkit-font-smoothing:antialiased
       </div>
     </div>
 
-    <!-- ===== 5: 当然 (Flashcard) ===== -->
+    <!-- ===== 6: 当然 (Flashcard) ===== -->
     <div class="snap feat">
       <div class="feat-inner">
         <div class="feat-head">
@@ -395,7 +445,7 @@ html,body{height:100%;font-family:var(--font);-webkit-font-smoothing:antialiased
       </div>
     </div>
 
-    <!-- ===== 6: Translate Only ===== -->
+    <!-- ===== 7: Translate Only ===== -->
     <div class="snap feat">
       <div class="feat-inner">
         <div class="feat-head">
@@ -427,7 +477,7 @@ html,body{height:100%;font-family:var(--font);-webkit-font-smoothing:antialiased
       </div>
     </div>
 
-    <!-- ===== 7: CTA ===== -->
+    <!-- ===== 8: CTA ===== -->
     <div class="snap cta">
       <div class="blob blob1"></div>
       <div class="blob blob2"></div>
@@ -435,8 +485,8 @@ html,body{height:100%;font-family:var(--font);-webkit-font-smoothing:antialiased
         <div class="cta-badge">无需手机号</div>
         <h2>准备好了吗？</h2>
         <div class="cta-btns">
-          <a class="cta-btn pri" href="https://eztor.dogeggcode.cyou/api/auth/xiaoying/start">☝️ 小应登录</a>
-          <a class="cta-btn gh" href="https://eztor.dogeggcode.cyou">受限模式 · 先逛逛</a>
+          <a class="xiaoying-btn" href="https://eztor.dogeggcode.cyou/api/auth/xiaoying/start"><img src="/xiaoying-icon.svg" alt="" style="width:24px;height:24px"><span>使用小应账号快捷登录</span></a>
+          <a class="cta-btn gh" href="https://eztor.dogeggcode.cyou/?skip-preview=1">受限模式 · 先逛逛</a>
         </div>
         <p class="cta-note">可以用小应账号直接登录啦！</p>
       </div>
@@ -494,6 +544,25 @@ html,body{height:100%;font-family:var(--font);-webkit-font-smoothing:antialiased
     var p=this.parentElement
     p.querySelectorAll('[data-btn=tab]').forEach(function(t){t.classList.remove('act')})
     this.classList.add('act')
+  })
+
+  // CET-4/CET-6 import: one-way toggle
+  on($q('[data-btn=import-cet4]'),'click',function(){
+    this.classList.add('done')
+    this.textContent='✅ 已导入'
+  })
+  on($q('[data-btn=import-cet6]'),'click',function(){
+    this.classList.add('done')
+    this.textContent='✅ 已导入'
+  })
+  on($q('[data-btn=import-all]'),'click',function(){
+    this.classList.add('done')
+    this.textContent='✅ 已全部导入'
+    var p=this.closest('.c')
+    p.querySelectorAll('[data-btn=import-cet4],[data-btn=import-cet6]').forEach(function(b){
+      b.classList.add('done')
+      b.textContent='✅ 已导入'
+    })
   })
 })()
 </script>

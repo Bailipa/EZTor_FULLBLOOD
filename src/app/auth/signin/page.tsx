@@ -199,10 +199,11 @@ export default function SignIn() {
 
               <a
                 href="/api/auth/xiaoying/start"
-                className="flex items-center justify-center gap-2 w-full rounded-md border border-input bg-background px-4 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground transition-colors"
+                className="inline-flex min-h-12 w-full cursor-pointer items-center justify-center gap-2.5 rounded-2xl border border-neutral-300 bg-white px-5 text-base font-semibold leading-none text-neutral-900 hover:bg-neutral-50 transition-colors"
               >
-                <span className="text-lg">☝️</span>
-                使用小应一键登录
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src="/xiaoying-icon.svg" alt="" className="h-6 w-6 shrink-0" />
+                <span>使用小应账号快捷登录</span>
               </a>
             </>
           )}

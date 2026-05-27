@@ -54,7 +54,7 @@ export function GuestHomeHeader() {
           </Button>
           <Button
             className="inline-flex h-10 rounded-2xl bg-primary px-6 text-sm font-semibold text-primary-foreground shadow-md hover:brightness-90"
-            onClick={() => window.location.href = '/flywheel-preview'}
+            onClick={() => window.location.href = '/flywheel-preview.html'}
           >
             查看介绍
           </Button>

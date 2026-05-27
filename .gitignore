@@ -76,3 +76,5 @@ eztor-promo/
 
 # XiaoYing OIDC integration docs (contain client secret)
 docs/XIAOYING_OIDC_INTEGRATION.md
+flywheel-poster.html
+deploy_*.tar.gz
