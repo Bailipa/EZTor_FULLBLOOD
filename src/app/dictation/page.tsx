@@ -926,26 +926,26 @@ export default function DictationPage() {
                   {/* 结果反馈与操作按钮 */}
                   <div className="flex flex-col gap-4">
                     {!isChecked ? (
-                      <div className="flex gap-3">
+                      <div className="flex gap-2 sm:gap-3 items-stretch">
                         <Button
                           variant="outline"
-                          className="w-1/3 h-12"
+                          className="shrink-0 h-12"
                           onClick={() => setShowHint(true)}
                           disabled={showHint}
                         >
-                          <Eye className="w-4 h-4 mr-2" /> 提示
+                          <Eye className="w-4 h-4 sm:mr-2" /><span className="hidden sm:inline">提示</span>
                         </Button>
                         <Button
-                          className="w-2/3 h-12 text-lg font-bold"
+                          className="flex-1 min-w-0 h-12 text-base sm:text-lg font-bold"
                           onClick={handleCheck}
                           disabled={!userInput.trim()}
                         >
-                          提交答案 (Enter)
+                          提交答案
                         </Button>
                         <Button
                           variant="outline"
                           size="icon"
-                          className="h-12 w-12 shrink-0"
+                          className="shrink-0 h-12 w-12"
                           onClick={() => setIsSfxMuted(!isSfxMuted)}
                           title={isSfxMuted ? '开启提示音' : '关闭提示音'}
                         >
