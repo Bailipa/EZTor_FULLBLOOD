@@ -24,7 +24,7 @@ export async function GET(req: Request) {
     const cursor = searchParams.get('cursor')
     const limit = Math.min(parseInt(searchParams.get('limit') || '30'), 100)
 
-    const admin = isDeveloper({ username: session.user.name || '' })
+    const admin = isDeveloper({ username: session.user.name || '', isAdmin: session.user.isAdmin })
 
     const where = admin
       ? { isDeleted: false }
@@ -37,6 +37,7 @@ export async function GET(req: Request) {
           select: {
             id: true,
             username: true,
+            isAdmin: true,
           }
         }
       },
@@ -112,7 +113,7 @@ export async function POST(req: Request) {
       finalContent = filterProfanity(trimmedContent)
     }
 
-    const admin = isDeveloper({ username: session.user.name || '' })
+    const admin = isDeveloper({ username: session.user.name || '', isAdmin: session.user.isAdmin })
     if (!admin) {
       const riskCheck = await checkMessageRisk(trimmedContent)
       if (riskCheck.isRisky) {
@@ -148,6 +149,7 @@ export async function POST(req: Request) {
           select: {
             id: true,
             username: true,
+            isAdmin: true,
           }
         }
       }

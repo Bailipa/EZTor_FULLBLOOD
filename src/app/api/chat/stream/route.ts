@@ -9,7 +9,7 @@ export async function GET(req: Request) {
     return new Response('Unauthorized', { status: 401 })
   }
 
-  const admin = isDeveloper({ username: session.user.name || '' })
+  const admin = isDeveloper({ username: session.user.name || '', isAdmin: session.user.isAdmin })
 
   const stream = new ReadableStream({
     start(controller) {

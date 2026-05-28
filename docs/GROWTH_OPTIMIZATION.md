@@ -56,6 +56,21 @@ apple 36, inevitable 23, take for granted 14, hello 7
 
 ---
 
+## 完成状态总览
+
+| Phase | 内容 | 状态 |
+|-------|------|------|
+| Phase 0 | 数据库改动（onboardingCompleted, isSystem） | ✅ 已完成 |
+| Phase 1 | 移动端首页改造（全屏闪卡、自动存入） | ✅ 已完成 |
+| Phase 2 | 新用户引导系统（5步引导） | ❌ 未实现 |
+| Phase 3 | 翻译功能入口调整 | ✅ 已完成 |
+| Phase 4 | 默写体验优化 | ⚠️ 部分完成 |
+| Phase 5 | 访问深度提升 | ❌ 未实现 |
+| Phase 6 | 实时聊天反馈系统 | ✅ 已完成 |
+| Phase 7 | UI 优化 | ✅ 已完成 |
+
+---
+
 ## Phase 0: 数据库改动（基础设施）
 
 ### Step 0.1 — User 表添加引导状态字段
@@ -614,29 +629,401 @@ apple 36, inevitable 23, take for granted 14, hello 7
 
 ---
 
+## Phase 6: 实时聊天反馈系统（已完成）
+
+### Step 6.1 — 数据库设计
+
+**Problem**: 需要存储聊天消息、禁言记录、聊天配置、Todolist、自定义敏感词。
+
+**Files**:
+- `prisma/schema.prisma`
+
+**Actions**:
+
+1. 添加 `ChatMessage` 表：
+   ```prisma
+   model ChatMessage {
+     id        String   @id @default(cuid())
+     userId    String
+     content   String
+     isHidden  Boolean  @default(false)  // 影子禁言标记
+     isDeleted Boolean  @default(false)
+     createdAt DateTime @default(now())
+     User      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+   }
+   ```
+
+2. 添加 `ChatBan` 表（影子禁言）：
+   ```prisma
+   model ChatBan {
+     id       String   @id @default(cuid())
+     userId   String   @unique
+     reason   String?
+     bannedAt DateTime @default(now())
+     bannedBy String
+     User     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+   }
+   ```
+
+3. 添加 `ChatConfig` 表（聊天配置）：
+   ```prisma
+   model ChatConfig {
+     id                String   @id @default("global")
+     isEnabled         Boolean  @default(true)
+     isCircuitBroken   Boolean  @default(false)
+     circuitBreakReason String?
+     circuitBreakAt    DateTime?
+     updatedAt         DateTime @updatedAt
+   }
+   ```
+
+4. 添加 `AdminTodo` 表（管理员 Todolist）：
+   ```prisma
+   model AdminTodo {
+     id          String   @id @default(cuid())
+     title       String
+     isCompleted Boolean  @default(false)
+     sortOrder   Int      @default(0)
+     createdAt   DateTime @default(now())
+     updatedAt   DateTime @updatedAt
+   }
+   ```
+
+5. 添加 `CustomProfanity` 表（自定义敏感词）：
+   ```prisma
+   model CustomProfanity {
+     id        String   @id @default(cuid())
+     word      String   @unique
+     createdAt DateTime @default(now())
+   }
+   ```
+
+6. User 表添加关系：
+   ```prisma
+   model User {
+     // ... 现有字段
+     chatMessages ChatMessage[]
+     chatBan      ChatBan?
+   }
+   ```
+
+**Verification**:
+- 数据库迁移成功
+- 所有表正确创建
+
+---
+
+### Step 6.2 — 工具函数
+
+**Problem**: 需要敏感词过滤、AI 风险审查、用户标识、SSE 管理等工具。
+
+**Files**:
+- `src/lib/profanityFilter.ts`
+- `src/lib/riskDetection.ts`
+- `src/lib/chatUser.ts`
+- `src/lib/chatSSE.ts`
+- `src/lib/chatCleanup.ts`
+
+**Actions**:
+
+1. 敏感词过滤（`profanityFilter.ts`）：
+   - 使用 `@2toad/profanity` 库（支持中文）
+   - 支持自定义敏感词加载
+   - 提供 `containsProfanity`、`filterProfanity`、`addProfanityWord`、`removeProfanityWord` 函数
+
+2. AI 风险审查（`riskDetection.ts`）：
+   - 使用翻译的大模型 API
+   - 检测诈骗、伤害、暗号谐音等风险
+   - 返回 `{ isRisky: boolean; reason?: string }`
+
+3. 用户标识（`chatUser.ts`）：
+   - `isDeveloper(user)`：判断是否为管理员（用户名 `lhy`）
+   - `getDisplayName(user)`：获取显示名称（管理员显示"EZTor开发者"，普通用户显示"EZTor用户" + 随机 emoji）
+   - `getAvatar(user)`：获取头像（管理员显示"E"，普通用户无头像）
+
+4. SSE 管理（`chatSSE.ts`）：
+   - 订阅/广播消息、Todolist、配置更新
+   - 在线用户数统计
+
+5. 定时清理（`chatCleanup.ts`）：
+   - 清理 24 小时前的消息
+
+**Verification**:
+- 敏感词过滤正常工作
+- AI 风险审查正常工作
+- 用户标识正确显示
+- SSE 实时推送正常
+- 定时清理正常执行
+
+---
+
+### Step 6.3 — API 设计
+
+**Problem**: 需要消息 CRUD、SSE 流、聊天配置、禁言管理、Todolist、自定义敏感词等 API。
+
+**Files**:
+- `src/app/api/chat/messages/route.ts`
+- `src/app/api/chat/messages/[id]/route.ts`
+- `src/app/api/chat/messages/clear/route.ts`
+- `src/app/api/chat/stream/route.ts`
+- `src/app/api/chat/online/route.ts`
+- `src/app/api/chat/config/route.ts`
+- `src/app/api/chat/ban/route.ts`
+- `src/app/api/chat/ban/[userId]/route.ts`
+- `src/app/api/admin/todos/route.ts`
+- `src/app/api/admin/todos/[id]/route.ts`
+- `src/app/api/admin/profanity/route.ts`
+- `src/app/api/admin/profanity/[id]/route.ts`
+
+**Actions**:
+
+1. 消息 CRUD：
+   - GET：获取消息（支持分页，管理员可见所有消息，普通用户只可见未隐藏消息）
+   - POST：发送消息（敏感词过滤 + AI 风险审查 + 频率限制 + 影子禁言）
+   - DELETE：删除消息（管理员）
+
+2. SSE 流：
+   - 实时推送新消息、Todolist 更新、配置更新
+
+3. 聊天配置：
+   - GET：获取配置（是否开启、是否熔断）
+   - PUT：更新配置（管理员）
+
+4. 禁言管理：
+   - GET：禁言列表（管理员）
+   - POST：禁言用户（管理员）
+   - DELETE：解除禁言（管理员）
+
+5. Todolist：
+   - GET：获取 todos（所有用户）
+   - POST：创建 todo（管理员）
+   - PUT：更新 todo（管理员）
+   - DELETE：删除 todo（管理员）
+
+6. 自定义敏感词：
+   - GET：获取敏感词列表（管理员）
+   - POST：添加敏感词（管理员）
+   - DELETE：删除敏感词（管理员）
+
+**Verification**:
+- 所有 API 正常工作
+- 权限控制正确
+- 敏感词过滤正常
+- AI 风险审查正常
+- 影子禁言正常
+
+---
+
+### Step 6.4 — 前端组件
+
+**Problem**: 需要聊天页面、Todolist 组件、维护页面、熔断页面。
+
+**Files**:
+- `src/app/chat/page.tsx`
+- `src/app/chat/maintenance/page.tsx`
+- `src/app/chat/circuit-break/page.tsx`
+- `src/components/chat/ChatRoom.tsx`
+- `src/components/chat/TodoList.tsx`
+
+**Actions**:
+
+1. 聊天页面（`chat/page.tsx`）：
+   - 检查聊天配置（是否开启、是否熔断）
+   - 显示 Todolist 和 ChatRoom
+   - 游客重定向到登录页
+
+2. ChatRoom 组件：
+   - 消息列表（自己的消息在右边，其他人的消息在左边）
+   - 管理员消息显示"E"头像和"EZTor开发者"名称
+   - 普通用户无头像，名称显示"EZTor用户" + 随机 emoji
+   - 管理员可删除消息、禁言用户
+   - 被禁言用户提示"你的消息仅管理员可见"
+   - 发送框（多行，支持 Shift+Enter 换行）
+   - 频率限制提示（每5秒只能发一条）
+   - 消息长度限制（300字符）
+   - 加载更多历史消息
+
+3. TodoList 组件：
+   - 显示所有 todos（所有用户可见）
+   - 实时同步更新
+
+4. 维护页面（`chat/maintenance/page.tsx`）：
+   - 聊天关闭时显示"管理员正在维护中"
+
+5. 熔断页面（`chat/circuit-break/page.tsx`）：
+   - AI 检测到风险时显示"当前聊天内容有风险，已熔断"
+
+**Verification**:
+- 聊天页面正常显示
+- 消息发送正常
+- 管理员功能正常
+- 影子禁言提示正常
+- Todolist 实时同步
+- 维护页面和熔断页面正常显示
+
+---
+
+### Step 6.5 — 导航栏入口
+
+**Problem**: 需要在移动端导航栏添加聊天入口。
+
+**Files**:
+- `src/components/layout/MobileNavBar.tsx`
+
+**Actions**:
+
+1. 添加"反馈"入口：
+   ```typescript
+   const navItems = [
+     { href: '/', label: '首页', icon: Home },
+     { href: '/dictation', label: '默写', icon: PenTool },
+     { href: '/history', label: '生词本', icon: BookOpen },
+     { href: '/translate', label: '查词', icon: Search },
+     { href: '/chat', label: '反馈', icon: MessageSquare },  // 新增
+   ]
+   ```
+
+**Verification**:
+- 导航栏显示"反馈"入口
+- 点击跳转到聊天页面
+
+---
+
+## Phase 7: UI 优化（已完成）
+
+### Step 7.1 — HomeHeader 与侧边栏对齐
+
+**Problem**: 桌面端 HomeHeader 与左侧边栏顶部样式不一致。
+
+**Files**:
+- `src/components/home/HomeHeader.tsx`
+
+**Actions**:
+
+1. 修改 HomeHeader 桌面端样式：
+   - 背景色：`xl:bg-transparent` → `xl:bg-sidebar`
+   - 边框颜色：`xl:border-border` → `xl:border-sidebar-border`
+   - 布局方向：添加 `xl:flex-row xl:items-center`
+   - 溢出处理：添加 `xl:overflow-hidden`
+   - 压缩处理：添加 `xl:shrink-0`
+
+2. 修改 nav 换行处理：
+   - 添加 `xl:flex-nowrap`（防止按钮换行）
+
+**Verification**:
+- HomeHeader 与侧边栏顶部样式一致
+- 边框颜色一致
+- 背景色一致
+
+---
+
+### Step 7.2 — 闪卡布局优化
+
+**Problem**: 移动端闪卡"显示答案"按钮需要滚动才能看到。
+
+**Files**:
+- `src/components/flashcard/FullscreenFlashcard.tsx`
+- `src/components/home/HomeContent.tsx`
+
+**Actions**:
+
+1. FullscreenFlashcard 布局调整：
+   - 容器：`h-full`（填充父容器）
+   - 顶部工具栏：`shrink-0`（不收缩）
+   - 闪卡内容：`flex-1 overflow-y-auto`（可滚动）
+   - 底部按钮：`shrink-0`（不收缩，始终可见）
+
+2. HomeContent 布局调整：
+   - 外层容器：`h-screen flex flex-col`
+   - 移动端闪卡区域：`flex-1 min-h-0`
+
+**Verification**:
+- 闪卡按钮始终可见，无需滚动
+- 长释义可滚动查看
+
+---
+
+### Step 7.3 — 默写页面优化
+
+**Problem**: 默写页面顶部标题无用，"开始测试"按钮需要滚动，长词条需要滚动。
+
+**Files**:
+- `src/app/dictation/page.tsx`
+
+**Actions**:
+
+1. 去掉顶部"多维默写本"标题
+2. 修改布局：`h-screen flex flex-col`
+3. "开始测试"按钮：`mt-auto shrink-0`（始终在底部）
+4. 长词条：添加 `line-clamp-3` + 点击展开功能
+5. 禁用自动滚动（注释掉 `scrollIntoView`）
+
+**Verification**:
+- 顶部标题已去掉
+- "开始测试"按钮始终可见
+- 长词条可点击展开
+- 自动滚动已禁用
+
+---
+
+### Step 7.4 — 游客页面优化
+
+**Problem**: 游客页面没有底栏，"查词"按钮跳转有问题。
+
+**Files**:
+- `src/components/home/HomeContent.tsx`
+- `src/components/home/guest/GuestHomepage.tsx`
+- `src/components/home/guest/GuestHomeHeader.tsx`
+- `src/app/translate/page.tsx`
+- `src/middleware.ts`
+
+**Actions**:
+
+1. 游客页面添加 MobileNavBar
+2. 游客"查词"按钮跳转到 `/translate`
+3. `/translate` 页面支持游客模式（使用 GuestWordInputCard）
+4. 将 `/translate` 添加到 middleware 白名单
+5. 移除游客页面"进群"按钮
+
+**Verification**:
+- 游客页面有底栏
+- "查词"功能正常
+- 游客可访问查词页面
+
+---
+
 ## Execution Order
 
-| Phase | Step | 优先级 | 依赖 |
-|-------|------|--------|------|
-| 0 | 0.1 User 表字段 | 🔴 高 | 无 |
-| 0 | 0.2 ReviewGroup 表字段 | 🔴 高 | 无 |
-| 0 | 0.3 创建系统分组脚本 | 🔴 高 | 0.1, 0.2 |
-| 1 | 1.1 全屏闪卡组件 | 🔴 高 | 无 |
-| 1 | 1.2 自动存入 API | 🔴 高 | 0.2 |
-| 1 | 1.3 分组限制逻辑 | 🟡 中 | 0.2 |
-| 1 | 1.4 移动端首页布局 | 🔴 高 | 1.1 |
-| 2 | 2.1 引导状态管理 | 🔴 高 | 0.1 |
-| 2 | 2.2 闪卡使用提示 | 🟡 中 | 1.1, 2.1 |
-| 2 | 2.3 初次默写体验 | 🟡 中 | 2.1 |
-| 2 | 2.4 生词本展示 | 🟡 中 | 2.1 |
-| 2 | 2.5 词库导入介绍 | 🟢 低 | 2.1 |
-| 2 | 2.6 功能探索提示 | 🟢 低 | 2.1 |
-| 3 | 3.1 独立翻译页面 | 🟡 中 | 无 |
-| 3 | 3.2 导航栏调整 | 🟡 中 | 3.1 |
-| 4 | 4.1 保存进度 | 🟡 中 | 无 |
-| 4 | 4.2 正向反馈 | 🟢 低 | 无 |
-| 5 | 5.1 复习提醒 | 🟡 中 | 无 |
-| 5 | 5.2 学习数据 | 🟢 低 | 无 |
+| Phase | Step | 优先级 | 依赖 | 状态 |
+|-------|------|--------|------|------|
+| 0 | 0.1 User 表字段 | 🔴 高 | 无 | ✅ 已完成 |
+| 0 | 0.2 ReviewGroup 表字段 | 🔴 高 | 无 | ✅ 已完成 |
+| 0 | 0.3 创建系统分组脚本 | 🔴 高 | 0.1, 0.2 | ✅ 已完成 |
+| 1 | 1.1 全屏闪卡组件 | 🔴 高 | 无 | ✅ 已完成 |
+| 1 | 1.2 自动存入 API | 🔴 高 | 0.2 | ✅ 已完成 |
+| 1 | 1.3 分组限制逻辑 | 🟡 中 | 0.2 | ✅ 已完成 |
+| 1 | 1.4 移动端首页布局 | 🔴 高 | 1.1 | ✅ 已完成 |
+| 2 | 2.1 引导状态管理 | 🔴 高 | 0.1 | ❌ 未实现 |
+| 2 | 2.2 闪卡使用提示 | 🟡 中 | 1.1, 2.1 | ❌ 未实现 |
+| 2 | 2.3 初次默写体验 | 🟡 中 | 2.1 | ❌ 未实现 |
+| 2 | 2.4 生词本展示 | 🟡 中 | 2.1 | ❌ 未实现 |
+| 2 | 2.5 词库导入介绍 | 🟢 低 | 2.1 | ❌ 未实现 |
+| 2 | 2.6 功能探索提示 | 🟢 低 | 2.1 | ❌ 未实现 |
+| 3 | 3.1 独立翻译页面 | 🟡 中 | 无 | ✅ 已完成 |
+| 3 | 3.2 导航栏调整 | 🟡 中 | 3.1 | ✅ 已完成 |
+| 4 | 4.1 保存进度 | 🟡 中 | 无 | ❌ 未实现 |
+| 4 | 4.2 正向反馈 | 🟢 低 | 无 | ❌ 未实现 |
+| 5 | 5.1 复习提醒 | 🟡 中 | 无 | ❌ 未实现 |
+| 5 | 5.2 学习数据 | 🟢 低 | 无 | ❌ 未实现 |
+| 6 | 6.1 数据库设计 | 🔴 高 | 无 | ✅ 已完成 |
+| 6 | 6.2 工具函数 | 🔴 高 | 6.1 | ✅ 已完成 |
+| 6 | 6.3 API 设计 | 🔴 高 | 6.2 | ✅ 已完成 |
+| 6 | 6.4 前端组件 | 🔴 高 | 6.3 | ✅ 已完成 |
+| 6 | 6.5 导航栏入口 | 🟡 中 | 6.4 | ✅ 已完成 |
+| 7 | 7.1 HomeHeader 对齐 | 🟡 中 | 无 | ✅ 已完成 |
+| 7 | 7.2 闪卡布局优化 | 🔴 高 | 无 | ✅ 已完成 |
+| 7 | 7.3 默写页面优化 | 🟡 中 | 无 | ✅ 已完成 |
+| 7 | 7.4 游客页面优化 | 🟡 中 | 无 | ✅ 已完成 |
 
 建议按 Phase 执行，每完成一个 Phase 验证数据变化。
 
@@ -722,16 +1109,16 @@ model ReviewGroup {
 ## 验证清单
 
 ### Phase 0 验证
-- [ ] User 表有 `onboardingCompleted` 字段
-- [ ] ReviewGroup 表有 `isSystem` 字段
-- [ ] 所有现有用户都有两个系统分组
+- [x] User 表有 `onboardingCompleted` 字段
+- [x] ReviewGroup 表有 `isSystem` 字段
+- [x] 所有现有用户都有两个系统分组
 
 ### Phase 1 验证
-- [ ] 移动端首页显示全屏闪卡
-- [ ] 点击"认识"存入"知道的单词"分组
-- [ ] 点击"不认识"存入"不知道的单词"分组
-- [ ] 系统分组不计入 3 个限制
-- [ ] 桌面端首页保持不变
+- [x] 移动端首页显示全屏闪卡
+- [x] 点击"认识"存入"知道的单词"分组
+- [x] 点击"不认识"存入"不知道的单词"分组
+- [x] 系统分组不计入 3 个限制
+- [x] 桌面端首页保持不变
 
 ### Phase 2 验证
 - [ ] 新用户登录后显示引导
@@ -743,13 +1130,37 @@ model ReviewGroup {
 - [ ] 引导完成后不再显示
 
 ### Phase 3 验证
-- [ ] 独立翻译页面可访问
-- [ ] 移动端导航栏有"查词"入口
+- [x] 独立翻译页面可访问
+- [x] 移动端导航栏有"查词"入口
+- [x] 游客可访问查词功能
 
 ### Phase 4 验证
 - [ ] 默写中途退出可恢复进度
-- [ ] 默写完成有正向反馈
+- [x] 默写完成有正向反馈（待实现）
+- [x] 去掉默写页面顶部标题
+- [x] 禁用默写自动滚动
+- [x] 长词条点击展开
 
 ### Phase 5 验证
 - [ ] 浏览器通知复习提醒
 - [ ] 学习数据可视化页面
+
+### Phase 6 验证（实时聊天反馈系统）
+- [x] 实时聊天（SSE）
+- [x] 敏感词过滤（@2toad/profanity，支持中文）
+- [x] AI 风险审查（每条消息）
+- [x] 影子禁言（被禁言用户提示"你的消息仅管理员可见"）
+- [x] Todolist（管理员维护，所有用户可见，实时同步）
+- [x] 聊天配置（管理员可开启/关闭聊天入口）
+- [x] 自定义敏感词（管理员可在面板中管理）
+- [x] 历史消息（24小时后停止渲染，管理员可手动清除）
+- [x] 频率限制（每5秒只能发一条消息）
+- [x] 消息长度限制（300字符）
+- [x] 加载更多历史消息
+- [x] 熔断机制（AI 检测到风险自动关闭聊天）
+
+### UI 优化验证
+- [x] HomeHeader 与侧边栏对齐
+- [x] 闪卡按钮始终可见（无需滚动）
+- [x] 游客页面底栏显示
+- [x] 游客闪卡功能正常

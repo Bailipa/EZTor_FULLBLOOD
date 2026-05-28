@@ -3,13 +3,9 @@ import prisma from '@/lib/prisma'
 import { getServerSession } from 'next-auth/next'
 import { authOptions } from '@/app/api/auth/[...nextauth]/route'
 import { isDeveloper } from '@/lib/chatUser'
-import { broadcastMessage } from '@/lib/chatSSE'
 import { logger } from '@/lib/logger'
 
-export async function DELETE(
-  req: Request,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function GET(req: Request) {
   try {
     const session = await getServerSession(authOptions)
     if (!session?.user?.id) {
@@ -20,27 +16,24 @@ export async function DELETE(
       return NextResponse.json({ success: false, error: 'Forbidden' }, { status: 403 })
     }
 
-    const { id } = await params
+    const { searchParams } = new URL(req.url)
+    const limit = Math.min(parseInt(searchParams.get('limit') || '20'), 50)
 
-    const message = await prisma.chatMessage.update({
-      where: { id },
-      data: { isDeleted: true },
+    const messages = await prisma.chatMessage.findMany({
+      where: { isRisky: true },
       include: {
         User: {
-          select: {
-            id: true,
-            username: true,
-          }
+          select: { id: true, username: true }
         }
-      }
+      },
+      orderBy: { createdAt: 'desc' },
+      take: limit,
     })
 
-    broadcastMessage({ ...message, isDeleted: true })
-
-    return NextResponse.json({ success: true })
+    return NextResponse.json({ success: true, data: messages })
   } catch (err: unknown) {
     const msg = err instanceof Error ? err.message : String(err)
-    logger.error({ err }, `Failed to delete message: ${msg}`)
+    logger.error({ err }, `Failed to fetch risky messages: ${msg}`)
     return NextResponse.json({ success: false, error: msg }, { status: 500 })
   }
 }

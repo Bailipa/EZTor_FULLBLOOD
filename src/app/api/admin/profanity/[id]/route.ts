@@ -16,7 +16,7 @@ export async function DELETE(
       return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 })
     }
 
-    if (!isDeveloper({ username: session.user.name || '' })) {
+    if (!isDeveloper({ username: session.user.name || '', isAdmin: session.user.isAdmin })) {
       return NextResponse.json({ success: false, error: 'Forbidden' }, { status: 403 })
     }
 

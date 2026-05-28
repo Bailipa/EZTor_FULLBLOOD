@@ -394,12 +394,14 @@ model DonationConfig {
 }
 
 model ChatMessage {
-  id        String   @id @default(cuid())
-  userId    String
-  content   String
-  isHidden  Boolean  @default(false)
-  isDeleted Boolean  @default(false)
-  createdAt DateTime @default(now())
+  id            String   @id @default(cuid())
+  userId        String
+  content       String
+  isHidden      Boolean  @default(false)
+  isDeleted     Boolean  @default(false)
+  isRisky       Boolean  @default(false)
+  riskAnalysis  Json?
+  createdAt     DateTime @default(now())
 
   User User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -407,6 +409,7 @@ model ChatMessage {
   @@index([userId])
   @@index([isHidden])
   @@index([isDeleted])
+  @@index([isRisky])
 }
 
 model ChatBan {
@@ -421,10 +424,13 @@ model ChatBan {
 
 model ChatConfig {
   id                 String    @id @default("global")
+  featureEnabled     Boolean   @default(true)
   isEnabled          Boolean   @default(true)
   isCircuitBroken    Boolean   @default(false)
   circuitBreakReason String?
+  circuitBreakType   String?
   circuitBreakAt     DateTime?
+  apiFailureCount    Int       @default(0)
   updatedAt          DateTime  @updatedAt
 }
 

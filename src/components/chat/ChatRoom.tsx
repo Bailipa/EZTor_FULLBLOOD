@@ -19,6 +19,7 @@ interface Message {
   User: {
     id: string
     username: string
+    isAdmin?: boolean
   }
 }
 
@@ -38,7 +39,7 @@ export function ChatRoom() {
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const messagesContainerRef = useRef<HTMLDivElement>(null)
 
-  const admin = session?.user ? isDeveloper({ username: session.user.name || '' }) : false
+  const admin = session?.user ? isDeveloper({ username: session.user.name || '', isAdmin: session.user.isAdmin }) : false
 
   const fetchMessages = useCallback(async (loadMore = false) => {
     try {
