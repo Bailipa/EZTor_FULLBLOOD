@@ -2,13 +2,14 @@
 
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
-import { Home, PenTool, BookOpen, Search } from 'lucide-react'
+import { Home, PenTool, BookOpen, Search, MessageSquare } from 'lucide-react'
 
 const navItems = [
   { href: '/', label: '首页', icon: Home },
   { href: '/dictation', label: '默写', icon: PenTool },
   { href: '/history', label: '生词本', icon: BookOpen },
   { href: '/translate', label: '查词', icon: Search },
+  { href: '/chat', label: '反馈', icon: MessageSquare },
 ]
 
 export default function MobileNavBar() {

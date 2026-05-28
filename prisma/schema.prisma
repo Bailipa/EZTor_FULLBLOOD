@@ -298,6 +298,8 @@ model User {
   TranslateOnlyUsage     TranslateOnlyUsage[]
   UserPreference         UserPreference?
   Word                   Word[]
+  ChatMessage            ChatMessage[]
+  ChatBan                ChatBan?
 }
 
 model UserPreference {
@@ -389,4 +391,56 @@ model DonationConfig {
   isActive    Boolean  @default(true)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+}
+
+model ChatMessage {
+  id        String   @id @default(cuid())
+  userId    String
+  content   String
+  isHidden  Boolean  @default(false)
+  isDeleted Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  User User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([createdAt(sort: Desc)])
+  @@index([userId])
+  @@index([isHidden])
+  @@index([isDeleted])
+}
+
+model ChatBan {
+  id       String    @id @default(cuid())
+  userId   String    @unique
+  reason   String?
+  bannedAt DateTime  @default(now())
+  bannedBy String
+
+  User User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model ChatConfig {
+  id                 String    @id @default("global")
+  isEnabled          Boolean   @default(true)
+  isCircuitBroken    Boolean   @default(false)
+  circuitBreakReason String?
+  circuitBreakAt     DateTime?
+  updatedAt          DateTime  @updatedAt
+}
+
+model AdminTodo {
+  id          String   @id @default(cuid())
+  title       String
+  isCompleted Boolean  @default(false)
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([sortOrder])
+}
+
+model CustomProfanity {
+  id        String   @id @default(cuid())
+  word      String   @unique
+  createdAt DateTime @default(now())
 }

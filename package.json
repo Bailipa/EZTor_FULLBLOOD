@@ -20,6 +20,7 @@
   },
   "postinstall": "prisma generate",
   "dependencies": {
+    "@2toad/profanity": "^3.3.0",
     "@lobehub/tts": "^5.1.2",
     "@prisma/client": "^5.14.0",
     "@wrksz/themes": "^0.7.9",

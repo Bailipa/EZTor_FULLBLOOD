@@ -149,7 +149,7 @@ export function HomeHeader({ showDanmaku, onToggleDanmaku, onFeatureClick }: Hom
   }
 
   return (
-    <header className="flex flex-col bg-white dark:bg-card xl:bg-transparent xl:dark:bg-transparent p-4 sm:p-6 xl:px-6 xl:h-14 xl:py-0 xl:justify-center rounded-xl xl:rounded-none shadow-sm xl:shadow-none border border-border xl:border-x-0 xl:border-t-0 xl:border-b xl:border-border transition-colors duration-300">
+    <header className="flex flex-col bg-white dark:bg-card xl:bg-sidebar xl:dark:bg-sidebar p-4 sm:p-6 xl:px-6 xl:h-14 xl:py-0 xl:justify-center xl:overflow-hidden xl:flex-row xl:items-center xl:shrink-0 rounded-xl xl:rounded-none shadow-sm xl:shadow-none border border-border xl:border-x-0 xl:border-t-0 xl:border-b xl:border-sidebar-border transition-colors duration-300">
       <button
         type="button"
         onClick={() => setCardExpanded((v) => !v)}
@@ -162,7 +162,7 @@ export function HomeHeader({ showDanmaku, onToggleDanmaku, onFeatureClick }: Hom
           {cardExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
         </span>
       </button>
-      <div className={cardExpanded ? 'block' : 'hidden sm:block'}>
+      <div className={cardExpanded ? 'block' : 'hidden sm:block xl:block'}>
         <div className="space-y-1.5 mt-2 xl:hidden" style={{ minWidth: 'max-content' }}>
           <p className="text-sm sm:text-base text-gray-500 dark:text-muted-foreground">
             An Easier Translator.
@@ -171,7 +171,7 @@ export function HomeHeader({ showDanmaku, onToggleDanmaku, onFeatureClick }: Hom
             提示：翻译内容由 AI 大模型生成，请仔细甄别。
           </p>
         </div>
-          <nav className="flex flex-wrap items-center gap-2 sm:gap-3 mt-3 xl:mt-0" aria-label="主导航">
+          <nav className="flex flex-wrap xl:flex-nowrap items-center gap-2 sm:gap-3 mt-3 xl:mt-0" aria-label="主导航">
           {session?.user && (
             <span className="text-xs sm:text-sm text-muted-foreground w-full sm:w-auto sm:mr-2 mb-1 sm:mb-0">
               Hello, {session.user.name}
