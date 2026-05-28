@@ -7,8 +7,11 @@
 | `NEXTAUTH_SECRET`     | High     | JWT signing key, min 32 chars, generate with `openssl rand -base64 32` |
 | `DATABASE_URL`        | High     | DB connection string with credentials                                  |
 | `LLM_API_KEY`         | High     | LLM API key (env var or database)                                      |
+| `MIMO_API_KEY`        | High     | Xiaomi MiMo TTS API key                                                |
+| `XIAOYING_OIDC_CLIENT_SECRET` | High | XiaoYing OIDC client secret                                      |
 | `NEXTAUTH_URL`        | Low      | Application URL                                                        |
 | `NEXT_PUBLIC_APP_URL` | None     | Public URL, exposed to client                                          |
+| `MIMO_VOICE`          | None     | TTS voice name, exposed to server only                                 |
 
 ## Secret Storage
 

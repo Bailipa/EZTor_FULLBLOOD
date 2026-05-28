@@ -2,9 +2,8 @@
 
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { BookOpen, MessageCircle } from 'lucide-react'
+import { BookOpen } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { useQQGroupUrl } from '@/lib/siteConfig'
 
 const navItems = [
   { label: '使用方式', href: '#workflow' },
@@ -12,7 +11,6 @@ const navItems = [
 
 export function GuestHomeHeader() {
   const router = useRouter()
-  const qqGroupUrl = useQQGroupUrl()
 
   return (
     <header className="sticky top-0 z-30 border-b border-border bg-accent/50 backdrop-blur-xl">
@@ -37,14 +35,6 @@ export function GuestHomeHeader() {
         </nav>
 
         <div className="flex items-center gap-2 sm:gap-3">
-          <Button
-            variant="ghost"
-            className="h-10 px-4 text-sm font-semibold text-muted-foreground hover:bg-accent hover:text-primary"
-            onClick={() => window.open(qqGroupUrl, '_blank', 'noopener,noreferrer')}
-          >
-            <MessageCircle className="h-4 w-4" />
-            进群
-          </Button>
           <Button
             variant="ghost"
             className="h-10 px-4 text-sm font-semibold text-muted-foreground hover:bg-accent hover:text-primary"

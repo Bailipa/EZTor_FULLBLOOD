@@ -7,10 +7,12 @@ import { WordInputCard, TranslateOnlyCard, ResultsList, HomeHeader } from '@/com
 import { GuestHomepage } from '@/components/home/guest/GuestHomepage'
 import { useLoginPrompt } from '@/components/ui/login-prompt-modal'
 import AppLayout from '@/components/layout/AppLayout'
+import MobileNavBar from '@/components/layout/MobileNavBar'
 import ErrorBoundary from '@/components/error-boundary'
 import type { WordResult, ReviewGroup } from '@/types/api'
 import { saveToStorage, loadFromStorage } from '@/lib/storage'
 import { usePageView } from '@/lib/analytics'
+import { FullscreenFlashcard } from '@/components/flashcard/FullscreenFlashcard'
 
 export default function HomeContent() {
   usePageView('Home')
@@ -95,7 +97,7 @@ export default function HomeContent() {
   if (isGuestMode) {
     return (
       <div className="relative min-h-screen bg-background font-[family-name:var(--font-geist-sans)] transition-colors duration-300">
-        <main className="relative z-10">
+        <main className="relative z-10 pb-14">
           <GuestHomepage
             isLoading={isLoading}
             setIsLoading={setIsLoading}
@@ -110,17 +112,31 @@ export default function HomeContent() {
           />
         </main>
 
+        <MobileNavBar />
         <LoginPromptDialog />
       </div>
     )
   }
 
   return (
-    <div className="relative min-h-screen bg-background font-[family-name:var(--font-geist-sans)] transition-colors duration-300">
+    <div className="relative h-screen bg-background font-[family-name:var(--font-geist-sans)] transition-colors duration-300 flex flex-col">
       {showDanmaku && isAuthenticated && <Danmaku isVisible={showDanmaku} />}
 
       <AppLayout>
-        <div className="flex flex-col xl:h-screen">
+        {/* 移动端：显示全屏闪卡 */}
+        <div className="xl:hidden flex flex-col h-full">
+          <HomeHeader
+            showDanmaku={showDanmaku}
+            onToggleDanmaku={() => setShowDanmaku(!showDanmaku)}
+            onFeatureClick={promptLogin}
+          />
+          <div className="flex-1 min-h-0">
+            <FullscreenFlashcard />
+          </div>
+        </div>
+
+        {/* 桌面端：保持原有布局 */}
+        <div className="hidden xl:flex xl:flex-col xl:h-screen">
           <HomeHeader
             showDanmaku={showDanmaku}
             onToggleDanmaku={() => setShowDanmaku(!showDanmaku)}
@@ -160,7 +176,7 @@ export default function HomeContent() {
                   onClear={() => setResults([])}
                 />
               </div>
-              <footer className="hidden xl:block py-6 px-4 md:px-6 lg:px-8 text-center text-sm text-muted-foreground">
+              <footer className="py-6 px-4 md:px-6 lg:px-8 text-center text-sm text-muted-foreground">
                 <a
                   href="https://blog.dogeggcode.cyou"
                   target="_blank"
@@ -172,17 +188,6 @@ export default function HomeContent() {
               </footer>
             </div>
           </div>
-
-          <footer className="xl:hidden py-6 px-4 md:px-6 lg:px-8 text-center text-sm text-muted-foreground">
-            <a
-              href="https://blog.dogeggcode.cyou"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="transition-colors hover:text-foreground"
-            >
-              ICP备案号：粤ICP备2026008729号
-            </a>
-          </footer>
         </div>
       </AppLayout>
 

@@ -16,11 +16,13 @@ import {
 
 const OPTIONAL_AUTH_PATHS = [
   '/',
+  '/translate',
   '/api/translate',
   '/api/public-translate',
   '/api/tts',
   '/api/donation',
   '/api/analytics',
+  '/api/flashcard/public',
 ]
 
 const PUBLIC_PATHS = ['/site-config.json', '/auth/signin', '/api/auth', '/api/captcha', '/api/health', '/api/auth/xiaoying', '/flywheel-preview.html']

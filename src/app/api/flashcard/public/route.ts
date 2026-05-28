@@ -10,9 +10,7 @@ export const dynamic = 'force-dynamic'
 export async function GET(req: Request) {
   try {
     const session = await getServerSession(authOptions)
-    if (!session?.user?.id) {
-      return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 })
-    }
+    const userId = session?.user?.id
 
     const { searchParams } = new URL(req.url)
     const limitParam = searchParams.get('limit')
@@ -22,12 +20,17 @@ export async function GET(req: Request) {
     let words
 
     if (groupId) {
+      // 需要登录才能访问特定分组
+      if (!userId) {
+        return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 })
+      }
+
       // Verify group ownership and fetch words from specific group
       const group = await prisma.reviewGroup.findUnique({
         where: { id: groupId },
       })
 
-      if (!group || group.userId !== session.user.id) {
+      if (!group || group.userId !== userId) {
         return NextResponse.json(
           { success: false, error: 'Group not found or unauthorized' },
           { status: 404 },
@@ -55,7 +58,7 @@ export async function GET(req: Request) {
         LIMIT ${limit}
       `, [] as Record<string, unknown>[])
     } else {
-      // Fallback: Fetch random words from the PUBLIC word bank
+      // 游客也可以访问公共词库
       words = await safeQueryRaw('flashcard_public', () => prisma.$queryRaw`
         SELECT * FROM "PublicWord" 
         ORDER BY RANDOM() 

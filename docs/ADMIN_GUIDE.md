@@ -18,6 +18,16 @@ Or use `npx prisma studio` → User table → set `isAdmin` to `true`.
 | LLM Providers       | `/llm-config`          | Configure LLM provider pool (API keys, models, priorities) |
 | User Management     | `/users`               | View/ban/manage users                                      |
 
+## Special Pages
+
+| Page                | Path                   | Function                                                   |
+| ------------------- | ---------------------- | ---------------------------------------------------------- |
+| Mobile Preview      | `/flywheel-preview.html` | Standalone feature preview (mobile guest entry point)    |
+| Auth Sign In        | `/auth/signin`         | Login/register page (XiaoYing OIDC + credentials)         |
+| Home                | `/`                    | Main page (guest: limited, authenticated: full app)        |
+| Dictation           | `/dictation`           | Spelling quiz (综合默写 + 语境填空)                         |
+| History             | `/history`             | Word bank management                                       |
+
 ## API Endpoints (Admin Only)
 
 | Endpoint                   | Method              | Description                   |
@@ -38,6 +48,10 @@ Or use `npx prisma studio` → User table → set `isAdmin` to `true`.
 **Monitor system**: Check `/analytics` for error counts and recent events.
 
 **Configure LLM providers**: Visit `/llm-config` → Add/manage providers with API keys, base URLs, models, and priorities. The pool auto-failovers on 402/429 errors.
+
+**XiaoYing login button**: Follow official guidelines at `https://developer.xiaoying.life/docs/oidc/button-guidelines`. Use official icon (`/xiaoying-icon.svg`), text "使用小应账号快捷登录", white background with border.
+
+**TTS configuration**: Set `MIMO_API_KEY` in `.env` to enable Xiaomi MiMo TTS. Voice defaults to `default_en` (English female). Cache is 200 entries with 24h TTL.
 
 ## Quick Links
 

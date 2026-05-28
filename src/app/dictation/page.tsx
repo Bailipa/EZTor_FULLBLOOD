@@ -91,6 +91,7 @@ export default function DictationPage() {
   const [reviewMode, setReviewMode] = useState<'random' | 'smart'>('smart') // 新增：复习模式
   const [selectedGroupId, setSelectedGroupId] = useState<string>('all')
   const [extraOptions, setExtraOptions] = useState<string[]>([])
+  const [isTranslationExpanded, setIsTranslationExpanded] = useState(false) // 新增：翻译展开状态
   const [groups, setGroups] = useState<
     { id: string; name: string; _count?: { ReviewGroupWord: number }; [key: string]: unknown }[]
   >([])
@@ -260,14 +261,28 @@ export default function DictationPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentIndex, mode, words, isChecked, isFinished, isMuted])
 
-  // 答题后 / 换题后自动滚动到题目区域
+  // 预加载下一题发音（命中缓存后下一题 0 延迟）
   useEffect(() => {
-    if (words.length > 0 && !isFinished) {
-      setTimeout(() => {
-        questionCardRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-      }, 100)
-    }
-  }, [currentIndex, isChecked])
+    if (mode !== 'dictation' || isMuted || !words.length) return
+    const nextIndex = currentIndex + 1
+    if (nextIndex >= words.length) return
+    const nextWord = words[nextIndex]
+    if (!nextWord?.word) return
+    fetch('/api/tts', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ input: nextWord.word, response_format: 'wav' }),
+    }).catch(() => {})
+  }, [currentIndex, mode, isMuted, words])
+
+  // 答题后 / 换题后自动滚动到题目区域（暂时禁用）
+  // useEffect(() => {
+  //   if (words.length > 0 && !isFinished) {
+  //     setTimeout(() => {
+  //       questionCardRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  //     }, 100)
+  //   }
+  // }, [currentIndex, isChecked])
 
   const currentWord = words[currentIndex]
 
@@ -349,6 +364,7 @@ export default function DictationPage() {
       } else {
         resetTurn()
       }
+      setIsTranslationExpanded(false) // 重置翻译展开状态
       // eslint-disable-next-line react-hooks/exhaustive-deps
     },
     [answers],
@@ -628,35 +644,24 @@ export default function DictationPage() {
 
   return (
     <AppLayout>
-      <main className="min-h-screen bg-background p-6 md:p-12 transition-colors duration-300">
-        <div className="max-w-3xl mx-auto space-y-8">
-          {/* Header */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-card p-6 rounded-xl shadow-sm border border-border transition-colors duration-300">
-            <div className="flex items-center gap-4">
-              <div style={{ minWidth: 'max-content' }}>
-                <h1 className="text-2xl font-bold text-gray-900 dark:text-foreground" style={{ whiteSpace: 'nowrap' }}>多维默写本</h1>
-                <p className="text-sm text-gray-500 dark:text-muted-foreground mt-1">
-                  检测你的真实记忆水平
-                </p>
-              </div>
-            </div>
-          </div>
+      <main className="h-screen bg-background p-4 md:p-8 transition-colors duration-300 flex flex-col">
+        <div className="max-w-3xl mx-auto flex-1 flex flex-col min-h-0 w-full">
 
         {!isStarted ? (
           /* 设置与启动页面 */
-          <Card className="border-2 shadow-sm">
-            <CardContent className="p-8 md:p-12 flex flex-col items-center text-center space-y-8">
-              <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center">
-                <RefreshCw className="w-10 h-10 text-primary" />
+          <Card className="border-2 shadow-sm flex-1 flex flex-col">
+            <CardContent className="p-6 md:p-8 flex flex-col items-center text-center space-y-6 flex-1">
+              <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center">
+                <RefreshCw className="w-8 h-8 text-primary" />
               </div>
-              <div className="space-y-2" style={{ minWidth: 'max-content' }}>
-                <h2 className="text-2xl font-bold" style={{ whiteSpace: 'nowrap' }}>配置本次默写</h2>
-                <p className="text-muted-foreground">
+              <div className="space-y-2">
+                <h2 className="text-xl font-bold">配置本次默写</h2>
+                <p className="text-sm text-muted-foreground">
                   根据你的时间安排，选择本次要复习的单词数量。
                 </p>
               </div>
 
-              <div className="w-full max-w-xs space-y-4">
+              <div className="w-full max-w-xs space-y-3 flex-1 flex flex-col">
                 <div className="flex justify-between items-center bg-muted/30 p-4 rounded-lg border">
                   <span className="font-medium">复习范围</span>
                   <select
@@ -816,7 +821,7 @@ export default function DictationPage() {
                   </div>
                 )}
 
-                <Button className="w-full h-12 text-lg font-bold mt-4" onClick={startTest}>
+                <Button className="w-full h-12 text-lg font-bold mt-auto shrink-0" onClick={startTest}>
                   开始测试
                 </Button>
               </div>
@@ -897,22 +902,32 @@ export default function DictationPage() {
                 </div>
 
                 {/* 题目区域 */}
-                <div className="min-h-[140px] flex flex-col items-center justify-center text-center space-y-6">
+                <div className="flex flex-col items-center justify-center text-center space-y-4">
                   {mode === 'dictation' && (
-                    <div className="space-y-6 flex flex-col items-center">
+                    <div className="space-y-4 flex flex-col items-center w-full">
                       {!hideChinese && (
-                        <h2 className="text-3xl font-bold text-gray-800 dark:text-gray-100 break-words px-4">
-                          {currentWord.translation}
-                        </h2>
+                        <div className="w-full">
+                          <h2 className={`text-2xl font-bold text-gray-800 dark:text-gray-100 break-words px-4 ${!isTranslationExpanded ? 'line-clamp-3' : ''}`}>
+                            {currentWord.translation}
+                          </h2>
+                          {currentWord.translation && currentWord.translation.length > 60 && (
+                            <button
+                              onClick={() => setIsTranslationExpanded(!isTranslationExpanded)}
+                              className="text-sm text-primary hover:underline mt-1"
+                            >
+                              {isTranslationExpanded ? '收起' : '展开全部'}
+                            </button>
+                          )}
+                        </div>
                       )}
                       <Button
                         size="lg"
                         variant="secondary"
-                        className={`rounded-full w-20 h-20 shadow-inner hover:scale-105 transition-transform ${isMuted ? 'opacity-50 cursor-not-allowed' : ''}`}
+                        className={`rounded-full w-16 h-16 shadow-inner hover:scale-105 transition-transform ${isMuted ? 'opacity-50 cursor-not-allowed' : ''}`}
                         onClick={() => !isMuted && playAudio(currentWord.word)}
                         disabled={isMuted}
                       >
-                        <Volume2 className="w-10 h-10 text-primary" />
+                        <Volume2 className="w-8 h-8 text-primary" />
                       </Button>
                       {options.length > 0 && (
                         <div className="grid grid-cols-2 gap-3 w-full max-w-sm">

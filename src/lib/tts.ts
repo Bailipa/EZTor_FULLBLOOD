@@ -2,8 +2,8 @@ import { logger } from '@/lib/logger'
 
 const MIMO_API_KEY = process.env.MIMO_API_KEY || ''
 const MIMO_BASE_URL = 'https://api.xiaomimimo.com/v1/chat/completions'
-const MIMO_MODEL = 'mimo-v2.5-tts'
-const MIMO_VOICE = process.env.MIMO_VOICE || 'Chloe'
+const MIMO_MODEL = 'mimo-v2-tts'
+const MIMO_VOICE = process.env.MIMO_VOICE || 'default_en'
 
 export type TtsResponseFormat = 'wav'
 
@@ -16,9 +16,60 @@ export type TtsRequest = {
 }
 
 const MAX_INPUT_LENGTH = 500
-const TTS_TIMEOUT_MS = 30000
+const TTS_TIMEOUT_MS = 15000
 const MAX_RETRIES = 1
 const RETRY_DELAY_MS = 500
+
+// LRU 缓存
+const CACHE_MAX = parseInt(process.env.TTS_CACHE_MAX || '200', 10)
+const CACHE_TTL = 24 * 60 * 60 * 1000 // 24h
+
+interface CacheEntry {
+  buffer: Buffer
+  ts: number
+}
+
+const ttsCache = new Map<string, CacheEntry>()
+const pendingRequests = new Map<string, Promise<Response>>()
+
+// 每 5 分钟清理过期条目
+const cleanupInterval = setInterval(
+  () => {
+    const now = Date.now()
+    for (const [key, entry] of ttsCache) {
+      if (now - entry.ts > CACHE_TTL) ttsCache.delete(key)
+    }
+  },
+  5 * 60 * 1000,
+)
+
+// 防止 Node.js 进程因定时器无法退出
+if (cleanupInterval.unref) cleanupInterval.unref()
+
+function getCacheKey(input: string, voice: string): string {
+  return `${voice}:${input.toLowerCase().trim()}`
+}
+
+function getFromCache(key: string): Buffer | null {
+  const entry = ttsCache.get(key)
+  if (!entry) return null
+  if (Date.now() - entry.ts > CACHE_TTL) {
+    ttsCache.delete(key)
+    return null
+  }
+  // LRU: 移到末尾
+  ttsCache.delete(key)
+  ttsCache.set(key, entry)
+  return entry.buffer
+}
+
+function setCache(key: string, buffer: Buffer): void {
+  if (ttsCache.size >= CACHE_MAX) {
+    const firstKey = ttsCache.keys().next().value
+    if (firstKey) ttsCache.delete(firstKey)
+  }
+  ttsCache.set(key, { buffer, ts: Date.now() })
+}
 
 function sleep(ms: number, signal?: AbortSignal): Promise<void> {
   return new Promise((resolve, reject) => {
@@ -47,10 +98,6 @@ async function callMiMo(
     model: MIMO_MODEL,
     messages: [
       {
-        role: 'user' as const,
-        content: 'Read this word or phrase in natural English. Standard American accent, normal pace.',
-      },
-      {
         role: 'assistant' as const,
         content: input,
       },
@@ -72,25 +119,18 @@ async function callMiMo(
   })
 }
 
-export async function synthesizeSpeech(req: TtsRequest): Promise<Response> {
-  const input = (req.input || '').trim()
-  if (!input) throw new Error('input is required')
-  if (input.length > MAX_INPUT_LENGTH)
-    throw new Error(`Input exceeds maximum length of ${MAX_INPUT_LENGTH} characters`)
-
-  if (!MIMO_API_KEY) {
-    throw new Error('MIMO_API_KEY is not configured')
-  }
-
-  const voice = (req.voice || '').trim() || MIMO_VOICE
-
+async function doSynthesize(
+  input: string,
+  voice: string,
+  cacheKey: string,
+  signal?: AbortSignal,
+): Promise<Response> {
   const abortController = new AbortController()
   const timeoutId = setTimeout(
     () => abortController.abort(new DOMException('TTS request timed out', 'TimeoutError')),
     TTS_TIMEOUT_MS,
   )
 
-  const signal = req.signal
   if (signal) {
     if (signal.aborted) {
       clearTimeout(timeoutId)
@@ -127,6 +167,7 @@ export async function synthesizeSpeech(req: TtsRequest): Promise<Response> {
         }
 
         const audioBuffer = Buffer.from(audioData, 'base64')
+        setCache(cacheKey, audioBuffer)
 
         return new Response(audioBuffer, {
           headers: {
@@ -155,4 +196,42 @@ export async function synthesizeSpeech(req: TtsRequest): Promise<Response> {
 
   clearTimeout(timeoutId)
   throw lastError || new Error('MiMo TTS failed after retries')
+}
+
+export async function synthesizeSpeech(req: TtsRequest): Promise<Response> {
+  const input = (req.input || '').trim()
+  if (!input) throw new Error('input is required')
+  if (input.length > MAX_INPUT_LENGTH)
+    throw new Error(`Input exceeds maximum length of ${MAX_INPUT_LENGTH} characters`)
+
+  if (!MIMO_API_KEY) {
+    throw new Error('MIMO_API_KEY is not configured')
+  }
+
+  const voice = (req.voice || '').trim() || MIMO_VOICE
+  const cacheKey = getCacheKey(input, voice)
+
+  // 1. 缓存命中
+  const cached = getFromCache(cacheKey)
+  if (cached) {
+    return new Response(new Uint8Array(cached), {
+      headers: {
+        'Content-Type': 'audio/wav',
+        'Content-Length': String(cached.length),
+      },
+    })
+  }
+
+  // 2. 并发去重
+  const pending = pendingRequests.get(cacheKey)
+  if (pending) return pending
+
+  // 3. 新请求
+  const promise = doSynthesize(input, voice, cacheKey, req.signal)
+  pendingRequests.set(cacheKey, promise)
+  try {
+    return await promise
+  } finally {
+    pendingRequests.delete(cacheKey)
+  }
 }

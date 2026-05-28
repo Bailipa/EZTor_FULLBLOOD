@@ -8,6 +8,24 @@ Verification: each step ends with the verification command or check method.
 
 ---
 
+## User Behavior Context (2026-05-27)
+
+| Metric | Value |
+|--------|-------|
+| Total registered users | 79 |
+| Users with words | 31 (39%) |
+| Zombie users (registered, never used) | 45 (57%) |
+| 7-day page views | 1,038 |
+| 7-day guest translations | 152 |
+| 7-day dictation starts/completes | 44 / 24 (55%) |
+| Guest → registration conversion | 50% |
+| Registration → word add conversion | 41% |
+| Single-visit users | 72% |
+
+See `docs/GROWTH_OPTIMIZATION.md` for user growth optimization tasks.
+
+---
+
 ## Phase 1: Security Fixes (Must Execute First)
 
 ### Step 1.1 — Remove Global TLS Disable

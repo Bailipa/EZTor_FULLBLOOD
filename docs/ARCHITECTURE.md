@@ -1,6 +1,6 @@
 # Architecture
 
-> Based on code as of 2026-04.
+> Based on code as of 2026-05.
 
 ## System Overview
 
@@ -9,13 +9,13 @@ Browser (React 19)
     │
     ▼
 Next.js 16 (App Router)
-    ├── Middleware (CSRF, Auth)
+    ├── Middleware (CSRF, Auth, Mobile Redirect)
     │
     ├── API Routes (/api/*)
     │   ├── translate / translate-only → LLM Pool
     │   ├── dictation → Review Groups
     │   ├── share → Shared Vocab
-    │   ├── tts → Edge TTS
+    │   ├── tts → Xiaomi MiMo V2 TTS
     │   ├── analytics → Event Store
     │   └── admin → Config / Users / Public Words
     │
@@ -94,6 +94,56 @@ Pino-based logger (`lib/logger.ts`) with:
 - JSON output in production, pretty-print in development
 - Per-request child loggers with `requestId` + `userId` context
 - Security event logging via `logger.security()`
+
+### TTS Architecture (`lib/tts.ts` + `lib/ttsBrowser.ts`)
+
+```
+Browser click → ttsBrowser.ts → POST /api/tts → tts.ts → Xiaomi MiMo V2 API
+                                                    ↓
+                                              LRU Cache (200 entries, 24h TTL)
+                                                    ↓
+                                              Pending Dedup Map
+                                                    ↓
+                                              MiMo API Response (base64 WAV)
+                                                    ↓
+                                              Cache → Return to Browser
+```
+
+| Component | File | Role |
+|-----------|------|------|
+| Server TTS | `src/lib/tts.ts` | MiMo V2 API call + LRU cache + pending dedup |
+| Browser TTS | `src/lib/ttsBrowser.ts` | Client-side: call `/api/tts`, fallback to `speechSynthesis` |
+| API Route | `src/app/api/tts/route.ts` | Rate limit + proxy to `synthesizeSpeech` |
+
+MiMo TTS config:
+- Model: `mimo-v2-tts` (V2, faster than V2.5)
+- Voice: `default_en` (English female)
+- Cache: 200 entries, 24h TTL, 5-min cleanup interval
+- Timeout: 15s, max 1 retry
+
+### Mobile Guest Redirect (Middleware)
+
+```
+Request → Middleware → pathname === '/'?
+                         ↓
+                    skip-preview param? → pass through
+                         ↓
+                    UA is mobile? → check token
+                         ↓ no token
+                    302 → /flywheel-preview.html
+```
+
+- `public/flywheel-preview.html` — standalone feature preview page
+- `PUBLIC_PATHS` includes `/flywheel-preview.html`
+- `skip-preview` query param bypasses redirect (for "受限模式" link)
+
+### XiaoYing OIDC Integration
+
+- `src/lib/xiaoying-oidc.ts` — OIDC PKCE flow (EdDSA via jose)
+- `src/lib/xiaoying-oidc-attempts.ts` — DB-backed attempt store (TTL 10min)
+- `src/app/api/auth/xiaoying/start/route.ts` — Initiate login
+- `src/app/api/auth/xiaoying/callback/route.ts` — Handle callback
+- Detection: `src/lib/isXiaoYingWebView.ts` — UA check for "xiaoying"/"小应"
 
 ## Deployment
 

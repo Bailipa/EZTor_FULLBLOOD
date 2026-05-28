@@ -62,8 +62,26 @@ NEXTAUTH_URL=https://eztor.dogeggcode.cyou
 LLM_API_KEY=你的API密钥
 LLM_API_URL=https://ark.cn-beijing.volces.com/api/v3/chat/completions
 LLM_MODEL=deepseek-v3-250324
+
+# Xiaomi MiMo TTS
+MIMO_API_KEY=你的MiMo密钥
+MIMO_VOICE=default_en
 EOF
 ```
+
+#### 环境变量说明
+
+| 变量 | 必填 | 说明 |
+|------|------|------|
+| `NEXTAUTH_SECRET` | 是 | JWT 签名密钥，32+ 字符 |
+| `DATABASE_URL` | 是 | PostgreSQL 连接串 |
+| `LLM_API_KEY` | 是 | LLM API 密钥（火山引擎 DeepSeek） |
+| `LLM_API_URL` | 是 | LLM API 端点 |
+| `LLM_MODEL` | 是 | LLM 模型名 |
+| `MIMO_API_KEY` | 否 | 小米 MiMo TTS API 密钥，不填则 TTS 不可用 |
+| `MIMO_VOICE` | 否 | MiMo 音色，默认 `default_en`（英文女声） |
+| `TTS_CACHE_MAX` | 否 | TTS 缓存条目上限，默认 200 |
+| `NEXT_PUBLIC_XIAOYING_OIDC_ENABLED` | 否 | 小应 OIDC 登录开关 |
 
 ### 2.5 启动 PostgreSQL（Docker）
 ```bash
@@ -94,6 +112,32 @@ cp -r public .next/standalone/
 pm2 start .next/standalone/server.js --name cet4-web
 pm2 save && pm2 startup
 ```
+
+> **TTS 注意**：MiMo TTS 调用中国服务器，需要 CA 证书。Dockerfile 已包含 `ca-certificates`。如果本地开发遇到 SSL 错误，用 `NODE_TLS_REJECT_UNAUTHORIZED=0 npm run dev`。
+
+### 2.8 更新部署（增量）
+
+增量部署流程（不重建数据库）：
+
+```bash
+# 本地
+npm run build
+cp -r .next/static .next/standalone/.next/static
+cp -r public .next/standalone/public
+tar -czf deploy_$(date +%Y%m%d_%H%M%S).tar.gz .next/standalone prisma
+
+# 上传到服务器
+rsync -avz deploy_*.tar.gz root@114.55.58.90:/www/wwwroot/114.55.58.90/
+
+# 服务器
+cd /www/wwwroot/114.55.58.90
+mv .next/standalone .next/standalone.bak.$(date +%Y%m%d_%H%M%S)
+tar -xzf deploy_*.tar.gz
+cp .env .next/standalone/.env
+pm2 restart cet4-web
+```
+
+> **回退**：`mv .next/standalone.bak.* .next/standalone && cp .env .next/standalone/.env && pm2 restart cet4-web`
 
 ### 2.8 初始化种子数据
 
@@ -153,3 +197,6 @@ add_header Content-Security-Policy "default-src 'self'; script-src 'self' 'unsaf
 | DonationConfig INSERT 返回 0 rows | `updatedAt` 列无默认值 | INSERT 时显式指定 `NOW()` |
 | Nginx CSP 修改后不生效 | 未 `nginx -s reload` | 每次修改代理配置后需重载 Nginx |
 | 浏览器仍显示旧 CSP | Next.js 响应头优先于 Nginx | `proxy_hide_header` + `add_header ... always` |
+| TTS 500 错误 | MIMO_API_KEY 未配置或 SSL 证书问题 | 检查 `.env` 有 `MIMO_API_KEY`，Dockerfile 有 `ca-certificates` |
+| TTS 发音质量差 | 音色不对 | 确认 `MIMO_VOICE=default_en`（英文音色） |
+| TTS 响应慢 | 未命中缓存 | 确认服务器进程未重启，缓存会自动积累 |

@@ -149,6 +149,7 @@ model ReviewGroup {
   id                String              @id @default(cuid())
   name              String
   userId            String
+  isSystem          Boolean             @default(false)
   createdAt         DateTime            @default(now())
   updatedAt         DateTime
   DefaultVocabulary DefaultVocabulary[]
@@ -285,6 +286,7 @@ model User {
   isBanned               Boolean                  @default(false)
   banReason              String?
   banExpiresAt           DateTime?
+  onboardingCompleted    Boolean                  @default(false)
   createdAt              DateTime                 @default(now())
   updatedAt              DateTime
   CustomApiKey           CustomApiKey?

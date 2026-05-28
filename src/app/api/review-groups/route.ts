@@ -40,7 +40,10 @@ export async function POST(req: Request) {
     }
 
     const count = await prisma.reviewGroup.count({
-      where: { userId: session.user.id },
+      where: { 
+        userId: session.user.id,
+        isSystem: false
+      },
     })
 
     if (count >= 3) {
