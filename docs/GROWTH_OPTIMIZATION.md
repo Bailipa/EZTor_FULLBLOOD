@@ -889,6 +889,147 @@ apple 36, inevitable 23, take for granted 14, hello 7
 
 ---
 
+### Step 6.6 — 风险审查增强
+
+**Problem**: 需要保存风险消息、AI 思考过程、日志记录。
+
+**Files**:
+- `src/lib/riskDetection.ts`
+- `src/app/api/chat/messages/route.ts`
+
+**Actions**:
+
+1. 优化 AI Prompt：
+   - 添加详细的风险类型定义
+   - 添加判断原则
+   - 添加输出格式说明
+   - 添加示例
+
+2. 保存风险消息：
+   - 在 `ChatMessage` 表添加 `isRisky`、`riskAnalysis` 字段
+   - 触发熔断的消息保存到数据库
+
+3. 保存 AI 思考过程：
+   - `reason`：风险原因
+   - `riskType`：风险类型
+   - `confidence`：置信度
+   - `rawResponse`：原始响应
+
+4. 日志记录：
+   - 使用 `logger` 记录风险审查日志
+   - 记录消息内容（脱敏）、AI 响应、是否触发熔断
+
+**Verification**:
+- 风险消息正确保存
+- AI 思考过程正确保存
+- 日志记录正常
+
+---
+
+### Step 6.7 — 功能开关
+
+**Problem**: 需要动态开启/关闭聊天功能。
+
+**Files**:
+- `prisma/schema.prisma`
+- `src/app/api/chat/config/route.ts`
+- `src/app/chat/page.tsx`
+- `src/app/chat/disabled/page.tsx`
+
+**Actions**:
+
+1. 数据库：`ChatConfig` 添加 `featureEnabled` 字段
+
+2. API：检查功能开关
+   - 如果 `featureEnabled = false`，返回 404
+
+3. 前端：
+   - 检查功能开关，如果关闭则重定向到 `/chat/disabled`
+   - 管理员可跳过检查
+
+4. 新增 `/chat/disabled` 页面：
+   - 显示"功能已关闭"
+
+**Verification**:
+- 功能开关正常工作
+- 关闭后普通用户无法访问
+- 管理员可正常访问
+
+---
+
+### Step 6.8 — API 失败熔断
+
+**Problem**: LLM API 调用失败时需要提醒管理员。
+
+**Files**:
+- `src/lib/riskDetection.ts`
+- `src/app/api/chat/messages/route.ts`
+- `src/app/chat/api-failure/page.tsx`
+
+**Actions**:
+
+1. 检测 API 失败：
+   - 如果 API 返回非 200 状态码
+   - 如果网络请求失败
+
+2. 连续失败计数：
+   - `ChatConfig` 添加 `apiFailureCount` 字段
+   - 每次失败计数 +1
+   - 成功后重置为 0
+
+3. 触发熔断：
+   - 连续失败 3 次后触发熔断
+   - 熔断类型：`api_failure`
+   - 熔断原因：`LLM API 调用失败，请检查 API 额度`
+
+4. 新增 `/chat/api-failure` 页面：
+   - 显示"服务器资源不足，暂停该服务"
+
+**Verification**:
+- API 失败正确检测
+- 连续失败计数正确
+- 熔断正确触发
+- 管理员可查看熔断原因
+
+---
+
+### Step 6.9 — 管理员面板
+
+**Problem**: 管理员需要在 Analytics 页面管理聊天功能。
+
+**Files**:
+- `src/components/admin/ChatManagement.tsx`
+- `src/app/analytics/page.tsx`
+- `src/app/api/admin/todos/reorder/route.ts`
+
+**Actions**:
+
+1. 创建 `ChatManagement` 组件：
+   - 聊天功能开关
+   - 聊天入口开关
+   - 熔断状态显示
+   - 解除熔断按钮
+   - 清除历史消息按钮（带确认弹窗）
+   - 禁言列表（内联表格）
+   - 自定义敏感词管理（批量添加、删除确认）
+   - Todolist 管理（添加、编辑弹窗、删除确认、上下移动排序）
+
+2. 在 Analytics 页面引入 `ChatManagement` 组件
+
+3. 新增 `/api/admin/todos/reorder` API：
+   - 批量更新排序
+
+4. 管理员判定逻辑：
+   - 使用 `session.user.isAdmin` 字段
+   - 不硬编码用户名
+
+**Verification**:
+- 管理员面板正常显示
+- 所有管理功能正常工作
+- 权限控制正确
+
+---
+
 ## Phase 7: UI 优化（已完成）
 
 ### Step 7.1 — HomeHeader 与侧边栏对齐
@@ -1020,6 +1161,10 @@ apple 36, inevitable 23, take for granted 14, hello 7
 | 6 | 6.3 API 设计 | 🔴 高 | 6.2 | ✅ 已完成 |
 | 6 | 6.4 前端组件 | 🔴 高 | 6.3 | ✅ 已完成 |
 | 6 | 6.5 导航栏入口 | 🟡 中 | 6.4 | ✅ 已完成 |
+| 6 | 6.6 风险审查增强 | 🔴 高 | 6.3 | ✅ 已完成 |
+| 6 | 6.7 功能开关 | 🟡 中 | 6.1 | ✅ 已完成 |
+| 6 | 6.8 API失败熔断 | 🟡 中 | 6.1 | ✅ 已完成 |
+| 6 | 6.9 管理员面板 | 🔴 高 | 6.3 | ✅ 已完成 |
 | 7 | 7.1 HomeHeader 对齐 | 🟡 中 | 无 | ✅ 已完成 |
 | 7 | 7.2 闪卡布局优化 | 🔴 高 | 无 | ✅ 已完成 |
 | 7 | 7.3 默写页面优化 | 🟡 中 | 无 | ✅ 已完成 |
@@ -1158,6 +1303,20 @@ model ReviewGroup {
 - [x] 消息长度限制（300字符）
 - [x] 加载更多历史消息
 - [x] 熔断机制（AI 检测到风险自动关闭聊天）
+- [x] 功能开关（数据库配置，动态切换）
+- [x] API 失败熔断（连续 3 次失败触发）
+- [x] 风险消息保存（管理员可查看触发熔断的消息）
+- [x] AI 思考过程保存（reason, riskType, confidence, rawResponse）
+- [x] 日志记录
+- [x] 定时清理（风险消息 7 天后自动删除）
+- [x] 批量添加敏感词
+- [x] Todolist 上下移动排序
+- [x] 删除确认框
+- [x] 新增 /chat/disabled 功能关闭页面
+- [x] 新增 /chat/api-failure API故障页面
+- [x] Analytics 页面添加聊天管理、敏感词管理、Todolist 管理
+- [x] 管理员判定逻辑打通 isAdmin 字段
+- [x] emoji 列表扩展到 50 个，支持双 emoji 组合
 
 ### UI 优化验证
 - [x] HomeHeader 与侧边栏对齐
