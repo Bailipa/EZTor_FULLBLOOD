@@ -13,7 +13,18 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { Users, ArrowLeft, RefreshCw } from 'lucide-react'
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog'
+import { Users, ArrowLeft, RefreshCw, Trash2 } from 'lucide-react'
+import { toast } from 'sonner'
 
 type UserRow = {
   id: string
@@ -40,6 +51,8 @@ export default function AdminUsersPage() {
   const [rows, setRows] = useState<UserRow[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [deletingUser, setDeletingUser] = useState<UserRow | null>(null)
+  const [isDeleting, setIsDeleting] = useState(false)
 
   const fetchData = useCallback(async () => {
     setLoading(true)
@@ -56,6 +69,33 @@ export default function AdminUsersPage() {
       setLoading(false)
     }
   }, [range])
+
+  const handleDelete = async () => {
+    if (!deletingUser) return
+    setIsDeleting(true)
+    try {
+      const res = await fetch(`/api/admin/users/${deletingUser.id}`, {
+        method: 'DELETE',
+      })
+      const data = await res.json()
+      if (data.success) {
+        toast.success(data.message)
+        if (data.deletedData) {
+          toast.info(
+            `已删除 ${data.deletedData.words} 个单词、${data.deletedData.groups} 个分组、${data.deletedData.messages} 条消息`
+          )
+        }
+        setDeletingUser(null)
+        fetchData()
+      } else {
+        toast.error(data.error || '删除失败')
+      }
+    } catch (error) {
+      toast.error('删除失败')
+    } finally {
+      setIsDeleting(false)
+    }
+  }
 
   useEffect(() => {
     if (isAdmin) fetchData()
@@ -151,6 +191,7 @@ export default function AdminUsersPage() {
                       <th className="text-right py-2 px-2 font-medium">活跃天数</th>
                       <th className="text-right py-2 px-2 font-medium">Sessions</th>
                       <th className="text-right py-2 px-2 font-medium">累计搜索单词</th>
+                      <th className="text-center py-2 px-2 font-medium">操作</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -167,6 +208,16 @@ export default function AdminUsersPage() {
                         <td className="py-2 px-2 text-right">{u.activeDaysInRange}</td>
                         <td className="py-2 px-2 text-right">{u.sessionsInRange}</td>
                         <td className="py-2 px-2 text-right">{u.onlineMinutesInRange}</td>
+                        <td className="py-2 px-2 text-center">
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => setDeletingUser(u)}
+                            className="text-red-500 hover:text-red-700 hover:bg-red-50"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </Button>
+                        </td>
                       </tr>
                     ))}
                   </tbody>
@@ -176,6 +227,39 @@ export default function AdminUsersPage() {
           </CardContent>
         </Card>
       </div>
+
+      {/* Delete confirmation dialog */}
+      <AlertDialog open={!!deletingUser} onOpenChange={(open) => !open && setDeletingUser(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>确认删除用户</AlertDialogTitle>
+            <AlertDialogDescription>
+              确定要删除用户 <strong>{deletingUser?.username}</strong> 吗？
+              <br />
+              <br />
+              此操作将永久删除该用户的所有数据，包括：
+              <ul className="list-disc list-inside mt-2 text-sm">
+                <li>生词本中的所有单词</li>
+                <li>所有分组</li>
+                <li>聊天消息</li>
+                <li>学习记录</li>
+              </ul>
+              <br />
+              <span className="text-red-500 font-medium">此操作不可撤销。</span>
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel disabled={isDeleting}>取消</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleDelete}
+              disabled={isDeleting}
+              className="bg-red-600 hover:bg-red-700"
+            >
+              {isDeleting ? '删除中...' : '确认删除'}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   )
 }
