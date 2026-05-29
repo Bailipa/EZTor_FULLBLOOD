@@ -234,6 +234,18 @@ export function ChatRoom() {
           </div>
         )}
 
+        {/* 欢迎消息 */}
+        <div className="flex justify-center mb-4">
+          <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4 max-w-sm text-center">
+            <h4 className="font-semibold text-sm mb-2">🎉 欢迎来到反馈聊天！</h4>
+            <p className="text-sm text-muted-foreground">
+              这里是与开发者直接交流的渠道。<br />
+              提交问题反馈、提出功能建议、分享使用心得。<br />
+              开发者会尽快回复你的消息。
+            </p>
+          </div>
+        </div>
+
         {messages.map((message) => {
           const isOwn = message.userId === session?.user?.id
           const messageAdmin = isDeveloper(message.User)

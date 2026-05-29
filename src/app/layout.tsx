@@ -6,6 +6,7 @@ import { ThemeProvider } from '@/components/theme-provider'
 import { NextAuthProvider } from '@/components/providers/session-provider'
 import { OnlineLimitBanner } from '@/components/OnlineLimitBanner'
 import { BrandThemeProvider } from '@/components/brand-theme-provider'
+import { OnboardingProvider } from '@/components/onboarding/OnboardingProvider'
 
 export const metadata: Metadata = {
   title: {
@@ -66,7 +67,9 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             <BrandThemeProvider>
-              {children}
+              <OnboardingProvider>
+                {children}
+              </OnboardingProvider>
               <Toaster />
             </BrandThemeProvider>
           </ThemeProvider>

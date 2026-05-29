@@ -3,6 +3,8 @@
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import { Home, PenTool, BookOpen, Search, MessageSquare } from 'lucide-react'
+import { useOnboarding } from '@/components/onboarding/OnboardingProvider'
+import { useRef } from 'react'
 
 const navItems = [
   { href: '/', label: '首页', icon: Home },
@@ -14,29 +16,57 @@ const navItems = [
 
 export default function MobileNavBar() {
   const pathname = usePathname()
+  const { currentStep, isActive } = useOnboarding()
+  const chatButtonRef = useRef<HTMLAnchorElement>(null)
 
   return (
     <nav className="xl:hidden fixed bottom-0 left-0 right-0 z-40 bg-background border-t border-border" style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}>
       <div className="flex items-center justify-around h-14">
         {navItems.map((item) => {
           const Icon = item.icon
-          const isActive = pathname === item.href
+          const isActiveTab = pathname === item.href
+          const isChatButton = item.href === '/chat'
+          const shouldHighlight = isActive && currentStep === 5 && isChatButton
+
           return (
             <Link
               key={item.href}
               href={item.href}
+              ref={isChatButton ? chatButtonRef : undefined}
               className={`flex flex-col items-center justify-center gap-0.5 flex-1 h-full transition-colors ${
-                isActive
-                  ? 'text-primary'
-                  : 'text-muted-foreground hover:text-foreground'
+                shouldHighlight
+                  ? 'text-primary animate-pulse'
+                  : isActiveTab
+                    ? 'text-primary'
+                    : 'text-muted-foreground hover:text-foreground'
               }`}
             >
               <Icon className="w-5 h-5" />
               <span className="text-[10px] font-medium">{item.label}</span>
+              {shouldHighlight && (
+                <div className="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full" />
+              )}
             </Link>
           )
         })}
       </div>
+
+      {/* 引导步骤 5：Chat 功能介绍 */}
+      {isActive && currentStep === 5 && (
+        <div className="fixed bottom-16 left-4 right-4 z-50">
+          <div className="bg-card border border-border rounded-lg shadow-lg p-4">
+            <h4 className="font-semibold text-sm mb-2">💬 反馈聊天</h4>
+            <p className="text-sm text-muted-foreground mb-3">
+              有问题或建议？点击这里与开发者交流。
+            </p>
+            <Link href="/chat" className="w-full">
+              <button className="w-full bg-primary text-primary-foreground px-4 py-2 rounded-md text-sm font-medium">
+                进入反馈聊天
+              </button>
+            </Link>
+          </div>
+        </div>
+      )}
     </nav>
   )
 }

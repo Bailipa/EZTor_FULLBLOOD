@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect, useCallback, useRef } from 'react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Check, X, Loader2, Volume2, Search } from 'lucide-react'
@@ -8,6 +8,8 @@ import { useSession } from 'next-auth/react'
 import { toast } from 'sonner'
 import { speakText } from '@/lib/ttsBrowser'
 import Link from 'next/link'
+import { useOnboarding } from '@/components/onboarding/OnboardingProvider'
+import { OnboardingTooltip } from '@/components/onboarding/OnboardingTooltip'
 
 interface FlashcardWord {
   word: string
@@ -21,6 +23,7 @@ interface FlashcardWord {
 
 export function FullscreenFlashcard() {
   const { data: session, status } = useSession()
+  const { currentStep, isActive, nextStep } = useOnboarding()
   const [words, setWords] = useState<FlashcardWord[]>([])
   const [currentIndex, setCurrentIndex] = useState(0)
   const [showAnswer, setShowAnswer] = useState(false)
@@ -28,6 +31,8 @@ export function FullscreenFlashcard() {
   const [isSaving, setIsSaving] = useState(false)
   const [fetchError, setFetchError] = useState<string | null>(null)
   const [isTranslationExpanded, setIsTranslationExpanded] = useState(false)
+  const knowButtonRef = useRef<HTMLButtonElement>(null)
+  const dontKnowButtonRef = useRef<HTMLButtonElement>(null)
 
   const fetchWords = useCallback(async () => {
     setIsLoading(true)
@@ -253,6 +258,7 @@ export function FullscreenFlashcard() {
           ) : (
             <div className="flex w-full gap-3 max-w-md mx-auto">
               <Button
+                ref={dontKnowButtonRef}
                 variant="outline"
                 className="flex-1 h-12 text-base border-red-200 text-red-600 hover:bg-red-50 hover:text-red-700 dark:border-red-900/50 dark:text-red-400 dark:hover:bg-red-900/20"
                 onClick={() => handleSaveAndNext('unknown')}
@@ -266,6 +272,7 @@ export function FullscreenFlashcard() {
                 不认识
               </Button>
               <Button
+                ref={knowButtonRef}
                 className="flex-1 h-12 text-base bg-green-600 hover:bg-green-700 text-white"
                 onClick={() => handleSaveAndNext('known')}
                 disabled={isSaving}
@@ -278,6 +285,17 @@ export function FullscreenFlashcard() {
                 认识
               </Button>
             </div>
+          )}
+
+          {/* 引导步骤 1：闪卡使用提示 */}
+          {isActive && currentStep === 1 && showAnswer && (
+            <OnboardingTooltip
+              targetRef={knowButtonRef}
+              title="闪卡学习"
+              description="点击'认识'表示你知道这个词，点击'不认识'表示你不知道。我们会记录你的学习进度。"
+              onNext={nextStep}
+              position="top"
+            />
           )}
 
           {/* 游客登录提示 */}

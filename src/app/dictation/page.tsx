@@ -38,12 +38,14 @@ import { Checkbox } from '@/components/ui/checkbox'
 import { useAnalytics } from '@/lib/analytics'
 import { usePageView } from '@/lib/analytics'
 import { speakText } from '@/lib/ttsBrowser'
+import { useOnboarding } from '@/components/onboarding/OnboardingProvider'
 
 type QuizMode = 'dictation' | 'sentence_blank'
 
 export default function DictationPage() {
   usePageView('Dictation')
   const { trackDictationStart, trackDictationComplete } = useAnalytics()
+  const { currentStep, isActive, nextStep } = useOnboarding()
   const [words, setWords] = useState<
     {
       word: string
@@ -1254,6 +1256,58 @@ export default function DictationPage() {
         )}
         </div>
       </main>
+
+      {/* 引导步骤 2：初次默写体验 */}
+      {isActive && currentStep === 2 && !isStarted && (
+        <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4">
+          <Card className="max-w-sm w-full">
+            <CardContent className="p-6 text-center space-y-4">
+              <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto">
+                <RefreshCw className="w-8 h-8 text-primary" />
+              </div>
+              <h3 className="text-xl font-bold">来试试默写吧！</h3>
+              <p className="text-muted-foreground">
+                这次只默写 1 个单词，体验一下默写功能。
+              </p>
+              <Button
+                className="w-full"
+                onClick={() => {
+                  setTestCount(1)
+                  startTest()
+                }}
+              >
+                开始默写
+              </Button>
+            </CardContent>
+          </Card>
+        </div>
+      )}
+
+      {/* 引导步骤 2 完成后进入下一步 */}
+      {isActive && currentStep === 2 && isFinished && (
+        <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4">
+          <Card className="max-w-sm w-full">
+            <CardContent className="p-6 text-center space-y-4">
+              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto">
+                <CheckCircle2 className="w-8 h-8 text-green-600" />
+              </div>
+              <h3 className="text-xl font-bold">默写完成！</h3>
+              <p className="text-muted-foreground">
+                你已经掌握了默写功能。接下来去看看你的生词本吧！
+              </p>
+              <Button
+                className="w-full"
+                onClick={() => {
+                  nextStep()
+                  window.location.href = '/history'
+                }}
+              >
+                查看生词本
+              </Button>
+            </CardContent>
+          </Card>
+        </div>
+      )}
 
       {/* 恢复进度弹窗 */}
       <Dialog open={showRestoreDialog} onOpenChange={setShowRestoreDialog}>

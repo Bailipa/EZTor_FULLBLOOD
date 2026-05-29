@@ -4,6 +4,7 @@ import React, { useState, useEffect, useCallback, useRef, forwardRef } from 'rea
 import Link from 'next/link'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
+import { Card, CardContent } from '@/components/ui/card'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -53,6 +54,8 @@ import { ShareImportModal } from '@/components/vocabulary/ShareImportModal'
 import { GroupShareModal } from '@/components/review-group/GroupShareModal'
 import WordCard, { WordData } from '@/components/vocabulary/WordCard'
 import { useCrudTable } from '@/hooks/useCrudTable'
+import { useOnboarding } from '@/components/onboarding/OnboardingProvider'
+import { OnboardingTooltip } from '@/components/onboarding/OnboardingTooltip'
 
 const PAGE_SIZE = 20
 const MAX_VISIBLE_WORDS = 500
@@ -94,6 +97,7 @@ const GridItem = forwardRef<
 GridItem.displayName = 'GridItem'
 
 export default function HistoryPage() {
+  const { currentStep, isActive, nextStep } = useOnboarding()
   const [words, setWords] = useState<WordData[]>([])
   const [totalCount, setTotalCount] = useState(0)
   const [isLoading, setIsLoading] = useState(true)
@@ -102,6 +106,7 @@ export default function HistoryPage() {
   const [nextCursor, setNextCursor] = useState<string | null>(null)
   const [deletingId, setDeletingId] = useState<string | null>(null)
   const [isClearing, setIsClearing] = useState(false)
+  const importButtonRef = useRef<HTMLButtonElement>(null)
 
   const [groups, setGroups] = useState<
     { id: string; name: string; _count?: { ReviewGroupWord: number }; [key: string]: unknown }[]
@@ -698,6 +703,7 @@ export default function HistoryPage() {
           <div className="mt-4 pt-4 border-t border-border">
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
               <Button
+                ref={importButtonRef}
                 variant="outline"
                 size="sm"
                 onClick={() => setIsImportModalOpen(true)}
@@ -970,6 +976,42 @@ export default function HistoryPage() {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+
+      {/* 引导步骤 3：生词本展示 */}
+      {isActive && currentStep === 3 && (
+        <div className="fixed bottom-20 left-4 right-4 z-50">
+          <Card className="shadow-lg">
+            <CardContent className="p-4">
+              <h3 className="font-semibold mb-2">📚 生词本</h3>
+              <p className="text-sm text-muted-foreground mb-3">
+                这里记录了你学习过的所有单词，包括答对/答错次数。
+              </p>
+              <Button
+                size="sm"
+                onClick={() => nextStep()}
+                className="w-full"
+              >
+                知道了
+              </Button>
+            </CardContent>
+          </Card>
+        </div>
+      )}
+
+      {/* 引导步骤 4：词库导入介绍 */}
+      {isActive && currentStep === 4 && (
+        <OnboardingTooltip
+          targetRef={importButtonRef}
+          title="导入词库"
+          description="点击这里可以导入四六级词库，快速开始学习。"
+          onNext={() => {
+            nextStep()
+            window.location.href = '/'
+          }}
+          position="bottom"
+        />
+      )}
+
       </main>
     </AppLayout>
   )
