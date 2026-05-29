@@ -5,7 +5,8 @@ import { useSession } from 'next-auth/react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Checkbox } from '@/components/ui/checkbox'
-import { Loader2, CheckCircle2, Circle } from 'lucide-react'
+import { Collapsible, CollapsibleTrigger, CollapsibleContent } from '@/components/ui/collapsible'
+import { Loader2, CheckCircle2, Circle, ChevronDown, ChevronRight } from 'lucide-react'
 
 interface Todo {
   id: string
@@ -18,6 +19,7 @@ export function TodoList() {
   const { data: session } = useSession()
   const [todos, setTodos] = useState<Todo[]>([])
   const [isLoading, setIsLoading] = useState(true)
+  const [isOpen, setIsOpen] = useState(false)
 
   const fetchTodos = useCallback(async () => {
     try {
@@ -67,26 +69,42 @@ export function TodoList() {
   }
 
   return (
-    <Card className="mb-4">
-      <CardContent className="p-4">
-        <h3 className="text-sm font-semibold mb-3 flex items-center gap-2">
-          📋 待办事项
-        </h3>
-        <div className="space-y-2">
-          {todos.map((todo) => (
-            <div key={todo.id} className="flex items-center gap-2">
-              {todo.isCompleted ? (
-                <CheckCircle2 className="w-4 h-4 text-green-500 shrink-0" />
-              ) : (
-                <Circle className="w-4 h-4 text-muted-foreground shrink-0" />
-              )}
-              <span className={`text-sm ${todo.isCompleted ? 'line-through text-muted-foreground' : ''}`}>
-                {todo.title}
+    <Collapsible open={isOpen} onOpenChange={setIsOpen}>
+      <Card className="mb-4">
+        <CollapsibleTrigger asChild>
+          <div className="flex items-center justify-between p-4 cursor-pointer hover:bg-muted/50 transition-colors">
+            <h3 className="text-sm font-semibold flex items-center gap-2">
+              📋 作者的计划
+              <span className="text-xs text-muted-foreground font-normal">
+                ({todos.length})
               </span>
+            </h3>
+            {isOpen ? (
+              <ChevronDown className="w-4 h-4 text-muted-foreground" />
+            ) : (
+              <ChevronRight className="w-4 h-4 text-muted-foreground" />
+            )}
+          </div>
+        </CollapsibleTrigger>
+        <CollapsibleContent>
+          <CardContent className="pt-0 px-4 pb-4">
+            <div className="space-y-2">
+              {todos.map((todo) => (
+                <div key={todo.id} className="flex items-center gap-2">
+                  {todo.isCompleted ? (
+                    <CheckCircle2 className="w-4 h-4 text-green-500 shrink-0" />
+                  ) : (
+                    <Circle className="w-4 h-4 text-muted-foreground shrink-0" />
+                  )}
+                  <span className={`text-sm ${todo.isCompleted ? 'line-through text-muted-foreground' : ''}`}>
+                    {todo.title}
+                  </span>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
-      </CardContent>
-    </Card>
+          </CardContent>
+        </CollapsibleContent>
+      </Card>
+    </Collapsible>
   )
 }
