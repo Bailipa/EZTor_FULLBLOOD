@@ -150,6 +150,7 @@ export default function DictationPage() {
   const [customSearchQuery, setCustomSearchQuery] = useState('')
 
   const inputRef = useRef<HTMLInputElement>(null)
+  const isCheckingRef = useRef(false) // 防止重复提交
 
   // Fetch a random batch of words for dictation
   const fetchWords = async () => {
@@ -437,6 +438,8 @@ export default function DictationPage() {
   const handleCheck = async () => {
     if (!userInput.trim()) return
     if (answers[currentIndex]) return // 如果已经答过了，不再重复判断
+    if (isCheckingRef.current) return // 防止重复提交
+    isCheckingRef.current = true
 
     const userWord = userInput.toLowerCase().trim()
 
@@ -474,6 +477,8 @@ export default function DictationPage() {
       }
     } catch (e) {
       if (process.env.NODE_ENV === 'development') console.error('Failed to update stats', e)
+    } finally {
+      isCheckingRef.current = false
     }
   }
 
