@@ -1254,9 +1254,9 @@ export default function DictationPage() {
               <div className="w-24 h-24 rounded-full bg-primary/10 flex items-center justify-center mb-4">
                 <CheckCircle2 className="w-12 h-12 text-primary" />
               </div>
-              <h2 className="text-3xl font-bold text-gray-900 dark:text-foreground" style={{ minWidth: 'max-content', whiteSpace: 'nowrap' }}>{getEncouragementText().emoji} {getEncouragementText().text}</h2>
+              <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-foreground break-words">{getEncouragementText().emoji} {getEncouragementText().text}</h2>
               <div className="space-y-2">
-                <p className="text-3xl sm:text-4xl md:text-5xl font-black text-primary">
+                <p className="text-2xl sm:text-3xl md:text-4xl font-black text-primary">
                   {Math.round((score.correct / words.length) * 100)}{' '}
                   <span className="text-2xl text-muted-foreground font-medium">分</span>
                 </p>

@@ -27,6 +27,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useAdminCheck } from '@/hooks/useAdminCheck'
 import { usePageView } from '@/lib/analytics'
+import { ChatManagement } from '@/components/admin/ChatManagement'
 
 interface RecentEvent {
   id: string
@@ -956,6 +957,9 @@ export default function AnalyticsPage() {
             )}
           </CardContent>
         </Card>
+
+        {/* 聊天管理 */}
+        <ChatManagement />
       </div>
     </div>
   )
