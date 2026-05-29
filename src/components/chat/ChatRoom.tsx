@@ -263,7 +263,7 @@ export function ChatRoom() {
                   </div>
 
                   <Card className={`${isOwn ? 'bg-primary text-primary-foreground' : 'bg-muted'} ${message.isHidden && admin ? 'border-yellow-500' : ''}`}>
-                    <CardContent className="p-3">
+                    <CardContent className="px-3 py-1.5">
                       <p className="text-sm whitespace-pre-wrap break-words">{message.content}</p>
                     </CardContent>
                   </Card>
