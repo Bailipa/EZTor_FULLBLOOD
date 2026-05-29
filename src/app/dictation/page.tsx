@@ -343,6 +343,7 @@ export default function DictationPage() {
     setTotalWordsTested(savedProgress.totalWordsTested || savedProgress.words.length)
     setStartTime(Date.now() - (Date.now() - savedProgress.timestamp)) // 保持原有时间差
     setIsStarted(true)
+    setIsLoading(false)
     setShowRestoreDialog(false)
     setSavedProgress(null)
     localStorage.removeItem('dictation_progress')

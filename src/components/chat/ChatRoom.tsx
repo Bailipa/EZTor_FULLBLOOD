@@ -137,6 +137,7 @@ export function ChatRoom() {
 
       if (data.success) {
         setInput('')
+        setMessages(prev => [...prev, data.data])
         if (data.isShadowBanned) {
           setIsShadowBanned(true)
           toast.info('你的消息仅管理员可见')
