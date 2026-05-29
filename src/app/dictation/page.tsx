@@ -83,6 +83,23 @@ export default function DictationPage() {
   const [answers, setAnswers] = useState<Record<number, { userInput: string; isCorrect: boolean }>>(
     {},
   ) // 记录每道题的答题状态
+  const [startTime, setStartTime] = useState<number | null>(null) // 记录开始时间
+  const [totalWordsTested, setTotalWordsTested] = useState(0) // 记录总共测试的单词数量
+  const [showRestoreDialog, setShowRestoreDialog] = useState(false) // 恢复进度弹窗
+  const [savedProgress, setSavedProgress] = useState<{
+    answers: Record<number, { userInput: string; isCorrect: boolean }>
+    currentIndex: number
+    words: typeof words
+    score: { correct: number; total: number }
+    mode: QuizMode
+    isMuted: boolean
+    isSfxMuted: boolean
+    hideChinese: boolean
+    reviewMode: 'random' | 'smart'
+    selectedGroupId: string
+    timestamp: number
+    totalWordsTested: number
+  } | null>(null)
 
   // Settings State
   const [isMuted, setIsMuted] = useState(true)
@@ -243,8 +260,10 @@ export default function DictationPage() {
       return
     }
     setIsStarted(true)
-    fetchWords()
+    setStartTime(Date.now())
     const count = testCount === 'custom' ? selectedWords.length : testCount
+    setTotalWordsTested(count)
+    fetchWords()
     trackDictationStart(count, mode)
   }
 
@@ -252,6 +271,109 @@ export default function DictationPage() {
     if (isMuted) return
     speakText(text)
   }
+
+  // 根据正确率获取激励文案
+  const getEncouragementText = () => {
+    if (words.length === 0) return { emoji: '📖', text: '学习就是不断重复的过程' }
+    const rate = (score.correct / words.length) * 100
+    if (rate >= 90) return { emoji: '🎉', text: '太棒了！你已经掌握了这些单词' }
+    if (rate >= 70) return { emoji: '👍', text: '不错！再巩固一下就完美了' }
+    if (rate >= 50) return { emoji: '💪', text: '继续加油！多复习几次就能掌握' }
+    return { emoji: '📖', text: '没关系，学习就是不断重复的过程' }
+  }
+
+  // 计算用时
+  const getElapsedTime = () => {
+    if (!startTime) return ''
+    const elapsed = Date.now() - startTime
+    const minutes = Math.floor(elapsed / 60000)
+    const seconds = Math.floor((elapsed % 60000) / 1000)
+    if (minutes > 0) {
+      return `${minutes} 分 ${seconds} 秒`
+    }
+    return `${seconds} 秒`
+  }
+
+  // 保存进度到 localStorage
+  const saveProgress = () => {
+    if (!isStarted || isFinished) return
+    const progress = {
+      answers,
+      currentIndex,
+      words,
+      score,
+      mode,
+      isMuted,
+      isSfxMuted,
+      hideChinese,
+      reviewMode,
+      selectedGroupId,
+      timestamp: Date.now(),
+      totalWordsTested,
+    }
+    localStorage.setItem('dictation_progress', JSON.stringify(progress))
+  }
+
+  // 恢复进度
+  const restoreProgress = () => {
+    if (!savedProgress) return
+    setAnswers(savedProgress.answers)
+    setCurrentIndex(savedProgress.currentIndex)
+    setWords(savedProgress.words)
+    setScore(savedProgress.score)
+    setMode(savedProgress.mode)
+    setIsMuted(savedProgress.isMuted)
+    setIsSfxMuted(savedProgress.isSfxMuted)
+    setHideChinese(savedProgress.hideChinese)
+    setReviewMode(savedProgress.reviewMode)
+    setSelectedGroupId(savedProgress.selectedGroupId)
+    setTotalWordsTested(savedProgress.totalWordsTested || savedProgress.words.length)
+    setStartTime(Date.now() - (Date.now() - savedProgress.timestamp)) // 保持原有时间差
+    setIsStarted(true)
+    setShowRestoreDialog(false)
+    setSavedProgress(null)
+    localStorage.removeItem('dictation_progress')
+  }
+
+  // 放弃恢复进度
+  const discardProgress = () => {
+    setShowRestoreDialog(false)
+    setSavedProgress(null)
+    localStorage.removeItem('dictation_progress')
+  }
+
+  // 检查是否有保存的进度
+  useEffect(() => {
+    const saved = localStorage.getItem('dictation_progress')
+    if (saved) {
+      try {
+        const progress = JSON.parse(saved)
+        const hoursSince = (Date.now() - progress.timestamp) / (1000 * 60 * 60)
+        if (hoursSince < 24 && progress.words && progress.words.length > 0) {
+          setSavedProgress(progress)
+          setShowRestoreDialog(true)
+        } else {
+          localStorage.removeItem('dictation_progress')
+        }
+      } catch {
+        localStorage.removeItem('dictation_progress')
+      }
+    }
+  }, [])
+
+  // 保存进度到 localStorage
+  useEffect(() => {
+    if (isStarted && !isFinished && Object.keys(answers).length > 0) {
+      saveProgress()
+    }
+  }, [answers, currentIndex, score, isStarted, isFinished])
+
+  // 默写完成后清除进度
+  useEffect(() => {
+    if (isFinished) {
+      localStorage.removeItem('dictation_progress')
+    }
+  }, [isFinished])
 
   // 自动播放当前单词发音
   useEffect(() => {
@@ -403,6 +525,7 @@ export default function DictationPage() {
   }, [])
 
   const restartQuiz = () => {
+    setTotalWordsTested(prev => prev + words.length) // 累加已测试单词数
     setWords([])
     setScore({ correct: 0, total: 0 })
     setCurrentIndex(0)
@@ -1093,14 +1216,17 @@ export default function DictationPage() {
               <div className="w-24 h-24 rounded-full bg-primary/10 flex items-center justify-center mb-4">
                 <CheckCircle2 className="w-12 h-12 text-primary" />
               </div>
-              <h2 className="text-3xl font-bold text-gray-900 dark:text-foreground" style={{ minWidth: 'max-content', whiteSpace: 'nowrap' }}>默写完成！</h2>
+              <h2 className="text-3xl font-bold text-gray-900 dark:text-foreground" style={{ minWidth: 'max-content', whiteSpace: 'nowrap' }}>{getEncouragementText().emoji} {getEncouragementText().text}</h2>
               <div className="space-y-2">
                 <p className="text-3xl sm:text-4xl md:text-5xl font-black text-primary">
                   {Math.round((score.correct / words.length) * 100)}{' '}
                   <span className="text-2xl text-muted-foreground font-medium">分</span>
                 </p>
                 <p className="text-gray-500 dark:text-muted-foreground">
-                  共测试 {words.length} 个单词，答对 {score.correct} 个。
+                  共测试 {totalWordsTested} 个单词，答对 {score.correct} 个。
+                </p>
+                <p className="text-gray-500 dark:text-muted-foreground">
+                  用时 {getElapsedTime()}
                 </p>
               </div>
 
@@ -1128,6 +1254,26 @@ export default function DictationPage() {
         )}
         </div>
       </main>
+
+      {/* 恢复进度弹窗 */}
+      <Dialog open={showRestoreDialog} onOpenChange={setShowRestoreDialog}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>恢复上次进度</DialogTitle>
+            <DialogDescription>
+              检测到上次默写未完成，是否继续？
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button variant="outline" onClick={discardProgress}>
+              重新开始
+            </Button>
+            <Button onClick={restoreProgress}>
+              继续上次
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </AppLayout>
   )
 }
