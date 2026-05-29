@@ -313,8 +313,8 @@ export function ChatRoom() {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder="输入消息... (Shift+Enter 换行)"
-            className="min-h-[60px] max-h-[120px] resize-none"
+            placeholder="输入消息..."
+            className="min-h-[40px] max-h-[100px] resize-none text-sm"
             disabled={isSending}
             maxLength={MAX_CONTENT_LENGTH}
           />
