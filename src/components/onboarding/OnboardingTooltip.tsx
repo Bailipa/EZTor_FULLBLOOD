@@ -8,7 +8,7 @@ interface OnboardingTooltipProps {
   targetRef: React.RefObject<HTMLElement | null>
   title: string
   description: string
-  onNext: () => void
+  onNext?: () => void
   onSkip?: () => void
   position?: 'top' | 'bottom' | 'left' | 'right'
 }
@@ -89,9 +89,11 @@ export function OnboardingTooltip({
         )}
       </div>
       <p className="text-sm text-muted-foreground mb-3">{description}</p>
-      <Button size="sm" onClick={onNext} className="w-full">
-        下一步
-      </Button>
+      {onNext && (
+        <Button size="sm" onClick={onNext} className="w-full">
+          下一步
+        </Button>
+      )}
     </div>
   )
 }

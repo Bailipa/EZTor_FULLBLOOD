@@ -33,6 +33,7 @@ export function FullscreenFlashcard() {
   const [isTranslationExpanded, setIsTranslationExpanded] = useState(false)
   const knowButtonRef = useRef<HTMLButtonElement>(null)
   const dontKnowButtonRef = useRef<HTMLButtonElement>(null)
+  const showAnswerButtonRef = useRef<HTMLButtonElement>(null)
 
   const fetchWords = useCallback(async () => {
     setIsLoading(true)
@@ -249,6 +250,7 @@ export function FullscreenFlashcard() {
           {!showAnswer ? (
             <div className="flex w-full gap-3 max-w-md mx-auto">
               <Button
+                ref={showAnswerButtonRef}
                 className="flex-1 h-12 text-lg"
                 onClick={() => setShowAnswer(true)}
               >
@@ -288,12 +290,15 @@ export function FullscreenFlashcard() {
           )}
 
           {/* 引导步骤 1：闪卡使用提示 */}
-          {isActive && currentStep === 1 && showAnswer && (
+          {isActive && currentStep === 1 && (
             <OnboardingTooltip
-              targetRef={knowButtonRef}
+              targetRef={showAnswer ? knowButtonRef : showAnswerButtonRef}
               title="闪卡学习"
-              description="点击'认识'表示你知道这个词，点击'不认识'表示你不知道。我们会记录你的学习进度。"
-              onNext={nextStep}
+              description={showAnswer
+                ? "点击'认识'表示你知道这个词，点击'不认识'表示你不知道。我们会记录你的学习进度。"
+                : "点击'显示答案'查看单词释义，然后选择'认识'或'不认识'。"
+              }
+              onNext={showAnswer ? nextStep : undefined}
               position="top"
             />
           )}
