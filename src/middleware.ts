@@ -145,15 +145,9 @@ export default async function middleware(request: NextRequest) {
 
   if (!wasActive && isOverLimit()) {
     if (userId) {
-      // Authenticated user, new connection, over limit → kick
-      kickUser(userId)
-      if (isApi) {
-        const res = NextResponse.json({ success: false, error: KICK_MESSAGE }, { status: 401 })
-        res.cookies.delete(SESSION_COOKIE)
-        return res
-      }
-      const res = NextResponse.redirect(new URL('/auth/signin?kicked=1', request.url))
-      res.cookies.delete(SESSION_COOKIE)
+      // Authenticated user, new connection, over limit → allow (don't kick logged-in users)
+      const res = NextResponse.next()
+      baseHeaders(res)
       return res
     }
 
