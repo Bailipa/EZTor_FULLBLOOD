@@ -100,12 +100,12 @@ const WordCard = memo(
             <div className="flex items-center gap-2 flex-wrap pr-8">
               <span className="text-lg font-bold text-primary">{item.word}</span>
               {item.phonetic && (
-                <span className="text-xs text-gray-500 font-mono">[{item.phonetic}]</span>
+                <span className="text-xs text-gray-500 dark:text-gray-400 font-mono">[{item.phonetic}]</span>
               )}
               <button
                 onClick={() => speakText(item.word)}
                 onMouseDown={(e) => e.stopPropagation()}
-                className="p-1 text-gray-400 hover:text-primary hover:bg-primary/10 rounded-full relative z-20"
+                className="p-1 text-gray-400 dark:text-gray-500 hover:text-primary hover:bg-primary/10 rounded-full relative z-20"
               >
                 <Volume2 size={16} />
               </button>
@@ -118,7 +118,7 @@ const WordCard = memo(
                 <AlertDialogTrigger asChild>
                   <button
                     onClick={() => onSetDeletingId(item.id)}
-                    className="text-gray-300 hover:text-red-500"
+                    className="text-gray-300 dark:text-gray-600 hover:text-red-500"
                     title={isGroupView ? '从分组中移除' : '删除此单词'}
                   >
                     <Trash2 size={16} />
@@ -129,7 +129,7 @@ const WordCard = memo(
                     <AlertDialogTitle>{isGroupView ? '从分组中移除' : '删除单词'}</AlertDialogTitle>
                     <AlertDialogDescription>
                       确定要{isGroupView ? '从当前分组中移除' : '从生词本中永久删除'}{' '}
-                      <span className="font-bold text-gray-900">"{item.word}"</span> 吗？
+                      <span className="font-bold text-gray-900 dark:text-gray-100">"{item.word}"</span> 吗？
                       {isGroupView && ' (该单词仍会保留在您的总生词本中)'}
                     </AlertDialogDescription>
                   </AlertDialogHeader>
@@ -202,7 +202,7 @@ const WordCard = memo(
                       </p>
                       <button
                         onClick={() => speakText(ex)}
-                        className="p-0.5 text-gray-400 hover:text-primary rounded shrink-0"
+                        className="p-0.5 text-gray-400 dark:text-gray-500 hover:text-primary rounded shrink-0"
                       >
                         <Volume2 size={12} />
                       </button>

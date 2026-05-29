@@ -215,10 +215,10 @@ export default function PublicWordsPage() {
 
   if (loading && !words) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
         <div className="text-center">
           <Database className="h-12 w-12 animate-pulse mx-auto text-blue-500" />
-          <p className="mt-4 text-gray-600">加载公共词库数据...</p>
+          <p className="mt-4 text-gray-600 dark:text-gray-400">加载公共词库数据...</p>
         </div>
       </div>
     )
@@ -226,14 +226,14 @@ export default function PublicWordsPage() {
 
   if (error && !words) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
         <Card className="max-w-md">
           <CardContent className="pt-6">
             <div className="flex items-center gap-4 text-red-500">
               <AlertTriangle className="h-8 w-8" />
               <div>
                 <p className="font-medium">加载失败</p>
-                <p className="text-sm text-gray-500">{error}</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400">{error}</p>
               </div>
             </div>
           </CardContent>
@@ -243,14 +243,14 @@ export default function PublicWordsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4 md:p-8">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-4 md:p-8">
       <div className="max-w-7xl mx-auto">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 flex items-center gap-3" style={{ minWidth: 'max-content', whiteSpace: 'nowrap' }}>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 flex items-center gap-3" style={{ minWidth: 'max-content', whiteSpace: 'nowrap' }}>
             <Database className="h-8 w-8 text-blue-500" />
             公共词库管理
           </h1>
-          <p className="text-gray-600 mt-2">管理和维护公共翻译词库</p>
+          <p className="text-gray-600 dark:text-gray-400 mt-2">管理和维护公共翻译词库</p>
         </div>
 
         {stats && (
@@ -260,7 +260,7 @@ export default function PublicWordsPage() {
                 <div className="flex items-center gap-3">
                   <Database className="h-8 w-8 text-blue-500" />
                   <div>
-                    <p className="text-sm text-gray-500">总词数</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">总词数</p>
                     <p className="text-2xl font-bold">{stats.totalWords.toLocaleString()}</p>
                   </div>
                 </div>
@@ -271,7 +271,7 @@ export default function PublicWordsPage() {
                 <div className="flex items-center gap-3">
                   <Star className="h-8 w-8 text-yellow-500" />
                   <div>
-                    <p className="text-sm text-gray-500">平均质量分</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">平均质量分</p>
                     <p className="text-2xl font-bold">{stats.avgQuality}</p>
                   </div>
                 </div>
@@ -282,7 +282,7 @@ export default function PublicWordsPage() {
                 <div className="flex items-center gap-3">
                   <TrendingUp className="h-8 w-8 text-green-500" />
                   <div>
-                    <p className="text-sm text-gray-500">最高质量分</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">最高质量分</p>
                     <p className="text-2xl font-bold">{stats.maxQuality}</p>
                   </div>
                 </div>
@@ -293,7 +293,7 @@ export default function PublicWordsPage() {
                 <div className="flex items-center gap-3">
                   <BarChart3 className="h-8 w-8 text-purple-500" />
                   <div>
-                    <p className="text-sm text-gray-500">最低质量分</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">最低质量分</p>
                     <p className="text-2xl font-bold">{stats.minQuality}</p>
                   </div>
                 </div>
@@ -321,7 +321,7 @@ export default function PublicWordsPage() {
                         height: `${Math.max(4, (q.count / Math.max(...stats.qualityDistribution.map((d: { count: number }) => d.count))) * 100)}%`,
                       }}
                     />
-                    <span className="text-xs text-gray-500 mt-1">{q.score}</span>
+                    <span className="text-xs text-gray-500 dark:text-gray-400 mt-1">{q.score}</span>
                   </div>
                 ))}
               </div>
@@ -388,7 +388,7 @@ export default function PublicWordsPage() {
         <Card>
           <CardContent className="pt-6">
             {words && words.length === 0 ? (
-              <div className="text-center py-12 text-gray-500">
+              <div className="text-center py-12 text-gray-500 dark:text-gray-400">
                 <Database className="h-12 w-12 mx-auto mb-4 opacity-50" />
                 <p>暂无数据</p>
               </div>
@@ -412,11 +412,11 @@ export default function PublicWordsPage() {
                       words.map((word) => (
                         <tr
                           key={word.id}
-                          className="border-b hover:bg-gray-50 cursor-pointer"
+                          className="border-b hover:bg-gray-50 dark:hover:bg-gray-800 cursor-pointer"
                           onClick={() => setSelectedWord(word)}
                         >
                           <td className="py-3 px-2 font-medium">{word.word}</td>
-                          <td className="py-3 px-2 text-gray-500">{word.phonetic || '-'}</td>
+                          <td className="py-3 px-2 text-gray-500 dark:text-gray-400">{word.phonetic || '-'}</td>
                           <td className="py-3 px-2">{word.pos || '-'}</td>
                           <td className="py-3 px-2 max-w-xs truncate">{word.translation}</td>
                           <td className="py-3 px-2">
@@ -428,7 +428,7 @@ export default function PublicWordsPage() {
                             </div>
                           </td>
                           <td className="py-3 px-2">v{word.version}</td>
-                          <td className="py-3 px-2 text-sm text-gray-500">
+                          <td className="py-3 px-2 text-sm text-gray-500 dark:text-gray-400">
                             {new Date(word.updatedAt).toLocaleString('zh-CN')}
                           </td>
                           <td className="py-3 px-2">
@@ -464,7 +464,7 @@ export default function PublicWordsPage() {
 
             {pagination.totalPages > 1 && (
               <div className="flex items-center justify-between mt-4 pt-4 border-t">
-                <p className="text-sm text-gray-500">共 {pagination.total} 条记录</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400">共 {pagination.total} 条记录</p>
                 <div className="flex gap-2">
                   <Button
                     variant="outline"
@@ -507,19 +507,19 @@ export default function PublicWordsPage() {
                 <div className="space-y-4">
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <p className="text-sm text-gray-500">单词</p>
+                      <p className="text-sm text-gray-500 dark:text-gray-400">单词</p>
                       <p className="font-medium text-lg">{selectedWord.word}</p>
                     </div>
                     <div>
-                      <p className="text-sm text-gray-500">音标</p>
+                      <p className="text-sm text-gray-500 dark:text-gray-400">音标</p>
                       <p>{selectedWord.phonetic || '-'}</p>
                     </div>
                     <div>
-                      <p className="text-sm text-gray-500">词性</p>
+                      <p className="text-sm text-gray-500 dark:text-gray-400">词性</p>
                       <p>{selectedWord.pos || '-'}</p>
                     </div>
                     <div>
-                      <p className="text-sm text-gray-500">质量分</p>
+                      <p className="text-sm text-gray-500 dark:text-gray-400">质量分</p>
                       <div className="flex items-center gap-2">
                         {getQualityBadge(selectedWord.qualityScore)}
                         <span>{selectedWord.qualityScore}</span>
@@ -527,19 +527,19 @@ export default function PublicWordsPage() {
                     </div>
                   </div>
                   <div>
-                    <p className="text-sm text-gray-500">翻译</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">翻译</p>
                     <p>{selectedWord.translation}</p>
                   </div>
                   {selectedWord.example && (
                     <div>
-                      <p className="text-sm text-gray-500">例句</p>
+                      <p className="text-sm text-gray-500 dark:text-gray-400">例句</p>
                       <p className="italic">{selectedWord.example}</p>
                       {selectedWord.exampleTranslation && (
-                        <p className="text-gray-600 mt-1">{selectedWord.exampleTranslation}</p>
+                        <p className="text-gray-600 dark:text-gray-400 mt-1">{selectedWord.exampleTranslation}</p>
                       )}
                     </div>
                   )}
-                  <div className="grid grid-cols-2 gap-4 text-sm text-gray-500">
+                  <div className="grid grid-cols-2 gap-4 text-sm text-gray-500 dark:text-gray-400">
                     <div>
                       <p>版本: v{selectedWord.version}</p>
                     </div>
@@ -579,14 +579,14 @@ export default function PublicWordsPage() {
                 <div className="space-y-4">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label className="text-sm text-gray-500">单词</label>
+                      <label className="text-sm text-gray-500 dark:text-gray-400">单词</label>
                       <Input
                         value={editingWord.word}
                         onChange={(e) => setEditingWord({ ...editingWord, word: e.target.value })}
                       />
                     </div>
                     <div>
-                      <label className="text-sm text-gray-500">音标</label>
+                      <label className="text-sm text-gray-500 dark:text-gray-400">音标</label>
                       <Input
                         value={editingWord.phonetic || ''}
                         onChange={(e) =>
@@ -595,14 +595,14 @@ export default function PublicWordsPage() {
                       />
                     </div>
                     <div>
-                      <label className="text-sm text-gray-500">词性</label>
+                      <label className="text-sm text-gray-500 dark:text-gray-400">词性</label>
                       <Input
                         value={editingWord.pos || ''}
                         onChange={(e) => setEditingWord({ ...editingWord, pos: e.target.value })}
                       />
                     </div>
                     <div>
-                      <label className="text-sm text-gray-500">质量分 (0-100)</label>
+                      <label className="text-sm text-gray-500 dark:text-gray-400">质量分 (0-100)</label>
                       <Input
                         type="number"
                         min="0"
@@ -618,7 +618,7 @@ export default function PublicWordsPage() {
                     </div>
                   </div>
                   <div>
-                    <label className="text-sm text-gray-500">翻译</label>
+                    <label className="text-sm text-gray-500 dark:text-gray-400">翻译</label>
                     <Input
                       value={editingWord.translation}
                       onChange={(e) =>
@@ -627,14 +627,14 @@ export default function PublicWordsPage() {
                     />
                   </div>
                   <div>
-                    <label className="text-sm text-gray-500">例句</label>
+                    <label className="text-sm text-gray-500 dark:text-gray-400">例句</label>
                     <Input
                       value={editingWord.example || ''}
                       onChange={(e) => setEditingWord({ ...editingWord, example: e.target.value })}
                     />
                   </div>
                   <div>
-                    <label className="text-sm text-gray-500">例句翻译</label>
+                    <label className="text-sm text-gray-500 dark:text-gray-400">例句翻译</label>
                     <Input
                       value={editingWord.exampleTranslation || ''}
                       onChange={(e) =>
@@ -703,7 +703,7 @@ function AddWordForm({
     <div className="space-y-4">
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <label className="text-sm text-gray-500">单词 *</label>
+          <label className="text-sm text-gray-500 dark:text-gray-400">单词 *</label>
           <Input
             value={word.word}
             onChange={(e) => setWord({ ...word, word: e.target.value })}
@@ -711,18 +711,18 @@ function AddWordForm({
           />
         </div>
         <div>
-          <label className="text-sm text-gray-500">音标</label>
+          <label className="text-sm text-gray-500 dark:text-gray-400">音标</label>
           <Input
             value={word.phonetic}
             onChange={(e) => setWord({ ...word, phonetic: e.target.value })}
           />
         </div>
         <div>
-          <label className="text-sm text-gray-500">词性</label>
+          <label className="text-sm text-gray-500 dark:text-gray-400">词性</label>
           <Input value={word.pos} onChange={(e) => setWord({ ...word, pos: e.target.value })} />
         </div>
         <div>
-          <label className="text-sm text-gray-500">质量分 (0-100)</label>
+          <label className="text-sm text-gray-500 dark:text-gray-400">质量分 (0-100)</label>
           <Input
             type="number"
             min="0"
@@ -733,7 +733,7 @@ function AddWordForm({
         </div>
       </div>
       <div>
-        <label className="text-sm text-gray-500">翻译 *</label>
+        <label className="text-sm text-gray-500 dark:text-gray-400">翻译 *</label>
         <Input
           value={word.translation}
           onChange={(e) => setWord({ ...word, translation: e.target.value })}
@@ -741,14 +741,14 @@ function AddWordForm({
         />
       </div>
       <div>
-        <label className="text-sm text-gray-500">例句</label>
+        <label className="text-sm text-gray-500 dark:text-gray-400">例句</label>
         <Input
           value={word.example}
           onChange={(e) => setWord({ ...word, example: e.target.value })}
         />
       </div>
       <div>
-        <label className="text-sm text-gray-500">例句翻译</label>
+        <label className="text-sm text-gray-500 dark:text-gray-400">例句翻译</label>
         <Input
           value={word.exampleTranslation}
           onChange={(e) => setWord({ ...word, exampleTranslation: e.target.value })}
