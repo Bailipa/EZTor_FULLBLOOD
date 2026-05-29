@@ -151,6 +151,7 @@ export default function DictationPage() {
 
   const inputRef = useRef<HTMLInputElement>(null)
   const isCheckingRef = useRef(false) // 防止重复提交
+  const submittedIndicesRef = useRef(new Set<number>()) // 已提交到 API 的题目索引
 
   // Fetch a random batch of words for dictation
   const fetchWords = async () => {
@@ -438,8 +439,10 @@ export default function DictationPage() {
   const handleCheck = async () => {
     if (!userInput.trim()) return
     if (answers[currentIndex]) return // 如果已经答过了，不再重复判断
+    if (submittedIndicesRef.current.has(currentIndex)) return // 已提交过，跳过
     if (isCheckingRef.current) return // 防止重复提交
     isCheckingRef.current = true
+    submittedIndicesRef.current.add(currentIndex) // 标记为已提交
 
     const userWord = userInput.toLowerCase().trim()
 
@@ -477,6 +480,7 @@ export default function DictationPage() {
       }
     } catch (e) {
       if (process.env.NODE_ENV === 'development') console.error('Failed to update stats', e)
+      submittedIndicesRef.current.delete(currentIndex) // 失败时允许重试
     } finally {
       isCheckingRef.current = false
     }
