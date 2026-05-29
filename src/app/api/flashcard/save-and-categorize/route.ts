@@ -28,10 +28,8 @@ export async function POST(req: Request) {
       return NextResponse.json({ success: false, error: 'Word is required' }, { status: 400 })
     }
 
-    // 1. 创建或更新 Word 记录
-    const updateData = isCorrect
-      ? { correctCount: { increment: 1 }, totalAttempts: { increment: 1 } }
-      : { incorrectCount: { increment: 1 }, totalAttempts: { increment: 1 } }
+    // 1. 创建或更新 Word 记录（闪卡只更新totalAttempts，不更新正确/错误统计）
+    const updateData = { totalAttempts: { increment: 1 } }
 
     const publicWord = await prisma.publicWord.findUnique({
       where: { word: normalizedWord },
@@ -68,8 +66,8 @@ export async function POST(req: Request) {
           pos: null,
           example: null,
           exampleTranslation: null,
-          correctCount: isCorrect ? 1 : 0,
-          incorrectCount: isCorrect ? 0 : 1,
+          correctCount: 0,
+          incorrectCount: 0,
           totalAttempts: 1,
           updatedAt: new Date(),
         },

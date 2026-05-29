@@ -14,12 +14,14 @@ import { saveToStorage, loadFromStorage } from '@/lib/storage'
 import { usePageView } from '@/lib/analytics'
 import { FullscreenFlashcard } from '@/components/flashcard/FullscreenFlashcard'
 import { useOnboarding } from '@/components/onboarding/OnboardingProvider'
+import { OnboardingTooltip } from '@/components/onboarding/OnboardingTooltip'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 
 export default function HomeContent() {
   usePageView('Home')
   const { currentStep, isActive, completeOnboarding } = useOnboarding()
+  const completeButtonRef = useRef<HTMLButtonElement>(null)
 
   const [wordsInput, setWordsInput] = useState('')
   const [isLoading, setIsLoading] = useState(false)
@@ -197,25 +199,31 @@ export default function HomeContent() {
 
       {/* 引导步骤 6：功能探索提示 */}
       {isActive && currentStep === 6 && isAuthenticated && (
-        <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4">
-          <Card className="max-w-sm w-full">
-            <CardContent className="p-6 text-center space-y-4">
-              <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto">
-                <span className="text-3xl">🎉</span>
-              </div>
-              <h3 className="text-xl font-bold">还有更多功能等你探索</h3>
-              <p className="text-muted-foreground">
-                开始你的学习之旅吧！
-              </p>
-              <Button
-                className="w-full"
-                onClick={completeOnboarding}
-              >
-                完成引导
-              </Button>
-            </CardContent>
-          </Card>
-        </div>
+        <>
+          <div className="fixed bottom-20 left-4 right-4 z-50">
+            <Card className="shadow-lg">
+              <CardContent className="p-4">
+                <h3 className="font-semibold mb-2">🎉 还有更多功能等你探索</h3>
+                <p className="text-sm text-muted-foreground mb-3">
+                  开始你的学习之旅吧！
+                </p>
+                <Button
+                  ref={completeButtonRef}
+                  className="w-full"
+                  onClick={completeOnboarding}
+                >
+                  完成引导
+                </Button>
+              </CardContent>
+            </Card>
+          </div>
+          <OnboardingTooltip
+            targetRef={completeButtonRef}
+            title="完成引导"
+            description="点击'完成引导'开始你的学习之旅。"
+            position="top"
+          />
+        </>
       )}
 
       <LoginPromptDialog />

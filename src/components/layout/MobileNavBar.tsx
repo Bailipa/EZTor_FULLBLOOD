@@ -1,9 +1,10 @@
 'use client'
 
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { Home, PenTool, BookOpen, Search, MessageSquare } from 'lucide-react'
 import { useOnboarding } from '@/components/onboarding/OnboardingProvider'
+import { OnboardingTooltip } from '@/components/onboarding/OnboardingTooltip'
 import { useRef } from 'react'
 
 const navItems = [
@@ -16,6 +17,7 @@ const navItems = [
 
 export default function MobileNavBar() {
   const pathname = usePathname()
+  const router = useRouter()
   const { currentStep, isActive } = useOnboarding()
   const chatButtonRef = useRef<HTMLAnchorElement>(null)
 
@@ -53,19 +55,15 @@ export default function MobileNavBar() {
 
       {/* 引导步骤 5：Chat 功能介绍 */}
       {isActive && currentStep === 5 && (
-        <div className="fixed bottom-16 left-4 right-4 z-50">
-          <div className="bg-card border border-border rounded-lg shadow-lg p-4">
-            <h4 className="font-semibold text-sm mb-2">💬 反馈聊天</h4>
-            <p className="text-sm text-muted-foreground mb-3">
-              有问题或建议？点击这里与开发者交流。
-            </p>
-            <Link href="/chat" className="w-full">
-              <button className="w-full bg-primary text-primary-foreground px-4 py-2 rounded-md text-sm font-medium">
-                进入反馈聊天
-              </button>
-            </Link>
-          </div>
-        </div>
+        <OnboardingTooltip
+          targetRef={chatButtonRef}
+          title="💬 反馈聊天"
+          description="有问题或建议？点击这里与开发者交流。"
+          onNext={() => {
+            router.push('/chat')
+          }}
+          position="top"
+        />
       )}
     </nav>
   )

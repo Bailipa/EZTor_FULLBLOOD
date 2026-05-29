@@ -2,15 +2,14 @@
 
 import React, { useState, useRef, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
-import { X } from 'lucide-react'
 
 interface OnboardingTooltipProps {
   targetRef: React.RefObject<HTMLElement | null>
   title: string
   description: string
   onNext?: () => void
-  onSkip?: () => void
-  position?: 'top' | 'bottom' | 'left' | 'right'
+  position?: 'top' | 'bottom' | 'left' | 'right' | 'center'
+  showArrow?: boolean
 }
 
 export function OnboardingTooltip({
@@ -18,11 +17,12 @@ export function OnboardingTooltip({
   title,
   description,
   onNext,
-  onSkip,
   position = 'bottom',
+  showArrow = true,
 }: OnboardingTooltipProps) {
   const tooltipRef = useRef<HTMLDivElement>(null)
   const [tooltipStyle, setTooltipStyle] = useState<React.CSSProperties>({})
+  const [arrowStyle, setArrowStyle] = useState<React.CSSProperties>({})
 
   useEffect(() => {
     const updatePosition = () => {
@@ -33,23 +33,38 @@ export function OnboardingTooltip({
 
       let top = 0
       let left = 0
+      let arrowTop = 0
+      let arrowLeft = 0
 
       switch (position) {
         case 'top':
-          top = targetRect.top - tooltipRect.height - 8
+          top = targetRect.top - tooltipRect.height - 12
           left = targetRect.left + (targetRect.width - tooltipRect.width) / 2
+          arrowTop = tooltipRect.height
+          arrowLeft = tooltipRect.width / 2 - 8
           break
         case 'bottom':
-          top = targetRect.bottom + 8
+          top = targetRect.bottom + 12
           left = targetRect.left + (targetRect.width - tooltipRect.width) / 2
+          arrowTop = -12
+          arrowLeft = tooltipRect.width / 2 - 8
           break
         case 'left':
           top = targetRect.top + (targetRect.height - tooltipRect.height) / 2
-          left = targetRect.left - tooltipRect.width - 8
+          left = targetRect.left - tooltipRect.width - 12
+          arrowTop = tooltipRect.height / 2 - 8
+          arrowLeft = tooltipRect.width
           break
         case 'right':
           top = targetRect.top + (targetRect.height - tooltipRect.height) / 2
-          left = targetRect.right + 8
+          left = targetRect.right + 12
+          arrowTop = tooltipRect.height / 2 - 8
+          arrowLeft = -12
+          break
+        case 'center':
+          // 覆盖在目标元素上方
+          top = targetRect.top + (targetRect.height - tooltipRect.height) / 2
+          left = targetRect.left + (targetRect.width - tooltipRect.width) / 2
           break
       }
 
@@ -58,6 +73,12 @@ export function OnboardingTooltip({
         top: `${top}px`,
         left: `${left}px`,
         zIndex: 9999,
+      })
+
+      setArrowStyle({
+        position: 'absolute',
+        top: `${arrowTop}px`,
+        left: `${arrowLeft}px`,
       })
     }
 
@@ -71,27 +92,34 @@ export function OnboardingTooltip({
     }
   }, [targetRef, position])
 
+  const renderArrow = () => {
+    if (!showArrow) return null
+
+    const arrowClasses = {
+      top: 'w-0 h-0 border-l-[8px] border-l-transparent border-r-[8px] border-r-transparent border-t-[8px] border-t-card',
+      bottom: 'w-0 h-0 border-l-[8px] border-l-transparent border-r-[8px] border-r-transparent border-b-[8px] border-b-card',
+      left: 'w-0 h-0 border-t-[8px] border-t-transparent border-b-[8px] border-b-transparent border-l-[8px] border-l-card',
+      right: 'w-0 h-0 border-t-[8px] border-t-transparent border-b-[8px] border-b-transparent border-r-[8px] border-r-card',
+      center: '', // center 位置不需要箭头
+    }
+
+    return (
+      <div style={arrowStyle} className={arrowClasses[position]} />
+    )
+  }
+
   return (
     <div
       ref={tooltipRef}
       style={tooltipStyle}
       className="bg-card border border-border rounded-lg shadow-lg p-4 max-w-[280px]"
     >
-      <div className="flex items-start justify-between gap-2 mb-2">
-        <h4 className="font-semibold text-sm">{title}</h4>
-        {onSkip && (
-          <button
-            onClick={onSkip}
-            className="text-muted-foreground hover:text-foreground"
-          >
-            <X className="w-4 h-4" />
-          </button>
-        )}
-      </div>
+      {renderArrow()}
+      <h4 className="font-semibold text-sm mb-2">{title}</h4>
       <p className="text-sm text-muted-foreground mb-3">{description}</p>
       {onNext && (
         <Button size="sm" onClick={onNext} className="w-full">
-          下一步
+          知道了
         </Button>
       )}
     </div>

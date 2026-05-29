@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Check, X, Loader2, Volume2, Search } from 'lucide-react'
 import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 import { speakText } from '@/lib/ttsBrowser'
 import Link from 'next/link'
@@ -23,6 +24,7 @@ interface FlashcardWord {
 
 export function FullscreenFlashcard() {
   const { data: session, status } = useSession()
+  const router = useRouter()
   const { currentStep, isActive, nextStep } = useOnboarding()
   const [words, setWords] = useState<FlashcardWord[]>([])
   const [currentIndex, setCurrentIndex] = useState(0)
@@ -123,6 +125,13 @@ export function FullscreenFlashcard() {
       }
 
       if (data.success) {
+        // 如果是引导步骤1，推进步骤并跳转到默写页
+        if (isActive && currentStep === 1) {
+          nextStep()
+          router.push('/dictation')
+          return
+        }
+
         // 切换到下一个单词
         if (currentIndex < words.length - 1) {
           setCurrentIndex((prev) => prev + 1)
@@ -295,10 +304,9 @@ export function FullscreenFlashcard() {
               targetRef={showAnswer ? knowButtonRef : showAnswerButtonRef}
               title="闪卡学习"
               description={showAnswer
-                ? "点击'认识'表示你知道这个词，点击'不认识'表示你不知道。我们会记录你的学习进度。"
-                : "点击'显示答案'查看单词释义，然后选择'认识'或'不认识'。"
+                ? "点击'认识'表示你知道这个词，点击'不认识'表示你不知道。"
+                : "点击'显示答案'查看单词释义。"
               }
-              onNext={showAnswer ? nextStep : undefined}
               position="top"
             />
           )}

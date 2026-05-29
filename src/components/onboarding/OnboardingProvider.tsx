@@ -10,6 +10,7 @@ interface OnboardingState {
   isActive: boolean
   needsOnboarding: boolean
   isLoading: boolean
+  isMobile: boolean
 }
 
 interface OnboardingContextType extends OnboardingState {
@@ -35,7 +36,18 @@ export function OnboardingProvider({ children }: { children: React.ReactNode }) 
     isActive: false,
     needsOnboarding: false,
     isLoading: true,
+    isMobile: false,
   })
+
+  // 检测是否为移动端
+  useEffect(() => {
+    const checkMobile = () => {
+      setState(prev => ({ ...prev, isMobile: window.innerWidth < 1280 }))
+    }
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
 
   const checkOnboardingStatus = useCallback(async () => {
     if (status !== 'authenticated' || !session?.user?.id) {
@@ -48,19 +60,26 @@ export function OnboardingProvider({ children }: { children: React.ReactNode }) 
       const data = await res.json()
 
       if (data.success && data.needsOnboarding) {
-        setState({
-          currentStep: 1,
+        // 检查是否有保存的步骤
+        const savedStep = localStorage.getItem('onboarding_step')
+        const currentStep = savedStep ? parseInt(savedStep, 10) : 1
+        
+        setState(prev => ({
+          ...prev,
+          currentStep: currentStep as OnboardingStep,
           isActive: true,
           needsOnboarding: true,
           isLoading: false,
-        })
+        }))
       } else {
-        setState({
+        localStorage.removeItem('onboarding_step')
+        setState(prev => ({
+          ...prev,
           currentStep: 0,
           isActive: false,
           needsOnboarding: false,
           isLoading: false,
-        })
+        }))
       }
     } catch (error) {
       console.error('Failed to check onboarding status:', error)
@@ -74,10 +93,21 @@ export function OnboardingProvider({ children }: { children: React.ReactNode }) 
 
   const nextStep = useCallback(() => {
     setState(prev => {
-      const next = (prev.currentStep + 1) as OnboardingStep
+      let next = (prev.currentStep + 1) as OnboardingStep
+      
+      // 桌面端跳过步骤5（反馈聊天介绍）
+      if (!prev.isMobile && next === 5) {
+        next = 6
+      }
+      
       if (next > 6) {
+        localStorage.removeItem('onboarding_step')
         return { ...prev, currentStep: 0, isActive: false }
       }
+      
+      // 保存当前步骤到 localStorage
+      localStorage.setItem('onboarding_step', String(next))
+      
       return { ...prev, currentStep: next }
     })
   }, [])
@@ -85,11 +115,13 @@ export function OnboardingProvider({ children }: { children: React.ReactNode }) 
   const completeOnboarding = useCallback(async () => {
     try {
       await fetch('/api/onboarding/complete', { method: 'POST' })
+      localStorage.removeItem('onboarding_step')
       setState({
         currentStep: 0,
         isActive: false,
         needsOnboarding: false,
         isLoading: false,
+        isMobile: false,
       })
     } catch (error) {
       console.error('Failed to complete onboarding:', error)

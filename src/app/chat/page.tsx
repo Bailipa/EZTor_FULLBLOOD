@@ -8,12 +8,22 @@ import MobileNavBar from '@/components/layout/MobileNavBar'
 import { ChatRoom } from '@/components/chat/ChatRoom'
 import { TodoList } from '@/components/chat/TodoList'
 import { Loader2 } from 'lucide-react'
+import { useOnboarding } from '@/components/onboarding/OnboardingProvider'
 
 export default function ChatPage() {
   const { data: session, status } = useSession()
   const router = useRouter()
+  const { currentStep, isActive, nextStep } = useOnboarding()
   const [config, setConfig] = useState<{ isEnabled: boolean; isCircuitBroken: boolean } | null>(null)
   const [isLoading, setIsLoading] = useState(true)
+
+  // 引导步骤5到达chat页面后自动推进到步骤6
+  useEffect(() => {
+    if (isActive && currentStep === 5) {
+      nextStep()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   useEffect(() => {
     const fetchConfig = async () => {

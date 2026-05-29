@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef, useMemo } from 'react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 import { getIrregularForms, getFormHint, isCorrectAnswer, getAlternateStems } from '@/lib/irregularForms'
 import { Button } from '@/components/ui/button'
@@ -39,11 +40,13 @@ import { useAnalytics } from '@/lib/analytics'
 import { usePageView } from '@/lib/analytics'
 import { speakText } from '@/lib/ttsBrowser'
 import { useOnboarding } from '@/components/onboarding/OnboardingProvider'
+import { OnboardingTooltip } from '@/components/onboarding/OnboardingTooltip'
 
 type QuizMode = 'dictation' | 'sentence_blank'
 
 export default function DictationPage() {
   usePageView('Dictation')
+  const router = useRouter()
   const { trackDictationStart, trackDictationComplete } = useAnalytics()
   const { currentStep, isActive, nextStep } = useOnboarding()
   const [words, setWords] = useState<
@@ -132,6 +135,7 @@ export default function DictationPage() {
   const correctAudioRef = useRef<HTMLAudioElement | null>(null)
   const incorrectAudioRef = useRef<HTMLAudioElement | null>(null)
   const questionCardRef = useRef<HTMLDivElement>(null)
+  const startTestButtonRef = useRef<HTMLButtonElement>(null)
 
   // 自定义模式状态
   const [allHistoryWords, setAllHistoryWords] = useState<
@@ -154,10 +158,11 @@ export default function DictationPage() {
   const submittedIndicesRef = useRef(new Set<number>()) // 已提交到 API 的题目索引
 
   // Fetch a random batch of words for dictation
-  const fetchWords = async () => {
+  const fetchWords = async (overrideCount?: number) => {
+    const effectiveCount = overrideCount ?? testCount
     setIsLoading(true)
     try {
-      if (testCount === 'custom') {
+      if (effectiveCount === 'custom') {
         // 如果是自定义模式，直接过滤出选中的单词作为题库
         const customWords = allHistoryWords.filter((w) => selectedWords.includes(w.word))
         // 打乱顺序
@@ -166,7 +171,7 @@ export default function DictationPage() {
       } else {
         // 根据用户选择的数量和模式获取词汇
         const endpoint = reviewMode === 'smart' ? '/api/dictation/smart' : '/api/danmaku'
-        const url = `${endpoint}?limit=${testCount}&groupId=${selectedGroupId}&t=${Date.now()}`
+        const url = `${endpoint}?limit=${effectiveCount}&groupId=${selectedGroupId}&t=${Date.now()}`
         const res = await fetch(url)
         const data = await res.json()
         if (data.success && data.data) {
@@ -258,16 +263,20 @@ export default function DictationPage() {
     }
   }
 
-  const startTest = () => {
-    if (testCount === 'custom' && selectedWords.length === 0) {
+  const startTest = (overrideCount?: number) => {
+    const effectiveCount = overrideCount ?? testCount
+    if (effectiveCount === 'custom' && selectedWords.length === 0) {
       toast.error('请至少选择一个单词！')
       return
     }
     setIsStarted(true)
     setStartTime(Date.now())
-    const count = testCount === 'custom' ? selectedWords.length : testCount
+    const count = effectiveCount === 'custom' ? selectedWords.length : effectiveCount
+    if (overrideCount !== undefined) {
+      setTestCount(overrideCount)
+    }
     setTotalWordsTested(count)
-    fetchWords()
+    fetchWords(overrideCount)
     trackDictationStart(count, mode)
   }
 
@@ -364,6 +373,14 @@ export default function DictationPage() {
       }
     }
   }, [])
+
+  // 引导步骤2时自动开始默写（已移除，改为点击"知道了"后开始）
+  // useEffect(() => {
+  //   if (isActive && currentStep === 2 && !isStarted) {
+  //     startTest(1)
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [isActive, currentStep, isStarted])
 
   // 保存进度到 localStorage
   useEffect(() => {
@@ -955,7 +972,17 @@ export default function DictationPage() {
                   </div>
                 )}
 
-                <Button className="w-full h-12 text-lg font-bold mt-auto shrink-0" onClick={startTest}>
+                <Button
+                  ref={startTestButtonRef}
+                  className="w-full h-12 text-lg font-bold mt-auto shrink-0"
+                  onClick={() => {
+                    if (isActive && currentStep === 2) {
+                      startTest(1)
+                    } else {
+                      startTest()
+                    }
+                  }}
+                >
                   开始测试
                 </Button>
               </div>
@@ -1268,28 +1295,14 @@ export default function DictationPage() {
 
       {/* 引导步骤 2：初次默写体验 */}
       {isActive && currentStep === 2 && !isStarted && (
-        <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4">
-          <Card className="max-w-sm w-full">
-            <CardContent className="p-6 text-center space-y-4">
-              <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto">
-                <RefreshCw className="w-8 h-8 text-primary" />
-              </div>
-              <h3 className="text-xl font-bold">来试试默写吧！</h3>
-              <p className="text-muted-foreground">
-                这次只默写 1 个单词，体验一下默写功能。
-              </p>
-              <Button
-                className="w-full"
-                onClick={() => {
-                  setTestCount(1)
-                  startTest()
-                }}
-              >
-                开始默写
-              </Button>
-            </CardContent>
-          </Card>
-        </div>
+        <OnboardingTooltip
+          targetRef={startTestButtonRef}
+          title="来试试默写吧！"
+          description="点击'知道了'开始默写，这次只默写 1 个单词。"
+          onNext={() => startTest(1)}
+          position="center"
+          showArrow={false}
+        />
       )}
 
       {/* 引导步骤 2 完成后进入下一步 */}
@@ -1308,7 +1321,7 @@ export default function DictationPage() {
                 className="w-full"
                 onClick={() => {
                   nextStep()
-                  window.location.href = '/history'
+                  router.push('/history')
                 }}
               >
                 查看生词本

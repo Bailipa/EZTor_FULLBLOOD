@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useCallback, useRef, forwardRef } from 'react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
@@ -97,6 +98,7 @@ const GridItem = forwardRef<
 GridItem.displayName = 'GridItem'
 
 export default function HistoryPage() {
+  const router = useRouter()
   const { currentStep, isActive, nextStep } = useOnboarding()
   const [words, setWords] = useState<WordData[]>([])
   const [totalCount, setTotalCount] = useState(0)
@@ -1006,7 +1008,7 @@ export default function HistoryPage() {
           description="点击这里可以导入四六级词库，快速开始学习。"
           onNext={() => {
             nextStep()
-            window.location.href = '/'
+            router.push('/')
           }}
           position="bottom"
         />
