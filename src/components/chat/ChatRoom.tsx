@@ -92,7 +92,10 @@ export function ChatRoom() {
         const data = JSON.parse(event.data)
 
         if (data.type === 'message') {
-          setMessages(prev => [...prev, data.data])
+          setMessages(prev => {
+            if (prev.some(m => m.id === data.data.id)) return prev
+            return [...prev, data.data]
+          })
         } else if (data.type === 'config') {
           if (data.data.isCircuitBroken) {
             window.location.href = '/chat/circuit-break'
@@ -137,7 +140,10 @@ export function ChatRoom() {
 
       if (data.success) {
         setInput('')
-        setMessages(prev => [...prev, data.data])
+        setMessages(prev => {
+          if (prev.some(m => m.id === data.data.id)) return prev
+          return [...prev, data.data]
+        })
         if (data.isShadowBanned) {
           setIsShadowBanned(true)
           toast.info('你的消息仅管理员可见')
