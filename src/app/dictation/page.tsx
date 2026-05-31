@@ -568,7 +568,8 @@ export default function DictationPage() {
 
   const startRetest = () => {
     if (mistakes.length === 0) return
-    setWords([...mistakes]) // 将错题作为新的测试题库
+    
+    // 先重置所有状态
     setScore({ correct: 0, total: 0 })
     setCurrentIndex(0)
     setIsFinished(false)
@@ -576,6 +577,12 @@ export default function DictationPage() {
     setIsRetesting(true)
     setAnswers({})
     resetTurn()
+    
+    // 延迟设置 words，确保 isChecked 已经被重置为 false
+    // 避免 options 的 useMemo 在 isChecked=true 时计算导致返回空数组
+    setTimeout(() => {
+      setWords([...mistakes])
+    }, 0)
   }
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement | HTMLDivElement>) => {
