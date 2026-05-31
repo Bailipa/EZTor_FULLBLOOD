@@ -9,7 +9,7 @@ export default function AppLayout({ children }: { children: ReactNode }) {
     <>
       <AppSidebar />
       <MobileNavBar />
-      <div className="xl:ml-[240px] pb-14 xl:pb-0">
+      <div className="xl:ml-[240px] pb-[calc(3.5rem+env(safe-area-inset-bottom,0px))] xl:pb-0">
         {children}
       </div>
     </>

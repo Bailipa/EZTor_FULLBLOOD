@@ -803,7 +803,7 @@ export default function DictationPage() {
 
   return (
     <AppLayout>
-      <main className="h-screen bg-background p-4 md:p-8 transition-colors duration-300 flex flex-col">
+      <main className="h-[calc(100dvh-3.5rem)] xl:h-screen bg-background p-4 md:p-8 transition-colors duration-300 flex flex-col">
         <div className="max-w-3xl mx-auto flex-1 flex flex-col min-h-0 w-full">
 
         {!isStarted ? (
