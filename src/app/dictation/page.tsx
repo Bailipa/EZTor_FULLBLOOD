@@ -1121,13 +1121,19 @@ export default function DictationPage() {
                             <Button
                               key={opt}
                               variant={userInput === opt ? 'default' : 'outline'}
-                              className="h-12 text-base font-medium overflow-hidden"
+                              className="h-12 text-base font-medium overflow-hidden px-2"
                               onClick={() => setUserInput(opt)}
                               disabled={!!isChecked}
                             >
-                              <span className={`inline-block ${opt.length > 10 ? 'animate-scroll-text' : 'truncate'}`}>
-                                {opt}
-                              </span>
+                              {opt.length > 10 ? (
+                                <div className="w-full overflow-hidden">
+                                  <span className="inline-block animate-ticker">
+                                    {opt}
+                                  </span>
+                                </div>
+                              ) : (
+                                <span className="truncate">{opt}</span>
+                              )}
                             </Button>
                           ))}
                         </div>

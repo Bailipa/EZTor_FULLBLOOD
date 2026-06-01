@@ -299,17 +299,17 @@
     }
   }
 
-  @keyframes scroll-text {
-    0%, 20% {
-      transform: translateX(0);
+  @keyframes ticker {
+    0% {
+      transform: translateX(100%);
     }
-    80%, 100% {
-      transform: translateX(calc(-100% + 100px));
+    100% {
+      transform: translateX(-100%);
     }
   }
 
-  .animate-scroll-text {
-    animation: scroll-text 3s ease-in-out infinite;
+  .animate-ticker {
+    animation: ticker 5s linear infinite;
     white-space: nowrap;
   }
 }
