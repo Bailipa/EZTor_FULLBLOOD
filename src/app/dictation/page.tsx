@@ -448,11 +448,22 @@ export default function DictationPage() {
       wrongs = [...wrongs, ...extras]
     }
 
+    // 仍然不够 3 个时，从历史单词中补充干扰项
+    if (wrongs.length < 3) {
+      const need = 3 - wrongs.length
+      const historyExtras = allHistoryWords
+        .map((w) => w.word)
+        .filter((w) => w !== currentWord.word && !wrongs.includes(w))
+        .sort(() => Math.random() - 0.5)
+        .slice(0, need)
+      wrongs = [...wrongs, ...historyExtras]
+    }
+
     if (wrongs.length < 3) return []
     const picked = wrongs.sort(() => Math.random() - 0.5).slice(0, 3)
     return [...picked, currentWord.word].sort(() => Math.random() - 0.5)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentIndex, mode, isChecked, words, extraOptions])
+  }, [currentIndex, mode, isChecked, words, extraOptions, allHistoryWords])
 
   const handleCheck = async () => {
     if (!userInput.trim()) return
