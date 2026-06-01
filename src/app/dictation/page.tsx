@@ -820,7 +820,7 @@ export default function DictationPage() {
 
   return (
     <AppLayout>
-      <main className="h-[calc(100dvh-3.5rem)] xl:h-screen bg-background p-4 md:p-8 transition-colors duration-300 flex flex-col">
+      <main className="h-[calc(100dvh-3.5rem-env(safe-area-inset-bottom,0px))] xl:h-screen bg-background p-4 md:p-8 transition-colors duration-300 flex flex-col">
         <div className="max-w-3xl mx-auto flex-1 flex flex-col min-h-0 w-full">
 
         {!isStarted ? (
@@ -1121,11 +1121,13 @@ export default function DictationPage() {
                             <Button
                               key={opt}
                               variant={userInput === opt ? 'default' : 'outline'}
-                              className="h-12 text-base font-medium truncate"
+                              className="h-12 text-base font-medium overflow-hidden"
                               onClick={() => setUserInput(opt)}
                               disabled={!!isChecked}
                             >
-                              {opt}
+                              <span className={`inline-block ${opt.length > 10 ? 'animate-scroll-text' : 'truncate'}`}>
+                                {opt}
+                              </span>
                             </Button>
                           ))}
                         </div>
