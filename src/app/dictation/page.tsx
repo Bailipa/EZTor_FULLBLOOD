@@ -565,6 +565,8 @@ export default function DictationPage() {
   }, [])
 
   const restartQuiz = () => {
+    submittedIndicesRef.current.clear()
+    isCheckingRef.current = false
     setTotalWordsTested(prev => prev + words.length) // 累加已测试单词数
     setWords([])
     setScore({ correct: 0, total: 0 })
@@ -579,6 +581,9 @@ export default function DictationPage() {
 
   const startRetest = () => {
     if (mistakes.length === 0) return
+    
+    submittedIndicesRef.current.clear()
+    isCheckingRef.current = false
     
     // 先清空 words，避免自动播放 useEffect 播放旧单词
     setWords([])
