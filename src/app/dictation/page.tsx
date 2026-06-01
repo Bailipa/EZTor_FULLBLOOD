@@ -580,7 +580,8 @@ export default function DictationPage() {
   const startRetest = () => {
     if (mistakes.length === 0) return
     
-    // 先重置所有状态
+    // 先清空 words，避免自动播放 useEffect 播放旧单词
+    setWords([])
     setScore({ correct: 0, total: 0 })
     setCurrentIndex(0)
     setIsFinished(false)
