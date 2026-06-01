@@ -800,7 +800,7 @@ export default function DictationPage() {
     )
   }
 
-  if (isStarted && words.length === 0) {
+  if (isStarted && words.length === 0 && !_isRetesting) {
     return (
       <div className="min-h-screen bg-background p-6 flex flex-col items-center justify-center">
         <p className="text-gray-500 dark:text-muted-foreground text-lg mb-4">
