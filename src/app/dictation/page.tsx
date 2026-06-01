@@ -1008,7 +1008,7 @@ export default function DictationPage() {
               </div>
             </CardContent>
           </Card>
-        ) : !isFinished ? (
+        ) : !isFinished && words.length > 0 ? (
           <div className="space-y-6">
             <div className="flex justify-between items-center mb-4">
               <Tabs
