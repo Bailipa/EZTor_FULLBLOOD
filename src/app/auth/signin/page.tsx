@@ -1,14 +1,14 @@
 'use client'
 
 import { signIn, useSession } from 'next-auth/react'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { usePageView } from '@/lib/analytics'
 import { Input } from '@/components/ui/input'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { Label } from '@/components/ui/label'
-import { RefreshCw } from 'lucide-react'
+import { RefreshCw, Loader2 } from 'lucide-react'
 import { isXiaoYingWebView } from '@/lib/isXiaoYingWebView'
 
 export default function SignIn() {
@@ -30,6 +30,9 @@ export default function SignIn() {
 
   const [onlineCount, setOnlineCount] = useState<number | null>(null)
   const [showXiaoYingLogin, setShowXiaoYingLogin] = useState(false)
+  const [xiaoyingLoading, setXiaoyingLoading] = useState(false)
+  const [xiaoyingError, setXiaoyingError] = useState(false)
+  const xiaoyingTimerRef = useRef<NodeJS.Timeout | null>(null)
 
   useEffect(() => {
     const match = document.cookie.match(/(?:^|; )online_limit=([^;]*)/)
@@ -61,6 +64,26 @@ export default function SignIn() {
 
   useEffect(() => {
     fetchCaptcha()
+  }, [])
+
+  const handleXiaoyingLogin = () => {
+    setXiaoyingLoading(true)
+    setXiaoyingError(false)
+    
+    xiaoyingTimerRef.current = setTimeout(() => {
+      setXiaoyingLoading(false)
+      setXiaoyingError(true)
+    }, 3000)
+    
+    window.location.href = '/api/auth/xiaoying/start'
+  }
+
+  useEffect(() => {
+    return () => {
+      if (xiaoyingTimerRef.current) {
+        clearTimeout(xiaoyingTimerRef.current)
+      }
+    }
   }, [])
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -197,14 +220,40 @@ export default function SignIn() {
                 </div>
               </div>
 
-              <a
-                href="/api/auth/xiaoying/start"
+              <div
+                onClick={handleXiaoyingLogin}
                 className="inline-flex min-h-12 w-full cursor-pointer items-center justify-center gap-2.5 rounded-2xl border border-neutral-300 bg-white px-5 text-base font-semibold leading-none text-neutral-900 hover:bg-neutral-50 transition-colors dark:border-neutral-200 dark:bg-[#171722] dark:text-neutral-50 dark:hover:bg-[#20202c]"
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    handleXiaoyingLogin()
+                  }
+                }}
               >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src="/xiaoying-icon.svg" alt="" className="h-6 w-6 shrink-0 dark:brightness-0 dark:invert" />
-                <span>使用小应账号快捷登录</span>
-              </a>
+                {xiaoyingLoading ? (
+                  <Loader2 className="h-6 w-6 animate-spin" />
+                ) : (
+                  /* eslint-disable-next-line @next/next/no-img-element */
+                  <img src="/xiaoying-icon.svg" alt="" className="h-6 w-6 shrink-0 dark:brightness-0 dark:invert" />
+                )}
+                <span>{xiaoyingLoading ? '登录中...' : '使用小应账号快捷登录'}</span>
+              </div>
+
+              {xiaoyingError && (
+                <div className="mt-4 p-4 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-md text-sm text-amber-700 dark:text-amber-400 text-center">
+                  <p className="font-semibold">小应生活版本过低</p>
+                  <p className="mt-1">请点击下方按钮更新小应生活后再试</p>
+                  <a 
+                    href="https://xiaoying.life/download" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="mt-3 inline-block px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
+                  >
+                    下载最新版本
+                  </a>
+                </div>
+              )}
             </>
           )}
         </CardContent>
