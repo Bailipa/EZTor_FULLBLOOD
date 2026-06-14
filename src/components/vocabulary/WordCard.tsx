@@ -78,10 +78,7 @@ const WordCard = memo(
         }}
         onMouseDown={() => onDragStart(index, item.id)}
         onMouseEnter={() => onDragEnter(index)}
-        onTouchStart={(e) => {
-          e.preventDefault()
-          onTouchStart(index, item.id)
-        }}
+        onTouchStart={() => onTouchStart(index, item.id)}
         onTouchMove={onTouchMove}
         onTouchEnd={onTouchEnd}
         onDragStart={(e) => e.preventDefault()}
@@ -91,15 +88,11 @@ const WordCard = memo(
           style={{ minHeight: '200px' }}
         >
           {isSelectionMode && (
-            <div 
-              className="absolute top-5 right-5 z-10"
-              onClick={(e) => e.stopPropagation()}
-              onTouchStart={(e) => e.stopPropagation()}
-            >
+            <div className="absolute top-5 right-5 z-10">
               <Checkbox
                 checked={isSelected}
                 onCheckedChange={() => onToggleSelection(item.id)}
-                className="w-5 h-5 data-[state=checked]:bg-primary data-[state=checked]:border-primary"
+                className="w-5 h-5 data-[state=checked]:bg-primary data-[state=checked]:border-primary pointer-events-none"
               />
             </div>
           )}
