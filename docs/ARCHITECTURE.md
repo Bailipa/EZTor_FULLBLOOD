@@ -9,18 +9,19 @@ Browser (React 19)
     │
     ▼
 Next.js 16 (App Router)
-    ├── Middleware (CSRF, Auth, Mobile Redirect)
+    ├── Middleware (CSRF, Auth, Mobile Redirect, Online Limit)
     │
     ├── API Routes (/api/*)
-    │   ├── translate / translate-only → LLM Pool
+    │   ├── translate → TranslationService + CacheService
+    │   ├── translate-only → LLM Pool (limited uses)
     │   ├── dictation → Review Groups
     │   ├── share → Shared Vocab
-    │   ├── tts → Xiaomi MiMo V2 TTS
+    │   ├── tts → Edge TTS (Microsoft)
     │   ├── analytics → Event Store
     │   └── admin → Config / Users / Public Words
     │
     ├── Services Layer
-    │   ├── TranslationService  (LLM prompt engineering, caching, quality scoring)
+    │   ├── TranslationService  (LLM prompt engineering, streaming, phonetic validation)
     │   ├── CacheService        (DB-backed word lookup with mirror refresh)
     │   ├── PublicWordService   (Public library upsert with quality gating)
     │   └── StreamHandler       (SSE streaming for translation)
@@ -36,10 +37,11 @@ Next.js 16 (App Router)
 User Input → sentenceDetector (word vs sentence)
           → security.ts (sanitization, injection detection)
           → requestDeduplication (concurrent identical requests)
-          → translationCache (LRU, 10K entries, 24h TTL)
+          → CacheService (user private library + public library lookup)
           → llmPool (provider selection, failover, quotas)
-          → LLM API call
-          → qualityScoring → PublicWordService (upsert to library)
+          → LLM API call (streaming)
+          → phoneticValidator (IPA dictionary correction)
+          → PublicWordService (upsert to library)
           → StreamHandler (SSE response to client)
 ```
 
@@ -98,28 +100,29 @@ Pino-based logger (`lib/logger.ts`) with:
 ### TTS Architecture (`lib/tts.ts` + `lib/ttsBrowser.ts`)
 
 ```
-Browser click → ttsBrowser.ts → POST /api/tts → tts.ts → Xiaomi MiMo V2 API
+Browser click → ttsBrowser.ts → POST /api/tts → tts.ts → Edge TTS (Microsoft)
                                                     ↓
                                               LRU Cache (200 entries, 24h TTL)
                                                     ↓
                                               Pending Dedup Map
                                                     ↓
-                                              MiMo API Response (base64 WAV)
+                                              Edge TTS Response (MP3)
                                                     ↓
                                               Cache → Return to Browser
 ```
 
 | Component | File | Role |
 |-----------|------|------|
-| Server TTS | `src/lib/tts.ts` | MiMo V2 API call + LRU cache + pending dedup |
-| Browser TTS | `src/lib/ttsBrowser.ts` | Client-side: call `/api/tts`, fallback to `speechSynthesis` |
+| Server TTS | `src/lib/tts.ts` | Edge TTS synthesis + LRU cache + pending dedup |
+| Browser TTS | `src/lib/ttsBrowser.ts` | Client-side: IndexedDB cache + call `/api/tts`, fallback to `speechSynthesis` |
 | API Route | `src/app/api/tts/route.ts` | Rate limit + proxy to `synthesizeSpeech` |
 
-MiMo TTS config:
-- Model: `mimo-v2-tts` (V2, faster than V2.5)
-- Voice: `default_en` (English female)
-- Cache: 200 entries, 24h TTL, 5-min cleanup interval
-- Timeout: 15s, max 1 retry
+Edge TTS config:
+- Engine: `node-edge-tts` (Microsoft Edge TTS, free, no API key)
+- Voice: `en-US-AriaNeural` (English female)
+- Server Cache: 200 entries, 24h TTL, 5-min cleanup interval
+- Browser Cache: IndexedDB, 500 entries, 7-day TTL, LRU eviction
+- Timeout: 15s
 
 ### Mobile Guest Redirect (Middleware)
 
@@ -146,6 +149,19 @@ Request → Middleware → pathname === '/'?
 - Detection: `src/lib/isXiaoYingWebView.ts` — UA check for "xiaoying"/"小应"
 
 ## Deployment
+
+### Production (PM2 + nginx)
+
+```bash
+# Build
+npm run build
+cp -r .next/static .next/standalone/.next/static
+
+# Deploy to server
+pm2 start ecosystem.config.js
+```
+
+### Docker (alternative)
 
 ```bash
 docker-compose up -d

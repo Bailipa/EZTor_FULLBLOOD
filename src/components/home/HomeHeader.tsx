@@ -177,7 +177,7 @@ export function HomeHeader({ showDanmaku, onToggleDanmaku, onFeatureClick }: Hom
               Hello, {session.user.name}
             </span>
           )}
-          {isAuthenticated && <FlashcardWidget />}
+          {isAuthenticated && <div className="hidden xl:block"><FlashcardWidget /></div>}
           {isAuthenticated && <GameWidget />}
           <Button
             variant={danmakuStatus === 'active' ? 'default' : 'outline'}
