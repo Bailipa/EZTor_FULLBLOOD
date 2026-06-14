@@ -131,6 +131,7 @@ export default function HistoryPage() {
   const [isDraggingSelection, setIsDraggingSelection] = useState(false)
   const [dragStartIndex, setDragStartIndex] = useState<number | null>(null)
   const [initialSelectedSet, setInitialSelectedSet] = useState<Set<string>>(new Set())
+  const dragStartWasSelectedRef = useRef<boolean>(false)
   const [isGroupModalOpen, setIsGroupModalOpen] = useState(false)
   const [newGroupName, setNewGroupName] = useState('')
   const [targetGroupId, setTargetGroupId] = useState('')
@@ -255,8 +256,11 @@ export default function HistoryPage() {
 
       setSelectedIds((prev) => {
         setInitialSelectedSet(new Set(prev))
+        // 记录起始项的原始状态
+        dragStartWasSelectedRef.current = prev.has(id)
 
         const next = new Set(prev)
+        // 切换起始项的选中状态
         if (next.has(id)) {
           next.delete(id)
         } else {
@@ -275,15 +279,20 @@ export default function HistoryPage() {
       const start = Math.min(dragStartIndex, currentIndex)
       const end = Math.max(dragStartIndex, currentIndex)
 
+      // 苹果相册风格：根据起始项的原始状态决定操作
+      // 如果起始项原始是未选中，则拖拽范围内全部选中
+      // 如果起始项原始是已选中，则拖拽范围内全部取消
+      const shouldSelect = !dragStartWasSelectedRef.current
+
       const newSelection = new Set(initialSelectedSet)
 
       for (let i = start; i <= end; i++) {
         if (i >= words.length) break
         const id = words[i].id
-        if (initialSelectedSet.has(id)) {
-          newSelection.delete(id)
-        } else {
+        if (shouldSelect) {
           newSelection.add(id)
+        } else {
+          newSelection.delete(id)
         }
       }
 
