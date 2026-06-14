@@ -1,9 +1,10 @@
 import { logger } from '@/lib/logger'
+import { getIPA } from '@/lib/phoneticValidator'
 
 const MIMO_API_KEY = process.env.MIMO_API_KEY || ''
 const MIMO_BASE_URL = 'https://api.xiaomimimo.com/v1/chat/completions'
-const MIMO_MODEL = 'mimo-v2-tts'
-const MIMO_VOICE = process.env.MIMO_VOICE || 'default_en'
+const MIMO_MODEL = 'mimo-v2.5-tts'
+const MIMO_VOICE = process.env.MIMO_VOICE || 'Milo'
 
 export type TtsResponseFormat = 'wav'
 
@@ -94,14 +95,14 @@ async function callMiMo(
   voice: string,
   signal?: AbortSignal,
 ): Promise<Response> {
+  const messages = [
+    { role: 'user' as const, content: 'Read the following word clearly and correctly.' },
+    { role: 'assistant' as const, content: input },
+  ]
+
   const body = {
     model: MIMO_MODEL,
-    messages: [
-      {
-        role: 'assistant' as const,
-        content: input,
-      },
-    ],
+    messages,
     audio: {
       format: 'wav',
       voice,

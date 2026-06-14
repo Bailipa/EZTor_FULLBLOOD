@@ -11,6 +11,7 @@ import {
   setPendingRequest,
 } from '@/lib/requestDeduplication'
 import { logger } from '@/lib/logger'
+import { validatePhonetic } from '@/lib/phoneticValidator'
 import type { Session } from 'next-auth'
 
 const DEFAULT_SYSTEM_PROMPT = `你是一个专业的英语词典助手。你的唯一任务是解析和翻译用户提供的英语单词或词组。
@@ -437,6 +438,13 @@ export class TranslationService {
                   ) || (Array.isArray(result.word) ? result.word[0] : result.word),
               }),
             )
+
+            // Validate phonetics against IPA dictionary
+            for (const result of aiParsedResults) {
+              if (result.phonetic) {
+                result.phonetic = validatePhonetic(result.word, result.phonetic)
+              }
+            }
           }
         } catch (e) {
           logger.error({ err: e }, 'Failed to parse AI complete output')

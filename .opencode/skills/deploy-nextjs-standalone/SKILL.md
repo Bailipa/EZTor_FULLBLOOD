@@ -198,3 +198,128 @@ The project embeds a build timestamp for verification:
 | `BUILD_ID.txt` file | `.next/standalone/BUILD_ID.txt` | Server filesystem |
 
 The BUILD_ID is set by `deploy.sh` via `export NEXT_PUBLIC_BUILD_ID=$(date +%Y%m%d_%H%M%S)` before building. It is hard-coded into the build output and does not depend on runtime environment variables.
+
+## Cross-Platform Build: Prisma OpenSSL Compatibility
+
+**Critical**: If building on macOS and deploying to Linux, the Prisma client may be compiled for the wrong OpenSSL version.
+
+### Symptom
+
+```
+Prisma Client could not locate the Query Engine for runtime "debian-openssl-3.0.x".
+This happened because Prisma Client was generated for "debian-openssl-1.1.x"
+```
+
+The app crashes with 502 on every request.
+
+### Root Cause
+
+Prisma generates platform-specific query engine binaries. The local build picks up the macOS or older Linux engine, but the server runs a different OpenSSL version (e.g., after an OS upgrade or Alibaba Cloud instance restart).
+
+### Fix
+
+Add `binaryTargets` to `prisma/schema.prisma`:
+
+```prisma
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
+}
+```
+
+Then regenerate:
+```bash
+npx prisma generate
+```
+
+**This must be done BEFORE building.** The engine binaries are bundled into the standalone output at build time.
+
+### Server-side hotfix (if already deployed)
+
+If you can't rebuild locally, regenerate on the server:
+
+```bash
+cd /www/wwwroot/114.55.58.90
+# Update schema
+sed -i '/provider      = "prisma-client-js"/a\  binaryTargets = ["native", "debian-openssl-3.0.x"]' prisma/schema.prisma
+# Generate (uses project root node_modules, not standalone)
+npx prisma generate
+# Copy engines to standalone
+cp -r node_modules/@prisma .next/standalone/node_modules/
+cp -r node_modules/.prisma .next/standalone/node_modules/
+# Verify both engines exist
+ls .next/standalone/node_modules/.prisma/client/libquery_engine-*
+# Restart
+pm2 restart cet4-web
+```
+
+## Runtime Dependencies (require vs import)
+
+Standalone mode only bundles files traced via `require()` at **startup**. Dependencies loaded dynamically at runtime (e.g., `ipa-dict` for phonetic validation) are **not included** in the tarball.
+
+### How to identify
+
+If a module is loaded like this, it won't be in standalone:
+```ts
+const mod = require('ipa-dict/lib/en_US')  // dynamic, not traced
+```
+
+### Fix
+
+Manually copy to server after extracting tarball:
+```bash
+scp -r node_modules/ipa-dict root@server:/path/.next/standalone/node_modules/
+```
+
+Or include it in the tarball creation:
+```bash
+tar -czf deploy.tar.gz .next/standalone prisma node_modules/ipa-dict
+```
+
+## Server Restart Safety
+
+Alibaba Cloud forced restart (or any hard reboot) may leave services in unexpected states:
+
+### nginx not auto-starting
+
+BT-Panel nginx is often `disabled` in systemd:
+```bash
+systemctl is-enabled nginx  # might show "disabled"
+```
+
+After a server restart, always check:
+```bash
+ps aux | grep nginx
+# If not running:
+/www/server/nginx/sbin/nginx
+```
+
+### Services to verify after restart
+
+```bash
+pm2 list                    # PM2 processes
+ps aux | grep nginx         # nginx
+docker ps                   # Docker containers
+ss -tlnp | grep :3000       # App listening
+ss -tlnp | grep :5432       # PostgreSQL
+```
+
+## SSH Instability During Incidents
+
+When the server is under heavy load (OOM, process crash loops), SSH may become unresponsive. Symptoms:
+- `Connection timed out during banner exchange`
+- `Connection closed by remote port 22`
+- Verbose mode shows key exchange succeeds but authentication hangs
+
+### What to do
+
+1. **Wait** — the server may recover on its own (PM2 auto-restart, OOM killer)
+2. **Alibaba Cloud console** — use VNC remote connection as fallback
+3. **Ping test** — `ping -c 3 <ip>` to verify network layer is alive
+4. **Don't panic** — if PM2 auto-restarts the app, it may recover without SSH
+
+### Prevention
+
+- Set `max_memory_restart` in PM2 to prevent OOM
+- Monitor with `pm2 monit` during deployments
+- Keep SSH sessions alive: `ServerAliveInterval=30` in SSH config
