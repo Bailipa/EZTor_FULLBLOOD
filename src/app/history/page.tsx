@@ -133,7 +133,9 @@ export default function HistoryPage() {
   const [initialSelectedSet, setInitialSelectedSet] = useState<Set<string>>(new Set())
   const dragStartWasSelectedRef = useRef<boolean>(false)
   const touchStartPosRef = useRef<{ x: number; y: number } | null>(null)
+  const mouseStartPosRef = useRef<{ x: number; y: number } | null>(null)
   const hasMovedRef = useRef<boolean>(false)
+  const hasMouseMovedRef = useRef<boolean>(false)
   const [isGroupModalOpen, setIsGroupModalOpen] = useState(false)
   const [newGroupName, setNewGroupName] = useState('')
   const [targetGroupId, setTargetGroupId] = useState('')
@@ -237,10 +239,21 @@ export default function HistoryPage() {
   )
 
   useEffect(() => {
-    const handleMouseUp = () => setIsDraggingSelection(false)
+    const handleMouseUp = () => {
+      // 如果没有移动，切换起始项状态
+      if (!hasMouseMovedRef.current && dragStartIndex !== null) {
+        const item = words[dragStartIndex]
+        if (item) {
+          toggleSelection(item.id)
+        }
+      }
+      setIsDraggingSelection(false)
+      hasMouseMovedRef.current = false
+      mouseStartPosRef.current = null
+    }
     window.addEventListener('mouseup', handleMouseUp)
     return () => window.removeEventListener('mouseup', handleMouseUp)
-  }, [])
+  }, [dragStartIndex, words, toggleSelection])
 
   useEffect(() => {
     if (isDraggingSelection) {
@@ -248,6 +261,20 @@ export default function HistoryPage() {
     } else {
       document.body.style.userSelect = ''
     }
+  }, [isDraggingSelection])
+
+  // 检测鼠标移动
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!isDraggingSelection || !mouseStartPosRef.current) return
+      const dx = Math.abs(e.clientX - mouseStartPosRef.current.x)
+      const dy = Math.abs(e.clientY - mouseStartPosRef.current.y)
+      if (dx > 5 || dy > 5) {
+        hasMouseMovedRef.current = true
+      }
+    }
+    window.addEventListener('mousemove', handleMouseMove)
+    return () => window.removeEventListener('mousemove', handleMouseMove)
   }, [isDraggingSelection])
 
   const handleDragStart = useCallback(
@@ -266,10 +293,15 @@ export default function HistoryPage() {
   )
 
   const handleMouseDown = useCallback(
-    (index: number, id: string) => {
+    (index: number, id: string, e?: React.MouseEvent) => {
       if (!isSelectionMode) return
       // 鼠标按下时立即进入拖拽模式
       setIsDraggingSelection(true)
+      hasMouseMovedRef.current = false
+      // 记录鼠标起始位置
+      if (e) {
+        mouseStartPosRef.current = { x: e.clientX, y: e.clientY }
+      }
       handleDragStart(index, id)
     },
     [isSelectionMode, handleDragStart],
