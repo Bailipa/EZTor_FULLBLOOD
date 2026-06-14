@@ -136,6 +136,7 @@ export default function HistoryPage() {
   const mouseStartPosRef = useRef<{ x: number; y: number } | null>(null)
   const hasMovedRef = useRef<boolean>(false)
   const hasMouseMovedRef = useRef<boolean>(false)
+  const isDraggingRef = useRef<boolean>(false)
   const [isGroupModalOpen, setIsGroupModalOpen] = useState(false)
   const [newGroupName, setNewGroupName] = useState('')
   const [targetGroupId, setTargetGroupId] = useState('')
@@ -248,6 +249,7 @@ export default function HistoryPage() {
         }
       }
       setIsDraggingSelection(false)
+      isDraggingRef.current = false
       hasMouseMovedRef.current = false
       mouseStartPosRef.current = null
     }
@@ -297,6 +299,7 @@ export default function HistoryPage() {
       if (!isSelectionMode) return
       // 鼠标按下时立即进入拖拽模式
       setIsDraggingSelection(true)
+      isDraggingRef.current = true
       hasMouseMovedRef.current = false
       // 记录鼠标起始位置
       if (e) {
@@ -309,7 +312,7 @@ export default function HistoryPage() {
 
   const handleDragEnter = useCallback(
     (currentIndex: number) => {
-      if (!isSelectionMode || !isDraggingSelection || dragStartIndex === null) return
+      if (!isSelectionMode || !isDraggingRef.current || dragStartIndex === null) return
 
       const start = Math.min(dragStartIndex, currentIndex)
       const end = Math.max(dragStartIndex, currentIndex)
@@ -335,7 +338,6 @@ export default function HistoryPage() {
     },
     [
       isSelectionMode,
-      isDraggingSelection,
       dragStartIndex,
       initialSelectedSet,
       words,
@@ -362,10 +364,11 @@ export default function HistoryPage() {
       if (!hasMovedRef.current && (dx > 10 || dy > 10)) {
         hasMovedRef.current = true
         setIsDraggingSelection(true)
+        isDraggingRef.current = true
       }
 
       // 如果已进入拖拽模式，处理选择
-      if (hasMovedRef.current && isDraggingSelection) {
+      if (hasMovedRef.current && isDraggingRef.current) {
         const element = document.elementFromPoint(touch.clientX, touch.clientY)
         const card = element?.closest('[data-word-index]')
         if (card) {
@@ -376,7 +379,7 @@ export default function HistoryPage() {
         }
       }
     },
-    [isSelectionMode, dragStartIndex, isDraggingSelection, handleDragEnter],
+    [isSelectionMode, dragStartIndex, handleDragEnter],
   )
 
   const handleTouchEnd = useCallback(
@@ -391,6 +394,7 @@ export default function HistoryPage() {
 
       // 重置状态
       setIsDraggingSelection(false)
+      isDraggingRef.current = false
       setDragStartIndex(null)
       touchStartPosRef.current = null
       hasMovedRef.current = false
