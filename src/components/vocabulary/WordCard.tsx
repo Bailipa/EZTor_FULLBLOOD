@@ -1,6 +1,6 @@
 'use client'
 
-import React, { memo } from 'react'
+import React, { memo, useState, useEffect } from 'react'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -65,6 +65,17 @@ const WordCard = memo(
     onSetDeletingId,
     onDelete,
   }: WordCardProps) {
+    const [isMobile, setIsMobile] = useState(false)
+    
+    useEffect(() => {
+      const checkMobile = () => {
+        setIsMobile(window.matchMedia('(max-width: 1279px)').matches)
+      }
+      checkMobile()
+      window.addEventListener('resize', checkMobile)
+      return () => window.removeEventListener('resize', checkMobile)
+    }, [])
+
     return (
       <Card
         data-word-id={item.id}
@@ -78,9 +89,11 @@ const WordCard = memo(
         }}
         onMouseDown={() => onDragStart(index, item.id)}
         onMouseEnter={() => onDragEnter(index)}
-        onTouchStart={() => onTouchStart(index, item.id)}
-        onTouchMove={onTouchMove}
-        onTouchEnd={onTouchEnd}
+        {...(!isMobile && {
+          onTouchStart: () => onTouchStart(index, item.id),
+          onTouchMove: onTouchMove,
+          onTouchEnd: onTouchEnd,
+        })}
         onDragStart={(e) => e.preventDefault()}
       >
         <CardContent
@@ -92,7 +105,7 @@ const WordCard = memo(
               <Checkbox
                 checked={isSelected}
                 onCheckedChange={() => onToggleSelection(item.id)}
-                className="w-5 h-5 data-[state=checked]:bg-primary data-[state=checked]:border-primary pointer-events-none"
+                className={`w-5 h-5 data-[state=checked]:bg-primary data-[state=checked]:border-primary ${isMobile ? '' : 'pointer-events-none'}`}
               />
             </div>
           )}
