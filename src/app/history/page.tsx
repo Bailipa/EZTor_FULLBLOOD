@@ -310,6 +310,13 @@ export default function HistoryPage() {
     [isSelectionMode, handleDragStart],
   )
 
+  // TODO: 拖拽选择功能暂时搁置（摆烂了）
+  // 当前状态：点击选择正常工作，拖拽选择有 bug 未修复
+  // 问题：React 状态异步更新导致 handleDragEnter 读取 isDraggingSelection 时值不对
+  // 已尝试用 ref 同步跟踪状态，但仍有问题
+  // 暂时只保留单点选择功能，拖拽选择待后续重构
+  // 相关文件：src/components/vocabulary/WordCard.tsx
+
   const handleDragEnter = useCallback(
     (currentIndex: number) => {
       if (!isSelectionMode || !isDraggingRef.current || dragStartIndex === null) return
