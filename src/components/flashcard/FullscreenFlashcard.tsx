@@ -22,7 +22,7 @@ interface FlashcardWord {
   [key: string]: unknown
 }
 
-export function FullscreenFlashcard() {
+export function FullscreenFlashcard({ onInteraction }: { onInteraction?: () => void } = {}) {
   const { data: session, status } = useSession()
   const router = useRouter()
   const { currentStep, isActive, nextStep } = useOnboarding()
@@ -88,6 +88,7 @@ export function FullscreenFlashcard() {
 
   const handleSaveAndNext = async (category: 'known' | 'unknown') => {
     if (!currentWord) return
+    onInteraction?.()
 
     if (status !== 'authenticated' || !session?.user) {
       // 游客模式：只切换到下一个单词
@@ -261,7 +262,7 @@ export function FullscreenFlashcard() {
               <Button
                 ref={showAnswerButtonRef}
                 className="flex-1 h-12 text-lg"
-                onClick={() => setShowAnswer(true)}
+                onClick={() => { setShowAnswer(true); onInteraction?.() }}
               >
                 显示答案
               </Button>

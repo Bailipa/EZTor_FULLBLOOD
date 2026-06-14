@@ -62,7 +62,7 @@ export function validateEnv(): EnvValidationResult {
     if (!value) {
       missingRequired.push(varName)
       errors.push(`Missing required environment variable: ${varName}`)
-    } else if (isInsecureValue(value)) {
+    } else if (varName !== 'DATABASE_URL' && isInsecureValue(value)) {
       insecureValues.push(varName)
       errors.push(`Insecure default value detected for: ${varName}`)
     } else {

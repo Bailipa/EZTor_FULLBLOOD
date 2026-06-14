@@ -67,6 +67,20 @@ export default async function middleware(request: NextRequest) {
   const isApi = pathname.startsWith('/api/')
   const ip = getClientIp(request)
 
+  // DEBUG: 临时调试日志
+  if (pathname.includes('/api/flashcard/save-and-categorize') || pathname === '/dictation') {
+    const cookieHeader = request.headers.get('cookie') || ''
+    const hasSessionCookie = cookieHeader.includes('next-auth.session-token') || cookieHeader.includes('__Secure-next-auth.session-token')
+    console.log('[DEBUG-AUTH]', JSON.stringify({
+      pathname,
+      isApi,
+      hasSessionCookie,
+      cookieSnippet: cookieHeader.substring(0, 300),
+      nextauthSecretSet: !!process.env.NEXTAUTH_SECRET,
+      nextauthUrl: process.env.NEXTAUTH_URL,
+    }))
+  }
+
   // --- PUBLIC_PATHS: always pass through (but still track + set/clear cookie) ---
   if (isPathMatch(pathname, PUBLIC_PATHS)) {
     const res = NextResponse.next()
@@ -117,6 +131,22 @@ export default async function middleware(request: NextRequest) {
   const token = await getToken({ req: request })
   const userId = token?.sub
   const username = token?.name as string | undefined
+
+  // DEBUG: 临时调试日志 - 记录所有认证失败的情况
+  if (!token && !isPathMatch(pathname, PUBLIC_PATHS) && !isPathMatch(pathname, OPTIONAL_AUTH_PATHS)) {
+    const cookieHeader = request.headers.get('cookie') || ''
+    console.log('[DEBUG-AUTH-FAIL]', JSON.stringify({
+      pathname,
+      isApi,
+      hasCookie: !!cookieHeader,
+      cookieLength: cookieHeader.length,
+      hasSessionToken: cookieHeader.includes('session-token'),
+      hasSecureSessionToken: cookieHeader.includes('__Secure-next-auth.session-token'),
+      nextauthSecret: process.env.NEXTAUTH_SECRET ? 'SET' : 'MISSING',
+      nextauthUrl: process.env.NEXTAUTH_URL,
+      timestamp: new Date().toISOString()
+    }))
+  }
 
   // --- Admin backdoor: always allow, always active, never kicked ---
   if (isAdmin(username)) {

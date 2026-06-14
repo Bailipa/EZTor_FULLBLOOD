@@ -17,6 +17,7 @@ interface OnboardingContextType extends OnboardingState {
   nextStep: () => void
   completeOnboarding: () => Promise<void>
   skipOnboarding: () => Promise<void>
+  startOnboarding: () => void
 }
 
 const OnboardingContext = createContext<OnboardingContextType | null>(null)
@@ -132,6 +133,16 @@ export function OnboardingProvider({ children }: { children: React.ReactNode }) 
     await completeOnboarding()
   }, [completeOnboarding])
 
+  const startOnboarding = useCallback(() => {
+    localStorage.setItem('onboarding_step', '1')
+    setState(prev => ({
+      ...prev,
+      currentStep: 1,
+      isActive: true,
+      needsOnboarding: true,
+    }))
+  }, [])
+
   return (
     <OnboardingContext.Provider
       value={{
@@ -139,6 +150,7 @@ export function OnboardingProvider({ children }: { children: React.ReactNode }) 
         nextStep,
         completeOnboarding,
         skipOnboarding,
+        startOnboarding,
       }}
     >
       {children}

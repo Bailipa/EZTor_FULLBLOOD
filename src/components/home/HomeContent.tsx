@@ -17,11 +17,13 @@ import { useOnboarding } from '@/components/onboarding/OnboardingProvider'
 import { OnboardingTooltip } from '@/components/onboarding/OnboardingTooltip'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
+import { GraduationCap } from 'lucide-react'
 
 export default function HomeContent() {
   usePageView('Home')
-  const { currentStep, isActive, completeOnboarding } = useOnboarding()
+  const { currentStep, isActive, completeOnboarding, startOnboarding } = useOnboarding()
   const completeButtonRef = useRef<HTMLButtonElement>(null)
+  const [hasInteractedWithFlashcard, setHasInteractedWithFlashcard] = useState(false)
 
   const [wordsInput, setWordsInput] = useState('')
   const [isLoading, setIsLoading] = useState(false)
@@ -137,7 +139,7 @@ export default function HomeContent() {
             onFeatureClick={promptLogin}
           />
           <div className="flex-1 min-h-0">
-            <FullscreenFlashcard />
+            <FullscreenFlashcard onInteraction={() => setHasInteractedWithFlashcard(true)} />
           </div>
         </div>
 
@@ -184,7 +186,7 @@ export default function HomeContent() {
               </div>
               <footer className="py-6 px-4 md:px-6 lg:px-8 text-center text-sm text-muted-foreground">
                 <a
-                  href="https://blog.dogeggcode.cyou"
+                  href="https://beian.miit.gov.cn/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="transition-colors hover:text-foreground"
@@ -196,6 +198,17 @@ export default function HomeContent() {
           </div>
         </div>
       </AppLayout>
+
+      {/* 新手引导入口悬浮按钮 */}
+      {!isActive && isAuthenticated && !hasInteractedWithFlashcard && (
+        <button
+          onClick={startOnboarding}
+          className="fixed bottom-20 right-4 z-50 flex items-center gap-2 px-4 py-2.5 rounded-full bg-primary text-primary-foreground shadow-lg hover:shadow-xl transition-all hover:scale-105 active:scale-95"
+        >
+          <GraduationCap className="w-5 h-5" />
+          <span className="text-sm font-medium">新手引导</span>
+        </button>
+      )}
 
       {/* 引导步骤 6：功能探索提示 */}
       {isActive && currentStep === 6 && isAuthenticated && (

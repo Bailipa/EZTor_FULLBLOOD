@@ -36,6 +36,8 @@ export function OnboardingTooltip({
       let arrowTop = 0
       let arrowLeft = 0
 
+      const padding = 8
+
       switch (position) {
         case 'top':
           top = targetRect.top - tooltipRect.height - 12
@@ -62,11 +64,14 @@ export function OnboardingTooltip({
           arrowLeft = -12
           break
         case 'center':
-          // 覆盖在目标元素上方
           top = targetRect.top + (targetRect.height - tooltipRect.height) / 2
           left = targetRect.left + (targetRect.width - tooltipRect.width) / 2
           break
       }
+
+      // 边界检查：防止溢出屏幕
+      left = Math.max(padding, Math.min(left, window.innerWidth - tooltipRect.width - padding))
+      top = Math.max(padding, Math.min(top, window.innerHeight - tooltipRect.height - padding))
 
       setTooltipStyle({
         position: 'fixed',
@@ -112,7 +117,7 @@ export function OnboardingTooltip({
     <div
       ref={tooltipRef}
       style={tooltipStyle}
-      className="bg-card border border-border rounded-lg shadow-lg p-4 max-w-[280px]"
+      className="bg-card border border-border rounded-lg shadow-lg p-4 max-w-[240px] sm:max-w-[280px]"
     >
       {renderArrow()}
       <h4 className="font-semibold text-sm mb-2">{title}</h4>
