@@ -132,6 +132,8 @@ export default function HistoryPage() {
   const [dragStartIndex, setDragStartIndex] = useState<number | null>(null)
   const [initialSelectedSet, setInitialSelectedSet] = useState<Set<string>>(new Set())
   const dragStartWasSelectedRef = useRef<boolean>(false)
+  const touchStartPosRef = useRef<{ x: number; y: number } | null>(null)
+  const hasMovedRef = useRef<boolean>(false)
   const [isGroupModalOpen, setIsGroupModalOpen] = useState(false)
   const [newGroupName, setNewGroupName] = useState('')
   const [targetGroupId, setTargetGroupId] = useState('')
@@ -251,22 +253,13 @@ export default function HistoryPage() {
   const handleDragStart = useCallback(
     (index: number, id: string) => {
       if (!isSelectionMode) return
-      setIsDraggingSelection(true)
       setDragStartIndex(index)
 
       setSelectedIds((prev) => {
         setInitialSelectedSet(new Set(prev))
         // 记录起始项的原始状态
         dragStartWasSelectedRef.current = prev.has(id)
-
-        const next = new Set(prev)
-        // 切换起始项的选中状态
-        if (next.has(id)) {
-          next.delete(id)
-        } else {
-          next.add(id)
-        }
-        return next
+        return prev
       })
     },
     [isSelectionMode, setSelectedIds],
@@ -310,18 +303,57 @@ export default function HistoryPage() {
 
   const handleTouchMove = useCallback(
     (e: React.TouchEvent) => {
-      if (!isSelectionMode || !isDraggingSelection || dragStartIndex === null) return
+      if (!isSelectionMode || dragStartIndex === null) return
+
       const touch = e.touches[0]
-      const element = document.elementFromPoint(touch.clientX, touch.clientY)
-      const card = element?.closest('[data-word-index]')
-      if (card) {
-        const indexStr = card.getAttribute('data-word-index')
-        if (indexStr !== null) {
-          handleDragEnter(parseInt(indexStr, 10))
+
+      // 记录触摸开始位置
+      if (!touchStartPosRef.current) {
+        touchStartPosRef.current = { x: touch.clientX, y: touch.clientY }
+        return
+      }
+
+      // 检查移动距离，超过 10px 才进入拖拽模式
+      const dx = Math.abs(touch.clientX - touchStartPosRef.current.x)
+      const dy = Math.abs(touch.clientY - touchStartPosRef.current.y)
+
+      if (!hasMovedRef.current && (dx > 10 || dy > 10)) {
+        hasMovedRef.current = true
+        setIsDraggingSelection(true)
+      }
+
+      // 如果已进入拖拽模式，处理选择
+      if (hasMovedRef.current && isDraggingSelection) {
+        const element = document.elementFromPoint(touch.clientX, touch.clientY)
+        const card = element?.closest('[data-word-index]')
+        if (card) {
+          const indexStr = card.getAttribute('data-word-index')
+          if (indexStr !== null) {
+            handleDragEnter(parseInt(indexStr, 10))
+          }
         }
       }
     },
-    [isSelectionMode, isDraggingSelection, dragStartIndex, handleDragEnter],
+    [isSelectionMode, dragStartIndex, isDraggingSelection, handleDragEnter],
+  )
+
+  const handleTouchEnd = useCallback(
+    () => {
+      // 如果没有移动，视为点击，切换起始项状态
+      if (!hasMovedRef.current && dragStartIndex !== null) {
+        const item = words[dragStartIndex]
+        if (item) {
+          toggleSelection(item.id)
+        }
+      }
+
+      // 重置状态
+      setIsDraggingSelection(false)
+      setDragStartIndex(null)
+      touchStartPosRef.current = null
+      hasMovedRef.current = false
+    },
+    [dragStartIndex, words, toggleSelection],
   )
 
   const handleDelete = useCallback(
@@ -610,7 +642,7 @@ export default function HistoryPage() {
         onDragEnter={handleDragEnter}
         onTouchStart={handleDragStart}
         onTouchMove={handleTouchMove}
-        onTouchEnd={() => setIsDraggingSelection(false)}
+        onTouchEnd={handleTouchEnd}
         onSetDeletingId={setDeletingId}
         onDelete={handleDelete}
       />
