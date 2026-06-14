@@ -40,6 +40,7 @@ interface WordCardProps {
   isGroupView: boolean
   onToggleSelection: (id: string) => void
   onDragStart: (index: number, id: string) => void
+  onMouseDown: (index: number, id: string) => void
   onDragEnter: (index: number) => void
   onTouchStart: (index: number, id: string) => void
   onTouchMove: (e: React.TouchEvent) => void
@@ -58,6 +59,7 @@ const WordCard = memo(
     isGroupView,
     onToggleSelection,
     onDragStart,
+    onMouseDown,
     onDragEnter,
     onTouchStart,
     onTouchMove,
@@ -76,7 +78,7 @@ const WordCard = memo(
           WebkitBackfaceVisibility: 'hidden',
           transform: 'translateZ(0)',
         }}
-        onMouseDown={() => onDragStart(index, item.id)}
+        onMouseDown={() => onMouseDown(index, item.id)}
         onMouseEnter={() => onDragEnter(index)}
         onTouchStart={() => onTouchStart(index, item.id)}
         onTouchMove={onTouchMove}

@@ -265,6 +265,16 @@ export default function HistoryPage() {
     [isSelectionMode, setSelectedIds],
   )
 
+  const handleMouseDown = useCallback(
+    (index: number, id: string) => {
+      if (!isSelectionMode) return
+      // 鼠标按下时立即进入拖拽模式
+      setIsDraggingSelection(true)
+      handleDragStart(index, id)
+    },
+    [isSelectionMode, handleDragStart],
+  )
+
   const handleDragEnter = useCallback(
     (currentIndex: number) => {
       if (!isSelectionMode || !isDraggingSelection || dragStartIndex === null) return
@@ -639,6 +649,7 @@ export default function HistoryPage() {
         isGroupView={isGroupView}
         onToggleSelection={toggleSelection}
         onDragStart={handleDragStart}
+        onMouseDown={handleMouseDown}
         onDragEnter={handleDragEnter}
         onTouchStart={handleDragStart}
         onTouchMove={handleTouchMove}
