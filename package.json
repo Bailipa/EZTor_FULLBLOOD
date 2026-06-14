@@ -34,6 +34,7 @@
     "lucide-react": "^1.0.1",
     "next": "^16.2.3",
     "next-auth": "^4.24.13",
+    "node-edge-tts": "^1.2.10",
     "normalize.css": "^8.0.1",
     "openai": "^6.32.0",
     "pg": "^8.16.3",

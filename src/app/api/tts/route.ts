@@ -40,7 +40,7 @@ export async function POST(req: Request) {
     })
 
     const headers: Record<string, string> = {
-      'Content-Type': 'audio/wav',
+      'Content-Type': 'audio/mpeg',
       'Cache-Control': 'no-store',
     }
 

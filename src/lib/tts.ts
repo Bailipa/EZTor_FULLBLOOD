@@ -1,12 +1,13 @@
 import { logger } from '@/lib/logger'
-import { getIPA } from '@/lib/phoneticValidator'
+import { EdgeTTS } from 'node-edge-tts'
+import { readFileSync, unlinkSync, mkdtempSync } from 'fs'
+import { join } from 'path'
+import { tmpdir } from 'os'
 
-const MIMO_API_KEY = process.env.MIMO_API_KEY || ''
-const MIMO_BASE_URL = 'https://api.xiaomimimo.com/v1/chat/completions'
-const MIMO_MODEL = 'mimo-v2.5-tts'
-const MIMO_VOICE = process.env.MIMO_VOICE || 'Milo'
+const EDGE_VOICE = process.env.EDGE_TTS_VOICE || 'en-US-AriaNeural'
+const EDGE_LANG = process.env.EDGE_TTS_LANG || 'en-US'
 
-export type TtsResponseFormat = 'wav'
+export type TtsResponseFormat = 'mp3'
 
 export type TtsRequest = {
   input: string
@@ -18,8 +19,6 @@ export type TtsRequest = {
 
 const MAX_INPUT_LENGTH = 500
 const TTS_TIMEOUT_MS = 15000
-const MAX_RETRIES = 1
-const RETRY_DELAY_MS = 500
 
 // LRU 缓存
 const CACHE_MAX = parseInt(process.env.TTS_CACHE_MAX || '200', 10)
@@ -44,7 +43,6 @@ const cleanupInterval = setInterval(
   5 * 60 * 1000,
 )
 
-// 防止 Node.js 进程因定时器无法退出
 if (cleanupInterval.unref) cleanupInterval.unref()
 
 function getCacheKey(input: string, voice: string): string {
@@ -58,7 +56,6 @@ function getFromCache(key: string): Buffer | null {
     ttsCache.delete(key)
     return null
   }
-  // LRU: 移到末尾
   ttsCache.delete(key)
   ttsCache.set(key, entry)
   return entry.buffer
@@ -72,131 +69,31 @@ function setCache(key: string, buffer: Buffer): void {
   ttsCache.set(key, { buffer, ts: Date.now() })
 }
 
-function sleep(ms: number, signal?: AbortSignal): Promise<void> {
-  return new Promise((resolve, reject) => {
-    if (signal?.aborted) {
-      reject(signal.reason)
-      return
-    }
-    const timer = setTimeout(resolve, ms)
-    signal?.addEventListener(
-      'abort',
-      () => {
-        clearTimeout(timer)
-        reject(signal.reason)
-      },
-      { once: true },
-    )
-  })
-}
-
-async function callMiMo(
+async function synthesizeWithEdgeTTS(
   input: string,
   voice: string,
-  signal?: AbortSignal,
-): Promise<Response> {
-  const messages = [
-    { role: 'user' as const, content: 'Read the following word clearly and correctly.' },
-    { role: 'assistant' as const, content: input },
-  ]
-
-  const body = {
-    model: MIMO_MODEL,
-    messages,
-    audio: {
-      format: 'wav',
-      voice,
-    },
-  }
-
-  return fetch(MIMO_BASE_URL, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'api-key': MIMO_API_KEY,
-    },
-    body: JSON.stringify(body),
-    signal,
+): Promise<Buffer> {
+  const tts = new EdgeTTS({
+    voice,
+    lang: EDGE_LANG,
+    outputFormat: 'audio-24khz-96kbitrate-mono-mp3',
+    timeout: TTS_TIMEOUT_MS,
   })
-}
 
-async function doSynthesize(
-  input: string,
-  voice: string,
-  cacheKey: string,
-  signal?: AbortSignal,
-): Promise<Response> {
-  const abortController = new AbortController()
-  const timeoutId = setTimeout(
-    () => abortController.abort(new DOMException('TTS request timed out', 'TimeoutError')),
-    TTS_TIMEOUT_MS,
-  )
+  const tempDir = mkdtempSync(join(tmpdir(), 'tts-'))
+  const tempFile = join(tempDir, 'audio.mp3')
 
-  if (signal) {
-    if (signal.aborted) {
-      clearTimeout(timeoutId)
-      abortController.abort(signal.reason)
-    } else {
-      signal.addEventListener(
-        'abort',
-        () => {
-          clearTimeout(timeoutId)
-          abortController.abort(signal.reason)
-        },
-        { once: true },
-      )
-    }
-  }
-
-  let lastError: Error | null = null
-
-  for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
-    if (attempt > 0) {
-      logger.info({ attempt }, '[TTS] Retrying MiMo TTS')
-      await sleep(RETRY_DELAY_MS, abortController.signal)
-    }
-
+  try {
+    await tts.ttsPromise(input, tempFile)
+    return readFileSync(tempFile)
+  } finally {
     try {
-      const response = await callMiMo(input, voice, abortController.signal)
-
-      if (response.ok) {
-        clearTimeout(timeoutId)
-        const data = await response.json()
-        const audioData = data?.choices?.[0]?.message?.audio?.data
-        if (!audioData) {
-          throw new Error('MiMo TTS returned no audio data')
-        }
-
-        const audioBuffer = Buffer.from(audioData, 'base64')
-        setCache(cacheKey, audioBuffer)
-
-        return new Response(audioBuffer, {
-          headers: {
-            'Content-Type': 'audio/wav',
-            'Content-Length': String(audioBuffer.length),
-          },
-        })
-      }
-
-      const errBody = await response.json().catch(() => ({ error: response.statusText }))
-      lastError = new Error(
-        `MiMo TTS error: ${errBody.error?.message || errBody.error || response.statusText}`,
-      )
-
-      if (response.status >= 400 && response.status < 500) {
-        break
-      }
-    } catch (err: unknown) {
-      if (err instanceof DOMException && err.name === 'AbortError') {
-        clearTimeout(timeoutId)
-        throw err
-      }
-      lastError = err instanceof Error ? err : new Error(String(err))
+      unlinkSync(tempFile)
+      unlinkSync(tempDir)
+    } catch {
+      // cleanup errors are non-critical
     }
   }
-
-  clearTimeout(timeoutId)
-  throw lastError || new Error('MiMo TTS failed after retries')
 }
 
 export async function synthesizeSpeech(req: TtsRequest): Promise<Response> {
@@ -205,11 +102,7 @@ export async function synthesizeSpeech(req: TtsRequest): Promise<Response> {
   if (input.length > MAX_INPUT_LENGTH)
     throw new Error(`Input exceeds maximum length of ${MAX_INPUT_LENGTH} characters`)
 
-  if (!MIMO_API_KEY) {
-    throw new Error('MIMO_API_KEY is not configured')
-  }
-
-  const voice = (req.voice || '').trim() || MIMO_VOICE
+  const voice = (req.voice || '').trim() || EDGE_VOICE
   const cacheKey = getCacheKey(input, voice)
 
   // 1. 缓存命中
@@ -217,7 +110,7 @@ export async function synthesizeSpeech(req: TtsRequest): Promise<Response> {
   if (cached) {
     return new Response(new Uint8Array(cached), {
       headers: {
-        'Content-Type': 'audio/wav',
+        'Content-Type': 'audio/mpeg',
         'Content-Length': String(cached.length),
       },
     })
@@ -228,7 +121,23 @@ export async function synthesizeSpeech(req: TtsRequest): Promise<Response> {
   if (pending) return pending
 
   // 3. 新请求
-  const promise = doSynthesize(input, voice, cacheKey, req.signal)
+  const promise = (async () => {
+    try {
+      const audioBuffer = await synthesizeWithEdgeTTS(input, voice)
+      setCache(cacheKey, audioBuffer)
+
+      return new Response(new Uint8Array(audioBuffer), {
+        headers: {
+          'Content-Type': 'audio/mpeg',
+          'Content-Length': String(audioBuffer.length),
+        },
+      })
+    } catch (err: unknown) {
+      logger.error({ err }, '[TTS] Edge TTS failed')
+      throw err instanceof Error ? err : new Error(String(err))
+    }
+  })()
+
   pendingRequests.set(cacheKey, promise)
   try {
     return await promise
