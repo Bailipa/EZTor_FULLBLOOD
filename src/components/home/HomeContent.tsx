@@ -3,7 +3,9 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { useSession } from 'next-auth/react'
 import { Danmaku } from '@/components/ui/danmaku'
-import { WordInputCard, TranslateOnlyCard, ResultsList, HomeHeader } from '@/components/home'
+import { TranslateOnlyCard, HomeHeader } from '@/components/home'
+import { WordTranslationPanel } from '@/components/home/WordTranslationPanel'
+import { ChatRoom } from '@/components/chat/ChatRoom'
 import { GuestHomepage } from '@/components/home/guest/GuestHomepage'
 import { useLoginPrompt } from '@/components/ui/login-prompt-modal'
 import AppLayout from '@/components/layout/AppLayout'
@@ -143,7 +145,7 @@ export default function HomeContent() {
           </div>
         </div>
 
-        {/* 桌面端：保持原有布局 */}
+        {/* 桌面端：翻译+反馈布局 */}
         <div className="hidden xl:flex xl:flex-col xl:h-screen">
           <HomeHeader
             showDanmaku={showDanmaku}
@@ -154,18 +156,12 @@ export default function HomeContent() {
           <div className="flex-1 flex flex-col xl:flex-row min-h-0 xl:overflow-hidden">
             <div className="flex flex-col xl:w-[440px] xl:shrink-0 xl:overflow-y-auto xl:border-r xl:border-border">
               <div className="p-4 md:p-6 lg:p-8 xl:pr-4 space-y-6">
-                <WordInputCard
-                  isLoading={isLoading}
-                  setIsLoading={setIsLoading}
+                <WordTranslationPanel
                   showPos={showPos}
                   showExample={showExample}
                   groups={groups}
                   selectedTargetGroupId={selectedTargetGroupId}
                   setSelectedTargetGroupId={setSelectedTargetGroupId}
-                  results={results}
-                  setResults={setResults}
-                  wordsInput={wordsInput}
-                  setWordsInput={setWordsInput}
                 />
 
                 <ErrorBoundary>
@@ -174,15 +170,9 @@ export default function HomeContent() {
               </div>
             </div>
 
-            <div className="flex-1 flex flex-col xl:overflow-y-auto">
-              <div className="p-4 md:p-6 lg:p-8 xl:pl-4">
-                <ResultsList
-                  ref={resultsRef}
-                  results={results}
-                  showPos={showPos}
-                  showExample={showExample}
-                  onClear={() => setResults([])}
-                />
+            <div className="flex-1 flex flex-col xl:overflow-hidden">
+              <div className="flex-1 p-4 md:p-6 lg:p-8 xl:pl-4">
+                <ChatRoom />
               </div>
               <footer className="py-6 px-4 md:px-6 lg:px-8 text-center text-sm text-muted-foreground">
                 <a
