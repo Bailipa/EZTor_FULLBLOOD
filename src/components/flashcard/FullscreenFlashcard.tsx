@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
-import { Check, X, Loader2, Volume2, Search } from 'lucide-react'
+import { Check, X, Loader2, Volume2 } from 'lucide-react'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
@@ -169,12 +169,6 @@ export function FullscreenFlashcard({ onInteraction }: { onInteraction?: () => v
             </span>
           )}
         </div>
-        <Link href="/translate">
-          <Button variant="outline" size="sm" className="gap-1.5">
-            <Search className="w-3.5 h-3.5" />
-            <span>查词</span>
-          </Button>
-        </Link>
       </div>
 
       {/* 闪卡内容 - 可滚动 */}

@@ -301,6 +301,8 @@ model User {
   Word                   Word[]
   ChatMessage            ChatMessage[]
   ChatBan                ChatBan?
+  GameProfile            UserGameProfile?
+  DailyTaskCompletion    DailyTaskCompletion[]
 }
 
 model UserPreference {
@@ -450,4 +452,72 @@ model CustomProfanity {
   id        String   @id @default(cuid())
   word      String   @unique
   createdAt DateTime @default(now())
+}
+
+model UserGameProfile {
+  id                String   @id @default(cuid())
+  userId            String   @unique
+  nickname          String?  @unique
+  previousNickname  String?
+  combatPower       Int      @default(0)
+  monthlyPower      Int      @default(0)
+  weeklyPower       Int      @default(0)
+  dailyPowerGained  Int      @default(0)
+  dailyPowerCap     Int      @default(100)
+  dailyPowerDate    String   @default("")
+  currentStreak     Int      @default(0)
+  longestStreak     Int      @default(0)
+  lastActiveDate    String?
+  nicknameChangedAt DateTime?
+  unlockedFeatures  String[] @default([])
+  zoneId            String?
+  lastWeeklyReset   DateTime?
+  lastMonthlyReset  DateTime?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime
+
+  User    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  WarZone WarZone? @relation(fields: [zoneId], references: [id], onDelete: SetNull)
+
+  @@index([combatPower(sort: Desc)])
+  @@index([monthlyPower(sort: Desc)])
+  @@index([weeklyPower(sort: Desc)])
+  @@index([zoneId])
+}
+
+model DailyTaskCompletion {
+  id          String    @id @default(cuid())
+  userId      String
+  date        String
+  taskType    String
+  targetValue Int
+  currentValue Int      @default(0)
+  isCompleted Boolean   @default(false)
+  powerReward Int
+  completedAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime
+
+  User User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, date, taskType])
+  @@index([userId, date])
+}
+
+model WarZone {
+  id          String    @id @default(cuid())
+  name        String    @unique
+  memberCount Int       @default(0)
+  maxMembers  Int       @default(50)
+  isActive    Boolean   @default(true)
+  resetAt     DateTime?
+  previousName String?
+  renamedBy    String?
+  renamedAt    DateTime?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime
+
+  UserGameProfile UserGameProfile[]
+
+  @@index([isActive])
 }

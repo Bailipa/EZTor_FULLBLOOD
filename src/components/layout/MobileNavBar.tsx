@@ -2,7 +2,7 @@
 
 import { usePathname, useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { Home, PenTool, BookOpen, Search, MessageSquare } from 'lucide-react'
+import { Home, PenTool, BookOpen, Search, MessageSquare, Trophy } from 'lucide-react'
 import { useOnboarding } from '@/components/onboarding/OnboardingProvider'
 import { OnboardingTooltip } from '@/components/onboarding/OnboardingTooltip'
 import { useRef } from 'react'
@@ -12,6 +12,7 @@ const navItems = [
   { href: '/dictation', label: '默写', icon: PenTool },
   { href: '/history', label: '生词本', icon: BookOpen },
   { href: '/translate', label: '查词', icon: Search },
+  { href: '/leaderboard', label: '排行榜', icon: Trophy },
   { href: '/chat', label: '反馈', icon: MessageSquare },
 ]
 

@@ -3,14 +3,13 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { useSession } from 'next-auth/react'
 import { Danmaku } from '@/components/ui/danmaku'
-import { TranslateOnlyCard, HomeHeader } from '@/components/home'
+import { HomeHeader } from '@/components/home'
 import { WordTranslationPanel } from '@/components/home/WordTranslationPanel'
 import { ChatRoom } from '@/components/chat/ChatRoom'
 import { GuestHomepage } from '@/components/home/guest/GuestHomepage'
 import { useLoginPrompt } from '@/components/ui/login-prompt-modal'
 import AppLayout from '@/components/layout/AppLayout'
 import MobileNavBar from '@/components/layout/MobileNavBar'
-import ErrorBoundary from '@/components/error-boundary'
 import type { WordResult, ReviewGroup } from '@/types/api'
 import { saveToStorage, loadFromStorage } from '@/lib/storage'
 import { usePageView } from '@/lib/analytics'
@@ -20,6 +19,10 @@ import { OnboardingTooltip } from '@/components/onboarding/OnboardingTooltip'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { GraduationCap } from 'lucide-react'
+import { DailyTaskCard } from '@/features/gamification/components/DailyTaskCard'
+import { CombatPowerBadge } from '@/features/gamification/components/CombatPowerBadge'
+import { FeatureUnlockNotification } from '@/features/gamification/components/FeatureUnlockNotification'
+import type { FeatureKey } from '@/features/gamification/constants'
 
 export default function HomeContent() {
   usePageView('Home')
@@ -35,6 +38,9 @@ export default function HomeContent() {
   const [showDanmaku, setShowDanmaku] = useState(false)
   const [groups, setGroups] = useState<ReviewGroup[]>([])
   const [selectedTargetGroupId, setSelectedTargetGroupId] = useState<string>('none')
+  const [unlockNotifOpen, setUnlockNotifOpen] = useState(false)
+  const [unlockedFeatures, setUnlockedFeatures] = useState<FeatureKey[]>([])
+  const [taskRefreshKey, setTaskRefreshKey] = useState(0)
   const resultsRef = useRef<HTMLDivElement | null>(null)
   const prevResultsLengthRef = useRef(0)
   const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null)
@@ -140,8 +146,17 @@ export default function HomeContent() {
             onToggleDanmaku={() => setShowDanmaku(!showDanmaku)}
             onFeatureClick={promptLogin}
           />
+          <div className="px-4 py-2 flex items-center justify-between border-b border-border bg-background/80 backdrop-blur">
+            <CombatPowerBadge />
+          </div>
+          <div className="px-4 py-2">
+            <DailyTaskCard refreshKey={taskRefreshKey} defaultCollapsed={true} />
+          </div>
           <div className="flex-1 min-h-0">
-            <FullscreenFlashcard onInteraction={() => setHasInteractedWithFlashcard(true)} />
+            <FullscreenFlashcard onInteraction={() => {
+              setHasInteractedWithFlashcard(true)
+              setTaskRefreshKey((k) => k + 1)
+            }} />
           </div>
         </div>
 
@@ -156,6 +171,11 @@ export default function HomeContent() {
           <div className="flex-1 flex flex-col xl:flex-row min-h-0 xl:overflow-hidden">
             <div className="flex flex-col xl:w-[440px] xl:shrink-0 xl:overflow-y-auto xl:border-r xl:border-border">
               <div className="p-4 md:p-6 lg:p-8 xl:pr-4 space-y-6">
+                <div className="flex items-center justify-between">
+                  <div />
+                  <CombatPowerBadge />
+                </div>
+                <DailyTaskCard defaultCollapsed={false} />
                 <WordTranslationPanel
                   showPos={showPos}
                   showExample={showExample}
@@ -163,10 +183,6 @@ export default function HomeContent() {
                   selectedTargetGroupId={selectedTargetGroupId}
                   setSelectedTargetGroupId={setSelectedTargetGroupId}
                 />
-
-                <ErrorBoundary>
-                  <TranslateOnlyCard />
-                </ErrorBoundary>
               </div>
             </div>
 
@@ -229,6 +245,11 @@ export default function HomeContent() {
         </>
       )}
 
+      <FeatureUnlockNotification
+        open={unlockNotifOpen}
+        onOpenChange={setUnlockNotifOpen}
+        unlockedFeatures={unlockedFeatures}
+      />
       <LoginPromptDialog />
     </div>
   )

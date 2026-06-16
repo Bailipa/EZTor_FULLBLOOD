@@ -5,7 +5,7 @@ import { signOut } from 'next-auth/react'
 import Link from 'next/link'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Button } from '@/components/ui/button'
-import { Home, PenTool, BookOpen, MessageCircle, LogOut, ExternalLink } from 'lucide-react'
+import { Home, PenTool, BookOpen, MessageCircle, LogOut, ExternalLink, Trophy } from 'lucide-react'
 import { ModeToggle } from '@/components/mode-toggle'
 import { DonationButton } from '@/components/home/DonationModal'
 import {
@@ -30,6 +30,7 @@ export default function AppSidebar() {
     { href: '/', label: '首页', icon: Home },
     { href: '/dictation', label: '默写复习', icon: PenTool },
     { href: '/history', label: '生词本', icon: BookOpen },
+    { href: '/leaderboard', label: '排行榜', icon: Trophy },
   ]
 
   const bottomItems = [

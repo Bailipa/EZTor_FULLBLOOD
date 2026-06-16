@@ -5,6 +5,7 @@ import { authOptions } from '../../auth/[...nextauth]/route'
 import { safeQueryRaw } from '@/lib/safeQueryRaw'
 import { randomUUID } from 'crypto'
 import { logger } from '@/lib/logger'
+import { gameService } from '@/features/gamification/services/GameService'
 
 export async function POST(req: Request) {
   try {
@@ -115,6 +116,8 @@ export async function POST(req: Request) {
         }
       })
     }
+
+    gameService.reportTaskProgress(session.user.id, 'FLASHCARD_INTERACT', 1).catch(() => {})
 
     return NextResponse.json({ success: true })
   } catch (err: unknown) {

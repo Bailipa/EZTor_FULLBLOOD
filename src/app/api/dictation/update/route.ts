@@ -5,6 +5,7 @@ import { authOptions } from '../../auth/[...nextauth]/route'
 import { safeQueryRaw } from '@/lib/safeQueryRaw'
 import { randomUUID } from 'crypto'
 import { logger } from '@/lib/logger'
+import { gameService } from '@/features/gamification/services/GameService'
 
 export async function POST(req: Request) {
   try {
@@ -67,6 +68,9 @@ export async function POST(req: Request) {
         },
       })
     }
+
+    gameService.reportTaskProgress(session.user.id, 'COMPLETE_REVIEWS', 1).catch(() => {})
+    gameService.reportAccuracyTask(session.user.id).catch(() => {})
 
     return NextResponse.json({ success: true })
   } catch (err: unknown) {

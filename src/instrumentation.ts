@@ -21,6 +21,10 @@ export async function register() {
       console.log('[Startup] Environment validation passed ✓')
     }
 
+    // Gamification: schedule weekly/monthly resets
+    const { scheduleGamificationResets } = await import('@/lib/gamificationCron')
+    scheduleGamificationResets()
+
     // Graceful shutdown
     const gracefulShutdown = async (signal: string) => {
       console.log(`[Shutdown] Received ${signal}, closing database connections...`)
