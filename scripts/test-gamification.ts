@@ -128,9 +128,6 @@ async function main() {
       if (profile!.combatPower >= 50 && !profile!.unlockedFeatures.includes('DANMAKU')) {
         unlocked.push('DANMAKU')
       }
-      if (profile!.combatPower >= 100 && !profile!.unlockedFeatures.includes('SHARE_POSTER')) {
-        unlocked.push('SHARE_POSTER')
-      }
       if (profile!.combatPower >= 200 && !profile!.unlockedFeatures.includes('MINI_GAME')) {
         unlocked.push('MINI_GAME')
       }

@@ -4,9 +4,7 @@ import { Button } from '@/components/ui/button'
 import { ModeToggle } from '@/components/mode-toggle'
 import { FlashcardWidget } from '@/components/ui/flashcard/flashcard-widget'
 import { GameWidget } from '@/components/ui/game/GameWidget'
-import { SharePoster } from '@/components/share'
 import { useState, useEffect, useRef } from 'react'
-import { Share2 } from 'lucide-react'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -34,7 +32,6 @@ interface HomeHeaderProps {
 export function HomeHeader({ showDanmaku, onToggleDanmaku, onFeatureClick }: HomeHeaderProps) {
   const { data: session, status } = useSession()
   const isAuthenticated = status === 'authenticated' && session?.user
-  const [shareOpen, setShareOpen] = useState(false)
   const [githubDialogOpen, setGithubDialogOpen] = useState(false)
   const [githubState, setGithubState] = useState<'checking' | 'fail'>('checking')
   const [cardExpanded, setCardExpanded] = useState(false)
@@ -208,17 +205,7 @@ export function HomeHeader({ showDanmaku, onToggleDanmaku, onFeatureClick }: Hom
               </>
             )}
           </Button>
-          {isAuthenticated ? (
-            <Button
-              variant="outline"
-              onClick={() => setShareOpen(true)}
-              className="gap-1.5 sm:gap-2 shadow-sm h-8 px-2.5 text-xs sm:h-9 sm:px-4 sm:text-sm text-primary"
-              aria-label="收获"
-            >
-              <Share2 className="w-3.5 h-3.5 sm:w-4 sm:h-4" aria-hidden="true" />
-              <span>收获</span>
-            </Button>
-          ) : (
+          {isAuthenticated ? null : (
             <Button
               variant="default"
               onClick={() => {
@@ -342,7 +329,6 @@ export function HomeHeader({ showDanmaku, onToggleDanmaku, onFeatureClick }: Hom
               </AlertDialog>
             </div>
           )}
-          <SharePoster open={shareOpen} onOpenChange={setShareOpen} />
         </nav>
       </div>
     </header>

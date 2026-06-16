@@ -5,6 +5,7 @@ import {
   DAILY_POWER_CAP,
   TASK_CONFIGS,
   TASK_TYPES,
+  SHARE_POWER_REWARD,
   STREAK_POWER_MULTIPLIER,
   STREAK_POWER_CAP,
   FEATURE_UNLOCK_THRESHOLDS,
@@ -321,6 +322,67 @@ export class GameService {
     const accuracy = Math.round((totalCorrect / totalAttempts) * 100)
 
     return this.reportTaskProgress(userId, TASK_TYPES.REACH_ACCURACY, accuracy)
+  }
+
+  async reportShareActivity(userId: string): Promise<TaskCompleteResult> {
+    const today = getTodayDateUTC8()
+    const taskType = TASK_TYPES.SHARE
+
+    const existing = await prisma.dailyTaskCompletion.findUnique({
+      where: { userId_date_taskType: { userId, date: today, taskType } },
+    })
+
+    if (existing?.isCompleted) {
+      const profile = await prisma.userGameProfile.findUnique({ where: { userId } })
+      return {
+        taskCompleted: false,
+        powerGained: 0,
+        totalPower: profile?.combatPower ?? 0,
+        newlyUnlocked: [],
+      }
+    }
+
+    try {
+      await prisma.dailyTaskCompletion.upsert({
+        where: { userId_date_taskType: { userId, date: today, taskType } },
+        update: {
+          currentValue: 1,
+          isCompleted: true,
+          completedAt: new Date(),
+        },
+        create: {
+          id: randomUUID(),
+          userId,
+          date: today,
+          taskType,
+          targetValue: 1,
+          currentValue: 1,
+          isCompleted: true,
+          powerReward: SHARE_POWER_REWARD,
+          completedAt: new Date(),
+          updatedAt: new Date(),
+        },
+      })
+    } catch (err: unknown) {
+      if ((err as { code?: string }).code === 'P2002') {
+        const profile = await prisma.userGameProfile.findUnique({ where: { userId } })
+        return {
+          taskCompleted: false,
+          powerGained: 0,
+          totalPower: profile?.combatPower ?? 0,
+          newlyUnlocked: [],
+        }
+      }
+      throw err
+    }
+
+    const result = await this.addPower(userId, SHARE_POWER_REWARD, 'TASK:SHARE')
+    return {
+      taskCompleted: true,
+      powerGained: result.powerGained,
+      totalPower: result.totalPower,
+      newlyUnlocked: result.newlyUnlocked,
+    }
   }
 
   async getLeaderboard(

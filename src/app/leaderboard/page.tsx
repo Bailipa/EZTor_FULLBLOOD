@@ -10,12 +10,15 @@ import { WarZoneCard } from '@/features/gamification/components/WarZoneCard'
 import { NicknameDialog } from '@/features/gamification/components/NicknameDialog'
 import { StreakCalendar } from '@/features/gamification/components/StreakCalendar'
 import { CombatPowerBadge } from '@/features/gamification/components/CombatPowerBadge'
-import { Loader2, Pencil } from 'lucide-react'
+import { Loader2, Pencil, Share2 } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { SharePopover } from '@/components/share/SharePopover'
 
 export default function LeaderboardPage() {
   const { data: session, status } = useSession()
   const router = useRouter()
   const [nicknameOpen, setNicknameOpen] = useState(false)
+  const [shareOpen, setShareOpen] = useState(false)
   const [refreshKey, setRefreshKey] = useState(0)
   const [profile, setProfile] = useState<{
     nickname: string | null
@@ -62,7 +65,18 @@ export default function LeaderboardPage() {
         <div className="flex flex-col h-full overflow-y-auto p-4 md:p-6 lg:p-8 space-y-4">
           <div className="flex items-center justify-between">
             <h1 className="text-2xl font-bold">排行榜</h1>
-            <CombatPowerBadge refreshKey={refreshKey} />
+            <div className="flex items-center gap-2">
+              <Button
+                variant="outline"
+                onClick={() => setShareOpen(true)}
+                className="gap-1.5"
+                aria-label="雷霆分享"
+              >
+                <Share2 className="w-4 h-4" />
+                雷霆分享
+              </Button>
+              <CombatPowerBadge refreshKey={refreshKey} />
+            </div>
           </div>
 
           {profile && (
@@ -107,6 +121,8 @@ export default function LeaderboardPage() {
           setRefreshKey((k) => k + 1)
         }}
       />
+
+      <SharePopover open={shareOpen} onOpenChange={setShareOpen} userId={session.user.id} />
     </div>
   )
 }

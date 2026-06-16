@@ -25,7 +25,7 @@ const OPTIONAL_AUTH_PATHS = [
   '/api/flashcard/public',
 ]
 
-const PUBLIC_PATHS = ['/site-config.json', '/auth/signin', '/api/auth', '/api/captcha', '/api/health', '/api/auth/xiaoying', '/flywheel-preview.html']
+const PUBLIC_PATHS = ['/site-config.json', '/auth/signin', '/api/auth', '/api/captcha', '/api/health', '/api/auth/xiaoying', '/flywheel-preview.html', '/share', '/api/share-profile']
 
 const ADMIN_PATHS = [
   '/analytics',
@@ -234,5 +234,5 @@ export default async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/((?!_next/static|_next/image|favicon.ico|public|xiaoying-icon\\.svg).*)'],
+  matcher: ['/((?!_next/static|_next/image|favicon.ico|public|xiaoying-icon\\.svg|.*\\.png$|.*\\.jpg$|.*\\.jpeg$|.*\\.gif$|.*\\.svg$|.*\\.ico$|.*\\.webp$|.*\\.mp3$|.*\\.wav$|.*\\.woff2?$).*)'],
 }

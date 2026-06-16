@@ -5,6 +5,7 @@ export const TASK_TYPES = {
   COMPLETE_REVIEWS: 'COMPLETE_REVIEWS',
   REACH_ACCURACY: 'REACH_ACCURACY',
   FLASHCARD_INTERACT: 'FLASHCARD_INTERACT',
+  SHARE: 'SHARE',
 } as const
 
 export type TaskType = (typeof TASK_TYPES)[keyof typeof TASK_TYPES]
@@ -48,12 +49,13 @@ export const TASK_CONFIGS: TaskConfig[] = [
   },
 ]
 
+export const SHARE_POWER_REWARD = 15
+
 export const STREAK_POWER_MULTIPLIER = 2
 export const STREAK_POWER_CAP = 30
 
 export const FEATURE_UNLOCK_THRESHOLDS = {
   DANMAKU: 50,
-  SHARE_POSTER: 100,
   MINI_GAME: 200,
 } as const
 
@@ -61,13 +63,11 @@ export type FeatureKey = keyof typeof FEATURE_UNLOCK_THRESHOLDS
 
 export const FEATURE_DISPLAY_NAMES: Record<FeatureKey, string> = {
   DANMAKU: '弹幕复习',
-  SHARE_POSTER: '收获',
   MINI_GAME: '小游戏',
 }
 
 export const FEATURE_DESCRIPTIONS: Record<FeatureKey, string> = {
   DANMAKU: '边看边学，单词在屏幕上飘过',
-  SHARE_POSTER: '分享你的学习成果给朋友',
   MINI_GAME: '劳逸结合，来一局小游戏放松一下',
 }
 

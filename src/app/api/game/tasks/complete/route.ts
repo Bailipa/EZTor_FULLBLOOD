@@ -17,11 +17,16 @@ export async function POST(req: Request) {
       return NextResponse.json({ success: false, error: 'taskType is required' }, { status: 400 })
     }
 
-    const result = await gameService.reportTaskProgress(
-      session.user.id,
-      taskType as TaskType,
-      value,
-    )
+    let result
+    if (taskType === 'SHARE') {
+      result = await gameService.reportShareActivity(session.user.id)
+    } else {
+      result = await gameService.reportTaskProgress(
+        session.user.id,
+        taskType as TaskType,
+        value,
+      )
+    }
 
     return NextResponse.json({ success: true, data: result })
   } catch (err) {

@@ -6,6 +6,7 @@ const BUILD_ID = process.env.NEXT_PUBLIC_BUILD_ID || 'dev'
 const cspProduction = [
   "default-src 'self'",
   "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
+  "worker-src 'self' blob:",
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
   "img-src 'self' data: blob: https://api.xiaoying.life",
   "font-src 'self' data: https://fonts.gstatic.com",
@@ -20,6 +21,7 @@ const cspProduction = [
 const cspDevelopment = [
   "default-src 'self'",
   "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
+  "worker-src 'self' blob:",
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
   "img-src 'self' data: blob: https://api.xiaoying.life",
   "font-src 'self' data: https://fonts.gstatic.com",
