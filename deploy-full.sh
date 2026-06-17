@@ -48,6 +48,12 @@ if [ -d "node_modules/ipa-dict" ]; then
   echo "  ✓ ipa-dict appended to tarball"
 fi
 
+# Append prisma schema + migrations so server can run `prisma migrate deploy`
+if [ -d "prisma" ]; then
+  tar -rf "$TARBALL_UNCOMPRESSED" -C . prisma
+  echo "  ✓ prisma/ appended to tarball"
+fi
+
 gzip -f "$TARBALL_UNCOMPRESSED"
 echo "  ✓ Tarball: $TARBALL ($(ls -lh "$TARBALL" | awk '{print $5}'))"
 
@@ -82,6 +88,12 @@ if tar -tzf /tmp/eztor-deploy-*.tar.gz 2>/dev/null | grep -q '^ipa-dict/'; then
   mkdir -p standalone/node_modules
   tar -xzf /tmp/eztor-deploy-*.tar.gz -C standalone/node_modules ipa-dict 2>/dev/null
   echo "  ✓ ipa-dict extracted to standalone/node_modules"
+fi
+
+# Extract prisma/ (appended to tarball) so prisma migrate deploy works
+if tar -tzf /tmp/eztor-deploy-*.tar.gz 2>/dev/null | grep -q '^prisma/'; then
+  tar -xzf /tmp/eztor-deploy-*.tar.gz -C "$SERVER_DIR" prisma 2>/dev/null
+  echo "  ✓ prisma/ extracted to $SERVER_DIR"
 fi
 echo "  ✓ Extracted"
 
