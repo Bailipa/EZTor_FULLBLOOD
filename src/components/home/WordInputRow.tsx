@@ -1,10 +1,10 @@
 'use client'
 
-import React, { useRef, useEffect } from 'react'
+import React, { useRef, useEffect, useState } from 'react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { X, Volume2, Loader2, Search, Bot } from 'lucide-react'
+import { X, Volume2, Loader2, Search, Bot, Check, Bookmark } from 'lucide-react'
 import type { WordEntry } from '@/hooks/useRealtimeTranslation'
 import { speakText } from '@/lib/ttsBrowser'
 
@@ -16,6 +16,73 @@ interface WordInputRowProps {
   showPos: boolean
   showExample: boolean
   autoFocus?: boolean
+}
+
+function SaveStatusIndicator({ status, entryId }: { status: WordEntry['saveStatus']; entryId: string }) {
+  const [countdown, setCountdown] = useState(3)
+
+  useEffect(() => {
+    if (status !== 'pending') {
+      setCountdown(3)
+      return
+    }
+
+    setCountdown(3)
+    const interval = setInterval(() => {
+      setCountdown((prev) => {
+        if (prev <= 1) {
+          clearInterval(interval)
+          return 0
+        }
+        return prev - 1
+      })
+    }, 1000)
+
+    return () => clearInterval(interval)
+  }, [status, entryId])
+
+  if (status === 'idle') return null
+
+  if (status === 'in-vocabulary') {
+    return (
+      <div className="flex items-center gap-1.5 py-1 text-xs text-muted-foreground">
+        <Bookmark className="h-3 w-3" />
+        <span>已在生词本中</span>
+      </div>
+    )
+  }
+
+  if (status === 'pending') {
+    return (
+      <div className="flex items-center gap-1.5 py-1 text-xs text-muted-foreground">
+        <span className="relative flex h-2 w-2">
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75" />
+          <span className="relative inline-flex rounded-full h-2 w-2 bg-primary" />
+        </span>
+        <span>{countdown}s 后自动入库</span>
+      </div>
+    )
+  }
+
+  if (status === 'saving') {
+    return (
+      <div className="flex items-center gap-1.5 py-1 text-xs text-primary">
+        <Loader2 className="h-3 w-3 animate-spin" />
+        <span>入库中...</span>
+      </div>
+    )
+  }
+
+  if (status === 'saved') {
+    return (
+      <div className="flex items-center gap-1.5 py-1 text-xs text-green-600 dark:text-green-400 animate-[fadeIn_0.3s_ease-out]">
+        <Check className="h-3 w-3" />
+        <span>入库成功</span>
+      </div>
+    )
+  }
+
+  return null
 }
 
 export function WordInputRow({
@@ -108,6 +175,7 @@ export function WordInputRow({
                 })}
               </div>
             )}
+            <SaveStatusIndicator status={entry.saveStatus} entryId={entry.id} />
           </div>
         )
 

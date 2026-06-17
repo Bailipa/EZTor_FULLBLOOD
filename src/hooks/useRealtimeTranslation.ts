@@ -14,6 +14,7 @@ export interface WordEntry {
   exampleTranslation?: string
   status: 'idle' | 'loading' | 'found' | 'not-found' | 'error' | 'ai-loading'
   isPublic: boolean
+  saveStatus: 'idle' | 'in-vocabulary' | 'pending' | 'saving' | 'saved'
 }
 
 interface UseRealtimeTranslationOptions {
@@ -58,6 +59,7 @@ function createEmptyEntry(): WordEntry {
     translation: '',
     status: 'idle',
     isPublic: false,
+    saveStatus: 'idle',
   }
 }
 
@@ -65,11 +67,14 @@ export function useRealtimeTranslation({ showPos, showExample, targetGroupId }: 
   const [entries, setEntries] = useState<WordEntry[]>([createEmptyEntry()])
   const debounceMapRef = useRef<Map<string, DebouncedFunction>>(new Map())
   const abortControllerRef = useRef<Map<string, AbortController>>(new Map())
+  const saveTimersRef = useRef<Map<string, ReturnType<typeof setTimeout>>>(new Map())
+  const savedWordsRef = useRef<Set<string>>(new Set())
 
   useEffect(() => {
     return () => {
       debounceMapRef.current.forEach((fn) => fn.cancel())
       abortControllerRef.current.forEach((controller) => controller.abort())
+      saveTimersRef.current.forEach((timer) => clearTimeout(timer))
     }
   }, [])
 
@@ -78,6 +83,64 @@ export function useRealtimeTranslation({ showPos, showExample, targetGroupId }: 
       prev.map((entry) => (entry.id === entryId ? { ...entry, ...updates } : entry)),
     )
   }, [])
+
+  const cancelSaveTimer = useCallback((entryId: string) => {
+    const timer = saveTimersRef.current.get(entryId)
+    if (timer) {
+      clearTimeout(timer)
+      saveTimersRef.current.delete(entryId)
+    }
+  }, [])
+
+  const startSaveTimer = useCallback(
+    (entryId: string, word: string, translation: string, phonetic?: string, pos?: string, example?: string, exampleTranslation?: string) => {
+      cancelSaveTimer(entryId)
+
+      const timer = setTimeout(async () => {
+        saveTimersRef.current.delete(entryId)
+
+        const wordLower = word.trim().toLowerCase()
+        if (savedWordsRef.current.has(wordLower)) {
+          updateEntry(entryId, { saveStatus: 'idle' })
+          return
+        }
+
+        updateEntry(entryId, { saveStatus: 'saving' })
+
+        try {
+          const syncPayload: WordResult = {
+            word: word.trim(),
+            translation,
+            phonetic: phonetic || undefined,
+            pos: pos || undefined,
+            example: example || undefined,
+            exampleTranslation: exampleTranslation || undefined,
+          }
+
+          const res = await fetch('/api/sync', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ results: [syncPayload] }),
+          })
+
+          if (res.ok) {
+            savedWordsRef.current.add(wordLower)
+            updateEntry(entryId, { saveStatus: 'saved' })
+            setTimeout(() => {
+              updateEntry(entryId, { saveStatus: 'idle' })
+            }, 2000)
+          } else {
+            updateEntry(entryId, { saveStatus: 'idle' })
+          }
+        } catch {
+          updateEntry(entryId, { saveStatus: 'idle' })
+        }
+      }, 3000)
+
+      saveTimersRef.current.set(entryId, timer)
+    },
+    [cancelSaveTimer, updateEntry],
+  )
 
   const fetchPublicTranslation = useCallback(
     async (entryId: string, word: string) => {
@@ -89,7 +152,8 @@ export function useRealtimeTranslation({ showPos, showExample, targetGroupId }: 
       const controller = new AbortController()
       abortControllerRef.current.set(entryId, controller)
 
-      updateEntry(entryId, { status: 'loading' })
+      cancelSaveTimer(entryId)
+      updateEntry(entryId, { status: 'loading', saveStatus: 'idle' })
 
       try {
         const response = await fetch('/api/public-translate', {
@@ -115,7 +179,39 @@ export function useRealtimeTranslation({ showPos, showExample, targetGroupId }: 
             exampleTranslation: result.exampleTranslation,
             status: 'found',
             isPublic: true,
+            saveStatus: 'idle',
           })
+
+          try {
+            const checkRes = await fetch(`/api/vocabulary/check?word=${encodeURIComponent(word.trim())}`)
+            const checkData = await checkRes.json()
+
+            if (checkData.success && checkData.exists) {
+              updateEntry(entryId, { saveStatus: 'in-vocabulary' })
+            } else {
+              updateEntry(entryId, { saveStatus: 'pending' })
+              startSaveTimer(
+                entryId,
+                word,
+                result.translation,
+                result.phonetic,
+                result.pos,
+                result.example,
+                result.exampleTranslation,
+              )
+            }
+          } catch {
+            updateEntry(entryId, { saveStatus: 'pending' })
+            startSaveTimer(
+              entryId,
+              word,
+              result.translation,
+              result.phonetic,
+              result.pos,
+              result.example,
+              result.exampleTranslation,
+            )
+          }
         } else {
           updateEntry(entryId, {
             translation: '',
@@ -125,18 +221,19 @@ export function useRealtimeTranslation({ showPos, showExample, targetGroupId }: 
             exampleTranslation: undefined,
             status: 'not-found',
             isPublic: false,
+            saveStatus: 'idle',
           })
         }
       } catch (error: unknown) {
         if (error instanceof Error && error.name === 'AbortError') {
           return
         }
-        updateEntry(entryId, { status: 'error' })
+        updateEntry(entryId, { status: 'error', saveStatus: 'idle' })
       } finally {
         abortControllerRef.current.delete(entryId)
       }
     },
-    [updateEntry],
+    [updateEntry, cancelSaveTimer, startSaveTimer],
   )
 
   const getDebouncedFetch = useCallback(
@@ -144,6 +241,7 @@ export function useRealtimeTranslation({ showPos, showExample, targetGroupId }: 
       if (!debounceMapRef.current.has(entryId)) {
         const debouncedFn = createDebouncedFetch((word: string) => {
           if (word.trim().length === 0) {
+            cancelSaveTimer(entryId)
             updateEntry(entryId, {
               translation: '',
               phonetic: undefined,
@@ -152,6 +250,7 @@ export function useRealtimeTranslation({ showPos, showExample, targetGroupId }: 
               exampleTranslation: undefined,
               status: 'idle',
               isPublic: false,
+              saveStatus: 'idle',
             })
             return
           }
@@ -163,16 +262,17 @@ export function useRealtimeTranslation({ showPos, showExample, targetGroupId }: 
 
       return debounceMapRef.current.get(entryId)!
     },
-    [fetchPublicTranslation, updateEntry],
+    [fetchPublicTranslation, updateEntry, cancelSaveTimer],
   )
 
   const updateWord = useCallback(
     (entryId: string, newWord: string) => {
-      updateEntry(entryId, { word: newWord })
+      cancelSaveTimer(entryId)
+      updateEntry(entryId, { word: newWord, saveStatus: 'idle' })
       const debouncedFetch = getDebouncedFetch(entryId)
       debouncedFetch(newWord)
     },
-    [getDebouncedFetch, updateEntry],
+    [getDebouncedFetch, updateEntry, cancelSaveTimer],
   )
 
   const addEntry = useCallback(() => {
@@ -186,6 +286,8 @@ export function useRealtimeTranslation({ showPos, showExample, targetGroupId }: 
   }, [])
 
   const removeEntry = useCallback((entryId: string) => {
+    cancelSaveTimer(entryId)
+
     setEntries((prev) => {
       const filtered = prev.filter((e) => e.id !== entryId)
       if (filtered.length === 0) {
@@ -205,14 +307,15 @@ export function useRealtimeTranslation({ showPos, showExample, targetGroupId }: 
       controller.abort()
       abortControllerRef.current.delete(entryId)
     }
-  }, [])
+  }, [cancelSaveTimer])
 
   const translateSingle = useCallback(
     async (entryId: string) => {
       const entry = entries.find((e) => e.id === entryId)
       if (!entry || !entry.word.trim()) return
 
-      updateEntry(entryId, { status: 'ai-loading' })
+      cancelSaveTimer(entryId)
+      updateEntry(entryId, { status: 'ai-loading', saveStatus: 'idle' })
 
       try {
         const response = await fetch('/api/translate', {
@@ -294,7 +397,7 @@ export function useRealtimeTranslation({ showPos, showExample, targetGroupId }: 
         updateEntry(entryId, { status: 'error' })
       }
     },
-    [entries, showPos, showExample, targetGroupId, updateEntry],
+    [entries, showPos, showExample, targetGroupId, updateEntry, cancelSaveTimer],
   )
 
   const translateAll = useCallback(async () => {
