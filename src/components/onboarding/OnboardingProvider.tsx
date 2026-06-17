@@ -3,14 +3,13 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react'
 import { useSession } from 'next-auth/react'
 
-export type OnboardingStep = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7
+export type OnboardingStep = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
 
 interface OnboardingState {
   currentStep: OnboardingStep
   isActive: boolean
   needsOnboarding: boolean
   isLoading: boolean
-  isMobile: boolean
 }
 
 interface OnboardingContextType extends OnboardingState {
@@ -37,18 +36,7 @@ export function OnboardingProvider({ children }: { children: React.ReactNode }) 
     isActive: false,
     needsOnboarding: false,
     isLoading: true,
-    isMobile: false,
   })
-
-  // 检测是否为移动端
-  useEffect(() => {
-    const checkMobile = () => {
-      setState(prev => ({ ...prev, isMobile: window.innerWidth < 1280 }))
-    }
-    checkMobile()
-    window.addEventListener('resize', checkMobile)
-    return () => window.removeEventListener('resize', checkMobile)
-  }, [])
 
   const checkOnboardingStatus = useCallback(async () => {
     if (status !== 'authenticated' || !session?.user?.id) {
@@ -63,11 +51,18 @@ export function OnboardingProvider({ children }: { children: React.ReactNode }) 
       if (data.success && data.needsOnboarding) {
         // 检查是否有保存的步骤
         const savedStep = localStorage.getItem('onboarding_step')
-        const currentStep = savedStep ? parseInt(savedStep, 10) : 1
-        
+        const parsed = savedStep ? parseInt(savedStep, 10) : NaN
+        const restored: OnboardingStep =
+          Number.isInteger(parsed) && parsed >= 1 && parsed <= 8
+            ? (parsed as OnboardingStep)
+            : (() => {
+                if (savedStep) localStorage.removeItem('onboarding_step')
+                return 1 as OnboardingStep
+              })()
+
         setState(prev => ({
           ...prev,
-          currentStep: currentStep as OnboardingStep,
+          currentStep: restored,
           isActive: true,
           needsOnboarding: true,
           isLoading: false,
@@ -94,21 +89,16 @@ export function OnboardingProvider({ children }: { children: React.ReactNode }) 
 
   const nextStep = useCallback(() => {
     setState(prev => {
-      let next = (prev.currentStep + 1) as OnboardingStep
-      
-      // 桌面端跳过步骤5（反馈聊天介绍）
-      if (!prev.isMobile && next === 5) {
-        next = 6
-      }
-      
-      if (next > 6) {
+      const next = (prev.currentStep + 1) as OnboardingStep
+
+      if (next > 8) {
+        // 终态：调用 complete API 完成引导（幂等）
+        fetch('/api/onboarding/complete', { method: 'POST' }).catch(() => {})
         localStorage.removeItem('onboarding_step')
-        return { ...prev, currentStep: 0, isActive: false }
+        return { ...prev, currentStep: 0, isActive: false, needsOnboarding: false }
       }
-      
-      // 保存当前步骤到 localStorage
+
       localStorage.setItem('onboarding_step', String(next))
-      
       return { ...prev, currentStep: next }
     })
   }, [])
@@ -122,7 +112,6 @@ export function OnboardingProvider({ children }: { children: React.ReactNode }) 
         isActive: false,
         needsOnboarding: false,
         isLoading: false,
-        isMobile: false,
       })
     } catch (error) {
       console.error('Failed to complete onboarding:', error)

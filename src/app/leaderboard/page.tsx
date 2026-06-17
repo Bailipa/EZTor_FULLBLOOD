@@ -1,10 +1,9 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import AppLayout from '@/components/layout/AppLayout'
-import MobileNavBar from '@/components/layout/MobileNavBar'
 import { LeaderboardTable } from '@/features/gamification/components/LeaderboardTable'
 import { WarZoneCard } from '@/features/gamification/components/WarZoneCard'
 import { NicknameDialog } from '@/features/gamification/components/NicknameDialog'
@@ -13,6 +12,8 @@ import { CombatPowerBadge } from '@/features/gamification/components/CombatPower
 import { Loader2, Pencil, Share2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { SharePopover } from '@/components/share/SharePopover'
+import { useOnboarding } from '@/components/onboarding/OnboardingProvider'
+import { Card, CardContent } from '@/components/ui/card'
 
 export default function LeaderboardPage() {
   const { data: session, status } = useSession()
@@ -20,6 +21,9 @@ export default function LeaderboardPage() {
   const [nicknameOpen, setNicknameOpen] = useState(false)
   const [shareOpen, setShareOpen] = useState(false)
   const [refreshKey, setRefreshKey] = useState(0)
+  const { currentStep, isActive, nextStep } = useOnboarding()
+  const [onboardingNicknameSet, setOnboardingNicknameSet] = useState(false)
+  const hasAutoOpenedShareRef = useRef(false)
   const [profile, setProfile] = useState<{
     nickname: string | null
     combatPower: number
@@ -40,14 +44,34 @@ export default function LeaderboardPage() {
       .then((data) => {
         if (data.success && data.data) {
           setProfile(data.data)
-          if (!data.data.nickname) {
+          // 6.1: 非 onboarding 状态下，无昵称时弹昵称框
+          if (!data.data.nickname && !isActive) {
             setNicknameOpen(true)
           }
         }
       })
       .catch(() => {})
       .finally(() => setLoading(false))
-  }, [status, router])
+  }, [status, router, isActive])
+
+  // Onboarding step 6: force nickname dialog
+  useEffect(() => {
+    if (isActive && currentStep === 6 && profile) {
+      if (profile.nickname) {
+        setOnboardingNicknameSet(true)
+      } else {
+        setNicknameOpen(true)
+      }
+    }
+  }, [isActive, currentStep, profile])
+
+  // Onboarding step 6: auto-open share popover after nickname is set (一次性)
+  useEffect(() => {
+    if (isActive && currentStep === 6 && onboardingNicknameSet && !nicknameOpen && !hasAutoOpenedShareRef.current) {
+      hasAutoOpenedShareRef.current = true
+      setShareOpen(true)
+    }
+  }, [isActive, currentStep, onboardingNicknameSet, nicknameOpen])
 
   if (status === 'loading' || loading) {
     return (
@@ -111,18 +135,54 @@ export default function LeaderboardPage() {
         </div>
       </AppLayout>
 
-      <MobileNavBar />
-
       <NicknameDialog
         open={nicknameOpen}
-        onOpenChange={setNicknameOpen}
+        onOpenChange={(open) => {
+          if (isActive && currentStep === 6 && !onboardingNicknameSet && !open) {
+            return
+          }
+          setNicknameOpen(open)
+        }}
         onSuccess={(nickname, cost) => {
           setProfile((prev) => prev ? { ...prev, nickname, combatPower: prev.combatPower - cost } : prev)
           setRefreshKey((k) => k + 1)
+          setOnboardingNicknameSet(true)
+          setNicknameOpen(false)
         }}
+        hideCloseButton={isActive && currentStep === 6 && !onboardingNicknameSet}
       />
 
       <SharePopover open={shareOpen} onOpenChange={setShareOpen} userId={session.user.id} />
+
+      {/* 引导步骤 6：排行榜介绍 + 分享 + 下一步 */}
+      {isActive && currentStep === 6 && onboardingNicknameSet && (
+        <div className={`fixed left-4 right-4 z-50 ${shareOpen ? 'z-[60]' : ''}`} style={{ bottom: 'calc(5rem + env(safe-area-inset-bottom, 0px))' }}>
+          <Card className="shadow-lg">
+            <CardContent className="p-4">
+              <h3 className="font-semibold mb-2">🏆 排行榜</h3>
+              <p className="text-sm text-muted-foreground mb-3">
+                昵称已设置！这里展示你的学区排名和学力，努力成为「英帝」吧！
+              </p>
+              <div className="flex gap-2">
+                <Button
+                  variant="outline"
+                  className="flex-1"
+                  onClick={() => setShareOpen(true)}
+                >
+                  <Share2 className="w-4 h-4 mr-1" />
+                  分享一下
+                </Button>
+                <Button
+                  className="flex-1"
+                  onClick={() => { nextStep(); router.push('/') }}
+                >
+                  下一步
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      )}
     </div>
   )
 }

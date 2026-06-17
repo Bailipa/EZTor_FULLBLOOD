@@ -19,18 +19,30 @@ export async function GET(req: Request) {
     const limitParam = searchParams.get('limit')
     const limit = limitParam ? Math.min(parseInt(limitParam, 10), 50) : 20
 
-    // 获取数据库中所有单词的总数
+    // 获取用户词库中所有单词的总数
     const count = await prisma.word.count({
       where: { userId: session.user.id },
     })
 
     if (count === 0) {
-      return NextResponse.json({ success: true, data: [] })
+      // 用户无词时，从公共词池取随机词（用于干扰项等场景）
+      const publicWords: { word: string; translation: string; phonetic: string; example: string }[] =
+        await safeQueryRaw('danmaku_public', () => prisma.$queryRaw`
+        SELECT
+          word,
+          translation,
+          phonetic,
+          example
+        FROM "PublicWord"
+        ORDER BY RANDOM()
+        LIMIT ${limit}
+      `, [] as { word: string; translation: string; phonetic: string; example: string }[])
+      return NextResponse.json({ success: true, data: publicWords })
     }
 
-    // SQLite 没有很好的原生 ORDER BY RANDOM() 性能优化，但对于个人生词本来说数据量小，直接用也可以。
-    // 这里使用 Prisma 的 queryRaw 执行原生 SQL 以获取随机记录
-    const randomWords = await safeQueryRaw('danmaku', () => prisma.$queryRaw`
+    // 从用户词库取随机词
+    const randomWords: { word: string; translation: string; phonetic: string; example: string }[] =
+      await safeQueryRaw('danmaku', () => prisma.$queryRaw`
       SELECT
         w.word,
         COALESCE(NULLIF(TRIM(w.translation), ''), pw.translation, '') AS translation,
@@ -41,7 +53,28 @@ export async function GET(req: Request) {
       WHERE w."userId" = ${session.user.id}
       ORDER BY RANDOM() 
       LIMIT ${limit}
-    `, [] as Record<string, unknown>[])
+    `, [] as { word: string; translation: string; phonetic: string; example: string }[])
+
+    // 用户词数不足时，从公共词池补充（用于干扰项等场景）
+    if (randomWords.length < limit) {
+      const existingWords = new Set(randomWords.map((w: { word: string }) => w.word.toLowerCase()))
+      const need = limit - randomWords.length
+      const publicWords: { word: string; translation: string; phonetic: string; example: string }[] =
+        await safeQueryRaw('danmaku_supplement', () => prisma.$queryRaw`
+        SELECT
+          word,
+          translation,
+          phonetic,
+          example
+        FROM "PublicWord"
+        ORDER BY RANDOM()
+        LIMIT ${need + existingWords.size}
+      `, [] as { word: string; translation: string; phonetic: string; example: string }[])
+      const supplements = publicWords
+        .filter((w: { word: string }) => !existingWords.has(w.word.toLowerCase()))
+        .slice(0, need)
+      randomWords.push(...supplements)
+    }
 
     return NextResponse.json({ success: true, data: randomWords })
   } catch (err: unknown) {

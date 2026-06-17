@@ -1,7 +1,8 @@
 'use client'
 
-import { useState, useEffect, useRef, useCallback } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
 import { Danmaku } from '@/components/ui/danmaku'
 import { HomeHeader } from '@/components/home'
 import { WordTranslationPanel } from '@/components/home/WordTranslationPanel'
@@ -13,7 +14,6 @@ import { saveToStorage, loadFromStorage } from '@/lib/storage'
 import { usePageView } from '@/lib/analytics'
 import { FullscreenFlashcard } from '@/components/flashcard/FullscreenFlashcard'
 import { useOnboarding } from '@/components/onboarding/OnboardingProvider'
-import { OnboardingTooltip } from '@/components/onboarding/OnboardingTooltip'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { GraduationCap, MessageSquare } from 'lucide-react'
@@ -36,8 +36,8 @@ function GuestChatPlaceholder({ onLogin }: { onLogin: () => void }) {
 
 export default function HomeContent() {
   usePageView('Home')
-  const { currentStep, isActive, completeOnboarding, startOnboarding } = useOnboarding()
-  const completeButtonRef = useRef<HTMLButtonElement>(null)
+  const { currentStep, isActive, nextStep, completeOnboarding, startOnboarding } = useOnboarding()
+  const router = useRouter()
   const [hasInteractedWithFlashcard, setHasInteractedWithFlashcard] = useState(false)
 
   const [showPos, _setShowPos] = useState(true)
@@ -176,39 +176,73 @@ export default function HomeContent() {
       {isAuthenticated && !isActive && !hasInteractedWithFlashcard && (
         <button
           onClick={startOnboarding}
-          className="fixed bottom-20 right-4 z-50 flex items-center gap-2 px-4 py-2.5 rounded-full bg-primary text-primary-foreground shadow-lg hover:shadow-xl transition-all hover:scale-105 active:scale-95"
+          className="fixed right-4 z-50 flex items-center gap-2 px-4 py-2.5 rounded-full bg-primary text-primary-foreground shadow-lg hover:shadow-xl transition-all hover:scale-105 active:scale-95"
+          style={{ bottom: 'calc(5rem + env(safe-area-inset-bottom, 0px))' }}
         >
           <GraduationCap className="w-5 h-5" />
           <span className="text-sm font-medium">新手引导</span>
         </button>
       )}
 
-      {/* 引导步骤 6：功能探索提示（仅登录用户） */}
-      {isAuthenticated && isActive && currentStep === 6 && (
+      {/* 引导步骤 5：排行榜/学区介绍 */}
+      {isAuthenticated && isActive && currentStep === 5 && (
+        <div className="fixed left-4 right-4 z-50" style={{ bottom: 'calc(5rem + env(safe-area-inset-bottom, 0px))' }}>
+          <Card className="shadow-lg">
+            <CardContent className="p-4">
+              <h3 className="font-semibold mb-2">📊 学力系统</h3>
+              <p className="text-sm text-muted-foreground mb-3">
+                完成学习任务获得学力，在学区中排名！每月重置，排名越高称号越强。
+              </p>
+              <Button
+                className="w-full"
+                onClick={() => { nextStep(); router.push('/leaderboard') }}
+              >
+                去看看排行榜
+              </Button>
+            </CardContent>
+          </Card>
+        </div>
+      )}
+
+      {/* 引导步骤 7：每日任务介绍 */}
+      {isAuthenticated && isActive && currentStep === 7 && (
+        <div className="fixed left-4 right-4 z-50" style={{ bottom: 'calc(5rem + env(safe-area-inset-bottom, 0px))' }}>
+          <Card className="shadow-lg">
+            <CardContent className="p-4">
+              <h3 className="font-semibold mb-2">📋 每日任务</h3>
+              <p className="text-sm text-muted-foreground mb-3">
+                每天完成任务可获得最多 85 学力，分享还可额外获得 15 学力，连续打卡有加成！
+              </p>
+              <Button
+                className="w-full"
+                onClick={nextStep}
+              >
+                知道了
+              </Button>
+            </CardContent>
+          </Card>
+        </div>
+      )}
+
+      {/* 引导步骤 8：完成引导 */}
+      {isAuthenticated && isActive && currentStep === 8 && (
         <>
-          <div className="fixed bottom-20 left-4 right-4 z-50">
+          <div className="fixed left-4 right-4 z-50" style={{ bottom: 'calc(5rem + env(safe-area-inset-bottom, 0px))' }}>
             <Card className="shadow-lg">
               <CardContent className="p-4">
-                <h3 className="font-semibold mb-2">🎉 还有更多功能等你探索</h3>
+                <h3 className="font-semibold mb-2">🎉 引导完成！</h3>
                 <p className="text-sm text-muted-foreground mb-3">
-                  开始你的学习之旅吧！
+                  去探索更多功能吧：弹幕复习、分享成就、聊天反馈...
                 </p>
                 <Button
-                  ref={completeButtonRef}
                   className="w-full"
                   onClick={completeOnboarding}
                 >
-                  完成引导
+                  开始学习
                 </Button>
               </CardContent>
             </Card>
           </div>
-          <OnboardingTooltip
-            targetRef={completeButtonRef}
-            title="完成引导"
-            description="点击'完成引导'开始你的学习之旅。"
-            position="top"
-          />
         </>
       )}
 

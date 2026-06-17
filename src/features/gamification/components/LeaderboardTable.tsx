@@ -55,7 +55,7 @@ function LeaderboardList({ entries }: { entries: LeaderboardEntry[] }) {
               </span>
             )}
             <span className="font-mono text-xs font-semibold text-amber-600 dark:text-amber-400">
-              {entry.combatPower}
+              {entry.score}
             </span>
           </div>
         </div>

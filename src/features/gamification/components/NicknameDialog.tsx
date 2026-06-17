@@ -16,9 +16,10 @@ interface NicknameDialogProps {
   open: boolean
   onOpenChange: (open: boolean) => void
   onSuccess?: (nickname: string, cost: number) => void
+  hideCloseButton?: boolean
 }
 
-export function NicknameDialog({ open, onOpenChange, onSuccess }: NicknameDialogProps) {
+export function NicknameDialog({ open, onOpenChange, onSuccess, hideCloseButton }: NicknameDialogProps) {
   const [nickname, setNickname] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
@@ -77,7 +78,7 @@ export function NicknameDialog({ open, onOpenChange, onSuccess }: NicknameDialog
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[320px]">
+      <DialogContent className={`sm:max-w-[320px] ${hideCloseButton ? '[&>button]:hidden' : ''}`}>
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
           <DialogDescription>{description}</DialogDescription>

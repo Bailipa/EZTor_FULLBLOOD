@@ -25,11 +25,13 @@ function CountUpNumber({
   target,
   duration = 1500,
   onComplete,
+  prefix = '',
   suffix = '',
 }: {
   target: number
   duration?: number
   onComplete?: () => void
+  prefix?: string
   suffix?: string
 }) {
   const [count, setCount] = useState(0)
@@ -73,7 +75,7 @@ function CountUpNumber({
 
   return (
     <span className={`stat-number ${popped ? 'pop' : ''}`}>
-      {count}{suffix}
+      {prefix}{count}{suffix}
     </span>
   )
 }
@@ -82,6 +84,7 @@ function StatCard({
   icon,
   label,
   value,
+  prefix = '',
   suffix = '',
   delay,
   onExplode,
@@ -89,6 +92,7 @@ function StatCard({
   icon: string
   label: string
   value: number
+  prefix?: string
   suffix?: string
   delay: number
   onExplode?: (el: HTMLElement) => void
@@ -123,6 +127,7 @@ function StatCard({
           {showNumber ? (
             <CountUpNumber
               target={value}
+              prefix={prefix}
               suffix={suffix}
               onComplete={handleComplete}
             />
@@ -293,16 +298,17 @@ export default function SharePage() {
         <div className="grid grid-cols-2 gap-3">
           <StatCard
             icon="⚡"
-            label="学力"
+            label="总学力"
             value={profile.combatPower}
             delay={1000}
             onExplode={triggerCardExplosion}
           />
           <StatCard
             icon="🏆"
-            label="学区排名"
+            label="本月学区排名"
             value={profile.zoneRank}
-            suffix="th"
+            prefix="第"
+            suffix="名"
             delay={1400}
             onExplode={triggerCardExplosion}
           />

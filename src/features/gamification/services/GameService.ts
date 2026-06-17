@@ -398,10 +398,10 @@ export class GameService {
   ): Promise<LeaderboardEntry[]> {
     const orderBy =
       type === 'total'
-        ? { combatPower: 'desc' as const }
+        ? [{ combatPower: 'desc' as const }, { monthlyPower: 'desc' as const }, { userId: 'asc' as const }]
         : type === 'monthly' || type === 'zone'
-          ? { monthlyPower: 'desc' as const }
-          : { weeklyPower: 'desc' as const }
+          ? [{ monthlyPower: 'desc' as const }, { combatPower: 'desc' as const }, { userId: 'asc' as const }]
+          : [{ weeklyPower: 'desc' as const }, { combatPower: 'desc' as const }, { userId: 'asc' as const }]
 
     const where =
       type === 'zone'
@@ -434,7 +434,7 @@ export class GameService {
     const powerField =
       type === 'total'
         ? 'combatPower'
-        : type === 'monthly'
+        : type === 'monthly' || type === 'zone'
           ? 'monthlyPower'
           : 'weeklyPower'
 
@@ -486,7 +486,7 @@ export class GameService {
         nickname: displayName,
         previousNickname: p.previousNickname,
         nicknameChangedAt: p.nicknameChangedAt?.toISOString() ?? null,
-        combatPower: p[powerField],
+        score: p[powerField],
         currentStreak: p.currentStreak,
         isCurrentUser: p.userId === userId,
         zoneTitle,
@@ -513,7 +513,11 @@ export class GameService {
     const profile = await this.getOrCreateProfile(userId)
 
     const isFirstChange = !profile.nicknameChangedAt
-    if (!isFirstChange && profile.combatPower < NICKNAME_CHANGE_COST) {
+    if (!isFirstChange && (
+      profile.combatPower < NICKNAME_CHANGE_COST ||
+      profile.monthlyPower < NICKNAME_CHANGE_COST ||
+      profile.weeklyPower < NICKNAME_CHANGE_COST
+    )) {
       return {
         success: false,
         error: `学力不足，改名需要消耗 ${NICKNAME_CHANGE_COST} 学力（当前 ${profile.combatPower}）`,
@@ -671,7 +675,11 @@ export class GameService {
       return { success: false, error: '只有学区排名第一的用户才能修改学区名称' }
     }
 
-    if (profile.combatPower < ZONE_RENAME_COST) {
+    if (
+      profile.combatPower < ZONE_RENAME_COST ||
+      profile.monthlyPower < ZONE_RENAME_COST ||
+      profile.weeklyPower < ZONE_RENAME_COST
+    ) {
       return {
         success: false,
         error: `学力不足，改名需要消耗 ${ZONE_RENAME_COST} 学力（当前 ${profile.combatPower}）`,
@@ -733,7 +741,11 @@ export class GameService {
       }
     }
 
-    if (profile.combatPower < ZONE_TRANSFER_COST) {
+    if (
+      profile.combatPower < ZONE_TRANSFER_COST ||
+      profile.monthlyPower < ZONE_TRANSFER_COST ||
+      profile.weeklyPower < ZONE_TRANSFER_COST
+    ) {
       return {
         success: false,
         error: `学力不足，转移需要消耗 ${ZONE_TRANSFER_COST} 学力（当前 ${profile.combatPower}）`,
@@ -809,18 +821,39 @@ export class GameService {
       }
     }
 
-    if (profile.combatPower < ZONE_TITLE_CHANGE_COST) {
+    if (
+      profile.combatPower < ZONE_TITLE_CHANGE_COST ||
+      profile.monthlyPower < ZONE_TITLE_CHANGE_COST ||
+      profile.weeklyPower < ZONE_TITLE_CHANGE_COST
+    ) {
       return {
         success: false,
         error: `学力不足，修改称号需要消耗 ${ZONE_TITLE_CHANGE_COST} 学力（当前 ${profile.combatPower}）`,
       }
     }
 
-    const powerAfter = profile.combatPower - ZONE_TITLE_CHANGE_COST
-    if (members.length >= 2 && powerAfter < members[1].combatPower) {
-      return {
-        success: false,
-        error: '修改后学力不足以支撑你的榜一位置！无法修改！',
+    // 按完整排序 tuple (monthlyPower desc, combatPower desc, userId asc) 校验是否仍是榜一
+    if (members.length >= 2) {
+      const powerAfterMonthly = profile.monthlyPower - ZONE_TITLE_CHANGE_COST
+      const powerAfterCombat = profile.combatPower - ZONE_TITLE_CHANGE_COST
+      const second = await prisma.userGameProfile.findUnique({
+        where: { userId: members[1].userId },
+        select: { monthlyPower: true, combatPower: true, userId: true },
+      })
+      if (second) {
+        // 比较 (powerAfterMonthly, powerAfterCombat, userId) 是否小于 (second.monthlyPower, second.combatPower, second.userId)
+        const drops =
+          powerAfterMonthly < second.monthlyPower ||
+          (powerAfterMonthly === second.monthlyPower && powerAfterCombat < second.combatPower) ||
+          (powerAfterMonthly === second.monthlyPower &&
+            powerAfterCombat === second.combatPower &&
+            userId > second.userId)
+        if (drops) {
+          return {
+            success: false,
+            error: '修改后学力不足以支撑你的榜一位置！无法修改！',
+          }
+        }
       }
     }
 

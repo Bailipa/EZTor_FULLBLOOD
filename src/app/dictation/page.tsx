@@ -1014,7 +1014,7 @@ export default function DictationPage() {
             </CardContent>
           </Card>
         ) : !isFinished && words.length > 0 ? (
-          <div className="space-y-6">
+          <div className="space-y-6 flex-1 min-h-0 overflow-y-auto" style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}>
             <div className="flex justify-between items-center mb-4">
               <Tabs
                 defaultValue="dictation"
@@ -1253,9 +1253,9 @@ export default function DictationPage() {
                             <ArrowLeft className="w-4 h-4 mr-2" /> 上一题
                           </Button>
                           <Button
-                            className="flex-1 h-12 text-lg"
+                            className={`flex-1 h-12 text-lg ${currentIndex === words.length - 1 && isChecked ? 'animate-pulse shadow-lg shadow-primary/30' : ''}`}
                             onClick={handleNext}
-                            variant={isCorrect ? 'default' : 'secondary'}
+                            variant={(currentIndex === words.length - 1 && isChecked) || isCorrect ? 'default' : 'secondary'}
                           >
                             {currentIndex < words.length - 1 ? '下一题 (Enter)' : '查看成绩'}{' '}
                             <ArrowRight className="w-4 h-4 ml-2" />
@@ -1327,11 +1327,11 @@ export default function DictationPage() {
       </main>
 
       {/* 引导步骤 2：初次默写体验 */}
-      {isActive && currentStep === 2 && !isStarted && (
+      {isActive && currentStep === 2 && !isStarted && !showRestoreDialog && (
         <OnboardingTooltip
           targetRef={startTestButtonRef}
           title="来试试默写吧！"
-          description="点击'知道了'开始默写，这次只默写 1 个单词。"
+          description="点击选项或输入英文来默写，这次只默写 1 个单词。"
           onNext={() => startTest(1)}
           position="center"
           showArrow={false}
@@ -1351,13 +1351,13 @@ export default function DictationPage() {
                 你已经掌握了默写功能。接下来去看看你的生词本吧！
               </p>
               <Button
-                className="w-full"
+                className="w-full animate-pulse shadow-lg shadow-primary/30 text-base py-6"
                 onClick={() => {
                   nextStep()
                   router.push('/history')
                 }}
               >
-                查看生词本
+                查看生词本 →
               </Button>
             </CardContent>
           </Card>

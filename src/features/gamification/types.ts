@@ -38,7 +38,7 @@ export interface LeaderboardEntry {
   nickname: string
   previousNickname: string | null
   nicknameChangedAt: string | null
-  combatPower: number
+  score: number
   currentStreak: number
   isCurrentUser: boolean
   zoneTitle: string

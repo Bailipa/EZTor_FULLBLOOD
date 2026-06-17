@@ -116,7 +116,7 @@ export function WarZoneCard({ refreshKey = 0 }: { refreshKey?: number }) {
             <span>{zone.memberCount}/{zone.maxMembers} 成员</span>
           </div>
           <p className="text-[10px] text-muted-foreground mb-3">
-            学力第一玩家可以修改自己的称号，还可以修改学区名字
+            本月学力第一玩家可以修改自己的称号，还可以修改学区名字
           </p>
           <div className="space-y-1">
             {zone.members.slice(0, 10).map((m) => (
@@ -142,7 +142,7 @@ export function WarZoneCard({ refreshKey = 0 }: { refreshKey?: number }) {
                 <span className={`flex-1 truncate ${m.isCurrentUser ? 'font-medium text-primary' : ''}`}>
                   {m.nickname}
                 </span>
-                <span className="font-mono text-amber-600 dark:text-amber-400">{m.combatPower}</span>
+                <span className="font-mono text-amber-600 dark:text-amber-400">{m.score}</span>
               </div>
             ))}
           </div>

@@ -15,6 +15,7 @@ export async function GET(
       select: {
         nickname: true,
         combatPower: true,
+        monthlyPower: true,
         currentStreak: true,
         zoneId: true,
       },
@@ -29,7 +30,15 @@ export async function GET(
       const higherCount = await prisma.userGameProfile.count({
         where: {
           zoneId: profile.zoneId,
-          combatPower: { gt: profile.combatPower },
+          OR: [
+            { monthlyPower: { gt: profile.monthlyPower } },
+            { monthlyPower: profile.monthlyPower, combatPower: { gt: profile.combatPower } },
+            {
+              monthlyPower: profile.monthlyPower,
+              combatPower: profile.combatPower,
+              userId: { lt: userId },
+            },
+          ],
         },
       })
       zoneRank = higherCount + 1
