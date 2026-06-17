@@ -267,8 +267,8 @@ export default function SharePage() {
       <div className="w-full max-w-sm space-y-6 relative z-10">
         {/* Glitch 标题 */}
         <div className="text-center">
-          <h1 className="glitch-title" data-text="学习战报">
-            学习战报
+          <h1 className="glitch-title" data-text="学习成果报告">
+            学习成果报告
           </h1>
         </div>
 
@@ -293,14 +293,14 @@ export default function SharePage() {
         <div className="grid grid-cols-2 gap-3">
           <StatCard
             icon="⚡"
-            label="战力"
+            label="学力"
             value={profile.combatPower}
             delay={1000}
             onExplode={triggerCardExplosion}
           />
           <StatCard
             icon="🏆"
-            label="战区排名"
+            label="学区排名"
             value={profile.zoneRank}
             suffix="th"
             delay={1400}

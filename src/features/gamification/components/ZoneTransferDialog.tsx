@@ -98,10 +98,10 @@ export function ZoneTransferDialog({
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <ArrowRightLeft className="w-4 h-4" />
-            战区转移
+            学区转移
           </DialogTitle>
           <DialogDescription>
-            消耗 {ZONE_TRANSFER_COST} 战力转移到其他战区。冷却期 {ZONE_TRANSFER_COOLDOWN_DAYS} 天。
+            消耗 {ZONE_TRANSFER_COST} 学力转移到其他学区。冷却期 {ZONE_TRANSFER_COOLDOWN_DAYS} 天。
           </DialogDescription>
         </DialogHeader>
 
@@ -177,7 +177,7 @@ export function ZoneTransferDialog({
               转移中...
             </>
           ) : (
-            `确认转移（-${ZONE_TRANSFER_COST} 战力）`
+            `确认转移（-${ZONE_TRANSFER_COST} 学力）`
           )}
         </Button>
       </DialogContent>

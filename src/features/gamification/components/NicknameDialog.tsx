@@ -73,7 +73,7 @@ export function NicknameDialog({ open, onOpenChange, onSuccess }: NicknameDialog
   const title = isFirstChange ? '设置昵称' : '修改昵称'
   const description = isFirstChange
     ? '设置一个昵称，它将显示在排行榜上。首次设置免费。'
-    : `修改昵称将消耗 ${NICKNAME_CHANGE_COST} 战力。改名后3天内榜单会显示你的原昵称。`
+    : `修改昵称将消耗 ${NICKNAME_CHANGE_COST} 学力。改名后3天内榜单会显示你的原昵称。`
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -100,7 +100,7 @@ export function NicknameDialog({ open, onOpenChange, onSuccess }: NicknameDialog
             </span>
           </div>
           <Button onClick={handleSubmit} disabled={loading} className="w-full">
-            {loading ? '设置中...' : isFirstChange ? '确认设置' : `确认修改（-${NICKNAME_CHANGE_COST} 战力）`}
+            {loading ? '设置中...' : isFirstChange ? '确认设置' : `确认修改（-${NICKNAME_CHANGE_COST} 学力）`}
           </Button>
         </div>
       </DialogContent>

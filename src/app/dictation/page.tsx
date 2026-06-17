@@ -881,7 +881,7 @@ export default function DictationPage() {
                     <option value={10}>10 个 (约 2 分钟)</option>
                     <option value={20}>20 个 (约 5 分钟)</option>
                     <option value={30}>30 个 (约 8 分钟)</option>
-                    <option value={50}>50 个 (极限挑战)</option>
+                    <option value={50}>50 个 (极限挑学)</option>
                     <option value="custom">自定义默写本</option>
                   </select>
                 </div>

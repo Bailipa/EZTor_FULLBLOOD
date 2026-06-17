@@ -2,11 +2,12 @@
 
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
-import { BarChart3, MessageSquare, Users, Languages, BookOpen, Database } from 'lucide-react'
+import { BarChart3, MessageSquare, Users, Languages, BookOpen, Database, Zap } from 'lucide-react'
 import type { SidebarNavItem } from './AppSidebar'
 
 const adminNavItems: SidebarNavItem[] = [
   { href: '/analytics', label: '数据', icon: BarChart3 },
+  { href: '/admin/gamification', label: '学力', icon: Zap },
   { href: '/admin/chat', label: '聊天', icon: MessageSquare },
   { href: '/users', label: '用户', icon: Users },
   { href: '/translation-records', label: '翻译', icon: Languages },

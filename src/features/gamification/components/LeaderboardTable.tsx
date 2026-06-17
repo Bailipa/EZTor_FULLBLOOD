@@ -7,10 +7,10 @@ import { Loader2, Trophy, Flame, Crown, Shield } from 'lucide-react'
 import type { LeaderboardEntry } from '@/features/gamification/types'
 
 const TAB_CONFIGS = [
-  { value: 'total', label: '总战力', icon: Crown },
+  { value: 'total', label: '总学力', icon: Crown },
   { value: 'monthly', label: '本月', icon: Trophy },
   { value: 'weekly', label: '本周', icon: Flame },
-  { value: 'zone', label: '战区', icon: Shield },
+  { value: 'zone', label: '学区', icon: Shield },
 ]
 
 function RankBadge({ rank }: { rank: number }) {

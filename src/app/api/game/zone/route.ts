@@ -56,7 +56,7 @@ export async function PUT(req: Request) {
 
     const { name } = body
     if (!name || typeof name !== 'string') {
-      return NextResponse.json({ success: false, error: '请输入战区名称' }, { status: 400 })
+      return NextResponse.json({ success: false, error: '请输入学区名称' }, { status: 400 })
     }
 
     const result = await gameService.renameZone(session.user.id, name)

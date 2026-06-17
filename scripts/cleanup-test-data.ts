@@ -28,9 +28,9 @@ async function main() {
   console.log(`✓ 删除 UserGameProfile`)
 
   await prisma.warZone.deleteMany({
-    where: { name: '测试战区' },
+    where: { name: '测试学区' },
   })
-  console.log(`✓ 删除测试战区`)
+  console.log(`✓ 删除测试学区`)
 
   await prisma.user.deleteMany({
     where: { id: { in: testUserIds } },

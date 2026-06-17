@@ -73,7 +73,7 @@ export function SharePopover({ open, onOpenChange, userId }: SharePopoverProps) 
 
   const getShareText = () => {
     if (!profile) return ''
-    return `我在EZTor背了${profile.totalWords}个单词，战力${profile.combatPower}，战区排名第${profile.zoneRank}名！你能超过我吗？`
+    return `我在EZTor背了${profile.totalWords}个单词，学力${profile.combatPower}，学区排名第${profile.zoneRank}名！你能超过我吗？`
   }
 
   const handleShare = async () => {
@@ -182,7 +182,7 @@ export function SharePopover({ open, onOpenChange, userId }: SharePopoverProps) 
                     {profile.combatPower}
                   </div>
                   <div className="text-[10px] mt-0.5" style={{ color: isDark ? '#a3a3a3' : '#737373' }}>
-                    战力
+                    学力
                   </div>
                 </div>
                 <div
@@ -199,7 +199,7 @@ export function SharePopover({ open, onOpenChange, userId }: SharePopoverProps) 
                     第{profile.zoneRank}名
                   </div>
                   <div className="text-[10px] mt-0.5" style={{ color: isDark ? '#a3a3a3' : '#737373' }}>
-                    战区排名
+                    学区排名
                   </div>
                 </div>
                 <div
@@ -280,7 +280,7 @@ export function SharePopover({ open, onOpenChange, userId }: SharePopoverProps) 
             </div>
 
             <p className="text-center text-xs text-muted-foreground">
-              分享可获得 +15 战力（每日1次）
+              分享可获得 +15 学力（每日1次）
             </p>
           </div>
         ) : (

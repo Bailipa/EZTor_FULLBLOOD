@@ -11,7 +11,7 @@ export async function POST(req: Request) {
 
   const { targetZoneId } = await req.json()
   if (!targetZoneId || typeof targetZoneId !== 'string') {
-    return NextResponse.json({ success: false, error: '请选择目标战区' }, { status: 400 })
+    return NextResponse.json({ success: false, error: '请选择目标学区' }, { status: 400 })
   }
 
   const result = await gameService.transferZone(session.user.id, targetZoneId)

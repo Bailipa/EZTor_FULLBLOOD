@@ -1,6 +1,7 @@
 import { randomUUID } from 'crypto'
 import prisma from '@/lib/prisma'
 import { getTodayDateUTC8, daysBetweenUTC8 } from '@/lib/dateUtils'
+import { loadCustomProfanity, containsProfanity } from '@/lib/profanityFilter'
 import {
   DAILY_POWER_CAP,
   TASK_CONFIGS,
@@ -504,13 +505,18 @@ export class GameService {
       return { success: false, error: `昵称长度需在1-${NICKNAME_MAX_LENGTH}之间` }
     }
 
+    await loadCustomProfanity()
+    if (containsProfanity(trimmed)) {
+      return { success: false, error: '该名称不可用，请更换' }
+    }
+
     const profile = await this.getOrCreateProfile(userId)
 
     const isFirstChange = !profile.nicknameChangedAt
     if (!isFirstChange && profile.combatPower < NICKNAME_CHANGE_COST) {
       return {
         success: false,
-        error: `战力不足，改名需要消耗 ${NICKNAME_CHANGE_COST} 战力（当前 ${profile.combatPower}）`,
+        error: `学力不足，改名需要消耗 ${NICKNAME_CHANGE_COST} 学力（当前 ${profile.combatPower}）`,
       }
     }
 
@@ -563,7 +569,7 @@ export class GameService {
         const newZone = await prisma.warZone.create({
           data: {
             id: randomUUID(),
-            name: `第${count + 1}战区`,
+            name: `第${count + 1}学区`,
             memberCount: 1,
             updatedAt: new Date(),
           },
@@ -646,30 +652,35 @@ export class GameService {
   ): Promise<{ success: boolean; error?: string; cost?: number }> {
     const trimmed = newName.trim()
     if (!trimmed || trimmed.length > ZONE_NAME_MAX_LENGTH) {
-      return { success: false, error: `战区名称长度需在1-${ZONE_NAME_MAX_LENGTH}之间` }
+      return { success: false, error: `学区名称长度需在1-${ZONE_NAME_MAX_LENGTH}之间` }
+    }
+
+    await loadCustomProfanity()
+    if (containsProfanity(trimmed)) {
+      return { success: false, error: '该名称不可用，请更换' }
     }
 
     const profile = await this.getOrCreateProfile(userId)
     if (!profile.zoneId) {
-      return { success: false, error: '你尚未加入任何战区' }
+      return { success: false, error: '你尚未加入任何学区' }
     }
 
     const members = await this.getLeaderboard('zone', userId)
     const isTop = members.length > 0 && members[0].userId === userId
     if (!isTop) {
-      return { success: false, error: '只有战区排名第一的用户才能修改战区名称' }
+      return { success: false, error: '只有学区排名第一的用户才能修改学区名称' }
     }
 
     if (profile.combatPower < ZONE_RENAME_COST) {
       return {
         success: false,
-        error: `战力不足，改名需要消耗 ${ZONE_RENAME_COST} 战力（当前 ${profile.combatPower}）`,
+        error: `学力不足，改名需要消耗 ${ZONE_RENAME_COST} 学力（当前 ${profile.combatPower}）`,
       }
     }
 
     const existing = await prisma.warZone.findUnique({ where: { name: trimmed } })
     if (existing) {
-      return { success: false, error: '该战区名称已被使用' }
+      return { success: false, error: '该学区名称已被使用' }
     }
 
     const currentZone = await prisma.warZone.findUnique({
@@ -706,11 +717,11 @@ export class GameService {
   ): Promise<{ success: boolean; error?: string; cost?: number }> {
     const profile = await this.getOrCreateProfile(userId)
     if (!profile.zoneId) {
-      return { success: false, error: '你尚未加入任何战区' }
+      return { success: false, error: '你尚未加入任何学区' }
     }
 
     if (profile.zoneId === targetZoneId) {
-      return { success: false, error: '你已在该战区' }
+      return { success: false, error: '你已在该学区' }
     }
 
     if (profile.lastZoneTransferAt) {
@@ -725,7 +736,7 @@ export class GameService {
     if (profile.combatPower < ZONE_TRANSFER_COST) {
       return {
         success: false,
-        error: `战力不足，转移需要消耗 ${ZONE_TRANSFER_COST} 战力（当前 ${profile.combatPower}）`,
+        error: `学力不足，转移需要消耗 ${ZONE_TRANSFER_COST} 学力（当前 ${profile.combatPower}）`,
       }
     }
 
@@ -733,11 +744,11 @@ export class GameService {
       where: { id: targetZoneId },
     })
     if (!targetZone || !targetZone.isActive) {
-      return { success: false, error: '目标战区不存在' }
+      return { success: false, error: '目标学区不存在' }
     }
 
     if (targetZone.memberCount >= targetZone.maxMembers) {
-      return { success: false, error: '目标战区已满' }
+      return { success: false, error: '目标学区已满' }
     }
 
     await prisma.$transaction([
@@ -773,15 +784,20 @@ export class GameService {
       return { success: false, error: `称号长度需在1-${ZONE_TITLE_MAX_LENGTH}之间` }
     }
 
+    await loadCustomProfanity()
+    if (containsProfanity(trimmed)) {
+      return { success: false, error: '该名称不可用，请更换' }
+    }
+
     const profile = await this.getOrCreateProfile(userId)
     if (!profile.zoneId) {
-      return { success: false, error: '你尚未加入任何战区' }
+      return { success: false, error: '你尚未加入任何学区' }
     }
 
     const members = await this.getLeaderboard('zone', userId)
     const isTop = members.length > 0 && members[0].userId === userId
     if (!isTop) {
-      return { success: false, error: '只有战区排名第一的用户才能修改称号' }
+      return { success: false, error: '只有学区排名第一的用户才能修改称号' }
     }
 
     if (profile.lastZoneTitleChangeAt) {
@@ -796,7 +812,7 @@ export class GameService {
     if (profile.combatPower < ZONE_TITLE_CHANGE_COST) {
       return {
         success: false,
-        error: `战力不足，修改称号需要消耗 ${ZONE_TITLE_CHANGE_COST} 战力（当前 ${profile.combatPower}）`,
+        error: `学力不足，修改称号需要消耗 ${ZONE_TITLE_CHANGE_COST} 学力（当前 ${profile.combatPower}）`,
       }
     }
 
@@ -804,7 +820,7 @@ export class GameService {
     if (members.length >= 2 && powerAfter < members[1].combatPower) {
       return {
         success: false,
-        error: '修改后战力不足以支撑你的榜一位置！无法修改！',
+        error: '修改后学力不足以支撑你的榜一位置！无法修改！',
       }
     }
 

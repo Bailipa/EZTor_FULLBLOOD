@@ -69,7 +69,7 @@ export function ZoneTitleDialog({ open, onOpenChange, currentTitle, onSuccess }:
         <DialogHeader>
           <DialogTitle>修改称号</DialogTitle>
           <DialogDescription>
-            消耗 {ZONE_TITLE_CHANGE_COST} 战力修改称号，冷却 {ZONE_TITLE_CHANGE_COOLDOWN_DAYS} 天。当前称号：{currentTitle}
+            消耗 {ZONE_TITLE_CHANGE_COST} 学力修改称号，冷却 {ZONE_TITLE_CHANGE_COOLDOWN_DAYS} 天。当前称号：{currentTitle}
           </DialogDescription>
         </DialogHeader>
         <div className="space-y-3">
@@ -91,7 +91,7 @@ export function ZoneTitleDialog({ open, onOpenChange, currentTitle, onSuccess }:
                 修改中...
               </>
             ) : (
-              `确认修改（-${ZONE_TITLE_CHANGE_COST} 战力）`
+              `确认修改（-${ZONE_TITLE_CHANGE_COST} 学力）`
             )}
           </Button>
         </div>

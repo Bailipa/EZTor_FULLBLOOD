@@ -42,12 +42,12 @@ export function FeatureLockedDialog({
             <div className="space-y-3">
               <p>
                 <span className="font-medium text-foreground">{featureName}</span> 需要{' '}
-                <span className="font-semibold text-amber-600">{requiredPower}</span> 战力才能解锁
+                <span className="font-semibold text-amber-600">{requiredPower}</span> 学力才能解锁
               </p>
               <div className="space-y-1">
                 <div className="flex justify-between text-xs">
-                  <span>当前战力：{currentPower}</span>
-                  <span>还需 {remaining} 战力</span>
+                  <span>当前学力：{currentPower}</span>
+                  <span>还需 {remaining} 学力</span>
                 </div>
                 <Progress value={progress} className="h-2" />
                 <p className="text-xs text-center text-muted-foreground">{progress}%</p>

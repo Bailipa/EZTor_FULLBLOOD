@@ -61,10 +61,10 @@ export function WarZoneCard({ refreshKey = 0 }: { refreshKey?: number }) {
       <Card>
         <CardContent className="flex flex-col items-center gap-3 py-6">
           <Shield className="w-8 h-8 text-muted-foreground" />
-          <p className="text-sm text-muted-foreground">尚未加入战区</p>
+          <p className="text-sm text-muted-foreground">尚未加入学区</p>
           <Button size="sm" onClick={handleJoin} disabled={joining}>
             <Plus className="w-4 h-4 mr-1" />
-            {joining ? '加入中...' : '加入战区'}
+            {joining ? '加入中...' : '加入学区'}
           </Button>
         </CardContent>
       </Card>
@@ -82,7 +82,7 @@ export function WarZoneCard({ refreshKey = 0 }: { refreshKey?: number }) {
               <button
                 onClick={() => setTransferOpen(true)}
                 className="text-muted-foreground hover:text-foreground transition-colors"
-                title="战区转移（消耗 20 战力）"
+                title="学区转移（消耗 20 学力）"
               >
                 <ArrowRightLeft className="w-3.5 h-3.5" />
               </button>
@@ -90,7 +90,7 @@ export function WarZoneCard({ refreshKey = 0 }: { refreshKey?: number }) {
                 <button
                   onClick={() => setRenameOpen(true)}
                   className="text-muted-foreground hover:text-foreground transition-colors"
-                  title="修改战区名称（消耗 10 战力）"
+                  title="修改学区名称（消耗 10 学力）"
                 >
                   <Pencil className="w-3.5 h-3.5" />
                 </button>
@@ -116,7 +116,7 @@ export function WarZoneCard({ refreshKey = 0 }: { refreshKey?: number }) {
             <span>{zone.memberCount}/{zone.maxMembers} 成员</span>
           </div>
           <p className="text-[10px] text-muted-foreground mb-3">
-            战力第一玩家可以修改自己的称号，还可以修改战区名字
+            学力第一玩家可以修改自己的称号，还可以修改学区名字
           </p>
           <div className="space-y-1">
             {zone.members.slice(0, 10).map((m) => (
@@ -133,7 +133,7 @@ export function WarZoneCard({ refreshKey = 0 }: { refreshKey?: number }) {
                     <button
                       onClick={() => setTitleOpen(true)}
                       className="ml-0.5 hover:text-amber-900 dark:hover:text-amber-100 transition-colors"
-                      title="修改称号（消耗 20 战力）"
+                      title="修改称号（消耗 20 学力）"
                     >
                       <Pencil className="w-2.5 h-2.5" />
                     </button>

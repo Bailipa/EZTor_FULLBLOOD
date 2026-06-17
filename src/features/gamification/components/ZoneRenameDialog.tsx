@@ -27,7 +27,7 @@ export function ZoneRenameDialog({ open, onOpenChange, currentName, onSuccess }:
   const handleSubmit = async () => {
     const trimmed = name.trim()
     if (!trimmed) {
-      setError('请输入战区名称')
+      setError('请输入学区名称')
       return
     }
     if (trimmed.length > ZONE_NAME_MAX_LENGTH) {
@@ -66,14 +66,14 @@ export function ZoneRenameDialog({ open, onOpenChange, currentName, onSuccess }:
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[320px]">
         <DialogHeader>
-          <DialogTitle>修改战区名称</DialogTitle>
+          <DialogTitle>修改学区名称</DialogTitle>
           <DialogDescription>
-            消耗 {ZONE_RENAME_COST} 战力修改战区名称。当前名称：{currentName}
+            消耗 {ZONE_RENAME_COST} 学力修改学区名称。当前名称：{currentName}
           </DialogDescription>
         </DialogHeader>
         <div className="space-y-3">
           <Input
-            placeholder="输入新战区名称"
+            placeholder="输入新学区名称"
             value={name}
             onChange={(e) => {
               setName(e.target.value)
@@ -89,7 +89,7 @@ export function ZoneRenameDialog({ open, onOpenChange, currentName, onSuccess }:
             </span>
           </div>
           <Button onClick={handleSubmit} disabled={loading} className="w-full">
-            {loading ? '修改中...' : `确认修改（-${ZONE_RENAME_COST} 战力）`}
+            {loading ? '修改中...' : `确认修改（-${ZONE_RENAME_COST} 学力）`}
           </Button>
         </div>
       </DialogContent>

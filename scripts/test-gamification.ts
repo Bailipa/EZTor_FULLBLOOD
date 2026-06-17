@@ -75,9 +75,9 @@ async function main() {
 
   // Assign all to same zone
   const zone = await prisma.warZone.upsert({
-    where: { name: '测试战区' },
+    where: { name: '测试学区' },
     update: {},
-    create: { id: randomUUID(), name: '测试战区', maxMembers: 50, updatedAt: new Date() },
+    create: { id: randomUUID(), name: '测试学区', maxMembers: 50, updatedAt: new Date() },
   })
 
   for (const uid of testUserIds) {
@@ -90,7 +90,7 @@ async function main() {
     where: { id: zone.id },
     data: { memberCount: testUserIds.length },
   })
-  console.log(`\n✓ 所有用户已分配到: 测试战区\n`)
+  console.log(`\n✓ 所有用户已分配到: 测试学区\n`)
 
   const ROUNDS = 10
   const DELAY_MS = 3000
@@ -139,7 +139,7 @@ async function main() {
         console.log(`  🎉 ${tu.nickname} 解锁: ${unlocked.join(', ')}`)
       }
 
-      console.log(`  ${tu.nickname}: +${gain} → 总战力 ${profile!.combatPower}`)
+      console.log(`  ${tu.nickname}: +${gain} → 总学力 ${profile!.combatPower}`)
     }
 
     // Print leaderboard
@@ -152,7 +152,7 @@ async function main() {
     console.log('\n  📊 当前排名:')
     all.forEach((p, i) => {
       const features = p.unlockedFeatures.length > 0 ? ` [${p.unlockedFeatures.join(',')}]` : ''
-      console.log(`    ${i + 1}. ${p.nickname}: ${p.combatPower} 战力${features}`)
+      console.log(`    ${i + 1}. ${p.nickname}: ${p.combatPower} 学力${features}`)
     })
 
     if (round < ROUNDS - 1) {
