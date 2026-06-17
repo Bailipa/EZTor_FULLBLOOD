@@ -31,7 +31,11 @@ echo "  ✓ Static files, public assets, and BUILD_ID copied"
 echo ""
 echo "[3/6] Creating deployment tarball (excluding .env files)..."
 TARBALL="/tmp/eztor-deploy-${TIMESTAMP}.tar.gz"
-tar -czf "$TARBALL" \
+# Create uncompressed tar first, then gzip — needed to append ipa-dict
+TARBALL_UNCOMPRESSED="/tmp/eztor-deploy-${TIMESTAMP}.tar"
+TARBALL="$TARBALL_UNCOMPRESSED.gz"
+
+tar -cf "$TARBALL_UNCOMPRESSED" \
   --exclude='.env' \
   --exclude='.env.production' \
   --exclude='.env.local' \
@@ -40,10 +44,11 @@ tar -czf "$TARBALL" \
 
 # Append runtime-only modules that are loaded dynamically (not traced by @vercel/nft)
 if [ -d "node_modules/ipa-dict" ]; then
-  tar -rf "$TARBALL" -C node_modules ipa-dict
+  tar -rf "$TARBALL_UNCOMPRESSED" -C node_modules ipa-dict
   echo "  ✓ ipa-dict appended to tarball"
 fi
 
+gzip -f "$TARBALL_UNCOMPRESSED"
 echo "  ✓ Tarball: $TARBALL ($(ls -lh "$TARBALL" | awk '{print $5}'))"
 
 echo ""
