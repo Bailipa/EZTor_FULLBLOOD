@@ -147,11 +147,6 @@ export function WordInputRow({
               >
                 <Volume2 size={16} />
               </button>
-              {entry.isPublic && (
-                <Badge variant="outline" className="text-xs">
-                  词库
-                </Badge>
-              )}
             </div>
             <p className="text-sm font-medium">{entry.translation}</p>
             {showExample && entry.example && (
@@ -250,7 +245,7 @@ export function WordInputRow({
         />
         <button
           onClick={() => onRemove(entry.id)}
-          className="rounded-full p-1 text-muted-foreground opacity-0 transition-all hover:bg-destructive/10 hover:text-destructive group-hover:opacity-100"
+          className="rounded-full p-1 text-muted-foreground opacity-100 sm:opacity-0 transition-all hover:bg-destructive/10 hover:text-destructive group-hover:opacity-100"
           aria-label={`删除 ${entry.word || '空输入框'}`}
         >
           <X className="h-4 w-4" />
