@@ -13,7 +13,7 @@ const navItems = [
   { href: '/history', label: '生词本', icon: BookOpen },
   { href: '/translate', label: '查词', icon: Search },
   { href: '/leaderboard', label: '排行榜', icon: Trophy },
-  { href: '/chat', label: '反馈', icon: MessageSquare },
+  { href: '/chat', label: '说话', icon: MessageSquare },
 ]
 
 export default function MobileNavBar() {
@@ -58,7 +58,7 @@ export default function MobileNavBar() {
       {isActive && currentStep === 5 && (
         <OnboardingTooltip
           targetRef={chatButtonRef}
-          title="💬 反馈聊天"
+          title="💬 说话聊天"
           description="有问题或建议？点击这里与开发者交流。"
           onNext={() => {
             router.push('/chat')

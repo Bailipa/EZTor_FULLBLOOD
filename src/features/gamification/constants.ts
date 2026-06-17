@@ -28,7 +28,7 @@ export const TASK_CONFIGS: TaskConfig[] = [
   },
   {
     type: TASK_TYPES.COMPLETE_REVIEWS,
-    title: '听写复习',
+    title: '默写复习',
     description: '默写20个单词',
     targetValue: 20,
     powerReward: 30,
@@ -73,7 +73,18 @@ export const FEATURE_DESCRIPTIONS: Record<FeatureKey, string> = {
 
 export const ZONE_MAX_MEMBERS = 50
 export const ZONE_RENAME_COST = 10
+export const ZONE_TRANSFER_COST = 20
+export const ZONE_TRANSFER_COOLDOWN_DAYS = 3
 export const ZONE_NAME_MAX_LENGTH = 12
+export const ZONE_TITLES = {
+  RANK_1: '英帝',
+  RANK_2: '超英',
+  RANK_3: '初英',
+  DEFAULT: '小英',
+} as const
+export const ZONE_TITLE_MAX_LENGTH = 6
+export const ZONE_TITLE_CHANGE_COST = 20
+export const ZONE_TITLE_CHANGE_COOLDOWN_DAYS = 3
 export const NICKNAME_CHANGE_COST = 10
 export const NICKNAME_PREVIOUS_DISPLAY_DAYS = 3
 export const NICKNAME_MAX_LENGTH = 12

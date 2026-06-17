@@ -470,8 +470,11 @@ model UserGameProfile {
   lastActiveDate    String?
   nicknameChangedAt DateTime?
   unlockedFeatures  String[] @default([])
-  zoneId            String?
-  lastWeeklyReset   DateTime?
+  zoneId                 String?
+  lastZoneTransferAt     DateTime?
+  zoneTitle              String?   @db.VarChar(6)
+  lastZoneTitleChangeAt  DateTime?
+  lastWeeklyReset        DateTime?
   lastMonthlyReset  DateTime?
   createdAt         DateTime @default(now())
   updatedAt         DateTime

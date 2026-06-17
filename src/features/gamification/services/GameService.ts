@@ -13,7 +13,13 @@ import {
   FEATURE_DESCRIPTIONS,
   ZONE_MAX_MEMBERS,
   ZONE_RENAME_COST,
+  ZONE_TRANSFER_COST,
+  ZONE_TRANSFER_COOLDOWN_DAYS,
   ZONE_NAME_MAX_LENGTH,
+  ZONE_TITLES,
+  ZONE_TITLE_MAX_LENGTH,
+  ZONE_TITLE_CHANGE_COST,
+  ZONE_TITLE_CHANGE_COOLDOWN_DAYS,
   NICKNAME_CHANGE_COST,
   NICKNAME_PREVIOUS_DISPLAY_DAYS,
   NICKNAME_MAX_LENGTH,
@@ -405,6 +411,8 @@ export class GameService {
           }
         : {}
 
+    const isZone = type === 'zone'
+
     const profiles = await prisma.userGameProfile.findMany({
       where,
       orderBy,
@@ -418,6 +426,7 @@ export class GameService {
         monthlyPower: true,
         weeklyPower: true,
         currentStreak: true,
+        ...(isZone ? { zoneTitle: true } : {}),
       },
     })
 
@@ -430,7 +439,10 @@ export class GameService {
 
     const today = getTodayDateUTC8()
 
-    return profiles.map((p, i) => {
+    const entries: LeaderboardEntry[] = []
+
+    for (let i = 0; i < profiles.length; i++) {
+      const p = profiles[i]
       let displayName = p.nickname ?? '未设置昵称'
 
       if (p.nicknameChangedAt && p.previousNickname) {
@@ -443,7 +455,31 @@ export class GameService {
         }
       }
 
-      return {
+      let zoneTitle: string = ZONE_TITLES.DEFAULT
+      if (isZone) {
+        const rank = i + 1
+        const storedTitle = (p as { zoneTitle?: string | null }).zoneTitle
+
+        if (rank === 1) {
+          zoneTitle = storedTitle || ZONE_TITLES.RANK_1
+        } else {
+          zoneTitle =
+            rank === 2
+              ? ZONE_TITLES.RANK_2
+              : rank === 3
+                ? ZONE_TITLES.RANK_3
+                : ZONE_TITLES.DEFAULT
+
+          if (storedTitle) {
+            prisma.userGameProfile.update({
+              where: { userId: p.userId },
+              data: { zoneTitle: null },
+            }).catch(() => {})
+          }
+        }
+      }
+
+      entries.push({
         rank: i + 1,
         userId: p.userId,
         nickname: displayName,
@@ -452,8 +488,11 @@ export class GameService {
         combatPower: p[powerField],
         currentStreak: p.currentStreak,
         isCurrentUser: p.userId === userId,
-      }
-    })
+        zoneTitle,
+      })
+    }
+
+    return entries
   }
 
   async setNickname(
@@ -577,6 +616,15 @@ export class GameService {
       renamedByName = renamerProfile?.nickname ?? null
     }
 
+    let transferCooldownRemaining = 0
+    if (profile.lastZoneTransferAt) {
+      const elapsed = Date.now() - profile.lastZoneTransferAt.getTime()
+      const cooldownMs = ZONE_TRANSFER_COOLDOWN_DAYS * 24 * 60 * 60 * 1000
+      if (elapsed < cooldownMs) {
+        transferCooldownRemaining = Math.ceil((cooldownMs - elapsed) / 1000)
+      }
+    }
+
     return {
       id: zone.id,
       name: zone.name,
@@ -587,6 +635,8 @@ export class GameService {
       previousName: zone.previousName,
       renamedByName,
       renamedAt: zone.renamedAt?.toISOString() ?? null,
+      canTransfer: profile.combatPower >= ZONE_TRANSFER_COST && transferCooldownRemaining === 0,
+      transferCooldownRemaining,
     }
   }
 
@@ -648,6 +698,130 @@ export class GameService {
     ])
 
     return { success: true, cost: ZONE_RENAME_COST }
+  }
+
+  async transferZone(
+    userId: string,
+    targetZoneId: string,
+  ): Promise<{ success: boolean; error?: string; cost?: number }> {
+    const profile = await this.getOrCreateProfile(userId)
+    if (!profile.zoneId) {
+      return { success: false, error: '你尚未加入任何战区' }
+    }
+
+    if (profile.zoneId === targetZoneId) {
+      return { success: false, error: '你已在该战区' }
+    }
+
+    if (profile.lastZoneTransferAt) {
+      const elapsed = Date.now() - profile.lastZoneTransferAt.getTime()
+      const cooldownMs = ZONE_TRANSFER_COOLDOWN_DAYS * 24 * 60 * 60 * 1000
+      if (elapsed < cooldownMs) {
+        const remainingDays = Math.ceil((cooldownMs - elapsed) / (24 * 60 * 60 * 1000))
+        return { success: false, error: `转移冷却中，还需 ${remainingDays} 天` }
+      }
+    }
+
+    if (profile.combatPower < ZONE_TRANSFER_COST) {
+      return {
+        success: false,
+        error: `战力不足，转移需要消耗 ${ZONE_TRANSFER_COST} 战力（当前 ${profile.combatPower}）`,
+      }
+    }
+
+    const targetZone = await prisma.warZone.findUnique({
+      where: { id: targetZoneId },
+    })
+    if (!targetZone || !targetZone.isActive) {
+      return { success: false, error: '目标战区不存在' }
+    }
+
+    if (targetZone.memberCount >= targetZone.maxMembers) {
+      return { success: false, error: '目标战区已满' }
+    }
+
+    await prisma.$transaction([
+      prisma.warZone.update({
+        where: { id: profile.zoneId },
+        data: { memberCount: { decrement: 1 } },
+      }),
+      prisma.warZone.update({
+        where: { id: targetZoneId },
+        data: { memberCount: { increment: 1 } },
+      }),
+      prisma.userGameProfile.update({
+        where: { userId },
+        data: {
+          zoneId: targetZoneId,
+          combatPower: { decrement: ZONE_TRANSFER_COST },
+          monthlyPower: { decrement: ZONE_TRANSFER_COST },
+          weeklyPower: { decrement: ZONE_TRANSFER_COST },
+          lastZoneTransferAt: new Date(),
+        },
+      }),
+    ])
+
+    return { success: true, cost: ZONE_TRANSFER_COST }
+  }
+
+  async setZoneTitle(
+    userId: string,
+    title: string,
+  ): Promise<{ success: boolean; error?: string; cost?: number }> {
+    const trimmed = title.trim()
+    if (!trimmed || trimmed.length > ZONE_TITLE_MAX_LENGTH) {
+      return { success: false, error: `称号长度需在1-${ZONE_TITLE_MAX_LENGTH}之间` }
+    }
+
+    const profile = await this.getOrCreateProfile(userId)
+    if (!profile.zoneId) {
+      return { success: false, error: '你尚未加入任何战区' }
+    }
+
+    const members = await this.getLeaderboard('zone', userId)
+    const isTop = members.length > 0 && members[0].userId === userId
+    if (!isTop) {
+      return { success: false, error: '只有战区排名第一的用户才能修改称号' }
+    }
+
+    if (profile.lastZoneTitleChangeAt) {
+      const elapsed = Date.now() - profile.lastZoneTitleChangeAt.getTime()
+      const cooldownMs = ZONE_TITLE_CHANGE_COOLDOWN_DAYS * 24 * 60 * 60 * 1000
+      if (elapsed < cooldownMs) {
+        const remainingDays = Math.ceil((cooldownMs - elapsed) / (24 * 60 * 60 * 1000))
+        return { success: false, error: `称号修改冷却中，还需 ${remainingDays} 天` }
+      }
+    }
+
+    if (profile.combatPower < ZONE_TITLE_CHANGE_COST) {
+      return {
+        success: false,
+        error: `战力不足，修改称号需要消耗 ${ZONE_TITLE_CHANGE_COST} 战力（当前 ${profile.combatPower}）`,
+      }
+    }
+
+    const powerAfter = profile.combatPower - ZONE_TITLE_CHANGE_COST
+    if (members.length >= 2 && powerAfter < members[1].combatPower) {
+      return {
+        success: false,
+        error: '修改后战力不足以支撑你的榜一位置！无法修改！',
+      }
+    }
+
+    await prisma.$transaction([
+      prisma.userGameProfile.update({
+        where: { userId },
+        data: {
+          combatPower: { decrement: ZONE_TITLE_CHANGE_COST },
+          monthlyPower: { decrement: ZONE_TITLE_CHANGE_COST },
+          weeklyPower: { decrement: ZONE_TITLE_CHANGE_COST },
+          zoneTitle: trimmed,
+          lastZoneTitleChangeAt: new Date(),
+        },
+      }),
+    ])
+
+    return { success: true, cost: ZONE_TITLE_CHANGE_COST }
   }
 
   getFeatureUnlockStatus(combatPower: number): {

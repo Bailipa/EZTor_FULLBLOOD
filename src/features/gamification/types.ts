@@ -16,6 +16,9 @@ export interface GameProfile {
   nicknameChangedAt: Date | null
   unlockedFeatures: string[]
   zoneId: string | null
+  lastZoneTransferAt: Date | null
+  zoneTitle: string | null
+  lastZoneTitleChangeAt: Date | null
 }
 
 export interface DailyTaskState {
@@ -38,6 +41,7 @@ export interface LeaderboardEntry {
   combatPower: number
   currentStreak: number
   isCurrentUser: boolean
+  zoneTitle: string
 }
 
 export interface ZoneInfo {
@@ -50,6 +54,8 @@ export interface ZoneInfo {
   previousName: string | null
   renamedByName: string | null
   renamedAt: string | null
+  canTransfer: boolean
+  transferCooldownRemaining: number
 }
 
 export interface AddPowerResult {

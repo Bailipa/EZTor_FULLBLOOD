@@ -101,11 +101,11 @@ export default function LeaderboardPage() {
           )}
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 flex-1">
-            <div className="lg:col-span-2">
-              <LeaderboardTable refreshKey={refreshKey} />
-            </div>
             <div className="space-y-4">
               <WarZoneCard refreshKey={refreshKey} />
+            </div>
+            <div className="lg:col-span-2">
+              <LeaderboardTable refreshKey={refreshKey} />
             </div>
           </div>
         </div>

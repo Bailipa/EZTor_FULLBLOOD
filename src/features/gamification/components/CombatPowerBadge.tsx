@@ -44,7 +44,7 @@ export function CombatPowerBadge({ refreshKey = 0 }: { refreshKey?: number }) {
         </div>
       )}
       <span className="text-muted-foreground">
-        今日 +{data.dailyPowerGained}/{data.dailyPowerCap}
+        今日 +{data.dailyPowerGained}/80
       </span>
     </div>
   )

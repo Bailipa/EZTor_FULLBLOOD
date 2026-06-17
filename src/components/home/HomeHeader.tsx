@@ -17,11 +17,13 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog'
 import { signOut, useSession } from 'next-auth/react'
-import { MonitorPlay, LogIn, ChevronDown, ChevronUp, MessageCircle } from 'lucide-react'
+import { MonitorPlay, LogIn, ChevronDown, ChevronUp, MessageCircle, Lock } from 'lucide-react'
 import { DonationButton } from './DonationModal'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 import { useQQGroupUrl } from '@/lib/siteConfig'
+import { FEATURE_UNLOCK_THRESHOLDS } from '@/features/gamification/constants'
+import { FeatureLockedDialog } from '@/features/gamification/components/FeatureLockedDialog'
 
 interface HomeHeaderProps {
   showDanmaku: boolean
@@ -35,8 +37,25 @@ export function HomeHeader({ showDanmaku, onToggleDanmaku, onFeatureClick }: Hom
   const [githubDialogOpen, setGithubDialogOpen] = useState(false)
   const [githubState, setGithubState] = useState<'checking' | 'fail'>('checking')
   const [cardExpanded, setCardExpanded] = useState(false)
+  const [combatPower, setCombatPower] = useState<number | null>(null)
+  const [lockedDialogOpen, setLockedDialogOpen] = useState(false)
+  const [lockedFeatureName, setLockedFeatureName] = useState('')
+  const [lockedFeaturePower, setLockedFeaturePower] = useState(0)
   const router = useRouter()
   const qqGroupUrl = useQQGroupUrl()
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      fetch('/api/game/profile')
+        .then((r) => r.json())
+        .then((data) => {
+          if (data.success && data.data) {
+            setCombatPower(data.data.combatPower)
+          }
+        })
+        .catch(() => {})
+    }
+  }, [isAuthenticated])
 
   const handleGithubClick = async () => {
     setGithubState('checking')
@@ -73,6 +92,15 @@ export function HomeHeader({ showDanmaku, onToggleDanmaku, onFeatureClick }: Hom
   useEffect(() => {
     return () => clearTimers()
   }, [])
+
+  const handleLockedFeature = (featureName: string, requiredPower: number) => {
+    setLockedFeatureName(featureName)
+    setLockedFeaturePower(requiredPower)
+    setLockedDialogOpen(true)
+  }
+
+  const isDanmakuUnlocked = combatPower === null || combatPower >= FEATURE_UNLOCK_THRESHOLDS.DANMAKU
+  const isGameUnlocked = combatPower === null || combatPower >= FEATURE_UNLOCK_THRESHOLDS.MINI_GAME
 
   const handleDanmakuToggle = async () => {
     if (!isAuthenticated && onFeatureClick) {
@@ -146,6 +174,7 @@ export function HomeHeader({ showDanmaku, onToggleDanmaku, onFeatureClick }: Hom
   }
 
   return (
+    <>
     <header className="flex flex-col bg-white dark:bg-card xl:bg-sidebar xl:dark:bg-sidebar p-4 sm:p-6 xl:px-6 xl:h-14 xl:py-0 xl:justify-center xl:overflow-hidden xl:flex-row xl:items-center xl:shrink-0 rounded-xl xl:rounded-none shadow-sm xl:shadow-none border border-border xl:border-x-0 xl:border-t-0 xl:border-b xl:border-sidebar-border transition-colors duration-300">
       <button
         type="button"
@@ -175,7 +204,19 @@ export function HomeHeader({ showDanmaku, onToggleDanmaku, onFeatureClick }: Hom
             </span>
           )}
           {isAuthenticated && <div className="hidden xl:block"><FlashcardWidget /></div>}
-          {isAuthenticated && <GameWidget />}
+          {isAuthenticated && (isGameUnlocked ? (
+            <GameWidget />
+          ) : (
+            <Button
+              variant="outline"
+              onClick={() => handleLockedFeature('小游戏', FEATURE_UNLOCK_THRESHOLDS.MINI_GAME)}
+              className="gap-1.5 sm:gap-2 shadow-sm h-8 px-2.5 text-xs sm:h-9 sm:px-4 sm:text-sm text-muted-foreground"
+            >
+              <Lock className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+              <span>小游戏</span>
+            </Button>
+          ))}
+          {isDanmakuUnlocked ? (
           <Button
             variant={danmakuStatus === 'active' ? 'default' : 'outline'}
             onClick={handleDanmakuToggle}
@@ -205,6 +246,16 @@ export function HomeHeader({ showDanmaku, onToggleDanmaku, onFeatureClick }: Hom
               </>
             )}
           </Button>
+          ) : (
+            <Button
+              variant="outline"
+              onClick={() => handleLockedFeature('弹幕复习', FEATURE_UNLOCK_THRESHOLDS.DANMAKU)}
+              className="gap-1.5 sm:gap-2 shadow-sm h-8 min-w-[120px] px-2.5 text-xs sm:h-9 sm:px-4 sm:text-sm text-muted-foreground"
+            >
+              <Lock className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+              <span>弹幕复习</span>
+            </Button>
+          )}
           {isAuthenticated ? null : (
             <Button
               variant="default"
@@ -332,5 +383,14 @@ export function HomeHeader({ showDanmaku, onToggleDanmaku, onFeatureClick }: Hom
         </nav>
       </div>
     </header>
+
+    <FeatureLockedDialog
+      open={lockedDialogOpen}
+      onOpenChange={setLockedDialogOpen}
+      featureName={lockedFeatureName}
+      requiredPower={lockedFeaturePower}
+      currentPower={combatPower ?? 0}
+    />
+    </>
   )
 }
