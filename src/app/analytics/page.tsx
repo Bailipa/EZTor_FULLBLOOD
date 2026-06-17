@@ -15,7 +15,6 @@ import {
   Activity,
   FileJson,
   FileSpreadsheet,
-  ExternalLink,
   Database,
   BarChart3,
   Filter,
@@ -23,11 +22,10 @@ import {
   UserCheck,
   UserX,
 } from 'lucide-react'
-import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useAdminCheck } from '@/hooks/useAdminCheck'
 import { usePageView } from '@/lib/analytics'
-import { ChatManagement } from '@/components/admin/ChatManagement'
+import AdminLayout from '@/components/layout/AdminLayout'
 
 interface RecentEvent {
   id: string
@@ -338,6 +336,7 @@ export default function AnalyticsPage() {
   const _maxGuestDailyCount = Math.max(...data.guestStats.dailyTrend.map((d) => d.total), 1)
 
   return (
+    <AdminLayout>
     <div className="min-h-screen bg-background p-6 md:p-12">
       <div className="max-w-7xl mx-auto space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -346,34 +345,6 @@ export default function AnalyticsPage() {
             <p className="text-muted-foreground">查看应用使用情况和关键指标</p>
           </div>
           <div className="flex flex-wrap gap-2 items-center">
-            <Link href="/users">
-              <Button variant="outline" size="sm">
-                <Users className="w-4 h-4 mr-2" />
-                用户列表
-                <ExternalLink className="w-3 h-3 ml-2" />
-              </Button>
-            </Link>
-            <Link href="/llm-config">
-              <Button variant="outline" size="sm">
-                <Database className="w-4 h-4 mr-2" />
-                LLM 配置
-                <ExternalLink className="w-3 h-3 ml-2" />
-              </Button>
-            </Link>
-            <Link href="/translation-records">
-              <Button variant="outline" size="sm">
-                <Languages className="w-4 h-4 mr-2" />
-                翻译记录
-                <ExternalLink className="w-3 h-3 ml-2" />
-              </Button>
-            </Link>
-            <Link href="/public-words">
-              <Button variant="outline" size="sm">
-                <BookOpen className="w-4 h-4 mr-2" />
-                公共词库
-                <ExternalLink className="w-3 h-3 ml-2" />
-              </Button>
-            </Link>
             {(['24h', '7d', '30d'] as const).map((r) => (
               <Button
                 key={r}
@@ -957,10 +928,8 @@ export default function AnalyticsPage() {
             )}
           </CardContent>
         </Card>
-
-        {/* 聊天管理 */}
-        <ChatManagement />
       </div>
     </div>
+    </AdminLayout>
   )
 }

@@ -22,6 +22,7 @@ import {
 } from 'lucide-react'
 import { useCrudTable } from '@/hooks/useCrudTable'
 import { useRouter } from 'next/navigation'
+import AdminLayout from '@/components/layout/AdminLayout'
 
 interface PublicWord {
   id: string
@@ -243,6 +244,7 @@ export default function PublicWordsPage() {
   }
 
   return (
+    <AdminLayout>
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-4 md:p-8">
       <div className="max-w-7xl mx-auto">
         <div className="mb-8">
@@ -331,56 +333,59 @@ export default function PublicWordsPage() {
 
         <Card className="mb-6">
           <CardContent className="pt-6">
-            <div className="flex flex-wrap gap-4 items-center">
-              <div className="flex gap-2 flex-1 min-w-0 sm:min-w-[200px]">
+            <div className="flex flex-col gap-3">
+              <div className="flex gap-2">
                 <Input
                   placeholder="搜索单词..."
                   value={searchInput}
                   onChange={(e) => setSearchInput(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+                  className="flex-1"
                 />
-                <Button onClick={handleSearch}>
+                <Button onClick={handleSearch} className="shrink-0">
                   <Search className="h-4 w-4 mr-2" />
                   搜索
                 </Button>
               </div>
-              <div className="flex gap-2 items-center">
-                <Input
-                  type="number"
-                  placeholder="最低分"
-                  className="w-24"
-                  value={minQuality}
-                  onChange={(e) => setMinQuality(e.target.value)}
-                />
-                <span>-</span>
-                <Input
-                  type="number"
-                  placeholder="最高分"
-                  className="w-24"
-                  value={maxQuality}
-                  onChange={(e) => setMaxQuality(e.target.value)}
-                />
+              <div className="flex flex-wrap gap-2 items-center">
+                <div className="flex gap-2 items-center">
+                  <Input
+                    type="number"
+                    placeholder="最低分"
+                    className="w-24"
+                    value={minQuality}
+                    onChange={(e) => setMinQuality(e.target.value)}
+                  />
+                  <span className="text-muted-foreground">-</span>
+                  <Input
+                    type="number"
+                    placeholder="最高分"
+                    className="w-24"
+                    value={maxQuality}
+                    onChange={(e) => setMaxQuality(e.target.value)}
+                  />
+                </div>
+                <select
+                  className="border rounded px-3 py-2 h-8 text-sm bg-transparent"
+                  value={`${sortBy}-${sortOrder}`}
+                  onChange={(e) => {
+                    const [field, order] = e.target.value.split('-')
+                    setSortBy(field)
+                    setSortOrder(order as 'asc' | 'desc')
+                  }}
+                >
+                  <option value="updatedAt-desc">最近更新</option>
+                  <option value="updatedAt-asc">最早更新</option>
+                  <option value="qualityScore-desc">质量分高到低</option>
+                  <option value="qualityScore-asc">质量分低到高</option>
+                  <option value="word-asc">单词 A-Z</option>
+                  <option value="word-desc">单词 Z-A</option>
+                </select>
+                <Button onClick={() => setShowAddForm(true)} className="shrink-0">
+                  <Plus className="h-4 w-4 mr-2" />
+                  添加单词
+                </Button>
               </div>
-              <select
-                className="border rounded px-3 py-2"
-                value={`${sortBy}-${sortOrder}`}
-                onChange={(e) => {
-                  const [field, order] = e.target.value.split('-')
-                  setSortBy(field)
-                  setSortOrder(order as 'asc' | 'desc')
-                }}
-              >
-                <option value="updatedAt-desc">最近更新</option>
-                <option value="updatedAt-asc">最早更新</option>
-                <option value="qualityScore-desc">质量分高到低</option>
-                <option value="qualityScore-asc">质量分低到高</option>
-                <option value="word-asc">单词 A-Z</option>
-                <option value="word-desc">单词 Z-A</option>
-              </select>
-              <Button onClick={() => setShowAddForm(true)}>
-                <Plus className="h-4 w-4 mr-2" />
-                添加单词
-              </Button>
             </div>
           </CardContent>
         </Card>
@@ -677,6 +682,7 @@ export default function PublicWordsPage() {
         )}
       </div>
     </div>
+    </AdminLayout>
   )
 }
 

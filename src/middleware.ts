@@ -29,6 +29,7 @@ const PUBLIC_PATHS = ['/site-config.json', '/auth/signin', '/api/auth', '/api/ca
 
 const ADMIN_PATHS = [
   '/analytics',
+  '/admin',
   '/users',
   '/llm-config',
   '/public-words',

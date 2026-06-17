@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import { useAdminCheck } from '@/hooks/useAdminCheck'
 
 export interface PaginationInfo {
@@ -44,17 +44,22 @@ export function useCrudTable<T extends { id: unknown }>(config: UseCrudTableConf
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set())
   const [isSelectionMode, setIsSelectionMode] = useState(false)
 
+  const buildUrlRef = useRef(buildUrl)
+  const parseResponseRef = useRef(parseResponse)
+  buildUrlRef.current = buildUrl
+  parseResponseRef.current = parseResponse
+
   const fetchData = useCallback(
     async (pageNum: number, query: string) => {
-      if (skipFetch || !buildUrl || !parseResponse) return
+      if (skipFetch || !buildUrlRef.current || !parseResponseRef.current) return
       setLoading(true)
       setError(null)
       try {
-        const url = buildUrl(pageNum, pageSize, query)
+        const url = buildUrlRef.current(pageNum, pageSize, query)
         const res = await fetch(url)
         const json = await res.json()
         if (json.success) {
-          const { data: items, pagination: pg, extra: xt } = parseResponse(json)
+          const { data: items, pagination: pg, extra: xt } = parseResponseRef.current(json)
           setData(items)
           setPagination(pg)
           if (xt !== undefined) setExtra(xt)
@@ -67,7 +72,7 @@ export function useCrudTable<T extends { id: unknown }>(config: UseCrudTableConf
         setLoading(false)
       }
     },
-    [buildUrl, parseResponse, pageSize, skipFetch],
+    [pageSize, skipFetch],
   )
 
   useEffect(() => {

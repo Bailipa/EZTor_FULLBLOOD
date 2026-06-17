@@ -23,8 +23,9 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog'
-import { Users, ArrowLeft, RefreshCw, Trash2 } from 'lucide-react'
+import { Users, RefreshCw, Trash2 } from 'lucide-react'
 import { toast } from 'sonner'
+import AdminLayout from '@/components/layout/AdminLayout'
 
 type UserRow = {
   id: string
@@ -130,15 +131,10 @@ export default function AdminUsersPage() {
   }
 
   return (
+    <AdminLayout>
     <div className="min-h-screen bg-background p-6 md:p-12">
       <div className="max-w-7xl mx-auto space-y-6">
         <div className="flex flex-wrap items-start gap-x-4 gap-y-3">
-          <Link href="/analytics">
-            <Button variant="outline" size="sm" className="shrink-0">
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              返回
-            </Button>
-          </Link>
           <div className="flex-1 min-w-[120px]" style={{ minWidth: 'max-content' }}>
             <h1 className="text-2xl font-bold flex items-center gap-2" style={{ whiteSpace: 'nowrap' }}>
               <Users className="w-6 h-6" />
@@ -261,5 +257,6 @@ export default function AdminUsersPage() {
         </AlertDialogContent>
       </AlertDialog>
     </div>
+    </AdminLayout>
   )
 }

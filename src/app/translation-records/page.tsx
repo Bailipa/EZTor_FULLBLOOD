@@ -20,6 +20,7 @@ import {
 import { usePageView } from '@/lib/analytics'
 import { useCrudTable } from '@/hooks/useCrudTable'
 import { useRouter } from 'next/navigation'
+import AdminLayout from '@/components/layout/AdminLayout'
 
 interface TranslationRecord {
   id: string
@@ -185,6 +186,7 @@ export default function TranslationRecordsPage() {
   if (!records) return null
 
   return (
+    <AdminLayout>
     <div className="min-h-screen bg-background p-6 md:p-12">
       <div className="max-w-7xl mx-auto space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -457,5 +459,6 @@ export default function TranslationRecordsPage() {
         )}
       </div>
     </div>
+    </AdminLayout>
   )
 }

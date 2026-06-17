@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Button } from '@/components/ui/button'
 import { Home, PenTool, BookOpen, MessageCircle, LogOut, ExternalLink, Trophy } from 'lucide-react'
+import type { LucideIcon } from 'lucide-react'
 import { ModeToggle } from '@/components/mode-toggle'
 import { DonationButton } from '@/components/home/DonationModal'
 import {
@@ -21,19 +22,40 @@ import {
 } from '@/components/ui/alert-dialog'
 import { useQQGroupUrl } from '@/lib/siteConfig'
 
-export default function AppSidebar() {
+export interface SidebarNavItem {
+  href: string
+  label: string
+  icon: LucideIcon
+}
+
+export interface SidebarBottomItem {
+  label: string
+  icon: LucideIcon
+  onClick: () => void
+  variant?: 'default' | 'destructive'
+}
+
+interface AppSidebarProps {
+  navItems?: SidebarNavItem[]
+  bottomItems?: SidebarBottomItem[]
+  showDonation?: boolean
+}
+
+const DEFAULT_NAV_ITEMS: SidebarNavItem[] = [
+  { href: '/', label: '首页', icon: Home },
+  { href: '/dictation', label: '默写复习', icon: PenTool },
+  { href: '/history', label: '生词本', icon: BookOpen },
+  { href: '/leaderboard', label: '排行榜', icon: Trophy },
+]
+
+export default function AppSidebar({ navItems, bottomItems, showDonation = true }: AppSidebarProps) {
   const pathname = usePathname()
   const router = useRouter()
   const qqGroupUrl = useQQGroupUrl()
 
-  const navItems = [
-    { href: '/', label: '首页', icon: Home },
-    { href: '/dictation', label: '默写复习', icon: PenTool },
-    { href: '/history', label: '生词本', icon: BookOpen },
-    { href: '/leaderboard', label: '排行榜', icon: Trophy },
-  ]
+  const items = navItems ?? DEFAULT_NAV_ITEMS
 
-  const bottomItems = [
+  const defaultBottomItems: SidebarBottomItem[] = [
     {
       label: '反馈',
       icon: MessageCircle,
@@ -46,6 +68,8 @@ export default function AppSidebar() {
     },
   ]
 
+  const bottoms = bottomItems ?? defaultBottomItems
+
   return (
     <aside className="hidden xl:flex xl:flex-col xl:fixed xl:left-0 xl:top-0 xl:w-[240px] xl:h-screen bg-sidebar border-r border-sidebar-border z-30">
       <div className="flex items-center gap-3 px-6 h-14 border-b border-sidebar-border shrink-0">
@@ -57,7 +81,7 @@ export default function AppSidebar() {
 
       <ScrollArea className="flex-1 px-3 py-4">
         <nav className="space-y-1">
-          {navItems.map((item) => {
+          {items.map((item) => {
             const Icon = item.icon
             const isActive = pathname === item.href
             return (
@@ -78,15 +102,19 @@ export default function AppSidebar() {
       <div className="px-3 py-4 border-t border-sidebar-border space-y-1 shrink-0">
         <div className="flex items-center gap-1 px-3 pb-1">
           <ModeToggle />
-          <DonationButton />
+          {showDonation && <DonationButton />}
         </div>
-        {bottomItems.map((item) => {
+        {bottoms.map((item) => {
           const Icon = item.icon
           return (
             <Button
               key={item.label}
               variant="ghost"
-              className="w-full justify-start gap-3 h-10 px-3 text-sm text-sidebar-foreground/70"
+              className={`w-full justify-start gap-3 h-10 px-3 text-sm ${
+                item.variant === 'destructive'
+                  ? 'text-destructive/70 hover:text-destructive'
+                  : 'text-sidebar-foreground/70'
+              }`}
               onClick={item.onClick}
             >
               <Icon className="w-4 h-4 shrink-0" />
