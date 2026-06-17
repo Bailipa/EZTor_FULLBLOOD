@@ -7,8 +7,8 @@ echo ""
 # 配置
 SERVER="root@114.55.58.90"
 SERVER_DIR="/www/wwwroot/114.55.58.90"
-SSH_PASS="Linux666"
-SSH_OPTS="-o StrictHostKeyChecking=no -o ConnectTimeout=30"
+SSH_KEY="${SSH_KEY:-$HOME/.ssh/id_ed25519_hardened}"
+SSH_OPTS="-i $SSH_KEY -o StrictHostKeyChecking=no -o ConnectTimeout=30"
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 cd "$SCRIPT_DIR"
@@ -37,16 +37,23 @@ tar -czf "$TARBALL" \
   --exclude='.env.local' \
   --exclude='.env.docker' \
   -C .next/standalone .
+
+# Append runtime-only modules that are loaded dynamically (not traced by @vercel/nft)
+if [ -d "node_modules/ipa-dict" ]; then
+  tar -rf "$TARBALL" -C node_modules ipa-dict
+  echo "  ✓ ipa-dict appended to tarball"
+fi
+
 echo "  ✓ Tarball: $TARBALL ($(ls -lh "$TARBALL" | awk '{print $5}'))"
 
 echo ""
 echo "[4/6] Uploading to server..."
-sshpass -p "$SSH_PASS" scp $SSH_OPTS "$TARBALL" "$SERVER:/tmp/"
+scp $SSH_OPTS "$TARBALL" "$SERVER:/tmp/"
 echo "  ✓ Uploaded to server"
 
 echo ""
 echo "[5/6] Deploying on server..."
-sshpass -p "$SSH_PASS" ssh $SSH_OPTS "$SERVER" << 'DEPLOY_EOF'
+ssh $SSH_OPTS "$SERVER" << 'DEPLOY_EOF'
 set -e
 
 SERVER_DIR="/www/wwwroot/114.55.58.90"
@@ -64,6 +71,13 @@ fi
 echo "  Extracting new version..."
 mkdir -p standalone
 tar -xzf /tmp/eztor-deploy-*.tar.gz -C standalone 2>/dev/null | grep -v "LIBARCHIVE.xattr" || true
+
+# Extract ipa-dict (appended to tarball as runtime-only module)
+if tar -tzf /tmp/eztor-deploy-*.tar.gz 2>/dev/null | grep -q '^ipa-dict/'; then
+  mkdir -p standalone/node_modules
+  tar -xzf /tmp/eztor-deploy-*.tar.gz -C standalone/node_modules ipa-dict 2>/dev/null
+  echo "  ✓ ipa-dict extracted to standalone/node_modules"
+fi
 echo "  ✓ Extracted"
 
 # Sync static files (nginx serves from .next/static)
@@ -110,7 +124,7 @@ DEPLOY_EOF
 echo ""
 echo "[6/6] Verifying deployment..."
 sleep 2
-BUILD_ID_CHECK=$(sshpass -p "$SSH_PASS" ssh $SSH_OPTS "$SERVER" "cat $SERVER_DIR/.next/standalone/BUILD_ID.txt" 2>/dev/null || echo "FAILED")
+BUILD_ID_CHECK=$(ssh $SSH_OPTS "$SERVER" "cat $SERVER_DIR/.next/standalone/BUILD_ID.txt" 2>/dev/null || echo "FAILED")
 if [ "$BUILD_ID_CHECK" = "$TIMESTAMP" ]; then
   echo "  ✓ BUILD_ID verified: $TIMESTAMP"
 else
@@ -118,11 +132,11 @@ else
 fi
 
 # Check PM2 status
-PM2_STATUS=$(sshpass -p "$SSH_PASS" ssh $SSH_OPTS "$SERVER" "pm2 list --no-color 2>/dev/null | grep cet4-web | head -1" || echo "FAILED")
+PM2_STATUS=$(ssh $SSH_OPTS "$SERVER" "pm2 list --no-color 2>/dev/null | grep cet4-web | head -1" || echo "FAILED")
 echo "  PM2 status: $PM2_STATUS"
 
 # Check server response
-HTTP_STATUS=$(sshpass -p "$SSH_PASS" ssh $SSH_OPTS "$SERVER" "curl -s -o /dev/null -w '%{http_code}' http://localhost:3000/ 2>/dev/null || echo 'FAILED'")
+HTTP_STATUS=$(ssh $SSH_OPTS "$SERVER" "curl -s -o /dev/null -w '%{http_code}' http://localhost:3000/ 2>/dev/null || echo 'FAILED'")
 echo "  HTTP status: $HTTP_STATUS"
 
 echo ""
@@ -131,7 +145,7 @@ echo "BUILD_ID: $TIMESTAMP"
 echo "Server: https://eztor.dogeggcode.cyou"
 echo ""
 echo "Rollback (if needed):"
-echo "  sshpass -p '$SSH_PASS' ssh $SSH_OPTS $SERVER"
+echo "  ssh $SSH_OPTS $SERVER"
 echo "  cd $SERVER_DIR/.next"
 echo "  mv standalone standalone.failed"
 echo "  mv standalone.bak.* standalone"
