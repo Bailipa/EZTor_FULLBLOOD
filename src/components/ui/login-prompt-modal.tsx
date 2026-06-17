@@ -48,6 +48,12 @@ export function LoginPromptModal({ isOpen, onClose, featureName }: LoginPromptMo
             <span className="block text-sm text-muted-foreground">
               💡 登录无需手机号，只需设置用户名和密码即可。
             </span>
+            <a
+              href="/flywheel-preview.html"
+              className="inline-block text-sm text-primary hover:underline underline-offset-2"
+            >
+              先看看功能 →
+            </a>
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter className="flex-col sm:flex-row gap-2">

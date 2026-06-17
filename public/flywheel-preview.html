@@ -23,13 +23,12 @@ html,body{height:100%;font-family:var(--font);-webkit-font-smoothing:antialiased
 
 .snap{scroll-snap-align:start;height:100dvh;display:flex;flex-direction:column;position:relative;overflow:hidden}
 
-/* Close */
-
-
 /* Dots */
 .dots{position:fixed;right:10px;top:50%;transform:translateY(-50%);z-index:100;display:flex;flex-direction:column;gap:8px}
 .dots button{width:5px;height:5px;border-radius:50%;border:none;background:var(--border);cursor:pointer;padding:0;transition:all .35s}
 .dots button.act{background:var(--p);width:8px;height:8px;box-shadow:0 0 8px rgba(107,92,231,.35)}
+.dots.dark-dots button{background:rgba(255,255,255,.2)}
+.dots.dark-dots button.act{background:#ff00ff;box-shadow:0 0 8px rgba(255,0,255,.5)}
 
 /* Decorative blobs */
 .blob{position:absolute;border-radius:50%;pointer-events:none;opacity:.5;filter:blur(60px)}
@@ -126,6 +125,90 @@ html,body{height:100%;font-family:var(--font);-webkit-font-smoothing:antialiased
 
 .f-bot{display:flex;flex-direction:column;align-items:center;gap:2px;color:var(--caption);font-size:12px;margin-top:auto;padding:8px 0 4px;flex-shrink:0}
 
+/* ============ DARK SLIDES ============ */
+.dark-slide{background:linear-gradient(135deg,#0a0a0a 0%,#1a0a2e 25%,#0a1a2e 50%,#0a0a0a 100%);background-size:400% 400%;animation:bg-shift 15s ease infinite;padding:0;justify-content:center;align-items:center}
+@keyframes bg-shift{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+
+.dark-inner{width:100%;max-width:380px;margin:0 auto;padding:48px 20px 20px;display:flex;flex-direction:column;align-items:center;gap:20px;position:relative;z-index:2}
+
+.dark-head{text-align:center}
+.dark-head .fi{font-size:32px;margin-bottom:4px}
+.dark-head h2{font-size:22px;font-weight:800;color:#fff;letter-spacing:-.02em}
+.dark-head p{font-size:13px;color:rgba(255,255,255,.5);margin-top:4px}
+
+/* Glitch title */
+.glitch-title{position:relative;font-size:2rem;font-weight:900;letter-spacing:.15em;background:linear-gradient(90deg,#ff0000,#ff7700,#ffff00,#00ff00,#00ffff,#0077ff,#ff00ff,#ff0000);background-size:200% auto;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:rainbow-shift 3s linear infinite}
+.glitch-title::before,.glitch-title::after{content:attr(data-text);position:absolute;top:0;left:0;width:100%;height:100%;background:inherit;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.glitch-title::before{left:3px;text-shadow:-3px 0 rgba(255,0,255,.7);clip-path:inset(0 0 65% 0);animation:glitch-anim 2.5s infinite linear alternate-reverse}
+.glitch-title::after{left:-3px;text-shadow:3px 0 rgba(0,255,255,.7);clip-path:inset(35% 0 0 0);animation:glitch-anim 2.5s infinite linear alternate-reverse reverse}
+@keyframes glitch-anim{0%{clip-path:inset(20% 0 60% 0)}20%{clip-path:inset(55% 0 20% 0)}40%{clip-path:inset(10% 0 70% 0)}60%{clip-path:inset(80% 0 5% 0)}80%{clip-path:inset(30% 0 40% 0)}100%{clip-path:inset(65% 0 10% 0)}}
+@keyframes rainbow-shift{to{background-position:200% center}}
+
+/* Yali mascot */
+.yali-container{opacity:0}
+.yali-container.entered{animation:yali-enter 0.8s cubic-bezier(.34,1.56,.64,1) forwards,yali-breathe 3s ease-in-out .8s infinite}
+.yali-img{width:120px;height:120px;object-fit:contain;filter:drop-shadow(0 0 20px rgba(255,200,0,.4)) drop-shadow(0 0 40px rgba(255,100,0,.2))}
+@keyframes yali-enter{0%{transform:scale(0) rotate(-180deg);opacity:0}60%{transform:scale(1.3) rotate(15deg);opacity:1}80%{transform:scale(.9) rotate(-8deg)}100%{transform:scale(1) rotate(0deg);opacity:1}}
+@keyframes yali-breathe{0%,100%{transform:scale(1) translateY(0)}50%{transform:scale(1.06) translateY(-10px)}}
+
+/* Neon nickname */
+.neon-nickname{font-size:1.5rem;font-weight:700;color:#fff;text-shadow:0 0 7px #fff,0 0 10px #fff,0 0 21px #fff,0 0 42px #ff00ff,0 0 82px #ff00ff,0 0 92px #ff00ff;opacity:0}
+.neon-nickname.entered{animation:nickname-enter .5s ease-out forwards,tremble .15s ease-in-out .8s 3}
+@keyframes nickname-enter{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
+@keyframes tremble{0%,100%{transform:translateX(0)}25%{transform:translateX(-3px) rotate(-1deg)}75%{transform:translateX(3px) rotate(1deg)}}
+
+/* Stat cards */
+.stat-card{opacity:0;transform:translateY(40px) scale(.8)}
+.stat-card.entered{animation:card-enter .4s cubic-bezier(.34,1.56,.64,1) forwards}
+@keyframes card-enter{0%{transform:translateY(40px) scale(.8);opacity:0}60%{transform:translateY(-8px) scale(1.05);opacity:1}100%{transform:translateY(0) scale(1);opacity:1}}
+
+.stat-number{display:inline-block;font-size:2.25rem;font-weight:900;background:linear-gradient(135deg,#ff0000,#ff7700,#ffff00,#00ff00,#00ffff);background-size:300% 300%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:rainbow-shift 4s ease infinite}
+.stat-number.pop{animation:rainbow-shift 4s ease infinite,count-pop .4s cubic-bezier(.34,1.56,.64,1)}
+@keyframes count-pop{0%{transform:scale(2);opacity:0}40%{transform:scale(.85);opacity:1}70%{transform:scale(1.1)}100%{transform:scale(1)}}
+
+.stat-icon{display:inline-block;animation:spin-pulse 2s ease-in-out infinite}
+@keyframes spin-pulse{0%,100%{transform:rotate(0deg) scale(1)}25%{transform:rotate(15deg) scale(1.2)}50%{transform:rotate(0deg) scale(1)}75%{transform:rotate(-15deg) scale(1.2)}}
+
+.screen-shake{animation:shake .3s ease-in-out}
+@keyframes shake{0%,100%{transform:translate(0,0) rotate(0deg)}10%{transform:translate(-8px,-4px) rotate(-1deg)}20%{transform:translate(8px,4px) rotate(1deg)}30%{transform:translate(-6px,2px) rotate(-.5deg)}40%{transform:translate(6px,-2px) rotate(.5deg)}50%{transform:translate(-4px,4px) rotate(0deg)}60%{transform:translate(4px,-4px) rotate(.5deg)}70%{transform:translate(-2px,2px) rotate(-.5deg)}80%{transform:translate(2px,-2px) rotate(0deg)}90%{transform:translate(-1px,1px) rotate(0deg)}}
+
+/* Neon CTA button */
+.neon-btn{position:relative;font-weight:700;letter-spacing:.05em;border:2px solid transparent;background-origin:border-box;background-clip:padding-box,border-box;animation:neon-border 3s ease-in-out infinite;opacity:0;transform:translateY(30px);transition:transform .2s,box-shadow .2s;cursor:pointer;pointer-events:auto}
+.neon-btn.entered{animation:neon-border 3s ease-in-out infinite,cta-enter .5s ease-out forwards}
+.neon-btn:hover{animation:neon-border 3s ease-in-out infinite,btn-shake .3s ease-in-out infinite;box-shadow:0 0 15px rgba(255,0,255,.4),0 0 30px rgba(0,255,255,.2)}
+.neon-btn:active{transform:scale(.95)}
+@keyframes neon-border{0%,100%{box-shadow:0 0 5px rgba(255,0,255,.3),0 0 10px rgba(0,255,255,.1)}50%{box-shadow:0 0 15px rgba(255,0,255,.5),0 0 30px rgba(0,255,255,.3),0 0 45px rgba(255,0,255,.1)}}
+@keyframes cta-enter{from{transform:translateY(30px);opacity:0}to{transform:translateY(0);opacity:1}}
+@keyframes btn-shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-2px)}75%{transform:translateX(2px)}}
+
+/* Leaderboard mock */
+.lb-card{width:100%;border-radius:16px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);backdrop-filter:blur(8px);overflow:hidden}
+.lb-card-h{padding:12px 16px;border-bottom:1px solid rgba(255,255,255,.08);display:flex;align-items:center;gap:8px}
+.lb-card-h .zone-name{font-size:14px;font-weight:700;color:#fff}
+.lb-card-h .zone-badge{font-size:11px;color:rgba(255,255,255,.5);background:rgba(255,255,255,.08);padding:2px 10px;border-radius:12px;margin-left:auto}
+.lb-row{display:flex;align-items:center;gap:10px;padding:10px 16px;border-bottom:1px solid rgba(255,255,255,.05)}
+.lb-row:last-child{border-bottom:none}
+.lb-rank{font-size:18px;width:28px;text-align:center;flex-shrink:0}
+.lb-name{font-size:14px;font-weight:600;color:#fff;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lb-title-tag{font-size:11px;padding:2px 8px;border-radius:8px;font-weight:600;flex-shrink:0}
+.lb-title-tag.gold{background:rgba(255,200,0,.15);color:#FFD700;border:1px solid rgba(255,200,0,.3)}
+.lb-title-tag.silver{background:rgba(192,192,255,.1);color:#C0C0FF;border:1px solid rgba(192,192,255,.2)}
+.lb-title-tag.bronze{background:rgba(205,127,50,.1);color:#CD7F32;border:1px solid rgba(205,127,50,.2)}
+.lb-power{font-size:13px;color:rgba(255,255,255,.6);flex-shrink:0}
+.lb-power strong{color:#A78BFA;font-weight:700}
+
+.title-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%}
+.title-item{padding:10px;border-radius:12px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);text-align:center}
+.title-item .emoji{font-size:20px;display:block;margin-bottom:4px}
+.title-item .tname{font-size:13px;font-weight:700;color:#fff}
+.title-item .tdesc{font-size:11px;color:rgba(255,255,255,.4);margin-top:2px}
+
+.dark-tags{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
+.dark-tags span{font-size:12px;color:rgba(255,255,255,.4);border:1px solid rgba(255,255,255,.1);padding:4px 12px;border-radius:16px;background:rgba(255,255,255,.03)}
+
+/* Confetti mini */
+.confetti-dot{position:absolute;width:6px;height:6px;border-radius:50%;pointer-events:none;opacity:0}
+
 /* ============ CTA ============ */
 .cta{background:linear-gradient(165deg,#F5F5F7 0%,#F0EDFF 100%);justify-content:center;align-items:center;padding:0 20px}
 .cta .blob1{width:240px;height:240px;background:rgba(107,92,231,.1);top:-100px;right:-80px}
@@ -149,6 +232,7 @@ html,body{height:100%;font-family:var(--font);-webkit-font-smoothing:antialiased
   .fw{width:220px;height:220px}
   .feat-inner{max-width:420px}
   .cta h2{font-size:32px}
+  .glitch-title{font-size:2.5rem}
 }
 </style>
 </head>
@@ -164,6 +248,7 @@ html,body{height:100%;font-family:var(--font);-webkit-font-smoothing:antialiased
     <button data-idx="5"></button>
     <button data-idx="6"></button>
     <button data-idx="7"></button>
+    <button data-idx="8"></button>
   </div>
 
   <div class="scroll" id="scroll">
@@ -188,11 +273,10 @@ html,body{height:100%;font-family:var(--font);-webkit-font-smoothing:antialiased
         </div>
         <div class="hero-tag">
           <span>AI 翻译</span>
-          <span>例句解析</span>
-          <span>Translate Only</span>
           <span>弹幕复习</span>
-          <span>当然</span>
+          <span>学区排名</span>
           <span>四六级词库</span>
+          <span>分享成就</span>
         </div>
         <div class="hero-swipe">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 13l5 5 5-5M7 6l5 5 5-5"/></svg>
@@ -247,7 +331,7 @@ html,body{height:100%;font-family:var(--font);-webkit-font-smoothing:antialiased
       </div>
     </div>
 
-    <!-- ===== 3: AI 智能查词（含结果） ===== -->
+    <!-- ===== 3: AI 智能查词 ===== -->
     <div class="snap feat">
       <div class="feat-inner">
         <div class="feat-head">
@@ -266,27 +350,26 @@ html,body{height:100%;font-family:var(--font);-webkit-font-smoothing:antialiased
             <div class="fta" style="font-size:13px;padding:8px 12px;min-height:48px"><span class="dim">apple</span><br><span class="dim">inevitable</span><br><span class="dim">take for granted</span></div>
             <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;min-width:0">
               <span class="fbt" data-btn="parse" style="flex-shrink:0">🔍 一键解析</span>
-              <span class="note" style="font-size:12px"></span>
             </div>
             <div style="display:flex;flex-direction:column;gap:8px;margin-top:4px">
               <div class="fr">
                 <div class="fr-b"></div>
                 <div class="fr-bd">
-                  <div class="fr-w"><span class="w">apple</span><span class="ph">/ˈæp.əl/</span><span class="so pulse-el"> </span></div>
+                  <div class="fr-w"><span class="w">apple</span><span class="ph">/ˈæp.əl/</span><span class="so pulse-el">🔊</span></div>
                   <div class="fr-pos"><span class="tag">noun</span><span class="tr">苹果；苹果树</span></div>
                 </div>
               </div>
               <div class="fr">
                 <div class="fr-b"></div>
                 <div class="fr-bd">
-                  <div class="fr-w"><span class="w">inevitable</span><span class="ph">/ɪˈnevɪtəbl/</span><span class="so pulse-el"> </span></div>
+                  <div class="fr-w"><span class="w">inevitable</span><span class="ph">/ɪˈnevɪtəbl/</span><span class="so pulse-el">🔊</span></div>
                   <div class="fr-pos"><span class="tag">adj.</span><span class="tr">不可避免的；必然的</span></div>
                 </div>
               </div>
               <div class="fr">
                 <div class="fr-b"></div>
                 <div class="fr-bd">
-                  <div class="fr-w"><span class="w">take for granted</span><span class="ph">/teɪk fɔːr ˈɡræntɪd/</span><span class="so pulse-el"> </span></div>
+                  <div class="fr-w"><span class="w">take for granted</span><span class="ph">/teɪk fɔːr ˈɡræntɪd/</span><span class="so pulse-el">🔊</span></div>
                   <div class="fr-pos"><span class="tag">phrase</span><span class="tr">认为…理所当然</span></div>
                 </div>
               </div>
@@ -301,7 +384,7 @@ html,body{height:100%;font-family:var(--font);-webkit-font-smoothing:antialiased
       </div>
     </div>
 
-    <!-- ===== 3: 默写 ===== -->
+    <!-- ===== 4: 默写 ===== -->
     <div class="snap feat">
       <div class="feat-inner">
         <div class="feat-head">
@@ -312,35 +395,30 @@ html,body{height:100%;font-family:var(--font);-webkit-font-smoothing:antialiased
         <div class="c">
           <div class="c-h" style="gap:4px">
             <span class="tag-pill act" style="font-size:12px;padding:3px 12px;border-radius:16px" data-btn="tab">综合默写</span>
-            <span class="interactive" style="margin-left:auto;font-size:14px" title="静音" data-btn="mute"> </span>
+            <span class="interactive" style="margin-left:auto;font-size:14px" title="静音" data-btn="mute">🔇</span>
           </div>
           <div class="c-desc">根据中文释义默写英文，自动判分</div>
           <div class="c-body" style="display:flex;flex-direction:column;gap:6px">
-            <!-- progress -->
             <div style="display:flex;align-items:center;gap:8px">
               <div style="flex:1;height:4px;background:#e5e7eb;border-radius:2px;overflow:hidden">
                 <div style="width:40%;height:100%;background:var(--p);border-radius:2px"></div>
               </div>
               <span style="font-size:12px;color:var(--caption);white-space:nowrap">4/10 · 得分 3</span>
             </div>
-            <!-- word display -->
             <div style="text-align:center;padding:4px 0">
               <div style="font-size:13px;color:var(--p);font-weight:500;margin-bottom:2px">请写出以下单词的英文：</div>
               <div class="dict-cn" style="font-size:26px;font-weight:700;color:#1f2937">不可避免的</div>
-              
             </div>
-            <!-- answer area with diff -->
             <div style="background:#f9fafb;border-radius:10px;padding:10px 12px">
               <div style="font-size:13px;color:var(--caption);margin-bottom:4px">你的输入:</div>
               <div style="font-family:monospace;font-size:17px;padding:6px 10px;background:#fef2f2;border:1px solid #fecaca;border-radius:8px;color:#991b1b">
-                inevi<span style="color:#dc2626;font-weight:700">tible</span>
+                inevi<span style="color:#dc2626;font-weight:700">tble</span>
               </div>
               <div style="font-size:13px;color:var(--caption);margin-top:6px;margin-bottom:4px">正确答案:</div>
               <div style="font-family:monospace;font-size:17px;padding:6px 10px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;color:#166534">
                 inevi<span style="color:#16a34a;font-weight:700">table</span>
               </div>
             </div>
-            <!-- nav -->
           </div>
         </div>
         <div class="f-bot">
@@ -350,39 +428,35 @@ html,body{height:100%;font-family:var(--font);-webkit-font-smoothing:antialiased
       </div>
     </div>
 
-    <!-- ===== 4: 弹幕 ===== -->
+    <!-- ===== 5: 弹幕 + 当然 (合并) ===== -->
     <div class="snap feat">
       <div class="feat-inner">
         <div class="feat-head">
           <div class="fi">🎬</div>
-          <h2>弹幕复习</h2>
-          <p>像看弹幕一样复习单词，轻松又高效</p>
+          <h2>弹幕 · 当然</h2>
+          <p>弹幕复习 + 闪卡浏览，碎片时间轻松巩固</p>
         </div>
+        <!-- 弹幕 -->
         <div class="c">
           <div class="c-h">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
             <h3>弹幕复习</h3>
             <span style="font-size:12px;color:var(--p);background:rgba(107,92,231,.1);padding:3px 12px;border-radius:20px;font-weight:500;margin-left:auto">边看边记</span>
           </div>
-          <div class="c-desc">单词从右向左飞过屏幕，翻译紧随其后，碎片时间轻松巩固</div>
           <div class="c-body">
-            <div style="position:relative;background:linear-gradient(135deg,#1E1B4B,#0F172A);border-radius:14px;height:140px;overflow:hidden;display:flex;align-items:center;justify-content:center">
+            <div style="position:relative;background:linear-gradient(135deg,#1E1B4B,#0F172A);border-radius:14px;height:120px;overflow:hidden;display:flex;align-items:center;justify-content:center">
               <div style="position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 13px,rgba(255,255,255,.03) 13px,rgba(255,255,255,.03) 14px)"></div>
-              <div class="dm" style="position:absolute;white-space:nowrap;padding:6px 16px;border-radius:20px;background:rgba(255,255,255,.15);backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;gap:10px;animation:dm1 5s linear infinite;top:18px">
+              <div class="dm" style="position:absolute;white-space:nowrap;padding:6px 16px;border-radius:20px;background:rgba(255,255,255,.15);backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;gap:10px;animation:dm1 5s linear infinite;top:12px">
                 <span style="font-weight:700;font-size:14px;color:#fff">inevitable</span>
                 <span style="font-size:13px;color:rgba(255,255,255,.7)">不可避免的</span>
               </div>
-              <div class="dm" style="position:absolute;white-space:nowrap;padding:6px 16px;border-radius:20px;background:rgba(255,255,255,.12);backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,.08);display:flex;align-items:center;gap:10px;animation:dm2 7s linear infinite;top:52px">
+              <div class="dm" style="position:absolute;white-space:nowrap;padding:6px 16px;border-radius:20px;background:rgba(255,255,255,.12);backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,.08);display:flex;align-items:center;gap:10px;animation:dm2 7s linear infinite;top:46px">
                 <span style="font-weight:700;font-size:14px;color:#fff">take for granted</span>
                 <span style="font-size:13px;color:rgba(255,255,255,.7)">认为理所当然</span>
               </div>
-              <div class="dm" style="position:absolute;white-space:nowrap;padding:6px 16px;border-radius:20px;background:rgba(255,255,255,.1);backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,.06);display:flex;align-items:center;gap:10px;animation:dm3 6.5s linear infinite;top:86px">
+              <div class="dm" style="position:absolute;white-space:nowrap;padding:6px 16px;border-radius:20px;background:rgba(255,255,255,.1);backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,.06);display:flex;align-items:center;gap:10px;animation:dm3 6.5s linear infinite;top:80px">
                 <span style="font-weight:700;font-size:14px;color:#fff">apple</span>
                 <span style="font-size:13px;color:rgba(255,255,255,.7)">苹果</span>
-              </div>
-              <div class="dm" style="position:absolute;white-space:nowrap;padding:6px 16px;border-radius:20px;background:rgba(255,255,255,.13);backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,.08);display:flex;align-items:center;gap:10px;animation:dm4 4s linear infinite;top:110px">
-                <span style="font-weight:700;font-size:13px;color:#fff">persistent</span>
-                <span style="font-size:12px;color:rgba(255,255,255,.7)">持久的</span>
               </div>
               <div style="position:relative;z-index:1;font-size:12px;color:rgba(255,255,255,.25);text-align:center;letter-spacing:.1em">
                 <span>▶ 弹幕播放中</span>
@@ -393,49 +467,27 @@ html,body{height:100%;font-family:var(--font);-webkit-font-smoothing:antialiased
             @keyframes dm1{0%{transform:translateX(420px)}100%{transform:translateX(-320px)}}
             @keyframes dm2{0%{transform:translateX(360px)}100%{transform:translateX(-380px)}}
             @keyframes dm3{0%{transform:translateX(440px)}100%{transform:translateX(-300px)}}
-            @keyframes dm4{0%{transform:translateX(380px)}100%{transform:translateX(-340px)}}
           </style>
-          <div class="fb">
-            <span class="note">一键开启 · 自动轮播</span>
-            <span class="fbt" data-btn="danmaku">🎬 开启弹幕复习</span>
-          </div>
         </div>
-        <div class="f-bot">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 13l5 5 5-5M7 6l5 5 5-5"/></svg>
-          <span>继续</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- ===== 6: 当然 (Flashcard) ===== -->
-    <div class="snap feat">
-      <div class="feat-inner">
-        <div class="feat-head">
-          <div class="fi">🧠</div>
-          <h2>当然</h2>
-          <p>闪卡复习 · 不认识标记 · 智能轮播</p>
-        </div>
+        <!-- 当然 -->
         <div class="c">
           <div class="c-h">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
             <h3>当然</h3>
             <span class="fusg w" style="margin-left:auto">公共词库</span>
           </div>
-          <div class="c-desc">浏览单词，点击显示释义，标记认识/不认识。</div>
-          <div class="c-body tc" style="padding:16px 14px;min-width:0">
+          <div class="c-body" style="padding:14px;min-width:0">
             <div style="display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;min-width:0">
-              <span style="font-size:28px;font-weight:700;color:#1f2937;letter-spacing:-.3px;overflow-wrap:break-word;word-break:break-word">phenomenon</span>
+              <span style="font-size:26px;font-weight:700;color:#1f2937;letter-spacing:-.3px">phenomenon</span>
             </div>
-            
-            <div style="margin-top:12px;padding-top:12px;border-top:1px solid #e5e7eb;width:100%">
-              <div style="font-size:15px;color:#374151;font-weight:500;margin-bottom:6px">n. 现象</div>
-              <div style="font-size:13px;color:#6b7280;font-style:italic;background:#f9fafb;padding:8px 12px;border-radius:8px;margin-top:4px">"The phenomenon of social media has changed how we communicate."</div>
-              <div style="font-size:13px;color:#9ca3af;margin-top:4px">社交媒体现象改变了我们沟通的方式。</div>
+            <div style="margin-top:10px;padding-top:10px;border-top:1px solid #e5e7eb;width:100%">
+              <div style="font-size:14px;color:#374151;font-weight:500">n. 现象</div>
+              <div style="font-size:12px;color:#6b7280;font-style:italic;background:#f9fafb;padding:6px 10px;border-radius:8px;margin-top:4px">"The phenomenon of social media has changed how we communicate."</div>
             </div>
           </div>
           <div class="fb" style="gap:4px">
-            <span class="fbt" style="flex:1;text-align:center;background:var(--p);color:#fff" data-btn="know">认识 ✅</span>
-            <span class="fbt-out" style="flex:1;text-align:center;padding:0 16px;border-radius:10px;height:32px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600" data-btn="dontknow">不认识 ❌</span>
+            <span class="fbt" style="flex:1;text-align:center;font-size:12px;height:32px" data-btn="know">认识 ✅</span>
+            <span class="fbt-out" style="flex:1;text-align:center;font-size:12px;height:32px" data-btn="dontknow">不认识 ❌</span>
           </div>
         </div>
         <div class="f-bot">
@@ -445,7 +497,7 @@ html,body{height:100%;font-family:var(--font);-webkit-font-smoothing:antialiased
       </div>
     </div>
 
-    <!-- ===== 7: Translate Only ===== -->
+    <!-- ===== 6: Translate Only ===== -->
     <div class="snap feat">
       <div class="feat-inner">
         <div class="feat-head">
@@ -465,8 +517,6 @@ html,body{height:100%;font-family:var(--font);-webkit-font-smoothing:antialiased
               <div style="font-size:12px;color:var(--caption);margin-bottom:3px">翻译结果</div>
               <div style="font-size:14px;color:#166534;font-weight:500;overflow-wrap:break-word;word-break:break-word">Artificial intelligence is changing the way we learn and work.</div>
             </div>
-            <div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;min-width:0">
-            </div>
           </div>
           <div class="fb"><span class="note"></span><span class="fbt" data-btn="start-trans">开始翻译</span></div>
         </div>
@@ -477,13 +527,134 @@ html,body{height:100%;font-family:var(--font);-webkit-font-smoothing:antialiased
       </div>
     </div>
 
-    <!-- ===== 8: CTA ===== -->
+    <!-- ===== 7: 学区 · 称号 · 排行榜 (Dark) ===== -->
+    <div class="snap dark-slide" id="slide-7">
+      <div class="dark-inner">
+        <div class="dark-head">
+          <div class="fi">🏆</div>
+          <h2>学区 · 称号 · 排行榜</h2>
+          <p>每月重置 · 学力竞争 · 称号升级</p>
+        </div>
+
+        <!-- 排行榜 mock -->
+        <div class="lb-card">
+          <div class="lb-card-h">
+            <span style="font-size:16px">🏫</span>
+            <span class="zone-name">第 1 学区</span>
+            <span class="zone-badge">50/50 人</span>
+          </div>
+          <div class="lb-row">
+            <span class="lb-rank">🥇</span>
+            <span class="lb-name">词霸小王</span>
+            <span class="lb-title-tag gold">英帝</span>
+            <span class="lb-power"><strong>1,280</strong> 学力</span>
+          </div>
+          <div class="lb-row">
+            <span class="lb-rank">🥈</span>
+            <span class="lb-name">四六级战士</span>
+            <span class="lb-title-tag silver">超英</span>
+            <span class="lb-power"><strong>960</strong> 学力</span>
+          </div>
+          <div class="lb-row">
+            <span class="lb-rank">🥉</span>
+            <span class="lb-name">学习达人</span>
+            <span class="lb-title-tag bronze">初英</span>
+            <span class="lb-power"><strong>520</strong> 学力</span>
+          </div>
+        </div>
+
+        <!-- 称号等级 -->
+        <div class="title-grid">
+          <div class="title-item">
+            <span class="emoji">👑</span>
+            <div class="tname">英帝</div>
+            <div class="tdesc">第 1 名可自定义</div>
+          </div>
+          <div class="title-item">
+            <span class="emoji">⚡</span>
+            <div class="tname">超英</div>
+            <div class="tdesc">第 2 名自动获得</div>
+          </div>
+          <div class="title-item">
+            <span class="emoji">🌟</span>
+            <div class="tname">初英</div>
+            <div class="tdesc">第 3 名自动获得</div>
+          </div>
+          <div class="title-item">
+            <span class="emoji">📖</span>
+            <div class="tname">小英</div>
+            <div class="tdesc">默认称号</div>
+          </div>
+        </div>
+
+        <div class="dark-tags">
+          <span>每月重置</span>
+          <span>学区排名</span>
+          <span>称号自定义</span>
+        </div>
+
+        <div class="f-bot" style="color:rgba(255,255,255,.3)">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 13l5 5 5-5M7 6l5 5 5-5"/></svg>
+          <span>继续</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== 8: 分享 · 鬼畜落地页 (Dark) ===== -->
+    <div class="snap dark-slide" id="slide-8">
+      <div class="dark-inner" id="share-inner">
+        <h1 class="glitch-title" data-text="学习成果报告" style="font-size:1.6rem;margin-bottom:4px">学习成果报告</h1>
+
+        <div class="yali-container" id="yali">
+          <img src="/yali.png" alt="yali" class="yali-img">
+        </div>
+
+        <p class="neon-nickname" id="nickname">学霸小明的学习成就</p>
+
+        <!-- Stat cards -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%" id="stat-grid">
+          <div class="stat-card" data-idx="0" style="padding:14px;border-radius:14px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);text-align:center">
+            <div class="stat-icon" style="font-size:24px;margin-bottom:4px">⚡</div>
+            <div class="stat-number" data-target="520">0</div>
+            <div style="font-size:12px;color:rgba(255,255,255,.4);margin-top:2px">学力</div>
+          </div>
+          <div class="stat-card" data-idx="1" style="padding:14px;border-radius:14px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);text-align:center">
+            <div class="stat-icon" style="font-size:24px;margin-bottom:4px">🏆</div>
+            <div class="stat-number" data-target="3">0</div>
+            <div style="font-size:12px;color:rgba(255,255,255,.4);margin-top:2px">学区排名</div>
+          </div>
+          <div class="stat-card" data-idx="2" style="padding:14px;border-radius:14px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);text-align:center">
+            <div class="stat-icon" style="font-size:24px;margin-bottom:4px">🔥</div>
+            <div class="stat-number" data-target="15">0</div>
+            <div style="font-size:12px;color:rgba(255,255,255,.4);margin-top:2px">连续打卡</div>
+          </div>
+          <div class="stat-card" data-idx="3" style="padding:14px;border-radius:14px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);text-align:center">
+            <div class="stat-icon" style="font-size:24px;margin-bottom:4px">📖</div>
+            <div class="stat-number" data-target="1200">0</div>
+            <div style="font-size:12px;color:rgba(255,255,255,.4);margin-top:2px">已入库单词</div>
+          </div>
+        </div>
+
+        <!-- Neon CTA -->
+        <a class="neon-btn" id="share-cta" href="/auth/signin" style="display:flex;align-items:center;justify-content:center;gap:8px;height:48px;border-radius:14px;font-size:15px;color:#fff;text-decoration:none;background:linear-gradient(135deg,rgba(255,0,255,.2),rgba(0,255,255,.2));border:1px solid rgba(255,255,255,.15);width:100%;max-width:280px">
+          立即体验 EZTor
+        </a>
+
+        <div class="f-bot" style="color:rgba(255,255,255,.3)">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 13l5 5 5-5M7 6l5 5 5-5"/></svg>
+          <span>继续</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== 9: CTA ===== -->
     <div class="snap cta">
       <div class="blob blob1"></div>
       <div class="blob blob2"></div>
       <div class="cta-inner">
         <div class="cta-badge">无需手机号</div>
         <h2>准备好了吗？</h2>
+        <p>查词 · 默写 · 排行榜 · 分享成就</p>
         <div class="cta-btns">
           <a class="xiaoying-btn" href="https://eztor.dogeggcode.cyou/api/auth/xiaoying/start"><img src="/xiaoying-icon.svg" alt="" style="width:24px;height:24px"><span>使用小应账号快捷登录</span></a>
           <a class="cta-btn gh" href="/?skip-preview=1">受限模式 · 先逛逛</a>
@@ -495,75 +666,122 @@ html,body{height:100%;font-family:var(--font);-webkit-font-smoothing:antialiased
   </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
 <script>
 (function(){
-  var o=document.getElementById('overlay'),s=document.getElementById('scroll'),dt=document.querySelectorAll('#dots button')
+  var o=document.getElementById('overlay'),s=document.getElementById('scroll'),dt=document.querySelectorAll('#dots button'),dotsWrap=document.getElementById('dots')
   o.classList.add('open')
-  function up(){var ss=s.querySelectorAll('.snap'),idx=0;ss.forEach(function(s,i){var r=s.getBoundingClientRect();if(r.top+r.height/2>0&&r.top+r.height/2<window.innerHeight)idx=i});dt.forEach(function(d,i){d.classList.toggle('act',i===idx)})}
+
+  // Track which slides have been animated
+  var animated={slide7:false,slide8:false}
+
+  function up(){
+    var ss=s.querySelectorAll('.snap'),idx=0
+    ss.forEach(function(s,i){var r=s.getBoundingClientRect();if(r.top+r.height/2>0&&r.top+r.height/2<window.innerHeight)idx=i})
+    dt.forEach(function(d,i){d.classList.toggle('act',i===idx)})
+    // Toggle dots color for dark slides
+    var cur=ss[idx]
+    if(cur&&(cur.id==='slide-7'||cur.id==='slide-8')){
+      dotsWrap.classList.add('dark-dots')
+    }else{
+      dotsWrap.classList.remove('dark-dots')
+    }
+    // Trigger slide 7 animations
+    if(idx===6&&!animated.slide7){animated.slide7=true;animateSlide7()}
+    // Trigger slide 8 animations
+    if(idx===7&&!animated.slide8){animated.slide8=true;animateSlide8()}
+  }
   s.addEventListener('scroll',up);up()
   dt.forEach(function(d){d.addEventListener('click',function(){var idx=parseInt(d.getAttribute('data-idx'));var t=s.querySelectorAll('.snap')[idx];if(t)t.scrollIntoView({behavior:'smooth'})})})
   function dv(){document.documentElement.style.setProperty('--dvh',window.innerHeight+'px')}
   dv();window.addEventListener('resize',dv)
 
-  // -- btn interactions: static realistic toggles --
+  // -- btn interactions --
   function $q(sel){return document.querySelectorAll(sel)}
   function on(els,ev,fn){els.forEach(function(e){e.addEventListener(ev,fn)})}
 
-  // 一键解析: one-way toggle
-  on($q('[data-btn=parse]'),'click',function(){
-    this.classList.add('done')
-    this.textContent='✅ 已解析'
-  })
-
-  // 存入生词本: one-way toggle (stays "已存入")
-  on($q('[data-btn=save]'),'click',function(){
-    this.classList.add('done')
-    this.textContent='✅ 已存入生词本'
-  })
-
-  // 认识/不认识: radio-like toggle
+  on($q('[data-btn=parse]'),'click',function(){this.classList.add('done');this.textContent='✅ 已解析'})
+  on($q('[data-btn=save]'),'click',function(){this.classList.add('done');this.textContent='✅ 已存入生词本'})
   on($q('[data-btn=know]'),'click',function(){
     var fb=this.closest('.fb')
-    fb.querySelector('[data-btn=know]').className='fbt done'
-    fb.querySelector('[data-btn=know]').textContent='✅ 已掌握'
-    var nb=fb.querySelector('[data-btn=dontknow]')
-    nb.className='fbt-out'
-    nb.textContent='不认识 ❌'
+    fb.querySelector('[data-btn=know]').className='fbt done';fb.querySelector('[data-btn=know]').textContent='✅ 已掌握'
+    var nb=fb.querySelector('[data-btn=dontknow]');nb.className='fbt-out';nb.textContent='不认识 ❌'
   })
   on($q('[data-btn=dontknow]'),'click',function(){
     var fb=this.closest('.fb')
-    fb.querySelector('[data-btn=dontknow]').className='fbt done'
-    fb.querySelector('[data-btn=dontknow]').textContent='❌ 已标记'
-    var kb=fb.querySelector('[data-btn=know]')
-    kb.className='fbt-out'
-    kb.textContent='认识 ✅'
+    fb.querySelector('[data-btn=dontknow]').className='fbt done';fb.querySelector('[data-btn=dontknow]').textContent='❌ 已标记'
+    var kb=fb.querySelector('[data-btn=know]');kb.className='fbt-out';kb.textContent='认识 ✅'
   })
-
-  // dictation tabs: simple toggle
-  on($q('[data-btn=tab]'),'click',function(){
-    var p=this.parentElement
-    p.querySelectorAll('[data-btn=tab]').forEach(function(t){t.classList.remove('act')})
-    this.classList.add('act')
-  })
-
-  // CET-4/CET-6 import: one-way toggle
-  on($q('[data-btn=import-cet4]'),'click',function(){
-    this.classList.add('done')
-    this.textContent='✅ 已导入'
-  })
-  on($q('[data-btn=import-cet6]'),'click',function(){
-    this.classList.add('done')
-    this.textContent='✅ 已导入'
-  })
+  on($q('[data-btn=tab]'),'click',function(){var p=this.parentElement;p.querySelectorAll('[data-btn=tab]').forEach(function(t){t.classList.remove('act')});this.classList.add('act')})
+  on($q('[data-btn=import-cet4]'),'click',function(){this.classList.add('done');this.textContent='✅ 已导入'})
+  on($q('[data-btn=import-cet6]'),'click',function(){this.classList.add('done');this.textContent='✅ 已导入'})
   on($q('[data-btn=import-all]'),'click',function(){
-    this.classList.add('done')
-    this.textContent='✅ 已全部导入'
+    this.classList.add('done');this.textContent='✅ 已全部导入'
     var p=this.closest('.c')
-    p.querySelectorAll('[data-btn=import-cet4],[data-btn=import-cet6]').forEach(function(b){
-      b.classList.add('done')
-      b.textContent='✅ 已导入'
-    })
+    p.querySelectorAll('[data-btn=import-cet4],[data-btn=import-cet6]').forEach(function(b){b.classList.add('done');b.textContent='✅ 已导入'})
   })
+
+  // -- Slide 7: leaderboard animations --
+  function animateSlide7(){
+    var rows=document.querySelectorAll('#slide-7 .lb-row')
+    rows.forEach(function(r,i){
+      r.style.opacity='0';r.style.transform='translateX(-20px)'
+      setTimeout(function(){r.style.transition='all .4s ease-out';r.style.opacity='1';r.style.transform='translateX(0)'},i*200)
+    })
+    var items=document.querySelectorAll('#slide-7 .title-item')
+    items.forEach(function(it,i){
+      it.style.opacity='0';it.style.transform='translateY(15px)'
+      setTimeout(function(){it.style.transition='all .3s ease-out';it.style.opacity='1';it.style.transform='translateY(0)'},600+i*150)
+    })
+  }
+
+  // -- Slide 8: share page animations --
+  function animateSlide8(){
+    var shareInner=document.getElementById('share-inner')
+    var yali=document.getElementById('yali')
+    var nickname=document.getElementById('nickname')
+    var cards=document.querySelectorAll('#stat-grid .stat-card')
+    var cta=document.getElementById('share-cta')
+
+    // yali enter
+    setTimeout(function(){yali.classList.add('entered')},300)
+    // nickname enter
+    setTimeout(function(){nickname.classList.add('entered')},800)
+    // stat cards enter with count-up
+    cards.forEach(function(card,i){
+      setTimeout(function(){
+        card.classList.add('entered')
+        var numEl=card.querySelector('.stat-number')
+        var target=parseInt(numEl.getAttribute('data-target'))
+        countUp(numEl,target,function(){
+          numEl.classList.add('pop')
+          // mini confetti burst
+          if(typeof confetti==='function'){
+            var rect=card.getBoundingClientRect()
+            confetti({particleCount:30,spread:50,startVelocity:20,gravity:0.8,ticks:60,origin:{x:rect.left/ window.innerWidth+rect.width/window.innerWidth/2,y:rect.top/window.innerHeight+rect.height/window.innerHeight/2},colors:['#ff0000','#ff7700','#ffff00','#00ff00','#00ffff','#ff00ff']})
+          }
+          // screen shake
+          shareInner.classList.add('screen-shake')
+          setTimeout(function(){shareInner.classList.remove('screen-shake')},300)
+        })
+      },1000+i*400)
+    })
+    // CTA enter
+    setTimeout(function(){cta.classList.add('entered')},3200)
+  }
+
+  function countUp(el,target,onDone){
+    var duration=800,start=performance.now()
+    function tick(now){
+      var p=Math.min((now-start)/duration,1)
+      // ease out cubic
+      var ep=1-Math.pow(1-p,3)
+      el.textContent=Math.round(ep*target)
+      if(p<1)requestAnimationFrame(tick)
+      else{el.textContent=target;if(onDone)onDone()}
+    }
+    requestAnimationFrame(tick)
+  }
 })()
 </script>
 </body>

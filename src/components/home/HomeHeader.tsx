@@ -18,6 +18,7 @@ import {
 } from '@/components/ui/alert-dialog'
 import { signOut, useSession } from 'next-auth/react'
 import { MonitorPlay, LogIn, ChevronDown, ChevronUp, MessageCircle, Lock } from 'lucide-react'
+import Link from 'next/link'
 import { DonationButton } from './DonationModal'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
@@ -282,6 +283,14 @@ export function HomeHeader({ showDanmaku, onToggleDanmaku, onFeatureClick }: Hom
               <LogIn className="w-3.5 h-3.5 sm:w-4 sm:h-4" aria-hidden="true" />
               <span>登录</span>
             </Button>
+          )}
+          {!isAuthenticated && (
+            <Link
+              href="/flywheel-preview.html"
+              className="text-xs text-muted-foreground hover:text-primary transition-colors whitespace-nowrap"
+            >
+              功能预览
+            </Link>
           )}
           <ModeToggle />
           <div className="xl:hidden">
