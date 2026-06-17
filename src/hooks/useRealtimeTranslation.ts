@@ -21,6 +21,7 @@ interface UseRealtimeTranslationOptions {
   showPos: boolean
   showExample: boolean
   targetGroupId: string
+  isGuest?: boolean
 }
 
 type DebouncedFunction = {
@@ -63,7 +64,7 @@ function createEmptyEntry(): WordEntry {
   }
 }
 
-export function useRealtimeTranslation({ showPos, showExample, targetGroupId }: UseRealtimeTranslationOptions) {
+export function useRealtimeTranslation({ showPos, showExample, targetGroupId, isGuest }: UseRealtimeTranslationOptions) {
   const [entries, setEntries] = useState<WordEntry[]>([createEmptyEntry()])
   const debounceMapRef = useRef<Map<string, DebouncedFunction>>(new Map())
   const abortControllerRef = useRef<Map<string, AbortController>>(new Map())
@@ -182,13 +183,26 @@ export function useRealtimeTranslation({ showPos, showExample, targetGroupId }: 
             saveStatus: 'idle',
           })
 
-          try {
-            const checkRes = await fetch(`/api/vocabulary/check?word=${encodeURIComponent(word.trim())}`)
-            const checkData = await checkRes.json()
+          if (!isGuest) {
+            try {
+              const checkRes = await fetch(`/api/vocabulary/check?word=${encodeURIComponent(word.trim())}`)
+              const checkData = await checkRes.json()
 
-            if (checkData.success && checkData.exists) {
-              updateEntry(entryId, { saveStatus: 'in-vocabulary' })
-            } else {
+              if (checkData.success && checkData.exists) {
+                updateEntry(entryId, { saveStatus: 'in-vocabulary' })
+              } else {
+                updateEntry(entryId, { saveStatus: 'pending' })
+                startSaveTimer(
+                  entryId,
+                  word,
+                  result.translation,
+                  result.phonetic,
+                  result.pos,
+                  result.example,
+                  result.exampleTranslation,
+                )
+              }
+            } catch {
               updateEntry(entryId, { saveStatus: 'pending' })
               startSaveTimer(
                 entryId,
@@ -200,17 +214,6 @@ export function useRealtimeTranslation({ showPos, showExample, targetGroupId }: 
                 result.exampleTranslation,
               )
             }
-          } catch {
-            updateEntry(entryId, { saveStatus: 'pending' })
-            startSaveTimer(
-              entryId,
-              word,
-              result.translation,
-              result.phonetic,
-              result.pos,
-              result.example,
-              result.exampleTranslation,
-            )
           }
         } else {
           updateEntry(entryId, {
@@ -233,7 +236,7 @@ export function useRealtimeTranslation({ showPos, showExample, targetGroupId }: 
         abortControllerRef.current.delete(entryId)
       }
     },
-    [updateEntry, cancelSaveTimer, startSaveTimer],
+    [updateEntry, cancelSaveTimer, startSaveTimer, isGuest],
   )
 
   const getDebouncedFetch = useCallback(

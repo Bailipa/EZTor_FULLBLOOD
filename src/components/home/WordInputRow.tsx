@@ -4,7 +4,7 @@ import React, { useRef, useEffect, useState } from 'react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { X, Volume2, Loader2, Search, Bot, Check, Bookmark } from 'lucide-react'
+import { X, Volume2, Loader2, Search, Bot, Check, Bookmark, Lock } from 'lucide-react'
 import type { WordEntry } from '@/hooks/useRealtimeTranslation'
 import { speakText } from '@/lib/ttsBrowser'
 
@@ -16,6 +16,8 @@ interface WordInputRowProps {
   showPos: boolean
   showExample: boolean
   autoFocus?: boolean
+  isGuest?: boolean
+  onGuestFeatureClick?: (feature: string) => void
 }
 
 function SaveStatusIndicator({ status, entryId }: { status: WordEntry['saveStatus']; entryId: string }) {
@@ -93,6 +95,8 @@ export function WordInputRow({
   showPos,
   showExample,
   autoFocus,
+  isGuest,
+  onGuestFeatureClick,
 }: WordInputRowProps) {
   const inputRef = useRef<HTMLInputElement>(null)
 
@@ -186,15 +190,27 @@ export function WordInputRow({
               <Search className="h-4 w-4" />
               <span className="text-sm">未在公共词库中找到</span>
             </div>
-            <Button
-              size="sm"
-              variant="outline"
-              onClick={() => onTranslate(entry.id)}
-              className="gap-1.5"
-            >
-              <Bot className="h-3.5 w-3.5" />
-              AI翻译
-            </Button>
+            {isGuest ? (
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={() => onGuestFeatureClick?.('AI翻译')}
+                className="gap-1.5"
+              >
+                <Lock className="h-3.5 w-3.5" />
+                登录后解锁
+              </Button>
+            ) : (
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={() => onTranslate(entry.id)}
+                className="gap-1.5"
+              >
+                <Bot className="h-3.5 w-3.5" />
+                AI翻译
+              </Button>
+            )}
           </div>
         )
 

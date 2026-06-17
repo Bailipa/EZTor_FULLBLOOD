@@ -17,7 +17,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { PenTool, Plus, Upload, Bot } from 'lucide-react'
+import { PenTool, Plus, Upload, Bot, Lock } from 'lucide-react'
 import type { ReviewGroup } from '@/types/api'
 import { useRealtimeTranslation } from '@/hooks/useRealtimeTranslation'
 import { WordInputRow } from './WordInputRow'
@@ -28,6 +28,8 @@ interface WordTranslationPanelProps {
   groups: ReviewGroup[]
   selectedTargetGroupId: string
   setSelectedTargetGroupId: (id: string) => void
+  isGuest?: boolean
+  onGuestFeatureClick?: (feature: string) => void
 }
 
 export function WordTranslationPanel({
@@ -36,6 +38,8 @@ export function WordTranslationPanel({
   groups,
   selectedTargetGroupId,
   setSelectedTargetGroupId,
+  isGuest,
+  onGuestFeatureClick,
 }: WordTranslationPanelProps) {
   const {
     entries,
@@ -45,8 +49,7 @@ export function WordTranslationPanel({
     translateSingle,
     translateAll,
     notFoundCount,
-    hasWords,
-  } = useRealtimeTranslation({ showPos, showExample, targetGroupId: selectedTargetGroupId })
+  } = useRealtimeTranslation({ showPos, showExample, targetGroupId: selectedTargetGroupId, isGuest })
 
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [lastAddedId, setLastAddedId] = useState<string | null>(null)
@@ -150,45 +153,51 @@ export function WordTranslationPanel({
             <PenTool className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
             实时翻译
           </CardTitle>
-          <input
-            type="file"
-            accept=".csv"
-            ref={fileInputRef}
-            onChange={handleFileUpload}
-            className="hidden"
-            aria-label="上传CSV文件"
-          />
-          <Button
-            variant="outline"
-            size="sm"
-            className="gap-1.5 h-8 text-xs px-2.5"
-            onClick={() => fileInputRef.current?.click()}
-            aria-label="导入CSV文件"
-          >
-            <Upload className="w-3.5 h-3.5" />
-            导入 CSV
-          </Button>
-        </div>
-        <div className="flex items-center justify-between mt-1.5">
-          {groups.length > 0 && (
-            <Select value={selectedTargetGroupId} onValueChange={setSelectedTargetGroupId}>
-              <SelectTrigger
-                className="w-[130px] h-7 text-xs bg-muted/30"
-                aria-label="选择目标分组"
+          {!isGuest && (
+            <>
+              <input
+                type="file"
+                accept=".csv"
+                ref={fileInputRef}
+                onChange={handleFileUpload}
+                className="hidden"
+                aria-label="上传CSV文件"
+              />
+              <Button
+                variant="outline"
+                size="sm"
+                className="gap-1.5 h-8 text-xs px-2.5"
+                onClick={() => fileInputRef.current?.click()}
+                aria-label="导入CSV文件"
               >
-                <SelectValue placeholder="存入..." />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="none">仅存入总词库</SelectItem>
-                {groups.map((g) => (
-                  <SelectItem key={g.id} value={g.id}>
-                    存入: {g.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+                <Upload className="w-3.5 h-3.5" />
+                导入 CSV
+              </Button>
+            </>
           )}
         </div>
+        {!isGuest && (
+          <div className="flex items-center justify-between mt-1.5">
+            {groups.length > 0 && (
+              <Select value={selectedTargetGroupId} onValueChange={setSelectedTargetGroupId}>
+                <SelectTrigger
+                  className="w-[130px] h-7 text-xs bg-muted/30"
+                  aria-label="选择目标分组"
+                >
+                  <SelectValue placeholder="存入..." />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="none">仅存入总词库</SelectItem>
+                  {groups.map((g) => (
+                    <SelectItem key={g.id} value={g.id}>
+                      存入: {g.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            )}
+          </div>
+        )}
       </CardHeader>
       <CardContent>
         <div className="space-y-2">
@@ -202,6 +211,8 @@ export function WordTranslationPanel({
               showPos={showPos}
               showExample={showExample}
               autoFocus={lastAddedId === entry.id || (index === entries.length - 1 && entry.word === '')}
+              isGuest={isGuest}
+              onGuestFeatureClick={onGuestFeatureClick}
             />
           ))}
         </div>
@@ -223,10 +234,16 @@ export function WordTranslationPanel({
         </div>
       </CardContent>
       <CardFooter className="flex justify-end items-center">
-        {notFoundCount > 0 && (
+        {!isGuest && notFoundCount > 0 && (
           <Button onClick={translateAll} className="gap-2" size="sm">
             <Bot className="h-4 w-4" />
             批量AI翻译 ({notFoundCount})
+          </Button>
+        )}
+        {isGuest && notFoundCount > 0 && (
+          <Button onClick={() => onGuestFeatureClick?.('AI翻译')} variant="outline" className="gap-2" size="sm">
+            <Lock className="h-4 w-4" />
+            登录后解锁AI翻译 ({notFoundCount})
           </Button>
         )}
       </CardFooter>

@@ -216,6 +216,16 @@ export function HomeHeader({ showDanmaku, onToggleDanmaku, onFeatureClick }: Hom
               <span>小游戏</span>
             </Button>
           ))}
+          {!isAuthenticated && (
+            <Button
+              variant="outline"
+              onClick={() => onFeatureClick?.('小游戏')}
+              className="gap-1.5 sm:gap-2 shadow-sm h-8 px-2.5 text-xs sm:h-9 sm:px-4 sm:text-sm text-muted-foreground"
+            >
+              <Lock className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+              <span>小游戏</span>
+            </Button>
+          )}
           {isDanmakuUnlocked ? (
           <Button
             variant={danmakuStatus === 'active' ? 'default' : 'outline'}

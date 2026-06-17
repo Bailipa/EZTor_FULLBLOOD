@@ -1,7 +1,7 @@
 'use client'
 
 import { usePathname, useRouter } from 'next/navigation'
-import { signOut } from 'next-auth/react'
+import { signOut, useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Button } from '@/components/ui/button'
@@ -26,6 +26,7 @@ export interface SidebarNavItem {
   href: string
   label: string
   icon: LucideIcon
+  requiresAuth?: boolean
 }
 
 export interface SidebarBottomItem {
@@ -42,16 +43,18 @@ interface AppSidebarProps {
 }
 
 const DEFAULT_NAV_ITEMS: SidebarNavItem[] = [
-  { href: '/', label: '首页', icon: Home },
-  { href: '/dictation', label: '默写复习', icon: PenTool },
-  { href: '/history', label: '生词本', icon: BookOpen },
-  { href: '/leaderboard', label: '排行榜', icon: Trophy },
+  { href: '/', label: '首页', icon: Home, requiresAuth: false },
+  { href: '/dictation', label: '默写复习', icon: PenTool, requiresAuth: true },
+  { href: '/history', label: '生词本', icon: BookOpen, requiresAuth: true },
+  { href: '/leaderboard', label: '排行榜', icon: Trophy, requiresAuth: true },
 ]
 
 export default function AppSidebar({ navItems, bottomItems, showDonation = true }: AppSidebarProps) {
   const pathname = usePathname()
   const router = useRouter()
   const qqGroupUrl = useQQGroupUrl()
+  const { data: session, status } = useSession()
+  const isAuthenticated = status === 'authenticated' && session?.user
 
   const items = navItems ?? DEFAULT_NAV_ITEMS
 
@@ -84,11 +87,20 @@ export default function AppSidebar({ navItems, bottomItems, showDonation = true 
           {items.map((item) => {
             const Icon = item.icon
             const isActive = pathname === item.href
+            const isLocked = item.requiresAuth && !isAuthenticated
+
+            const handleClick = (e: React.MouseEvent) => {
+              if (isLocked) {
+                e.preventDefault()
+                router.push('/auth/signin')
+              }
+            }
+
             return (
-              <Link key={item.href} href={item.href}>
+              <Link key={item.href} href={item.href} onClick={handleClick}>
                 <Button
                   variant={isActive ? 'secondary' : 'ghost'}
-                  className="w-full justify-start gap-3 h-10 px-3 text-sm"
+                  className={`w-full justify-start gap-3 h-10 px-3 text-sm ${isLocked ? 'opacity-50' : ''}`}
                 >
                   <Icon className="w-4 h-4 shrink-0" />
                   <span>{item.label}</span>
@@ -102,7 +114,7 @@ export default function AppSidebar({ navItems, bottomItems, showDonation = true 
       <div className="px-3 py-4 border-t border-sidebar-border space-y-1 shrink-0">
         <div className="flex items-center gap-1 px-3 pb-1">
           <ModeToggle />
-          {showDonation && <DonationButton />}
+          {isAuthenticated && showDonation && <DonationButton />}
         </div>
         {bottoms.map((item) => {
           const Icon = item.icon
@@ -123,6 +135,18 @@ export default function AppSidebar({ navItems, bottomItems, showDonation = true 
           )
         })}
 
+        {!isAuthenticated && (
+          <Button
+            variant="default"
+            className="w-full justify-start gap-3 h-10 px-3 text-sm"
+            onClick={() => router.push('/auth/signin')}
+          >
+            <LogOut className="w-4 h-4 shrink-0 rotate-180" />
+            <span>登录</span>
+          </Button>
+        )}
+
+        {isAuthenticated && (
         <AlertDialog>
           <AlertDialogTrigger asChild>
             <Button
@@ -153,6 +177,7 @@ export default function AppSidebar({ navItems, bottomItems, showDonation = true 
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialog>
+        )}
       </div>
     </aside>
   )
