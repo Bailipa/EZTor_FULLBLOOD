@@ -104,6 +104,21 @@ export default async function middleware(request: NextRequest) {
     return res
   }
 
+  // --- Mobile guest → preview redirect ---
+  if (pathname === '/') {
+    const skip = request.nextUrl.searchParams.has('skip-preview')
+    if (!skip) {
+      const ua = request.headers.get('user-agent')?.toLowerCase() || ''
+      const isMobile = /mobile|android|iphone|ipad|webos|blackberry|iemobile|opera mini/i.test(ua)
+      if (isMobile) {
+        const token = await getToken({ req: request })
+        if (!token) {
+          return NextResponse.redirect(new URL('/flywheel-preview.html', request.url))
+        }
+      }
+    }
+  }
+
   // --- CSRF ---
   const csrfResult = validateCsrf(request)
   if (!csrfResult.valid) {
