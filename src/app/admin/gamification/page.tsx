@@ -1,13 +1,14 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useMemo } from 'react'
 import AdminLayout from '@/components/layout/AdminLayout'
 import { useAdminCheck } from '@/hooks/useAdminCheck'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Badge } from '@/components/ui/badge'
-import { Loader2, Search, Users, Shield, Pencil, Zap, Flame, Trophy, ChevronLeft, ChevronRight } from 'lucide-react'
+import { Checkbox } from '@/components/ui/checkbox'
+import { Loader2, Search, Users, Shield, Pencil, Zap, Flame, Trophy, ChevronLeft, ChevronRight, UserPlus, X } from 'lucide-react'
 import { toast } from 'sonner'
 import Link from 'next/link'
 import {
@@ -62,6 +63,23 @@ interface Pagination {
   limit: number
   total: number
   totalPages: number
+}
+
+interface AllUser {
+  id: string
+  username: string
+  createdAt: string
+  hasProfile: boolean
+  profileId: string | null
+  currentZoneId: string | null
+  currentZoneName: string | null
+}
+
+interface AssignResult {
+  userId: string
+  ok: boolean
+  noop?: boolean
+  error?: string
 }
 
 export default function GamificationAdminPage() {
@@ -134,6 +152,9 @@ function UsersTab() {
   const [zones, setZones] = useState<ZoneData[]>([])
   const [pagination, setPagination] = useState<Pagination>({ page: 1, limit: 50, total: 0, totalPages: 1 })
   const [editingUser, setEditingUser] = useState<UserProfile | null>(null)
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set())
+  const [assignTarget, setAssignTarget] = useState<{ userIds: string[]; title: string; source: 'inline' | 'bulk' | 'find-user' } | null>(null)
+  const [findUserOpen, setFindUserOpen] = useState(false)
 
   const fetchUsers = useCallback(async (page: number) => {
     setLoading(true)
@@ -160,9 +181,37 @@ function UsersTab() {
 
   useEffect(() => { fetchUsers(1) }, [fetchUsers])
 
+  useEffect(() => { setSelectedIds(new Set()) }, [search, zoneFilter, pagination.page])
+
   const handleSearch = () => {
     setSearch(searchInput)
   }
+
+  const allOnPageSelected = users.length > 0 && users.every((u) => selectedIds.has(u.userId))
+  const toggleSelectAll = () => {
+    if (allOnPageSelected) {
+      setSelectedIds((prev) => {
+        const next = new Set(prev)
+        users.forEach((u) => next.delete(u.userId))
+        return next
+      })
+    } else {
+      setSelectedIds((prev) => {
+        const next = new Set(prev)
+        users.forEach((u) => next.add(u.userId))
+        return next
+      })
+    }
+  }
+
+  const handleAssigned = useCallback(() => {
+    fetchUsers(pagination.page)
+    fetch('/api/admin/gamification/zones')
+      .then((r) => r.json())
+      .then((data) => { if (data.success) setZones(data.data) })
+      .catch(() => {})
+    setSelectedIds(new Set())
+  }, [fetchUsers, pagination.page])
 
   return (
     <>
@@ -192,6 +241,10 @@ function UsersTab() {
                 ))}
               </SelectContent>
             </Select>
+            <Button variant="outline" className="shrink-0" onClick={() => setFindUserOpen(true)}>
+              <UserPlus className="w-4 h-4 mr-2" />
+              指派任意用户
+            </Button>
           </div>
         </CardContent>
       </Card>
@@ -209,6 +262,13 @@ function UsersTab() {
               <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b">
+                    <th className="py-2 px-2 w-8">
+                      <Checkbox
+                        checked={allOnPageSelected}
+                        onCheckedChange={toggleSelectAll}
+                        aria-label="全选当前页"
+                      />
+                    </th>
                     <th className="text-left py-2 px-2 font-medium">用户名</th>
                     <th className="text-left py-2 px-2 font-medium">昵称</th>
                     <th className="text-right py-2 px-2 font-medium">学力</th>
@@ -219,31 +279,67 @@ function UsersTab() {
                   </tr>
                 </thead>
                 <tbody>
-                  {users.map((u) => (
-                    <tr key={u.id} className="border-b hover:bg-muted/50">
-                      <td className="py-2 px-2 font-medium">{u.username}</td>
-                      <td className="py-2 px-2">{u.nickname || <span className="text-muted-foreground">未设置</span>}</td>
-                      <td className="py-2 px-2 text-right">
-                        <span className="font-mono text-amber-600 dark:text-amber-400">{u.combatPower}</span>
-                      </td>
-                      <td className="py-2 px-2">{u.zoneName || <span className="text-muted-foreground">-</span>}</td>
-                      <td className="py-2 px-2">
-                        {u.zoneTitle ? (
-                          <Badge variant="outline" className="text-xs">{u.zoneTitle}</Badge>
-                        ) : <span className="text-muted-foreground">-</span>}
-                      </td>
-                      <td className="py-2 px-2 text-right">{u.currentStreak}天</td>
-                      <td className="py-2 px-2 text-center">
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => setEditingUser(u)}
-                        >
-                          <Pencil className="w-3.5 h-3.5" />
-                        </Button>
-                      </td>
-                    </tr>
-                  ))}
+                  {users.map((u) => {
+                    const checked = selectedIds.has(u.userId)
+                    return (
+                      <tr key={u.id} className="border-b hover:bg-muted/50">
+                        <td className="py-2 px-2">
+                          <Checkbox
+                            checked={checked}
+                            onCheckedChange={(c) => {
+                              setSelectedIds((prev) => {
+                                const next = new Set(prev)
+                                if (c) next.add(u.userId)
+                                else next.delete(u.userId)
+                                return next
+                              })
+                            }}
+                            aria-label={`选择 ${u.username}`}
+                          />
+                        </td>
+                        <td className="py-2 px-2 font-medium">{u.username}</td>
+                        <td className="py-2 px-2">{u.nickname || <span className="text-muted-foreground">未设置</span>}</td>
+                        <td className="py-2 px-2 text-right">
+                          <span className="font-mono text-amber-600 dark:text-amber-400">{u.combatPower}</span>
+                        </td>
+                        <td className="py-2 px-2">{u.zoneName || <span className="text-muted-foreground">-</span>}</td>
+                        <td className="py-2 px-2">
+                          {u.zoneTitle ? (
+                            <Badge variant="outline" className="text-xs">{u.zoneTitle}</Badge>
+                          ) : <span className="text-muted-foreground">-</span>}
+                        </td>
+                        <td className="py-2 px-2 text-right">{u.currentStreak}天</td>
+                        <td className="py-2 px-2 text-center">
+                          <div className="flex items-center justify-center gap-1">
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              title={u.zoneName ? `改派学区（当前：${u.zoneName}）` : '指定加入学区'}
+                              onClick={() =>
+                                setAssignTarget({
+                                  userIds: [u.userId],
+                                  title: u.zoneName
+                                    ? `改派学区：${u.username}`
+                                    : `指定加入学区：${u.username}`,
+                                  source: 'inline',
+                                })
+                              }
+                            >
+                              <Trophy className="w-3.5 h-3.5" />
+                            </Button>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              title="编辑"
+                              onClick={() => setEditingUser(u)}
+                            >
+                              <Pencil className="w-3.5 h-3.5" />
+                            </Button>
+                          </div>
+                        </td>
+                      </tr>
+                    )
+                  })}
                 </tbody>
               </table>
             </div>
@@ -277,11 +373,58 @@ function UsersTab() {
         </CardContent>
       </Card>
 
+      {selectedIds.size > 0 && (
+        <div className="sticky bottom-4 z-10">
+          <div className="flex items-center justify-between gap-3 rounded-lg border bg-background shadow-lg px-4 py-3">
+            <div className="flex items-center gap-2 text-sm">
+              <span>已选 <span className="font-semibold">{selectedIds.size}</span> 位用户</span>
+              <Button variant="ghost" size="sm" onClick={() => setSelectedIds(new Set())}>
+                <X className="w-3.5 h-3.5 mr-1" />
+                清除
+              </Button>
+            </div>
+            <Button
+              onClick={() =>
+                setAssignTarget({
+                  userIds: Array.from(selectedIds),
+                  title: `批量指派 ${selectedIds.size} 位用户`,
+                  source: 'bulk',
+                })
+              }
+            >
+              <Trophy className="w-4 h-4 mr-2" />
+              批量加入学区
+            </Button>
+          </div>
+        </div>
+      )}
+
       <EditUserDialog
         user={editingUser}
         zones={zones}
         onClose={() => setEditingUser(null)}
         onSaved={() => { setEditingUser(null); fetchUsers(pagination.page) }}
+      />
+
+      {assignTarget && (
+        <AssignZoneDialog
+          userIds={assignTarget.userIds}
+          title={assignTarget.title}
+          source={assignTarget.source}
+          zones={zones}
+          onClose={() => setAssignTarget(null)}
+          onDone={() => { setAssignTarget(null); handleAssigned() }}
+        />
+      )}
+
+      <FindUserDialog
+        open={findUserOpen}
+        zones={zones}
+        onClose={() => setFindUserOpen(false)}
+        onAssigned={() => {
+          setFindUserOpen(false)
+          handleAssigned()
+        }}
       />
     </>
   )
@@ -486,6 +629,7 @@ function ZonesTab() {
   const [zones, setZones] = useState<ZoneData[]>([])
   const [loading, setLoading] = useState(true)
   const [editingZone, setEditingZone] = useState<ZoneData | null>(null)
+  const [addMembersZone, setAddMembersZone] = useState<ZoneData | null>(null)
 
   const fetchZones = useCallback(async () => {
     setLoading(true)
@@ -526,7 +670,12 @@ function ZonesTab() {
                   {zones.map((z) => (
                     <tr key={z.id} className="border-b hover:bg-muted/50">
                       <td className="py-2 px-2 font-medium">{z.name}</td>
-                      <td className="py-2 px-2 text-right">{z.memberCount}</td>
+                      <td className="py-2 px-2 text-right">
+                        {z.memberCount}
+                        {z.memberCount > z.maxMembers && (
+                          <span className="ml-1 text-xs text-amber-600 dark:text-amber-400" title="已超额">⚠</span>
+                        )}
+                      </td>
                       <td className="py-2 px-2 text-right">{z.maxMembers}</td>
                       <td className="py-2 px-2">
                         <Badge variant={z.isActive ? 'default' : 'secondary'}>
@@ -537,13 +686,24 @@ function ZonesTab() {
                         {z.previousName || '-'}
                       </td>
                       <td className="py-2 px-2 text-center">
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => setEditingZone(z)}
-                        >
-                          <Pencil className="w-3.5 h-3.5" />
-                        </Button>
+                        <div className="flex items-center justify-center gap-1">
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            title="添加成员"
+                            onClick={() => setAddMembersZone(z)}
+                          >
+                            <UserPlus className="w-3.5 h-3.5" />
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            title="编辑"
+                            onClick={() => setEditingZone(z)}
+                          >
+                            <Pencil className="w-3.5 h-3.5" />
+                          </Button>
+                        </div>
                       </td>
                     </tr>
                   ))}
@@ -558,6 +718,12 @@ function ZonesTab() {
         zone={editingZone}
         onClose={() => setEditingZone(null)}
         onSaved={() => { setEditingZone(null); fetchZones() }}
+      />
+
+      <AddMembersDialog
+        zone={addMembersZone}
+        onClose={() => setAddMembersZone(null)}
+        onAssigned={() => { setAddMembersZone(null); fetchZones() }}
       />
     </>
   )
@@ -653,6 +819,548 @@ function EditZoneDialog({
           <Button onClick={handleSave} disabled={saving} className="w-full">
             {saving ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : null}
             保存修改
+          </Button>
+        </div>
+      </DialogContent>
+    </Dialog>
+  )
+}
+
+function AssignZoneDialog({
+  userIds,
+  title,
+  source,
+  zones,
+  onClose,
+  onDone,
+}: {
+  userIds: string[]
+  title: string
+  source: 'inline' | 'bulk' | 'find-user'
+  zones: ZoneData[]
+  onClose: () => void
+  onDone: () => void
+}) {
+  const [zoneChoice, setZoneChoice] = useState('__none__')
+  const [saving, setSaving] = useState(false)
+
+  const activeZones = useMemo(() => zones.filter((z) => z.isActive), [zones])
+
+  const handleConfirm = async () => {
+    setSaving(true)
+    try {
+      const zoneId = zoneChoice === '__none__' ? null : zoneChoice
+      const res = await fetch('/api/admin/gamification/assign-zone', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userIds, zoneId, source }),
+      })
+      const data = await res.json()
+      if (!data.success) {
+        toast.error(data.error || '指派失败')
+        return
+      }
+      const { ok, noop, failed } = data.summary as { ok: number; noop: number; failed: number }
+      const failedList = (data.results as AssignResult[]).filter((r) => !r.ok)
+      if (failed === 0 && noop === 0) {
+        toast.success(`已指派 ${ok} 位用户`)
+      } else if (failed === 0) {
+        toast.success(`已指派 ${ok} 位，跳过 ${noop} 位（已在目标学区）`)
+      } else {
+        toast.warning(
+          `成功 ${ok} · 跳过 ${noop} · 失败 ${failed}` +
+            (failedList.length > 0 ? `：${failedList[0].error}` : ''),
+        )
+      }
+      onDone()
+    } catch {
+      toast.error('网络错误')
+    } finally {
+      setSaving(false)
+    }
+  }
+
+  return (
+    <Dialog open onOpenChange={(open) => !open && onClose()}>
+      <DialogContent className="sm:max-w-[440px]">
+        <DialogHeader>
+          <DialogTitle>{title}</DialogTitle>
+          <DialogDescription>
+            管理员指派：绕过学区成员上限、不消耗学力、不影响转学区冷却。已写入审计日志。
+          </DialogDescription>
+        </DialogHeader>
+        <div className="space-y-4">
+          <div>
+            <label className="text-xs text-muted-foreground flex items-center gap-1">
+              <Trophy className="w-3 h-3" />目标学区
+            </label>
+            <Select value={zoneChoice} onValueChange={setZoneChoice}>
+              <SelectTrigger>
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="__none__">移除学区</SelectItem>
+                {activeZones.length === 0 && (
+                  <SelectItem value="__no_active__" disabled>
+                    暂无可用学区
+                  </SelectItem>
+                )}
+                {activeZones.map((z) => {
+                  const over = z.memberCount >= z.maxMembers
+                  return (
+                    <SelectItem key={z.id} value={z.id}>
+                      {z.name} ({z.memberCount}/{z.maxMembers})
+                      {over ? ' ⚠' : ''}
+                    </SelectItem>
+                  )
+                })}
+              </SelectContent>
+            </Select>
+            {zoneChoice !== '__none__' && (() => {
+              const z = activeZones.find((x) => x.id === zoneChoice)
+              if (!z) return null
+              if (z.memberCount >= z.maxMembers) {
+                return (
+                  <p className="text-xs text-amber-600 dark:text-amber-400 mt-1">
+                    目标学区已满 ({z.memberCount}/{z.maxMembers})，管理员将强制加入并产生超额。
+                  </p>
+                )
+              }
+              return null
+            })()}
+          </div>
+          <div className="text-xs text-muted-foreground">
+            本次将处理 <span className="font-semibold">{userIds.length}</span> 位用户
+          </div>
+          <Button
+            onClick={handleConfirm}
+            disabled={saving || (zoneChoice !== '__none__' && activeZones.length === 0)}
+            className="w-full"
+          >
+            {saving ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : null}
+            确认指派
+          </Button>
+        </div>
+      </DialogContent>
+    </Dialog>
+  )
+}
+
+function FindUserDialog({
+  open,
+  zones,
+  onClose,
+  onAssigned,
+}: {
+  open: boolean
+  zones: ZoneData[]
+  onClose: () => void
+  onAssigned: () => void
+}) {
+  const [users, setUsers] = useState<AllUser[]>([])
+  const [loading, setLoading] = useState(false)
+  const [search, setSearch] = useState('')
+  const [searchInput, setSearchInput] = useState('')
+  const [pagination, setPagination] = useState<Pagination>({ page: 1, limit: 30, total: 0, totalPages: 1 })
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set())
+  const [assignTarget, setAssignTarget] = useState<{ userIds: string[]; title: string } | null>(null)
+
+  const fetchUsers = useCallback(async (page: number) => {
+    setLoading(true)
+    try {
+      const params = new URLSearchParams({ page: String(page), limit: '30' })
+      if (search) params.set('search', search)
+      const res = await fetch(`/api/admin/gamification/users-all?${params}`)
+      const data = await res.json()
+      if (data.success) {
+        setUsers(data.data)
+        setPagination(data.pagination)
+      }
+    } catch { /* ignore */ }
+    finally { setLoading(false) }
+  }, [search])
+
+  useEffect(() => {
+    if (open) fetchUsers(1)
+  }, [open, fetchUsers])
+
+  useEffect(() => {
+    if (!open) {
+      setSelectedIds(new Set())
+      setSearch('')
+      setSearchInput('')
+    }
+  }, [open])
+
+  const allOnPageSelected = users.length > 0 && users.every((u) => selectedIds.has(u.id))
+  const toggleAll = () => {
+    setSelectedIds((prev) => {
+      const next = new Set(prev)
+      if (allOnPageSelected) users.forEach((u) => next.delete(u.id))
+      else users.forEach((u) => next.add(u.id))
+      return next
+    })
+  }
+
+  return (
+    <>
+      <Dialog open={open} onOpenChange={(o) => !o && onClose()}>
+        <DialogContent className="sm:max-w-[680px] max-h-[85vh] flex flex-col">
+          <DialogHeader>
+            <DialogTitle>指派任意用户加入学区</DialogTitle>
+            <DialogDescription>搜索任意用户（含未参与游戏的用户），可单条或多选指派</DialogDescription>
+          </DialogHeader>
+          <div className="flex gap-2">
+            <Input
+              placeholder="按用户名搜索..."
+              value={searchInput}
+              onChange={(e) => setSearchInput(e.target.value)}
+              onKeyDown={(e) => e.key === 'Enter' && setSearch(searchInput)}
+            />
+            <Button onClick={() => setSearch(searchInput)} className="shrink-0">
+              <Search className="w-4 h-4 mr-2" />搜索
+            </Button>
+          </div>
+          <div className="flex-1 overflow-y-auto min-h-0 border rounded-md">
+            {loading ? (
+              <div className="flex items-center justify-center py-12">
+                <Loader2 className="w-5 h-5 animate-spin text-muted-foreground" />
+              </div>
+            ) : users.length === 0 ? (
+              <p className="text-center text-muted-foreground py-12">未找到用户</p>
+            ) : (
+              <table className="w-full text-sm">
+                <thead className="sticky top-0 bg-background border-b">
+                  <tr>
+                    <th className="py-2 px-2 w-8">
+                      <Checkbox checked={allOnPageSelected} onCheckedChange={toggleAll} aria-label="全选" />
+                    </th>
+                    <th className="text-left py-2 px-2 font-medium">用户名</th>
+                    <th className="text-left py-2 px-2 font-medium">当前学区</th>
+                    <th className="text-center py-2 px-2 font-medium">操作</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {users.map((u) => {
+                    const checked = selectedIds.has(u.id)
+                    return (
+                      <tr key={u.id} className="border-b hover:bg-muted/50">
+                        <td className="py-2 px-2">
+                          <Checkbox
+                            checked={checked}
+                            onCheckedChange={(c) => {
+                              setSelectedIds((prev) => {
+                                const next = new Set(prev)
+                                if (c) next.add(u.id)
+                                else next.delete(u.id)
+                                return next
+                              })
+                            }}
+                            aria-label={`选择 ${u.username}`}
+                          />
+                        </td>
+                        <td className="py-2 px-2 font-medium">
+                          {u.username}
+                          {!u.hasProfile && (
+                            <span className="ml-1 text-xs text-muted-foreground">(无档案)</span>
+                          )}
+                        </td>
+                        <td className="py-2 px-2 text-muted-foreground">
+                          {u.currentZoneName || <span>-</span>}
+                        </td>
+                        <td className="py-2 px-2 text-center">
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() =>
+                              setAssignTarget({
+                                userIds: [u.id],
+                                title: u.currentZoneName
+                                  ? `改派学区：${u.username}`
+                                  : `指定加入学区：${u.username}`,
+                              })
+                            }
+                          >
+                            <Trophy className="w-3.5 h-3.5" />
+                          </Button>
+                        </td>
+                      </tr>
+                    )
+                  })}
+                </tbody>
+              </table>
+            )}
+          </div>
+          {pagination.totalPages > 1 && (
+            <div className="flex items-center justify-between text-sm">
+              <span className="text-muted-foreground">
+                共 {pagination.total} 条，第 {pagination.page}/{pagination.totalPages} 页
+              </span>
+              <div className="flex gap-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  disabled={pagination.page <= 1}
+                  onClick={() => fetchUsers(pagination.page - 1)}
+                >
+                  <ChevronLeft className="w-4 h-4" />
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  disabled={pagination.page >= pagination.totalPages}
+                  onClick={() => fetchUsers(pagination.page + 1)}
+                >
+                  <ChevronRight className="w-4 h-4" />
+                </Button>
+              </div>
+            </div>
+          )}
+          {selectedIds.size > 0 && (
+            <div className="flex items-center justify-between gap-3 rounded-md border px-3 py-2">
+              <div className="flex items-center gap-2 text-sm">
+                <span>已选 <span className="font-semibold">{selectedIds.size}</span></span>
+                <Button variant="ghost" size="sm" onClick={() => setSelectedIds(new Set())}>
+                  <X className="w-3.5 h-3.5 mr-1" />清除
+                </Button>
+              </div>
+              <Button
+                onClick={() =>
+                  setAssignTarget({
+                    userIds: Array.from(selectedIds),
+                    title: `批量指派 ${selectedIds.size} 位用户`,
+                  })
+                }
+              >
+                <Trophy className="w-4 h-4 mr-2" />批量加入学区
+              </Button>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
+
+      {assignTarget && (
+        <AssignZoneDialog
+          userIds={assignTarget.userIds}
+          title={assignTarget.title}
+          source="find-user"
+          zones={zones}
+          onClose={() => setAssignTarget(null)}
+          onDone={() => {
+            setAssignTarget(null)
+            setSelectedIds(new Set())
+            fetchUsers(pagination.page)
+            onAssigned()
+          }}
+        />
+      )}
+    </>
+  )
+}
+
+function AddMembersDialog({
+  zone,
+  onClose,
+  onAssigned,
+}: {
+  zone: ZoneData | null
+  onClose: () => void
+  onAssigned: () => void
+}) {
+  const [users, setUsers] = useState<AllUser[]>([])
+  const [loading, setLoading] = useState(false)
+  const [search, setSearch] = useState('')
+  const [searchInput, setSearchInput] = useState('')
+  const [pagination, setPagination] = useState<Pagination>({ page: 1, limit: 30, total: 0, totalPages: 1 })
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set())
+  const [saving, setSaving] = useState(false)
+
+  const fetchUsers = useCallback(async (page: number) => {
+    if (!zone) return
+    setLoading(true)
+    try {
+      const params = new URLSearchParams({ page: String(page), limit: '30', excludeZoneId: zone.id })
+      if (search) params.set('search', search)
+      const res = await fetch(`/api/admin/gamification/users-all?${params}`)
+      const data = await res.json()
+      if (data.success) {
+        setUsers(data.data)
+        setPagination(data.pagination)
+      }
+    } catch { /* ignore */ }
+    finally { setLoading(false) }
+  }, [zone, search])
+
+  useEffect(() => {
+    if (zone) {
+      setSelectedIds(new Set())
+      setSearch('')
+      setSearchInput('')
+      fetchUsers(1)
+    }
+  }, [zone, fetchUsers])
+
+  const allOnPageSelected = users.length > 0 && users.every((u) => selectedIds.has(u.id))
+  const toggleAll = () => {
+    setSelectedIds((prev) => {
+      const next = new Set(prev)
+      if (allOnPageSelected) users.forEach((u) => next.delete(u.id))
+      else users.forEach((u) => next.add(u.id))
+      return next
+    })
+  }
+
+  const handleConfirm = async () => {
+    if (!zone || selectedIds.size === 0) return
+    setSaving(true)
+    try {
+      const res = await fetch('/api/admin/gamification/assign-zone', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          userIds: Array.from(selectedIds),
+          zoneId: zone.id,
+          source: 'zone-add',
+        }),
+      })
+      const data = await res.json()
+      if (!data.success) {
+        toast.error(data.error || '指派失败')
+        return
+      }
+      const { ok, noop, failed } = data.summary as { ok: number; noop: number; failed: number }
+      const failedList = (data.results as AssignResult[]).filter((r) => !r.ok)
+      if (failed === 0 && noop === 0) {
+        toast.success(`已添加 ${ok} 位成员至 ${zone.name}`)
+      } else if (failed === 0) {
+        toast.success(`已添加 ${ok} 位，跳过 ${noop} 位（已在本学区）`)
+      } else {
+        toast.warning(
+          `成功 ${ok} · 跳过 ${noop} · 失败 ${failed}` +
+            (failedList.length > 0 ? `：${failedList[0].error}` : ''),
+        )
+      }
+      onAssigned()
+    } catch {
+      toast.error('网络错误')
+    } finally {
+      setSaving(false)
+    }
+  }
+
+  if (!zone) return null
+
+  const over = zone.memberCount >= zone.maxMembers
+
+  return (
+    <Dialog open={!!zone} onOpenChange={(o) => !o && onClose()}>
+      <DialogContent className="sm:max-w-[680px] max-h-[85vh] flex flex-col">
+        <DialogHeader>
+          <DialogTitle>向「{zone.name}」添加成员</DialogTitle>
+          <DialogDescription>
+            当前成员 {zone.memberCount} / {zone.maxMembers}
+            {over && <span className="text-amber-600 dark:text-amber-400"> · 已超额，仍可继续添加</span>}
+          </DialogDescription>
+        </DialogHeader>
+        <div className="flex gap-2">
+          <Input
+            placeholder="按用户名搜索..."
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
+            onKeyDown={(e) => e.key === 'Enter' && setSearch(searchInput)}
+          />
+          <Button onClick={() => setSearch(searchInput)} className="shrink-0">
+            <Search className="w-4 h-4 mr-2" />搜索
+          </Button>
+        </div>
+        <div className="flex-1 overflow-y-auto min-h-0 border rounded-md">
+          {loading ? (
+            <div className="flex items-center justify-center py-12">
+              <Loader2 className="w-5 h-5 animate-spin text-muted-foreground" />
+            </div>
+          ) : users.length === 0 ? (
+            <p className="text-center text-muted-foreground py-12">没有可添加的用户</p>
+          ) : (
+            <table className="w-full text-sm">
+              <thead className="sticky top-0 bg-background border-b">
+                <tr>
+                  <th className="py-2 px-2 w-8">
+                    <Checkbox checked={allOnPageSelected} onCheckedChange={toggleAll} aria-label="全选" />
+                  </th>
+                  <th className="text-left py-2 px-2 font-medium">用户名</th>
+                  <th className="text-left py-2 px-2 font-medium">当前学区</th>
+                </tr>
+              </thead>
+              <tbody>
+                {users.map((u) => {
+                  const checked = selectedIds.has(u.id)
+                  return (
+                    <tr key={u.id} className="border-b hover:bg-muted/50">
+                      <td className="py-2 px-2">
+                        <Checkbox
+                          checked={checked}
+                          onCheckedChange={(c) => {
+                            setSelectedIds((prev) => {
+                              const next = new Set(prev)
+                              if (c) next.add(u.id)
+                              else next.delete(u.id)
+                              return next
+                            })
+                          }}
+                          aria-label={`选择 ${u.username}`}
+                        />
+                      </td>
+                      <td className="py-2 px-2 font-medium">
+                        {u.username}
+                        {!u.hasProfile && (
+                          <span className="ml-1 text-xs text-muted-foreground">(无档案)</span>
+                        )}
+                      </td>
+                      <td className="py-2 px-2 text-muted-foreground">
+                        {u.currentZoneName || <span>-</span>}
+                      </td>
+                    </tr>
+                  )
+                })}
+              </tbody>
+            </table>
+          )}
+        </div>
+        {pagination.totalPages > 1 && (
+          <div className="flex items-center justify-between text-sm">
+            <span className="text-muted-foreground">
+              共 {pagination.total} 条，第 {pagination.page}/{pagination.totalPages} 页
+            </span>
+            <div className="flex gap-2">
+              <Button
+                variant="outline"
+                size="sm"
+                disabled={pagination.page <= 1}
+                onClick={() => fetchUsers(pagination.page - 1)}
+              >
+                <ChevronLeft className="w-4 h-4" />
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                disabled={pagination.page >= pagination.totalPages}
+                onClick={() => fetchUsers(pagination.page + 1)}
+              >
+                <ChevronRight className="w-4 h-4" />
+              </Button>
+            </div>
+          </div>
+        )}
+        <div className="flex items-center justify-between gap-3 border-t pt-3">
+          <div className="text-sm text-muted-foreground">
+            已选 <span className="font-semibold">{selectedIds.size}</span> 位
+          </div>
+          <Button
+            onClick={handleConfirm}
+            disabled={saving || selectedIds.size === 0}
+          >
+            {saving ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : null}
+            加入「{zone.name}」
           </Button>
         </div>
       </DialogContent>

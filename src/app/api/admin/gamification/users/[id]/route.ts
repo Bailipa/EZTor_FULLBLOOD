@@ -48,11 +48,12 @@ export async function PUT(
     const newZoneId = body.zoneId || null
     if (newZoneId !== profile.zoneId) {
       const ops = []
+      const fromZoneId = profile.zoneId
 
-      if (profile.zoneId) {
+      if (fromZoneId) {
         ops.push(
           prisma.warZone.update({
-            where: { id: profile.zoneId },
+            where: { id: fromZoneId },
             data: { memberCount: { decrement: 1 } },
           }),
         )
@@ -61,10 +62,13 @@ export async function PUT(
       if (newZoneId) {
         const targetZone = await prisma.warZone.findUnique({
           where: { id: newZoneId },
-          select: { id: true },
+          select: { id: true, isActive: true },
         })
         if (!targetZone) {
           return NextResponse.json({ success: false, error: '目标学区不存在' }, { status: 400 })
+        }
+        if (!targetZone.isActive) {
+          return NextResponse.json({ success: false, error: '目标学区已停用，无法指派' }, { status: 400 })
         }
         ops.push(
           prisma.warZone.update({
@@ -75,6 +79,19 @@ export async function PUT(
       }
 
       data.zoneId = newZoneId
+
+      ops.push(
+        prisma.auditLog.create({
+          data: {
+            userId: session.user.id,
+            action: 'ADMIN_EDIT_USER_ZONE',
+            entityType: 'User',
+            entityId: profile.userId,
+            oldValue: JSON.stringify({ zoneId: fromZoneId }),
+            newValue: JSON.stringify({ zoneId: newZoneId, source: 'edit-dialog' }),
+          },
+        }),
+      )
 
       await prisma.$transaction(ops)
     }
