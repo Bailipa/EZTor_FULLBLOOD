@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+import { randomUUID } from 'crypto'
 import prisma from '@/lib/prisma'
 import { createErrorResponse } from '@/lib/apiErrorHandler'
 import { logger } from '@/lib/logger'
@@ -10,7 +11,7 @@ export async function GET(
   try {
     const { userId } = await params
 
-    const profile = await prisma.userGameProfile.findUnique({
+    let profile = await prisma.userGameProfile.findUnique({
       where: { userId },
       select: {
         nickname: true,
@@ -22,7 +23,36 @@ export async function GET(
     })
 
     if (!profile) {
-      return createErrorResponse('用户不存在', 404)
+      const userExists = await prisma.user.findUnique({ where: { id: userId }, select: { id: true } })
+      if (!userExists) {
+        return createErrorResponse('用户不存在', 404)
+      }
+      try {
+        await prisma.userGameProfile.create({
+          data: {
+            id: randomUUID(),
+            userId,
+            dailyPowerDate: new Date().toISOString().slice(0, 10),
+            updatedAt: new Date(),
+          },
+          select: { id: true },
+        })
+      } catch (e) {
+        if (e && typeof e === 'object' && 'code' in e && (e as { code: string }).code !== 'P2002') throw e
+      }
+      profile = await prisma.userGameProfile.findUnique({
+        where: { userId },
+        select: {
+          nickname: true,
+          combatPower: true,
+          monthlyPower: true,
+          currentStreak: true,
+          zoneId: true,
+        },
+      })
+      if (!profile) {
+        return createErrorResponse('用户信息初始化失败', 500)
+      }
     }
 
     let zoneRank = 0

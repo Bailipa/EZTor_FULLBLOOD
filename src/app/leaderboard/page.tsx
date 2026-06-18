@@ -20,6 +20,7 @@ export default function LeaderboardPage() {
   const router = useRouter()
   const [nicknameOpen, setNicknameOpen] = useState(false)
   const [shareOpen, setShareOpen] = useState(false)
+  const [autoCloseSeconds, setAutoCloseSeconds] = useState(0)
   const [refreshKey, setRefreshKey] = useState(0)
   const { currentStep, isActive, nextStep } = useOnboarding()
   const [onboardingNicknameSet, setOnboardingNicknameSet] = useState(false)
@@ -69,6 +70,7 @@ export default function LeaderboardPage() {
   useEffect(() => {
     if (isActive && currentStep === 6 && onboardingNicknameSet && !nicknameOpen && !hasAutoOpenedShareRef.current) {
       hasAutoOpenedShareRef.current = true
+      setAutoCloseSeconds(3)
       setShareOpen(true)
     }
   }, [isActive, currentStep, onboardingNicknameSet, nicknameOpen])
@@ -92,7 +94,10 @@ export default function LeaderboardPage() {
             <div className="flex items-center gap-2">
               <Button
                 variant="outline"
-                onClick={() => setShareOpen(true)}
+                onClick={() => {
+                  setAutoCloseSeconds(0)
+                  setShareOpen(true)
+                }}
                 className="gap-1.5"
                 aria-label="雷霆分享"
               >
@@ -152,11 +157,22 @@ export default function LeaderboardPage() {
         hideCloseButton={isActive && currentStep === 6 && !onboardingNicknameSet}
       />
 
-      <SharePopover open={shareOpen} onOpenChange={setShareOpen} userId={session.user.id} />
+      <SharePopover
+        open={shareOpen}
+        onOpenChange={(open) => {
+          setShareOpen(open)
+          if (!open) setAutoCloseSeconds(0)
+        }}
+        userId={session.user.id}
+        autoCloseSeconds={autoCloseSeconds}
+      />
 
       {/* 引导步骤 6：排行榜介绍 + 分享 + 下一步 */}
       {isActive && currentStep === 6 && onboardingNicknameSet && (
-        <div className={`fixed left-4 right-4 z-50 ${shareOpen ? 'z-[60]' : ''}`} style={{ bottom: 'calc(5rem + env(safe-area-inset-bottom, 0px))' }}>
+        <div
+          className={`fixed left-4 right-4 transition-opacity ${shareOpen ? 'z-40 pointer-events-none opacity-60' : 'z-50'}`}
+          style={{ bottom: 'calc(5rem + env(safe-area-inset-bottom, 0px))' }}
+        >
           <Card className="shadow-lg">
             <CardContent className="p-4">
               <h3 className="font-semibold mb-2">🏆 排行榜</h3>

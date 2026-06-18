@@ -40,18 +40,27 @@ import type {
 
 export class GameService {
   async getOrCreateProfile(userId: string): Promise<GameProfile> {
-    const profile = await prisma.userGameProfile.upsert({
-      where: { userId },
-      update: {},
-      create: {
-        id: randomUUID(),
-        userId,
-        dailyPowerDate: getTodayDateUTC8(),
-        updatedAt: new Date(),
-      },
-    })
+    try {
+      const profile = await prisma.userGameProfile.upsert({
+        where: { userId },
+        update: {},
+        create: {
+          id: randomUUID(),
+          userId,
+          dailyPowerDate: getTodayDateUTC8(),
+          updatedAt: new Date(),
+        },
+      })
 
-    return profile as GameProfile
+      return profile as GameProfile
+    } catch (e) {
+      // P2002: 并发 upsert 时两个请求都尝试 INSERT，第二个被 userId 唯一约束拦截
+      if (e && typeof e === 'object' && 'code' in e && (e as { code: string }).code === 'P2002') {
+        const profile = await prisma.userGameProfile.findUniqueOrThrow({ where: { userId } })
+        return profile as GameProfile
+      }
+      throw e
+    }
   }
 
   async checkDailyReset(profile: GameProfile): Promise<GameProfile> {

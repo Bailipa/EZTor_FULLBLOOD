@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect, useCallback } from 'react'
 import { Button } from '@/components/ui/button'
-import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog'
+import { Dialog, DialogContent, DialogTitle, DialogDescription } from '@/components/ui/dialog'
 import { toPng } from 'html-to-image'
 import { Share2, Copy, Download, Loader2, Zap, Trophy, Flame, BookOpen } from 'lucide-react'
 import { toast } from 'sonner'
@@ -19,14 +19,16 @@ interface SharePopoverProps {
   open: boolean
   onOpenChange: (open: boolean) => void
   userId: string
+  autoCloseSeconds?: number
 }
 
-export function SharePopover({ open, onOpenChange, userId }: SharePopoverProps) {
+export function SharePopover({ open, onOpenChange, userId, autoCloseSeconds = 0 }: SharePopoverProps) {
   const cardRef = useRef<HTMLDivElement>(null)
   const [profile, setProfile] = useState<ShareProfileData | null>(null)
   const [loading, setLoading] = useState(false)
   const [sharing, setSharing] = useState(false)
   const [entered, setEntered] = useState(false)
+  const [countdown, setCountdown] = useState<number | null>(null)
 
   const fetchProfile = useCallback(async () => {
     setLoading(true)
@@ -44,15 +46,33 @@ export function SharePopover({ open, onOpenChange, userId }: SharePopoverProps) 
   }, [userId])
 
   useEffect(() => {
-    if (open && !profile) {
-      fetchProfile()
-    }
     if (open) {
       setEntered(false)
+      if (autoCloseSeconds > 0) {
+        setCountdown(autoCloseSeconds)
+      }
+      if (!profile) {
+        fetchProfile()
+      }
       const t = setTimeout(() => setEntered(true), 100)
       return () => clearTimeout(t)
+    } else {
+      setCountdown(null)
     }
-  }, [open, profile, fetchProfile])
+  }, [open, autoCloseSeconds, profile, fetchProfile])
+
+  useEffect(() => {
+    if (countdown === null || countdown <= 0) return
+    const timer = setTimeout(() => {
+      if (countdown === 1) {
+        onOpenChange(false)
+        setCountdown(null)
+      } else {
+        setCountdown(countdown - 1)
+      }
+    }, 1000)
+    return () => clearTimeout(timer)
+  }, [countdown, onOpenChange])
 
   const reportShare = async () => {
     try {
@@ -74,6 +94,7 @@ export function SharePopover({ open, onOpenChange, userId }: SharePopoverProps) 
   }
 
   const handleShare = async () => {
+    setCountdown(null)
     if (!navigator.share) {
       handleCopyLink()
       return
@@ -95,6 +116,7 @@ export function SharePopover({ open, onOpenChange, userId }: SharePopoverProps) 
   }
 
   const handleCopyLink = async () => {
+    setCountdown(null)
     try {
       await navigator.clipboard.writeText(`${getShareText()}\n${getShareUrl()}`)
       await reportShare()
@@ -105,6 +127,7 @@ export function SharePopover({ open, onOpenChange, userId }: SharePopoverProps) 
   }
 
   const handleSaveImage = async () => {
+    setCountdown(null)
     if (!cardRef.current) return
     try {
       const dataUrl = await toPng(cardRef.current, {
@@ -253,6 +276,35 @@ export function SharePopover({ open, onOpenChange, userId }: SharePopoverProps) 
       <Dialog open={open} onOpenChange={onOpenChange}>
         <DialogContent className="share-popover-content max-w-sm w-[calc(100vw-2rem)] max-h-[calc(100dvh-2rem)] overflow-y-auto p-4">
           <DialogTitle className="sr-only">分享学习成果</DialogTitle>
+          <DialogDescription className="sr-only">分享你的学习成就给朋友，每日可获得 15 学力奖励</DialogDescription>
+          {countdown !== null && countdown > 0 && (
+            <div className="absolute top-2 left-2 z-20 flex items-center gap-1.5">
+              <div className="relative w-9 h-9">
+                <svg className="w-9 h-9 -rotate-90" viewBox="0 0 36 36">
+                  <circle cx="18" cy="18" r="15" fill="none" stroke="rgba(255,255,255,0.15)" strokeWidth="3" />
+                  <circle
+                    cx="18" cy="18" r="15"
+                    fill="none"
+                    stroke="url(#countdownGrad)"
+                    strokeWidth="3"
+                    strokeDasharray={`${(countdown / autoCloseSeconds) * 94.2} 94.2`}
+                    strokeLinecap="round"
+                    className="transition-[stroke-dasharray] duration-1000 ease-linear"
+                  />
+                  <defs>
+                    <linearGradient id="countdownGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stopColor="#a855f7" />
+                      <stop offset="100%" stopColor="#06b6d4" />
+                    </linearGradient>
+                  </defs>
+                </svg>
+                <span className="absolute inset-0 flex items-center justify-center text-sm font-bold text-white">
+                  {countdown}
+                </span>
+              </div>
+              <span className="text-xs text-white/60">秒后关闭</span>
+            </div>
+          )}
           <div className="share-bird share-bird-1"><img src="/birdone.png" alt="" /></div>
           <div className="share-bird share-bird-2"><img src="/birdtwo.png" alt="" /></div>
           <div className="share-bird share-bird-3"><img src="/birdthree.png" alt="" /></div>
