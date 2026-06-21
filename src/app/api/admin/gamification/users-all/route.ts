@@ -45,6 +45,7 @@ export async function GET(req: Request) {
         GameProfile: {
           select: {
             id: true,
+            nickname: true,
             zoneId: true,
             WarZone: { select: { name: true } },
           },
@@ -54,17 +55,32 @@ export async function GET(req: Request) {
     prisma.user.count({ where }),
   ])
 
+  const identities = users.length
+    ? await prisma.externalIdentity.findMany({
+        where: { provider: 'xiaoying', localUserId: { in: users.map((u) => u.id) } },
+        select: { localUserId: true, subject: true, createdAt: true },
+      })
+    : []
+  const identityByUserId = new Map(identities.map((i) => [i.localUserId, i]))
+
   return NextResponse.json({
     success: true,
-    data: users.map((u) => ({
-      id: u.id,
-      username: u.username,
-      createdAt: u.createdAt.toISOString(),
-      hasProfile: !!u.GameProfile,
-      profileId: u.GameProfile?.id ?? null,
-      currentZoneId: u.GameProfile?.zoneId ?? null,
-      currentZoneName: u.GameProfile?.WarZone?.name ?? null,
-    })),
+    data: users.map((u) => {
+      const ident = identityByUserId.get(u.id)
+      return {
+        id: u.id,
+        username: u.username,
+        createdAt: u.createdAt.toISOString(),
+        nickname: u.GameProfile?.nickname ?? null,
+        hasProfile: !!u.GameProfile,
+        profileId: u.GameProfile?.id ?? null,
+        currentZoneId: u.GameProfile?.zoneId ?? null,
+        currentZoneName: u.GameProfile?.WarZone?.name ?? null,
+        provider: ident ? 'xiaoying' : 'local',
+        externalSubject: ident?.subject ?? null,
+        externalBoundAt: ident?.createdAt.toISOString() ?? null,
+      }
+    }),
     pagination: { page, limit, total, totalPages: Math.max(1, Math.ceil(total / limit)) },
   })
 }

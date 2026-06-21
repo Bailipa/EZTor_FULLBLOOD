@@ -49,27 +49,41 @@ export async function GET(req: Request) {
     prisma.userGameProfile.count({ where }),
   ])
 
+  const identities = profiles.length
+    ? await prisma.externalIdentity.findMany({
+        where: { provider: 'xiaoying', localUserId: { in: profiles.map((p) => p.userId) } },
+        select: { localUserId: true, subject: true, createdAt: true },
+      })
+    : []
+  const identityByUserId = new Map(identities.map((i) => [i.localUserId, i]))
+
   return NextResponse.json({
     success: true,
-    data: profiles.map((p) => ({
-      id: p.id,
-      userId: p.userId,
-      username: p.User.username,
-      nickname: p.nickname,
-      combatPower: p.combatPower,
-      monthlyPower: p.monthlyPower,
-      weeklyPower: p.weeklyPower,
-      dailyPowerGained: p.dailyPowerGained,
-      dailyPowerCap: p.dailyPowerCap,
-      currentStreak: p.currentStreak,
-      longestStreak: p.longestStreak,
-      zoneId: p.zoneId,
-      zoneName: p.WarZone?.name ?? null,
-      zoneTitle: p.zoneTitle,
-      unlockedFeatures: p.unlockedFeatures,
-      lastActiveDate: p.lastActiveDate,
-      createdAt: p.createdAt.toISOString(),
-    })),
+    data: profiles.map((p) => {
+      const ident = identityByUserId.get(p.userId)
+      return {
+        id: p.id,
+        userId: p.userId,
+        username: p.User.username,
+        nickname: p.nickname,
+        combatPower: p.combatPower,
+        monthlyPower: p.monthlyPower,
+        weeklyPower: p.weeklyPower,
+        dailyPowerGained: p.dailyPowerGained,
+        dailyPowerCap: p.dailyPowerCap,
+        currentStreak: p.currentStreak,
+        longestStreak: p.longestStreak,
+        zoneId: p.zoneId,
+        zoneName: p.WarZone?.name ?? null,
+        zoneTitle: p.zoneTitle,
+        unlockedFeatures: p.unlockedFeatures,
+        lastActiveDate: p.lastActiveDate,
+        createdAt: p.createdAt.toISOString(),
+        provider: ident ? 'xiaoying' : 'local',
+        externalSubject: ident?.subject ?? null,
+        externalBoundAt: ident?.createdAt.toISOString() ?? null,
+      }
+    }),
     pagination: { page, limit, total, totalPages: Math.ceil(total / limit) },
   })
 }

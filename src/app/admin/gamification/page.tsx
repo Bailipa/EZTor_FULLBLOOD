@@ -44,6 +44,9 @@ interface UserProfile {
   unlockedFeatures: string[]
   lastActiveDate: string | null
   createdAt: string
+  provider: 'xiaoying' | 'local'
+  externalSubject: string | null
+  externalBoundAt: string | null
 }
 
 interface ZoneData {
@@ -69,10 +72,14 @@ interface AllUser {
   id: string
   username: string
   createdAt: string
+  nickname: string | null
   hasProfile: boolean
   profileId: string | null
   currentZoneId: string | null
   currentZoneName: string | null
+  provider: 'xiaoying' | 'local'
+  externalSubject: string | null
+  externalBoundAt: string | null
 }
 
 interface AssignResult {
@@ -270,7 +277,7 @@ function UsersTab() {
                       />
                     </th>
                     <th className="text-left py-2 px-2 font-medium">用户名</th>
-                    <th className="text-left py-2 px-2 font-medium">昵称</th>
+                    <th className="text-left py-2 px-2 font-medium">绑定/注册</th>
                     <th className="text-right py-2 px-2 font-medium">学力</th>
                     <th className="text-left py-2 px-2 font-medium">学区</th>
                     <th className="text-left py-2 px-2 font-medium">称号</th>
@@ -297,8 +304,22 @@ function UsersTab() {
                             aria-label={`选择 ${u.username}`}
                           />
                         </td>
-                        <td className="py-2 px-2 font-medium">{u.username}</td>
-                        <td className="py-2 px-2">{u.nickname || <span className="text-muted-foreground">未设置</span>}</td>
+                        <td className="py-2 px-2 font-medium">
+                          <div className="flex flex-col gap-0.5">
+                            <span>{u.nickname || u.username}</span>
+                            {u.provider === 'xiaoying' && (
+                              <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                                <span className="rounded bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300 px-1.5 py-0.5">小应</span>
+                                <span className="font-mono">sub:…{u.externalSubject?.slice(-8)}</span>
+                              </div>
+                            )}
+                          </div>
+                        </td>
+                        <td className="py-2 px-2 text-muted-foreground text-xs">
+                          {u.provider === 'xiaoying' && u.externalBoundAt
+                            ? `小应绑定：${new Date(u.externalBoundAt).toLocaleDateString('zh-CN')}`
+                            : `注册：${new Date(u.createdAt).toLocaleDateString('zh-CN')}`}
+                        </td>
                         <td className="py-2 px-2 text-right">
                           <span className="font-mono text-amber-600 dark:text-amber-400">{u.combatPower}</span>
                         </td>
@@ -508,7 +529,15 @@ function EditUserDialog({
     <Dialog open={!!user} onOpenChange={(open) => !open && onClose()}>
       <DialogContent className="sm:max-w-[500px] max-h-[80vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>编辑用户：{user.username}</DialogTitle>
+          <DialogTitle>
+            编辑用户：{user.nickname || user.username}
+            <span className="text-sm font-normal text-muted-foreground ml-2">
+              ({user.username})
+              {user.provider === 'xiaoying' && (
+                <span className="ml-1 rounded bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300 px-1.5 py-0.5">小应</span>
+              )}
+            </span>
+          </DialogTitle>
           <DialogDescription>管理员可直接修改任意字段，不受限制</DialogDescription>
         </DialogHeader>
         <div className="space-y-4">
@@ -1036,6 +1065,7 @@ function FindUserDialog({
                       <Checkbox checked={allOnPageSelected} onCheckedChange={toggleAll} aria-label="全选" />
                     </th>
                     <th className="text-left py-2 px-2 font-medium">用户名</th>
+                    <th className="text-left py-2 px-2 font-medium">绑定/注册</th>
                     <th className="text-left py-2 px-2 font-medium">当前学区</th>
                     <th className="text-center py-2 px-2 font-medium">操作</th>
                   </tr>
@@ -1060,10 +1090,23 @@ function FindUserDialog({
                           />
                         </td>
                         <td className="py-2 px-2 font-medium">
-                          {u.username}
-                          {!u.hasProfile && (
-                            <span className="ml-1 text-xs text-muted-foreground">(无档案)</span>
-                          )}
+                          <div className="flex flex-col gap-0.5">
+                            <span>{u.nickname || u.username}</span>
+                            {u.provider === 'xiaoying' && (
+                              <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                                <span className="rounded bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300 px-1.5 py-0.5">小应</span>
+                                <span className="font-mono">sub:…{u.externalSubject?.slice(-8)}</span>
+                              </div>
+                            )}
+                            {!u.hasProfile && (
+                              <span className="text-xs text-muted-foreground">(无档案)</span>
+                            )}
+                          </div>
+                        </td>
+                        <td className="py-2 px-2 text-muted-foreground text-xs">
+                          {u.provider === 'xiaoying' && u.externalBoundAt
+                            ? `小应绑定：${new Date(u.externalBoundAt).toLocaleDateString('zh-CN')}`
+                            : `注册：${new Date(u.createdAt).toLocaleDateString('zh-CN')}`}
                         </td>
                         <td className="py-2 px-2 text-muted-foreground">
                           {u.currentZoneName || <span>-</span>}
@@ -1287,8 +1330,9 @@ function AddMembersDialog({
                   <th className="py-2 px-2 w-8">
                     <Checkbox checked={allOnPageSelected} onCheckedChange={toggleAll} aria-label="全选" />
                   </th>
-                  <th className="text-left py-2 px-2 font-medium">用户名</th>
-                  <th className="text-left py-2 px-2 font-medium">当前学区</th>
+<th className="text-left py-2 px-2 font-medium">用户名</th>
+                    <th className="text-left py-2 px-2 font-medium">绑定/注册</th>
+                    <th className="text-left py-2 px-2 font-medium">当前学区</th>
                 </tr>
               </thead>
               <tbody>
@@ -1311,10 +1355,23 @@ function AddMembersDialog({
                         />
                       </td>
                       <td className="py-2 px-2 font-medium">
-                        {u.username}
-                        {!u.hasProfile && (
-                          <span className="ml-1 text-xs text-muted-foreground">(无档案)</span>
-                        )}
+                        <div className="flex flex-col gap-0.5">
+                          <span>{u.nickname || u.username}</span>
+                          {u.provider === 'xiaoying' && (
+                            <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                              <span className="rounded bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300 px-1.5 py-0.5">小应</span>
+                              <span className="font-mono">sub:…{u.externalSubject?.slice(-8)}</span>
+                            </div>
+                          )}
+                          {!u.hasProfile && (
+                            <span className="text-xs text-muted-foreground">(无档案)</span>
+                          )}
+                        </div>
+                      </td>
+                      <td className="py-2 px-2 text-muted-foreground text-xs">
+                        {u.provider === 'xiaoying' && u.externalBoundAt
+                          ? `小应绑定：${new Date(u.externalBoundAt).toLocaleDateString('zh-CN')}`
+                          : `注册：${new Date(u.createdAt).toLocaleDateString('zh-CN')}`}
                       </td>
                       <td className="py-2 px-2 text-muted-foreground">
                         {u.currentZoneName || <span>-</span>}
