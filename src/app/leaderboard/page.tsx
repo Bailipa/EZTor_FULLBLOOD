@@ -14,6 +14,7 @@ import { Button } from '@/components/ui/button'
 import { SharePopover } from '@/components/share/SharePopover'
 import { useOnboarding } from '@/components/onboarding/OnboardingProvider'
 import { Card, CardContent } from '@/components/ui/card'
+import { BackButton } from '@/components/layout/BackButton'
 
 export default function LeaderboardPage() {
   const { data: session, status } = useSession()
@@ -90,6 +91,9 @@ export default function LeaderboardPage() {
     <div className="relative h-screen bg-background transition-colors duration-300 flex flex-col">
       <AppLayout>
         <div className="flex flex-col h-full overflow-y-auto p-4 md:p-6 lg:p-8 space-y-4">
+          <div className="xl:hidden">
+            <BackButton />
+          </div>
           <div className="flex items-center justify-between">
             <h1 className="text-2xl font-bold">排行榜</h1>
             <div className="flex items-center gap-2">

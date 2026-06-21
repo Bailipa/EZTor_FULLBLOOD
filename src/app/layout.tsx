@@ -7,6 +7,7 @@ import { NextAuthProvider } from '@/components/providers/session-provider'
 import { OnlineLimitBanner } from '@/components/OnlineLimitBanner'
 import { BrandThemeProvider } from '@/components/brand-theme-provider'
 import { OnboardingProvider } from '@/components/onboarding/OnboardingProvider'
+import { DanmakuHost } from '@/components/layout/DanmakuHost'
 
 export const metadata: Metadata = {
   title: {
@@ -68,6 +69,7 @@ export default function RootLayout({
           >
             <BrandThemeProvider>
               <OnboardingProvider>
+                <DanmakuHost />
                 {children}
               </OnboardingProvider>
               <Toaster />

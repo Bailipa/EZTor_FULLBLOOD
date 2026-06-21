@@ -3,14 +3,12 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
-import { Danmaku } from '@/components/ui/danmaku'
 import { HomeHeader } from '@/components/home'
 import { WordTranslationPanel } from '@/components/home/WordTranslationPanel'
 import { ChatRoom } from '@/components/chat/ChatRoom'
 import { useLoginPrompt } from '@/components/ui/login-prompt-modal'
 import AppLayout from '@/components/layout/AppLayout'
 import type { ReviewGroup } from '@/types/api'
-import { saveToStorage, loadFromStorage } from '@/lib/storage'
 import { usePageView } from '@/lib/analytics'
 import { FullscreenFlashcard } from '@/components/flashcard/FullscreenFlashcard'
 import { useOnboarding } from '@/components/onboarding/OnboardingProvider'
@@ -42,7 +40,6 @@ export default function HomeContent() {
 
   const [showPos, _setShowPos] = useState(true)
   const [showExample, _setShowExample] = useState(true)
-  const [showDanmaku, setShowDanmaku] = useState(false)
   const [groups, setGroups] = useState<ReviewGroup[]>([])
   const [selectedTargetGroupId, setSelectedTargetGroupId] = useState<string>('none')
   const [unlockNotifOpen, setUnlockNotifOpen] = useState(false)
@@ -57,15 +54,6 @@ export default function HomeContent() {
 
   const isAuthenticated = status === 'authenticated' && session?.user
   const isGuestMode = !isAuthenticated
-
-  useEffect(() => {
-    const savedDanmaku = loadFromStorage<boolean>('vocab_showDanmaku', false)
-    setShowDanmaku(savedDanmaku)
-  }, [])
-
-  useEffect(() => {
-    saveToStorage('vocab_showDanmaku', showDanmaku)
-  }, [showDanmaku])
 
   useEffect(() => {
     if (session?.user?.id) {
@@ -89,16 +77,10 @@ export default function HomeContent() {
 
   return (
     <div className="relative h-screen bg-background font-[family-name:var(--font-geist-sans)] transition-colors duration-300 flex flex-col">
-      {showDanmaku && <Danmaku isVisible={showDanmaku} />}
-
       <AppLayout>
         {/* 移动端 */}
         <div className="xl:hidden flex flex-col h-full">
-          <HomeHeader
-            showDanmaku={showDanmaku}
-            onToggleDanmaku={() => setShowDanmaku(!showDanmaku)}
-            onFeatureClick={promptLogin}
-          />
+          <HomeHeader />
           {isAuthenticated && (
             <div className="px-4 py-2 flex items-center justify-between border-b border-border bg-background/80 backdrop-blur">
               <CombatPowerBadge />
@@ -121,11 +103,7 @@ export default function HomeContent() {
 
         {/* 桌面端 */}
         <div className="hidden xl:flex xl:flex-col xl:h-screen">
-          <HomeHeader
-            showDanmaku={showDanmaku}
-            onToggleDanmaku={() => setShowDanmaku(!showDanmaku)}
-            onFeatureClick={promptLogin}
-          />
+          <HomeHeader />
 
           <div className="flex-1 flex flex-col xl:flex-row min-h-0 xl:overflow-hidden">
             <div className="flex flex-col xl:w-[440px] xl:shrink-0 xl:overflow-y-auto xl:border-r xl:border-border">
