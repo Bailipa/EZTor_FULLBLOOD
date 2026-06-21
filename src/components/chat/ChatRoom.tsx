@@ -7,7 +7,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { Card, CardContent } from '@/components/ui/card'
 import { Loader2, Send, Trash, Ban, ChevronUp } from 'lucide-react'
 import { toast } from 'sonner'
-import { isDeveloper, getDisplayName, getAvatar } from '@/lib/chatUser'
+import { isDeveloper, getDisplayName, getAvatar, type ChatAvatar } from '@/lib/chatUser'
 
 interface Message {
   id: string
@@ -16,6 +16,8 @@ interface Message {
   isHidden: boolean
   isDeleted: boolean
   createdAt: string
+  nickname: string | null
+  picture: string | null
   User: {
     id: string
     username: string
@@ -256,8 +258,8 @@ export function ChatRoom() {
         {messages.map((message) => {
           const isOwn = message.userId === session?.user?.id
           const messageAdmin = isDeveloper(message.User)
-          const avatar = getAvatar(message.User)
-          const displayName = getDisplayName(message.User)
+          const avatar: ChatAvatar = getAvatar(message.User, message.picture)
+          const displayName = getDisplayName(message.User, message.nickname)
 
           return (
             <div
@@ -265,9 +267,15 @@ export function ChatRoom() {
               className={`flex ${isOwn ? 'justify-end' : 'justify-start'}`}
             >
               <div className={`flex gap-2 max-w-[80%] ${isOwn ? 'flex-row-reverse' : 'flex-row'}`}>
-                {avatar ? (
+                {avatar?.kind === 'image' ? (
+                  <img
+                    src={avatar.url}
+                    alt=""
+                    className="w-8 h-8 rounded-full object-cover bg-muted shrink-0"
+                  />
+                ) : avatar?.kind === 'letter' ? (
                   <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-primary-foreground font-bold text-sm shrink-0">
-                    {avatar}
+                    {avatar.value}
                   </div>
                 ) : (
                   <div className="w-8 h-8 rounded-full bg-muted shrink-0" />

@@ -75,6 +75,23 @@ async function trySeedXiaoYingNickname(userId: string, rawNickname: string | und
   }
 }
 
+async function trySeedXiaoYingPicture(userId: string, rawPicture: string | undefined) {
+  if (rawPicture === undefined) return
+  const trimmed = rawPicture.trim()
+  if (!trimmed) return
+  try {
+    const result = await prisma.externalIdentity.updateMany({
+      where: { localUserId: userId, provider: 'xiaoying' },
+      data: { picture: trimmed },
+    })
+    if (result.count > 0) {
+      logger.info(`[XiaoyingOIDC] picture seed: userId=${userId.slice(0, 8)}, count=${result.count}`)
+    }
+  } catch (err) {
+    logger.info(`[XiaoyingOIDC] picture seed failed: ${err instanceof Error ? err.message : String(err)}`)
+  }
+}
+
 export async function GET(request: Request) {
   try {
     const rateLimitKey = `xiaoying:callback:${getClientKey(request)}`
@@ -139,6 +156,7 @@ export async function GET(request: Request) {
     if (externalIdentity) {
       localUserId = externalIdentity.localUserId
       await trySeedXiaoYingNickname(localUserId, userInfo.nickname)
+      await trySeedXiaoYingPicture(localUserId, userInfo.picture)
     } else {
       const baseUsername = `xiaoying_${subject.substring(0, 16)}`
       let username = baseUsername
@@ -169,6 +187,7 @@ export async function GET(request: Request) {
 
       localUserId = newUser.id
       await trySeedXiaoYingNickname(localUserId, userInfo.nickname)
+      await trySeedXiaoYingPicture(localUserId, userInfo.picture)
       logger.info({ localUserId, username }, '[XiaoyingOIDC] Created new local user')
     }
 

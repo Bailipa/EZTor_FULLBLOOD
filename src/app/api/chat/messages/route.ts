@@ -38,6 +38,7 @@ export async function GET(req: Request) {
             id: true,
             username: true,
             isAdmin: true,
+            GameProfile: { select: { nickname: true } },
           }
         }
       },
@@ -46,13 +47,27 @@ export async function GET(req: Request) {
       ...(cursor ? { cursor: { id: cursor }, skip: 1 } : {}),
     })
 
+    const userIds = Array.from(new Set(messages.map((m) => m.userId)))
+    const identities = userIds.length
+      ? await prisma.externalIdentity.findMany({
+          where: { provider: 'xiaoying', localUserId: { in: userIds } },
+          select: { localUserId: true, picture: true },
+        })
+      : []
+    const pictureByUserId = new Map(identities.map((i) => [i.localUserId, i.picture ?? null]))
+
     const hasMore = messages.length > limit
-    const data = hasMore ? messages.slice(0, -1) : messages
-    const nextCursor = hasMore ? data[data.length - 1].id : null
+    const rawData = hasMore ? messages.slice(0, -1) : messages
+    const data = rawData.reverse().map((m) => ({
+      ...m,
+      nickname: m.User.GameProfile?.nickname ?? null,
+      picture: pictureByUserId.get(m.userId) ?? null,
+    }))
+    const nextCursor = hasMore ? rawData[rawData.length - 1].id : null
 
     return NextResponse.json({
       success: true,
-      data: data.reverse(),
+      data,
       pagination: { hasMore, nextCursor }
     })
   } catch (err: unknown) {
@@ -150,18 +165,29 @@ export async function POST(req: Request) {
             id: true,
             username: true,
             isAdmin: true,
+            GameProfile: { select: { nickname: true } },
           }
         }
       }
     })
 
+    const identity = await prisma.externalIdentity.findFirst({
+      where: { provider: 'xiaoying', localUserId: userId },
+      select: { picture: true },
+    })
+    const enrichedMessage = {
+      ...message,
+      nickname: message.User.GameProfile?.nickname ?? null,
+      picture: identity?.picture ?? null,
+    }
+
     lastMessageTime.set(userId, now)
 
-    broadcastMessage(message)
+    broadcastMessage(enrichedMessage)
 
     return NextResponse.json({
       success: true,
-      data: message,
+      data: enrichedMessage,
       isShadowBanned
     })
   } catch (err: unknown) {
