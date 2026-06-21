@@ -9,6 +9,8 @@ import { exchangeCodeForToken, verifyXiaoYingIdToken, getUserInfo } from '@/lib/
 import { consumeAttempt } from '@/lib/xiaoying-oidc-attempts'
 import prisma from '@/lib/prisma'
 import { removeKick } from '@/lib/onlineTracker'
+import { loadCustomProfanity, containsProfanity } from '@/lib/profanityFilter'
+import { NICKNAME_MAX_LENGTH } from '@/features/gamification/constants'
 
 const SESSION_COOKIE =
   process.env.NODE_ENV === 'production'
@@ -21,6 +23,56 @@ function getErrorRedirect(error: string): NextResponse {
   const url = new URL('/auth/signin', process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000')
   url.searchParams.set('error', error)
   return NextResponse.redirect(url)
+}
+
+async function trySeedXiaoYingNickname(userId: string, rawNickname: string | undefined) {
+  logger.info(`[XiaoyingOIDC] seed attempt: userId=${userId.slice(0, 8)}, rawNickname=${JSON.stringify(rawNickname)}`)
+  if (!rawNickname) {
+    logger.info(`[XiaoyingOIDC] seed skip: rawNickname is ${rawNickname === undefined ? 'undefined' : 'empty'}`)
+    return
+  }
+  const trimmed = rawNickname.trim()
+  if (!trimmed) {
+    logger.info('[XiaoyingOIDC] seed skip: trimmed empty')
+    return
+  }
+  if (trimmed.length > NICKNAME_MAX_LENGTH) {
+    logger.info(`[XiaoyingOIDC] seed skip: too long (len=${trimmed.length})`)
+    return
+  }
+  await loadCustomProfanity()
+  if (containsProfanity(trimmed)) {
+    logger.info('[XiaoyingOIDC] seed skip: profanity')
+    return
+  }
+  const existing = await prisma.userGameProfile.findUnique({
+    where: { userId },
+    select: { nickname: true, nicknameChangedAt: true },
+  })
+  if (existing && (existing.nickname !== null || existing.nicknameChangedAt !== null)) {
+    logger.info(`[XiaoyingOIDC] seed skip: existing nickname=${JSON.stringify(existing.nickname)}, nicknameChangedAt=${existing.nicknameChangedAt?.toISOString() ?? 'null'}`)
+    return
+  }
+  try {
+    await prisma.userGameProfile.upsert({
+      where: { userId },
+      update: { nickname: trimmed },
+      create: {
+        id: crypto.randomUUID(),
+        userId,
+        nickname: trimmed,
+        dailyPowerDate: new Date().toISOString().slice(0, 10),
+        updatedAt: new Date(),
+      },
+    })
+    logger.info(`[XiaoyingOIDC] seed success: userId=${userId.slice(0, 8)}, nickname=${JSON.stringify(trimmed)}`)
+  } catch (err) {
+    if (err && typeof err === 'object' && 'code' in err && (err as { code: string }).code === 'P2002') {
+      logger.info(`[XiaoyingOIDC] seed skip: collision (userId=${userId.slice(0, 8)})`)
+      return
+    }
+    throw err
+  }
 }
 
 export async function GET(request: Request) {
@@ -62,6 +114,7 @@ export async function GET(request: Request) {
     const verified = await verifyXiaoYingIdToken(tokenResponse.id_token, attempt.nonce, clientId)
 
     const userInfo = await getUserInfo(tokenResponse.access_token)
+    logger.info(`[XiaoyingOIDC] /userinfo parsed: sub=${userInfo.sub}, nickname=${JSON.stringify(userInfo.nickname)}, picture=${JSON.stringify(userInfo.picture)}, keys=${Object.keys(userInfo).join(',')}`)
 
     if (userInfo.sub !== verified.sub) {
       logger.security(`[XiaoyingOIDC] userinfo.sub mismatch (userinfo=${userInfo.sub}, id_token=${verified.sub})`)
@@ -85,6 +138,7 @@ export async function GET(request: Request) {
     let localUserId: string
     if (externalIdentity) {
       localUserId = externalIdentity.localUserId
+      await trySeedXiaoYingNickname(localUserId, userInfo.nickname)
     } else {
       const baseUsername = `xiaoying_${subject.substring(0, 16)}`
       let username = baseUsername
@@ -114,6 +168,7 @@ export async function GET(request: Request) {
       })
 
       localUserId = newUser.id
+      await trySeedXiaoYingNickname(localUserId, userInfo.nickname)
       logger.info({ localUserId, username }, '[XiaoyingOIDC] Created new local user')
     }
 

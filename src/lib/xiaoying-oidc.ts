@@ -123,5 +123,6 @@ export async function getUserInfo(accessToken: string): Promise<XiaoYingUserInfo
   }
 
   const data = await res.json()
+  logger.info(`[XiaoyingOIDC] /userinfo raw response: ${JSON.stringify(data)}`)
   return data as XiaoYingUserInfo
 }
