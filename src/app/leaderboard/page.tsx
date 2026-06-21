@@ -30,6 +30,7 @@ export default function LeaderboardPage() {
     combatPower: number
     currentStreak: number
     longestStreak: number
+    provider: 'xiaoying' | 'local'
   } | null>(null)
   const [loading, setLoading] = useState(true)
 
@@ -127,6 +128,23 @@ export default function LeaderboardPage() {
                 longestStreak={profile.longestStreak}
               />
             </div>
+          )}
+
+          {profile?.provider === 'xiaoying' && !profile?.nickname && (
+            <Card className="border-blue-200 bg-blue-50/50 dark:bg-blue-950/20 dark:border-blue-900">
+              <CardContent className="py-3 px-4 flex items-center justify-between gap-3 flex-wrap">
+                <div className="flex items-center gap-2 text-sm">
+                  <span className="rounded bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300 px-1.5 py-0.5 text-xs">小应</span>
+                  <span>你通过小应账号登录,但还没同步昵称到榜单</span>
+                </div>
+                <Button
+                  size="sm"
+                  onClick={() => { window.location.href = '/api/auth/xiaoying/start?redirectTo=/leaderboard' }}
+                >
+                  立即同步小应昵称
+                </Button>
+              </CardContent>
+            </Card>
           )}
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 flex-1">

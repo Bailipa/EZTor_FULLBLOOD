@@ -4,6 +4,7 @@ import { authOptions } from '@/app/api/auth/[...nextauth]/route'
 import { gameService } from '@/features/gamification/services/GameService'
 import { logger } from '@/lib/logger'
 import { NICKNAME_MAX_LENGTH } from '@/features/gamification/constants'
+import prisma from '@/lib/prisma'
 
 export async function GET() {
   try {
@@ -17,12 +18,17 @@ export async function GET() {
     const resetProfile = await gameService.checkDailyReset(profile)
     await gameService.assignZone(userId)
     const featureStatus = gameService.getFeatureUnlockStatus(resetProfile.combatPower)
+    const identity = await prisma.externalIdentity.findFirst({
+      where: { localUserId: userId, provider: 'xiaoying' },
+      select: { provider: true },
+    })
 
     return NextResponse.json({
       success: true,
       data: {
         ...resetProfile,
         featureStatus,
+        provider: identity ? 'xiaoying' : 'local',
       },
     })
   } catch (err: unknown) {
