@@ -70,6 +70,18 @@ set -e
 SERVER_DIR="/www/wwwroot/114.55.58.90"
 TIMESTAMP=$(date +%Y%m%d_%H%M%S)
 
+# Cleanup old backups (keep only the 2 most recent standalone.bak.*)
+echo "  Cleaning up old backups (keep 2 newest)..."
+cd "$SERVER_DIR/.next"
+if compgen -G "standalone.bak.*" > /dev/null; then
+  REMOVED=$(ls -1dt standalone.bak.* 2>/dev/null | tail -n +3 | tr '\n' ' ')
+  if [ -n "$REMOVED" ]; then
+    echo "  → removing: $REMOVED"
+    ls -1dt standalone.bak.* 2>/dev/null | tail -n +3 | xargs -r rm -rf
+  fi
+  echo "  ✓ Kept: $(ls -1dt standalone.bak.* 2>/dev/null | tr '\n' ' ')"
+fi
+
 # Backup current version
 echo "  Backing up current version..."
 cd "$SERVER_DIR/.next"
