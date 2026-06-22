@@ -17,6 +17,7 @@ import {
 const OPTIONAL_AUTH_PATHS = [
   '/',
   '/translate',
+  '/me',
   '/api/translate',
   '/api/public-translate',
   '/api/tts',
