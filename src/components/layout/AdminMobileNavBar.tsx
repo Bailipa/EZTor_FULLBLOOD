@@ -2,17 +2,15 @@
 
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
-import { BarChart3, MessageSquare, Users, Languages, BookOpen, Database, Zap } from 'lucide-react'
+import { BarChart3, Users, Zap, BookOpen, MoreHorizontal } from 'lucide-react'
 import type { SidebarNavItem } from './AppSidebar'
 
 const adminNavItems: SidebarNavItem[] = [
   { href: '/analytics', label: '数据', icon: BarChart3 },
-  { href: '/admin/gamification', label: '学力', icon: Zap },
-  { href: '/admin/chat', label: '聊天', icon: MessageSquare },
   { href: '/users', label: '用户', icon: Users },
-  { href: '/translation-records', label: '翻译', icon: Languages },
+  { href: '/admin/gamification', label: '学力', icon: Zap },
   { href: '/public-words', label: '词库', icon: BookOpen },
-  { href: '/llm-config', label: 'LLM', icon: Database },
+  { href: '/admin/more', label: '更多', icon: MoreHorizontal },
 ]
 
 export default function AdminMobileNavBar() {
@@ -23,7 +21,13 @@ export default function AdminMobileNavBar() {
       <div className="flex items-center justify-around h-14">
         {adminNavItems.map((item) => {
           const Icon = item.icon
-          const isActiveTab = pathname === item.href
+          const isActiveTab =
+            item.href === '/admin/more'
+              ? pathname.startsWith('/admin/more') ||
+                pathname === '/admin/chat' ||
+                pathname === '/translation-records' ||
+                pathname === '/llm-config'
+              : pathname === item.href
 
           return (
             <Link
