@@ -125,20 +125,26 @@ else
 fi
 
 # Run database migrations if new migrations exist
-echo "  Checking for database migrations..."
-MIGRATION_COUNT=$(ls -d "$SERVER_DIR/prisma/migrations/"*/ 2>/dev/null | wc -l)
-if [ "$MIGRATION_COUNT" -gt 0 ]; then
-  DATABASE_URL=$(grep DATABASE_URL "$SERVER_DIR/.env" | cut -d'=' -f2- | tr -d '"' | tr -d "'")
-  if [ -n "$DATABASE_URL" ]; then
-    cd "$SERVER_DIR"
-    DATABASE_URL="$DATABASE_URL" npx prisma migrate deploy 2>&1 | tail -5
-    echo "  ✓ Database migrations applied"
+  echo "  Checking for database migrations..."
+  MIGRATION_COUNT=$(ls -d "$SERVER_DIR/prisma/migrations/"*/ 2>/dev/null | wc -l)
+  if [ "$MIGRATION_COUNT" -gt 0 ]; then
+    DATABASE_URL=$(grep DATABASE_URL "$SERVER_DIR/.env" | cut -d'=' -f2- | tr -d '"' | tr -d "'")
+    if [ -n "$DATABASE_URL" ]; then
+      cd "$SERVER_DIR"
+      MIGRATION_OUTPUT=$(DATABASE_URL="$DATABASE_URL" npx prisma migrate deploy 2>&1)
+      MIGRATION_EXIT=$?
+      echo "$MIGRATION_OUTPUT" | tail -10
+      if [ $MIGRATION_EXIT -eq 0 ]; then
+        echo "  ✓ Database migrations applied"
+      else
+        echo "  ✗ Migrations failed (exit $MIGRATION_EXIT). See output above."
+      fi
+    else
+      echo "  ⚠ Could not read DATABASE_URL, skipping migrations"
+    fi
   else
-    echo "  ⚠ Could not read DATABASE_URL, skipping migrations"
+    echo "  No migrations to apply"
   fi
-else
-  echo "  No migrations to apply"
-fi
 
 # Restart PM2
 echo "  Restarting PM2..."
