@@ -166,7 +166,10 @@ export default async function middleware(request: NextRequest) {
       res.cookies.delete(SESSION_COOKIE)
       return res
     }
-    const res = NextResponse.redirect(new URL('/auth/signin?kicked=1', request.url))
+    const signInUrl = new URL('/auth/signin', request.url)
+    signInUrl.searchParams.set('kicked', '1')
+    signInUrl.searchParams.set('callbackUrl', request.nextUrl.pathname + request.nextUrl.search)
+    const res = NextResponse.redirect(signInUrl)
     res.cookies.delete(SESSION_COOKIE)
     return res
   }
@@ -219,7 +222,7 @@ export default async function middleware(request: NextRequest) {
         return NextResponse.json({ success: false, error: '未登录' }, { status: 401 })
       }
       const signInUrl = new URL('/auth/signin', request.url)
-      signInUrl.searchParams.set('callbackUrl', pathname)
+      signInUrl.searchParams.set('callbackUrl', request.nextUrl.pathname + request.nextUrl.search)
       return NextResponse.redirect(signInUrl)
     }
   } else {
