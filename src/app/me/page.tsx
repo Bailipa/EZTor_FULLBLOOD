@@ -33,9 +33,10 @@ import {
   Coffee,
   FileSearch,
   Lock,
+  BookOpen,
 } from 'lucide-react'
 import { GameWidget } from '@/components/ui/game/GameWidget'
-import { DonationButton } from '@/components/home/DonationModal'
+import { DonationDialog } from '@/components/home/DonationModal'
 import { DanmakuToggleButton } from '@/components/home/DanmakuToggleButton'
 import { FeatureLockedDialog } from '@/features/gamification/components/FeatureLockedDialog'
 import { FEATURE_UNLOCK_THRESHOLDS } from '@/features/gamification/constants'
@@ -106,6 +107,18 @@ export default function MePage() {
 
           <Card>
             <CardContent className="p-0 divide-y divide-border">
+              <Link
+                href="/history"
+                onClick={guardedHref(true)}
+                className="flex items-center justify-between p-4 hover:bg-muted/50 transition-colors"
+              >
+                <span className="flex items-center gap-3">
+                  <BookOpen className="w-5 h-5 text-muted-foreground" />
+                  <span className="font-medium">生词本</span>
+                </span>
+                <ChevronRight className="w-4 h-4 text-muted-foreground" />
+              </Link>
+
               <Link
                 href="/leaderboard"
                 onClick={guardedHref(true)}
@@ -220,13 +233,18 @@ export default function MePage() {
                 <ChevronRight className="w-4 h-4 text-muted-foreground" />
               </a>
 
-              <div className="flex items-center justify-between p-4 hover:bg-muted/50 transition-colors">
-                <span className="flex items-center gap-3">
-                  <Coffee className="w-5 h-5 text-muted-foreground" />
-                  <span className="font-medium">支持开发者</span>
-                </span>
-                <DonationButton />
-              </div>
+              <DonationDialog>
+                <button
+                  type="button"
+                  className="w-full flex items-center justify-between p-4 hover:bg-muted/50 transition-colors text-left"
+                >
+                  <span className="flex items-center gap-3">
+                    <Coffee className="w-5 h-5 text-muted-foreground" />
+                    <span className="font-medium">支持开发者</span>
+                  </span>
+                  <ChevronRight className="w-4 h-4 text-muted-foreground" />
+                </button>
+              </DonationDialog>
 
               {!isAuthenticated && (
                 <a

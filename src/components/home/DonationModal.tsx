@@ -1,5 +1,6 @@
 'use client'
 
+import { ReactNode } from 'react'
 import { useState, useEffect, useCallback } from 'react'
 import {
   Dialog,
@@ -20,9 +21,8 @@ interface DonationConfig {
   isActive: boolean
 }
 
-export function DonationButton() {
+export function useDonationConfig(): DonationConfig | null {
   const [config, setConfig] = useState<DonationConfig | null>(null)
-  const [isOpen, setIsOpen] = useState(false)
 
   const fetchConfig = useCallback(async () => {
     try {
@@ -42,6 +42,66 @@ export function DonationButton() {
     fetchConfig()
   }, [fetchConfig])
 
+  return config
+}
+
+function DonationDialogContent({ config }: { config: DonationConfig }) {
+  return (
+    <DialogContent className="sm:max-w-md">
+      <DialogHeader>
+        <DialogTitle className="flex items-center gap-2">
+          <Heart className="w-5 h-5 text-pink-500" aria-hidden="true" />
+          {config.title}
+        </DialogTitle>
+        {config.description && <DialogDescription>{config.description}</DialogDescription>}
+      </DialogHeader>
+      <div className="space-y-4">
+        {config.imageUrl && (
+          <div className="rounded-lg overflow-hidden border bg-muted/30">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={config.imageUrl}
+              alt="Donation QR code"
+              className="w-full max-w-[280px] mx-auto"
+              onError={(e) => {
+                const el = e.target as HTMLImageElement
+                const parent = el.parentElement
+                if (parent) {
+                  parent.innerHTML =
+                    '<p class="text-xs text-muted-foreground text-center py-8">图片加载失败，请稍后再试</p>'
+                }
+              }}
+            />
+          </div>
+        )}
+        {config.linkUrl && (
+          <a
+            href={config.linkUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center justify-center gap-2 w-full"
+          >
+            <Button
+              variant="default"
+              className="w-full bg-pink-500 hover:bg-pink-600 text-white gap-2"
+            >
+              <ExternalLink className="w-4 h-4" aria-hidden="true" />
+              Buy me a coffee
+            </Button>
+          </a>
+        )}
+        <p className="text-xs text-center text-muted-foreground">
+          感谢你的支持，这会帮助我持续维护和改进 EZTor
+        </p>
+      </div>
+    </DialogContent>
+  )
+}
+
+export function DonationButton() {
+  const config = useDonationConfig()
+  const [isOpen, setIsOpen] = useState(false)
+
   if (!config?.isActive) return null
 
   return (
@@ -56,54 +116,21 @@ export function DonationButton() {
           <Coffee className="w-3.5 h-3.5 sm:w-4 sm:h-4" aria-hidden="true" />
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-md">
-        <DialogHeader>
-          <DialogTitle className="flex items-center gap-2">
-            <Heart className="w-5 h-5 text-pink-500" aria-hidden="true" />
-            {config.title}
-          </DialogTitle>
-          {config.description && <DialogDescription>{config.description}</DialogDescription>}
-        </DialogHeader>
-        <div className="space-y-4">
-          {config.imageUrl && (
-            <div className="rounded-lg overflow-hidden border bg-muted/30">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={config.imageUrl}
-                alt="Donation QR code"
-                className="w-full max-w-[280px] mx-auto"
-                onError={(e) => {
-                  const el = e.target as HTMLImageElement
-                  const parent = el.parentElement
-                  if (parent) {
-                    parent.innerHTML =
-                      '<p class="text-xs text-muted-foreground text-center py-8">图片加载失败，请稍后再试</p>'
-                  }
-                }}
-              />
-            </div>
-          )}
-          {config.linkUrl && (
-            <a
-              href={config.linkUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center justify-center gap-2 w-full"
-            >
-              <Button
-                variant="default"
-                className="w-full bg-pink-500 hover:bg-pink-600 text-white gap-2"
-              >
-                <ExternalLink className="w-4 h-4" aria-hidden="true" />
-                Buy me a coffee
-              </Button>
-            </a>
-          )}
-          <p className="text-xs text-center text-muted-foreground">
-            感谢你的支持，这会帮助我持续维护和改进 EZTor
-          </p>
-        </div>
-      </DialogContent>
+      <DonationDialogContent config={config} />
+    </Dialog>
+  )
+}
+
+export function DonationDialog({ children }: { children: ReactNode }) {
+  const config = useDonationConfig()
+  const [isOpen, setIsOpen] = useState(false)
+
+  if (!config?.isActive) return <>{children}</>
+
+  return (
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+      <DialogTrigger asChild>{children}</DialogTrigger>
+      <DonationDialogContent config={config} />
     </Dialog>
   )
 }
