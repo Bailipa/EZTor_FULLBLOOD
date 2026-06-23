@@ -7,7 +7,6 @@ import AppLayout from '@/components/layout/AppLayout'
 import MobileNavBar from '@/components/layout/MobileNavBar'
 import { BackButton } from '@/components/layout/BackButton'
 import { ChatRoom } from '@/components/chat/ChatRoom'
-import { TodoList } from '@/components/chat/TodoList'
 import { Loader2 } from 'lucide-react'
 
 export default function ChatPage() {
@@ -70,7 +69,6 @@ export default function ChatPage() {
         <div className="xl:hidden px-2 py-2 border-b border-border">
           <BackButton />
         </div>
-        <TodoList />
         <div className="flex-1 min-h-0">
           <ChatRoom />
         </div>

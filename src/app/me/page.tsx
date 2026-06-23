@@ -34,6 +34,7 @@ import {
   FileSearch,
   Lock,
   BookOpen,
+  ClipboardList,
 } from 'lucide-react'
 import { GameWidget } from '@/components/ui/game/GameWidget'
 import { DonationDialog } from '@/components/home/DonationModal'
@@ -201,6 +202,22 @@ export default function MePage() {
                   </Button>
                 )}
               </div>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardContent className="p-0 divide-y divide-border">
+              <Link
+                href="/me/plan"
+                onClick={guardedHref(true)}
+                className="flex items-center justify-between p-4 hover:bg-muted/50 transition-colors"
+              >
+                <span className="flex items-center gap-3">
+                  <ClipboardList className="w-5 h-5 text-muted-foreground" />
+                  <span className="font-medium">作者的计划</span>
+                </span>
+                <ChevronRight className="w-4 h-4 text-muted-foreground" />
+              </Link>
             </CardContent>
           </Card>
 
