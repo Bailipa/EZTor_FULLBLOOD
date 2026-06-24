@@ -15,6 +15,7 @@ export interface WordEntry {
   status: 'idle' | 'loading' | 'found' | 'not-found' | 'error' | 'ai-loading'
   isPublic: boolean
   saveStatus: 'idle' | 'in-vocabulary' | 'pending' | 'saving' | 'saved'
+  aiTranslated?: boolean
 }
 
 interface UseRealtimeTranslationOptions {
@@ -70,6 +71,7 @@ export function useRealtimeTranslation({ showPos, showExample, targetGroupId, is
   const abortControllerRef = useRef<Map<string, AbortController>>(new Map())
   const saveTimersRef = useRef<Map<string, ReturnType<typeof setTimeout>>>(new Map())
   const savedWordsRef = useRef<Set<string>>(new Set())
+  const aiInFlightRef = useRef<Set<string>>(new Set())
 
   useEffect(() => {
     return () => {
@@ -290,6 +292,7 @@ export function useRealtimeTranslation({ showPos, showExample, targetGroupId, is
 
   const removeEntry = useCallback((entryId: string) => {
     cancelSaveTimer(entryId)
+    aiInFlightRef.current.delete(entryId)
 
     setEntries((prev) => {
       const filtered = prev.filter((e) => e.id !== entryId)
@@ -379,6 +382,7 @@ export function useRealtimeTranslation({ showPos, showExample, targetGroupId, is
             exampleTranslation: lastValidResult.exampleTranslation,
             status: 'found',
             isPublic: false,
+            aiTranslated: true,
           })
 
           fetch('/api/sync', {
@@ -404,22 +408,38 @@ export function useRealtimeTranslation({ showPos, showExample, targetGroupId, is
   )
 
   const translateAll = useCallback(async () => {
-    const notFoundEntries = entries.filter((e) => e.word.trim() && e.status === 'not-found')
+    const pendingEntries = entries.filter(
+      (e) =>
+        e.word.trim() &&
+        e.status === 'not-found' &&
+        !e.aiTranslated &&
+        !aiInFlightRef.current.has(e.id),
+    )
 
-    if (notFoundEntries.length === 0) {
-      toast.info('没有需要AI翻译的单词')
+    if (pendingEntries.length === 0) {
       return
     }
 
-    toast.info(`开始AI翻译 ${notFoundEntries.length} 个单词...`)
+    const hadPriorWork = aiInFlightRef.current.size > 0
+    if (!hadPriorWork) {
+      toast.info(`开始AI翻译 ${pendingEntries.length} 个单词...`)
+    }
 
-    for (const entry of notFoundEntries) {
-      await translateSingle(entry.id)
+    for (const entry of pendingEntries) {
+      aiInFlightRef.current.add(entry.id)
+      try {
+        await translateSingle(entry.id)
+      } finally {
+        aiInFlightRef.current.delete(entry.id)
+      }
     }
   }, [entries, translateSingle])
 
-  const notFoundCount = entries.filter((e) => e.word.trim() && e.status === 'not-found').length
+  const notFoundCount = entries.filter(
+    (e) => e.word.trim() && e.status === 'not-found' && !e.aiTranslated,
+  ).length
   const hasWords = entries.some((e) => e.word.trim())
+  const hasAiWorkInProgress = entries.some((e) => e.status === 'ai-loading')
 
   return {
     entries,
@@ -430,5 +450,6 @@ export function useRealtimeTranslation({ showPos, showExample, targetGroupId, is
     translateAll,
     notFoundCount,
     hasWords,
+    hasAiWorkInProgress,
   }
 }

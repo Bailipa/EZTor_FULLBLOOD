@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { X, Volume2, Loader2, Search, Bot, Check, Bookmark, Lock } from 'lucide-react'
+import { cn } from '@/lib/utils'
 import type { WordEntry } from '@/hooks/useRealtimeTranslation'
 import { speakText } from '@/lib/ttsBrowser'
 
@@ -13,9 +14,11 @@ interface WordInputRowProps {
   onWordChange: (id: string, word: string) => void
   onRemove: (id: string) => void
   onTranslate: (id: string) => void
+  onAddEntry?: () => void
   showPos: boolean
   showExample: boolean
   autoFocus?: boolean
+  aiTranslated?: boolean
   isGuest?: boolean
   onGuestFeatureClick?: (feature: string) => void
 }
@@ -92,9 +95,11 @@ export function WordInputRow({
   onWordChange,
   onRemove,
   onTranslate,
+  onAddEntry,
   showPos,
   showExample,
   autoFocus,
+  aiTranslated,
   isGuest,
   onGuestFeatureClick,
 }: WordInputRowProps) {
@@ -110,7 +115,17 @@ export function WordInputRow({
     speakText(text)
   }
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault()
+      if (entry.word.trim() && onAddEntry) {
+        onAddEntry()
+      }
+    }
+  }
+
   const renderTranslationResult = () => {
+    const isAiLoading = entry.status === 'ai-loading'
     switch (entry.status) {
       case 'idle':
         return null
@@ -191,6 +206,7 @@ export function WordInputRow({
                 variant="outline"
                 onClick={() => onGuestFeatureClick?.('AI翻译')}
                 className="gap-1.5"
+                disabled={isAiLoading}
               >
                 <Lock className="h-3.5 w-3.5" />
                 登录后解锁
@@ -201,6 +217,7 @@ export function WordInputRow({
                 variant="outline"
                 onClick={() => onTranslate(entry.id)}
                 className="gap-1.5"
+                disabled={isAiLoading}
               >
                 <Bot className="h-3.5 w-3.5" />
                 AI翻译
@@ -218,6 +235,7 @@ export function WordInputRow({
               variant="outline"
               onClick={() => onTranslate(entry.id)}
               className="gap-1.5"
+              disabled={isAiLoading}
             >
               <Bot className="h-3.5 w-3.5" />
               重试
@@ -233,12 +251,18 @@ export function WordInputRow({
   const hasContent = entry.status !== 'idle'
 
   return (
-    <div className="group relative rounded-lg border bg-card transition-colors hover:border-primary/30">
+    <div
+      className={cn(
+        'group relative rounded-lg border bg-card transition-colors hover:border-primary/30',
+        aiTranslated && 'ring-2 ring-emerald-500 border-emerald-500/40',
+      )}
+    >
       <div className="flex items-center gap-2 p-3">
         <Input
           ref={inputRef}
           value={entry.word}
           onChange={(e) => onWordChange(entry.id, e.target.value)}
+          onKeyDown={handleKeyDown}
           placeholder="输入单词或词组..."
           className="flex-1 border-0 bg-transparent p-0 text-sm shadow-none focus-visible:ring-0"
           aria-label="输入单词"

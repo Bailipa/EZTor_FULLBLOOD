@@ -17,7 +17,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { PenTool, Plus, Upload, Bot, Lock } from 'lucide-react'
+import { PenTool, Plus, Upload, Bot, Lock, Loader2 } from 'lucide-react'
 import type { ReviewGroup } from '@/types/api'
 import { useRealtimeTranslation } from '@/hooks/useRealtimeTranslation'
 import { WordInputRow } from './WordInputRow'
@@ -49,6 +49,7 @@ export function WordTranslationPanel({
     translateSingle,
     translateAll,
     notFoundCount,
+    hasAiWorkInProgress,
   } = useRealtimeTranslation({ showPos, showExample, targetGroupId: selectedTargetGroupId, isGuest })
 
   const fileInputRef = useRef<HTMLInputElement>(null)
@@ -208,9 +209,11 @@ export function WordTranslationPanel({
               onWordChange={updateWord}
               onRemove={handleRemoveEntry}
               onTranslate={translateSingle}
+              onAddEntry={handleAddEntry}
               showPos={showPos}
               showExample={showExample}
               autoFocus={lastAddedId === entry.id || (index === entries.length - 1 && entry.word === '')}
+              aiTranslated={entry.aiTranslated}
               isGuest={isGuest}
               onGuestFeatureClick={onGuestFeatureClick}
             />
@@ -221,6 +224,7 @@ export function WordTranslationPanel({
           <button
             type="button"
             onClick={handleAddEntry}
+            title="按回车键也能新建"
             className="inline-flex items-center gap-1 rounded-md border border-dashed border-muted-foreground/30 px-3 py-1.5 text-xs text-muted-foreground transition-colors hover:border-primary/40 hover:text-primary"
           >
             <Plus className="h-3.5 w-3.5" />
@@ -234,10 +238,24 @@ export function WordTranslationPanel({
         </div>
       </CardContent>
       <CardFooter className="flex justify-end items-center">
-        {!isGuest && notFoundCount > 0 && (
-          <Button onClick={translateAll} className="gap-2" size="sm">
-            <Bot className="h-4 w-4" />
-            批量AI翻译 ({notFoundCount})
+        {!isGuest && (notFoundCount > 0 || hasAiWorkInProgress) && (
+          <Button
+            onClick={translateAll}
+            className="gap-2 min-w-[140px] justify-center"
+            size="sm"
+            aria-label={hasAiWorkInProgress ? 'AI 翻译中' : `批量AI翻译 ${notFoundCount} 个单词`}
+          >
+            {hasAiWorkInProgress ? (
+              <>
+                <Loader2 className="h-4 w-4 animate-spin" />
+                AI 翻译中…
+              </>
+            ) : (
+              <>
+                <Bot className="h-4 w-4" />
+                批量AI翻译 ({notFoundCount})
+              </>
+            )}
           </Button>
         )}
         {isGuest && notFoundCount > 0 && (
