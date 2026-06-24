@@ -71,7 +71,7 @@ export const FEATURE_DESCRIPTIONS: Record<FeatureKey, string> = {
   MINI_GAME: '劳逸结合，来一局小游戏放松一下',
 }
 
-export const ZONE_MAX_MEMBERS = 50
+export const ZONE_MAX_MEMBERS = 15
 export const ZONE_RENAME_COST = 10
 export const ZONE_TRANSFER_COST = 20
 export const ZONE_TRANSFER_COOLDOWN_DAYS = 3

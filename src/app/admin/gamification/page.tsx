@@ -767,7 +767,7 @@ function EditZoneDialog({
   onClose: () => void
   onSaved: () => void
 }) {
-  const [form, setForm] = useState({ name: '', maxMembers: 50, isActive: true })
+  const [form, setForm] = useState({ name: '', maxMembers: 15, isActive: true })
   const [saving, setSaving] = useState(false)
 
   useEffect(() => {
@@ -778,6 +778,10 @@ function EditZoneDialog({
 
   const handleSave = async () => {
     if (!zone) return
+    if (!Number.isFinite(form.maxMembers) || form.maxMembers < 1) {
+      toast.error('最大成员数至少为 1')
+      return
+    }
     setSaving(true)
     try {
       const body: Record<string, unknown> = {}
@@ -831,8 +835,12 @@ function EditZoneDialog({
             <label className="text-xs text-muted-foreground">最大成员数</label>
             <Input
               type="number"
+              min={1}
               value={form.maxMembers}
-              onChange={(e) => setForm({ ...form, maxMembers: parseInt(e.target.value) || 50 })}
+              onChange={(e) => {
+                const v = parseInt(e.target.value, 10)
+                setForm({ ...form, maxMembers: Number.isNaN(v) ? 15 : v })
+              }}
             />
           </div>
           <div className="flex items-center gap-2">

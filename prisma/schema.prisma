@@ -512,7 +512,7 @@ model WarZone {
   id          String    @id @default(cuid())
   name        String    @unique
   memberCount Int       @default(0)
-  maxMembers  Int       @default(50)
+  maxMembers  Int       @default(15)
   isActive    Boolean   @default(true)
   resetAt     DateTime?
   previousName String?

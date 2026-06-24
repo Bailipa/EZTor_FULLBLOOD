@@ -584,6 +584,7 @@ export class GameService {
             id: randomUUID(),
             name: `第${count + 1}学区`,
             memberCount: 1,
+            maxMembers: ZONE_MAX_MEMBERS,
             updatedAt: new Date(),
           },
         })
