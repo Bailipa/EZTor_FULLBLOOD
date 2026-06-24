@@ -30,6 +30,12 @@ tar -czf "$TARBALL" --exclude='.env' --exclude='.env.production' --exclude='.env
 echo "  Tarball: $TARBALL ($(ls -lh "$TARBALL" | awk '{print $5}'))"
 
 echo ""
+echo "[3a] Cleaning up old deployment tarballs (keep latest 1)..."
+if compgen -G "deploy_*.tar.gz" > /dev/null; then
+  ls -1t deploy_*.tar.gz | tail -n +2 | xargs -r rm -v
+fi
+
+echo ""
 echo "# 3b. Restore prisma (schema + migrations for prisma migrate)"
 echo "cp -r .next/standalone/../prisma . 2>/dev/null || true"
 echo ""
