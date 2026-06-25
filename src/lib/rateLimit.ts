@@ -113,24 +113,34 @@ export function isRedisStoreEnabled(): boolean {
   return isRedisEnabled
 }
 
-export async function rateLimit(key: string): Promise<RateLimitResult> {
+export interface RateLimitOptions {
+  maxRequests?: number
+  windowMs?: number
+}
+
+export async function rateLimit(
+  key: string,
+  options: RateLimitOptions = {},
+): Promise<RateLimitResult> {
+  const maxRequests = options.maxRequests ?? MAX_REQUESTS
+  const windowMs = options.windowMs ?? WINDOW_MS
   const now = Date.now()
   const entry = await store.get(key)
 
   if (!entry || now > entry.resetTime) {
     const newEntry: RateLimitEntry = {
       count: 1,
-      resetTime: now + WINDOW_MS,
+      resetTime: now + windowMs,
     }
     await store.set(key, newEntry)
     return {
       success: true,
-      remaining: MAX_REQUESTS - 1,
-      resetTime: now + WINDOW_MS,
+      remaining: maxRequests - 1,
+      resetTime: now + windowMs,
     }
   }
 
-  if (entry.count >= MAX_REQUESTS) {
+  if (entry.count >= maxRequests) {
     return {
       success: false,
       remaining: 0,
@@ -142,7 +152,7 @@ export async function rateLimit(key: string): Promise<RateLimitResult> {
   await store.set(key, entry)
   return {
     success: true,
-    remaining: MAX_REQUESTS - entry.count,
+    remaining: maxRequests - entry.count,
     resetTime: entry.resetTime,
   }
 }

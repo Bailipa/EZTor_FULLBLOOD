@@ -24,6 +24,7 @@ export class StreamHandler {
     response: AsyncIterable<{ choices?: Array<{ delta?: { content?: string | null } }> }>,
     orderedCachedResults: CachedWord[],
     targetGroupId?: string,
+    upstreamAbortController?: AbortController,
   ): ReadableStream {
     const translationService = this.translationService
     const stream = new ReadableStream({
@@ -36,7 +37,8 @@ export class StreamHandler {
         )
       },
       cancel() {
-        // Client disconnected — the TranslationService checks controller.signal.aborted internally
+        // 客户端断开：真正中断上游 LLM stream，停止后续 token 生成
+        upstreamAbortController?.abort()
       },
     })
     return stream

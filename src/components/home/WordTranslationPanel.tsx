@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useRef, useCallback } from 'react'
+import React, { useState, useRef, useCallback, useEffect } from 'react'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import {
@@ -46,14 +46,20 @@ export function WordTranslationPanel({
     updateWord,
     addEntry,
     removeEntry,
+    clearAll,
     translateSingle,
     translateAll,
+    cancelTranslate,
+    cancelAllTranslate,
     notFoundCount,
     hasAiWorkInProgress,
   } = useRealtimeTranslation({ showPos, showExample, targetGroupId: selectedTargetGroupId, isGuest })
 
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [lastAddedId, setLastAddedId] = useState<string | null>(null)
+  const [confirmingClear, setConfirmingClear] = useState(false)
+  const clearTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const lastBatchStartClickRef = useRef(0)
 
   const handleAddEntry = useCallback(() => {
     addEntry()
@@ -66,6 +72,50 @@ export function WordTranslationPanel({
     },
     [removeEntry],
   )
+
+  const handleClearAll = useCallback(() => {
+    if (!confirmingClear) {
+      setConfirmingClear(true)
+      if (clearTimerRef.current) clearTimeout(clearTimerRef.current)
+      clearTimerRef.current = setTimeout(() => {
+        setConfirmingClear(false)
+        clearTimerRef.current = null
+      }, 3000)
+      return
+    }
+    if (clearTimerRef.current) {
+      clearTimeout(clearTimerRef.current)
+      clearTimerRef.current = null
+    }
+    setConfirmingClear(false)
+    clearAll()
+  }, [confirmingClear, clearAll])
+
+  useEffect(() => {
+    return () => {
+      if (clearTimerRef.current) clearTimeout(clearTimerRef.current)
+    }
+  }, [])
+
+  const handleCancelTranslate = useCallback(
+    (id: string) => {
+      cancelTranslate(id)
+    },
+    [cancelTranslate],
+  )
+
+  const handleBatchClick = useCallback(() => {
+    if (hasAiWorkInProgress) {
+      // 已经在翻译中：点击 = 取消（幂等，不防抖）
+      cancelAllTranslate()
+      return
+    }
+    // 不在翻译中：点击 = 启动（受防抖影响）
+    const now = Date.now()
+    if (now - lastBatchStartClickRef.current < 300) return
+    lastBatchStartClickRef.current = now
+    translateAll()
+  }, [hasAiWorkInProgress, cancelAllTranslate, translateAll])
 
   const handleFileUpload = useCallback(
     async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -209,6 +259,7 @@ export function WordTranslationPanel({
               onWordChange={updateWord}
               onRemove={handleRemoveEntry}
               onTranslate={translateSingle}
+              onCancelTranslate={handleCancelTranslate}
               onAddEntry={handleAddEntry}
               showPos={showPos}
               showExample={showExample}
@@ -237,18 +288,29 @@ export function WordTranslationPanel({
           )}
         </div>
       </CardContent>
-      <CardFooter className="flex justify-end items-center">
+      <CardFooter className="flex justify-end items-center gap-2">
+        {!isGuest && wordCount > 0 && (
+          <Button
+            variant="outline"
+            size="sm"
+            className="h-8 gap-1.5 px-2.5"
+            onClick={handleClearAll}
+            aria-label="清空输入"
+          >
+            {confirmingClear ? '再按一次' : '清空'}
+          </Button>
+        )}
         {!isGuest && (notFoundCount > 0 || hasAiWorkInProgress) && (
           <Button
-            onClick={translateAll}
+            onClick={handleBatchClick}
             className="gap-2 min-w-[140px] justify-center"
             size="sm"
-            aria-label={hasAiWorkInProgress ? 'AI 翻译中' : `批量AI翻译 ${notFoundCount} 个单词`}
+            aria-label={hasAiWorkInProgress ? '正在翻译中' : `批量AI翻译 ${notFoundCount} 个单词`}
           >
             {hasAiWorkInProgress ? (
               <>
                 <Loader2 className="h-4 w-4 animate-spin" />
-                AI 翻译中…
+                正在翻译中…
               </>
             ) : (
               <>

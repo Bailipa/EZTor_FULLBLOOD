@@ -41,6 +41,7 @@ import { usePageView } from '@/lib/analytics'
 import { speakText } from '@/lib/ttsBrowser'
 import { useOnboarding } from '@/components/onboarding/OnboardingProvider'
 import { OnboardingTooltip } from '@/components/onboarding/OnboardingTooltip'
+import { useMediaQuery } from '@/hooks/useMediaQuery'
 
 type QuizMode = 'dictation' | 'sentence_blank'
 
@@ -156,6 +157,7 @@ export default function DictationPage() {
   const inputRef = useRef<HTMLInputElement>(null)
   const isCheckingRef = useRef(false) // 防止重复提交
   const submittedIndicesRef = useRef(new Set<number>()) // 已提交到 API 的题目索引
+  const isDesktop = useMediaQuery('(min-width: 1280px)') // 电脑端（≥1280px）自动聚焦，手机端保持不变
 
   // Fetch a random batch of words for dictation
   const fetchWords = async (overrideCount?: number) => {
@@ -557,12 +559,15 @@ export default function DictationPage() {
     setIsChecked(false)
     setIsCorrect(false)
     setShowHint(false)
-    if (typeof window !== 'undefined' && window.innerWidth >= 1280) {
-      setTimeout(() => {
-        inputRef.current?.focus()
-      }, 100)
-    }
   }, [])
+
+  // 电脑端（≥1280px）自动聚焦输入框，手机端保持不变
+  useEffect(() => {
+    if (!isStarted || isFinished || words.length === 0 || isChecked) return
+    if (!isDesktop) return
+    const timer = setTimeout(() => inputRef.current?.focus(), 100)
+    return () => clearTimeout(timer)
+  }, [currentIndex, isChecked, isStarted, isFinished, words.length, isDesktop, mode])
 
   const restartQuiz = () => {
     submittedIndicesRef.current.clear()
@@ -1179,7 +1184,6 @@ export default function DictationPage() {
                       onChange={(e) => setUserInput(e.target.value)}
                       onKeyDown={handleKeyDown}
                       disabled={isChecked}
-                      autoFocus={typeof window !== 'undefined' && window.innerWidth >= 1280}
                     />
                     {/* 状态图标 */}
                     {isChecked && (

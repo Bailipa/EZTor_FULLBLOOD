@@ -65,6 +65,8 @@ function createEmptyEntry(): WordEntry {
   }
 }
 
+const AI_BATCH_CONCURRENCY = 5
+
 export function useRealtimeTranslation({ showPos, showExample, targetGroupId, isGuest }: UseRealtimeTranslationOptions) {
   const [entries, setEntries] = useState<WordEntry[]>([createEmptyEntry()])
   const debounceMapRef = useRef<Map<string, DebouncedFunction>>(new Map())
@@ -72,12 +74,15 @@ export function useRealtimeTranslation({ showPos, showExample, targetGroupId, is
   const saveTimersRef = useRef<Map<string, ReturnType<typeof setTimeout>>>(new Map())
   const savedWordsRef = useRef<Set<string>>(new Set())
   const aiInFlightRef = useRef<Set<string>>(new Set())
+  const aiAbortControllersRef = useRef<Map<string, AbortController>>(new Map())
+  const aiCancelledMapRef = useRef<Map<string, { current: boolean }>>(new Map())
 
   useEffect(() => {
     return () => {
       debounceMapRef.current.forEach((fn) => fn.cancel())
       abortControllerRef.current.forEach((controller) => controller.abort())
       saveTimersRef.current.forEach((timer) => clearTimeout(timer))
+      aiAbortControllersRef.current.forEach((controller) => controller.abort())
     }
   }, [])
 
@@ -291,6 +296,16 @@ export function useRealtimeTranslation({ showPos, showExample, targetGroupId, is
   }, [])
 
   const removeEntry = useCallback((entryId: string) => {
+    // 先取消该 entry 上可能存在的 AI 翻译（标记为取消避免 catch 弹错）
+    const aiFlag = aiCancelledMapRef.current.get(entryId)
+    if (aiFlag) aiFlag.current = true
+    const aiController = aiAbortControllersRef.current.get(entryId)
+    if (aiController) {
+      aiController.abort()
+      aiAbortControllersRef.current.delete(entryId)
+      aiCancelledMapRef.current.delete(entryId)
+    }
+
     cancelSaveTimer(entryId)
     aiInFlightRef.current.delete(entryId)
 
@@ -315,10 +330,46 @@ export function useRealtimeTranslation({ showPos, showExample, targetGroupId, is
     }
   }, [cancelSaveTimer])
 
+  const clearAll = useCallback(() => {
+    debounceMapRef.current.forEach((fn) => fn.cancel())
+    debounceMapRef.current.clear()
+
+    abortControllerRef.current.forEach((controller) => controller.abort())
+    abortControllerRef.current.clear()
+
+    saveTimersRef.current.forEach((timer) => clearTimeout(timer))
+    saveTimersRef.current.clear()
+
+    // 取消所有 AI 翻译
+    aiCancelledMapRef.current.forEach((flag) => {
+      flag.current = true
+    })
+    aiAbortControllersRef.current.forEach((controller) => {
+      controller.abort()
+    })
+    aiAbortControllersRef.current.clear()
+    aiCancelledMapRef.current.clear()
+
+    aiInFlightRef.current.clear()
+
+    setEntries([createEmptyEntry()])
+  }, [])
+
   const translateSingle = useCallback(
     async (entryId: string) => {
       const entry = entries.find((e) => e.id === entryId)
       if (!entry || !entry.word.trim()) return
+
+      // 如果该 entry 已有在飞 AI 翻译，把它当作"被新一次顶掉"
+      const existingFlag = aiCancelledMapRef.current.get(entryId)
+      if (existingFlag) existingFlag.current = true
+      const existingController = aiAbortControllersRef.current.get(entryId)
+      if (existingController) existingController.abort()
+
+      const cancelledByUser = { current: false }
+      const controller = new AbortController()
+      aiAbortControllersRef.current.set(entryId, controller)
+      aiCancelledMapRef.current.set(entryId, cancelledByUser)
 
       cancelSaveTimer(entryId)
       updateEntry(entryId, { status: 'ai-loading', saveStatus: 'idle' })
@@ -332,6 +383,7 @@ export function useRealtimeTranslation({ showPos, showExample, targetGroupId, is
             options: { showPos, showExample },
             targetGroupId: targetGroupId === 'none' ? null : targetGroupId,
           }),
+          signal: controller.signal,
         })
 
         if (!response.ok) {
@@ -395,13 +447,31 @@ export function useRealtimeTranslation({ showPos, showExample, targetGroupId, is
           toast.error('翻译失败，请重试')
         }
       } catch (error: unknown) {
-        const err = error as Error
-        if (err.name === 'AbortError') {
+        const isStillActive = aiAbortControllersRef.current.get(entryId) === controller
+
+        // 如果被新一次启动顶掉了，状态由新一次管理，这里啥也不做
+        if (!isStillActive) return
+
+        if (error instanceof Error && error.name === 'AbortError') {
+          if (cancelledByUser.current) {
+            // 用户主动取消 → 静默退出、状态回到 not-found
+            updateEntry(entryId, { status: 'not-found', saveStatus: 'idle' })
+            return
+          }
           toast.error('请求超时')
         } else {
+          const err = error as Error
           toast.error(err.message || '翻译失败')
         }
         updateEntry(entryId, { status: 'error' })
+      } finally {
+        // 只在"我还是当前那次"时清理
+        if (aiAbortControllersRef.current.get(entryId) === controller) {
+          aiAbortControllersRef.current.delete(entryId)
+        }
+        if (aiCancelledMapRef.current.get(entryId) === cancelledByUser) {
+          aiCancelledMapRef.current.delete(entryId)
+        }
       }
     },
     [entries, showPos, showExample, targetGroupId, updateEntry, cancelSaveTimer],
@@ -425,15 +495,39 @@ export function useRealtimeTranslation({ showPos, showExample, targetGroupId, is
       toast.info(`开始AI翻译 ${pendingEntries.length} 个单词...`)
     }
 
-    for (const entry of pendingEntries) {
-      aiInFlightRef.current.add(entry.id)
-      try {
-        await translateSingle(entry.id)
-      } finally {
-        aiInFlightRef.current.delete(entry.id)
-      }
-    }
+    // 并发执行（限流 AI_BATCH_CONCURRENCY 个）。每个 worker 串行处理分到自己的子集。
+    const concurrency = Math.min(AI_BATCH_CONCURRENCY, pendingEntries.length)
+    const chains = Array.from({ length: concurrency }, (_, workerIndex) =>
+      (async () => {
+        for (let i = workerIndex; i < pendingEntries.length; i += concurrency) {
+          const entry = pendingEntries[i]
+          aiInFlightRef.current.add(entry.id)
+          try {
+            await translateSingle(entry.id)
+          } finally {
+            aiInFlightRef.current.delete(entry.id)
+          }
+        }
+      })(),
+    )
+    await Promise.allSettled(chains)
   }, [entries, translateSingle])
+
+  const cancelTranslate = useCallback((entryId: string) => {
+    const flag = aiCancelledMapRef.current.get(entryId)
+    if (flag) flag.current = true
+    const controller = aiAbortControllersRef.current.get(entryId)
+    if (controller) controller.abort()
+  }, [])
+
+  const cancelAllTranslate = useCallback(() => {
+    aiCancelledMapRef.current.forEach((flag) => {
+      flag.current = true
+    })
+    aiAbortControllersRef.current.forEach((controller) => {
+      controller.abort()
+    })
+  }, [])
 
   const notFoundCount = entries.filter(
     (e) => e.word.trim() && e.status === 'not-found' && !e.aiTranslated,
@@ -446,8 +540,11 @@ export function useRealtimeTranslation({ showPos, showExample, targetGroupId, is
     updateWord,
     addEntry,
     removeEntry,
+    clearAll,
     translateSingle,
     translateAll,
+    cancelTranslate,
+    cancelAllTranslate,
     notFoundCount,
     hasWords,
     hasAiWorkInProgress,

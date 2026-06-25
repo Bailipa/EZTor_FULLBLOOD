@@ -84,11 +84,14 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Access denied' }, { status: 403 })
     }
 
-    const rateLimitKey = getClientKey(req, session.user.id)
-    const rateLimitResult = await rateLimit(rateLimitKey)
+    const rateLimitKey = `ai-translate:${getClientKey(req, session.user.id)}`
+    const rateLimitResult = await rateLimit(rateLimitKey, {
+      maxRequests: 10,
+      windowMs: 60 * 1000,
+    })
     if (!rateLimitResult.success) {
       return NextResponse.json(
-        { error: 'Too many requests. Please try again later.' },
+        { error: 'AI 翻译请求过于频繁，请稍后再试。' },
         { status: 429, headers: { 'Retry-After': '60' } },
       )
     }
@@ -132,6 +135,9 @@ export async function POST(req: Request) {
     const cacheService = new CacheService(session, words)
     const translationService = new TranslationService(session, words)
     const streamHandler = new StreamHandler(translationService)
+
+    // 用于在客户端断开时中断上游 LLM 请求
+    const upstreamAbortController = new AbortController()
 
     // Get cached words from user database
     const { cachedWords, cachedWordStrings } = await cacheService.getCachedWords(normalizedWords)
@@ -227,6 +233,7 @@ export async function POST(req: Request) {
       options,
       targetGroupId,
       providerCandidates,
+      upstreamAbortController.signal,
     )
 
     // Handle case where all words were found in concurrent requests
@@ -236,6 +243,7 @@ export async function POST(req: Request) {
         response as AsyncIterable<{ choices?: Array<{ delta?: { content?: string } }> }>,
         orderedCachedResults,
         targetGroupId,
+        upstreamAbortController,
       )
       return streamHandler.createStreamResponse(translationStream)
     } else {

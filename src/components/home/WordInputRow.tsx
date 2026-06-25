@@ -14,6 +14,7 @@ interface WordInputRowProps {
   onWordChange: (id: string, word: string) => void
   onRemove: (id: string) => void
   onTranslate: (id: string) => void
+  onCancelTranslate: (id: string) => void
   onAddEntry?: () => void
   showPos: boolean
   showExample: boolean
@@ -95,6 +96,7 @@ export function WordInputRow({
   onWordChange,
   onRemove,
   onTranslate,
+  onCancelTranslate,
   onAddEntry,
   showPos,
   showExample,
@@ -104,6 +106,7 @@ export function WordInputRow({
   onGuestFeatureClick,
 }: WordInputRowProps) {
   const inputRef = useRef<HTMLInputElement>(null)
+  const lastStartClickRef = useRef(0)
 
   useEffect(() => {
     if (autoFocus && inputRef.current) {
@@ -120,12 +123,22 @@ export function WordInputRow({
       e.preventDefault()
       if (entry.word.trim() && onAddEntry) {
         onAddEntry()
+      } else if (!entry.word.trim()) {
+        // 输入为空时：把当前输入框滚到可视区中央，并保持聚焦
+        inputRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+        inputRef.current?.focus({ preventScroll: true })
       }
     }
   }
 
+  const handleStartTranslate = () => {
+    const now = Date.now()
+    if (now - lastStartClickRef.current < 300) return
+    lastStartClickRef.current = now
+    onTranslate(entry.id)
+  }
+
   const renderTranslationResult = () => {
-    const isAiLoading = entry.status === 'ai-loading'
     switch (entry.status) {
       case 'idle':
         return null
@@ -140,9 +153,19 @@ export function WordInputRow({
 
       case 'ai-loading':
         return (
-          <div className="flex items-center gap-2 py-2 text-primary">
-            <Loader2 className="h-4 w-4 animate-spin" />
-            <span className="text-sm">AI翻译中...</span>
+          <div className="flex items-center justify-between py-2">
+            <div className="flex items-center gap-2 text-primary">
+              <Loader2 className="h-4 w-4 animate-spin" />
+              <span className="text-sm">AI翻译中...</span>
+            </div>
+            <Button
+              size="sm"
+              variant="outline"
+              onClick={() => onCancelTranslate(entry.id)}
+              className="gap-1.5"
+            >
+              取消
+            </Button>
           </div>
         )
 
@@ -206,7 +229,6 @@ export function WordInputRow({
                 variant="outline"
                 onClick={() => onGuestFeatureClick?.('AI翻译')}
                 className="gap-1.5"
-                disabled={isAiLoading}
               >
                 <Lock className="h-3.5 w-3.5" />
                 登录后解锁
@@ -215,9 +237,8 @@ export function WordInputRow({
               <Button
                 size="sm"
                 variant="outline"
-                onClick={() => onTranslate(entry.id)}
+                onClick={handleStartTranslate}
                 className="gap-1.5"
-                disabled={isAiLoading}
               >
                 <Bot className="h-3.5 w-3.5" />
                 AI翻译
@@ -233,9 +254,8 @@ export function WordInputRow({
             <Button
               size="sm"
               variant="outline"
-              onClick={() => onTranslate(entry.id)}
+              onClick={handleStartTranslate}
               className="gap-1.5"
-              disabled={isAiLoading}
             >
               <Bot className="h-3.5 w-3.5" />
               重试

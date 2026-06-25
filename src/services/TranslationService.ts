@@ -477,6 +477,7 @@ export class TranslationService {
     options: TranslationOptions = {},
     targetGroupId?: string,
     providerCandidates: ProviderSelection[] = [],
+    signal?: AbortSignal,
   ) {
     if (providerCandidates.length === 0) {
       providerCandidates = await this.getProviderCandidates()
@@ -544,15 +545,18 @@ export class TranslationService {
     const response = await withLlmFailover(
       providerCandidates,
       (client, model) =>
-        client.chat.completions.create({
-          model: model || 'gpt-4o-mini',
-          messages: [
-            { role: 'system', content: systemPrompt },
-            { role: 'user', content: userPrompt },
-          ],
-          temperature: 0.1,
-          stream: true,
-        }),
+        client.chat.completions.create(
+          {
+            model: model || 'gpt-4o-mini',
+            messages: [
+              { role: 'system', content: systemPrompt },
+              { role: 'user', content: userPrompt },
+            ],
+            temperature: 0.1,
+            stream: true,
+          },
+          { signal },
+        ),
       1,
     )
 
