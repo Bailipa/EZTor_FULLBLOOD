@@ -1,6 +1,6 @@
 ---
 name: deploy-nextjs-standalone
-description: Deployment guide for Next.js standalone output mode — build, static files, PM2, nginx proxy
+description: Deployment guide for Next.js standalone output mode — build, static files, PM2, nginx proxy. If user reports `/_next/static/*` 404 + MIME type errors after a deploy, jump straight to "Symptom: ChunkLoadError" below.
 ---
 
 # Deploy: Next.js Standalone Mode
@@ -77,6 +77,37 @@ rsync -avz .next/static/ root@server:/path/to/.next/static/
 rsync -avz .next/static/ /path/to/.next/standalone/.next/static/
 ```
 
+### macOS tar gotchas
+
+When building on macOS and deploying to Linux, `tar` carries extra baggage by default:
+
+- `LIBARCHIVE.xattr.*` extended attributes (Finder info, ACLs, quarantine flag)
+- AppleDouble `._*` sidecar files (created for every file with extended attrs)
+
+A typical macOS build tarball can contain **3,000+** `._*` sidecars that:
+- Get written to the server's filesystem on extract
+- Are **invisible in normal listings** but waste inodes
+- Cause `tar: Ignoring unknown extended header keyword 'LIBARCHIVE.xattr...'` spam in logs (cosmetic but noisy)
+
+**Fix: build the tarball with xattrs stripped:**
+
+```bash
+tar -cf deploy.tar \
+  --no-xattrs \
+  --exclude='._*' \
+  --exclude='.env*' \
+  -C .next/standalone .
+```
+
+**Defense in depth: clean up on server after extract** (in case the tarball was created elsewhere with macOS):
+
+```bash
+find /path/to/standalone -name '._*' -type f -delete 2>/dev/null
+find /path/to/standalone -name '._*' -type d -empty -delete 2>/dev/null
+```
+
+Verify: `find /path/to/standalone -name '._*' | wc -l` should return 0.
+
 ## PM2
 
 ```bash
@@ -102,6 +133,60 @@ sed -i 's|"scripts"|"scripts", "fix-word-userid.ts"|' tsconfig.json
 **Clean rebuild** — When in doubt, start fresh:
 ```bash
 rm -rf .next && npm run build && cp -r .next/static .next/standalone/.next/static
+```
+
+## Deploy Script Hygiene
+
+A deploy script that **swallows errors** is worse than one that fails loudly. Common anti-patterns that caused real outages on this project:
+
+### Anti-pattern 1: `2>/dev/null || true`
+
+```bash
+# ❌ BAD: tar errors are hidden, "✓ Extracted" is a lie
+tar -xzf deploy.tar.gz -C standalone 2>/dev/null | grep -v "LIBARCHIVE.xattr" || true
+echo "✓ Extracted"
+```
+
+```bash
+# ❌ BAD: cp silently fails when source doesn't exist
+cp -r .next/static .next/standalone/.next/static 2>/dev/null || true
+```
+
+These produce green checkmarks and zero extraction. Result: production 404 / MIME type errors that took 10+ minutes to debug.
+
+### Anti-pattern 2: running `cp` on the server for sync
+
+```bash
+# ❌ BAD: server's root-level .next/static may be from a different build
+#         approach (pre-standalone), in a stale state, or wrong arch
+cp -r .next/static .next/standalone/.next/static
+```
+
+The server's `.next/static/` is a **legacy pre-standalone build path**. It may exist, be from a previous `next build` mode, or be from a different OS. If you `cp` from it on the server, you copy stale chunks over the freshly extracted ones.
+
+**Fix:** The tarball should already contain `.next/static/` (via step 2 of the build checklist). Don't re-copy from the server. The tarball is the source of truth.
+
+### Rules of thumb
+
+1. **`set -euo pipefail` is not enough** — pipe stages still hide failures. Verify after each step.
+2. **Never `|| true` on success-path commands.** If you need to continue on failure, use explicit `if ! cmd; then ...; fi`.
+3. **Print expected counts.** `EXTRACTED_FILES=$(find . -type f | wc -l)` after tar is more useful than "✓ Extracted".
+4. **The tarball is the source of truth.** Don't `cp` from intermediate paths on the server — the server's paths may be stale or wrong-arch.
+
+### Reference: what `deploy-full.sh` looked like before/after this fix
+
+```diff
+- tar -xzf /tmp/eztor-deploy-*.tar.gz -C standalone 2>/dev/null | grep -v "LIBARCHIVE.xattr" || true
++ tar -xzf /tmp/eztor-deploy-*.tar.gz -C standalone
++ EXTRACTED_FILES=$(find standalone -type f | wc -l)
++ echo "  ✓ Extracted ($EXTRACTED_FILES files)"
+```
+
+```diff
+- # Sync static files (nginx serves from .next/static)
+- cp -r .next/static .next/standalone/.next/static 2>/dev/null || true
++ # Note: .next/static is already inside the tarball (from build checklist step 2),
++ # so no separate cp from server's stale .next/static is needed.
 ```
 
 ## nginx Proxy
@@ -149,6 +234,59 @@ BT-Panel proxy directory may have multiple `.conf` files. The main config `inclu
 ls /www/server/panel/vhost/nginx/proxy/114.55.58.90/
 # Only one file should define "location ^~ /"
 ```
+
+## Pre-Deploy Extraction Verification
+
+**After** `tar -xzf` on the server, **before** `pm2 restart`, verify the extract actually worked. The "Deployment Verification" section (below) catches this AFTER restart — better to catch BEFORE you take downtime.
+
+### Minimum checks
+
+```bash
+cd /www/wwwroot/<site>/.next
+
+# 1. Total file count (sanity)
+TOTAL=$(find standalone -type f | wc -l)
+[ "$TOTAL" -gt 1000 ] || { echo "✗ Only $TOTAL files extracted, aborting"; exit 1; }
+
+# 2. Critical files exist
+test -f standalone/server.js            || { echo "✗ server.js missing"; exit 1; }
+test -f standalone/BUILD_ID.txt         || { echo "✗ BUILD_ID.txt missing"; exit 1; }
+test -d standalone/.next/static/chunks  || { echo "✗ static/chunks missing"; exit 1; }
+test -d standalone/.next/server         || { echo "✗ server chunks missing"; exit 1; }
+
+# 3. Static chunks count is reasonable
+CHUNKS=$(find standalone/.next/static/chunks -type f | wc -l)
+[ "$CHUNKS" -gt 50 ] || { echo "✗ Only $CHUNKS chunks, expected >50"; exit 1; }
+
+# 4. No macOS xattr sidecars leaked through
+SIDECARS=$(find standalone -name '._*' 2>/dev/null | wc -l)
+[ "$SIDECARS" -eq 0 ] || { echo "⚠ $SIDECARS macOS sidecars, cleaning"; find standalone -name '._*' -delete 2>/dev/null; }
+
+echo "✓ Pre-deploy extraction OK ($TOTAL files, $CHUNKS chunks)"
+```
+
+### Why these checks
+
+| Check | Catches |
+|-------|---------|
+| `find . -type f \| wc -l` | Empty / partial tarball extraction |
+| `server.js` present | Wrong source dir tarred |
+| `BUILD_ID.txt` present | Forgot to `echo $TIMESTAMP > BUILD_ID.txt` before tar |
+| `static/chunks/` non-empty | Forgot build checklist step 2 |
+| `chunks` count > 50 | Truncated tarball (network error) |
+| `._*` count == 0 | macOS tar didn't strip xattrs |
+
+### Bonus: a one-liner for the panic moment
+
+```bash
+# After tar -xzf, before pm2 restart:
+test -f .next/standalone/server.js && \
+test -d .next/standalone/.next/static/chunks && \
+test "$(find .next/standalone/.next/static/chunks -type f | wc -l)" -gt 50 && \
+echo "OK to restart" || echo "DO NOT RESTART — extraction incomplete"
+```
+
+If you see "DO NOT RESTART" and you've already stopped PM2, **fix the extraction first**, then restart. Don't `pm2 restart` on a half-installed standalone — you'll get ChunkLoadError.
 
 ## Deployment Verification
 
