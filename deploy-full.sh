@@ -40,6 +40,8 @@ tar -cf "$TARBALL_UNCOMPRESSED" \
   --exclude='.env.production' \
   --exclude='.env.local' \
   --exclude='.env.docker' \
+  --exclude='._*' \
+  --no-xattrs \
   -C .next/standalone .
 
 # Append runtime-only modules that are loaded dynamically (not traced by @vercel/nft)
@@ -93,27 +95,33 @@ fi
 # Extract new version
 echo "  Extracting new version..."
 mkdir -p standalone
-tar -xzf /tmp/eztor-deploy-*.tar.gz -C standalone 2>/dev/null | grep -v "LIBARCHIVE.xattr" || true
+tar -xzf /tmp/eztor-deploy-*.tar.gz -C standalone
+EXTRACTED_FILES=$(find standalone -type f 2>/dev/null | wc -l)
+echo "  ✓ Extracted ($EXTRACTED_FILES files)"
+
+# Defense-in-depth: strip any macOS xattr sidecar files (._*) that snuck in
+SIDECAR_COUNT=$(find standalone -name '._*' 2>/dev/null | wc -l)
+if [ "$SIDECAR_COUNT" -gt 0 ]; then
+  find standalone -name '._*' -type f -delete 2>/dev/null || true
+  find standalone -name '._*' -type d -empty -delete 2>/dev/null || true
+  echo "  ✓ Stripped $SIDECAR_COUNT macOS xattr sidecar files"
+fi
 
 # Extract ipa-dict (appended to tarball as runtime-only module)
 if tar -tzf /tmp/eztor-deploy-*.tar.gz 2>/dev/null | grep -q '^ipa-dict/'; then
   mkdir -p standalone/node_modules
-  tar -xzf /tmp/eztor-deploy-*.tar.gz -C standalone/node_modules ipa-dict 2>/dev/null
+  tar -xzf /tmp/eztor-deploy-*.tar.gz -C standalone/node_modules ipa-dict
   echo "  ✓ ipa-dict extracted to standalone/node_modules"
 fi
 
 # Extract prisma/ (appended to tarball) so prisma migrate deploy works
 if tar -tzf /tmp/eztor-deploy-*.tar.gz 2>/dev/null | grep -q '^prisma/'; then
-  tar -xzf /tmp/eztor-deploy-*.tar.gz -C "$SERVER_DIR" prisma 2>/dev/null
+  tar -xzf /tmp/eztor-deploy-*.tar.gz -C "$SERVER_DIR" prisma
   echo "  ✓ prisma/ extracted to $SERVER_DIR"
 fi
-echo "  ✓ Extracted"
 
-# Sync static files (nginx serves from .next/static)
-echo "  Syncing static files..."
-cd "$SERVER_DIR"
-cp -r .next/static .next/standalone/.next/static 2>/dev/null || true
-echo "  ✓ Static files synced"
+# Note: .next/static is already inside the tarball (from step 2/6),
+# so no separate cp from server's stale .next/static is needed.
 
 # Copy server's .env to standalone (do NOT use local .env)
 echo "  Using server's existing .env..."
