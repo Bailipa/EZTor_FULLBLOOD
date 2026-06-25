@@ -65,6 +65,27 @@ function createEmptyEntry(): WordEntry {
   }
 }
 
+function isInvalidForLibrary(item: {
+  pos?: string | null
+  translation?: string | null
+}): boolean {
+  if (
+    item.pos === '错误' ||
+    item.pos === '风控' ||
+    item.pos === '中断' ||
+    item.pos === '非英语' ||
+    item.pos === '句子'
+  ) {
+    return true
+  }
+  const t = typeof item.translation === 'string' ? item.translation : ''
+  return (
+    t.includes('拼写错误或不存在') ||
+    t.includes('粗俗或敏感') ||
+    t.includes('⚠️')
+  )
+}
+
 const AI_BATCH_CONCURRENCY = 5
 
 export function useRealtimeTranslation({ showPos, showExample, targetGroupId, isGuest }: UseRealtimeTranslationOptions) {
@@ -123,6 +144,11 @@ export function useRealtimeTranslation({ showPos, showExample, targetGroupId, is
             pos: pos || undefined,
             example: example || undefined,
             exampleTranslation: exampleTranslation || undefined,
+          }
+
+          if (isInvalidForLibrary(syncPayload)) {
+            updateEntry(entryId, { saveStatus: 'idle' })
+            return
           }
 
           const res = await fetch('/api/sync', {
@@ -437,11 +463,13 @@ export function useRealtimeTranslation({ showPos, showExample, targetGroupId, is
             aiTranslated: true,
           })
 
-          fetch('/api/sync', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ results: [lastValidResult] }),
-          }).catch(() => {})
+          if (!isInvalidForLibrary(lastValidResult)) {
+            fetch('/api/sync', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ results: [lastValidResult] }),
+            }).catch(() => {})
+          }
         } else {
           updateEntry(entryId, { status: 'error' })
           toast.error('翻译失败，请重试')

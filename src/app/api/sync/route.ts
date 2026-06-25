@@ -31,8 +31,25 @@ export async function POST(req: Request) {
     let savedCount = 0
     let errorCount = 0
 
+    let skippedCount = 0
     for (const wordData of results) {
       if (wordData && wordData.word) {
+        const pos = wordData.pos
+        const translation = wordData.translation
+        if (
+          pos === '错误' ||
+          pos === '风控' ||
+          pos === '中断' ||
+          pos === '非英语' ||
+          pos === '句子' ||
+          (typeof translation === 'string' &&
+            (translation.includes('拼写错误或不存在') ||
+              translation.includes('粗俗或敏感') ||
+              translation.includes('⚠️')))
+        ) {
+          skippedCount++
+          continue
+        }
         try {
           const word = String(wordData.word).toLowerCase().trim()
           const _savedWord = await prisma.word.upsert({
@@ -76,7 +93,7 @@ export async function POST(req: Request) {
 
     return NextResponse.json({
       success: true,
-      message: `Sync complete. Saved: ${savedCount}, Errors: ${errorCount}`,
+      message: `Sync complete. Saved: ${savedCount}, Errors: ${errorCount}, Skipped: ${skippedCount}`,
     })
   } catch (err: unknown) {
     logger.error({ err }, 'Sync API Error:')
