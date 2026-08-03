@@ -9,7 +9,6 @@ import { Input } from '@/components/ui/input'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { Label } from '@/components/ui/label'
 import { RefreshCw, Loader2 } from 'lucide-react'
-import { isXiaoYingWebView } from '@/lib/isXiaoYingWebView'
 
 export default function SignIn() {
   usePageView('Sign In')
@@ -29,7 +28,6 @@ export default function SignIn() {
   const wasKicked = searchParams.get('kicked') === '1'
 
   const [onlineCount, setOnlineCount] = useState<number | null>(null)
-  const [showXiaoYingLogin, setShowXiaoYingLogin] = useState(false)
   const [xiaoyingLoading, setXiaoyingLoading] = useState(false)
   const [xiaoyingError, setXiaoyingError] = useState(false)
   const xiaoyingTimerRef = useRef<NodeJS.Timeout | null>(null)
@@ -39,7 +37,6 @@ export default function SignIn() {
     if (match) {
       setOnlineCount(parseInt(match[1], 10))
     }
-    setShowXiaoYingLogin(isXiaoYingWebView())
   }, [])
 
   const isBlocked = wasKicked || onlineCount !== null
@@ -209,52 +206,48 @@ export default function SignIn() {
             </Button>
           </form>
 
-          {showXiaoYingLogin && (
-            <>
-              <div className="relative my-4">
-                <div className="absolute inset-0 flex items-center">
-                  <span className="w-full border-t" />
-                </div>
-                <div className="relative flex justify-center text-xs uppercase">
-                  <span className="bg-background px-2 text-muted-foreground">或</span>
-                </div>
-              </div>
+<div className="relative my-4">
+            <div className="absolute inset-0 flex items-center">
+              <span className="w-full border-t" />
+            </div>
+            <div className="relative flex justify-center text-xs uppercase">
+              <span className="bg-background px-2 text-muted-foreground">或</span>
+            </div>
+          </div>
 
-              <div
-                onClick={handleXiaoyingLogin}
-                className="inline-flex min-h-12 w-full cursor-pointer items-center justify-center gap-2.5 rounded-2xl border border-neutral-300 bg-white px-5 text-base font-semibold leading-none text-neutral-900 hover:bg-neutral-50 transition-colors dark:border-neutral-200 dark:bg-[#171722] dark:text-neutral-50 dark:hover:bg-[#20202c]"
-                role="button"
-                tabIndex={0}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' || e.key === ' ') {
-                    handleXiaoyingLogin()
-                  }
-                }}
+          <div
+            onClick={handleXiaoyingLogin}
+            className="inline-flex min-h-12 w-full cursor-pointer items-center justify-center gap-2.5 rounded-2xl border border-neutral-300 bg-white px-5 text-base font-semibold leading-none text-neutral-900 hover:bg-neutral-50 transition-colors dark:border-neutral-200 dark:bg-[#171722] dark:text-neutral-50 dark:hover:bg-[#20202c]"
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                handleXiaoyingLogin()
+              }
+            }}
+          >
+            {xiaoyingLoading ? (
+              <Loader2 className="h-6 w-6 animate-spin" />
+            ) : (
+              /* eslint-disable-next-line @next/next/no-img-element */
+              <img src="/xiaoying-icon.svg" alt="" className="h-6 w-6 shrink-0 dark:brightness-0 dark:invert" />
+            )}
+            <span>{xiaoyingLoading ? '登录中...' : '使用小应账号快捷登录'}</span>
+          </div>
+
+          {xiaoyingError && (
+            <div className="mt-4 p-4 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-md text-sm text-amber-700 dark:text-amber-400 text-center">
+              <p className="font-semibold">小应生活版本过低</p>
+              <p className="mt-1">请点击下方按钮更新小应生活后再试</p>
+              <a 
+                href="https://xiaoying.life/download" 
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-3 inline-block px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
               >
-                {xiaoyingLoading ? (
-                  <Loader2 className="h-6 w-6 animate-spin" />
-                ) : (
-                  /* eslint-disable-next-line @next/next/no-img-element */
-                  <img src="/xiaoying-icon.svg" alt="" className="h-6 w-6 shrink-0 dark:brightness-0 dark:invert" />
-                )}
-                <span>{xiaoyingLoading ? '登录中...' : '使用小应账号快捷登录'}</span>
-              </div>
-
-              {xiaoyingError && (
-                <div className="mt-4 p-4 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-md text-sm text-amber-700 dark:text-amber-400 text-center">
-                  <p className="font-semibold">小应生活版本过低</p>
-                  <p className="mt-1">请点击下方按钮更新小应生活后再试</p>
-                  <a 
-                    href="https://xiaoying.life/download" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="mt-3 inline-block px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
-                  >
-                    下载最新版本
-                  </a>
-                </div>
-              )}
-            </>
+                下载最新版本
+              </a>
+            </div>
           )}
         </CardContent>
       </Card>
