@@ -125,6 +125,7 @@ fi
 
 # Copy server's .env to standalone (do NOT use local .env)
 echo "  Using server's existing .env..."
+cd "$SERVER_DIR"
 if [ -f ".env" ]; then
   cp .env .next/standalone/.env
   echo "  ✓ Server .env copied to standalone"
