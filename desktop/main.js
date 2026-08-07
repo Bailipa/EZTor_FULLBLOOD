@@ -2,6 +2,7 @@
 
 const { app, BrowserWindow, Menu, shell, ipcMain, Tray, nativeImage, screen } = require('electron')
 const path = require('path')
+const { autoUpdater } = require('electron-updater')
 
 // 线上地址（可被 EZTOR_APP_URL 覆盖，用于本地联调）
 const APP_URL = process.env.EZTOR_APP_URL || 'https://eztor.dogeggcode.cyou'
@@ -85,12 +86,20 @@ function createMainWindow() {
 // 全局弹幕：每个显示器一个全屏透明、始终置顶、点击穿透的悬浮窗，
 // 覆盖整个桌面（多屏），弹幕飘过所有应用之上。
 function createOverlayWindows() {
+  // 清理已销毁的窗口，避免残留导致重复创建
+  overlayWindows = overlayWindows.filter((w) => !w.isDestroyed())
   if (overlayWindows.length > 0) return
 
   const displays = screen.getAllDisplays()
 
   for (const d of displays) {
     const { x, y, width, height } = d.bounds
+    // 按显示区域去重：同一块屏幕只放一个悬浮窗（Windows 上显示器热插拔/枚举偶发重复）
+    const alreadyCovered = overlayWindows.some(
+      (w) => w.getBounds().x === x && w.getBounds().y === y && w.getBounds().width === width && w.getBounds().height === height,
+    )
+    if (alreadyCovered) continue
+
     const win = new BrowserWindow({
       x,
       y,
@@ -109,6 +118,10 @@ function createOverlayWindows() {
         preload: path.join(__dirname, 'preload.js'),
         contextIsolation: true,
         nodeIntegration: false,
+        // 关键：focusable:false 的置顶窗口永不聚焦 → 被 Chromium 当"后台窗口"。
+        // 默认 backgroundThrottling:true 会冻结 CSS 动画/定时器，且让
+        // document.visibilityState 报 hidden → 弹幕冻住 + visibilitychange 反复清空重发。
+        backgroundThrottling: false,
       },
     })
 
@@ -154,6 +167,66 @@ ipcMain.on('set-overlay', (_event, enabled) => {
   if (enabled) createOverlayWindows()
   else closeOverlayWindows()
   syncTrayDanmakuState()
+})
+
+// ==================== 自动更新（electron-updater） ====================
+// 后台下载新版 → 通知网页提示"重启更新" → 用户点击后 quitAndInstall()：
+// 自动退出、NSIS 静默安装、自动重启，全程无需手动关软件。
+// 仅在打包应用里生效（dev 模式自动跳过）。
+function sendUpdateStatus(payload) {
+  for (const w of BrowserWindow.getAllWindows()) {
+    if (!w.isDestroyed()) w.webContents.send('update-status', payload)
+  }
+}
+
+function initAutoUpdater() {
+  autoUpdater.autoDownload = true // 后台自动下载，用户点"重启更新"时已就绪
+  autoUpdater.autoInstallOnAppQuit = true // 兜底：用户直接退出时也静默安装
+
+  autoUpdater.on('checking-for-update', () => sendUpdateStatus({ status: 'checking' }))
+  autoUpdater.on('update-available', (info) =>
+    sendUpdateStatus({ status: 'downloading', version: info.version }),
+  )
+  autoUpdater.on('update-not-available', () => sendUpdateStatus({ status: 'uptodate' }))
+  autoUpdater.on('download-progress', (p) =>
+    sendUpdateStatus({ status: 'downloading', percent: Math.round(p.percent) }),
+  )
+  autoUpdater.on('update-downloaded', (info) =>
+    sendUpdateStatus({ status: 'ready', version: info.version }),
+  )
+  autoUpdater.on('error', (err) =>
+    sendUpdateStatus({ status: 'error', message: String(err && err.message ? err.message : err) }),
+  )
+
+  try {
+    autoUpdater.checkForUpdatesAndNotify()
+  } catch (err) {
+    console.warn('EZTor autoUpdater check failed:', err)
+  }
+  // 之后每小时再查一次（用户常驻后台）
+  setInterval(() => {
+    try {
+      autoUpdater.checkForUpdates()
+    } catch (ignored) {
+      /* 忽略 */
+    }
+  }, 60 * 60 * 1000)
+}
+
+ipcMain.on('install-update', () => {
+  try {
+    autoUpdater.quitAndInstall()
+  } catch (err) {
+    console.warn('EZTor install-update failed:', err)
+  }
+})
+
+ipcMain.on('check-update', () => {
+  try {
+    autoUpdater.checkForUpdates()
+  } catch (err) {
+    console.warn('EZTor check-update failed:', err)
+  }
 })
 
 // 托盘：后台驻留入口（显示主页 / 弹幕开关 / 退出）
@@ -245,6 +318,7 @@ app.whenReady().then(() => {
   createTray()
   createMainWindow()
   Menu.setApplicationMenu(buildMenu())
+  initAutoUpdater()
 
   app.on('activate', () => showMainWindow())
 })

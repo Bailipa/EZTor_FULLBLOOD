@@ -8,6 +8,7 @@ import { OnlineLimitBanner } from '@/components/OnlineLimitBanner'
 import { BrandThemeProvider } from '@/components/brand-theme-provider'
 import { OnboardingProvider } from '@/components/onboarding/OnboardingProvider'
 import { DanmakuHost } from '@/components/layout/DanmakuHost'
+import { AppUpdatePrompt } from '@/components/layout/AppUpdatePrompt'
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -73,6 +74,7 @@ export default function RootLayout({
                 <DanmakuHost />
                 {children}
               </OnboardingProvider>
+              <AppUpdatePrompt />
               <Toaster />
             </BrandThemeProvider>
           </ThemeProvider>

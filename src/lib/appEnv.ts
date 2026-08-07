@@ -7,6 +7,18 @@
  *  - 桌面 App（未来）：UA 带 EZTorDesktop/<version>
  */
 
+/** 桌面 App（Electron）preload 注入的桥：弹幕 + 自动更新 */
+declare global {
+  interface Window {
+    eztor?: {
+      setGlobalDanmaku?: (enabled: boolean) => void
+      installUpdate?: () => void
+      checkUpdate?: () => void
+      onUpdateStatus?: (cb: (p: { status: string; version?: string; percent?: number; message?: string }) => void) => () => void
+    }
+  }
+}
+
 export function isDesktopApp(): boolean {
   if (typeof window === 'undefined') return false
   return typeof (window as unknown as { eztor?: unknown }).eztor !== 'undefined'

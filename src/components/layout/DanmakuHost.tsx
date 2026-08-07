@@ -12,10 +12,6 @@ declare global {
       setEnabled: (enabled: boolean) => void
       isActive: () => boolean
     }
-    /** 桌面 App（Electron）preload 注入：应用内开启弹幕 = 开启全局弹幕悬浮窗 */
-    eztor?: {
-      setGlobalDanmaku?: (enabled: boolean) => void
-    }
   }
 }
 

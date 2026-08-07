@@ -26,7 +26,7 @@ const OPTIONAL_AUTH_PATHS = [
   '/api/flashcard/public',
 ]
 
-const PUBLIC_PATHS = ['/site-config.json', '/auth/signin', '/api/auth', '/api/captcha', '/api/health', '/api/auth/xiaoying', '/flywheel-preview.html', '/share', '/api/share-profile', '/download', '/manifest.webmanifest', '/danmaku-overlay.html', '/api/download/unlock', '/api/version', '/api/debug']
+const PUBLIC_PATHS = ['/site-config.json', '/auth/signin', '/api/auth', '/api/captcha', '/api/health', '/api/auth/xiaoying', '/flywheel-preview.html', '/share', '/api/share-profile', '/download', '/manifest.webmanifest', '/danmaku-overlay.html', '/api/download/unlock', '/api/version', '/api/debug', '/updates']
 
 const ADMIN_PATHS = [
   '/analytics',

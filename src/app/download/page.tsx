@@ -8,6 +8,8 @@ import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Input } from '@/components/ui/input'
 import { useAppVersion } from '@/hooks/useAppVersion'
+import { useAppUpdate } from '@/hooks/useAppUpdate'
+import { isDesktopApp } from '@/lib/appEnv'
 import {
   MonitorDown,
   Smartphone,
@@ -25,6 +27,7 @@ const FALLBACK_ANDROID_APK = '/downloads/eztor-0.3.0.apk'
 
 export default function DownloadPage() {
   const appVer = useAppVersion()
+  const appUpdate = useAppUpdate()
   const [password, setPassword] = useState('')
   const [unlocked, setUnlocked] = useState(false)
   const [checking, setChecking] = useState(false)
@@ -130,12 +133,24 @@ export default function DownloadPage() {
                     Ctrl+Shift+D），可固定到任务栏 / 桌面。
                   </p>
                   <div className="flex flex-wrap gap-2">
-                    <Button asChild size="lg">
-                      <a href={winInstaller} download>
-                        <Download className="w-4 h-4 mr-1.5" />
-                        下载 Windows 安装包
-                      </a>
-                    </Button>
+                    {isDesktopApp() && appUpdate.status === 'ready' ? (
+                      <Button size="lg" onClick={() => window.eztor?.installUpdate?.()}>
+                        <Check className="w-4 h-4 mr-1.5" />
+                        新版本已就绪，点击重启更新
+                      </Button>
+                    ) : isDesktopApp() && appUpdate.status === 'downloading' ? (
+                      <Button size="lg" disabled>
+                        <Loader2 className="w-4 h-4 mr-1.5 animate-spin" />
+                        正在后台下载更新… {appUpdate.percent != null ? `${appUpdate.percent}%` : ''}
+                      </Button>
+                    ) : (
+                      <Button asChild size="lg">
+                        <a href={winInstaller} download>
+                          <Download className="w-4 h-4 mr-1.5" />
+                          下载 Windows 安装包
+                        </a>
+                      </Button>
+                    )}
                     <Button asChild variant="outline" size="lg">
                       <a href="https://github.com/Bailipa/EZTor_FULLBLOOD" target="_blank" rel="noopener noreferrer">
                         <FileCode2 className="w-4 h-4 mr-1.5" />
@@ -144,7 +159,8 @@ export default function DownloadPage() {
                     </Button>
                   </div>
                   <p className="text-xs text-muted-foreground/70 leading-relaxed">
-                    Windows SmartScreen 可能提示"未知发布者"：点击「更多信息」→「仍要运行」即可。
+                    安装包暂未购买代码签名证书，浏览器 / Windows SmartScreen 可能提示"不安全 / 未知发布者"，
+                    属正常拦截：Edge 下载时点「更多信息」→「仍要下载」；运行安装包时点「更多信息」→「仍要运行」即可。
                   </p>
                 </CardContent>
               </Card>

@@ -130,8 +130,11 @@
       }
 
       el.style.top = top + '%';
+      // fill-mode 用 both（不能只 forwards）：forwards 在 delay 期间不应用起始帧，
+      // 弹幕会以自然位置(屏幕最左)完整可见地闪过 delay 时长，再跳到右侧开始飘 ——
+      // 表现成"屏幕左边突然闪现再消失"。both 让 delay 期就应用 from 态(右端 100vw + 透明)。
       el.style.animation =
-        'fly ' + duration + 's linear ' + delay + 's forwards, fade ' + duration + 's linear ' + delay + 's forwards';
+        'fly ' + duration + 's linear ' + delay + 's both, fade ' + duration + 's linear ' + delay + 's both';
 
       el.addEventListener('animationend', function () { el.remove(); });
       stage.appendChild(el);
@@ -161,13 +164,18 @@
       }
     }, 10000);
 
-    // 从其它应用/界面切回时：重置轨道并快速补一批，避免空白（与 danmaku.tsx 一致）
+    // 从其它应用/界面切回时：重置轨道并快速补一批，避免空白（与 danmaku.tsx 一致）。
+    // 防抖：只有真实隐藏 >=3s 才清空重发，避免 Windows overlay 可见性闪变导致弹幕反复清空重出现
+    var lastHiddenAt = 0;
     document.addEventListener('visibilitychange', function () {
       if (document.visibilityState === 'visible') {
+        if (Date.now() - lastHiddenAt < 3000) return;
         // 清掉可能残留/卡死的弹幕，避免堆满 100 条后永久停摆
         stage.innerHTML = '';
         tracksFreeTime = new Array(TRACK_COUNT).fill(0);
         fetchDanmaku(true);
+      } else {
+        lastHiddenAt = Date.now();
       }
     });
   })();
