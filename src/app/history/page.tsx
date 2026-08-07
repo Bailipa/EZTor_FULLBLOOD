@@ -4,6 +4,7 @@ import React, { useState, useEffect, useCallback, useRef, forwardRef } from 'rea
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
+import { useMediaQuery } from '@/hooks/useMediaQuery'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import {
@@ -54,6 +55,7 @@ import {
 import { ShareImportModal } from '@/components/vocabulary/ShareImportModal'
 import { GroupShareModal } from '@/components/review-group/GroupShareModal'
 import WordCard, { WordData } from '@/components/vocabulary/WordCard'
+import { WordDetailSheet } from '@/components/vocabulary/WordDetailSheet'
 import { useCrudTable } from '@/hooks/useCrudTable'
 import { useOnboarding } from '@/components/onboarding/OnboardingProvider'
 import { OnboardingTooltip } from '@/components/onboarding/OnboardingTooltip'
@@ -129,14 +131,13 @@ export default function HistoryPage() {
   })
 
   const [isDraggingSelection, setIsDraggingSelection] = useState(false)
-  const [dragStartIndex, setDragStartIndex] = useState<number | null>(null)
-  const [initialSelectedSet, setInitialSelectedSet] = useState<Set<string>>(new Set())
+  type DragPhase = 'idle' | 'pressing' | 'dragging'
+  const dragPhaseRef = useRef<DragPhase>('idle')
+  const dragStartIndexRef = useRef<number | null>(null)
   const dragStartWasSelectedRef = useRef<boolean>(false)
-  const touchStartPosRef = useRef<{ x: number; y: number } | null>(null)
-  const mouseStartPosRef = useRef<{ x: number; y: number } | null>(null)
-  const hasMovedRef = useRef<boolean>(false)
-  const hasMouseMovedRef = useRef<boolean>(false)
-  const isDraggingRef = useRef<boolean>(false)
+  const initialSelectedSetRef = useRef<Set<string>>(new Set())
+  const startPosRef = useRef<{ x: number; y: number } | null>(null)
+  const DRAG_THRESHOLD_PX = 6
   const [isGroupModalOpen, setIsGroupModalOpen] = useState(false)
   const [newGroupName, setNewGroupName] = useState('')
   const [targetGroupId, setTargetGroupId] = useState('')
@@ -153,6 +154,30 @@ export default function HistoryPage() {
 
   const [isDeleteGroupModalOpen, setIsDeleteGroupModalOpen] = useState(false)
   const [groupToDelete, setGroupToDelete] = useState<string>('')
+
+  // 桌面端保留大卡视图，移动端 (md 以下) 切换为 chip + 底部抽屉
+  const isDesktop = useMediaQuery('(min-width: 768px)')
+  const [sheetWordId, setSheetWordId] = useState<string | null>(null)
+  const [sheetOpen, setSheetOpen] = useState(false)
+
+  const handleCardTap = useCallback(
+    (id: string) => {
+      if (isSelectionMode) {
+        toggleSelection(id)
+        return
+      }
+      if (isDesktop) return
+      // 移动端：tap 已选 → 关闭；tap 其他 → 切换
+      if (sheetOpen && sheetWordId === id) {
+        setSheetOpen(false)
+        setSheetWordId(null)
+      } else {
+        setSheetWordId(id)
+        setSheetOpen(true)
+      }
+    },
+    [isSelectionMode, isDesktop, sheetOpen, sheetWordId, toggleSelection],
+  )
 
   const groupIdRef = useRef(currentViewGroupId)
   groupIdRef.current = currentViewGroupId
@@ -241,21 +266,22 @@ export default function HistoryPage() {
 
   useEffect(() => {
     const handleMouseUp = () => {
-      // 如果没有移动，切换起始项状态
-      if (!hasMouseMovedRef.current && dragStartIndex !== null) {
-        const item = words[dragStartIndex]
+      const phase = dragPhaseRef.current
+      const idx = dragStartIndexRef.current
+      if (phase === 'pressing' && idx !== null) {
+        const item = words[idx]
         if (item) {
-          toggleSelection(item.id)
+          handleCardTap(item.id)
         }
       }
+      dragPhaseRef.current = 'idle'
+      dragStartIndexRef.current = null
+      startPosRef.current = null
       setIsDraggingSelection(false)
-      isDraggingRef.current = false
-      hasMouseMovedRef.current = false
-      mouseStartPosRef.current = null
     }
     window.addEventListener('mouseup', handleMouseUp)
     return () => window.removeEventListener('mouseup', handleMouseUp)
-  }, [dragStartIndex, words, toggleSelection])
+  }, [words, handleCardTap])
 
   useEffect(() => {
     if (isDraggingSelection) {
@@ -265,149 +291,149 @@ export default function HistoryPage() {
     }
   }, [isDraggingSelection])
 
-  // 检测鼠标移动
+  useEffect(() => {
+    if (isSelectionMode) {
+      document.body.style.touchAction = 'pan-y'
+    } else {
+      document.body.style.touchAction = ''
+    }
+    return () => {
+      document.body.style.touchAction = ''
+    }
+  }, [isSelectionMode])
+
+  // 原生 touchstart 监听：React 17+ 把 onTouchStart 注册为 passive，
+  // 导致 e.preventDefault() 是空操作、合成的 mousedown/mouseup/click 仍会派发，
+  // 进而把"末尾卡片反勾"的旧 bug 保留下来。这里直接挂带 { passive: false, capture: true }
+  // 的原生监听，只在卡片区域 ([data-word-index]) 内 preventDefault，
+  // 抑制合成鼠标事件，同时不影响卡片外按钮的点击。
+  useEffect(() => {
+    if (!isSelectionMode) return
+    const onNativeTouchStart = (e: TouchEvent) => {
+      const target = e.target as HTMLElement | null
+      if (target?.closest('[data-word-index]')) {
+        e.preventDefault()
+      }
+    }
+    document.addEventListener('touchstart', onNativeTouchStart, {
+      passive: false,
+      capture: true,
+    })
+    return () => {
+      document.removeEventListener('touchstart', onNativeTouchStart, {
+        capture: true,
+      } as EventListenerOptions)
+    }
+  }, [isSelectionMode])
+
+  // 鼠标移动：仅在 pressing 阶段检查阈值，命中后升级到 dragging（仅选择模式触发多选 UI）
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
-      if (!isDraggingSelection || !mouseStartPosRef.current) return
-      const dx = Math.abs(e.clientX - mouseStartPosRef.current.x)
-      const dy = Math.abs(e.clientY - mouseStartPosRef.current.y)
-      if (dx > 5 || dy > 5) {
-        hasMouseMovedRef.current = true
+      if (dragPhaseRef.current !== 'pressing' || !startPosRef.current) return
+      const dx = Math.abs(e.clientX - startPosRef.current.x)
+      const dy = Math.abs(e.clientY - startPosRef.current.y)
+      if (dx > DRAG_THRESHOLD_PX || dy > DRAG_THRESHOLD_PX) {
+        dragPhaseRef.current = 'dragging'
+        if (isSelectionMode) setIsDraggingSelection(true)
       }
     }
     window.addEventListener('mousemove', handleMouseMove)
     return () => window.removeEventListener('mousemove', handleMouseMove)
-  }, [isDraggingSelection])
+  }, [isSelectionMode])
 
-  const handleDragStart = useCallback(
+  const startPress = useCallback(
     (index: number, id: string) => {
-      if (!isSelectionMode) return
-      setDragStartIndex(index)
-
-      setSelectedIds((prev) => {
-        setInitialSelectedSet(new Set(prev))
-        // 记录起始项的原始状态
-        dragStartWasSelectedRef.current = prev.has(id)
-        return prev
-      })
+      dragPhaseRef.current = 'pressing'
+      dragStartIndexRef.current = index
+      dragStartWasSelectedRef.current = selectedIds.has(id)
+      initialSelectedSetRef.current = new Set(selectedIds)
     },
-    [isSelectionMode, setSelectedIds],
+    [selectedIds],
   )
 
   const handleMouseDown = useCallback(
     (index: number, id: string, e?: React.MouseEvent) => {
-      if (!isSelectionMode) return
-      // 鼠标按下时立即进入拖拽模式
-      setIsDraggingSelection(true)
-      isDraggingRef.current = true
-      hasMouseMovedRef.current = false
-      // 记录鼠标起始位置
-      if (e) {
-        mouseStartPosRef.current = { x: e.clientX, y: e.clientY }
-      }
-      handleDragStart(index, id)
+      startPress(index, id)
+      if (e) startPosRef.current = { x: e.clientX, y: e.clientY }
     },
-    [isSelectionMode, handleDragStart],
+    [startPress],
   )
 
-  // TODO: 拖拽选择功能暂时搁置（摆烂了）
-  // 当前状态：点击选择正常工作，拖拽选择有 bug 未修复
-  // 问题：React 状态异步更新导致 handleDragEnter 读取 isDraggingSelection 时值不对
-  // 已尝试用 ref 同步跟踪状态，但仍有问题
-  // 暂时只保留单点选择功能，拖拽选择待后续重构
-  // 相关文件：src/components/vocabulary/WordCard.tsx
+  const handleTouchStart = useCallback(
+    (index: number, id: string, e: React.TouchEvent) => {
+      startPress(index, id)
+      if (e.touches[0]) {
+        startPosRef.current = { x: e.touches[0].clientX, y: e.touches[0].clientY }
+      }
+    },
+    [startPress],
+  )
 
   const handleDragEnter = useCallback(
     (currentIndex: number) => {
-      if (!isSelectionMode || !isDraggingRef.current || dragStartIndex === null) return
-
-      const start = Math.min(dragStartIndex, currentIndex)
-      const end = Math.max(dragStartIndex, currentIndex)
-
-      // 苹果相册风格：根据起始项的原始状态决定操作
-      // 如果起始项原始是未选中，则拖拽范围内全部选中
-      // 如果起始项原始是已选中，则拖拽范围内全部取消
+      if (!isSelectionMode || dragPhaseRef.current !== 'dragging') return
+      const start = dragStartIndexRef.current
+      if (start === null) return
+      const from = Math.min(start, currentIndex)
+      const to = Math.max(start, currentIndex)
       const shouldSelect = !dragStartWasSelectedRef.current
-
-      const newSelection = new Set(initialSelectedSet)
-
-      for (let i = start; i <= end; i++) {
+      const newSelection = new Set(initialSelectedSetRef.current)
+      for (let i = from; i <= to; i++) {
         if (i >= words.length) break
         const id = words[i].id
-        if (shouldSelect) {
-          newSelection.add(id)
-        } else {
-          newSelection.delete(id)
-        }
+        if (shouldSelect) newSelection.add(id)
+        else newSelection.delete(id)
       }
-
       setSelectedIds(newSelection)
     },
-    [
-      isSelectionMode,
-      dragStartIndex,
-      initialSelectedSet,
-      words,
-      setSelectedIds,
-    ],
+    [isSelectionMode, words, setSelectedIds],
   )
 
   const handleTouchMove = useCallback(
     (e: React.TouchEvent) => {
-      if (!isSelectionMode || dragStartIndex === null) return
-
+      const phase = dragPhaseRef.current
+      if (phase !== 'pressing' && phase !== 'dragging') return
+      const start = startPosRef.current
+      if (!start) return
       const touch = e.touches[0]
 
-      // 记录触摸开始位置
-      if (!touchStartPosRef.current) {
-        touchStartPosRef.current = { x: touch.clientX, y: touch.clientY }
-        return
+      if (phase === 'pressing') {
+        const dx = Math.abs(touch.clientX - start.x)
+        const dy = Math.abs(touch.clientY - start.y)
+        if (dx <= DRAG_THRESHOLD_PX && dy <= DRAG_THRESHOLD_PX) return
+        dragPhaseRef.current = 'dragging'
+        if (isSelectionMode) setIsDraggingSelection(true)
       }
 
-      // 检查移动距离，超过 10px 才进入拖拽模式
-      const dx = Math.abs(touch.clientX - touchStartPosRef.current.x)
-      const dy = Math.abs(touch.clientY - touchStartPosRef.current.y)
+      // 非选择模式不进入拖拽多选
+      if (!isSelectionMode) return
 
-      if (!hasMovedRef.current && (dx > 10 || dy > 10)) {
-        hasMovedRef.current = true
-        setIsDraggingSelection(true)
-        isDraggingRef.current = true
-      }
-
-      // 如果已进入拖拽模式，处理选择
-      if (hasMovedRef.current && isDraggingRef.current) {
-        const element = document.elementFromPoint(touch.clientX, touch.clientY)
-        const card = element?.closest('[data-word-index]')
-        if (card) {
-          const indexStr = card.getAttribute('data-word-index')
-          if (indexStr !== null) {
-            handleDragEnter(parseInt(indexStr, 10))
-          }
+      // 不调 e.preventDefault：让浏览器按 touch-action: pan-y 决定是否滚
+      // 选区跟随指尖：用 elementFromPoint 持续更新
+      const element = document.elementFromPoint(touch.clientX, touch.clientY)
+      const card = element?.closest('[data-word-index]')
+      if (card) {
+        const idxStr = card.getAttribute('data-word-index')
+        if (idxStr !== null) {
+          handleDragEnter(parseInt(idxStr, 10))
         }
       }
     },
-    [isSelectionMode, dragStartIndex, handleDragEnter],
+    [isSelectionMode, handleDragEnter],
   )
 
-  const handleTouchEnd = useCallback(
-    () => {
-      // 如果没有移动，视为点击，切换起始项状态
-      if (!hasMovedRef.current && dragStartIndex !== null) {
-        const item = words[dragStartIndex]
-        if (item) {
-          toggleSelection(item.id)
-        }
+  const handleTouchEnd = useCallback(() => {
+    if (dragPhaseRef.current === 'pressing') {
+      const idx = dragStartIndexRef.current
+      if (idx !== null && words[idx]) {
+        handleCardTap(words[idx].id)
       }
-
-      // 重置状态
-      setIsDraggingSelection(false)
-      isDraggingRef.current = false
-      setDragStartIndex(null)
-      touchStartPosRef.current = null
-      hasMovedRef.current = false
-    },
-    [dragStartIndex, words, toggleSelection],
-  )
+    }
+    dragPhaseRef.current = 'idle'
+    dragStartIndexRef.current = null
+    startPosRef.current = null
+    setIsDraggingSelection(false)
+  }, [words, handleCardTap])
 
   const handleDelete = useCallback(
     async (id: string) => {
@@ -538,7 +564,12 @@ export default function HistoryPage() {
     try {
       let groupIdToUse = targetGroupId
 
-      if (targetGroupId === 'new') {
+      // 空 targetGroupId 时回退到第一个分组；没有任何分组则视为要求新建
+      if (!groupIdToUse && groups.length > 0) {
+        groupIdToUse = groups[0].id
+      }
+
+      if (groupIdToUse === 'new' || (!groupIdToUse && groups.length === 0)) {
         if (!newGroupName.trim()) {
           toast.error('请输入生词本名称')
           setIsSavingGroup(false)
@@ -588,6 +619,7 @@ export default function HistoryPage() {
     selectedCount,
     targetGroupId,
     newGroupName,
+    groups,
     fetchGroups,
     setSelectedIds,
     setIsSelectionMode,
@@ -686,32 +718,63 @@ export default function HistoryPage() {
         key={item.id}
         item={item}
         index={index}
+        mode="full"
         isSelectionMode={isSelectionMode}
         isSelected={selectedIds.has(item.id)}
-        isDeleting={deletingId === item.id}
         isGroupView={isGroupView}
         onToggleSelection={toggleSelection}
-        onDragStart={handleDragStart}
         onMouseDown={handleMouseDown}
         onDragEnter={handleDragEnter}
-        onTouchStart={handleDragStart}
+        onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
         onSetDeletingId={setDeletingId}
-        onDelete={handleDelete}
       />
     ),
     [
       isSelectionMode,
       selectedIds,
-      deletingId,
       isGroupView,
       toggleSelection,
-      handleDragStart,
+      handleMouseDown,
       handleDragEnter,
+      handleTouchStart,
       handleTouchMove,
+      handleTouchEnd,
       setDeletingId,
-      handleDelete,
+    ],
+  )
+
+  const renderChipContent = useCallback(
+    (index: number, item: WordData) => (
+      <WordCard
+        key={item.id}
+        item={item}
+        index={index}
+        mode="chip"
+        isSelectionMode={isSelectionMode}
+        isSelected={selectedIds.has(item.id)}
+        isGroupView={isGroupView}
+        onToggleSelection={toggleSelection}
+        onMouseDown={handleMouseDown}
+        onDragEnter={handleDragEnter}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+        onSetDeletingId={setDeletingId}
+      />
+    ),
+    [
+      isSelectionMode,
+      selectedIds,
+      isGroupView,
+      toggleSelection,
+      handleMouseDown,
+      handleDragEnter,
+      handleTouchStart,
+      handleTouchMove,
+      handleTouchEnd,
+      setDeletingId,
     ],
   )
 
@@ -830,7 +893,12 @@ export default function HistoryPage() {
                   </Button>
                   <Button
                     size="sm"
-                    onClick={() => setIsGroupModalOpen(true)}
+                    onClick={() => {
+                      // 打开时复位选择，避免残留上次的 'new' / 空值
+                      setTargetGroupId(groups[0]?.id ?? 'new')
+                      setNewGroupName('')
+                      setIsGroupModalOpen(true)
+                    }}
                     disabled={selectedCount === 0}
                     className="gap-1"
                   >
@@ -934,10 +1002,14 @@ export default function HistoryPage() {
           </div>
         ) : (
           <div className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {words.map((item, index) => (
-                <div key={item.id}>{renderItemContent(index, item)}</div>
-              ))}
+            <div className="grid grid-cols-3 md:grid-cols-2 lg:grid-cols-3 gap-2 md:gap-4">
+              {isDesktop
+                ? words.map((item, index) => (
+                    <div key={item.id}>{renderItemContent(index, item)}</div>
+                  ))
+                : words.map((item, index) => (
+                    <div key={item.id}>{renderChipContent(index, item)}</div>
+                  ))}
             </div>
 
             {isLoadingMore && (
@@ -1074,6 +1146,40 @@ export default function HistoryPage() {
         </AlertDialogContent>
       </AlertDialog>
 
+      {/* Global Word Delete Confirmation (single instance for all cards) */}
+      <AlertDialog open={!!deletingId} onOpenChange={(o) => !o && setDeletingId(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>{isGroupView ? '从分组中移除' : '删除单词'}</AlertDialogTitle>
+            <AlertDialogDescription>
+              {deletingId &&
+                (() => {
+                  const word = words.find((w) => w.id === deletingId)
+                  return (
+                    <>
+                      确定要{isGroupView ? '从当前分组中移除' : '从生词本中永久删除'}{' '}
+                      <span className="font-bold text-gray-900 dark:text-gray-100">
+                        "{word?.word ?? ''}"
+                      </span>{' '}
+                      吗？
+                      {isGroupView && ' (该单词仍会保留在您的总生词本中)'}
+                    </>
+                  )
+                })()}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>取消</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={() => deletingId && handleDelete(deletingId)}
+              className="bg-red-600 hover:bg-red-700"
+            >
+              确定移除
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
       {/* 引导步骤 3：生词本展示 */}
       {isActive && currentStep === 3 && (
         <div className="fixed bottom-20 left-4 right-4 z-50">
@@ -1106,6 +1212,25 @@ export default function HistoryPage() {
             router.push('/')
           }}
           position="bottom"
+        />
+      )}
+
+      {/* 移动端底部抽屉：点击 chip 弹出单词详情 */}
+      {!isDesktop && sheetWordId && (
+        <WordDetailSheet
+          key={sheetWordId}
+          word={words.find((w) => w.id === sheetWordId) ?? null}
+          open={sheetOpen}
+          onOpenChange={(o) => {
+            setSheetOpen(o)
+            if (!o) setSheetWordId(null)
+          }}
+          onSetDeletingId={(id) => {
+            setDeletingId(id)
+            setSheetOpen(false)
+            setSheetWordId(null)
+          }}
+          isGroupView={isGroupView}
         />
       )}
 

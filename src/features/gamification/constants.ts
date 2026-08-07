@@ -1,5 +1,8 @@
 export const DAILY_POWER_CAP = 100
 
+// 注册即赠 50 学力：直接解锁"弹幕复习"（阈值 50）
+export const SIGNUP_POWER_BONUS = 50
+
 export const TASK_TYPES = {
   LOGIN: 'LOGIN',
   COMPLETE_REVIEWS: 'COMPLETE_REVIEWS',

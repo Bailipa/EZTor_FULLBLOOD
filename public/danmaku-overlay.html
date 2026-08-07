@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>EZTor 全局弹幕</title>
+<style>
+  /* 规则与 src/components/ui/danmaku.tsx 保持完全一致：
+     拉取 /api/danmaku?limit=3 每 12s；10 轨道；时长 25-40s；随机延迟 0.3-3s；
+     胶囊样式（圆角+毛玻璃+1px 边框+自适应明暗）；词+释义(截 40 字)、无音标；上限 100。 */
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body {
+    width: 100%; height: 100%;
+    background: transparent;
+    overflow: hidden;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    user-select: none;
+  }
+  #stage { position: fixed; inset: 0; overflow: hidden; pointer-events: none; }
+
+  /* 自适应明暗（与 danmaku.tsx 的 resolvedTheme 一致：以系统偏好为准） */
+  :root {
+    --pill-bg: rgba(255, 255, 255, 0.6);
+    --pill-border: rgba(255, 255, 255, 0.8);
+    --word-color: #111827;
+    --translation-color: #374151;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --pill-bg: rgba(0, 0, 0, 0.6);
+      --pill-border: rgba(255, 255, 255, 0.1);
+      --word-color: #f3f4f6;
+      --translation-color: #d1d5db;
+    }
+  }
+
+  .bullet {
+    position: absolute;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 16px;
+    border-radius: 9999px;
+    background: var(--pill-bg);
+    border: 1px solid var(--pill-border);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    will-change: transform;
+  }
+  .bullet .en { font-weight: 700; font-size: 18px; line-height: 28px; color: var(--word-color); }
+  .bullet .cn { font-size: 14px; line-height: 20px; color: var(--translation-color); }
+
+  @keyframes fly {
+    from { transform: translateX(100vw); }
+    to { transform: translateX(-100vw); }
+  }
+  @keyframes fade {
+    0% { opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { opacity: 0; }
+  }
+</style>
+</head>
+<body>
+  <div id="stage"></div>
+<script>
+  (function () {
+    var stage = document.getElementById('stage');
+    var TRACK_COUNT = 10;
+    var MAX_ITEMS = 100;
+    var FETCH_INTERVAL_MS = 12000;
+    var tracksFreeTime = new Array(TRACK_COUNT).fill(0);
+
+    function spawnBullet(item, skipDelay) {
+      if (stage.children.length >= MAX_ITEMS) return;
+      var now = Date.now();
+
+      var trackIndex = 0;
+      var delay = 0;
+
+      if (skipDelay) {
+        // 从其它界面切回时：快速铺开，不留白（与 danmaku.tsx 一致）
+        trackIndex = stage.children.length % TRACK_COUNT;
+        delay = 0.3 + Math.random() * 0.5;
+      } else {
+        var availableTracks = [];
+        for (var t = 0; t < TRACK_COUNT; t++) {
+          if (now > tracksFreeTime[t]) availableTracks.push(t);
+        }
+        if (availableTracks.length > 0) {
+          trackIndex = availableTracks[Math.floor(Math.random() * availableTracks.length)];
+          delay = 0.3 + Math.random() * 3;
+        } else {
+          var earliestTrack = 0;
+          var earliestTime = tracksFreeTime[0];
+          for (var t = 1; t < TRACK_COUNT; t++) {
+            if (tracksFreeTime[t] < earliestTime) {
+              earliestTime = tracksFreeTime[t];
+              earliestTrack = t;
+            }
+          }
+          trackIndex = earliestTrack;
+          delay = (earliestTime - now) / 1000 + Math.random() * 5;
+        }
+      }
+
+      var top = 10 + trackIndex * (80 / TRACK_COUNT);
+      var duration = 25 + Math.random() * 15;
+      var timeToClearEntry = duration * 0.4;
+      tracksFreeTime[trackIndex] = now + delay * 1000 + timeToClearEntry * 1000;
+
+      var el = document.createElement('div');
+      el.className = 'bullet';
+
+      var en = document.createElement('span');
+      en.className = 'en';
+      en.textContent = item.word || '';
+      el.appendChild(en);
+
+      var tr = String(item.translation || '').replace(/\s+/g, ' ').trim().slice(0, 40);
+      if (tr) {
+        var cn = document.createElement('span');
+        cn.className = 'cn';
+        cn.textContent = tr;
+        el.appendChild(cn);
+      }
+
+      el.style.top = top + '%';
+      el.style.animation =
+        'fly ' + duration + 's linear ' + delay + 's forwards, fade ' + duration + 's linear ' + delay + 's forwards';
+
+      el.addEventListener('animationend', function () { el.remove(); });
+      stage.appendChild(el);
+    }
+
+    function fetchDanmaku(skipDelay) {
+      fetch('/api/danmaku?limit=3&t=' + Date.now(), { credentials: 'same-origin' })
+        .then(function (res) { return res.json(); })
+        .then(function (json) {
+          if (json && json.success && Array.isArray(json.data)) {
+            json.data.forEach(function (item) { spawnBullet(item, skipDelay); });
+          }
+        })
+        .catch(function () {});
+    }
+
+    fetchDanmaku(false);
+    setInterval(function () { fetchDanmaku(false); }, FETCH_INTERVAL_MS);
+
+    // 从其它应用/界面切回时：重置轨道并快速补一批，避免空白（与 danmaku.tsx 一致）
+    document.addEventListener('visibilitychange', function () {
+      if (document.visibilityState === 'visible') {
+        tracksFreeTime = new Array(TRACK_COUNT).fill(0);
+        fetchDanmaku(true);
+      }
+    });
+  })();
+</script>
+</body>
+</html>

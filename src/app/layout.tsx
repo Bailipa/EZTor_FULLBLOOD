@@ -9,6 +9,15 @@ import { BrandThemeProvider } from '@/components/brand-theme-provider'
 import { OnboardingProvider } from '@/components/onboarding/OnboardingProvider'
 import { DanmakuHost } from '@/components/layout/DanmakuHost'
 
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
+    { media: '(prefers-color-scheme: dark)', color: '#171717' },
+  ],
+}
+
 export const metadata: Metadata = {
   title: {
     default: 'EZTor - 智能英语翻译与词汇记忆工具',
@@ -29,17 +38,9 @@ export const metadata: Metadata = {
     description:
       'EZTor 是一款简洁强大的英语翻译与词汇记忆工具，支持 AI 批量翻译、生词本管理、默写复习等功能。',
     type: 'website',
-    images: '/favicon.ico',
+    images: '/icons/icon-512.png',
   },
-}
-
-export const viewport: Viewport = {
-  width: 'device-width',
-  initialScale: 1,
-  themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
-    { media: '(prefers-color-scheme: dark)', color: '#171717' },
-  ],
+  manifest: '/manifest.webmanifest',
 }
 
 const BUILD_ID = process.env.NEXT_PUBLIC_BUILD_ID || 'dev'

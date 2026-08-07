@@ -72,7 +72,7 @@ export function Danmaku({ isVisible }: { isVisible: boolean }) {
 
             if (availableTracks.length > 0) {
               trackIndex = availableTracks[Math.floor(Math.random() * availableTracks.length)]
-              delay = 2 + Math.random() * 15
+              delay = 0.3 + Math.random() * 3
             } else {
               let earliestTrack = 0
               let earliestTime = tracksFreeTimeRef.current[0]
@@ -97,7 +97,9 @@ export function Danmaku({ isVisible }: { isVisible: boolean }) {
           newItems.push({
             id: `${w.word}-${now}-${i}`,
             word: w.word,
-            translation: w.translation,
+            translation: String(w.translation || '')
+              .replace(/\s+/g, ' ')
+              .slice(0, 40),
             top: top,
             duration: duration,
             delay: delay,
@@ -138,9 +140,9 @@ export function Danmaku({ isVisible }: { isVisible: boolean }) {
     if (!isVisible) return
 
     const handleVisibilityChange = () => {
+      // 从其它标签/窗口切回时：重置轨道但不清空已飘的词，避免空白
       if (document.visibilityState === 'visible') {
         tracksFreeTimeRef.current = Array(12).fill(0)
-        setItems([])
         fetchAndGenerateDanmaku(true)
       }
     }
@@ -149,15 +151,12 @@ export function Danmaku({ isVisible }: { isVisible: boolean }) {
     return () => document.removeEventListener('visibilitychange', handleVisibilityChange)
   }, [isVisible])
 
-  // 如果不可见，直接返回 null
-  if (!isVisible) return null
+  // 容器常驻：即使当前没有弹幕也渲染（不卸载），换页/瞬时空档也不会消失
   if (!mounted) return null
-  if (items.length === 0) return null
-
   return (
     <div
       ref={containerRef}
-      className="fixed inset-0 pointer-events-none z-50 overflow-hidden"
+      className="fixed inset-0 pointer-events-none z-[100] overflow-hidden"
       aria-hidden="true"
     >
       {items.map((item) => (

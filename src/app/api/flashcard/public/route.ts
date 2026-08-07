@@ -37,7 +37,8 @@ export async function GET(req: Request) {
         )
       }
 
-      // Fetch random words from the specific Review Group
+      // Fetch words from the specific Review Group
+      // SRS 调度：到期/超期词优先（最老到期在前），未到期的按随机填充
       words = await safeQueryRaw('flashcard_group', () => prisma.$queryRaw`
         SELECT
           w.id,
@@ -49,19 +50,23 @@ export async function GET(req: Request) {
           COALESCE(NULLIF(TRIM(w."exampleTranslation"), ''), pw."exampleTranslation", '') AS exampleTranslation,
           w."correctCount",
           w."incorrectCount",
+          w."dueDate",
           w."updatedAt"
         FROM "Word" w
         JOIN "ReviewGroupWord" rgw ON w.id = rgw."wordId"
         LEFT JOIN "PublicWord" pw ON pw.id = w."publicWordId"
         WHERE rgw."reviewGroupId" = ${groupId}
-        ORDER BY RANDOM() 
+        ORDER BY
+          CASE WHEN w."dueDate" IS NULL OR w."dueDate" <= NOW() THEN 0 ELSE 1 END,
+          w."dueDate" ASC NULLS FIRST,
+          RANDOM()
         LIMIT ${limit}
       `, [] as Record<string, unknown>[])
     } else {
       // 游客也可以访问公共词库
       words = await safeQueryRaw('flashcard_public', () => prisma.$queryRaw`
         SELECT * FROM "PublicWord" 
-        ORDER BY RANDOM() 
+        OFFSET floor(random() * (SELECT count(*) FROM "PublicWord")) 
         LIMIT ${limit}
       `, [] as Record<string, unknown>[])
     }

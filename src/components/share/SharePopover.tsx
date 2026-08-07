@@ -6,6 +6,7 @@ import { Dialog, DialogContent, DialogTitle, DialogDescription } from '@/compone
 import { toPng } from 'html-to-image'
 import { Share2, Copy, Download, Loader2, Zap, Trophy, Flame, BookOpen } from 'lucide-react'
 import { toast } from 'sonner'
+import { shareOrCopy, copyToClipboard } from '@/lib/share'
 
 interface ShareProfileData {
   nickname: string
@@ -95,34 +96,30 @@ export function SharePopover({ open, onOpenChange, userId, autoCloseSeconds = 0 
 
   const handleShare = async () => {
     setCountdown(null)
-    if (!navigator.share) {
-      handleCopyLink()
-      return
-    }
     setSharing(true)
-    try {
-      await navigator.share({
-        title: 'EZTor 学习战报',
-        text: getShareText(),
-        url: getShareUrl(),
-      })
+    const text = getShareText()
+    const url = getShareUrl()
+    const result = await shareOrCopy(
+      { title: 'EZTor 学习战报', text, url },
+      `${text}\n${url}`,
+    )
+    if (result === 'shared' || result === 'copied') {
       await reportShare()
-      toast.success('分享成功！')
-    } catch {
-      // user cancelled
-    } finally {
-      setSharing(false)
+      toast.success(result === 'copied' ? '已复制分享内容，可粘贴给好友' : '分享成功！')
+    } else if (result === 'failed') {
+      toast.error('分享失败，请截图或长按复制链接')
     }
+    setSharing(false)
   }
 
   const handleCopyLink = async () => {
     setCountdown(null)
-    try {
-      await navigator.clipboard.writeText(`${getShareText()}\n${getShareUrl()}`)
+    const ok = await copyToClipboard(`${getShareText()}\n${getShareUrl()}`)
+    if (ok) {
       await reportShare()
       toast.success('已复制到剪贴板')
-    } catch {
-      toast.error('复制失败')
+    } else {
+      toast.error('复制失败，请手动复制')
     }
   }
 

@@ -6,6 +6,7 @@ import { safeQueryRaw } from '@/lib/safeQueryRaw'
 import { randomUUID } from 'crypto'
 import { logger } from '@/lib/logger'
 import { gameService } from '@/features/gamification/services/GameService'
+import { applyReview, SRS_DEFAULTS } from '@/lib/srs'
 
 export async function POST(req: Request) {
   try {
@@ -29,6 +30,10 @@ export async function POST(req: Request) {
       return NextResponse.json({ success: false, error: 'Word is required' }, { status: 400 })
     }
 
+    // 闪卡判定 "认识/不认识" 即一次 SRS 复习：known → 答对，unknown → 答错
+    const judgedCorrect = category === 'known' && isCorrect !== false
+    const srs = applyReview(SRS_DEFAULTS, judgedCorrect)
+
     // 1. 创建或更新 Word 记录（闪卡只更新totalAttempts，不更新正确/错误统计）
     const updateData = { totalAttempts: { increment: 1 } }
 
@@ -46,10 +51,22 @@ export async function POST(req: Request) {
     let wordId: string
 
     if (existingWords.length > 0) {
+      const w = existingWords[0] as Record<string, unknown>
+      const mergedSrs = applyReview(
+        {
+          repetitions: (w.repetitions as number) ?? SRS_DEFAULTS.repetitions,
+          intervalDays: (w.intervalDays as number) ?? SRS_DEFAULTS.intervalDays,
+          ease: (w.ease as number) ?? SRS_DEFAULTS.ease,
+          lapses: (w.lapses as number) ?? SRS_DEFAULTS.lapses,
+          dueDate: (w.dueDate as Date) ?? null,
+        },
+        judgedCorrect,
+      )
       await prisma.word.update({
         where: { id: existingWords[0].id as string },
         data: {
           ...updateData,
+          ...mergedSrs,
           updatedAt: new Date(),
         },
       })
@@ -70,6 +87,7 @@ export async function POST(req: Request) {
           correctCount: 0,
           incorrectCount: 0,
           totalAttempts: 1,
+          ...srs,
           updatedAt: new Date(),
         },
       })

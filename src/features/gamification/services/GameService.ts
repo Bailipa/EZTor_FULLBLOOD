@@ -4,6 +4,7 @@ import { getTodayDateUTC8, daysBetweenUTC8 } from '@/lib/dateUtils'
 import { loadCustomProfanity, containsProfanity } from '@/lib/profanityFilter'
 import {
   DAILY_POWER_CAP,
+  SIGNUP_POWER_BONUS,
   TASK_CONFIGS,
   TASK_TYPES,
   SHARE_POWER_REWARD,
@@ -47,6 +48,11 @@ export class GameService {
         create: {
           id: randomUUID(),
           userId,
+          // 注册即赠 50 学力：直接解锁"弹幕复习"
+          combatPower: SIGNUP_POWER_BONUS,
+          monthlyPower: SIGNUP_POWER_BONUS,
+          weeklyPower: SIGNUP_POWER_BONUS,
+          unlockedFeatures: ['DANMAKU'],
           dailyPowerDate: getTodayDateUTC8(),
           updatedAt: new Date(),
         },

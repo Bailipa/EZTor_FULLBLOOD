@@ -1,0 +1,59 @@
+{
+  "name": "eztor-desktop",
+  "version": "0.4.0",
+  "description": "EZTor 桌面套壳应用（含全局弹幕悬浮窗）",
+  "private": true,
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build:mac": "electron-builder --mac",
+    "build:win": "electron-builder --win",
+    "build:linux": "electron-builder --linux",
+    "build": "electron-builder --mac --win --linux"
+  },
+  "build": {
+    "appId": "com.eztor.app",
+    "productName": "EZTor",
+    "directories": {
+      "output": "../public/downloads",
+      "buildResources": "build"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "../public/icons/icon-512.png"
+    ],
+    "mac": {
+      "target": [
+        "dmg",
+        "zip"
+      ],
+      "category": "public.app-category.education",
+      "icon": "build/icon.icns"
+    },
+    "win": {
+      "target": [
+        "nsis"
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "artifactName": "EZTor-Setup-${version}.${ext}"
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ],
+      "category": "Education"
+    }
+  },
+  "devDependencies": {
+    "electron": "^37.2.0",
+    "electron-builder": "^24.13.3"
+  },
+  "homepage": "https://eztor.dogeggcode.cyou",
+  "author": "EZTor"
+}

@@ -53,6 +53,8 @@ export async function GET(req: Request) {
       'Content-Type': 'text/event-stream',
       'Cache-Control': 'no-cache',
       'Connection': 'keep-alive',
+      // 让 nginx 对该流式响应禁用代理缓冲，聊天消息实时推送而非攒满缓冲
+      'X-Accel-Buffering': 'no',
     },
   })
 }

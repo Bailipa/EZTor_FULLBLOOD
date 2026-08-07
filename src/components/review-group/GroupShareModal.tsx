@@ -28,6 +28,7 @@ import {
   Link2,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { copyToClipboard } from '@/lib/share'
 
 interface ReviewGroup {
   id: string
@@ -152,12 +153,12 @@ export function GroupShareModal({ groupId, isOpen, onClose }: GroupShareModalPro
   const handleCopyCode = async () => {
     if (!shareData?.code) return
 
-    try {
-      await navigator.clipboard.writeText(shareData.code)
-      setCopied(true)
+    const ok = await copyToClipboard(shareData.code)
+    setCopied(ok)
+    if (ok) {
       setTimeout(() => setCopied(false), 2000)
-    } catch (error) {
-      if (process.env.NODE_ENV === 'development') console.error('Failed to copy', error)
+    } else if (process.env.NODE_ENV === 'development') {
+      console.error('Failed to copy')
     }
   }
 

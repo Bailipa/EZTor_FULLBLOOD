@@ -35,23 +35,35 @@ import {
   Lock,
   BookOpen,
   ClipboardList,
+  MonitorDown,
 } from 'lucide-react'
 import { GameWidget } from '@/components/ui/game/GameWidget'
 import { DonationDialog } from '@/components/home/DonationModal'
 import { DanmakuToggleButton } from '@/components/home/DanmakuToggleButton'
 import { FeatureLockedDialog } from '@/features/gamification/components/FeatureLockedDialog'
 import { FEATURE_UNLOCK_THRESHOLDS } from '@/features/gamification/constants'
+import { Switch } from '@/components/ui/switch'
+import { Input } from '@/components/ui/input'
+import { toast } from 'sonner'
+import { useAppVersion } from '@/hooks/useAppVersion'
 
 export default function MePage() {
   const { data: session, status } = useSession()
   const router = useRouter()
   const qqGroupUrl = useQQGroupUrl()
   const isAuthenticated = status === 'authenticated' && !!session?.user
+  const appVer = useAppVersion()
 
   const [combatPower, setCombatPower] = useState<number | null>(null)
   const [lockedDialogOpen, setLockedDialogOpen] = useState(false)
   const [lockedFeatureName, setLockedFeatureName] = useState('')
   const [lockedFeaturePower, setLockedFeaturePower] = useState(0)
+
+  const [dailyGoal, setDailyGoal] = useState(20)
+  const [reminderEnabled, setReminderEnabled] = useState(false)
+  const [reminderTime, setReminderTime] = useState('20:00')
+  const [prefsLoaded, setPrefsLoaded] = useState(false)
+  const [savingPrefs, setSavingPrefs] = useState(false)
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -65,6 +77,48 @@ export default function MePage() {
         .catch(() => {})
     }
   }, [isAuthenticated])
+
+  useEffect(() => {
+    if (!isAuthenticated) return
+    fetch('/api/preferences')
+      .then((r) => r.json())
+      .then((data) => {
+        if (data.success && data.data) {
+          setDailyGoal(data.data.dailyGoal ?? 20)
+          setReminderEnabled(!!data.data.reviewReminderEnabled)
+          if (data.data.reviewReminderTime) {
+            setReminderTime(data.data.reviewReminderTime)
+          }
+        }
+      })
+      .catch(() => {})
+      .finally(() => setPrefsLoaded(true))
+  }, [isAuthenticated])
+
+  const savePrefs = async () => {
+    setSavingPrefs(true)
+    try {
+      const res = await fetch('/api/preferences', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          dailyGoal,
+          reviewReminderEnabled: reminderEnabled,
+          reviewReminderTime: reminderEnabled ? reminderTime : undefined,
+        }),
+      })
+      const data = await res.json()
+      if (data.success) {
+        toast.success('设置已保存')
+      } else {
+        toast.error(data.error || '保存失败')
+      }
+    } catch {
+      toast.error('保存失败，请重试')
+    } finally {
+      setSavingPrefs(false)
+    }
+  }
 
   const guardedHref =
     (requiresAuth: boolean) => (e: React.MouseEvent) => {
@@ -218,6 +272,29 @@ export default function MePage() {
                 </span>
                 <ChevronRight className="w-4 h-4 text-muted-foreground" />
               </Link>
+
+              {/* 应用内：加载中不显示；有更新→"更新软件"；已最新→"已是最新版"；浏览器→"下载应用" */}
+              {appVer.mounted && appVer.isApp && appVer.hasUpdate === null ? null : (
+                appVer.mounted && appVer.isApp && appVer.hasUpdate === false ? (
+                  <div className="flex items-center justify-between p-4 opacity-60">
+                    <span className="flex items-center gap-3">
+                      <MonitorDown className="w-5 h-5 text-muted-foreground" />
+                      <span className="font-medium">已是最新版</span>
+                    </span>
+                  </div>
+                ) : (
+                  <Link
+                    href="/download"
+                    className="flex items-center justify-between p-4 hover:bg-muted/50 transition-colors"
+                  >
+                    <span className="flex items-center gap-3">
+                      <MonitorDown className="w-5 h-5 text-muted-foreground" />
+                      <span className="font-medium">{appVer.mounted && appVer.isApp ? '更新软件' : '下载应用'}</span>
+                    </span>
+                    <ChevronRight className="w-4 h-4 text-muted-foreground" />
+                  </Link>
+                )
+              )}
             </CardContent>
           </Card>
 
@@ -291,6 +368,75 @@ export default function MePage() {
               <ModeToggle />
             </CardContent>
           </Card>
+
+          {isAuthenticated && (
+            <Card>
+              <CardContent className="p-4 space-y-4">
+                <div className="space-y-0.5">
+                  <p className="font-medium">每日目标与复习提醒</p>
+                  <p className="text-xs text-muted-foreground">
+                    设定每日默写目标，到点提醒你完成复习
+                  </p>
+                </div>
+
+                {prefsLoaded ? (
+                  <>
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium">每日默写目标（词）</label>
+                      <Input
+                        type="number"
+                        min={5}
+                        max={500}
+                        value={dailyGoal}
+                        onChange={(e) => setDailyGoal(Number(e.target.value))}
+                        className="w-32"
+                      />
+                    </div>
+
+                    <div className="flex items-center justify-between">
+                      <div className="space-y-0.5">
+                        <p className="text-sm font-medium">复习提醒</p>
+                        <p className="text-xs text-muted-foreground">
+                          未达成目标时到点提醒一次
+                        </p>
+                      </div>
+                      <Switch
+                        checked={reminderEnabled}
+                        onCheckedChange={setReminderEnabled}
+                      />
+                    </div>
+
+                    {reminderEnabled && (
+                      <div className="space-y-2">
+                        <label className="text-sm font-medium">提醒时间</label>
+                        <Input
+                          type="time"
+                          value={reminderTime}
+                          onChange={(e) => setReminderTime(e.target.value)}
+                          className="w-32"
+                        />
+                      </div>
+                    )}
+
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={savePrefs}
+                      disabled={savingPrefs}
+                      className="gap-1.5 shadow-sm"
+                    >
+                      {savingPrefs && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
+                      保存设置
+                    </Button>
+                  </>
+                ) : (
+                  <div className="flex justify-center py-4">
+                    <Loader2 className="w-5 h-5 animate-spin text-muted-foreground" />
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          )}
 
           {!isAuthenticated ? (
             <Button

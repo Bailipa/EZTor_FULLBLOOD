@@ -35,6 +35,7 @@ vi.mock('@/lib/prisma', () => {
     reviewGroup: {
       findUnique: vi.fn(),
       create: vi.fn(),
+      count: vi.fn().mockResolvedValue(0),
     },
     word: {
       findUnique: vi.fn(),
@@ -465,6 +466,30 @@ describe('Share Import API', () => {
           updatedAt: expect.any(Date),
         },
       })
+    })
+
+    it('should reject when user already owns 3 non-system groups', async () => {
+      vi.mocked(prisma.sharedVocabulary.findUnique).mockResolvedValue(mockShare)
+      vi.mocked(prisma.sharedVocabularyImport.findUnique).mockResolvedValue(null)
+      vi.mocked(prisma.reviewGroup.count).mockResolvedValue(3)
+
+      const req = new Request('http://localhost/api/share/import', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          code: validShareCode,
+          customName: 'Test Group',
+          createNewGroup: true,
+        }),
+      })
+
+      const response = await POST(req)
+      const data = await response.json()
+
+      expect(response.status).toBe(400)
+      expect(data.success).toBe(false)
+      expect(data.error).toBe('GROUP_LIMIT_REACHED')
+      expect(prisma.reviewGroup.create).not.toHaveBeenCalled()
     })
 
     it('should use existing group when targetGroupId is provided', async () => {

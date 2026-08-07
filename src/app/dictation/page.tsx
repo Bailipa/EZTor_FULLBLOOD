@@ -42,6 +42,7 @@ import { speakText } from '@/lib/ttsBrowser'
 import { useOnboarding } from '@/components/onboarding/OnboardingProvider'
 import { OnboardingTooltip } from '@/components/onboarding/OnboardingTooltip'
 import { useMediaQuery } from '@/hooks/useMediaQuery'
+import { DictationResultCharts } from '@/components/dictation/DictationResultCharts'
 
 type QuizMode = 'dictation' | 'sentence_blank'
 
@@ -1304,6 +1305,13 @@ export default function DictationPage() {
                   用时 {getElapsedTime()}
                 </p>
               </div>
+
+              <DictationResultCharts
+                correct={score.correct}
+                total={totalWordsTested || words.length}
+                mistakes={mistakes}
+                elapsedLabel={getElapsedTime()}
+              />
 
               <div className="flex flex-wrap gap-4 pt-8 w-full max-w-md justify-center">
                 <Button

@@ -41,6 +41,48 @@ tar -cf "$TARBALL_UNCOMPRESSED" \
   --exclude='.env.local' \
   --exclude='.env.docker' \
   --exclude='._*' \
+  --exclude='./src' \
+  --exclude='./android' \
+  --exclude='./desktop' \
+  --exclude='./data' \
+  --exclude='./LB' \
+  --exclude='./logs' \
+  --exclude='./vendor' \
+  --exclude='./scripts' \
+  --exclude='./docs' \
+  --exclude='./eztor-promo' \
+  --exclude='./prisma' \
+  --exclude='./yanshitupian.png' \
+  --exclude='./screenshot.png' \
+  --exclude='./captcha.png' \
+  --exclude='./flywheel-poster.html' \
+  --exclude='./dev.db' \
+  --exclude='./package-lock.json' \
+  --exclude='./next.config.ts' \
+  --exclude='./tsconfig.json' \
+  --exclude='./tsconfig.test.json' \
+  --exclude='./tsconfig.tsbuildinfo' \
+  --exclude='./components.json' \
+  --exclude='./postcss.config.mjs' \
+  --exclude='./eslint.config.mjs' \
+  --exclude='./vitest.config.ts' \
+  --exclude='./AGENTS.md' \
+  --exclude='./README.md' \
+  --exclude='./README.zh-CN.md' \
+  --exclude='./WORK_REPORT.md' \
+  --exclude='./LICENSE' \
+  --exclude='./docker-compose.yml' \
+  --exclude='./Dockerfile' \
+  --exclude='./docker-entrypoint.sh' \
+  --exclude='./ecosystem.config.js' \
+  --exclude='./start.sh' \
+  --exclude='./deploy-full.sh' \
+  --exclude='./deploy.sh' \
+  --exclude='./--width' \
+  --exclude='*.docx' \
+  --exclude='👍鸣谢.txt' \
+  --exclude='Development Roadmap Document (English).txt' \
+  --exclude='./node_modules/@img' \
   --no-xattrs \
   -C .next/standalone .
 
@@ -159,6 +201,15 @@ fi
 echo "  Restarting PM2..."
 pm2 restart cet4-web 2>&1 | tail -3
 echo "  ✓ PM2 restarted"
+
+# Warm up: prime Next 模块缓存与热查询，让部署后第一位真实用户不慢
+sleep 2
+for i in 1 2 3; do
+  curl -s -o /dev/null http://localhost:3000/api/health || true
+  curl -s -o /dev/null http://localhost:3000/api/version || true
+  curl -s -o /dev/null http://localhost:3000/ || true
+done
+echo "  ✓ Instance warmed up"
 
 # Cleanup
 rm -f /tmp/eztor-deploy-*.tar.gz

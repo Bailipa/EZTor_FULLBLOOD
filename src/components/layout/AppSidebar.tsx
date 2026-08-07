@@ -5,10 +5,11 @@ import { signOut, useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Button } from '@/components/ui/button'
-import { Home, PenTool, BookOpen, MessageCircle, LogOut, ExternalLink, Trophy } from 'lucide-react'
+import { Home, PenTool, BookOpen, MessageCircle, LogOut, ExternalLink, Trophy, Download } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import { ModeToggle } from '@/components/mode-toggle'
 import { DonationButton } from '@/components/home/DonationModal'
+import { useAppVersion } from '@/hooks/useAppVersion'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -47,6 +48,7 @@ const DEFAULT_NAV_ITEMS: SidebarNavItem[] = [
   { href: '/dictation', label: '默写复习', icon: PenTool, requiresAuth: true },
   { href: '/history', label: '生词本', icon: BookOpen, requiresAuth: true },
   { href: '/leaderboard', label: '排行榜', icon: Trophy, requiresAuth: true },
+  { href: '/download', label: '下载应用', icon: Download, requiresAuth: false },
 ]
 
 export default function AppSidebar({ navItems, bottomItems, showDonation = true }: AppSidebarProps) {
@@ -55,8 +57,19 @@ export default function AppSidebar({ navItems, bottomItems, showDonation = true 
   const qqGroupUrl = useQQGroupUrl()
   const { data: session, status } = useSession()
   const isAuthenticated = status === 'authenticated' && session?.user
+  const appVer = useAppVersion()
 
   const items = navItems ?? DEFAULT_NAV_ITEMS
+
+  // 下载/更新项：浏览器恒显示"下载应用"；应用内仅确知有更新时显示"更新软件"，加载中/已最新均隐藏
+  const isApp = appVer.mounted && appVer.isApp
+  const downloadLabel = isApp ? '更新软件' : '下载应用'
+
+  const visibleItems = items.filter((item) => {
+    if (item.href !== '/download') return true
+    if (!isApp) return true
+    return appVer.hasUpdate === true
+  })
 
   const defaultBottomItems: SidebarBottomItem[] = [
     {
@@ -84,10 +97,11 @@ export default function AppSidebar({ navItems, bottomItems, showDonation = true 
 
       <ScrollArea className="flex-1 px-3 py-4">
         <nav className="space-y-1">
-          {items.map((item) => {
+          {visibleItems.map((item) => {
             const Icon = item.icon
             const isActive = pathname === item.href
             const isLocked = item.requiresAuth && !isAuthenticated
+            const label = item.href === '/download' ? downloadLabel : item.label
 
             const handleClick = (e: React.MouseEvent) => {
               if (isLocked) {
@@ -103,7 +117,7 @@ export default function AppSidebar({ navItems, bottomItems, showDonation = true 
                   className={`w-full justify-start gap-3 h-10 px-3 text-sm ${isLocked ? 'opacity-50' : ''}`}
                 >
                   <Icon className="w-4 h-4 shrink-0" />
-                  <span>{item.label}</span>
+                  <span>{label}</span>
                 </Button>
               </Link>
             )

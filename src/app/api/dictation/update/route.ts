@@ -6,6 +6,7 @@ import { safeQueryRaw } from '@/lib/safeQueryRaw'
 import { randomUUID } from 'crypto'
 import { logger } from '@/lib/logger'
 import { gameService } from '@/features/gamification/services/GameService'
+import { applyReview, SRS_DEFAULTS } from '@/lib/srs'
 
 export async function POST(req: Request) {
   try {
@@ -41,14 +42,27 @@ export async function POST(req: Request) {
     `, [] as Record<string, unknown>[])
 
     if (existingWords.length > 0) {
+      const w = existingWords[0] as Record<string, unknown>
+      const srs = applyReview(
+        {
+          repetitions: (w.repetitions as number) ?? SRS_DEFAULTS.repetitions,
+          intervalDays: (w.intervalDays as number) ?? SRS_DEFAULTS.intervalDays,
+          ease: (w.ease as number) ?? SRS_DEFAULTS.ease,
+          lapses: (w.lapses as number) ?? SRS_DEFAULTS.lapses,
+          dueDate: (w.dueDate as Date) ?? null,
+        },
+        isCorrect,
+      )
       await prisma.word.update({
         where: { id: existingWords[0].id as string },
         data: {
           ...updateData,
+          ...srs,
           updatedAt: new Date(),
         },
       })
     } else {
+      const srs = applyReview(SRS_DEFAULTS, isCorrect)
       await prisma.word.create({
         data: {
           id: randomUUID(),
@@ -64,6 +78,7 @@ export async function POST(req: Request) {
           correctCount: isCorrect ? 1 : 0,
           incorrectCount: isCorrect ? 0 : 1,
           totalAttempts: 1,
+          ...srs,
           updatedAt: new Date(),
         },
       })

@@ -1,6 +1,6 @@
 import { NextRequest } from 'next/server'
 
-const CSRF_EXEMPT_PATHS = ['/api/auth', '/api/captcha', '/api/analytics']
+const CSRF_EXEMPT_PATHS = ['/api/auth', '/api/captcha', '/api/analytics', '/api/debug']
 
 const SAFE_METHODS = ['GET', 'HEAD', 'OPTIONS']
 

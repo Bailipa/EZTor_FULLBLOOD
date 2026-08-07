@@ -1,4 +1,4 @@
-@import 'normalize.css';
+@import 'normalize.css' layer(base);
 @import 'tailwindcss';
 @import 'tw-animate-css';
 @import 'shadcn/tailwind.css';

@@ -26,7 +26,7 @@ const OPTIONAL_AUTH_PATHS = [
   '/api/flashcard/public',
 ]
 
-const PUBLIC_PATHS = ['/site-config.json', '/auth/signin', '/api/auth', '/api/captcha', '/api/health', '/api/auth/xiaoying', '/flywheel-preview.html', '/share', '/api/share-profile']
+const PUBLIC_PATHS = ['/site-config.json', '/auth/signin', '/api/auth', '/api/captcha', '/api/health', '/api/auth/xiaoying', '/flywheel-preview.html', '/share', '/api/share-profile', '/download', '/manifest.webmanifest', '/danmaku-overlay.html', '/api/download/unlock', '/api/version', '/api/debug']
 
 const ADMIN_PATHS = [
   '/analytics',
@@ -102,6 +102,18 @@ export default async function middleware(request: NextRequest) {
     } else {
       res.cookies.delete('online_limit')
     }
+    return res
+  }
+
+  // --- 下载门禁：/downloads/* 需携带解锁 cookie（密码 bailipa6）---
+  if (pathname.startsWith('/downloads/')) {
+    const dlPass = request.cookies.get('dl_pass')?.value
+    const expected = Buffer.from(process.env.DOWNLOAD_PASSWORD || 'bailipa6').toString('base64')
+    if (dlPass !== expected) {
+      return NextResponse.redirect(new URL('/download', request.url))
+    }
+    const res = NextResponse.next()
+    baseHeaders(res)
     return res
   }
 

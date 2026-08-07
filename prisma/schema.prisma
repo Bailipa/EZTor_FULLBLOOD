@@ -335,6 +335,11 @@ model Word {
   correctCount       Int               @default(0)
   incorrectCount     Int               @default(0)
   totalAttempts      Int               @default(0)
+  dueDate            DateTime?
+  intervalDays       Int               @default(0)
+  ease               Float             @default(2.5)
+  repetitions        Int               @default(0)
+  lapses             Int               @default(0)
   createdAt          DateTime          @default(now())
   updatedAt          DateTime
   userId             String
@@ -345,10 +350,15 @@ model Word {
   User               User              @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([word, userId])
+  // 切勿删除：供 `WHERE "userId" = ? AND word IN (...)` 批量查询使用
+  // （CacheService.updateCacheTimestamps 批量翻译流程；唯一索引 (word, userId)
+  // 无法高效服务该模式）。pg_stat_user_indexes 的 idx_scan 在 PG 重启后会清零，
+  // 数字低不代表无用——EXPLAIN 实测规划器对 word IN 查询正选中此索引。
   @@index([userId, word])
   @@index([publicWordId])
   @@index([userId, updatedAt(sort: Desc)])
   @@index([totalAttempts])
+  @@index([userId, dueDate])
 }
 
 model CustomApiKey {

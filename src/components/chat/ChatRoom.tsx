@@ -27,6 +27,10 @@ interface Message {
 
 const MAX_CONTENT_LENGTH = 300
 
+// 内存保护：常驻会话（桌面 App 长时间驻留）下 SSE 新消息会持续追加到数组，
+// 这里封顶在内存中的条数，超出则丢弃最旧（仍可通过"加载更多"从服务端拉取历史）。
+const MAX_IN_MEMORY_MESSAGES = 500
+
 export function ChatRoom() {
   const { data: session } = useSession()
   const [messages, setMessages] = useState<Message[]>([])
@@ -96,7 +100,10 @@ export function ChatRoom() {
         if (data.type === 'message') {
           setMessages(prev => {
             if (prev.some(m => m.id === data.data.id)) return prev
-            return [...prev, data.data]
+            const next = [...prev, data.data]
+            return next.length > MAX_IN_MEMORY_MESSAGES
+              ? next.slice(next.length - MAX_IN_MEMORY_MESSAGES)
+              : next
           })
         } else if (data.type === 'config') {
           if (data.data.isCircuitBroken) {

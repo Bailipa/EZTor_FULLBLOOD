@@ -78,3 +78,21 @@ eztor-promo/
 docs/XIAOYING_OIDC_INTEGRATION.md
 flywheel-poster.html
 deploy_*.tar.gz
+
+# desktop wrapper (electron)
+/desktop/node_modules/
+/desktop/dist/
+/desktop/*.log
+
+# android wrapper
+/android/.gradle/
+/android/build/
+/android/app/build/
+/android/local.properties
+
+# 安装包（体积大，随部署分发，不入库）
+/public/downloads/
+
+# 个人文档（非项目代码）
+/*.docx
+

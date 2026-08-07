@@ -325,6 +325,33 @@ export async function POST(req: Request) {
       targetGroupName = targetGroup.name
     } else if (createNewGroup) {
       push(JSON.stringify({ progress: 20, step: '创建新分组' }))
+
+      const existingGroupCount = await prisma.reviewGroup.count({
+        where: {
+          userId,
+          isSystem: false,
+        },
+      })
+      if (existingGroupCount >= 3) {
+        const errorResponse = {
+          success: false,
+          error: 'GROUP_LIMIT_REACHED',
+          message: '最多只能创建 3 个复习分组',
+          suggestion: '请删除一个已有分组后重试，或选择导入到现有分组',
+        }
+        if (isTest) {
+          return new Response(JSON.stringify(errorResponse), {
+            status: 400,
+            headers: { 'Content-Type': 'application/json' },
+          })
+        }
+        push(JSON.stringify(errorResponse))
+        push(null)
+        return new Response(nodeReadableToWebStream(stream), {
+          headers: { 'Content-Type': 'text/plain' },
+        })
+      }
+
       const newGroup = await prisma.reviewGroup.create({
         data: {
           id: randomUUID(),

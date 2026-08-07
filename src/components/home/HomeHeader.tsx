@@ -5,15 +5,17 @@ import { ModeToggle } from '@/components/mode-toggle'
 import { FlashcardWidget } from '@/components/ui/flashcard/flashcard-widget'
 import { GameWidget } from '@/components/ui/game/GameWidget'
 import { useState, useEffect } from 'react'
-import { ChevronDown, ChevronUp, Lock } from 'lucide-react'
+import { ChevronDown, ChevronUp, Lock, Download } from 'lucide-react'
 import { DonationButton } from './DonationModal'
 import { DanmakuToggleButton } from './DanmakuToggleButton'
 import { FEATURE_UNLOCK_THRESHOLDS } from '@/features/gamification/constants'
 import { FeatureLockedDialog } from '@/features/gamification/components/FeatureLockedDialog'
 import { useSession } from 'next-auth/react'
+import { useAppVersion } from '@/hooks/useAppVersion'
 
 export function HomeHeader() {
   const { data: session, status } = useSession()
+  const appVer = useAppVersion()
   const isAuthenticated = status === 'authenticated' && session?.user
   const [cardExpanded, setCardExpanded] = useState(false)
   const [combatPower, setCombatPower] = useState<number | null>(null)
@@ -105,6 +107,16 @@ export function HomeHeader() {
             <div className="hidden xl:block">
               <ModeToggle />
             </div>
+            {(!appVer.mounted || !appVer.isApp || appVer.hasUpdate === true) && (
+              <div className="hidden xl:block">
+                <Button asChild variant="outline" className="gap-1.5 sm:gap-2 shadow-sm h-8 px-2.5 text-xs sm:h-9 sm:px-4 sm:text-sm text-muted-foreground">
+                  <a href="/download">
+                    <Download className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                    <span>{appVer.mounted && appVer.isApp ? '更新软件' : '下载应用'}</span>
+                  </a>
+                </Button>
+              </div>
+            )}
             <div className="hidden xl:block">
               <DonationButton />
             </div>

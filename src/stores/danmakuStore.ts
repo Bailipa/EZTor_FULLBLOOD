@@ -98,7 +98,6 @@ export const useDanmakuStore = create<DanmakuState>()(
         }
 
         if (status !== 'idle') return
-
         clearAllTimers()
         set({ status: 'counting', countdownValue: COUNTDOWN_SECONDS, showDanmaku: true })
 
