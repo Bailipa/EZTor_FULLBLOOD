@@ -21,7 +21,10 @@
     "files": [
       "main.js",
       "preload.js",
-      "../public/icons/icon-512.png"
+      "splash.html",
+      "tray-icon.png",
+      "tray-icon@2x.png",
+      "icon-512.png"
     ],
     "mac": {
       "target": [

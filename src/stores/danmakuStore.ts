@@ -97,6 +97,13 @@ export const useDanmakuStore = create<DanmakuState>()(
           return
         }
 
+        // 5 秒倒计时期间可反悔：再次点击立即取消（否则这一阶段点击被忽略，弹幕关不掉）
+        if (status === 'counting') {
+          clearAllTimers()
+          set({ status: 'idle', showDanmaku: false })
+          return
+        }
+
         if (status !== 'idle') return
         clearAllTimers()
         set({ status: 'counting', countdownValue: COUNTDOWN_SECONDS, showDanmaku: true })
@@ -120,6 +127,10 @@ export const useDanmakuStore = create<DanmakuState>()(
           }
           const hasWords = Boolean(result.success && Array.isArray(result.data) && result.data.length > 0)
 
+          // 倒计时中取消（counting→idle）后才返回的请求要作废，
+          // 否则残留 doneTimer 会在 5s 后把状态静默推成 active，下次点击行为错乱
+          if (get().status !== 'counting') return
+
           timers.doneTimer = setTimeout(() => {
             clearAllTimers()
             if (hasWords) {
@@ -133,6 +144,7 @@ export const useDanmakuStore = create<DanmakuState>()(
             }
           }, COUNTDOWN_SECONDS * 1000)
         } catch {
+          if (get().status !== 'counting') return
           timers.doneTimer = setTimeout(() => {
             clearAllTimers()
             set({ status: 'empty' })

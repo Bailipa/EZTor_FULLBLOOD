@@ -5,7 +5,10 @@ const path = require('path')
 
 // 线上地址（可被 EZTOR_APP_URL 覆盖，用于本地联调）
 const APP_URL = process.env.EZTOR_APP_URL || 'https://eztor.dogeggcode.cyou'
-const ICON = path.join(__dirname, '../public/icons/icon-512.png')
+// 注意：图标文件与 main.js 同目录并被 files 打进包（asar 内），
+// 不能用 ../public/... —— 打包后 __dirname 是 resources/app.asar，相对路径会指空。
+const ICON = path.join(__dirname, 'icon-512.png')
+const TRAY_ICON = path.join(__dirname, 'tray-icon.png')
 const SPLASH = path.join(__dirname, 'splash.html')
 
 let mainWindow = null
@@ -139,27 +142,48 @@ function toggleOverlay() {
   } else {
     createOverlayWindows()
   }
+  syncTrayDanmakuState()
 }
 
 ipcMain.on('close-overlay', () => {
   closeOverlayWindows()
 })
 
+// 应用内开启/关闭弹幕 → 直接控制全局弹幕悬浮窗（真正的"全局"）
+ipcMain.on('set-overlay', (_event, enabled) => {
+  if (enabled) createOverlayWindows()
+  else closeOverlayWindows()
+  syncTrayDanmakuState()
+})
+
 // 托盘：后台驻留入口（显示主页 / 弹幕开关 / 退出）
 function createTray() {
-  const icon = nativeImage.createFromPath(ICON).resize({ width: 16, height: 16 })
-  tray = new Tray(icon)
+  let trayImage = nativeImage.createFromPath(TRAY_ICON)
+  if (trayImage.isEmpty()) {
+    // 兜底：回退到窗口图标（应不会发生，只是防御）
+    trayImage = nativeImage.createFromPath(ICON).resize({ width: 16, height: 16 })
+  }
+  if (process.platform === 'darwin') {
+    trayImage = trayImage.resize({ width: 16, height: 16 })
+  }
+  tray = new Tray(trayImage)
   tray.setToolTip('EZTor 已在后台运行')
+  tray.setContextMenu(buildTrayMenu())
+  tray.on('click', showMainWindow)
+  tray.on('double-click', showMainWindow)
+}
 
-  const menu = Menu.buildFromTemplate([
+function buildTrayMenu() {
+  return Menu.buildFromTemplate([
     { label: '显示主页', click: showMainWindow },
     {
       label: '全局弹幕',
       type: 'checkbox',
-      checked: false,
+      checked: isOverlayVisible(),
       click: (item) => {
         if (item.checked) createOverlayWindows()
         else closeOverlayWindows()
+        syncTrayDanmakuState()
       },
     },
     { type: 'separator' },
@@ -171,9 +195,11 @@ function createTray() {
       },
     },
   ])
-  tray.setContextMenu(menu)
-  tray.on('click', showMainWindow)
-  tray.on('double-click', showMainWindow)
+}
+
+// 托盘 checkbox 与当前悬浮窗状态保持一致（托盘/快捷键/应用内三种入口切换后都刷新）
+function syncTrayDanmakuState() {
+  if (tray) tray.setContextMenu(buildTrayMenu())
 }
 
 function buildMenu() {

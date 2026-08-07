@@ -4,19 +4,23 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.Service;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
+import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
 import android.webkit.CookieManager;
+import android.webkit.RenderProcessGoneDetail;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
@@ -25,8 +29,6 @@ import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -38,7 +40,6 @@ import java.net.URL;
  */
 public class DanmakuService extends Service {
 
-    public static final String ACTION_STOP = "com.eztor.app.STOP_DANMAKU";
     public static boolean ACTIVE = false;
 
     private static final String OVERLAY_URL = "https://eztor.dogeggcode.cyou/danmaku-overlay.html";
@@ -50,6 +51,11 @@ public class DanmakuService extends Service {
     private FrameLayout overlayRoot;
     private WebView danmakuWebView;
     private Handler handler;
+    private ScreenStateReceiver screenStateReceiver;
+    private long lastRendererRecreateAt = 0;
+    private static final long RENDERER_RECREATE_COOLDOWN_MS = 5000;
+    private int overlayLoadFailures = 0;
+    private static final int MAX_OVERLAY_RETRIES = 3;
 
     @Override
     public void onCreate() {
@@ -61,9 +67,10 @@ public class DanmakuService extends Service {
             windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
             createOverlay();
             checkAuthOnce();
+            registerScreenStateReceiver();
         } catch (Throwable t) {
             // 服务初始化失败不应拖垮整个应用
-            android.util.Log.w("EZTor", "DanmakuService onCreate failed: " + t);
+            Log.w("EZTor", "DanmakuService onCreate failed: " + t);
             try {
                 stopSelf();
             } catch (Exception ignored) {
@@ -118,27 +125,106 @@ public class DanmakuService extends Service {
         lp.gravity = Gravity.TOP | Gravity.START;
         windowManager.addView(overlayRoot, lp);
 
-        danmakuWebView = new WebView(new ContextThemeWrapper(getApplicationContext(), R.style.Theme_EZTor));
-        WebSettings ws = danmakuWebView.getSettings();
+        createOverlayWebView();
+    }
+
+    private void createOverlayWebView() {
+        final WebView wv = new WebView(new ContextThemeWrapper(getApplicationContext(), R.style.Theme_EZTor));
+        WebSettings ws = wv.getSettings();
         ws.setJavaScriptEnabled(true);
         ws.setDomStorageEnabled(true);
         ws.setDatabaseEnabled(true);
         ws.setMediaPlaybackRequiresUserGesture(false);
         ws.setMixedContentMode(WebSettings.MIXED_CONTENT_NEVER_ALLOW);
         ws.setUserAgentString(ws.getUserAgentString() + " EZTorAndroid/" + BuildConfig.VERSION_NAME);
-        danmakuWebView.setBackgroundColor(Color.TRANSPARENT);
-        danmakuWebView.setWebViewClient(new WebViewClient() {
+        wv.setBackgroundColor(Color.TRANSPARENT);
+        wv.setWebViewClient(new WebViewClient() {
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                // 加载成功：重置重试计数
+                overlayLoadFailures = 0;
+            }
+
             @Override
             public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
-                // 静默失败：网络异常时悬浮层保持透明即可
+                if (!request.isForMainFrame()) return; // 子资源失败静默忽略
+                // 离线启动时页面加载失败会一直空白；有界退避重试，联网后自愈
+                // （不无限重试：避免一直离线时白耗流量/电量）
+                overlayLoadFailures++;
+                if (overlayLoadFailures <= MAX_OVERLAY_RETRIES) {
+                    long backoff = 5000L * overlayLoadFailures * overlayLoadFailures; // 5s/20s/45s
+                    handler.postDelayed(() -> {
+                        if (danmakuWebView != null && ACTIVE
+                                && overlayLoadFailures <= MAX_OVERLAY_RETRIES) {
+                            danmakuWebView.loadUrl(OVERLAY_URL);
+                        }
+                    }, backoff);
+                }
+            }
+
+            @Override
+            public boolean onRenderProcessGone(WebView view, RenderProcessGoneDetail detail) {
+                // 渲染进程被杀（双 WebView 内存压力下常见）：默认返回 false 会直接杀掉
+                // 整个 App 进程（闪退）。这里接管并重建悬浮层 WebView，不崩 App。
+                Log.w("EZTor", "danmaku WebView render process gone, didCrash="
+                        + (detail != null && detail.didCrash()));
+                long now = System.currentTimeMillis();
+                if (now - lastRendererRecreateAt < RENDERER_RECREATE_COOLDOWN_MS) {
+                    // 极低内存下渲染进程反复被杀：退避，避免重建死循环
+                    Log.w("EZTor", "danmaku renderer keeps dying, skipping recreate to avoid loop");
+                    return true;
+                }
+                lastRendererRecreateAt = now;
+                handler.post(() -> {
+                    try {
+                        if (overlayRoot == null) return;
+                        WebView old = danmakuWebView;
+                        if (old != null) {
+                            overlayRoot.removeView(old);
+                            old.removeAllViews();
+                            old.destroy();
+                            danmakuWebView = null;
+                        }
+                        createOverlayWebView();
+                    } catch (Exception ignored) {
+                    }
+                });
+                return true;
             }
         });
 
         FrameLayout.LayoutParams flp = new FrameLayout.LayoutParams(
                 FrameLayout.LayoutParams.MATCH_PARENT,
                 FrameLayout.LayoutParams.MATCH_PARENT);
-        overlayRoot.addView(danmakuWebView, flp);
-        danmakuWebView.loadUrl(OVERLAY_URL);
+        overlayRoot.addView(wv, flp);
+        danmakuWebView = wv;
+        wv.loadUrl(OVERLAY_URL);
+    }
+
+    /** 屏幕关闭时暂停悬浮层渲染与轮询，亮屏恢复 —— 避免前台服务在关屏时持续耗电/耗流量 */
+    private final class ScreenStateReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            try {
+                if (Intent.ACTION_SCREEN_OFF.equals(intent.getAction())) {
+                    if (danmakuWebView != null) danmakuWebView.onPause();
+                } else if (Intent.ACTION_SCREEN_ON.equals(intent.getAction())) {
+                    if (danmakuWebView != null) danmakuWebView.onResume();
+                }
+            } catch (Exception ignored) {
+            }
+        }
+    }
+
+    private void registerScreenStateReceiver() {
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(Intent.ACTION_SCREEN_OFF);
+        filter.addAction(Intent.ACTION_SCREEN_ON);
+        screenStateReceiver = new ScreenStateReceiver();
+        try {
+            registerReceiver(screenStateReceiver, filter);
+        } catch (Exception ignored) {
+        }
     }
 
     /** 一次性轻量探测登录态：未登录时提示，避免悬浮层"无弹幕"被误解为故障 */
@@ -156,7 +242,8 @@ public class DanmakuService extends Service {
                 conn.setRequestProperty("Accept", "application/json");
                 int code = conn.getResponseCode();
                 conn.disconnect();
-                if (code == 401) {
+                if (code == 401 && ACTIVE) {
+                    // ACTIVE 守卫：用户在请求期间关掉了弹幕（服务已销毁）时不再弹提示
                     handler.post(() -> Toast.makeText(DanmakuService.this,
                             "请先在 App 内登录后使用全局弹幕", Toast.LENGTH_LONG).show());
                 }
@@ -168,10 +255,6 @@ public class DanmakuService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         ACTIVE = true;
-        if (intent != null && ACTION_STOP.equals(intent.getAction())) {
-            stopSelf();
-            return START_NOT_STICKY;
-        }
         return START_STICKY;
     }
 
@@ -183,6 +266,13 @@ public class DanmakuService extends Service {
     @Override
     public void onDestroy() {
         ACTIVE = false;
+        if (screenStateReceiver != null) {
+            try {
+                unregisterReceiver(screenStateReceiver);
+            } catch (Exception ignored) {
+            }
+            screenStateReceiver = null;
+        }
         if (handler != null) handler.removeCallbacksAndMessages(null);
         if (danmakuWebView != null) {
             overlayRoot.removeView(danmakuWebView);

@@ -295,8 +295,10 @@ public class MainActivity extends Activity {
     }
 
     private void stopGlobalDanmaku() {
+        // 用 stopService 而非 startService(ACTION_STOP)：后者在服务未运行时也会先完整
+        // 走一遍 onCreate（建 WebView、发探测请求）再停止，白耗资源
         try {
-            startService(new Intent(this, DanmakuService.class).setAction(DanmakuService.ACTION_STOP));
+            stopService(new Intent(this, DanmakuService.class));
         } catch (Exception e) {
             Log.w("EZTor", "stop danmaku service failed: " + e);
         }

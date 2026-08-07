@@ -5,9 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>EZTor 全局弹幕</title>
 <style>
-  /* 规则与 src/components/ui/danmaku.tsx 保持完全一致：
+  /* 规则与 src/components/ui/danmaku.tsx 保持一致（故意分歧：不用 backdrop-filter）：
      拉取 /api/danmaku?limit=3 每 12s；10 轨道；时长 25-40s；随机延迟 0.3-3s；
-     胶囊样式（圆角+毛玻璃+1px 边框+自适应明暗）；词+释义(截 40 字)、无音标；上限 100。 */
+     胶囊样式（圆角+半透明背景+1px 边框+自适应明暗）；词+释义(截 40 字)、无音标；上限 100。
+     说明：悬浮层 WebView 页面本身透明，backdrop-filter 只能模糊页面内部（透明=没东西可糊），
+     在安卓悬浮层上无效还白耗 GPU，故用更高不透明度背景替代桌面端的毛玻璃效果。 */
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html, body {
     width: 100%; height: 100%;
@@ -20,14 +22,14 @@
 
   /* 自适应明暗（与 danmaku.tsx 的 resolvedTheme 一致：以系统偏好为准） */
   :root {
-    --pill-bg: rgba(255, 255, 255, 0.6);
-    --pill-border: rgba(255, 255, 255, 0.8);
+    --pill-bg: rgba(255, 255, 255, 0.78);
+    --pill-border: rgba(255, 255, 255, 0.9);
     --word-color: #111827;
     --translation-color: #374151;
   }
   @media (prefers-color-scheme: dark) {
     :root {
-      --pill-bg: rgba(0, 0, 0, 0.6);
+      --pill-bg: rgba(0, 0, 0, 0.78);
       --pill-border: rgba(255, 255, 255, 0.1);
       --word-color: #f3f4f6;
       --translation-color: #d1d5db;
@@ -45,8 +47,6 @@
     background: var(--pill-bg);
     border: 1px solid var(--pill-border);
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
     will-change: transform;
   }
   .bullet .en { font-weight: 700; font-size: 18px; line-height: 28px; color: var(--word-color); }
@@ -114,6 +114,7 @@
 
       var el = document.createElement('div');
       el.className = 'bullet';
+      el._endTime = now + (delay + duration) * 1000;
 
       var en = document.createElement('span');
       en.className = 'en';
@@ -150,9 +151,21 @@
     fetchDanmaku(false);
     setInterval(function () { fetchDanmaku(false); }, FETCH_INTERVAL_MS);
 
+    // 按 endTime 定时清理（与 danmaku.tsx 一致）：不依赖 animationend，
+    // 避免动画被节流/中断时元素堆积到上限后卡死不再出新弹幕
+    setInterval(function () {
+      var now = Date.now();
+      for (var i = stage.children.length - 1; i >= 0; i--) {
+        var el = stage.children[i];
+        if (el._endTime && now > el._endTime) el.remove();
+      }
+    }, 10000);
+
     // 从其它应用/界面切回时：重置轨道并快速补一批，避免空白（与 danmaku.tsx 一致）
     document.addEventListener('visibilitychange', function () {
       if (document.visibilityState === 'visible') {
+        // 清掉可能残留/卡死的弹幕，避免堆满 100 条后永久停摆
+        stage.innerHTML = '';
         tracksFreeTime = new Array(TRACK_COUNT).fill(0);
         fetchDanmaku(true);
       }

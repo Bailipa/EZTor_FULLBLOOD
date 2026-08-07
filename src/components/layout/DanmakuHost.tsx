@@ -3,7 +3,7 @@
 import { useEffect } from 'react'
 import { Danmaku } from '@/components/ui/danmaku'
 import { useDanmakuStore } from '@/stores/danmakuStore'
-import { isAndroidApp } from '@/lib/appEnv'
+import { isAndroidApp, isDesktopApp } from '@/lib/appEnv'
 
 declare global {
   interface Window {
@@ -12,20 +12,33 @@ declare global {
       setEnabled: (enabled: boolean) => void
       isActive: () => boolean
     }
+    /** 桌面 App（Electron）preload 注入：应用内开启弹幕 = 开启全局弹幕悬浮窗 */
+    eztor?: {
+      setGlobalDanmaku?: (enabled: boolean) => void
+    }
   }
 }
 
 export function DanmakuHost() {
   const showDanmaku = useDanmakuStore((s) => s.showDanmaku)
 
-  // 安卓端：弹幕由原生全局悬浮层渲染（与局内同一套规则），
-  // 网页不再重复渲染避免叠加；状态变化同步到原生桥。
+  // 应用内开启弹幕 = 开启全局弹幕：
+  //  - 安卓：原生 DanmakuService 悬浮层
+  //  - 桌面：Electron 全局弹幕悬浮窗（覆盖整个屏幕，而非只在本窗口）
+  // 因此应用内不再重复渲染局内弹幕，避免叠加。
   useEffect(() => {
-    if (!isAndroidApp() || typeof window === 'undefined') return
-    window.AndroidDanmaku?.setEnabled(showDanmaku)
+    if (typeof window === 'undefined') return
+    if (isAndroidApp()) {
+      window.AndroidDanmaku?.setEnabled(showDanmaku)
+      return
+    }
+    if (isDesktopApp()) {
+      window.eztor?.setGlobalDanmaku?.(showDanmaku)
+    }
   }, [showDanmaku])
 
-  if (isAndroidApp()) return null
+  // 安卓/桌面：弹幕由全局悬浮层渲染；浏览器：局内渲染
+  if (isAndroidApp() || isDesktopApp()) return null
   if (!showDanmaku) return null
   return <Danmaku isVisible={showDanmaku} />
 }
