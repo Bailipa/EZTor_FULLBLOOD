@@ -325,40 +325,137 @@ function createTray() {
   }
   tray = new Tray(trayImage)
   tray.setToolTip('EZTor 已在后台运行')
-  tray.setContextMenu(buildTrayMenu())
+  // 原生 contextMenu 每次点击都会收起，连续调节体验差；
+  // 改用常驻弹窗面板（showTrayPopup）：右键弹出、点别处才收起，可连续调节。
   tray.on('click', showMainWindow)
   tray.on('double-click', showMainWindow)
+  tray.on('right-click', showTrayPopup)
 }
 
-function buildTrayMenu() {
-  return Menu.buildFromTemplate([
-    { label: '显示主页', click: showMainWindow },
-    {
-      label: '全局弹幕',
-      type: 'checkbox',
-      checked: isOverlayVisible(),
-      click: (item) => {
-        if (item.checked) createOverlayWindows()
-        else closeOverlayWindows()
-        syncTrayDanmakuState()
-        notifyDanmakuState(item.checked)
-      },
+// ==================== 托盘弹幕调节（常驻弹窗面板） ====================
+// 主进程维护最近一次设置的快照：托盘面板勾选态 + 调节下发用。
+// 来源：① 托盘面板点击；② App 内设置面板改动后 reportDanmakuSetting 上报。
+let lastDanmakuSettings = { speed: 1, amount: 1, opacity: 80, size: 1 }
+const DANMAKU_SETTINGS_KEY = 'vocab_danmaku_settings'
+const DANMAKU_SETTINGS_DEFAULTS = { speed: 1, amount: 1, opacity: 80, size: 1 }
+const TRAY_POPUP_WIDTH = 300
+const TRAY_POPUP_HEIGHT = 390
+
+let trayPopup = null
+
+function createTrayPopup() {
+  if (trayPopup && !trayPopup.isDestroyed()) return trayPopup
+  trayPopup = new BrowserWindow({
+    width: TRAY_POPUP_WIDTH,
+    height: TRAY_POPUP_HEIGHT,
+    show: false,
+    frame: false,
+    transparent: true,
+    resizable: false,
+    alwaysOnTop: true,
+    skipTaskbar: true,
+    fullscreenable: false,
+    webPreferences: {
+      preload: path.join(__dirname, 'tray-popup-preload.js'),
+      contextIsolation: true,
+      nodeIntegration: false,
+      backgroundThrottling: false,
     },
-    { type: 'separator' },
-    {
-      label: '退出',
-      click: () => {
-        isQuitting = true
-        app.quit()
-      },
-    },
-  ])
+  })
+  trayPopup.loadFile(path.join(__dirname, 'tray-popup.html'))
+  // 点击面板外（失焦）即收起 —— 面板可连续调节不收起
+  trayPopup.on('blur', () => {
+    if (trayPopup && !trayPopup.isDestroyed()) trayPopup.hide()
+  })
+  trayPopup.on('closed', () => {
+    trayPopup = null
+  })
+  return trayPopup
 }
 
-// 托盘 checkbox 与当前悬浮窗状态保持一致（托盘/快捷键/应用内三种入口切换后都刷新）
+function showTrayPopup() {
+  const popup = createTrayPopup()
+  if (!popup) return
+  const tb = tray ? tray.getBounds() : null
+  let x = 100
+  let y = 100
+  if (tb && tb.width > 0) {
+    const display = screen.getDisplayNearestPoint({
+      x: Math.round(tb.x + tb.width / 2),
+      y: Math.round(tb.y + tb.height / 2),
+    })
+    const wa = display.workArea
+    x = Math.round(tb.x + tb.width - TRAY_POPUP_WIDTH)
+    y = Math.round(tb.y - TRAY_POPUP_HEIGHT)
+    x = Math.max(wa.x + 2, Math.min(x, wa.x + wa.width - TRAY_POPUP_WIDTH - 2))
+    y = Math.max(wa.y + 2, Math.min(y, wa.y + wa.height - TRAY_POPUP_HEIGHT - 2))
+  }
+  popup.setPosition(x, y)
+  popup.show()
+  popup.focus()
+}
+
+// 把当前弹幕状态（开关 + 全部设置）同步到托盘面板。
+// 面板常驻、事件驱动，任何入口（托盘/快捷键/App 内）改动后都会刷新它。
 function syncTrayDanmakuState() {
-  if (tray) tray.setContextMenu(buildTrayMenu())
+  if (!trayPopup || trayPopup.isDestroyed()) return
+  trayPopup.webContents.send('danmaku-state-changed', isOverlayVisible())
+  for (const key of Object.keys(lastDanmakuSettings)) {
+    trayPopup.webContents.send('danmaku-settings-changed-broadcast', key, lastDanmakuSettings[key])
+  }
 }
+
+// 直接写入悬浮层 localStorage（storage 事件/2s 轮询立即生效），并带上 storage 事件。
+// 作为兜底：即使 App 主窗口 IPC 未就绪（启动 splash 瞬间），悬浮层也能第一时间生效。
+function writeDanmakuSettingsToOverlay(key, value) {
+  for (const w of overlayWindows) {
+    if (w.isDestroyed()) continue
+    w.webContents
+      .executeJavaScript(`(() => {
+        try {
+          const prev = JSON.parse(localStorage.getItem('${DANMAKU_SETTINGS_KEY}') || '{}')
+          const base = (prev && prev.state) || prev || {}
+          const state = Object.assign({}, ${JSON.stringify(DANMAKU_SETTINGS_DEFAULTS)}, base, { ${key}: ${value} })
+          localStorage.setItem('${DANMAKU_SETTINGS_KEY}', JSON.stringify({ state, version: 0 }))
+          window.dispatchEvent(new StorageEvent('storage', {
+            key: '${DANMAKU_SETTINGS_KEY}', newValue: localStorage.getItem('${DANMAKU_SETTINGS_KEY}'),
+          }))
+        } catch (e) {}
+        return true
+      })()`)
+      .catch(() => {})
+  }
+}
+
+// 托盘面板调节 → 更新快照 + 下发悬浮层 + 通知 App 内 store（App 内滑块/开关同步）
+function applyDanmakuSetting(key, value) {
+  lastDanmakuSettings[key] = value
+  writeDanmakuSettingsToOverlay(key, value)
+  if (mainWindow && !mainWindow.isDestroyed()) {
+    mainWindow.webContents.send('danmaku-settings-apply', key, value)
+  }
+  syncTrayDanmakuState()
+}
+
+// App 内设置面板改动 → 上报主进程，托盘面板勾选态跟随
+ipcMain.on('danmaku-settings-changed', (_event, key, value) => {
+  if (Object.prototype.hasOwnProperty.call(lastDanmakuSettings, key)) {
+    lastDanmakuSettings[key] = value
+    syncTrayDanmakuState()
+  }
+})
+
+// 托盘面板：读取初始状态 / 应用调节 / 打开主窗口
+ipcMain.handle('get-danmaku-state', () => ({
+  overlayVisible: isOverlayVisible(),
+  settings: { ...lastDanmakuSettings },
+}))
+ipcMain.on('danmaku-settings-apply', (_event, key, value) => {
+  if (Object.prototype.hasOwnProperty.call(lastDanmakuSettings, key)) {
+    applyDanmakuSetting(key, value)
+  }
+})
+ipcMain.on('open-app', () => showMainWindow())
 
 function buildMenu() {
   const template = [

@@ -13,6 +13,8 @@ declare global {
     eztor?: {
       setGlobalDanmaku?: (enabled: boolean) => void
       onDanmakuStateChanged?: (cb: (enabled: boolean) => void) => () => void
+      reportDanmakuSetting?: (key: string, value: number) => void
+      onDanmakuSettingsApply?: (cb: (p: { key: string; value: number }) => void) => () => void
       installUpdate?: () => void
       downloadUpdate?: () => void
       checkUpdate?: () => void

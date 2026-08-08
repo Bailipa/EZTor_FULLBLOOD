@@ -12,6 +12,14 @@ contextBridge.exposeInMainWorld('eztor', {
     ipcRenderer.on('danmaku-state-changed', handler)
     return () => ipcRenderer.removeListener('danmaku-state-changed', handler)
   },
+  // 托盘弹幕调节：App 内设置面板改动上报主进程（托盘 radio 勾选态跟随）
+  reportDanmakuSetting: (key, value) => ipcRenderer.send('danmaku-settings-changed', key, value),
+  // 托盘点击调节 → 下发 App 内 store（滑块实时同步）
+  onDanmakuSettingsApply: (cb) => {
+    const handler = (_event, key, value) => cb({ key, value })
+    ipcRenderer.on('danmaku-settings-apply', handler)
+    return () => ipcRenderer.removeListener('danmaku-settings-apply', handler)
+  },
   // 自动更新：订阅状态 / 触发下载（用户确认后）/ 触发安装 / 手动检查 / 查询最近状态
   installUpdate: () => ipcRenderer.send('install-update'),
   downloadUpdate: () => ipcRenderer.send('download-update'),

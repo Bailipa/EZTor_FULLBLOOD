@@ -1,8 +1,10 @@
 'use strict'
 
-// 托盘 ↔ App 弹幕状态同步：验证 preload 暴露的 onDanmakuStateChanged 桥
-// 能收到主进程发来的 danmaku-state-changed 事件（反向同步的基础）。
-const { app, BrowserWindow } = require('electron')
+// 托盘 ↔ App 弹幕状态/调节同步：验证 preload 暴露的桥能双向收发。
+//  - danmaku-state-changed：主进程 → 渲染端（弹幕开关反向同步）
+//  - danmaku-settings-apply：主进程 → 渲染端（托盘调节下发 App 内 store）
+//  - danmaku-settings-changed：渲染端 → 主进程（App 内改设置上报托盘勾选态）
+const { app, BrowserWindow, ipcMain } = require('electron')
 const path = require('path')
 const fs = require('fs')
 const os = require('os')
@@ -15,10 +17,14 @@ function check(cond, msg) {
 
 const page = path.join(os.tmpdir(), 'eztor-tray-test.html')
 fs.writeFileSync(page, '<html><body>tray bridge test</body></html>')
-console.log('page: ' + page + ' exists=' + fs.existsSync(page))
 
 app.whenReady().then(async () => {
   let win = null
+  let reported = null
+  ipcMain.on('danmaku-settings-changed', (_e, key, value) => {
+    reported = { key, value }
+  })
+
   try {
     win = new BrowserWindow({
       show: false,
@@ -28,20 +34,21 @@ app.whenReady().then(async () => {
         nodeIntegration: false,
       },
     })
-    console.log('window created')
+
     await win.loadFile(page)
-    console.log('page loaded')
     await new Promise((r) => setTimeout(r, 300))
-    console.log('waited 300ms')
 
     const hasBridge = await win.webContents.executeJavaScript(
-      `typeof window.eztor !== 'undefined' && typeof window.eztor.onDanmakuStateChanged === 'function'`,
+      `typeof window.eztor !== 'undefined' &&
+       typeof window.eztor.onDanmakuStateChanged === 'function' &&
+       typeof window.eztor.onDanmakuSettingsApply === 'function' &&
+       typeof window.eztor.reportDanmakuSetting === 'function'`,
     )
-    check(hasBridge, `preload 暴露 onDanmakuStateChanged（实际 ${hasBridge}）`)
+    check(hasBridge, `preload 暴露全部弹幕桥（实际 ${hasBridge}）`)
 
     await win.webContents.executeJavaScript(`(() => {
       window.__danmakuEvents = [];
-      window.__unsub = window.eztor.onDanmakuStateChanged((enabled) => window.__danmakuEvents.push(enabled));
+      window.eztor.onDanmakuStateChanged((enabled) => window.__danmakuEvents.push(enabled));
       return true;
     })()`)
     win.webContents.send('danmaku-state-changed', true)
@@ -49,18 +56,28 @@ app.whenReady().then(async () => {
     const events = await win.webContents.executeJavaScript(`window.__danmakuEvents`)
     check(
       events.length === 1 && events[0] === true,
-      `反向同步 on：收到 enabled=true（实际 ${JSON.stringify(events)}）`,
+      `开关 on：收到 enabled=true（实际 ${JSON.stringify(events)}）`,
     )
 
-    await win.webContents.executeJavaScript(`window.__danmakuEvents = []; true`)
-    win.webContents.send('danmaku-state-changed', false)
+    await win.webContents.executeJavaScript(`(() => {
+      window.__settingsEvents = [];
+      window.eztor.onDanmakuSettingsApply((p) => window.__settingsEvents.push(p));
+      return true;
+    })()`)
+    win.webContents.send('danmaku-settings-apply', 'speed', 2)
     await new Promise((r) => setTimeout(r, 500))
-    const events2 = await win.webContents.executeJavaScript(`window.__danmakuEvents`)
+    const settingsEvents = await win.webContents.executeJavaScript(`window.__settingsEvents`)
     check(
-      events2.length === 1 && events2[0] === false,
-      `反向同步 off：收到 enabled=false（实际 ${JSON.stringify(events2)}）`,
+      settingsEvents.length === 1 && settingsEvents[0].key === 'speed' && settingsEvents[0].value === 2,
+      `托盘调节下发：收到 speed=2（实际 ${JSON.stringify(settingsEvents)}）`,
     )
-    await win.webContents.executeJavaScript(`window.__unsub(); true`)
+
+    await win.webContents.executeJavaScript(`window.eztor.reportDanmakuSetting('amount', 1.5); true`)
+    await new Promise((r) => setTimeout(r, 300))
+    check(
+      reported && reported.key === 'amount' && reported.value === 1.5,
+      `App 内设置上报：主进程收到 amount=1.5（实际 ${JSON.stringify(reported)}）`,
+    )
 
     win.destroy()
     win = null

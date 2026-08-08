@@ -3,6 +3,7 @@
 import { useEffect } from 'react'
 import { Danmaku } from '@/components/ui/danmaku'
 import { useDanmakuStore } from '@/stores/danmakuStore'
+import { useDanmakuSettingsStore } from '@/stores/danmakuSettingsStore'
 import { isAndroidApp, isDesktopApp } from '@/lib/appEnv'
 
 declare global {
@@ -40,6 +41,39 @@ export function DanmakuHost() {
     if (!isDesktopApp()) return
     return window.eztor?.onDanmakuStateChanged?.((enabled) => {
       useDanmakuStore.getState().setFromExternal(enabled)
+    })
+  }, [])
+
+  // 托盘弹幕调节 → 应用内 store（滑块实时同步）；同时回发设置到悬浮层（持久化后由 storage 事件驱动）
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    if (!isDesktopApp()) return
+    return window.eztor?.onDanmakuSettingsApply?.(({ key, value }) => {
+      const s = useDanmakuSettingsStore.getState()
+      if (key === 'speed') s.setSpeed(value)
+      else if (key === 'amount') s.setAmount(value)
+      else if (key === 'opacity') s.setOpacity(value)
+      else if (key === 'size') s.setSize(value)
+    })
+  }, [])
+
+  // 应用内设置面板改动 → 上报主进程（托盘 radio 勾选态跟随）
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    if (!isDesktopApp()) return
+    const report = () => {
+      const s = useDanmakuSettingsStore.getState()
+      window.eztor?.reportDanmakuSetting?.('speed', s.speed)
+      window.eztor?.reportDanmakuSetting?.('amount', s.amount)
+      window.eztor?.reportDanmakuSetting?.('opacity', s.opacity)
+      window.eztor?.reportDanmakuSetting?.('size', s.size)
+    }
+    report()
+    return useDanmakuSettingsStore.subscribe((state, prev) => {
+      if (state.speed !== prev.speed) window.eztor?.reportDanmakuSetting?.('speed', state.speed)
+      if (state.amount !== prev.amount) window.eztor?.reportDanmakuSetting?.('amount', state.amount)
+      if (state.opacity !== prev.opacity) window.eztor?.reportDanmakuSetting?.('opacity', state.opacity)
+      if (state.size !== prev.size) window.eztor?.reportDanmakuSetting?.('size', state.size)
     })
   }, [])
 
