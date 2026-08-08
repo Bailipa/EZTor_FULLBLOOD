@@ -161,6 +161,47 @@ for DIR in downloads updates; do
   fi
 done
 
+# Prune old updater installers: 只保留 latest.yml 当前版本及更新的版本，
+# 防止 updates/ 里旧安装包无限累积（曾导致磁盘 90% 满）。
+# 注意：本脚本不含安装包上传（独立 scp），清理以 latest.yml 为基准，
+# 刚上传尚未更新 latest.yml 的新版（版本 >= 当前）也会保留，下一个部署周期自愈。
+echo "  Pruning old updater installers..."
+UPDATES_DIR="$SERVER_DIR/.next/standalone/public/updates"
+if [ -f "$UPDATES_DIR/latest.yml" ]; then
+  CUR_VERSION=$(grep -m1 '^version:' "$UPDATES_DIR/latest.yml" | awk '{print $2}')
+  echo "  → current version: $CUR_VERSION"
+  cd "$UPDATES_DIR"
+  for f in EZTor-Setup-*.exe; do
+    [ -e "$f" ] || continue
+    V=$(printf '%s' "$f" | sed -n 's/EZTor-Setup-\([0-9.]*\)\.exe/\1/p')
+    MAX=$(printf '%s\n%s\n' "$CUR_VERSION" "$V" | sort -V | tail -1)
+    if [ "$MAX" = "$V" ]; then
+      echo "  → keep $f"
+    else
+      rm -f "$f" "${f}.blockmap"
+      echo "  → removed $f"
+    fi
+  done
+fi
+
+# Prune downloads/: 只保留 fallback(0.3.0) + 各平台最新安装包，防止旧版本无限累积。
+echo "  Pruning downloads/ (keep 0.3.0 fallback + latest)..."
+DL_DIR="$SERVER_DIR/.next/standalone/public/downloads"
+if [ -d "$DL_DIR" ]; then
+  cd "$DL_DIR"
+  for ext in exe apk; do
+    LATEST=$(ls -1 *."$ext" 2>/dev/null | sed -n 's/.*-\([0-9.]*\)\.'$ext'$/\1 &/p' | sort -V -k1 | tail -1 | awk '{print $2}')
+    for f in *."$ext"; do
+      [ -e "$f" ] || continue
+      case "$f" in
+        *-0.3.0."$ext" | "$LATEST") echo "  → keep $f" ;;
+        *) rm -f "$f"; echo "  → removed $f" ;;
+      esac
+    done
+  done
+  cd "$SERVER_DIR"
+fi
+
 # Extract ipa-dict (appended to tarball as runtime-only module)
 if tar -tzf /tmp/eztor-deploy-*.tar.gz 2>/dev/null | grep -q '^ipa-dict/'; then
   mkdir -p standalone/node_modules
