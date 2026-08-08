@@ -20,11 +20,11 @@ export async function GET(req: Request) {
     const limit = limitParam ? Math.min(parseInt(limitParam, 10), 50) : 20
 
     // 获取用户词库中所有单词的总数
-    const count = await prisma.word.count({
+    const totalCount = await prisma.word.count({
       where: { userId: session.user.id },
     })
 
-    if (count === 0) {
+    if (totalCount === 0) {
       // 用户无词时，从公共词池取随机词（用于干扰项等场景）
       const publicWords: { word: string; translation: string; phonetic: string; example: string }[] =
         await safeQueryRaw('danmaku_public', () => prisma.$queryRaw`
@@ -40,13 +40,43 @@ export async function GET(req: Request) {
       return NextResponse.json({ success: true, data: publicWords })
     }
 
-    // 从用户词库取随机词。
-    // 用随机 OFFSET 替代 ORDER BY RANDOM()：避免对整张词表排序，
-    // 词量越大收益越明显（12k 词下实测约 200ms -> <5ms）。
-    const skip = Math.floor(Math.random() * count)
-    const randomWords: { word: string; translation: string; phonetic: string; example: string }[] =
-      await safeQueryRaw('danmaku', () => prisma.$queryRaw`
+    // 系统性遍历全库：每词记录最近展示的轮次（Word.danmakuCycle），
+    // 用户记录当前轮次（User.danmakuCycle）。每次只在"本周期未展示过"的池里
+    // 随机取一窗；本周期全部展示完后轮次 +1（danmakuCycle < 新轮次 的词自动重新可用，
+    // 无需清表）。保证覆盖完整私人词库、周期内不重复。
+    const user = await prisma.user.findUnique({
+      where: { id: session.user.id },
+      select: { danmakuCycle: true },
+    })
+    let cycle = user?.danmakuCycle ?? 1
+
+    let eligibleCount = await prisma.word.count({
+      where: { userId: session.user.id, danmakuCycle: { lt: cycle } },
+    })
+    if (eligibleCount === 0) {
+      // 本周期已全部展示 → 进入下一周期，全部词重新可用
+      const next = cycle + 1
+      await prisma.user.update({
+        where: { id: session.user.id },
+        data: { danmakuCycle: next },
+      })
+      cycle = next
+      eligibleCount = totalCount
+    }
+
+    // 随机 OFFSET 替代 ORDER BY RANDOM()：避免对整张词表排序（12k 词实测 <5ms）。
+    // skip 上限取 eligibleCount - limit，保证窗口完整落池内（避免边缘批次变短）。
+    const maxSkip = Math.max(0, eligibleCount - limit)
+    const skip = eligibleCount > limit ? Math.floor(Math.random() * (maxSkip + 1)) : 0
+    const randomWords: {
+      id: string
+      word: string
+      translation: string
+      phonetic: string
+      example: string
+    }[] = await safeQueryRaw('danmaku', () => prisma.$queryRaw`
       SELECT
+        w.id,
         w.word,
         COALESCE(NULLIF(TRIM(w.translation), ''), pw.translation, '') AS translation,
         COALESCE(NULLIF(TRIM(w.phonetic), ''), pw.phonetic, '') AS phonetic,
@@ -54,12 +84,26 @@ export async function GET(req: Request) {
       FROM "Word" w
       LEFT JOIN "PublicWord" pw ON pw.id = w."publicWordId"
       WHERE w."userId" = ${session.user.id}
+        AND w."danmakuCycle" < ${cycle}
       OFFSET ${skip}
       LIMIT ${limit}
-    `, [] as { word: string; translation: string; phonetic: string; example: string }[])
+    `, [] as { id: string; word: string; translation: string; phonetic: string; example: string }[])
 
-    // 用户词数不足时，从公共词池补充（用于干扰项等场景）
-    if (randomWords.length < limit) {
+    // 标记本批已展示（进入本周期已展示集，周期内不再重复）
+    if (randomWords.length > 0) {
+      try {
+        await prisma.word.updateMany({
+          where: { id: { in: randomWords.map((w) => w.id) } },
+          data: { danmakuCycle: cycle },
+        })
+      } catch {
+        // 标记失败只影响去重，不阻断取词
+      }
+    }
+
+    // 词库真的不足 limit（词很少）时，才从公共词池补充；
+    // 周期末剩余不足 limit 时保持短批，不混入公共词，保证"遍历私人词库"语义。
+    if (randomWords.length < limit && totalCount < limit) {
       const existingWords = new Set(randomWords.map((w: { word: string }) => w.word.toLowerCase()))
       const need = limit - randomWords.length
       const publicWords: { word: string; translation: string; phonetic: string; example: string }[] =
@@ -76,7 +120,8 @@ export async function GET(req: Request) {
       const supplements = publicWords
         .filter((w: { word: string }) => !existingWords.has(w.word.toLowerCase()))
         .slice(0, need)
-      randomWords.push(...supplements)
+      // 公共补位词没有私人词库 id（标记发生在补位之前，不会被误标为已展示）
+      randomWords.push(...supplements.map((w) => ({ ...w, id: '' })))
     }
 
     return NextResponse.json({ success: true, data: randomWords })

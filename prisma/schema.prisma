@@ -288,6 +288,7 @@ model User {
   banReason              String?
   banExpiresAt           DateTime?
   onboardingCompleted    Boolean                  @default(false)
+  danmakuCycle           Int                      @default(1)
   createdAt              DateTime                 @default(now())
   updatedAt              DateTime
   CustomApiKey           CustomApiKey?
@@ -340,6 +341,7 @@ model Word {
   ease               Float             @default(2.5)
   repetitions        Int               @default(0)
   lapses             Int               @default(0)
+  danmakuCycle       Int               @default(0)
   createdAt          DateTime          @default(now())
   updatedAt          DateTime
   userId             String
@@ -359,6 +361,7 @@ model Word {
   @@index([userId, updatedAt(sort: Desc)])
   @@index([totalAttempts])
   @@index([userId, dueDate])
+  @@index([userId, danmakuCycle])
 }
 
 model CustomApiKey {
