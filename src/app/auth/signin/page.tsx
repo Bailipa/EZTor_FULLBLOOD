@@ -9,7 +9,6 @@ import { Input } from '@/components/ui/input'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { Label } from '@/components/ui/label'
 import { RefreshCw, Loader2 } from 'lucide-react'
-import QRCode from 'qrcode'
 
 export default function SignIn() {
   usePageView('Sign In')
@@ -31,8 +30,6 @@ export default function SignIn() {
   const [onlineCount, setOnlineCount] = useState<number | null>(null)
   const [xiaoyingLoading, setXiaoyingLoading] = useState(false)
   const [xiaoyingError, setXiaoyingError] = useState(false)
-  const [xiaoyingQr, setXiaoyingQr] = useState<string | null>(null)
-  const [isDesktop, setIsDesktop] = useState(false)
   const xiaoyingTimerRef = useRef<NodeJS.Timeout | null>(null)
 
   useEffect(() => {
@@ -64,38 +61,10 @@ export default function SignIn() {
 
   useEffect(() => {
     fetchCaptcha()
-    // 桌面端检测（挂载后，避免 SSR 不一致）：桌面显示扫码登录
-    setIsDesktop(!/mobile|android|iphone|ipad|webos|blackberry|iemobile|opera mini/i.test(navigator.userAgent))
   }, [])
 
-  const handleXiaoyingLogin = async () => {
+  const handleXiaoyingLogin = () => {
     setXiaoyingError(false)
-
-    // 桌面端：生成二维码，用手机小应扫码登录
-    if (isDesktop) {
-      setXiaoyingLoading(true)
-      try {
-        const res = await fetch('/api/auth/xiaoying/qr')
-        const json = await res.json()
-        if (json.success && json.data?.authUrl) {
-          const dataUrl = await QRCode.toDataURL(json.data.authUrl, {
-            width: 220,
-            margin: 1,
-            color: { dark: '#1F1F1F', light: '#FFFFFF' },
-          })
-          setXiaoyingQr(dataUrl)
-        } else {
-          setXiaoyingError(true)
-        }
-      } catch {
-        setXiaoyingError(true)
-      } finally {
-        setXiaoyingLoading(false)
-      }
-      return
-    }
-
-    // 手机端：直接跳转小应
     setXiaoyingLoading(true)
     xiaoyingTimerRef.current = setTimeout(() => {
       setXiaoyingLoading(false)
@@ -262,38 +231,22 @@ export default function SignIn() {
               /* eslint-disable-next-line @next/next/no-img-element */
               <img src="/xiaoying-icon.svg" alt="" className="h-6 w-6 shrink-0 dark:brightness-0 dark:invert" />
             )}
-            <span>{xiaoyingLoading ? '登录中...' : isDesktop ? '扫码登录（小应）' : '使用小应账号快捷登录'}</span>
+            <span>{xiaoyingLoading ? '登录中...' : '使用小应账号快捷登录'}</span>
           </div>
 
-          {/* 桌面端：显示小应扫码二维码 */}
-          {isDesktop && xiaoyingQr && (
-            <div className="mt-4 flex flex-col items-center gap-2 p-4 bg-muted/40 rounded-md">
-              <img src={xiaoyingQr} alt="小应扫码登录二维码" className="w-[220px] h-[220px]" />
-              <p className="text-sm text-muted-foreground text-center">
-                使用手机「小应生活」App 扫码登录
-              </p>
-            </div>
-          )}
-
-          {/* 小应版本过低 / 下载（仅手机端显示下载按钮） */}
+          {/* 小应版本过低 / 下载 */}
           {xiaoyingError && (
             <div className="mt-4 p-4 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-md text-sm text-amber-700 dark:text-amber-400 text-center">
-              <p className="font-semibold">{isDesktop ? '二维码生成失败' : '小应生活版本过低'}</p>
-              <p className="mt-1">
-                {isDesktop
-                  ? '请检查网络后重试，或使用账号密码登录'
-                  : '请点击下方按钮更新小应生活后再试'}
-              </p>
-              {!isDesktop && (
-                <a
-                  href="https://xiaoying.life/download"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-3 inline-block px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
-                >
-                  下载最新版本
-                </a>
-              )}
+              <p className="font-semibold">小应生活版本过低</p>
+              <p className="mt-1">请点击下方按钮更新小应生活后再试</p>
+              <a
+                href="https://xiaoying.life/download"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-3 inline-block px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
+              >
+                下载最新版本
+              </a>
             </div>
           )}
         </CardContent>

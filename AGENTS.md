@@ -64,3 +64,10 @@ Transform tasks into verifiable goals:
 For multi-step tasks, state a brief plan before starting.
 
 Strong success criteria let you loop independently. Weak criteria ("make it work") require constant clarification.
+
+### 5. 版本号规则（每次部署必须 bump，发版前确认）
+
+- **小更新**（bug 修复、图标/文案等零碎改动）→ 第三个小数位（`0.4.4` → `0.4.5`）
+- **中等更新**（单个功能优化，如弹幕调节、自动更新）→ 第二个小数位（`0.4.4` → `0.5.0`）
+- 用 `scripts/bump-version.sh <版本>` 统一同步 build.gradle / package.json / desktop/package.json
+- 若用户明确说"这次算了/先不 bump"（还有待优化项），则**不 bump**，继续迭代待部署的东西。

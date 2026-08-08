@@ -72,4 +72,14 @@ describe('danmakuStore', () => {
     expect(useDanmakuStore.getState().status).toBe('idle')
     expect(useDanmakuStore.getState().showDanmaku).toBe(false)
   })
+
+  it('setFromExternal：托盘/快捷键直接开启/关闭（跳过倒计时）', () => {
+    useDanmakuStore.getState().setFromExternal(true)
+    expect(useDanmakuStore.getState().status).toBe('active')
+    expect(useDanmakuStore.getState().showDanmaku).toBe(true)
+
+    useDanmakuStore.getState().setFromExternal(false)
+    expect(useDanmakuStore.getState().status).toBe('idle')
+    expect(useDanmakuStore.getState().showDanmaku).toBe(false)
+  })
 })

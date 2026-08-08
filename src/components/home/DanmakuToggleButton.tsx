@@ -32,7 +32,7 @@ export function DanmakuToggleButton({ locked = false, onLockedClick }: DanmakuTo
     <Button
       variant={status === 'active' ? 'default' : 'outline'}
       onClick={toggle}
-      className="gap-1.5 sm:gap-2 shadow-sm transition-all h-8 min-w-[120px] px-2.5 text-xs sm:h-9 sm:px-4 sm:text-sm text-primary"
+      className={`gap-1.5 sm:gap-2 shadow-sm transition-all h-8 min-w-[120px] px-2.5 text-xs sm:h-9 sm:px-4 sm:text-sm ${status === 'active' ? '' : 'text-primary'}`}
       aria-label={
         status === 'counting'
           ? `弹幕倒计时 ${countdownValue}`

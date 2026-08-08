@@ -10,6 +10,8 @@ interface DanmakuState {
   status: DanmakuStatus
   countdownValue: number
   toggle: () => Promise<void>
+  /** 托盘/快捷键从主进程直接开启/关闭（跳过 5s 倒计时），并同步 App 内开关 */
+  setFromExternal: (enabled: boolean) => void
 }
 
 const STORAGE_KEY = 'vocab_showDanmaku'
@@ -82,6 +84,14 @@ export const useDanmakuStore = create<DanmakuState>()(
       showDanmaku: false,
       status: 'idle',
       countdownValue: COUNTDOWN_SECONDS,
+      setFromExternal: (enabled) => {
+        clearAllTimers()
+        set(
+          enabled
+            ? { status: 'active', showDanmaku: true }
+            : { status: 'idle', showDanmaku: false },
+        )
+      },
       toggle: async () => {
         const { status, showDanmaku } = get()
 

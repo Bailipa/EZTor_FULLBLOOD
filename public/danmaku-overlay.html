@@ -6,10 +6,13 @@
 <title>EZTor 全局弹幕</title>
 <style>
   /* 规则与 src/components/ui/danmaku.tsx 保持一致（故意分歧：不用 backdrop-filter）：
-     拉取 /api/danmaku?limit=3 每 12s；10 轨道；时长 25-40s；随机延迟 0.3-3s；
+     拉取 /api/danmaku?limit=ceil(3*amount)，轮询间隔 12s/speed（速度慢→间隔长，
+     在屏数量不因调速累积）；10 轨道；时长 25-40s；随机延迟 0.3-3s；
      胶囊样式（圆角+半透明背景+1px 边框+自适应明暗）；词+释义(截 40 字)、无音标；上限 100。
      说明：悬浮层 WebView 页面本身透明，backdrop-filter 只能模糊页面内部（透明=没东西可糊），
-     在安卓悬浮层上无效还白耗 GPU，故用更高不透明度背景替代桌面端的毛玻璃效果。 */
+     在安卓悬浮层上无效还白耗 GPU，故用更高不透明度背景替代桌面端的毛玻璃效果。
+     弹幕调节（速度/单词量/透明度）见下方 readSettings()：localStorage 与 App 同源共享，
+     App 内设置面板写入 vocab_danmaku_settings，悬浮层每次拉取前重读 + storage 事件实时生效。 */
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html, body {
     width: 100%; height: 100%;
@@ -52,16 +55,9 @@
   .bullet .en { font-weight: 700; font-size: 18px; line-height: 28px; color: var(--word-color); }
   .bullet .cn { font-size: 14px; line-height: 20px; color: var(--translation-color); }
 
-  @keyframes fly {
-    from { transform: translateX(100vw); }
-    to { transform: translateX(-100vw); }
-  }
-  @keyframes fade {
-    0% { opacity: 0; }
-    10% { opacity: 1; }
-    90% { opacity: 1; }
-    100% { opacity: 0; }
-  }
+  /* 飞行/淡入淡出改用 Web Animations API（WAAPI）驱动（见 spawnBullet）：
+     CSS animation 无法在途实时调速（改 duration 会跳变）；WAAPI 的
+     playbackRate 可对已在飘的弹幕即时、平滑调速，且运行在合成线程不耗主线程。 */
 </style>
 </head>
 <body>
@@ -73,6 +69,109 @@
     var MAX_ITEMS = 100;
     var FETCH_INTERVAL_MS = 12000;
     var tracksFreeTime = new Array(TRACK_COUNT).fill(0);
+
+    // 弹幕调节：speed 0.5-2.0 / amount 0.5-2.0 / opacity 0-100 / size 0.5-2.0。
+    // 键与 src/stores/danmakuSettingsStore.ts 一致（zustand persist 格式 state{...}）。
+    // 悬浮窗与 App 主窗口同源（Win：同一 Electron 应用；安卓：同一应用的 WebView），
+    // 共享 localStorage，App 内改设置后这里自动生效。
+    var DANMAKU_SETTINGS_KEY = 'vocab_danmaku_settings';
+    var DEFAULT_SETTINGS = { speed: 1, amount: 1, opacity: 80, size: 1 };
+    var settings = Object.assign({}, DEFAULT_SETTINGS);
+
+    function clampNum(v, min, max, fallback) {
+      var n = Number(v);
+      if (!isFinite(n)) return fallback;
+      return Math.min(max, Math.max(min, n));
+    }
+
+    function readSettings() {
+      try {
+        var raw = localStorage.getItem(DANMAKU_SETTINGS_KEY);
+        if (!raw) return;
+        var parsed = JSON.parse(raw);
+        var st = parsed && parsed.state ? parsed.state : parsed;
+        settings.speed = clampNum(st.speed, 0.5, 2, DEFAULT_SETTINGS.speed);
+        settings.amount = clampNum(st.amount, 0.5, 2, DEFAULT_SETTINGS.amount);
+        settings.opacity = clampNum(st.opacity, 0, 100, DEFAULT_SETTINGS.opacity);
+        settings.size = clampNum(st.size, 0.5, 2, DEFAULT_SETTINGS.size);
+      } catch (e) { /* 损坏数据忽略，沿用上次有效设置 */ }
+    }
+
+    readSettings();
+    // 视觉设置（背景/字号/内边距）统一应用：spawn 时对新弹幕；storage/主题事件时对在途弹幕。
+    // 速度走 applySpeed 对在途弹幕实时调速；单词量走防抖补拉一批（新弹幕密度立即变化）。
+    function styleBullet(el) {
+      var darkTheme = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      var alpha = (settings.opacity / 100).toFixed(2);
+      el.style.background =
+        'rgba(' + (darkTheme ? '0,0,0' : '255,255,255') + ',' + alpha + ')';
+      el.style.padding =
+        Math.round(8 * settings.size) + 'px ' + Math.round(16 * settings.size) + 'px';
+      var en = el.querySelector('.en');
+      if (en) en.style.fontSize = Math.round(18 * settings.size) + 'px';
+      var cn = el.querySelector('.cn');
+      if (cn) cn.style.fontSize = Math.round(14 * settings.size) + 'px';
+    }
+    function applyVisualSettings() {
+      for (var i = 0; i < stage.children.length; i++) styleBullet(stage.children[i]);
+    }
+    var refreshTimer = null;
+    function scheduleRefresh(fast) {
+      clearTimeout(refreshTimer);
+      refreshTimer = setTimeout(function () { fetchDanmaku(!!fast); }, 500);
+    }
+    // 单词量"立竿见影"：调小时按比例移除在途弹幕，从最旧开始删、保留最新
+    // （slice 保留最旧会在几秒内把屏幕清空，打断复习节奏；保留最新 → 生命期长，屏幕不空）。
+    // 调大时不删，由 scheduleRefresh(true) 快速铺开补一批。
+    // 只处理"本次调小"：目标 = 当前数量 × (settings.amount / prevSettings.amount)。
+    // 不能用 当前数量 × settings.amount —— 连续调小/拖动滑块时会对已经缩小过的数量
+    // 再乘一遍，密度被一步步踩低；速度/不透明度改动若误调也会把弹幕越删越少。
+    function applyAmount() {
+      var ratio = settings.amount / prevSettings.amount;
+      if (!(ratio < 1)) return;
+      var target = Math.round(stage.children.length * ratio);
+      while (stage.children.length > target) {
+        stage.removeChild(stage.children[0]); // 从最旧删，保留最新
+      }
+    }
+    // 速度改动走 storage 事件立即对在途弹幕调速；单词量走 applyAmount + 快速补拉。
+    // prevSettings 用于判断单词量是调大还是调小（调大走 skipDelay 快速铺开）。
+    var prevSettings = Object.assign({}, settings);
+    function onSettingsChanged() {
+      readSettings();
+      var amountUp = settings.amount > prevSettings.amount;
+      var speedChanged = settings.speed !== prevSettings.speed;
+      applySpeed();
+      applyVisualSettings();
+      applyAmount();
+      // 调大才立即补拉（快速铺开显现）；调小只移除，不补拉（避免刚删又补回）。
+      // 速度不再触发补拉：WAAPI 对新旧弹幕实时调速，补拉是 CSS 方案遗留，
+      // 低速补拉会塞入更多长寿命弹幕，反而推高数量。
+      if (amountUp) scheduleRefresh(true);
+      // 速度变了 → 轮询间隔随速度自适应（速度慢→间隔长），数量不因调速累积
+      if (speedChanged) scheduleNextFetch();
+      prevSettings = Object.assign({}, settings);
+    }
+    // App 主窗口（同源其它文档）改设置时，storage 事件实时同步到悬浮层
+    window.addEventListener('storage', function (e) {
+      if (e.key !== null && e.key !== DANMAKU_SETTINGS_KEY) return;
+      onSettingsChanged();
+    });
+    // 系统深浅色切换时同样刷新在途弹幕（否则内联背景冻结在旧主题色）
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function () {
+      applyVisualSettings();
+    });
+    // 安卓跨 WebView 场景 storage 事件可能不触发：2s 低频轮询兜底，
+    // 设置 JSON 变化才动作（速度/背景/字号 + 防抖补拉），最迟 2s 生效
+    var lastSettingsRaw = null;
+    try { lastSettingsRaw = localStorage.getItem(DANMAKU_SETTINGS_KEY); } catch (e) { /* 忽略 */ }
+    setInterval(function () {
+      var raw = null;
+      try { raw = localStorage.getItem(DANMAKU_SETTINGS_KEY); } catch (e) { /* 忽略 */ }
+      if (raw === lastSettingsRaw) return;
+      lastSettingsRaw = raw;
+      onSettingsChanged();
+    }, 2000);
 
     function spawnBullet(item, skipDelay) {
       if (stage.children.length >= MAX_ITEMS) return;
@@ -108,13 +207,17 @@
       }
 
       var top = 10 + trackIndex * (80 / TRACK_COUNT);
-      var duration = 25 + Math.random() * 15;
-      var timeToClearEntry = duration * 0.4;
-      tracksFreeTime[trackIndex] = now + delay * 1000 + timeToClearEntry * 1000;
+      // 基础时长（25-40s）只算一次；实际速度 = baseDuration × playbackRate（改速度时对在途弹幕即时生效）
+      var baseDuration = 25 + Math.random() * 15;
+      // 轨道占用 ≈ 弹幕穿越右缘的时间（参考 weizhenye/danmaku 的宽度+屏宽/speed 模型）。
+      // 0.4× 过度保守：轨道常年忙碌致新弹幕被推迟、到达不均匀，稀释单词量滑块的密度映射。
+      // 0.15× ≈ 3.75-6s"进场+安全间距"，密度由 limit 主导、更可预测。
+      var timeToClearEntry = (baseDuration / settings.speed) * 0.15;
+      var busyUntil = now + delay * 1000 + timeToClearEntry * 1000;
+      tracksFreeTime[trackIndex] = busyUntil;
 
       var el = document.createElement('div');
       el.className = 'bullet';
-      el._endTime = now + (delay + duration) * 1000;
 
       var en = document.createElement('span');
       en.className = 'en';
@@ -129,19 +232,59 @@
         el.appendChild(cn);
       }
 
-      el.style.top = top + '%';
-      // fill-mode 用 both（不能只 forwards）：forwards 在 delay 期间不应用起始帧，
-      // 弹幕会以自然位置(屏幕最左)完整可见地闪过 delay 时长，再跳到右侧开始飘 ——
-      // 表现成"屏幕左边突然闪现再消失"。both 让 delay 期就应用 from 态(右端 100vw + 透明)。
-      el.style.animation =
-        'fly ' + duration + 's linear ' + delay + 's both, fade ' + duration + 's linear ' + delay + 's both';
+      // 背景/字号/内边距统一由 styleBullet 按设置应用（新弹幕）
+      styleBullet(el);
 
-      el.addEventListener('animationend', function () { el.remove(); });
+      el.style.top = top + '%';
+      // WAAPI 驱动：fill:'both' 让 delay 期就应用 from 态（右端 100vw + 透明），
+      // 避免 CSS forwards 在 delay 期以自然位置(屏幕最左)闪现（"左侧闪现" bug 根因）。
+      // playbackRate 初始化为当前 speed：新弹幕立即按新速度飘。
+      el._fly = el.animate(
+        [{ transform: 'translateX(100vw)' }, { transform: 'translateX(-100vw)' }],
+        { duration: baseDuration * 1000, delay: delay * 1000, iterations: 1, fill: 'both', easing: 'linear' },
+      );
+      el._fade = el.animate(
+        [{ opacity: 0 }, { opacity: 1, offset: 0.1 }, { opacity: 1, offset: 0.9 }, { opacity: 0 }],
+        { duration: baseDuration * 1000, delay: delay * 1000, iterations: 1, fill: 'both', easing: 'linear' },
+      );
+      el._fly.playbackRate = settings.speed;
+      el._fade.playbackRate = settings.speed;
+      el._fly.onfinish = function () { el.remove(); };
+      // 记录轨道与占用截止时间：调速时（applySpeed）据此缩放剩余占用，避免同轨重叠
+      el._track = trackIndex;
+      el._busyUntil = busyUntil;
+
       stage.appendChild(el);
     }
 
+    // 速度"立竿见影"：对已在飘的所有弹幕实时调速（playbackRate 平滑不跳变），
+    // 同时按 旧速/新速 缩放每条在途弹幕的轨道占用，避免改慢速后同轨新弹幕追尾。
+    function applySpeed() {
+      var ratio = prevSettings.speed / settings.speed;
+      var nowMs = Date.now();
+      for (var i = 0; i < stage.children.length; i++) {
+        var el = stage.children[i];
+        if (el._fly) el._fly.playbackRate = settings.speed;
+        if (el._fade) el._fade.playbackRate = settings.speed;
+        if (ratio !== 1 && el._busyUntil != null && el._track != null) {
+          var remaining = el._busyUntil - nowMs;
+          if (remaining > 0) {
+            el._busyUntil = nowMs + remaining * ratio;
+            if (el._busyUntil > tracksFreeTime[el._track]) {
+              tracksFreeTime[el._track] = el._busyUntil;
+            }
+          }
+        }
+      }
+    }
+
     function fetchDanmaku(skipDelay) {
-      fetch('/api/danmaku?limit=3&t=' + Date.now(), { credentials: 'same-origin' })
+      // 每次拉取前重读设置：即使 storage 事件未触发（安卓跨 WebView 场景），
+      // 最迟 12s 内也会按新设置生效
+      readSettings();
+      // ceil 而非 round：0.5-0.8x 都 round 到 2（滑块死区），ceil 让 0.7x 起就响应
+      var limit = Math.max(1, Math.min(8, Math.ceil(3 * settings.amount)));
+      fetch('/api/danmaku?limit=' + limit + '&t=' + Date.now(), { credentials: 'same-origin' })
         .then(function (res) { return res.json(); })
         .then(function (json) {
           if (json && json.success && Array.isArray(json.data)) {
@@ -151,18 +294,28 @@
         .catch(function () {});
     }
 
-    fetchDanmaku(false);
-    setInterval(function () { fetchDanmaku(false); }, FETCH_INTERVAL_MS);
+    // 周期轮询：间隔随速度自适应（速度慢→间隔长），保证"速度调小数量不增加"。
+    // 弹幕在屏时长 = baseDuration / speed，速度减半停留时间翻倍；间隔 ∝ 1/speed 后数量恒定。
+    var fetchTimer = null;
+    function scheduleNextFetch() {
+      clearTimeout(fetchTimer);
+      fetchTimer = setTimeout(function () {
+        fetchDanmaku(false);
+        scheduleNextFetch();
+      }, Math.max(3000, FETCH_INTERVAL_MS / settings.speed));
+    }
 
-    // 按 endTime 定时清理（与 danmaku.tsx 一致）：不依赖 animationend，
-    // 避免动画被节流/中断时元素堆积到上限后卡死不再出新弹幕
+    fetchDanmaku(false);
+    scheduleNextFetch();
+
+    // 兜底清理：onfinish 已负责移除；这里按 playState 兜底，防止异常残留。
+    // 不用 endTime 兜底（playbackRate 调速后真实时长会变化，时间戳会失效）。
     setInterval(function () {
-      var now = Date.now();
       for (var i = stage.children.length - 1; i >= 0; i--) {
         var el = stage.children[i];
-        if (el._endTime && now > el._endTime) el.remove();
+        if (el._fly && el._fly.playState === 'finished') el.remove();
       }
-    }, 10000);
+    }, 5000);
 
     // 从其它应用/界面切回时：重置轨道并快速补一批，避免空白（与 danmaku.tsx 一致）。
     // 防抖：只有真实隐藏 >=3s 才清空重发，避免 Windows overlay 可见性闪变导致弹幕反复清空重出现

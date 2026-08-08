@@ -12,8 +12,18 @@ declare global {
   interface Window {
     eztor?: {
       setGlobalDanmaku?: (enabled: boolean) => void
+      onDanmakuStateChanged?: (cb: (enabled: boolean) => void) => () => void
       installUpdate?: () => void
+      downloadUpdate?: () => void
       checkUpdate?: () => void
+      setAutoDownload?: (enabled: boolean) => void
+      getAutoDownload?: () => Promise<boolean>
+      getUpdateStatus?: () => Promise<{
+        status: string
+        version?: string
+        percent?: number
+        message?: string
+      } | null>
       onUpdateStatus?: (cb: (p: { status: string; version?: string; percent?: number; message?: string }) => void) => () => void
     }
   }

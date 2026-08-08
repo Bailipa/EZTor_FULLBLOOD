@@ -149,6 +149,18 @@ if [ "$SIDECAR_COUNT" -gt 0 ]; then
   echo "  ✓ Stripped $SIDECAR_COUNT macOS xattr sidecar files"
 fi
 
+# Restore installer artifacts (downloads/, updates/) from backup — 安装包体积大，
+# 走独立 scp 分发（不在部署 tarball 里），整体覆盖会把它冲掉导致下载/更新失效。
+# cp -n 只补缺失文件，不覆盖 tarball 里更新的（如最新 APK/latest.yml）。
+for DIR in downloads updates; do
+  SRC="standalone.bak.${TIMESTAMP}/public/$DIR"
+  if [ -d "$SRC" ]; then
+    mkdir -p "standalone/public/$DIR"
+    cp -n "$SRC"/* "standalone/public/$DIR/" 2>/dev/null || true
+    echo "  ✓ $DIR/ installers restored from backup"
+  fi
+done
+
 # Extract ipa-dict (appended to tarball as runtime-only module)
 if tar -tzf /tmp/eztor-deploy-*.tar.gz 2>/dev/null | grep -q '^ipa-dict/'; then
   mkdir -p standalone/node_modules

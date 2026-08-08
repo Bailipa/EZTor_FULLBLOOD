@@ -1,12 +1,13 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import AppLayout from '@/components/layout/AppLayout'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Input } from '@/components/ui/input'
+import { Switch } from '@/components/ui/switch'
 import { useAppVersion } from '@/hooks/useAppVersion'
 import { useAppUpdate } from '@/hooks/useAppUpdate'
 import { isDesktopApp } from '@/lib/appEnv'
@@ -32,6 +33,18 @@ export default function DownloadPage() {
   const [unlocked, setUnlocked] = useState(false)
   const [checking, setChecking] = useState(false)
   const [error, setError] = useState('')
+  // 自动下载更新开关（桌面端；主进程持久化）
+  const [autoDownload, setAutoDownload] = useState(false)
+
+  useEffect(() => {
+    if (!isDesktopApp() || !window.eztor?.getAutoDownload) return
+    window.eztor.getAutoDownload().then((v) => setAutoDownload(Boolean(v)))
+  }, [])
+
+  const handleAutoDownload = (enabled: boolean) => {
+    setAutoDownload(enabled)
+    window.eztor?.setAutoDownload?.(enabled)
+  }
 
   const winInstaller = appVer.windowsInstaller ?? FALLBACK_WIN_INSTALLER
   const androidApk = appVer.androidApk ?? FALLBACK_ANDROID_APK
@@ -138,6 +151,11 @@ export default function DownloadPage() {
                         <Check className="w-4 h-4 mr-1.5" />
                         新版本已就绪，点击重启更新
                       </Button>
+                    ) : isDesktopApp() && appUpdate.status === 'available' ? (
+                      <Button size="lg" onClick={() => window.eztor?.downloadUpdate?.()}>
+                        <Download className="w-4 h-4 mr-1.5" />
+                        发现新版本，立即更新
+                      </Button>
                     ) : isDesktopApp() && appUpdate.status === 'downloading' ? (
                       <Button size="lg" disabled>
                         <Loader2 className="w-4 h-4 mr-1.5 animate-spin" />
@@ -157,6 +175,23 @@ export default function DownloadPage() {
                         查看源码
                       </a>
                     </Button>
+                  </div>
+                  <div className="flex items-center justify-between gap-2 pt-1">
+                    <div>
+                      <p className="text-sm font-medium">自动下载更新</p>
+                      <p className="text-xs text-muted-foreground">
+                        开启后新版本后台自动下载，装好弹「重启更新」；关闭则每次先询问
+                      </p>
+                    </div>
+                    {isDesktopApp() && window.eztor?.setAutoDownload ? (
+                      <Switch
+                        checked={autoDownload}
+                        onCheckedChange={handleAutoDownload}
+                        aria-label="自动下载更新"
+                      />
+                    ) : (
+                      <Badge variant="secondary">仅桌面端</Badge>
+                    )}
                   </div>
                   <p className="text-xs text-muted-foreground/70 leading-relaxed">
                     安装包暂未购买代码签名证书，浏览器 / Windows SmartScreen 可能提示"不安全 / 未知发布者"，

@@ -8,6 +8,7 @@ import { useState, useEffect } from 'react'
 import { ChevronDown, ChevronUp, Lock, Download } from 'lucide-react'
 import { DonationButton } from './DonationModal'
 import { DanmakuToggleButton } from './DanmakuToggleButton'
+import { DanmakuSettingsDialog } from '@/components/me/DanmakuSettings'
 import { FEATURE_UNLOCK_THRESHOLDS } from '@/features/gamification/constants'
 import { FeatureLockedDialog } from '@/features/gamification/components/FeatureLockedDialog'
 import { useSession } from 'next-auth/react'
@@ -103,6 +104,9 @@ export function HomeHeader() {
                   handleLockedFeature('弹幕复习', FEATURE_UNLOCK_THRESHOLDS.DANMAKU)
                 }
               />
+            </div>
+            <div className="hidden xl:block">
+              <DanmakuSettingsDialog />
             </div>
             <div className="hidden xl:block">
               <ModeToggle />

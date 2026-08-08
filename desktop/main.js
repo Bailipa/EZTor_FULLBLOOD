@@ -2,6 +2,7 @@
 
 const { app, BrowserWindow, Menu, shell, ipcMain, Tray, nativeImage, screen } = require('electron')
 const path = require('path')
+const fs = require('fs')
 const { autoUpdater } = require('electron-updater')
 
 // 线上地址（可被 EZTOR_APP_URL 覆盖，用于本地联调）
@@ -10,6 +11,7 @@ const APP_URL = process.env.EZTOR_APP_URL || 'https://eztor.dogeggcode.cyou'
 // 不能用 ../public/... —— 打包后 __dirname 是 resources/app.asar，相对路径会指空。
 const ICON = path.join(__dirname, 'icon-512.png')
 const TRAY_ICON = path.join(__dirname, 'tray-icon.png')
+const TRAY_ICON_MAC = path.join(__dirname, 'tray-icon-mac.png')
 const SPLASH = path.join(__dirname, 'splash.html')
 
 let mainWindow = null
@@ -59,6 +61,13 @@ function createMainWindow() {
         mainWindow.webContents.getUserAgent() + ` EZTorDesktop/${app.getVersion()}`,
       )
       mainWindow.loadURL(APP_URL)
+    }
+  })
+
+  // 应用页每次加载完成后重推最近一次更新状态（启动竞态兜底：下载先就绪时提示不丢）
+  mainWindow.webContents.on('did-finish-load', () => {
+    if (!mainWindow.webContents.getURL().startsWith('file://') && lastUpdateStatus) {
+      mainWindow.webContents.send('update-status', lastUpdateStatus)
     }
   })
 
@@ -149,6 +158,14 @@ function isOverlayVisible() {
   return overlayWindows.length > 0
 }
 
+// 托盘/快捷键（主进程入口）改动弹幕状态后，同步回 App 内开关：
+// 让 App 里的 zustand store 与托盘勾选保持一致（反向同步），并持久化到 localStorage。
+function notifyDanmakuState(enabled) {
+  if (mainWindow && !mainWindow.isDestroyed()) {
+    mainWindow.webContents.send('danmaku-state-changed', enabled)
+  }
+}
+
 function toggleOverlay() {
   if (isOverlayVisible()) {
     closeOverlayWindows()
@@ -156,6 +173,7 @@ function toggleOverlay() {
     createOverlayWindows()
   }
   syncTrayDanmakuState()
+  notifyDanmakuState(isOverlayVisible())
 }
 
 ipcMain.on('close-overlay', () => {
@@ -170,22 +188,31 @@ ipcMain.on('set-overlay', (_event, enabled) => {
 })
 
 // ==================== 自动更新（electron-updater） ====================
-// 后台下载新版 → 通知网页提示"重启更新" → 用户点击后 quitAndInstall()：
-// 自动退出、NSIS 静默安装、自动重启，全程无需手动关软件。
+// 业内标准流程：发现新版本 → 提示用户选择（available）→ 用户确认后才下载
+// （download-update）→ 下载完成提示「重启更新」（ready）→ quitAndInstall()。
 // 仅在打包应用里生效（dev 模式自动跳过）。
+// lastUpdateStatus：主进程持久化最近一次状态。页面加载晚于事件时靠
+// ① did-finish-load 重推、② get-update-status 查询两条路径补齐，保证提示不丢。
+let lastUpdateStatus = null
+
 function sendUpdateStatus(payload) {
+  lastUpdateStatus = payload
   for (const w of BrowserWindow.getAllWindows()) {
     if (!w.isDestroyed()) w.webContents.send('update-status', payload)
   }
 }
 
 function initAutoUpdater() {
-  autoUpdater.autoDownload = true // 后台自动下载，用户点"重启更新"时已就绪
+  // 不默认自动下载：发现新版本先问用户，点「立即更新」后才下载（业内标准）。
+  // 用户可在下载页开启"自动下载"开关（持久化），开启后后台自动下载。
+  autoDownloadEnabled = readAutoDownloadEnabled()
+  autoUpdater.autoDownload = autoDownloadEnabled
   autoUpdater.autoInstallOnAppQuit = true // 兜底：用户直接退出时也静默安装
 
   autoUpdater.on('checking-for-update', () => sendUpdateStatus({ status: 'checking' }))
+  // 发现新版本 → available（提示用户选择），用户确认后由 download-update 触发下载
   autoUpdater.on('update-available', (info) =>
-    sendUpdateStatus({ status: 'downloading', version: info.version }),
+    sendUpdateStatus({ status: 'available', version: info.version }),
   )
   autoUpdater.on('update-not-available', () => sendUpdateStatus({ status: 'uptodate' }))
   autoUpdater.on('download-progress', (p) =>
@@ -199,7 +226,7 @@ function initAutoUpdater() {
   )
 
   try {
-    autoUpdater.checkForUpdatesAndNotify()
+    autoUpdater.checkForUpdates()
   } catch (err) {
     console.warn('EZTor autoUpdater check failed:', err)
   }
@@ -212,6 +239,15 @@ function initAutoUpdater() {
     }
   }, 60 * 60 * 1000)
 }
+
+// 用户点击「立即更新」后开始下载（autoDownload=false，需手动触发）
+ipcMain.on('download-update', () => {
+  try {
+    autoUpdater.downloadUpdate()
+  } catch (err) {
+    console.warn('EZTor download-update failed:', err)
+  }
+})
 
 ipcMain.on('install-update', () => {
   try {
@@ -229,15 +265,63 @@ ipcMain.on('check-update', () => {
   }
 })
 
+// 页面挂载时查询最近一次更新状态（错过实时事件的补齐路径）
+ipcMain.handle('get-update-status', () => lastUpdateStatus)
+
+// ==================== 自动下载更新开关 ====================
+// 默认关闭（发现新版本先询问用户，业界默认尊重用户选择）；可在下载页开启"自动下载"。
+// 持久化到 userData，重启后保持。
+let autoDownloadEnabled = false
+
+function settingsFilePath() {
+  return path.join(app.getPath('userData'), 'eztor-settings.json')
+}
+
+function readAutoDownloadEnabled() {
+  try {
+    const raw = fs.readFileSync(settingsFilePath(), 'utf8')
+    return !!JSON.parse(raw).autoDownload
+  } catch {
+    return false
+  }
+}
+
+function persistAutoDownloadEnabled(enabled) {
+  try {
+    fs.writeFileSync(settingsFilePath(), JSON.stringify({ autoDownload: enabled }))
+  } catch (err) {
+    console.warn('EZTor persist settings failed:', err)
+  }
+}
+
+// 用户切换开关：立即生效；若已发现新版本且刚开启，立刻开始下载
+ipcMain.on('set-auto-download', (_event, enabled) => {
+  autoDownloadEnabled = !!enabled
+  persistAutoDownloadEnabled(autoDownloadEnabled)
+  autoUpdater.autoDownload = autoDownloadEnabled
+  if (autoDownloadEnabled && lastUpdateStatus && lastUpdateStatus.status === 'available') {
+    try {
+      autoUpdater.downloadUpdate()
+    } catch (ignored) {
+      /* 忽略 */
+    }
+  }
+})
+
+ipcMain.handle('get-auto-download', () => autoDownloadEnabled)
+
 // 托盘：后台驻留入口（显示主页 / 弹幕开关 / 退出）
 function createTray() {
-  let trayImage = nativeImage.createFromPath(TRAY_ICON)
+  const isMac = process.platform === 'darwin'
+  // Windows：白底圆角 + 蓝 logo（与 App/网站图标一致）；macOS：纯 logo 模板（菜单栏明暗自适应）
+  let trayImage = nativeImage.createFromPath(isMac ? TRAY_ICON_MAC : TRAY_ICON)
   if (trayImage.isEmpty()) {
     // 兜底：回退到窗口图标（应不会发生，只是防御）
     trayImage = nativeImage.createFromPath(ICON).resize({ width: 16, height: 16 })
   }
-  if (process.platform === 'darwin') {
+  if (isMac) {
     trayImage = trayImage.resize({ width: 16, height: 16 })
+    trayImage.setTemplateImage(true)
   }
   tray = new Tray(trayImage)
   tray.setToolTip('EZTor 已在后台运行')
@@ -257,6 +341,7 @@ function buildTrayMenu() {
         if (item.checked) createOverlayWindows()
         else closeOverlayWindows()
         syncTrayDanmakuState()
+        notifyDanmakuState(item.checked)
       },
     },
     { type: 'separator' },

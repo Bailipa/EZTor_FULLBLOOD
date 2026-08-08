@@ -96,6 +96,9 @@ deploy_*.tar.gz
 # 自动更新产物（electron-builder 每次构建重新生成）
 /public/updates/
 
+# dokitimer 计时器会话/历史（本机工具，不入库）
+/.dokitimer/
+
 # 个人文档（非项目代码）
 /*.docx
 

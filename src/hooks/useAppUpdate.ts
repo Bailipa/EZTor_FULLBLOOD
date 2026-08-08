@@ -2,7 +2,13 @@
 
 import { useEffect, useState } from 'react'
 
-export type AppUpdateStatus = 'checking' | 'downloading' | 'uptodate' | 'ready' | 'error'
+export type AppUpdateStatus =
+  | 'checking'
+  | 'available'
+  | 'downloading'
+  | 'uptodate'
+  | 'ready'
+  | 'error'
 
 export type AppUpdateState = {
   status: AppUpdateStatus | null
@@ -21,6 +27,19 @@ export function useAppUpdate(): AppUpdateState {
 
   useEffect(() => {
     if (typeof window === 'undefined' || !window.eztor?.onUpdateStatus) return
+
+    // 启动竞态兜底：查询主进程最近一次更新状态（若下载先完成、页面后加载也能拿到 ready）
+    window.eztor.getUpdateStatus?.().then((s) => {
+      if (s) {
+        setState({
+          status: (s.status as AppUpdateStatus) ?? null,
+          version: s.version ?? null,
+          percent: typeof s.percent === 'number' ? s.percent : null,
+          error: s.message ?? null,
+        })
+      }
+    })
+
     const off = window.eztor.onUpdateStatus((p) => {
       setState({
         status: (p.status as AppUpdateStatus) ?? null,

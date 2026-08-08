@@ -36,8 +36,16 @@ import {
   BookOpen,
   ClipboardList,
   MonitorDown,
+  SlidersHorizontal,
+  ChevronDown,
 } from 'lucide-react'
 import { GameWidget } from '@/components/ui/game/GameWidget'
+import { DanmakuSettingsContent } from '@/components/me/DanmakuSettings'
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from '@/components/ui/collapsible'
 import { DonationDialog } from '@/components/home/DonationModal'
 import { DanmakuToggleButton } from '@/components/home/DanmakuToggleButton'
 import { FeatureLockedDialog } from '@/features/gamification/components/FeatureLockedDialog'
@@ -222,6 +230,21 @@ export default function MePage() {
                   </Button>
                 )}
               </div>
+
+              <Collapsible className="border-t">
+                <CollapsibleTrigger className="flex w-full items-center justify-between p-4 hover:bg-muted/50 transition-colors">
+                  <span className="flex items-center gap-3">
+                    <SlidersHorizontal className="w-5 h-5 text-muted-foreground" />
+                    <span className="font-medium">弹幕调节</span>
+                  </span>
+                  <ChevronDown className="w-4 h-4 text-muted-foreground" />
+                </CollapsibleTrigger>
+                <CollapsibleContent>
+                  <div className="px-4 pb-4">
+                    <DanmakuSettingsContent />
+                  </div>
+                </CollapsibleContent>
+              </Collapsible>
 
               <div className="flex items-center justify-between p-4 hover:bg-muted/50 transition-colors">
                 <span className="flex items-center gap-3">

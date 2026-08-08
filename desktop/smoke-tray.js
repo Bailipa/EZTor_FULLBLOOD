@@ -1,46 +1,76 @@
 'use strict'
 
-// 静默 smoke：验证 1) 托盘/窗口图标可被 nativeImage 加载（修复空白根因）
-// 2) preload 暴露 setGlobalDanmaku 且 main 能收到 set-overlay。不开真实窗口。
-const { app, BrowserWindow, nativeImage, ipcMain } = require('electron')
+// 托盘 ↔ App 弹幕状态同步：验证 preload 暴露的 onDanmakuStateChanged 桥
+// 能收到主进程发来的 danmaku-state-changed 事件（反向同步的基础）。
+const { app, BrowserWindow } = require('electron')
 const path = require('path')
+const fs = require('fs')
+const os = require('os')
 
 let fail = 0
-
 function check(cond, msg) {
   console.log((cond ? '✓' : '✗') + ' ' + msg)
   if (!cond) fail++
 }
 
+const page = path.join(os.tmpdir(), 'eztor-tray-test.html')
+fs.writeFileSync(page, '<html><body>tray bridge test</body></html>')
+console.log('page: ' + page + ' exists=' + fs.existsSync(page))
+
 app.whenReady().then(async () => {
-  const tray = nativeImage.createFromPath(path.join(__dirname, 'tray-icon.png'))
-  check(!tray.isEmpty(), `tray-icon.png 可加载 (size=${JSON.stringify(tray.getSize())})`)
+  let win = null
+  try {
+    win = new BrowserWindow({
+      show: false,
+      webPreferences: {
+        preload: path.join(__dirname, 'preload.js'),
+        contextIsolation: true,
+        nodeIntegration: false,
+      },
+    })
+    console.log('window created')
+    await win.loadFile(page)
+    console.log('page loaded')
+    await new Promise((r) => setTimeout(r, 300))
+    console.log('waited 300ms')
 
-  const icon512 = nativeImage.createFromPath(path.join(__dirname, 'icon-512.png'))
-  check(!icon512.isEmpty(), `icon-512.png 可加载 (size=${JSON.stringify(icon512.getSize())})`)
+    const hasBridge = await win.webContents.executeJavaScript(
+      `typeof window.eztor !== 'undefined' && typeof window.eztor.onDanmakuStateChanged === 'function'`,
+    )
+    check(hasBridge, `preload 暴露 onDanmakuStateChanged（实际 ${hasBridge}）`)
 
-  let received = null
-  ipcMain.on('set-overlay', (_e, enabled) => { received = enabled })
+    await win.webContents.executeJavaScript(`(() => {
+      window.__danmakuEvents = [];
+      window.__unsub = window.eztor.onDanmakuStateChanged((enabled) => window.__danmakuEvents.push(enabled));
+      return true;
+    })()`)
+    win.webContents.send('danmaku-state-changed', true)
+    await new Promise((r) => setTimeout(r, 500))
+    const events = await win.webContents.executeJavaScript(`window.__danmakuEvents`)
+    check(
+      events.length === 1 && events[0] === true,
+      `反向同步 on：收到 enabled=true（实际 ${JSON.stringify(events)}）`,
+    )
 
-  const win = new BrowserWindow({
-    show: false,
-    webPreferences: {
-      preload: path.join(__dirname, 'preload.js'),
-      contextIsolation: true,
-      nodeIntegration: false,
-    },
-  })
-  await win.loadURL('about:blank')
+    await win.webContents.executeJavaScript(`window.__danmakuEvents = []; true`)
+    win.webContents.send('danmaku-state-changed', false)
+    await new Promise((r) => setTimeout(r, 500))
+    const events2 = await win.webContents.executeJavaScript(`window.__danmakuEvents`)
+    check(
+      events2.length === 1 && events2[0] === false,
+      `反向同步 off：收到 enabled=false（实际 ${JSON.stringify(events2)}）`,
+    )
+    await win.webContents.executeJavaScript(`window.__unsub(); true`)
 
-  const type = await win.webContents.executeJavaScript('typeof (window.eztor && window.eztor.setGlobalDanmaku)')
-  check(type === 'function', `window.eztor.setGlobalDanmaku 暴露为函数 (got ${type})`)
-
-  await win.webContents.executeJavaScript('window.eztor.setGlobalDanmaku(true)')
-  check(received === true, 'main 收到 set-overlay(true)')
-  await win.webContents.executeJavaScript('window.eztor.setGlobalDanmaku(false)')
-  check(received === false, 'main 收到 set-overlay(false)')
-
-  win.destroy()
-  console.log(fail === 0 ? '\nSMOKE OK' : `\nSMOKE FAIL (${fail})`)
+    win.destroy()
+    win = null
+  } catch (e) {
+    console.log('✗ 异常: ' + e.message)
+    fail++
+  }
+  try {
+    fs.unlinkSync(page)
+  } catch (e) {}
+  console.log(fail === 0 ? '\nTRAY SYNC OK' : `\nTRAY SYNC FAIL (${fail})`)
   app.exit(fail === 0 ? 0 : 1)
 })

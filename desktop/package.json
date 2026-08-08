@@ -1,6 +1,6 @@
 {
   "name": "eztor-desktop",
-  "version": "0.4.3",
+  "version": "0.8.0",
   "description": "EZTor 桌面套壳应用（含全局弹幕悬浮窗）",
   "private": true,
   "main": "main.js",
@@ -25,6 +25,8 @@
       "splash.html",
       "tray-icon.png",
       "tray-icon@2x.png",
+      "tray-icon-mac.png",
+      "tray-icon-mac@2x.png",
       "icon-512.png"
     ],
     "mac": {
