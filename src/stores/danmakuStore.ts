@@ -130,7 +130,8 @@ export const useDanmakuStore = create<DanmakuState>()(
         }, 1000)
 
         try {
-          const res = await fetch(`/api/danmaku?limit=1&t=${Date.now()}`)
+          // dryRun：只判断词库是否有词，不消耗系统性遍历的轮次（不标记已展示）
+          const res = await fetch(`/api/danmaku?limit=1&dryRun=1&t=${Date.now()}`)
           const result = (await res.json()) as {
             success?: boolean
             data?: unknown[]
@@ -170,6 +171,15 @@ export const useDanmakuStore = create<DanmakuState>()(
       name: STORAGE_KEY,
       storage: createJSONStorage(() => storage),
       partialize: (state) => ({ showDanmaku: state.showDanmaku }),
+      // reload 后恢复：只持久化了 showDanmaku，status 默认 idle 会与
+      // 实际弹幕状态不一致（弹幕在飘但按钮显示"开启"）。恢复时若
+      // showDanmaku=true 则同步 status=active，让按钮/弹幕一致。
+      merge: (persisted, current) => {
+        const p = (persisted ?? {}) as { showDanmaku?: boolean }
+        const merged = { ...current, ...p }
+        if (merged.showDanmaku) merged.status = 'active'
+        return merged
+      },
     },
   ),
 )

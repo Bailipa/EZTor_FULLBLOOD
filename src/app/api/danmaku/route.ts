@@ -7,17 +7,39 @@ import { safeQueryRaw } from '@/lib/safeQueryRaw'
 
 export const dynamic = 'force-dynamic' // 禁止缓存，每次获取最新的随机数据
 
+async function fetchPublicWords(limit: number) {
+  const publicWords: { word: string; translation: string; phonetic: string; example: string }[] =
+    await safeQueryRaw('danmaku_public', () => prisma.$queryRaw`
+      SELECT
+        word,
+        translation,
+        phonetic,
+        example
+      FROM "PublicWord"
+      OFFSET floor(random() * (SELECT count(*) FROM "PublicWord"))
+      LIMIT ${limit}
+    `, [] as { word: string; translation: string; phonetic: string; example: string }[])
+  return publicWords
+}
+
 export async function GET(req: Request) {
   try {
     const session = await getServerSession(authOptions)
-    if (!session?.user?.id) {
-      return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 })
-    }
 
     const { searchParams } = new URL(req.url)
     // 默认取 20 条，最多 50 条
     const limitParam = searchParams.get('limit')
     const limit = limitParam ? Math.min(parseInt(limitParam, 10), 50) : 20
+    // dryRun=1：只判断词库是否有词（弹幕开关的 hasWords 检查），不标记"已展示"，
+    // 避免未真正显示的词被吞掉系统性遍历的轮次。
+    const dryRun = searchParams.get('dryRun') === '1'
+
+    // 未登录：降级返回公共词池（游客/系统托盘/快捷键也能开弹幕），
+    // 而不是 401 —— 否则退出登录后悬浮层拉词失败、屏幕突然变空。
+    if (!session?.user?.id) {
+      const publicWords = await fetchPublicWords(limit)
+      return NextResponse.json({ success: true, data: publicWords })
+    }
 
     // 获取用户词库中所有单词的总数
     const totalCount = await prisma.word.count({
@@ -26,17 +48,7 @@ export async function GET(req: Request) {
 
     if (totalCount === 0) {
       // 用户无词时，从公共词池取随机词（用于干扰项等场景）
-      const publicWords: { word: string; translation: string; phonetic: string; example: string }[] =
-        await safeQueryRaw('danmaku_public', () => prisma.$queryRaw`
-        SELECT
-          word,
-          translation,
-          phonetic,
-          example
-        FROM "PublicWord"
-        OFFSET floor(random() * (SELECT count(*) FROM "PublicWord"))
-        LIMIT ${limit}
-      `, [] as { word: string; translation: string; phonetic: string; example: string }[])
+      const publicWords = await fetchPublicWords(limit)
       return NextResponse.json({ success: true, data: publicWords })
     }
 
@@ -90,7 +102,8 @@ export async function GET(req: Request) {
     `, [] as { id: string; word: string; translation: string; phonetic: string; example: string }[])
 
     // 标记本批已展示（进入本周期已展示集，周期内不再重复）
-    if (randomWords.length > 0) {
+    // dryRun（hasWords 检查）不标记，避免吞词。
+    if (!dryRun && randomWords.length > 0) {
       try {
         await prisma.word.updateMany({
           where: { id: { in: randomWords.map((w) => w.id) } },

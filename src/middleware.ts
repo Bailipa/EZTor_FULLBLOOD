@@ -24,6 +24,8 @@ const OPTIONAL_AUTH_PATHS = [
   '/api/donation',
   '/api/analytics',
   '/api/flashcard/public',
+  // 弹幕：未登录降级公共词池（游客/系统托盘/快捷键开弹幕），登录才走私人词库
+  '/api/danmaku',
 ]
 
 const PUBLIC_PATHS = ['/site-config.json', '/auth/signin', '/api/auth', '/api/captcha', '/api/health', '/api/auth/xiaoying', '/flywheel-preview.html', '/share', '/api/share-profile', '/download', '/manifest.webmanifest', '/danmaku-overlay.html', '/api/download/unlock', '/api/version', '/api/debug', '/updates']
@@ -110,10 +112,17 @@ export default async function middleware(request: NextRequest) {
     const dlPass = request.cookies.get('dl_pass')?.value
     const expected = Buffer.from(process.env.DOWNLOAD_PASSWORD || 'bailipa6').toString('base64')
     if (dlPass !== expected) {
-      return NextResponse.redirect(new URL('/download', request.url))
+      // 返回 403 而非 307 重定向：重定向会把 /download 的 HTML 页面喂给浏览器，
+      // Safari 等浏览器会把它保存成"空包"（.dmg/.exe 里装的是 HTML）并提示
+      // "file wasn't available on this site"。403 让浏览器明确拒绝，不产生空文件。
+      return new NextResponse('未解锁下载，请先在 /download 输入密码', { status: 403 })
     }
     const res = NextResponse.next()
     baseHeaders(res)
+    // 强制附件下载：Safari 对 .dmg + application/octet-stream + nosniff 会按"内联打开"
+    // 处理导致下载失败；加 attachment 头让所有浏览器可靠触发下载。
+    const filename = decodeURIComponent(pathname.split('/').pop() || 'download')
+    res.headers.set('Content-Disposition', `attachment; filename="${filename}"`)
     return res
   }
 

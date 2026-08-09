@@ -20,11 +20,14 @@ import {
   Lock,
   Loader2,
   FlaskConical,
+  Apple,
 } from 'lucide-react'
 
 // 兜底：/api/version 未返回时先用 0.3.0 路径（版本源统一后由接口动态决定）
 const FALLBACK_WIN_INSTALLER = '/downloads/EZTor-Setup-0.3.0.exe'
 const FALLBACK_ANDROID_APK = '/downloads/eztor-0.3.0.apk'
+const FALLBACK_MAC_INSTALLER = '/downloads/EZTor-0.11.1.dmg'
+const FALLBACK_MAC_ARM64_INSTALLER = '/downloads/EZTor-0.11.1-arm64.dmg'
 
 export default function DownloadPage() {
   const appVer = useAppVersion()
@@ -48,6 +51,8 @@ export default function DownloadPage() {
 
   const winInstaller = appVer.windowsInstaller ?? FALLBACK_WIN_INSTALLER
   const androidApk = appVer.androidApk ?? FALLBACK_ANDROID_APK
+  const macInstaller = appVer.macInstaller ?? FALLBACK_MAC_INSTALLER
+  const macArm64Installer = appVer.macArm64Installer ?? FALLBACK_MAC_ARM64_INSTALLER
 
   const handleUnlock = async () => {
     setChecking(true)
@@ -196,6 +201,42 @@ export default function DownloadPage() {
                   <p className="text-xs text-muted-foreground/70 leading-relaxed">
                     安装包暂未购买代码签名证书，浏览器 / Windows SmartScreen 可能提示"不安全 / 未知发布者"，
                     属正常拦截：Edge 下载时点「更多信息」→「仍要下载」；运行安装包时点「更多信息」→「仍要运行」即可。
+                  </p>
+                </CardContent>
+              </Card>
+
+              {/* macOS */}
+              <Card>
+                <CardContent className="p-5 space-y-4">
+                  <div className="flex items-center gap-2">
+                    <Apple className="w-5 h-5 text-primary" />
+                    <h2 className="text-lg font-semibold">macOS 桌面版</h2>
+                    <Badge variant="secondary" className="ml-auto">macOS 11.0+</Badge>
+                  </div>
+                  <p className="text-sm text-muted-foreground">
+                    独立窗口的 EZTor 桌面应用（浏览器套壳），含全局弹幕悬浮窗，可驻留菜单栏。
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    <Button asChild size="lg">
+                      <a href={macInstaller} download>
+                        <Download className="w-4 h-4 mr-1.5" />
+                        下载 Intel (x64)
+                      </a>
+                    </Button>
+                    <Button asChild variant="outline" size="lg">
+                      <a href={macArm64Installer} download>
+                        <Download className="w-4 h-4 mr-1.5" />
+                        下载 Apple 芯片 (arm64)
+                      </a>
+                    </Button>
+                  </div>
+                  <p className="text-xs text-muted-foreground/70 leading-relaxed">
+                    怎么判断芯片？左上角   →「关于本机」→「芯片」显示 Apple M1/M2/… 选 arm64；显示 Intel 选 x64。
+                  </p>
+                  <p className="text-xs text-amber-600/80 leading-relaxed border-l-2 border-amber-500/50 pl-2">
+                    安装包未签名（内测版），首次打开会被 macOS 拦截。打开方法：
+                    右键点 EZTor.app →「打开」→ 再点「打开」；若仍提示"已损坏"，
+                    在终端执行：<code className="font-mono">xattr -cr /Applications/EZTor.app</code> 后重新打开。
                   </p>
                 </CardContent>
               </Card>

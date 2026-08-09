@@ -27,10 +27,6 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
-import android.widget.Toast;
-
-import java.net.HttpURLConnection;
-import java.net.URL;
 
 /**
  * 全局弹幕前台服务：
@@ -43,7 +39,6 @@ public class DanmakuService extends Service {
     public static boolean ACTIVE = false;
 
     private static final String OVERLAY_URL = "https://eztor.dogeggcode.cyou/danmaku-overlay.html";
-    private static final String API_PROBE = "https://eztor.dogeggcode.cyou/api/danmaku?limit=1";
     private static final String CHANNEL_ID = "eztor_danmaku";
     private static final int NOTIF_ID = 1;
 
@@ -66,7 +61,6 @@ public class DanmakuService extends Service {
             handler = new Handler(Looper.getMainLooper());
             windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
             createOverlay();
-            checkAuthOnce();
             registerScreenStateReceiver();
         } catch (Throwable t) {
             // 服务初始化失败不应拖垮整个应用
@@ -225,31 +219,6 @@ public class DanmakuService extends Service {
             registerReceiver(screenStateReceiver, filter);
         } catch (Exception ignored) {
         }
-    }
-
-    /** 一次性轻量探测登录态：未登录时提示，避免悬浮层"无弹幕"被误解为故障 */
-    private void checkAuthOnce() {
-        new Thread(() -> {
-            try {
-                URL url = new URL(API_PROBE);
-                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                conn.setConnectTimeout(8000);
-                conn.setReadTimeout(8000);
-                String cookie = CookieManager.getInstance().getCookie("https://eztor.dogeggcode.cyou");
-                if (cookie != null && !cookie.isEmpty()) {
-                    conn.setRequestProperty("Cookie", cookie);
-                }
-                conn.setRequestProperty("Accept", "application/json");
-                int code = conn.getResponseCode();
-                conn.disconnect();
-                if (code == 401 && ACTIVE) {
-                    // ACTIVE 守卫：用户在请求期间关掉了弹幕（服务已销毁）时不再弹提示
-                    handler.post(() -> Toast.makeText(DanmakuService.this,
-                            "请先在 App 内登录后使用全局弹幕", Toast.LENGTH_LONG).show());
-                }
-            } catch (Exception ignored) {
-            }
-        }).start();
     }
 
     @Override

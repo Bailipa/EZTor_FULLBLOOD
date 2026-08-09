@@ -8,6 +8,7 @@ contextBridge.exposeInMainWorld('trayPopup', {
   setOverlay: (enabled) => ipcRenderer.send('set-overlay', enabled),
   applySetting: (key, value) => ipcRenderer.send('danmaku-settings-apply', key, value),
   openApp: () => ipcRenderer.send('open-app'),
+  quit: () => ipcRenderer.send('app-quit'),
   onChanged: (cb) => {
     const onState = (_e, enabled) => cb({ type: 'overlay', enabled })
     const onSetting = (_e, key, value) => cb({ type: 'setting', key, value })

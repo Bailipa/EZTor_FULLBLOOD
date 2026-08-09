@@ -20,6 +20,8 @@ export const viewport: Viewport = {
 }
 
 export const metadata: Metadata = {
+  // 绝对基准 URL：OG/社交分享图若不设，会解析成 http://localhost:3000 导致预览图失效
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'https://eztor.dogeggcode.cyou'),
   title: {
     default: 'EZTor - 智能英语翻译与词汇记忆工具',
     template: '%s | EZTor',

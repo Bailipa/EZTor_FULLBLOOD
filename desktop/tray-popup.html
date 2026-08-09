@@ -64,6 +64,8 @@
     font-family: inherit;
   }
   .footer button:hover { background: rgba(255,255,255,0.08); }
+  .footer button.quit { color: #f87171; border-color: rgba(248,113,113,0.3); }
+  .footer button.quit:hover { background: rgba(248,113,113,0.12); }
   /* 开关 */
   .switch { position: relative; display: inline-block; width: 34px; height: 20px; }
   .switch input { opacity: 0; width: 0; height: 0; }
@@ -96,6 +98,7 @@
     <div id="groups"></div>
     <div class="footer">
       <button id="open-app">打开设置面板</button>
+      <button id="quit-app" class="quit">退出</button>
     </div>
   </div>
 <script>
@@ -152,6 +155,9 @@
     })
     document.getElementById('open-app').addEventListener('click', function () {
       trayPopup.openApp()
+    })
+    document.getElementById('quit-app').addEventListener('click', function () {
+      trayPopup.quit()
     })
 
     trayPopup.getState().then(function (s) {

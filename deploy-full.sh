@@ -182,6 +182,19 @@ if [ -f "$UPDATES_DIR/latest.yml" ]; then
       echo "  → removed $f"
     fi
   done
+  # macOS updater zip（electron-updater 读 latest-mac.yml）：同样按版本清理旧包
+  for f in EZTor-*-mac.zip; do
+    [ -e "$f" ] || continue
+    V=$(printf '%s' "$f" | sed -n 's/EZTor-\([0-9.]*\)-mac\.zip/\1/p')
+    [ -n "$V" ] || continue
+    MAX=$(printf '%s\n%s\n' "$CUR_VERSION" "$V" | sort -V | tail -1)
+    if [ "$MAX" = "$V" ]; then
+      echo "  → keep $f"
+    else
+      rm -f "$f" "${f}.blockmap"
+      echo "  → removed $f"
+    fi
+  done
 fi
 
 # Prune downloads/: 只保留 fallback(0.3.0) + 各平台最新安装包，防止旧版本无限累积。
@@ -189,6 +202,7 @@ echo "  Pruning downloads/ (keep 0.3.0 fallback + latest)..."
 DL_DIR="$SERVER_DIR/.next/standalone/public/downloads"
 if [ -d "$DL_DIR" ]; then
   cd "$DL_DIR"
+  # exe/apk 按版本保留最新 + 0.3.0 兜底
   for ext in exe apk; do
     LATEST=$(ls -1 *."$ext" 2>/dev/null | sed -n 's/.*-\([0-9.]*\)\.'$ext'$/\1 &/p' | sort -V -k1 | tail -1 | awk '{print $2}')
     for f in *."$ext"; do
@@ -199,6 +213,18 @@ if [ -d "$DL_DIR" ]; then
       esac
     done
   done
+  # macOS dmg：同版本有两个架构（x64 + arm64），按版本去重，保留最新版本的全部架构。
+  # 注意不能用 ext=dmg 通用循环——那个正则会漏掉 -arm64.dmg 结尾的文件而误删。
+  DMG_LATEST=$(ls -1 *.dmg 2>/dev/null | sed -E 's/.*-([0-9.]*)(-arm64)?\.dmg$/\1 &/' | sort -V -k1 | tail -1 | awk '{print $1}')
+  if [ -n "$DMG_LATEST" ]; then
+    for f in *.dmg; do
+      [ -e "$f" ] || continue
+      case "$f" in
+        *-0.3.0.dmg | *-"$DMG_LATEST"*.dmg) echo "  → keep $f" ;;
+        *) rm -f "$f"; echo "  → removed $f" ;;
+      esac
+    done
+  fi
   cd "$SERVER_DIR"
 fi
 

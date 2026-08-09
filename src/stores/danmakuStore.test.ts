@@ -218,6 +218,11 @@ describe('danmakuStore - localStorage migration', () => {
     await vi.waitFor(() => {
       expect(useDanmakuStore.getState().showDanmaku).toBe(true)
     })
+    // reload 恢复：showDanmaku=true 时 status 应同步为 active，避免
+    // "弹幕在飘但按钮显示开启"的状态不一致（登录/退出登录刷新场景）
+    await vi.waitFor(() => {
+      expect(useDanmakuStore.getState().status).toBe('active')
+    })
   })
 
   it('defaults to false when no storage', async () => {

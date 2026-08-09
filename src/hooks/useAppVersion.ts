@@ -15,6 +15,10 @@ export type AppVersionState = {
   windowsInstaller: string | null
   /** 最新安卓 APK 路径（下载页用） */
   androidApk: string | null
+  /** 最新 Mac Intel (x64) dmg 路径（下载页用） */
+  macInstaller: string | null
+  /** 最新 Mac Apple Silicon (arm64) dmg 路径（下载页用） */
+  macArm64Installer: string | null
 }
 
 const INITIAL: AppVersionState = {
@@ -25,6 +29,8 @@ const INITIAL: AppVersionState = {
   hasUpdate: null,
   windowsInstaller: null,
   androidApk: null,
+  macInstaller: null,
+  macArm64Installer: null,
 }
 
 /**
@@ -59,6 +65,12 @@ export function useAppVersion(): AppVersionState {
             : null,
           androidApk: data.platforms?.android?.latestInstaller
             ? `/downloads/${data.platforms.android.latestInstaller}`
+            : null,
+          macInstaller: data.platforms?.mac?.installers?.find((f: string) => f.endsWith('.dmg') && !f.includes('arm64'))
+            ? `/downloads/${data.platforms.mac.installers.find((f: string) => f.endsWith('.dmg') && !f.includes('arm64'))}`
+            : null,
+          macArm64Installer: data.platforms?.mac?.installers?.find((f: string) => f.endsWith('.dmg') && f.includes('arm64'))
+            ? `/downloads/${data.platforms.mac.installers.find((f: string) => f.endsWith('.dmg') && f.includes('arm64'))}`
             : null,
         }))
       })

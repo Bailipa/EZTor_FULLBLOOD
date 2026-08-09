@@ -456,6 +456,11 @@ ipcMain.on('danmaku-settings-apply', (_event, key, value) => {
   }
 })
 ipcMain.on('open-app', () => showMainWindow())
+// 托盘面板"退出"：与菜单退出一致（isQuitting 置位 → before-quit 关弹幕层 → 完全退出）
+ipcMain.on('app-quit', () => {
+  isQuitting = true
+  app.quit()
+})
 
 function buildMenu() {
   const template = [

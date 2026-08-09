@@ -8,13 +8,13 @@ const VERSION_RE = /(\d+)\.(\d+)\.(\d+)/
 const INSTALLER_RE = /\.(exe|apk|dmg|AppImage|deb|zip)$/i
 
 // 安装包扩展名（小写，含点，与 path.extname() 输出一致）→ 平台（应用内按平台对照，避免跨平台版本误报）
-const PLATFORM_BY_EXT: Record<string, 'android' | 'desktop'> = {
+const PLATFORM_BY_EXT: Record<string, 'android' | 'desktop' | 'mac' | 'linux'> = {
   '.apk': 'android',
   '.exe': 'desktop',
-  '.dmg': 'desktop',
-  '.appimage': 'desktop',
-  '.deb': 'desktop',
-  '.zip': 'desktop',
+  '.dmg': 'mac',
+  '.appimage': 'linux',
+  '.deb': 'linux',
+  '.zip': 'mac',
 }
 
 function findDownloadsDir(): string | null {
@@ -33,6 +33,8 @@ function findDownloadsDir(): string | null {
 }
 
 type Ver = [number, number, number]
+
+type PlatformKey = 'android' | 'desktop' | 'mac' | 'linux'
 
 function parseVersion(s: string): Ver | null {
   const m = VERSION_RE.exec(s)
@@ -61,7 +63,7 @@ export async function GET() {
   const files = readdirSync(dir).filter((f) => INSTALLER_RE.test(f))
   const entries = files
     .map((f) => ({ file: f, version: parseVersion(f), platform: PLATFORM_BY_EXT[path.extname(f).toLowerCase()] }))
-    .filter((e): e is { file: string; version: Ver; platform: 'android' | 'desktop' } => e.version !== null && Boolean(e.platform))
+    .filter((e): e is { file: string; version: Ver; platform: PlatformKey } => e.version !== null && Boolean(e.platform))
 
   let latest: { version: Ver; file: string } | null = null
   for (const e of entries) {
@@ -70,11 +72,14 @@ export async function GET() {
     }
   }
 
-  const platforms: Record<'android' | 'desktop', { latestVersion: string | null; latestInstaller: string | null; installers: string[] }> = {
+  const platformKeys = ['android', 'desktop', 'mac', 'linux'] as const
+  const platforms: Record<PlatformKey, { latestVersion: string | null; latestInstaller: string | null; installers: string[] }> = {
     android: { latestVersion: null, latestInstaller: null, installers: [] },
     desktop: { latestVersion: null, latestInstaller: null, installers: [] },
+    mac: { latestVersion: null, latestInstaller: null, installers: [] },
+    linux: { latestVersion: null, latestInstaller: null, installers: [] },
   }
-  for (const p of Object.keys(platforms) as ('android' | 'desktop')[]) {
+  for (const p of platformKeys) {
     const list = entries.filter((e) => e.platform === p)
     if (list.length === 0) continue
     let lp: { version: Ver; file: string } | null = null
