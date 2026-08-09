@@ -1286,54 +1286,61 @@ export default function DictationPage() {
             </Card>
           </div>
         ) : (
-          /* 成绩结算页面 */
-          <Card className="border-2 border-primary/20 shadow-md">
-            <CardContent className="p-12 flex flex-col items-center text-center space-y-6">
-              <div className="w-24 h-24 rounded-full bg-primary/10 flex items-center justify-center mb-4">
-                <CheckCircle2 className="w-12 h-12 text-primary" />
-              </div>
-              <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-foreground break-words">{getEncouragementText().emoji} {getEncouragementText().text}</h2>
-              <div className="space-y-2">
-                <p className="text-2xl sm:text-3xl md:text-4xl font-black text-primary">
-                  {Math.round((score.correct / words.length) * 100)}{' '}
-                  <span className="text-2xl text-muted-foreground font-medium">分</span>
-                </p>
-                <p className="text-gray-500 dark:text-muted-foreground">
-                  共测试 {totalWordsTested} 个单词，答对 {score.correct} 个。
-                </p>
-                <p className="text-gray-500 dark:text-muted-foreground">
-                  用时 {getElapsedTime()}
-                </p>
-              </div>
+          /* 成绩结算页面：内容可能超高（分数+图表+错题列表+按钮）。
+             外层可滚动保证错题列表可查看；按钮区 sticky 底部始终可见，
+             避免"全对没有再来一组"（按钮被推到视口外）的问题 */
+          <div className="flex-1 min-h-0 flex flex-col" style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}>
+            <div className="flex-1 min-h-0 overflow-y-auto">
+              <Card className="border-2 border-primary/20 shadow-md">
+                <CardContent className="p-6 md:p-8 flex flex-col items-center text-center space-y-5">
+                  <div className="w-24 h-24 rounded-full bg-primary/10 flex items-center justify-center mb-2">
+                    <CheckCircle2 className="w-12 h-12 text-primary" />
+                  </div>
+                  <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-foreground break-words">{getEncouragementText().emoji} {getEncouragementText().text}</h2>
+                  <div className="space-y-2">
+                    <p className="text-2xl sm:text-3xl md:text-4xl font-black text-primary">
+                      {Math.round((score.correct / words.length) * 100)}{' '}
+                      <span className="text-2xl text-muted-foreground font-medium">分</span>
+                    </p>
+                    <p className="text-gray-500 dark:text-muted-foreground">
+                      共测试 {totalWordsTested} 个单词，答对 {score.correct} 个。
+                    </p>
+                    <p className="text-gray-500 dark:text-muted-foreground">
+                      用时 {getElapsedTime()}
+                    </p>
+                  </div>
 
-              <DictationResultCharts
-                correct={score.correct}
-                total={totalWordsTested || words.length}
-                mistakes={mistakes}
-                elapsedLabel={getElapsedTime()}
-              />
+                  <DictationResultCharts
+                    correct={score.correct}
+                    total={totalWordsTested || words.length}
+                    mistakes={mistakes}
+                    elapsedLabel={getElapsedTime()}
+                  />
+                </CardContent>
+              </Card>
+            </div>
 
-              <div className="flex flex-wrap gap-4 pt-8 w-full max-w-md justify-center">
-                <Button
-                  variant="outline"
-                  className="h-12"
-                  onClick={() => (window.location.href = '/')}
-                >
-                  返回首页
+            {/* 操作按钮：sticky 底部，始终可见（再来一组/重测错题） */}
+            <div className="shrink-0 border-t border-border/60 bg-background/95 backdrop-blur px-4 py-4 flex flex-wrap gap-4 w-full max-w-md mx-auto justify-center">
+              <Button
+                variant="outline"
+                className="h-12"
+                onClick={() => (window.location.href = '/')}
+              >
+                返回首页
+              </Button>
+              {mistakes.length > 0 && (
+                <Button variant="destructive" className="h-12 gap-1" onClick={startRetest}>
+                  <RefreshCw className="w-4 h-4 flex-shrink-0" /> 重测错题 ({mistakes.length})
+                  <kbd className="ml-0.5 px-1 py-0.5 text-[10px] font-mono leading-none border rounded bg-white/20">R</kbd>
                 </Button>
-                {mistakes.length > 0 && (
-                  <Button variant="destructive" className="h-12 gap-1" onClick={startRetest}>
-                    <RefreshCw className="w-4 h-4 flex-shrink-0" /> 重测错题 ({mistakes.length})
-                    <kbd className="ml-0.5 px-1 py-0.5 text-[10px] font-mono leading-none border rounded bg-white/20">R</kbd>
-                  </Button>
-                )}
-                <Button className="h-12 gap-1" onClick={restartQuiz}>
-                  <RefreshCw className="w-4 h-4 flex-shrink-0" /> 新的一组
-                  <kbd className="ml-0.5 px-1 py-0.5 text-[10px] font-mono leading-none border rounded bg-white/20">Enter</kbd>
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
+              )}
+              <Button className="h-12 gap-1" onClick={restartQuiz}>
+                <RefreshCw className="w-4 h-4 flex-shrink-0" /> 新的一组
+                <kbd className="ml-0.5 px-1 py-0.5 text-[10px] font-mono leading-none border rounded bg-white/20">Enter</kbd>
+              </Button>
+            </div>
+          </div>
         )}
         </div>
       </main>

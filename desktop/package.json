@@ -1,6 +1,6 @@
 {
   "name": "eztor-desktop",
-  "version": "0.11.3",
+  "version": "0.11.4",
   "description": "EZTor 桌面套壳应用（含全局弹幕悬浮窗）",
   "private": true,
   "main": "main.js",
