@@ -296,27 +296,42 @@ export default function MePage() {
                 <ChevronRight className="w-4 h-4 text-muted-foreground" />
               </Link>
 
-              {/* 应用内：加载中不显示；有更新→"更新软件"；已最新→"已是最新版"；浏览器→"下载应用" */}
-              {appVer.mounted && appVer.isApp && appVer.hasUpdate === null ? null : (
-                appVer.mounted && appVer.isApp && appVer.hasUpdate === false ? (
-                  <div className="flex items-center justify-between p-4 opacity-60">
-                    <span className="flex items-center gap-3">
-                      <MonitorDown className="w-5 h-5 text-muted-foreground" />
-                      <span className="font-medium">已是最新版</span>
+              {/* 版本信息：App 内显示已装版本 + 更新状态；浏览器显示当前 web 版本（点进下载页） */}
+              {appVer.mounted && appVer.isApp && appVer.hasUpdate === false ? (
+                <div className="flex items-center justify-between p-4">
+                  <span className="flex items-center gap-3">
+                    <MonitorDown className="w-5 h-5 text-muted-foreground" />
+                    <span className="font-medium">当前版本</span>
+                  </span>
+                  <span className="text-sm font-mono tabular-nums text-muted-foreground">
+                    v{appVer.installedVersion ?? '?'}
+                  </span>
+                </div>
+              ) : (
+                <Link
+                  href="/download"
+                  className="flex items-center justify-between p-4 hover:bg-muted/50 transition-colors"
+                >
+                  <span className="flex items-center gap-3">
+                    <MonitorDown className="w-5 h-5 text-muted-foreground" />
+                    <span className="font-medium">
+                      {appVer.mounted && appVer.isApp ? '发现新版本' : '当前版本'}
                     </span>
-                  </div>
-                ) : (
-                  <Link
-                    href="/download"
-                    className="flex items-center justify-between p-4 hover:bg-muted/50 transition-colors"
-                  >
-                    <span className="flex items-center gap-3">
-                      <MonitorDown className="w-5 h-5 text-muted-foreground" />
-                      <span className="font-medium">{appVer.mounted && appVer.isApp ? '更新软件' : '下载应用'}</span>
+                  </span>
+                  <span className="flex items-center gap-2">
+                    <span className="text-sm font-mono tabular-nums text-muted-foreground">
+                      {appVer.mounted && appVer.isApp
+                        ? `v${appVer.installedVersion ?? '?'}`
+                        : `v${appVer.latestVersion ?? '?'}`}
                     </span>
+                    {appVer.mounted && appVer.isApp && appVer.hasUpdate === true && appVer.latestVersion && (
+                      <span className="text-xs text-amber-600 dark:text-amber-400">
+                        → v{appVer.latestVersion}
+                      </span>
+                    )}
                     <ChevronRight className="w-4 h-4 text-muted-foreground" />
-                  </Link>
-                )
+                  </span>
+                </Link>
               )}
             </CardContent>
           </Card>

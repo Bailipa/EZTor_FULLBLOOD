@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Copy, Check, Calendar, Link2, Clock } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import { copyToClipboard } from '@/lib/share'
+import { shareText } from '@/lib/share'
 
 interface ShareCodeDisplayProps {
   code: string
@@ -30,9 +30,10 @@ export function ShareCodeDisplay({
   const [copied, setCopied] = useState(false)
 
   const handleCopy = useCallback(async () => {
-    const ok = await copyToClipboard(code)
-    if (!ok) {
-      if (process.env.NODE_ENV === 'development') console.error('Failed to copy code:')
+    // 优先分享面板（安卓 App 内可分享到微信/QQ），网页端降级复制
+    const result = await shareText(code)
+    if (result === 'failed') {
+      if (process.env.NODE_ENV === 'development') console.error('Failed to share/copy code:')
       return
     }
     setCopied(true)

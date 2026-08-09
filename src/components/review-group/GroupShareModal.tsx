@@ -28,7 +28,7 @@ import {
   Link2,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import { copyToClipboard } from '@/lib/share'
+import { shareText } from '@/lib/share'
 
 interface ReviewGroup {
   id: string
@@ -153,12 +153,13 @@ export function GroupShareModal({ groupId, isOpen, onClose }: GroupShareModalPro
   const handleCopyCode = async () => {
     if (!shareData?.code) return
 
-    const ok = await copyToClipboard(shareData.code)
-    setCopied(ok)
-    if (ok) {
+    // 优先分享面板（安卓 App 内可分享到微信/QQ），网页端降级复制
+    const result = await shareText(shareData.code)
+    setCopied(result !== 'failed')
+    if (result !== 'failed') {
       setTimeout(() => setCopied(false), 2000)
     } else if (process.env.NODE_ENV === 'development') {
-      console.error('Failed to copy')
+      console.error('Failed to share/copy')
     }
   }
 

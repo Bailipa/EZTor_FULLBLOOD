@@ -6,7 +6,7 @@ import { Dialog, DialogContent, DialogTitle, DialogDescription } from '@/compone
 import { toPng } from 'html-to-image'
 import { Share2, Copy, Download, Loader2, Zap, Trophy, Flame, BookOpen } from 'lucide-react'
 import { toast } from 'sonner'
-import { shareOrCopy, copyToClipboard } from '@/lib/share'
+import { shareOrCopy, shareText } from '@/lib/share'
 
 interface ShareProfileData {
   nickname: string
@@ -114,10 +114,11 @@ export function SharePopover({ open, onOpenChange, userId, autoCloseSeconds = 0 
 
   const handleCopyLink = async () => {
     setCountdown(null)
-    const ok = await copyToClipboard(`${getShareText()}\n${getShareUrl()}`)
-    if (ok) {
+    // 优先分享面板（安卓 App 内可分享到微信/QQ），网页端降级复制
+    const result = await shareText(`${getShareText()}\n${getShareUrl()}`)
+    if (result === 'shared' || result === 'copied') {
       await reportShare()
-      toast.success('已复制到剪贴板')
+      toast.success(result === 'copied' ? '已复制到剪贴板' : '分享成功！')
     } else {
       toast.error('复制失败，请手动复制')
     }

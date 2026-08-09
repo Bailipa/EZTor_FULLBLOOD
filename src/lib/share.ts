@@ -6,6 +6,15 @@ export interface SharePayload {
   url?: string
 }
 
+/** 安卓原生分享桥：WebView 里 addJavascriptInterface(new ShareBridge(), "AndroidShare") 注入 */
+declare global {
+  interface Window {
+    AndroidShare?: {
+      share: (text: string) => void
+    }
+  }
+}
+
 function isAbortError(err: unknown): boolean {
   return err instanceof DOMException && err.name === 'AbortError'
 }
@@ -48,7 +57,43 @@ export async function copyToClipboard(text: string): Promise<boolean> {
 }
 
 /**
- * 优先走系统分享面板（Web Share API）。返回 'shared' | 'copied' | 'cancelled' | 'failed'。
+ * 调起原生分享面板（安卓 App 内）。返回是否已调起（调起即视为成功，由系统面板完成分享）。
+ */
+function nativeShare(text: string): boolean {
+  if (typeof window !== 'undefined' && window.AndroidShare?.share) {
+    window.AndroidShare.share(text)
+    return true
+  }
+  return false
+}
+
+/**
+ * 分享一段文本：优先安卓原生分享面板（微信/QQ 可选）→ 其次 Web Share API → 复制降级。
+ * 返回 'shared' | 'copied' | 'cancelled' | 'failed'。
+ * 适用于"分享密钥 / 分享链接"等纯文本场景。
+ */
+export async function shareText(
+  text: string,
+): Promise<'shared' | 'copied' | 'cancelled' | 'failed'> {
+  if (nativeShare(text)) return 'shared'
+
+  if (typeof navigator !== 'undefined' && navigator.share) {
+    try {
+      await navigator.share({ text })
+      return 'shared'
+    } catch (err) {
+      if (isAbortError(err)) return 'cancelled'
+      // 其余错误降级复制
+    }
+  }
+
+  const ok = await copyToClipboard(text)
+  return ok ? 'copied' : 'failed'
+}
+
+/**
+ * 优先走系统分享面板（Web Share API），安卓 App 内走原生分享桥。
+ * 返回 'shared' | 'copied' | 'cancelled' | 'failed'。
  * 在 Android 内置浏览器等无 Web Share / 无 clipboard API 的环境下，
  * 自动降级为兼容复制（execCommand 兜底），保证"外联分享"可用。
  */
@@ -56,6 +101,9 @@ export async function shareOrCopy(
   payload: SharePayload,
   copyFallback: string,
 ): Promise<'shared' | 'copied' | 'cancelled' | 'failed'> {
+  const text = [payload.text, payload.url].filter(Boolean).join('\n')
+  if (nativeShare(text)) return 'shared'
+
   if (typeof navigator !== 'undefined' && navigator.share) {
     const canShare =
       typeof navigator.canShare !== 'function' || navigator.canShare(payload as SharePayload)

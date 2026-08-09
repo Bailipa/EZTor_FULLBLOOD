@@ -205,6 +205,10 @@ public class MainActivity extends Activity {
         // 网页端弹幕按钮通过该桥启停原生全局悬浮层（唯一弹幕入口）
         webView.addJavascriptInterface(new DanmakuBridge(), "AndroidDanmaku");
 
+        // 网页端分享通过该桥调起系统分享面板（微信/QQ 等），
+        // 替代 WebView 里不可靠的 navigator.share（Web Share API）。
+        webView.addJavascriptInterface(new ShareBridge(), "AndroidShare");
+
         // 下载处理：WebView 默认不处理下载，点 APK/安装包链接会直接无响应。
         // 用系统 DownloadManager 接管，并带上 WebView 的 dl_pass cookie（否则会被下载门禁 307 拦下）。
         webView.setDownloadListener((url, userAgent, contentDisposition, mimetype, contentLength) -> {
@@ -255,6 +259,25 @@ public class MainActivity extends Activity {
         @android.webkit.JavascriptInterface
         public boolean isActive() {
             return DanmakuService.ACTIVE;
+        }
+    }
+
+    /** 网页端分享桥：用系统分享面板（微信/QQ/短信等）分享文本，
+     *  替代 WebView 中不可靠的 navigator.share（Web Share API）。 */
+    private class ShareBridge {
+        @android.webkit.JavascriptInterface
+        public void share(String text) {
+            runOnUiThread(() -> {
+                if (isFinishing() || isDestroyed()) return;
+                try {
+                    Intent intent = new Intent(Intent.ACTION_SEND);
+                    intent.setType("text/plain");
+                    intent.putExtra(Intent.EXTRA_TEXT, text);
+                    startActivity(Intent.createChooser(intent, "分享到"));
+                } catch (Exception ignored) {
+                    // 无可用分享目标时静默失败，网页端自行降级复制
+                }
+            });
         }
     }
 
