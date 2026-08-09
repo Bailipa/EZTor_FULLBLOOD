@@ -50,6 +50,20 @@ model AuditLog {
   @@index([userId])
 }
 
+model DownloadRecord {
+  id        String   @id @default(cuid())
+  platform  String
+  fileName  String
+  version   String?
+  ipAddress String?
+  userAgent String?
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+  @@index([fileName])
+  @@index([platform])
+}
+
 model DailyStats {
   id              String   @id @default(cuid())
   date            DateTime @unique

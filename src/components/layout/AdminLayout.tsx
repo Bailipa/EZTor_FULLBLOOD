@@ -3,11 +3,12 @@
 import { ReactNode } from 'react'
 import AppSidebar from './AppSidebar'
 import AdminMobileNavBar from './AdminMobileNavBar'
-import { BarChart3, MessageSquare, Users, Languages, BookOpen, Database, ExternalLink, Zap } from 'lucide-react'
+import { BarChart3, MessageSquare, Users, Languages, BookOpen, Database, ExternalLink, Zap, Download } from 'lucide-react'
 import type { SidebarNavItem, SidebarBottomItem } from './AppSidebar'
 
 const adminNavItems: SidebarNavItem[] = [
   { href: '/analytics', label: '数据分析', icon: BarChart3 },
+  { href: '/admin/downloads', label: '下载与在线', icon: Download },
   { href: '/admin/gamification', label: '学力管理', icon: Zap },
   { href: '/admin/chat', label: '聊天管理', icon: MessageSquare },
   { href: '/users', label: '用户管理', icon: Users },

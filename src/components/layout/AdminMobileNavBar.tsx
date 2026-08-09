@@ -2,13 +2,14 @@
 
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
-import { BarChart3, Users, Zap, BookOpen, MoreHorizontal } from 'lucide-react'
+import { BarChart3, Users, Zap, BookOpen, Download, MoreHorizontal } from 'lucide-react'
 import type { SidebarNavItem } from './AppSidebar'
 
 const adminNavItems: SidebarNavItem[] = [
   { href: '/analytics', label: '数据', icon: BarChart3 },
   { href: '/users', label: '用户', icon: Users },
   { href: '/admin/gamification', label: '学力', icon: Zap },
+  { href: '/admin/downloads', label: '下载', icon: Download },
   { href: '/public-words', label: '词库', icon: BookOpen },
   { href: '/admin/more', label: '更多', icon: MoreHorizontal },
 ]

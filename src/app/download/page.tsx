@@ -6,7 +6,6 @@ import AppLayout from '@/components/layout/AppLayout'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
-import { Input } from '@/components/ui/input'
 import { Switch } from '@/components/ui/switch'
 import { useAppVersion } from '@/hooks/useAppVersion'
 import { useAppUpdate } from '@/hooks/useAppUpdate'
@@ -17,25 +16,19 @@ import {
   Download,
   Check,
   FileCode2,
-  Lock,
   Loader2,
-  FlaskConical,
   Apple,
 } from 'lucide-react'
 
-// 兜底：/api/version 未返回时先用 0.3.0 路径（版本源统一后由接口动态决定）
-const FALLBACK_WIN_INSTALLER = '/downloads/EZTor-Setup-0.3.0.exe'
-const FALLBACK_ANDROID_APK = '/downloads/eztor-0.3.0.apk'
-const FALLBACK_MAC_INSTALLER = '/downloads/EZTor-0.11.1.dmg'
-const FALLBACK_MAC_ARM64_INSTALLER = '/downloads/EZTor-0.11.1-arm64.dmg'
+// 兜底：/api/version 未返回时先用最新安装包路径（版本源统一后由接口动态决定）
+const FALLBACK_WIN_INSTALLER = '/downloads/EZTor-Setup-1.11.5.exe'
+const FALLBACK_ANDROID_APK = '/downloads/eztor-1.11.5.apk'
+const FALLBACK_MAC_INSTALLER = '/downloads/EZTor-1.11.5.dmg'
+const FALLBACK_MAC_ARM64_INSTALLER = '/downloads/EZTor-1.11.5-arm64.dmg'
 
 export default function DownloadPage() {
   const appVer = useAppVersion()
   const appUpdate = useAppUpdate()
-  const [password, setPassword] = useState('')
-  const [unlocked, setUnlocked] = useState(false)
-  const [checking, setChecking] = useState(false)
-  const [error, setError] = useState('')
   // 自动下载更新开关（桌面端；主进程持久化）
   const [autoDownload, setAutoDownload] = useState(false)
 
@@ -53,28 +46,6 @@ export default function DownloadPage() {
   const androidApk = appVer.androidApk ?? FALLBACK_ANDROID_APK
   const macInstaller = appVer.macInstaller ?? FALLBACK_MAC_INSTALLER
   const macArm64Installer = appVer.macArm64Installer ?? FALLBACK_MAC_ARM64_INSTALLER
-
-  const handleUnlock = async () => {
-    setChecking(true)
-    try {
-      const res = await fetch('/api/download/unlock', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ password }),
-      })
-      const data = await res.json()
-      if (data.success) {
-        setUnlocked(true)
-        setError('')
-      } else {
-        setError(data.error || '下载密码错误，请重试')
-      }
-    } catch {
-      setError('网络错误，请重试')
-    } finally {
-      setChecking(false)
-    }
-  }
 
   return (
     <AppLayout>
@@ -97,47 +68,7 @@ export default function DownloadPage() {
             )}
           </header>
 
-          {!unlocked ? (
-            /* 密码门禁 */
-            <Card>
-              <CardContent className="p-6 space-y-5">
-                <div className="flex items-center gap-3">
-                  <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-amber-500/10 text-amber-500">
-                    <FlaskConical className="w-6 h-6" />
-                  </div>
-                  <div>
-                    <h2 className="text-lg font-semibold">软件下载功能测试中</h2>
-                    <p className="text-sm text-muted-foreground">
-                      安装包目前仅面向内测用户，输入下载密码后开放下载。
-                    </p>
-                  </div>
-                </div>
-
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">下载密码</label>
-                  <div className="flex gap-2">
-                    <Input
-                      type="password"
-                      value={password}
-                      onChange={(e) => {
-                        setPassword(e.target.value)
-                        setError('')
-                      }}
-                      onKeyDown={(e) => e.key === 'Enter' && handleUnlock()}
-                      placeholder="请输入下载密码"
-                      className="flex-1"
-                    />
-                    <Button onClick={handleUnlock} disabled={checking || !password} className="gap-1.5">
-                      {checking ? <Loader2 className="w-4 h-4 animate-spin" /> : <Lock className="w-4 h-4" />}
-                      解锁下载
-                    </Button>
-                  </div>
-                  {error && <p className="text-sm text-red-500">{error}</p>}
-                </div>
-              </CardContent>
-            </Card>
-          ) : (
-            <>
+          <>
               {/* Windows */}
               <Card>
                 <CardContent className="p-5 space-y-4">
@@ -270,7 +201,6 @@ export default function DownloadPage() {
                 </CardContent>
               </Card>
             </>
-          )}
 
           {/* 网页版 */}
           <Card>

@@ -12,7 +12,10 @@ import {
   getOnlineLimit,
   kickUser,
   isKicked,
+  detectPlatform,
+  getOnlineByPlatform,
 } from '@/lib/onlineTracker'
+import { isInstallerFile } from '@/lib/downloadClassify'
 
 const OPTIONAL_AUTH_PATHS = [
   '/',
@@ -28,7 +31,7 @@ const OPTIONAL_AUTH_PATHS = [
   '/api/danmaku',
 ]
 
-const PUBLIC_PATHS = ['/site-config.json', '/auth/signin', '/api/auth', '/api/captcha', '/api/health', '/api/auth/xiaoying', '/flywheel-preview.html', '/share', '/api/share-profile', '/download', '/manifest.webmanifest', '/danmaku-overlay.html', '/api/download/unlock', '/api/version', '/api/debug', '/updates']
+const PUBLIC_PATHS = ['/site-config.json', '/auth/signin', '/api/auth', '/api/captcha', '/api/health', '/api/auth/xiaoying', '/flywheel-preview.html', '/share', '/api/share-profile', '/download', '/manifest.webmanifest', '/danmaku-overlay.html', '/api/version', '/api/debug', '/updates', '/api/downloads/record']
 
 const ADMIN_PATHS = [
   '/analytics',
@@ -42,6 +45,8 @@ const ADMIN_PATHS = [
   '/api/public-words',
   '/api/translation-records',
   '/api/config',
+  '/api/admin/downloads',
+  '/api/admin/online',
 ]
 
 function isPathMatch(pathname: string, paths: string[]): boolean {
@@ -66,6 +71,29 @@ function baseHeaders(res: NextResponse): NextResponse {
 
 const KICK_MESSAGE = '当前服务器资源紧张，监测到您五分钟没有操作，判定为挂机，如需使用请尝试重新登录'
 
+/** 解析请求路径中的文件名（下载/更新目录） */
+function fileNameFromPath(pathname: string): string {
+  return decodeURIComponent(pathname.split('/').pop() || '')
+}
+
+/** fire-and-forget 记录一次下载（内部调用，不阻塞下载响应） */
+function recordDownload(request: NextRequest, fileName: string) {
+  try {
+    if (!isInstallerFile(fileName)) return
+    const url = new URL('/api/downloads/record', request.url)
+    fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ fileName }),
+      keepalive: true,
+    }).catch(() => {
+      // 记录失败不影响下载
+    })
+  } catch {
+    // ignore
+  }
+}
+
 export default async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
   const isApi = pathname.startsWith('/api/')
@@ -87,11 +115,16 @@ export default async function middleware(request: NextRequest) {
 
   // --- PUBLIC_PATHS: always pass through (but still track + set/clear cookie) ---
   if (isPathMatch(pathname, PUBLIC_PATHS)) {
+    // 自动更新安装包下载（/updates/* 下的 exe/zip 等）
+    if (pathname.startsWith('/updates/')) {
+      recordDownload(request, fileNameFromPath(pathname))
+    }
+
     const res = NextResponse.next()
     baseHeaders(res)
 
     const wasActive = wasRecentlyActive(ip)
-    recordActivity(ip)
+    recordActivity(ip, { platform: detectPlatform(request.headers.get('user-agent')) })
 
     if (isOverLimit()) {
       if (!wasActive) {
@@ -107,16 +140,11 @@ export default async function middleware(request: NextRequest) {
     return res
   }
 
-  // --- 下载门禁：/downloads/* 需携带解锁 cookie（密码 bailipa6）---
+  // --- 下载：开放下载（无需密码），强制附件下载 ---
   if (pathname.startsWith('/downloads/')) {
-    const dlPass = request.cookies.get('dl_pass')?.value
-    const expected = Buffer.from(process.env.DOWNLOAD_PASSWORD || 'bailipa6').toString('base64')
-    if (dlPass !== expected) {
-      // 返回 403 而非 307 重定向：重定向会把 /download 的 HTML 页面喂给浏览器，
-      // Safari 等浏览器会把它保存成"空包"（.dmg/.exe 里装的是 HTML）并提示
-      // "file wasn't available on this site"。403 让浏览器明确拒绝，不产生空文件。
-      return new NextResponse('未解锁下载，请先在 /download 输入密码', { status: 403 })
-    }
+    // 记录安装包下载（dmg/exe/apk/zip 等）
+    recordDownload(request, fileNameFromPath(pathname))
+
     const res = NextResponse.next()
     baseHeaders(res)
     // 强制附件下载：Safari 对 .dmg + application/octet-stream + nosniff 会按"内联打开"
@@ -154,6 +182,17 @@ export default async function middleware(request: NextRequest) {
   const token = await getToken({ req: request })
   const userId = token?.sub
   const username = token?.name as string | undefined
+  const platform = detectPlatform(request.headers.get('user-agent'))
+
+  // --- 在线名单接口：由 middleware 直接响应（activityMap 驻留于此 bundle，route handler 读不到） ---
+  if (pathname === '/api/admin/online') {
+    const res = NextResponse.json({ success: true, data: getOnlineByPlatform() })
+    baseHeaders(res)
+    if (!token?.isAdmin) {
+      return NextResponse.json({ success: false, error: '需要管理员权限' }, { status: 403 })
+    }
+    return res
+  }
 
   // DEBUG: 临时调试日志 - 记录所有认证失败的情况
   if (!token && !isPathMatch(pathname, PUBLIC_PATHS) && !isPathMatch(pathname, OPTIONAL_AUTH_PATHS)) {
@@ -173,7 +212,7 @@ export default async function middleware(request: NextRequest) {
 
   // --- Admin backdoor: always allow, always active, never kicked ---
   if (isAdmin(username)) {
-    recordActivity(ip)
+    recordActivity(ip, { platform, userId, username })
     const res = NextResponse.next()
     baseHeaders(res)
     res.cookies.delete('online_limit')
@@ -197,7 +236,7 @@ export default async function middleware(request: NextRequest) {
 
   // --- Online limit check ---
   const wasActive = wasRecentlyActive(ip)
-  recordActivity(ip)
+  recordActivity(ip, { platform, userId, username })
 
   if (!wasActive && isOverLimit()) {
     if (userId) {
