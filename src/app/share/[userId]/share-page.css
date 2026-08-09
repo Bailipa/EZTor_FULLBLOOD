@@ -199,6 +199,8 @@
   font-size: 1.5rem;
   font-weight: 700;
   color: #fff;
+  overflow-wrap: break-word;
+  word-break: break-all;
   text-shadow:
     0 0 7px #fff,
     0 0 10px #fff,

@@ -148,7 +148,7 @@ function ResultCard({
       />
       <CardContent className="space-y-2 p-4">
         <div className="flex flex-wrap items-center gap-3">
-          <span className="text-xl font-semibold text-foreground">{item.word}</span>
+          <span className="text-xl font-semibold text-foreground min-w-0 break-all">{item.word}</span>
           {item.phonetic && (
             <span className="font-mono text-sm text-muted-foreground">[{item.phonetic}]</span>
           )}

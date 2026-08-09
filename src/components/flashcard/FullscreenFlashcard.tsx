@@ -190,7 +190,7 @@ export function FullscreenFlashcard({ onInteraction }: { onInteraction?: () => v
           <Card className="w-full max-w-md mx-auto shadow-lg">
             <CardContent className="p-6">
               <div className="flex items-center justify-center gap-3 w-full mb-4">
-                <h2 className="text-4xl font-bold text-foreground tracking-wide text-center break-words">
+                <h2 className="text-4xl font-bold text-foreground tracking-wide text-center min-w-0 break-all">
                   {currentWord.word}
                 </h2>
                 <Button

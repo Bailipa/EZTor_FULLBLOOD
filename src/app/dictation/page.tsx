@@ -945,11 +945,11 @@ export default function DictationPage() {
                                       htmlFor={`word-${wordObj.word}`}
                                       className="text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer flex-1 flex flex-col gap-1.5"
                                     >
-                                      <div className="flex items-center">
-                                        <span className="font-bold text-gray-900 dark:text-gray-100">
+                                      <div className="flex items-center min-w-0">
+                                        <span className="font-bold text-gray-900 dark:text-gray-100 min-w-0 break-all">
                                           {wordObj.word}
                                         </span>
-                                        <span className="text-gray-500 dark:text-gray-400 ml-2 line-clamp-1">
+                                        <span className="text-gray-500 dark:text-gray-400 ml-2 line-clamp-1 min-w-0">
                                           {wordObj.translation}
                                         </span>
                                       </div>

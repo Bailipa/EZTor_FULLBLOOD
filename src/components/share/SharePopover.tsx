@@ -185,6 +185,8 @@ export function SharePopover({ open, onOpenChange, userId, autoCloseSeconds = 0 
           font-size: 1.2rem;
           font-weight: 700;
           color: #fff;
+          overflow-wrap: break-word;
+          word-break: break-all;
           text-shadow: 0 0 7px #fff, 0 0 10px #fff, 0 0 21px #fff, 0 0 42px #ff00ff, 0 0 82px #ff00ff;
         }
         .share-stat-card {

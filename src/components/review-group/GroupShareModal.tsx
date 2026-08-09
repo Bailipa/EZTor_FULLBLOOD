@@ -258,7 +258,7 @@ export function GroupShareModal({ groupId, isOpen, onClose }: GroupShareModalPro
               <CardContent className="p-4">
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
-                    <h3 className="font-medium text-sm sm:text-base">{group.name}</h3>
+                    <h3 className="font-medium text-sm sm:text-base min-w-0 break-words">{group.name}</h3>
                     <Badge variant="secondary">
                       <BookOpen className="size-3 mr-1" />
                       {group._count?.ReviewGroupWord || 0} 词

@@ -363,7 +363,7 @@ export function FlashcardWidget() {
                     →
                   </Button>
                   <div className="flex items-center justify-center gap-3 w-full">
-                    <h2 className="text-4xl font-bold text-gray-900 dark:text-gray-100 tracking-wide text-center break-words">
+                    <h2 className="text-4xl font-bold text-gray-900 dark:text-gray-100 tracking-wide text-center min-w-0 break-all">
                       {currentWord.word}
                     </h2>
                     <Button

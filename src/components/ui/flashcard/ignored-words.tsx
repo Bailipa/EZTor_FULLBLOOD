@@ -85,8 +85,8 @@ export function IgnoredWords({ open, onOpenChange }: IgnoredWordsProps) {
               <Card key={word.word}>
                 <CardContent className="p-4">
                   <div className="flex justify-between items-start">
-                    <div>
-                      <h3 className="font-bold text-lg">{word.word}</h3>
+                    <div className="min-w-0">
+                      <h3 className="font-bold text-lg break-all">{word.word}</h3>
                       {word.phonetic && (
                         <p className="text-sm text-muted-foreground font-mono">[{word.phonetic}]</p>
                       )}

@@ -497,7 +497,7 @@ export function TranslateOnlyCard() {
                       {isCopied ? '已复制' : '复制'}
                     </Button>
                   </div>
-                  <p className="text-sm text-gray-800 dark:text-gray-200 whitespace-pre-wrap">
+                  <p className="text-sm text-gray-800 dark:text-gray-200 whitespace-pre-wrap break-words">
                     {result}
                   </p>
                 </div>
