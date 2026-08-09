@@ -56,6 +56,18 @@ export function useAppVersion(): AppVersionState {
           platform && data.platforms?.[platform]?.latestVersion
             ? data.platforms[platform].latestVersion
             : data.latestVersion ?? null
+        // 选择最高版本（而非按字母序第一个）：installers 按文件名排序，
+        // 1.11.5.dmg 排在 1.13.0.dmg 前，find() 会挑到旧包。按版本号取最大。
+        const versionOf = (f: string): string => /(\d+\.\d+\.\d+)/.exec(f)?.[1] ?? ''
+        const macDmgs = data.platforms?.mac?.installers ?? []
+        const pickLatestDmg = (arm64: boolean): string | null => {
+          const candidates = macDmgs.filter((f: string) => f.endsWith('.dmg') && f.includes('arm64') === arm64)
+          let best: string | null = null
+          for (const f of candidates) {
+            if (!best || compareVersions(versionOf(f), versionOf(best)) > 0) best = f
+          }
+          return best
+        }
         setState((s) => ({
           ...s,
           latestVersion: latest,
@@ -66,12 +78,8 @@ export function useAppVersion(): AppVersionState {
           androidApk: data.platforms?.android?.latestInstaller
             ? `/downloads/${data.platforms.android.latestInstaller}`
             : null,
-          macInstaller: data.platforms?.mac?.installers?.find((f: string) => f.endsWith('.dmg') && !f.includes('arm64'))
-            ? `/downloads/${data.platforms.mac.installers.find((f: string) => f.endsWith('.dmg') && !f.includes('arm64'))}`
-            : null,
-          macArm64Installer: data.platforms?.mac?.installers?.find((f: string) => f.endsWith('.dmg') && f.includes('arm64'))
-            ? `/downloads/${data.platforms.mac.installers.find((f: string) => f.endsWith('.dmg') && f.includes('arm64'))}`
-            : null,
+          macInstaller: pickLatestDmg(false) ? `/downloads/${pickLatestDmg(false)}` : null,
+          macArm64Installer: pickLatestDmg(true) ? `/downloads/${pickLatestDmg(true)}` : null,
         }))
       })
       .catch(() => setState((s) => ({ ...s, hasUpdate: false })))

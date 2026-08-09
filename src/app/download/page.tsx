@@ -21,10 +21,10 @@ import {
 } from 'lucide-react'
 
 // 兜底：/api/version 未返回时先用最新安装包路径（版本源统一后由接口动态决定）
-const FALLBACK_WIN_INSTALLER = '/downloads/EZTor-Setup-1.11.5.exe'
-const FALLBACK_ANDROID_APK = '/downloads/eztor-1.11.5.apk'
-const FALLBACK_MAC_INSTALLER = '/downloads/EZTor-1.11.5.dmg'
-const FALLBACK_MAC_ARM64_INSTALLER = '/downloads/EZTor-1.11.5-arm64.dmg'
+const FALLBACK_WIN_INSTALLER = '/downloads/EZTor-Setup-1.13.0.exe'
+const FALLBACK_ANDROID_APK = '/downloads/eztor-1.13.0.apk'
+const FALLBACK_MAC_INSTALLER = '/downloads/EZTor-1.13.0.dmg'
+const FALLBACK_MAC_ARM64_INSTALLER = '/downloads/EZTor-1.13.0-arm64.dmg'
 
 export default function DownloadPage() {
   const appVer = useAppVersion()
