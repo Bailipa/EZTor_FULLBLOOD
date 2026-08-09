@@ -99,9 +99,24 @@ export function SharePopover({ open, onOpenChange, userId, autoCloseSeconds = 0 
     setSharing(true)
     const text = getShareText()
     const url = getShareUrl()
+    // 生成卡片图，随分享一起发出（外联图文卡片；失败则退回纯文本）
+    let imageDataUrl: string | null = null
+    if (cardRef.current) {
+      try {
+        imageDataUrl = await toPng(cardRef.current, {
+          quality: 1.0,
+          pixelRatio: 2,
+          backgroundColor: '#0a0a0a',
+          skipFonts: true,
+        })
+      } catch {
+        imageDataUrl = null
+      }
+    }
     const result = await shareOrCopy(
       { title: 'EZTor 学习战报', text, url },
       `${text}\n${url}`,
+      imageDataUrl,
     )
     if (result === 'shared' || result === 'copied') {
       await reportShare()

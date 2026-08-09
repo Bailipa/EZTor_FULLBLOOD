@@ -31,6 +31,8 @@ import android.widget.Toast;
 
 import android.util.Log;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -262,11 +264,60 @@ public class MainActivity extends Activity {
         }
     }
 
-    /** 网页端分享桥：用系统分享面板（微信/QQ/短信等）分享文本，
+    /** 网页端分享桥：用系统分享面板（微信/QQ/短信等）分享文本或图片+文本，
      *  替代 WebView 中不可靠的 navigator.share（Web Share API）。 */
     private class ShareBridge {
         @android.webkit.JavascriptInterface
         public void share(String text) {
+            shareTextOnly(text);
+        }
+
+        /** base64Image：data:image/png;base64,... 或纯 base64 */
+        @android.webkit.JavascriptInterface
+        public void shareWithImage(String text, String base64Image) {
+            if (isFinishing() || isDestroyed()) return;
+            try {
+                Uri imageUri = writeShareImage(base64Image);
+                runOnUiThread(() -> {
+                    try {
+                        Intent intent = new Intent(Intent.ACTION_SEND);
+                        intent.setType("image/png");
+                        intent.putExtra(Intent.EXTRA_TEXT, text);
+                        intent.putExtra(Intent.EXTRA_STREAM, imageUri);
+                        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                        startActivity(Intent.createChooser(intent, "分享到"));
+                    } catch (Exception ignored) {
+                        // 带图分享失败（如图片 URI 问题）→ 降级纯文本
+                        shareTextOnly(text);
+                    }
+                });
+            } catch (Exception e) {
+                Log.w("EZTor", "shareWithImage failed, fallback to text: " + e);
+                shareTextOnly(text);
+            }
+        }
+
+        /** 把 base64 图片写入 cacheDir/eztor-share/share_<ts>.png，返回 content:// URI */
+        private Uri writeShareImage(String base64Image) throws Exception {
+            String data = base64Image;
+            int comma = data.indexOf(',');
+            if (comma >= 0) data = data.substring(comma + 1); // 去掉 data:image/png;base64, 前缀
+            byte[] bytes = android.util.Base64.decode(data, android.util.Base64.DEFAULT);
+
+            File dir = new File(getCacheDir(), "eztor-share");
+            if (!dir.exists()) dir.mkdirs();
+            File file = new File(dir, "share_" + System.currentTimeMillis() + ".png");
+            java.io.FileOutputStream fos = new java.io.FileOutputStream(file);
+            try {
+                fos.write(bytes);
+            } finally {
+                fos.close();
+            }
+            String authority = getPackageName() + ".fileprovider";
+            return Uri.parse("content://" + authority + "/eztor-share/" + file.getName());
+        }
+
+        private void shareTextOnly(String text) {
             runOnUiThread(() -> {
                 if (isFinishing() || isDestroyed()) return;
                 try {
