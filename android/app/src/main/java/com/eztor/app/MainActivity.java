@@ -314,7 +314,9 @@ public class MainActivity extends Activity {
                 fos.close();
             }
             String authority = getPackageName() + ".fileprovider";
-            return Uri.parse("content://" + authority + "/eztor-share/" + file.getName());
+            // 第一段必须与 res/xml/file_paths.xml 里 <cache-path> 的 name 一致（eztor_share），
+            // ShareFileProvider.resolve 按 name 查根目录。
+            return Uri.parse("content://" + authority + "/eztor_share/" + file.getName());
         }
 
         private void shareTextOnly(String text) {

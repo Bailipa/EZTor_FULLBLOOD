@@ -94,25 +94,33 @@ export function SharePopover({ open, onOpenChange, userId, autoCloseSeconds = 0 
     return `我在EZTor背了${profile.totalWords}个单词，学力${profile.combatPower}，本月学区排名第${profile.zoneRank}名！你能超过我吗？`
   }
 
+  // 生成导出图片：临时加 .share-export（关动画/实色文字）后截图，避免
+  // html-to-image 不支持 background-clip:text、动画被随机帧截到导致图损坏。
+  const captureCard = async (): Promise<string | null> => {
+    const card = cardRef.current
+    if (!card) return null
+    card.classList.add('share-export')
+    try {
+      return await toPng(card, {
+        quality: 1.0,
+        pixelRatio: 2,
+        backgroundColor: '#0a0a0a',
+        skipFonts: true,
+      })
+    } catch {
+      return null
+    } finally {
+      card.classList.remove('share-export')
+    }
+  }
+
   const handleShare = async () => {
     setCountdown(null)
     setSharing(true)
     const text = getShareText()
     const url = getShareUrl()
     // 生成卡片图，随分享一起发出（外联图文卡片；失败则退回纯文本）
-    let imageDataUrl: string | null = null
-    if (cardRef.current) {
-      try {
-        imageDataUrl = await toPng(cardRef.current, {
-          quality: 1.0,
-          pixelRatio: 2,
-          backgroundColor: '#0a0a0a',
-          skipFonts: true,
-        })
-      } catch {
-        imageDataUrl = null
-      }
-    }
+    const imageDataUrl = await captureCard()
     const result = await shareOrCopy(
       { title: 'EZTor 学习战报', text, url },
       `${text}\n${url}`,
@@ -141,23 +149,17 @@ export function SharePopover({ open, onOpenChange, userId, autoCloseSeconds = 0 
 
   const handleSaveImage = async () => {
     setCountdown(null)
-    if (!cardRef.current) return
-    try {
-      const dataUrl = await toPng(cardRef.current, {
-        quality: 1.0,
-        pixelRatio: 2,
-        backgroundColor: '#0a0a0a',
-        skipFonts: true,
-      })
-      const link = document.createElement('a')
-      link.download = `eztor-share-${new Date().toISOString().split('T')[0]}.png`
-      link.href = dataUrl
-      link.click()
-      await reportShare()
-      toast.success('图片已保存')
-    } catch {
+    const dataUrl = await captureCard()
+    if (!dataUrl) {
       toast.error('保存失败')
+      return
     }
+    const link = document.createElement('a')
+    link.download = `eztor-share-${new Date().toISOString().split('T')[0]}.png`
+    link.href = dataUrl
+    link.click()
+    await reportShare()
+    toast.success('图片已保存')
   }
 
   return (
@@ -284,6 +286,26 @@ export function SharePopover({ open, onOpenChange, userId, autoCloseSeconds = 0 
         @keyframes sb2{0%{transform:translate(0,0) rotate(0deg);opacity:0}10%{opacity:.6}50%{transform:translate(-40px,50px) rotate(-540deg);opacity:.4}90%{opacity:.6}100%{transform:translate(0,0) rotate(-1080deg);opacity:0}}
         @keyframes sb3{0%{transform:translate(0,0) rotate(0deg);opacity:0}10%{opacity:.5}50%{transform:translate(60px,40px) rotate(450deg);opacity:.4}90%{opacity:.5}100%{transform:translate(0,0) rotate(900deg);opacity:0}}
         @keyframes sb4{0%{transform:translate(0,0) rotate(0deg);opacity:0}10%{opacity:.6}50%{transform:translate(-50px,-40px) rotate(-360deg);opacity:.4}90%{opacity:.6}100%{transform:translate(0,0) rotate(-720deg);opacity:0}}
+
+        /* 导出模式：html-to-image 不支持 background-clip:text（GitHub#317），
+           且 CSS 动画会被随机帧截图。导出时给卡片根节点加 .share-export，
+           关闭动画、把渐变文字改为实色、隐藏 glitch 伪元素，保证图片可读稳定。 */
+        .share-export { animation: none !important; transform: none !important; }
+        .share-export .share-glitch-title {
+          background: linear-gradient(90deg, #f97316, #ef4444) !important;
+          -webkit-text-fill-color: #fff !important;
+          color: #fff !important;
+          animation: none !important;
+        }
+        .share-export .share-glitch-title::before,
+        .share-export .share-glitch-title::after { content: none !important; }
+        .share-export .share-stat-num {
+          background: none !important;
+          -webkit-text-fill-color: #fff !important;
+          color: #fff !important;
+          animation: none !important;
+        }
+        .share-export .share-stat-icon { animation: none !important; }
       `}</style>
 
       <Dialog open={open} onOpenChange={onOpenChange}>

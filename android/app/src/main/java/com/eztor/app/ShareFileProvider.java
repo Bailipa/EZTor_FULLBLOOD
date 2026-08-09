@@ -46,11 +46,14 @@ public class ShareFileProvider extends ContentProvider {
                 if (type != XmlPullParser.START_TAG) continue;
                 String name = parser.getName();
                 if ("cache-path".equals(name)) {
+                    // path = 磁盘目录（eztor-share/），name = URI 路径第一段（eztor_share）
                     String path = parser.getAttributeValue(null, "path");
+                    String uriName = parser.getAttributeValue(null, "name");
                     if (path == null) path = "";
+                    if (uriName == null) uriName = path;
                     File root = new File(context.getCacheDir(), path);
                     if (!root.exists()) root.mkdirs();
-                    roots.put(path, root);
+                    roots.put(uriName, root);
                 }
             }
         } catch (Exception e) {
@@ -59,10 +62,20 @@ public class ShareFileProvider extends ContentProvider {
     }
 
     private File resolve(Uri uri) {
-        String[] parts = uri.getPath().split("/", 2);
-        File root = parts.length > 0 ? roots.get(parts[0]) : null;
+        // 标准 FileProvider 语义：URI 路径第一段 = file_paths 里的 name，
+        // 其余段拼到该 name 对应的根目录下。示例：
+        //   content://com.eztor.app.fileprovider/eztor_share/share_123.png
+        //   → roots["eztor_share"] + "share_123.png"
+        java.util.List<String> segments = uri.getPathSegments();
+        if (segments.size() < 2) return null;
+        File root = roots.get(segments.get(0));
         if (root == null) return null;
-        File file = new File(root, parts.length > 1 ? parts[1] : "");
+        StringBuilder relative = new StringBuilder();
+        for (int i = 1; i < segments.size(); i++) {
+            if (i > 1) relative.append('/');
+            relative.append(segments.get(i));
+        }
+        File file = new File(root, relative.toString());
         // 只允许分享 cacheDir 下的文件，防路径穿越
         try {
             if (!file.getCanonicalPath().startsWith(root.getCanonicalPath())) return null;
