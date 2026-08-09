@@ -1,8 +1,9 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useRef, useEffect, useCallback } from 'react'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from '@/components/ui/dialog'
+import { toPng } from 'html-to-image'
 import { Share2, Copy, Loader2, Zap, Trophy, Flame, BookOpen } from 'lucide-react'
 import { toast } from 'sonner'
 import { shareOrCopy, shareText } from '@/lib/share'
@@ -23,6 +24,7 @@ interface SharePopoverProps {
 }
 
 export function SharePopover({ open, onOpenChange, userId, autoCloseSeconds = 0 }: SharePopoverProps) {
+  const cardRef = useRef<HTMLDivElement>(null)
   const [profile, setProfile] = useState<ShareProfileData | null>(null)
   const [loading, setLoading] = useState(false)
   const [sharing, setSharing] = useState(false)
@@ -92,15 +94,37 @@ export function SharePopover({ open, onOpenChange, userId, autoCloseSeconds = 0 
     return `我在EZTor背了${profile.totalWords}个单词，学力${profile.combatPower}，本月学区排名第${profile.zoneRank}名！你能超过我吗？`
   }
 
-  // 分享链接卡片：只发 URL（含 OG 元数据的 /share/[userId] 页面）。
-  // 接收方（微信/QQ/Telegram/Discord）拿到链接后自动抓取 og:title/og:description/og:image
-  // 渲染成卡片——业界标准做法，不再把生成的 PNG 当文件发出去。
+  // 生成导出图片：临时加 .share-export（关动画/实色文字）后截图，避免
+  // html-to-image 不支持 background-clip:text、动画被随机帧截到导致图损坏。
+  // pixelRatio=1：380x227 → base64 约 40-80KB，远低于安卓 JS 桥 Binder 限制。
+  const captureCard = async (): Promise<string | null> => {
+    const card = cardRef.current
+    if (!card) return null
+    card.classList.add('share-export')
+    try {
+      return await toPng(card, {
+        quality: 1.0,
+        pixelRatio: 1,
+        backgroundColor: '#0a0a0a',
+        skipFonts: true,
+      })
+    } catch {
+      return null
+    } finally {
+      card.classList.remove('share-export')
+    }
+  }
+
+  // 分享图片 + 链接：生成战绩卡图片随文字/链接一起发出。
+  // 安卓走原生桥（EXTRA_STREAM 图片文件 + EXTRA_TEXT 链接，无需存储权限）；
+  // 网页走 navigator.share({files})；均失败则降级复制。
   const handleShare = async () => {
     setCountdown(null)
     setSharing(true)
     const text = getShareText()
     const url = getShareUrl()
-    const result = await shareOrCopy({ title: 'EZTor 学习战报', text, url }, `${text}\n${url}`)
+    const imageDataUrl = await captureCard()
+    const result = await shareOrCopy({ title: 'EZTor 学习战报', text, url }, `${text}\n${url}`, imageDataUrl)
     if (result === 'shared' || result === 'copied') {
       await reportShare()
       toast.success(result === 'copied' ? '已复制分享内容，可粘贴给好友' : '分享成功！')
@@ -248,6 +272,26 @@ export function SharePopover({ open, onOpenChange, userId, autoCloseSeconds = 0 
         @keyframes sb2{0%{transform:translate(0,0) rotate(0deg);opacity:0}10%{opacity:.6}50%{transform:translate(-40px,50px) rotate(-540deg);opacity:.4}90%{opacity:.6}100%{transform:translate(0,0) rotate(-1080deg);opacity:0}}
         @keyframes sb3{0%{transform:translate(0,0) rotate(0deg);opacity:0}10%{opacity:.5}50%{transform:translate(60px,40px) rotate(450deg);opacity:.4}90%{opacity:.5}100%{transform:translate(0,0) rotate(900deg);opacity:0}}
         @keyframes sb4{0%{transform:translate(0,0) rotate(0deg);opacity:0}10%{opacity:.6}50%{transform:translate(-50px,-40px) rotate(-360deg);opacity:.4}90%{opacity:.6}100%{transform:translate(0,0) rotate(-720deg);opacity:0}}
+
+        /* 导出模式：html-to-image 不支持 background-clip:text（GitHub#317），
+           且 CSS 动画会被随机帧截图。导出时给卡片根节点加 .share-export，
+           关闭动画、把渐变文字改为实色、隐藏 glitch 伪元素，保证图片可读稳定。 */
+        .share-export { animation: none !important; transform: none !important; }
+        .share-export .share-glitch-title {
+          background: linear-gradient(90deg, #f97316, #ef4444) !important;
+          -webkit-text-fill-color: #fff !important;
+          color: #fff !important;
+          animation: none !important;
+        }
+        .share-export .share-glitch-title::before,
+        .share-export .share-glitch-title::after { content: none !important; }
+        .share-export .share-stat-num {
+          background: none !important;
+          -webkit-text-fill-color: #fff !important;
+          color: #fff !important;
+          animation: none !important;
+        }
+        .share-export .share-stat-icon { animation: none !important; }
       `}</style>
 
       <Dialog open={open} onOpenChange={onOpenChange}>
@@ -292,8 +336,9 @@ export function SharePopover({ open, onOpenChange, userId, autoCloseSeconds = 0 
             </div>
           ) : profile ? (
             <div className="space-y-4 relative z-10">
-              {/* Card preview（静态预览，不再截图导出） */}
+              {/* Card preview（静态预览 + 截图导出源） */}
               <div
+                ref={cardRef}
                 className="w-full p-5 rounded-2xl share-card-enter relative"
                 style={{
                   fontFamily: 'system-ui, -apple-system, sans-serif',
