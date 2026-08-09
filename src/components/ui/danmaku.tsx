@@ -10,7 +10,7 @@ interface DanmakuItem {
   translation: string
   top: number
   delay: number
-  /** 基础时长（25-40s），实际速度 = baseDuration × playbackRate（speed 实时调速） */
+  /** 基础时长（固定 32s，各弹幕速度一致），实际速度 = baseDuration × playbackRate（speed 实时调速） */
   baseDuration: number
 }
 
@@ -238,7 +238,9 @@ export function Danmaku({ isVisible }: { isVisible: boolean }) {
           }
 
           const top = 10 + trackIndex * (80 / TRACK_COUNT)
-          const baseDuration = 25 + Math.random() * 15
+          // 固定时长让所有弹幕速度一致（原 25-40s 随机造成"有的快有的慢"）。
+          // 入场错开靠 delay（0.3-3s）+ 轨道占用来保证，不靠时长随机。
+          const baseDuration = 32
           // 轨道占用 ≈ 弹幕自身穿越右缘的时间（参考 weizhenye/danmaku 的
           // (comment.width + stage.width) / speed 模型）。0.4×时长过度保守：
           // 轨道常年"忙碌"导致新弹幕被推迟、到达不均匀，单词量滑块的密度映射被稀释。

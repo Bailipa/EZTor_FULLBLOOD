@@ -7,7 +7,7 @@
 <style>
   /* 规则与 src/components/ui/danmaku.tsx 保持一致（故意分歧：不用 backdrop-filter）：
      拉取 /api/danmaku?limit=ceil(3*amount)，轮询间隔 12s/speed（速度慢→间隔长，
-     在屏数量不因调速累积）；10 轨道；时长 25-40s；随机延迟 0.3-3s；
+     在屏数量不因调速累积）；10 轨道；固定时长 32s（各弹幕速度一致）；随机延迟 0.3-3s；
      胶囊样式（圆角+半透明背景+1px 边框+自适应明暗）；词+释义(截 40 字)、无音标；上限 100。
      说明：悬浮层 WebView 页面本身透明，backdrop-filter 只能模糊页面内部（透明=没东西可糊），
      在安卓悬浮层上无效还白耗 GPU，故用更高不透明度背景替代桌面端的毛玻璃效果。
@@ -207,8 +207,9 @@
       }
 
       var top = 10 + trackIndex * (80 / TRACK_COUNT);
-      // 基础时长（25-40s）只算一次；实际速度 = baseDuration × playbackRate（改速度时对在途弹幕即时生效）
-      var baseDuration = 25 + Math.random() * 15;
+      // 固定时长让所有弹幕速度一致（原 25-40s 随机造成"有的快有的慢"，安卓悬浮层最明显）。
+      // 入场错开靠 delay（0.3-3s）+ 轨道占用来保证，不靠时长随机。
+      var baseDuration = 32;
       // 轨道占用 ≈ 弹幕穿越右缘的时间（参考 weizhenye/danmaku 的宽度+屏宽/speed 模型）。
       // 0.4× 过度保守：轨道常年忙碌致新弹幕被推迟、到达不均匀，稀释单词量滑块的密度映射。
       // 0.15× ≈ 3.75-6s"进场+安全间距"，密度由 limit 主导、更可预测。
