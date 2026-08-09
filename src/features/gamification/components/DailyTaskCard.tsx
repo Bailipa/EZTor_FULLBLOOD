@@ -38,6 +38,21 @@ export function DailyTaskCard({ refreshKey = 0, defaultCollapsed = false }: Dail
     if (refreshKey > 0) fetchTasks(true)
   }, [refreshKey])
 
+  // 从默写/其他页面返回或 App 从后台恢复时重新拉取，
+  // 避免 Android WebView bfcache 显示旧的"任务进度"（如卡在 4/20）。
+  useEffect(() => {
+    const handlePageShow = () => fetchTasks(true)
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible') fetchTasks(true)
+    }
+    window.addEventListener('pageshow', handlePageShow)
+    document.addEventListener('visibilitychange', handleVisibilityChange)
+    return () => {
+      window.removeEventListener('pageshow', handlePageShow)
+      document.removeEventListener('visibilitychange', handleVisibilityChange)
+    }
+  }, [])
+
   const completedCount = tasks.filter((t) => t.isCompleted).length
   const flashcardTask = tasks.find((t) => t.taskType === 'FLASHCARD_INTERACT')
 

@@ -507,8 +507,13 @@ export default function DictationPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ word: currentWord.word, isCorrect: correct }),
       })
-      if (!res.ok && process.env.NODE_ENV === 'development') {
-        console.error('Dictation update failed:', res.status, await res.text())
+      if (!res.ok) {
+        const msg = res.status === 401 ? '登录已过期，请重新登录' : '答题记录保存失败，稍后请重试'
+        toast.error(msg)
+        submittedIndicesRef.current.delete(currentIndex)
+        if (process.env.NODE_ENV === 'development') {
+          console.error('Dictation update failed:', res.status, await res.text())
+        }
       }
     } catch (e) {
       if (process.env.NODE_ENV === 'development') console.error('Failed to update stats', e)

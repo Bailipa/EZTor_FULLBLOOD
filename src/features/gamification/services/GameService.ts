@@ -243,16 +243,12 @@ export class GameService {
       }
     }
 
-    const newValue = (existing?.currentValue ?? 0) + value
-    const isCompleted = newValue >= config.targetValue
-
     try {
       await prisma.dailyTaskCompletion.upsert({
         where: { userId_date_taskType: { userId, date: today, taskType } },
         update: {
-          currentValue: newValue,
-          isCompleted,
-          completedAt: isCompleted ? new Date() : null,
+          currentValue: { increment: value },
+          updatedAt: new Date(),
         },
         create: {
           id: randomUUID(),
@@ -260,10 +256,10 @@ export class GameService {
           date: today,
           taskType,
           targetValue: config.targetValue,
-          currentValue: newValue,
-          isCompleted,
+          currentValue: value,
+          isCompleted: value >= config.targetValue,
           powerReward: config.powerReward,
-          completedAt: isCompleted ? new Date() : null,
+          completedAt: value >= config.targetValue ? new Date() : null,
           updatedAt: new Date(),
         },
       })
@@ -280,13 +276,32 @@ export class GameService {
       throw err
     }
 
-    if (isCompleted) {
-      const result = await this.addPower(userId, config.powerReward, `TASK:${taskType}`)
-      return {
-        taskCompleted: true,
-        powerGained: result.powerGained,
-        totalPower: result.totalPower,
-        newlyUnlocked: result.newlyUnlocked,
+    // 用增量后的实际值判定是否达标（并发下 pre-read 可能滞后），
+    // 条件 updateMany 保证"首次达标"只发一次奖励，不会重复发。
+    const after = await prisma.dailyTaskCompletion.findUnique({
+      where: { userId_date_taskType: { userId, date: today, taskType } },
+    })
+    const reached = (after?.currentValue ?? 0) >= config.targetValue
+
+    if (reached) {
+      const marked = await prisma.dailyTaskCompletion.updateMany({
+        where: {
+          userId,
+          date: today,
+          taskType,
+          isCompleted: false,
+          currentValue: { gte: config.targetValue },
+        },
+        data: { isCompleted: true, completedAt: new Date(), updatedAt: new Date() },
+      })
+      if (marked.count > 0) {
+        const result = await this.addPower(userId, config.powerReward, `TASK:${taskType}`)
+        return {
+          taskCompleted: true,
+          powerGained: result.powerGained,
+          totalPower: result.totalPower,
+          newlyUnlocked: result.newlyUnlocked,
+        }
       }
     }
 
@@ -371,6 +386,7 @@ export class GameService {
           currentValue: 1,
           isCompleted: true,
           completedAt: new Date(),
+          updatedAt: new Date(),
         },
         create: {
           id: randomUUID(),
