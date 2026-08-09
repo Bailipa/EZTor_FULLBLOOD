@@ -40,17 +40,5 @@
             android:name=".DanmakuService"
             android:exported="false"
             android:foregroundServiceType="dataSync" />
-
-        <!-- 分享图片：WebView 分享桥把图片写入 cacheDir/eztor-share/ 后，
-             经此 provider 以 content:// URI 分享给系统面板（微信/QQ 等） -->
-        <provider
-            android:name=".ShareFileProvider"
-            android:authorities="${applicationId}.fileprovider"
-            android:exported="false"
-            android:grantUriPermissions="true">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths" />
-        </provider>
     </application>
 </manifest>

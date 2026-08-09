@@ -1,10 +1,9 @@
 'use client'
 
-import { useState, useRef, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from '@/components/ui/dialog'
-import { toPng } from 'html-to-image'
-import { Share2, Copy, Download, Loader2, Zap, Trophy, Flame, BookOpen } from 'lucide-react'
+import { Share2, Copy, Loader2, Zap, Trophy, Flame, BookOpen } from 'lucide-react'
 import { toast } from 'sonner'
 import { shareOrCopy, shareText } from '@/lib/share'
 
@@ -24,7 +23,6 @@ interface SharePopoverProps {
 }
 
 export function SharePopover({ open, onOpenChange, userId, autoCloseSeconds = 0 }: SharePopoverProps) {
-  const cardRef = useRef<HTMLDivElement>(null)
   const [profile, setProfile] = useState<ShareProfileData | null>(null)
   const [loading, setLoading] = useState(false)
   const [sharing, setSharing] = useState(false)
@@ -94,43 +92,20 @@ export function SharePopover({ open, onOpenChange, userId, autoCloseSeconds = 0 
     return `我在EZTor背了${profile.totalWords}个单词，学力${profile.combatPower}，本月学区排名第${profile.zoneRank}名！你能超过我吗？`
   }
 
-  // 生成导出图片：临时加 .share-export（关动画/实色文字）后截图，避免
-  // html-to-image 不支持 background-clip:text、动画被随机帧截到导致图损坏。
-  const captureCard = async (): Promise<string | null> => {
-    const card = cardRef.current
-    if (!card) return null
-    card.classList.add('share-export')
-    try {
-      return await toPng(card, {
-        quality: 1.0,
-        pixelRatio: 2,
-        backgroundColor: '#0a0a0a',
-        skipFonts: true,
-      })
-    } catch {
-      return null
-    } finally {
-      card.classList.remove('share-export')
-    }
-  }
-
+  // 分享链接卡片：只发 URL（含 OG 元数据的 /share/[userId] 页面）。
+  // 接收方（微信/QQ/Telegram/Discord）拿到链接后自动抓取 og:title/og:description/og:image
+  // 渲染成卡片——业界标准做法，不再把生成的 PNG 当文件发出去。
   const handleShare = async () => {
     setCountdown(null)
     setSharing(true)
     const text = getShareText()
     const url = getShareUrl()
-    // 生成卡片图，随分享一起发出（外联图文卡片；失败则退回纯文本）
-    const imageDataUrl = await captureCard()
-    const result = await shareOrCopy(
-      { title: 'EZTor 学习战报', text, url },
-      `${text}\n${url}`,
-      imageDataUrl,
-    )
+    const result = await shareOrCopy({ title: 'EZTor 学习战报', text, url }, `${text}\n${url}`)
     if (result === 'shared' || result === 'copied') {
       await reportShare()
       toast.success(result === 'copied' ? '已复制分享内容，可粘贴给好友' : '分享成功！')
     } else if (result === 'failed') {
-      toast.error('分享失败，请截图或长按复制链接')
+      toast.error('分享失败，请长按复制链接')
     }
     setSharing(false)
   }
@@ -145,21 +120,6 @@ export function SharePopover({ open, onOpenChange, userId, autoCloseSeconds = 0 
     } else {
       toast.error('复制失败，请手动复制')
     }
-  }
-
-  const handleSaveImage = async () => {
-    setCountdown(null)
-    const dataUrl = await captureCard()
-    if (!dataUrl) {
-      toast.error('保存失败')
-      return
-    }
-    const link = document.createElement('a')
-    link.download = `eztor-share-${new Date().toISOString().split('T')[0]}.png`
-    link.href = dataUrl
-    link.click()
-    await reportShare()
-    toast.success('图片已保存')
   }
 
   return (
@@ -286,26 +246,6 @@ export function SharePopover({ open, onOpenChange, userId, autoCloseSeconds = 0 
         @keyframes sb2{0%{transform:translate(0,0) rotate(0deg);opacity:0}10%{opacity:.6}50%{transform:translate(-40px,50px) rotate(-540deg);opacity:.4}90%{opacity:.6}100%{transform:translate(0,0) rotate(-1080deg);opacity:0}}
         @keyframes sb3{0%{transform:translate(0,0) rotate(0deg);opacity:0}10%{opacity:.5}50%{transform:translate(60px,40px) rotate(450deg);opacity:.4}90%{opacity:.5}100%{transform:translate(0,0) rotate(900deg);opacity:0}}
         @keyframes sb4{0%{transform:translate(0,0) rotate(0deg);opacity:0}10%{opacity:.6}50%{transform:translate(-50px,-40px) rotate(-360deg);opacity:.4}90%{opacity:.6}100%{transform:translate(0,0) rotate(-720deg);opacity:0}}
-
-        /* 导出模式：html-to-image 不支持 background-clip:text（GitHub#317），
-           且 CSS 动画会被随机帧截图。导出时给卡片根节点加 .share-export，
-           关闭动画、把渐变文字改为实色、隐藏 glitch 伪元素，保证图片可读稳定。 */
-        .share-export { animation: none !important; transform: none !important; }
-        .share-export .share-glitch-title {
-          background: linear-gradient(90deg, #f97316, #ef4444) !important;
-          -webkit-text-fill-color: #fff !important;
-          color: #fff !important;
-          animation: none !important;
-        }
-        .share-export .share-glitch-title::before,
-        .share-export .share-glitch-title::after { content: none !important; }
-        .share-export .share-stat-num {
-          background: none !important;
-          -webkit-text-fill-color: #fff !important;
-          color: #fff !important;
-          animation: none !important;
-        }
-        .share-export .share-stat-icon { animation: none !important; }
       `}</style>
 
       <Dialog open={open} onOpenChange={onOpenChange}>
@@ -350,9 +290,8 @@ export function SharePopover({ open, onOpenChange, userId, autoCloseSeconds = 0 
             </div>
           ) : profile ? (
             <div className="space-y-4 relative z-10">
-              {/* Card preview */}
+              {/* Card preview（静态预览，不再截图导出） */}
               <div
-                ref={cardRef}
                 className="w-full p-5 rounded-2xl share-card-enter relative"
                 style={{
                   fontFamily: 'system-ui, -apple-system, sans-serif',
@@ -419,24 +358,14 @@ export function SharePopover({ open, onOpenChange, userId, autoCloseSeconds = 0 
                   分享给朋友
                 </Button>
 
-                <div className="grid grid-cols-2 gap-2">
-                  <Button
-                    onClick={handleCopyLink}
-                    variant="outline"
-                    className="gap-1.5 bg-white/5 border-white/10 text-white/80 hover:bg-white/10 hover:text-white"
-                  >
-                    <Copy className="w-3.5 h-3.5" />
-                    复制链接
-                  </Button>
-                  <Button
-                    onClick={handleSaveImage}
-                    variant="outline"
-                    className="gap-1.5 bg-white/5 border-white/10 text-white/80 hover:bg-white/10 hover:text-white"
-                  >
-                    <Download className="w-3.5 h-3.5" />
-                    保存图片
-                  </Button>
-                </div>
+                <Button
+                  onClick={handleCopyLink}
+                  variant="outline"
+                  className="gap-1.5 bg-white/5 border-white/10 text-white/80 hover:bg-white/10 hover:text-white w-full"
+                >
+                  <Copy className="w-3.5 h-3.5" />
+                  复制链接
+                </Button>
               </div>
 
               <p className="text-center text-xs text-white/30">

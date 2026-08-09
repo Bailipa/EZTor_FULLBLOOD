@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<paths>
-    <!-- 分享图片：写入 cacheDir/eztor-share/ 后通过 FileProvider 暴露给系统分享面板 -->
-    <cache-path name="eztor_share" path="eztor-share/" />
-</paths>
