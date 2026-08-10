@@ -22,10 +22,16 @@ echo "[1/6] aapt2 compile resources"
 "$BT/aapt2" compile --dir "$SRC/res" -o "$OUT/compiled/res.zip"
 
 echo "[2/6] aapt2 link (manifest + resources)"
+# 手工构建无 AGP：先把 manifest 里的 ${applicationId} 展开为真实包名
+# （否则 aapt2 原样保留占位符，provider authorities 与运行时 getPackageName()
+#  不匹配，分享图片会报"获取资源失败"）
+LINK_MANIFEST="$OUT/AndroidManifest.xml"
+cp "$SRC/AndroidManifest.xml" "$LINK_MANIFEST"
+sed -i '' 's/${applicationId}/com.eztor.app/g' "$LINK_MANIFEST"
 "$BT/aapt2" link \
   -o "$OUT/base.apk" \
   -I "$PLATFORM" \
-  --manifest "$SRC/AndroidManifest.xml" \
+  --manifest "$LINK_MANIFEST" \
   -R "$OUT/compiled/res.zip" \
   --java "$OUT/gen" \
   -A "$SRC/assets" \
