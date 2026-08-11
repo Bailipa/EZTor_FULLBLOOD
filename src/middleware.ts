@@ -19,7 +19,6 @@ import { isInstallerFile } from '@/lib/downloadClassify'
 
 const OPTIONAL_AUTH_PATHS = [
   '/',
-  '/translate',
   '/me',
   '/api/translate',
   '/api/public-translate',

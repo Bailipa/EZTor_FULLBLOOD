@@ -97,14 +97,42 @@ export async function PUT(
     }
   }
 
-  if (Object.keys(data).length === 0) {
+  // AI 免费标记：写在 User 上（与 UserGameProfile 分开），并记审计
+  let aiFreeChanged = false
+  if (typeof body.isAiFree === 'boolean') {
+    const before = await prisma.user.findUnique({
+      where: { id: profile.userId },
+      select: { isAiFree: true },
+    })
+    if ((before?.isAiFree ?? false) !== body.isAiFree) {
+      await prisma.user.update({
+        where: { id: profile.userId },
+        data: { isAiFree: body.isAiFree },
+      })
+      await prisma.auditLog.create({
+        data: {
+          userId: session.user.id,
+          action: 'ADMIN_EDIT_USER_AI_FREE',
+          entityType: 'User',
+          entityId: profile.userId,
+          oldValue: JSON.stringify({ isAiFree: before?.isAiFree ?? false }),
+          newValue: JSON.stringify({ isAiFree: body.isAiFree }),
+        },
+      })
+      aiFreeChanged = true
+    }
+  }
+
+  if (Object.keys(data).length === 0 && !aiFreeChanged) {
     return NextResponse.json({ success: false, error: '没有要修改的字段' }, { status: 400 })
   }
 
-  await prisma.userGameProfile.update({
-    where: { id: profileId },
-    data,
-  })
+  if (Object.keys(data).length > 0) {
+    await prisma.userGameProfile.update({
+      where: { id: profileId },
+      data,
+    })
+  }
 
   return NextResponse.json({ success: true })
 }

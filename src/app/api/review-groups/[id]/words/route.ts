@@ -24,10 +24,20 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
 
     const body = await req.json()
     const wordIds = body.wordIds
+    const words = body.words
+    const pattern = body.pattern
 
-    if (!wordIds || !Array.isArray(wordIds)) {
+    // 支持三种模式：
+    // - wordIds: 用户生词本里已有的私有 Word 行 id（原有逻辑）
+    // - words: 公共词库的单词原文列表（AI 确认加词用），服务端校验真实性后 mirror 写入
+    // - pattern: {mode, value} 按模式重查公共词库并加入全部匹配（AI"全部加入"用）
+    if (
+      (!wordIds || !Array.isArray(wordIds)) &&
+      (!words || !Array.isArray(words)) &&
+      (!pattern || typeof pattern !== 'object')
+    ) {
       return NextResponse.json(
-        { success: false, error: 'wordIds array is required' },
+        { success: false, error: 'wordIds, words or pattern is required' },
         { status: 400 },
       )
     }
@@ -46,33 +56,139 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
       )
     }
 
-    const validWords = await prisma.word.findMany({
-      where: {
-        id: { in: wordIds },
-        userId: session.user.id,
-      },
-      select: { id: true },
-    })
+    // 模式一：按私有 Word id 链接（原逻辑）
+    if (Array.isArray(wordIds) && wordIds.length > 0) {
+      const validWords = await prisma.word.findMany({
+        where: {
+          id: { in: wordIds },
+          userId: session.user.id,
+        },
+        select: { id: true },
+      })
 
-    const validWordIds = new Set(validWords.map((w) => w.id))
+      const validWordIds = new Set(validWords.map((w) => w.id))
+
+      const existingLinks = await prisma.reviewGroupWord.findMany({
+        where: {
+          reviewGroupId: id,
+          wordId: { in: wordIds },
+        },
+        select: { wordId: true },
+      })
+
+      const existingWordIds = new Set(existingLinks.map((l) => l.wordId))
+
+      const newWordIds = wordIds.filter(
+        (wid: string) => validWordIds.has(wid) && !existingWordIds.has(wid),
+      )
+
+      if (newWordIds.length > 0) {
+        await prisma.reviewGroupWord.createMany({
+          data: newWordIds.map((wordId: string) => ({
+            id: crypto.randomUUID(),
+            reviewGroupId: id,
+            wordId,
+          })),
+        })
+      }
+
+      return NextResponse.json({ success: true, addedCount: newWordIds.length })
+    }
+
+    // 模式二/三：按公共词库原文加词（AI 确认加词用），单次上限 500；
+    // 支持 words 列表 或 pattern {mode, value} 按模式重查全部匹配（"全部加入"用）
+    const MAX_BATCH_TOTAL = 2000
+    const MAX_BATCH_WORDS = 500
+
+    let cleanWords: string[] = []
+    let patternMode = ''
+
+    if (Array.isArray(words) && words.length > 0) {
+      cleanWords = (words as string[])
+        .map((w) => String(w).trim().toLowerCase())
+        .filter((w) => w.length > 0 && w.length <= 500)
+        .slice(0, MAX_BATCH_WORDS)
+    } else if (pattern && typeof pattern === 'object') {
+      const p = pattern as { mode?: string; value?: string }
+      const mode = p.mode
+      const value = String(p.value ?? '').trim().toLowerCase()
+      if (!['ends_with', 'starts_with', 'contains'].includes(mode ?? '') || !value || value.length > 30) {
+        return NextResponse.json({ success: false, error: '无效的搜索模式' }, { status: 400 })
+      }
+      patternMode = mode as string
+      const wordFilter =
+        patternMode === 'ends_with'
+          ? { endsWith: value }
+          : patternMode === 'starts_with'
+            ? { startsWith: value }
+            : { contains: value }
+      const rows = await prisma.publicWord.findMany({
+        where: { word: { ...wordFilter, mode: 'insensitive' } },
+        orderBy: { word: 'asc' },
+        take: MAX_BATCH_TOTAL,
+        select: { word: true },
+      })
+      cleanWords = rows.map((r) => r.word.toLowerCase())
+    }
+
+    if (cleanWords.length === 0) {
+      return NextResponse.json({ success: false, error: '无效的单词列表' }, { status: 400 })
+    }
+
+    const publicWords = await prisma.publicWord.findMany({
+      where: { word: { in: cleanWords, mode: 'insensitive' } },
+      select: { id: true, word: true },
+    })
+    const foundMap = new Map(publicWords.map((p) => [p.word.toLowerCase(), p.id]))
+    const validList = cleanWords.filter((w) => foundMap.has(w))
+    const notFound = patternMode ? [] : cleanWords.filter((w) => !foundMap.has(w))
+
+    if (validList.length === 0) {
+      return NextResponse.json({
+        success: true,
+        addedCount: 0,
+        skippedDuplicates: 0,
+        notFound,
+      })
+    }
+
+    // mirror 模式：为每个公共词 upsert 私有 Word 行（sourceType=PUBLIC，释义字段留 NULL）
+    const privateIds: string[] = []
+    for (const w of validList) {
+      const publicWordId = foundMap.get(w)!
+      const row = await prisma.word
+        .upsert({
+          where: { word_userId: { word: w, userId: session.user.id } },
+          update: { publicWordId, updatedAt: new Date() },
+          create: {
+            id: crypto.randomUUID(),
+            word: w,
+            translation: null,
+            phonetic: null,
+            pos: null,
+            example: null,
+            exampleTranslation: null,
+            userId: session.user.id,
+            sourceType: 'PUBLIC',
+            publicWordId,
+            updatedAt: new Date(),
+          },
+        })
+        .catch(() => null)
+      if (row) privateIds.push(row.id)
+    }
 
     const existingLinks = await prisma.reviewGroupWord.findMany({
-      where: {
-        reviewGroupId: id,
-        wordId: { in: wordIds },
-      },
+      where: { reviewGroupId: id, wordId: { in: privateIds } },
       select: { wordId: true },
     })
-
     const existingWordIds = new Set(existingLinks.map((l) => l.wordId))
+    const toAdd = privateIds.filter((wid) => !existingWordIds.has(wid))
+    const skippedDuplicates = privateIds.length - toAdd.length
 
-    const newWordIds = wordIds.filter(
-      (wid: string) => validWordIds.has(wid) && !existingWordIds.has(wid),
-    )
-
-    if (newWordIds.length > 0) {
+    if (toAdd.length > 0) {
       await prisma.reviewGroupWord.createMany({
-        data: newWordIds.map((wordId: string) => ({
+        data: toAdd.map((wordId: string) => ({
           id: crypto.randomUUID(),
           reviewGroupId: id,
           wordId,
@@ -80,7 +196,12 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
       })
     }
 
-    return NextResponse.json({ success: true, addedCount: newWordIds.length })
+    return NextResponse.json({
+      success: true,
+      addedCount: toAdd.length,
+      skippedDuplicates,
+      notFound,
+    })
   } catch (err: unknown) {
     logger.error({ err }, 'Failed to add words to group:')
     return NextResponse.json({ success: false, error: 'Failed to add words' }, { status: 500 })

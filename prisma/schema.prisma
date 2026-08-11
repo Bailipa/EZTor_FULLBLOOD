@@ -299,6 +299,7 @@ model User {
   password               String
   isAdmin                Boolean                  @default(false)
   isBanned               Boolean                  @default(false)
+  isAiFree               Boolean                  @default(false)
   banReason              String?
   banExpiresAt           DateTime?
   onboardingCompleted    Boolean                  @default(false)

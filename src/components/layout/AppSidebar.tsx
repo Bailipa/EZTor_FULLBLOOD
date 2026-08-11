@@ -5,7 +5,7 @@ import { signOut, useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Button } from '@/components/ui/button'
-import { Home, PenTool, BookOpen, MessageCircle, LogOut, ExternalLink, Trophy, Download } from 'lucide-react'
+import { Home, PenTool, BookOpen, MessageCircle, LogOut, ExternalLink, Trophy, Download, Sparkles } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import { ModeToggle } from '@/components/mode-toggle'
 import { DonationButton } from '@/components/home/DonationModal'
@@ -45,6 +45,7 @@ interface AppSidebarProps {
 
 const DEFAULT_NAV_ITEMS: SidebarNavItem[] = [
   { href: '/', label: '首页', icon: Home, requiresAuth: false },
+  { href: '/ai', label: 'AI询问', icon: Sparkles, requiresAuth: true },
   { href: '/dictation', label: '默写复习', icon: PenTool, requiresAuth: true },
   { href: '/history', label: '生词本', icon: BookOpen, requiresAuth: true },
   { href: '/leaderboard', label: '排行榜', icon: Trophy, requiresAuth: true },

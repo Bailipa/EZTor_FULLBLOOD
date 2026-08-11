@@ -24,9 +24,12 @@ echo "[2/6] Preparing standalone files..."
 rm -rf .next/standalone/.next/static
 rm -rf .next/standalone/public
 cp -r .next/static .next/standalone/.next/static
+# 排除 downloads/updates（安装包动辄数百 MB，体积大且服务器端会从 standalone.bak 恢复 + 只保留最新）
+# 否则历史安装包累积会把部署 tar 撑到 GB 级
 cp -r public .next/standalone/public
+rm -rf .next/standalone/public/downloads .next/standalone/public/updates
 echo "$TIMESTAMP" > .next/standalone/BUILD_ID.txt
-echo "  ✓ Static files, public assets, and BUILD_ID copied"
+echo "  ✓ Static files, public assets, and BUILD_ID copied (downloads/updates excluded)"
 
 echo ""
 echo "[3/6] Creating deployment tarball (excluding .env files)..."

@@ -42,7 +42,7 @@ export async function GET(req: Request) {
       take: limit,
       orderBy: { combatPower: 'desc' },
       include: {
-        User: { select: { username: true } },
+        User: { select: { username: true, isAiFree: true } },
         WarZone: { select: { name: true } },
       },
     }),
@@ -65,6 +65,7 @@ export async function GET(req: Request) {
         id: p.id,
         userId: p.userId,
         username: p.User.username,
+        isAiFree: p.User.isAiFree,
         nickname: p.nickname,
         combatPower: p.combatPower,
         monthlyPower: p.monthlyPower,

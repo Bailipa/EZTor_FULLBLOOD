@@ -2,7 +2,7 @@
 
 import { usePathname, useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { Home, PenTool, Search, User } from 'lucide-react'
+import { Home, PenTool, Sparkles, User } from 'lucide-react'
 import { useSession } from 'next-auth/react'
 
 interface NavItem {
@@ -15,7 +15,7 @@ interface NavItem {
 const navItems: NavItem[] = [
   { href: '/', label: '首页', icon: Home, requiresAuth: false },
   { href: '/dictation', label: '默写', icon: PenTool, requiresAuth: true },
-  { href: '/translate', label: '查词', icon: Search, requiresAuth: false },
+  { href: '/ai', label: 'AI', icon: Sparkles, requiresAuth: true },
   { href: '/me', label: '我的', icon: User, requiresAuth: false },
 ]
 

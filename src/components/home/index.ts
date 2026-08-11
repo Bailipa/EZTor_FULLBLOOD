@@ -1,5 +1,4 @@
 export { WordInputCard } from './WordInputCard'
-export { TranslateOnlyCard } from './TranslateOnlyCard'
 export { ResultsList } from './ResultsList'
 export { HomeHeader } from './HomeHeader'
 export { default as HomeContent } from './HomeContent'

@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Badge } from '@/components/ui/badge'
 import { Checkbox } from '@/components/ui/checkbox'
+import { Switch } from '@/components/ui/switch'
 import { Loader2, Search, Users, Shield, Pencil, Zap, Flame, Trophy, ChevronLeft, ChevronRight, UserPlus, X } from 'lucide-react'
 import { toast } from 'sonner'
 import Link from 'next/link'
@@ -43,6 +44,7 @@ interface UserProfile {
   zoneTitle: string | null
   unlockedFeatures: string[]
   lastActiveDate: string | null
+  isAiFree?: boolean
   createdAt: string
   provider: 'xiaoying' | 'local'
   externalSubject: string | null
@@ -190,6 +192,25 @@ function UsersTab() {
 
   useEffect(() => { setSelectedIds(new Set()) }, [search, zoneFilter, pagination.page])
 
+  const handleToggleAiFree = async (u: UserProfile) => {
+    try {
+      const res = await fetch(`/api/admin/gamification/users/${u.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ isAiFree: !u.isAiFree }),
+      })
+      const data = await res.json()
+      if (data.success) {
+        toast.success(`已${!u.isAiFree ? '开启' : '关闭'} ${u.username} 的 AI 免费`)
+        fetchUsers(pagination.page)
+      } else {
+        toast.error(data.error || '操作失败')
+      }
+    } catch {
+      toast.error('网络错误')
+    }
+  }
+
   const handleSearch = () => {
     setSearch(searchInput)
   }
@@ -281,6 +302,7 @@ function UsersTab() {
                     <th className="text-right py-2 px-2 font-medium">学力</th>
                     <th className="text-left py-2 px-2 font-medium">学区</th>
                     <th className="text-left py-2 px-2 font-medium">称号</th>
+                    <th className="text-center py-2 px-2 font-medium">AI免费</th>
                     <th className="text-right py-2 px-2 font-medium">打卡</th>
                     <th className="text-center py-2 px-2 font-medium">操作</th>
                   </tr>
@@ -328,6 +350,13 @@ function UsersTab() {
                           {u.zoneTitle ? (
                             <Badge variant="outline" className="text-xs">{u.zoneTitle}</Badge>
                           ) : <span className="text-muted-foreground">-</span>}
+                        </td>
+                        <td className="py-2 px-2 text-center">
+                          <Switch
+                            checked={!!u.isAiFree}
+                            onCheckedChange={() => handleToggleAiFree(u)}
+                            aria-label={`切换 ${u.username} 的 AI 免费`}
+                          />
                         </td>
                         <td className="py-2 px-2 text-right">{u.currentStreak}天</td>
                         <td className="py-2 px-2 text-center">

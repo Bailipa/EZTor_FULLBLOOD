@@ -67,6 +67,8 @@ export const TASK_CONFIGS: TaskConfig[] = [
 
 export const SHARE_POWER_REWARD = 15
 
+export const AI_ASK_COST = 10
+
 export const STREAK_POWER_MULTIPLIER = 2
 export const STREAK_POWER_CAP = 30
 

@@ -592,6 +592,39 @@ export class GameService {
     return entries
   }
 
+  /**
+   * 原子条件扣减学力（仅 combatPower，主余额）。count===0 表示余额不足，不产生扣减。
+   * 不扣 monthly/weekly：AI 询问是高频按次消费，要求三字段同时充足会在周初/月初误拒。
+   */
+  async spendPower(userId: string, amount: number): Promise<{ success: boolean; balance: number }> {
+    await this.getOrCreateProfile(userId)
+    const res = await prisma.userGameProfile.updateMany({
+      where: {
+        userId,
+        combatPower: { gte: amount },
+      },
+      data: {
+        combatPower: { decrement: amount },
+      },
+    })
+    if (res.count === 0) {
+      const profile = await prisma.userGameProfile.findUnique({ where: { userId } })
+      return { success: false, balance: profile?.combatPower ?? 0 }
+    }
+    const profile = await prisma.userGameProfile.findUnique({ where: { userId } })
+    return { success: true, balance: profile?.combatPower ?? 0 }
+  }
+
+  /** 失败/额度耗尽时原路退回学力（不走 addPower，避免受每日 cap 截断） */
+  async refundPower(userId: string, amount: number): Promise<void> {
+    await prisma.userGameProfile.updateMany({
+      where: { userId },
+      data: {
+        combatPower: { increment: amount },
+      },
+    })
+  }
+
   async setNickname(
     userId: string,
     nickname: string,
