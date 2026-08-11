@@ -268,6 +268,8 @@ export function AiAssistant() {
   }
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
+    // 输入法组合输入（中文/拼音选词）中的回车用于确认候选词，不应触发发送
+    if (e.nativeEvent.isComposing || e.keyCode === 229) return
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault()
       handleSend()
