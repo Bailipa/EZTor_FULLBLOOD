@@ -69,6 +69,8 @@ export function AiAssistant() {
   const [newGroupName, setNewGroupName] = useState('')
   const [addingWord, setAddingWord] = useState(false)
   const [confirming, setConfirming] = useState<number | null>(null)
+  const [proposalGroupSel, setProposalGroupSel] = useState<Record<string, string>>({})
+  const [proposalNewName, setProposalNewName] = useState<Record<string, string>>({})
   const [concluding, setConcluding] = useState(false)
   const scrollRef = useRef<HTMLDivElement>(null)
 
@@ -303,29 +305,66 @@ export function AiAssistant() {
     const proposal = msg as ProposalMsg
     const args = proposal.args ?? {}
     const words = Array.isArray(args.words) ? (args.words as string[]) : []
-    const groupName = typeof args.groupName === 'string' ? args.groupName : null
-    const groupId = typeof args.groupId === 'string' ? args.groupId : null
+    const suggestedGroupName = typeof args.groupName === 'string' ? args.groupName : null
+    const suggestedGroupId = typeof args.groupId === 'string' ? args.groupId : null
+    // 用户可自定义目标词库（选择器里的选择），否则退回模型建议
+    const userTarget = proposalGroupSel[String(index)]
+    const userNewName = (proposalNewName[String(index)] ?? '').trim()
 
     setConfirming(index)
     try {
-      let targetGroupId = groupId
-      if (!targetGroupId && groupName) {
-        const existing = await fetch('/api/review-groups').then((r) => r.json())
-        const groups = existing.success ? existing.data : []
-        const match = groups.find((g: { id: string; name: string }) => g.name === groupName)
-        if (match) {
-          targetGroupId = match.id
+      let targetGroupId: string | null = null
+      let groupLabel = ''
+
+      if (userTarget && userTarget !== 'none' && userTarget !== 'NEW') {
+        // 用户从现有词库中选择
+        targetGroupId = userTarget
+        groupLabel = groups.find((g) => g.id === userTarget)?.name ?? ''
+      } else if (userTarget === 'NEW') {
+        // 用户要新建词库
+        if (!userNewName) {
+          setMessages((prev) => [...prev, { type: 'fact', text: '请输入新词库名称', ok: false }])
+          return
+        }
+        const created = await fetch('/api/review-groups', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name: userNewName }),
+        }).then((r) => r.json())
+        if (created.success && created.data?.id) {
+          targetGroupId = created.data.id
+          groupLabel = created.data.name
+          setGroups((prev) => [...prev, { id: created.data.id, name: created.data.name }])
         } else {
-          const created = await fetch('/api/review-groups', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ name: groupName }),
-          }).then((r) => r.json())
-          if (created.success && created.data?.id) {
-            targetGroupId = created.data.id
+          setMessages((prev) => [...prev, { type: 'fact', text: `⚠️ ${created.error ?? '创建词库失败'}`, ok: false }])
+          return
+        }
+      } else {
+        // 未自定义 → 用模型建议（groupName 自动建组 / groupId）
+        if (suggestedGroupId) {
+          targetGroupId = suggestedGroupId
+          groupLabel = groups.find((g) => g.id === suggestedGroupId)?.name ?? ''
+        } else if (suggestedGroupName) {
+          const existing = await fetch('/api/review-groups').then((r) => r.json())
+          const gs = existing.success ? existing.data : []
+          const match = gs.find((g: { id: string; name: string }) => g.name === suggestedGroupName)
+          if (match) {
+            targetGroupId = match.id
+            groupLabel = match.name
           } else {
-            setMessages((prev) => [...prev, { type: 'fact', text: `⚠️ ${created.error ?? '创建词库失败'}`, ok: false }])
-            return
+            const created = await fetch('/api/review-groups', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ name: suggestedGroupName }),
+            }).then((r) => r.json())
+            if (created.success && created.data?.id) {
+              targetGroupId = created.data.id
+              groupLabel = created.data.name
+              setGroups((prev) => [...prev, { id: created.data.id, name: created.data.name }])
+            } else {
+              setMessages((prev) => [...prev, { type: 'fact', text: `⚠️ ${created.error ?? '创建词库失败'}`, ok: false }])
+              return
+            }
           }
         }
       }
@@ -367,12 +406,12 @@ export function AiAssistant() {
         }
       }
 
-      const groupLabel = groupName ?? proposal.args.groupId ?? ''
+      const label = groupLabel || suggestedGroupName || ''
       setMessages((prev) => [
         ...prev,
         {
           type: 'fact',
-          text: `✅ 已加入 ${totalAdded} 个单词到词库"${groupLabel}"${totalNotFound.length ? `（${totalNotFound.length} 个不存在已跳过）` : ''}`,
+          text: `✅ 已加入 ${totalAdded} 个单词到词库"${label}"${totalNotFound.length ? `（${totalNotFound.length} 个不存在已跳过）` : ''}`,
           ok: true,
         },
       ])
@@ -582,9 +621,13 @@ export function AiAssistant() {
     if (m.type === 'proposal') {
       const words = m.words ?? []
       const groupName = typeof m.args.groupName === 'string' ? m.args.groupName : null
+      const suggestedGroupId = typeof m.args.groupId === 'string' ? m.args.groupId : null
       const actionLabel = m.action === 'create_group' ? '新建词库' : '加入单词'
-      const confirmKey = `proposal-${i}`
-      void confirmKey
+      const isAddWords = m.action === 'add_words_to_group'
+      // 默认选中模型建议的组；用户可在选择器中改选
+      const selKey = String(i)
+      const defaultSel = suggestedGroupId || (groupName ? (groups.find((g) => g.name === groupName)?.id ?? 'NEW') : 'none')
+      const currentSel = proposalGroupSel[selKey] ?? defaultSel
       return (
         <div key={i} className="flex gap-2">
           <div className="flex items-center justify-center w-8 h-8 rounded-full shrink-0 overflow-hidden">
@@ -601,13 +644,40 @@ export function AiAssistant() {
                 <p className="text-sm text-muted-foreground">
                   {m.action === 'create_group'
                     ? `将新建词库"${groupName ?? ''}"`
-                    : `将 ${words.length} 个单词加入${groupName ? `词库"${groupName}"` : '词库'}`}
+                    : `将 ${words.length} 个单词加入${currentSel !== 'none' && currentSel !== 'NEW' ? `词库"${groups.find((g) => g.id === currentSel)?.name ?? ''}"` : groupName ? `词库"${groupName}"` : '词库'}`}
                   {m.total && m.total > words.length ? `（共匹配 ${m.total} 个，展示 ${words.length} 个）` : ''}
                 </p>
-                {m.action === 'add_words_to_group' && words.length > 0 && (
+                {isAddWords && words.length > 0 && (
                   <div className="text-xs text-muted-foreground line-clamp-2 break-words">
                     {words.slice(0, 10).join('、')}
                     {words.length > 10 ? ` 等 ${words.length} 个` : ''}
+                  </div>
+                )}
+                {isAddWords && (
+                  <div className="space-y-2">
+                    <Select
+                      value={currentSel}
+                      onValueChange={(v) => setProposalGroupSel((prev) => ({ ...prev, [selKey]: v }))}
+                    >
+                      <SelectTrigger className="h-9">
+                        <SelectValue placeholder="选择目标词库" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="none">选择词库…</SelectItem>
+                        {groups.map((g) => (
+                          <SelectItem key={g.id} value={g.id}>{g.name}</SelectItem>
+                        ))}
+                        <SelectItem value="NEW">＋ 新建词库</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    {currentSel === 'NEW' && (
+                      <Input
+                        value={proposalNewName[selKey] ?? ''}
+                        onChange={(e) => setProposalNewName((prev) => ({ ...prev, [selKey]: e.target.value }))}
+                        placeholder="新词库名称"
+                        className="h-9"
+                      />
+                    )}
                   </div>
                 )}
                 <div className="flex gap-2 pt-1 flex-wrap">
