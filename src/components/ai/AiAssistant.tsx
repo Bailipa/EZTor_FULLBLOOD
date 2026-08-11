@@ -197,6 +197,7 @@ export function AiAssistant() {
           const isDelta = data.delta === true
           if (isDelta) {
             // 流式增量：追加到最后一个 assistant 气泡
+            firstTextSeen = true
             setMessages((prev) => {
               const copy = [...prev]
               const last = copy[copy.length - 1]
@@ -211,11 +212,8 @@ export function AiAssistant() {
               return copy
             })
           } else {
-            // 完整文本：覆盖（保证最终一致）
-            if (!firstTextSeen) {
-              setMessages((prev) => [...prev, { role: 'assistant', content: text }])
-              firstTextSeen = true
-            } else {
+            // 完整文本：覆盖（保证最终一致），但不要重复追加（流式已渲染时仅替换）
+            if (firstTextSeen) {
               setMessages((prev) => {
                 const copy = [...prev]
                 const last = copy[copy.length - 1]
@@ -224,6 +222,9 @@ export function AiAssistant() {
                 }
                 return copy
               })
+            } else {
+              setMessages((prev) => [...prev, { role: 'assistant', content: text }])
+              firstTextSeen = true
             }
             if (data.isAiFree === true) setIsAiFree(true)
             if (typeof data.deducted === 'boolean' && data.deducted) {
