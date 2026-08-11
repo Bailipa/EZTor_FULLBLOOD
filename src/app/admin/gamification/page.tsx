@@ -45,6 +45,7 @@ interface UserProfile {
   unlockedFeatures: string[]
   lastActiveDate: string | null
   isAiFree?: boolean
+  aiAskCount?: number
   createdAt: string
   provider: 'xiaoying' | 'local'
   externalSubject: string | null
@@ -303,6 +304,7 @@ function UsersTab() {
                     <th className="text-left py-2 px-2 font-medium">学区</th>
                     <th className="text-left py-2 px-2 font-medium">称号</th>
                     <th className="text-center py-2 px-2 font-medium">AI免费</th>
+                    <th className="text-right py-2 px-2 font-medium">AI次数</th>
                     <th className="text-right py-2 px-2 font-medium">打卡</th>
                     <th className="text-center py-2 px-2 font-medium">操作</th>
                   </tr>
@@ -358,6 +360,7 @@ function UsersTab() {
                             aria-label={`切换 ${u.username} 的 AI 免费`}
                           />
                         </td>
+                        <td className="py-2 px-2 text-right text-xs text-muted-foreground">{u.aiAskCount ?? 0}</td>
                         <td className="py-2 px-2 text-right">{u.currentStreak}天</td>
                         <td className="py-2 px-2 text-center">
                           <div className="flex items-center justify-center gap-1">

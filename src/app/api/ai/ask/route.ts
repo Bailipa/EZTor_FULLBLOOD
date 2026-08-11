@@ -1,4 +1,5 @@
 import { NextRequest } from 'next/server'
+import { randomUUID } from 'crypto'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import prisma from '@/lib/prisma'
@@ -140,6 +141,34 @@ export async function POST(req: NextRequest) {
             newValue: JSON.stringify({ messages: history.length, turns: outcome.turns, deducted, isAiFree }),
           },
         })
+
+        // 提问记录（截断 prompt 防膨胀；每用户只留最近 200 条，超出删最旧）
+        const lastUserMsg = [...history].reverse().find((m) => m.role === 'user')
+        if (lastUserMsg?.content) {
+          const prompt = lastUserMsg.content.length > 300 ? lastUserMsg.content.slice(0, 300) : lastUserMsg.content
+          await prisma.aiAskLog.create({
+            data: {
+              id: randomUUID(),
+              userId,
+              prompt,
+              cost: deducted ? AI_ASK_COST : 0,
+              isAiFree,
+              turns: outcome.turns,
+            },
+          })
+          const PRUNE_KEEP = 200
+          const tooMany = await prisma.aiAskLog.findMany({
+            where: { userId },
+            orderBy: { createdAt: 'desc' },
+            skip: PRUNE_KEEP,
+            select: { id: true },
+          })
+          if (tooMany.length > 0) {
+            await prisma.aiAskLog.deleteMany({
+              where: { id: { in: tooMany.map((r) => r.id) } },
+            })
+          }
+        }
 
         push('done', { success: true })
       } catch (err: unknown) {

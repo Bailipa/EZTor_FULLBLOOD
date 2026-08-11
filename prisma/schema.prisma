@@ -50,6 +50,23 @@ model AuditLog {
   @@index([userId])
 }
 
+model AiAskLog {
+  id        String   @id @default(cuid())
+  userId    String
+  // 用户提问原文（截断保存，避免无限膨胀）
+  prompt    String
+  // 本次使用的学力（0 = AI 免费用户）
+  cost      Int      @default(0)
+  isAiFree  Boolean  @default(false)
+  turns     Int      @default(0)
+  createdAt DateTime @default(now())
+
+  User User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+  @@index([createdAt])
+}
+
 model DownloadRecord {
   id        String   @id @default(cuid())
   platform  String
@@ -317,6 +334,7 @@ model User {
   Word                   Word[]
   ChatMessage            ChatMessage[]
   ChatBan                ChatBan?
+  AiAskLog               AiAskLog[]
   GameProfile            UserGameProfile?
   DailyTaskCompletion    DailyTaskCompletion[]
 }

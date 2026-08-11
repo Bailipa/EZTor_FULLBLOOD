@@ -57,6 +57,16 @@ export async function GET(req: Request) {
     : []
   const identityByUserId = new Map(identities.map((i) => [i.localUserId, i]))
 
+  // AI 询问次数（按用户聚合）
+  const aiCounts = profiles.length
+    ? await prisma.aiAskLog.groupBy({
+        by: ['userId'],
+        where: { userId: { in: profiles.map((p) => p.userId) } },
+        _count: { _all: true },
+      })
+    : []
+  const aiCountMap = new Map(aiCounts.map((c) => [c.userId, c._count._all]))
+
   return NextResponse.json({
     success: true,
     data: profiles.map((p) => {
@@ -66,6 +76,7 @@ export async function GET(req: Request) {
         userId: p.userId,
         username: p.User.username,
         isAiFree: p.User.isAiFree,
+        aiAskCount: aiCountMap.get(p.userId) ?? 0,
         nickname: p.nickname,
         combatPower: p.combatPower,
         monthlyPower: p.monthlyPower,
