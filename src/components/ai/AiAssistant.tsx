@@ -5,6 +5,14 @@ import { useSession } from 'next-auth/react'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
+import { Input } from '@/components/ui/input'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 import { Zap, Sparkles, Send, Loader2, Search, FolderPlus, CheckCircle2, XCircle, Lock, ChevronDown, ChevronUp, Plus, Trash2 } from 'lucide-react'
 import { useLoginPrompt } from '@/components/ui/login-prompt-modal'
 import { aiHistoryKey, AI_HISTORY_MAX_ITEMS } from '@/lib/aiHistoryCache'
@@ -55,6 +63,11 @@ export function AiAssistant() {
   const [balance, setBalance] = useState<number | null>(null)
   const [isAiFree, setIsAiFree] = useState(false)
   const [expandedSearch, setExpandedSearch] = useState<number | null>(null)
+  const [expandedWord, setExpandedWord] = useState<{ cardIndex: number; word: string } | null>(null)
+  const [groups, setGroups] = useState<{ id: string; name: string }[]>([])
+  const [wordTargetGroup, setWordTargetGroup] = useState<string>('none')
+  const [newGroupName, setNewGroupName] = useState('')
+  const [addingWord, setAddingWord] = useState(false)
   const [confirming, setConfirming] = useState<number | null>(null)
   const [concluding, setConcluding] = useState(false)
   const scrollRef = useRef<HTMLDivElement>(null)
@@ -73,6 +86,14 @@ export function AiAssistant() {
       .then((r) => r.json())
       .then((res) => {
         if (res.success) setIsAiFree(res.isAiFree)
+      })
+      .catch(() => {})
+    fetch('/api/review-groups')
+      .then((r) => r.json())
+      .then((res) => {
+        if (res.success && res.data) {
+          setGroups(res.data.map((g: { id: string; name: string }) => ({ id: g.id, name: g.name })))
+        }
       })
       .catch(() => {})
   }, [isAuthenticated])
@@ -362,6 +383,61 @@ export function AiAssistant() {
     }
   }
 
+  // 单个单词加入词库（搜索卡内点击"加入"）：选现有组或新建
+  const handleAddSingleWord = async (word: string) => {
+    if (!wordTargetGroup || wordTargetGroup === 'none') return
+    setAddingWord(true)
+    try {
+      let targetGroupId = wordTargetGroup
+      if (wordTargetGroup === 'NEW') {
+        const name = newGroupName.trim()
+        if (!name) {
+          setMessages((prev) => [...prev, { type: 'fact', text: '请输入新词库名称', ok: false }])
+          return
+        }
+        const created = await fetch('/api/review-groups', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name }),
+        }).then((r) => r.json())
+        if (!created.success || !created.data?.id) {
+          setMessages((prev) => [...prev, { type: 'fact', text: `⚠️ ${created.error ?? '创建词库失败'}`, ok: false }])
+          return
+        }
+        targetGroupId = created.data.id
+        setGroups((prev) => [...prev, { id: created.data.id, name: created.data.name }])
+      }
+      const res = await fetch(`/api/review-groups/${targetGroupId}/words`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ words: [word] }),
+      }).then((r) => r.json())
+      const groupName = groups.find((g) => g.id === targetGroupId)?.name ?? newGroupName.trim() ?? wordTargetGroup
+      if (res.success) {
+        const added = res.addedCount ?? 0
+        setMessages((prev) => [
+          ...prev,
+          {
+            type: 'fact',
+            text: added > 0
+              ? `✅ 已将 "${word}" 加入词库"${groupName}"`
+              : `"${word}" 已在词库"${groupName}"中`,
+            ok: true,
+          },
+        ])
+      } else {
+        setMessages((prev) => [...prev, { type: 'fact', text: `⚠️ ${res.error ?? '加入失败'}`, ok: false }])
+      }
+    } catch {
+      setMessages((prev) => [...prev, { type: 'fact', text: '⚠️ 执行失败，请稍后重试', ok: false }])
+    } finally {
+      setAddingWord(false)
+      setExpandedWord(null)
+      setWordTargetGroup('none')
+      setNewGroupName('')
+    }
+  }
+
   const renderMessage = (m: UiMessage, i: number) => {
     if (isChat(m)) {
       const isUser = m.role === 'user'
@@ -414,15 +490,86 @@ export function AiAssistant() {
                   {expanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
                 </button>
                 {expanded && (
-                  <div className="space-y-1">
-                    {m.words.map((w) => (
-                      <div key={w.word} className="flex items-baseline gap-2 text-sm">
-                        <span className="font-medium">{w.word}</span>
-                        {w.phonetic && <span className="text-xs text-muted-foreground">{w.phonetic}</span>}
-                        {w.pos && <span className="text-xs text-muted-foreground">{w.pos}</span>}
-                        <span className="text-xs text-muted-foreground truncate">{w.translation}</span>
-                      </div>
-                    ))}
+                  <div className="space-y-1.5">
+                    {m.words.map((w) => {
+                      const isWordExpanded = expandedWord?.cardIndex === i && expandedWord.word === w.word
+                      return (
+                        <div key={w.word} className="border border-border/60 rounded-lg">
+                          <button
+                            className="w-full flex items-baseline gap-2 text-sm px-2 py-1.5 text-left hover:bg-muted/50 transition-colors"
+                            onClick={() =>
+                              setExpandedWord(
+                                isWordExpanded ? null : { cardIndex: i, word: w.word },
+                              )
+                            }
+                          >
+                            <span className="font-medium shrink-0">{w.word}</span>
+                            {w.phonetic && (
+                              <span className="text-xs text-muted-foreground shrink-0">{w.phonetic}</span>
+                            )}
+                            {w.pos && <span className="text-xs text-muted-foreground shrink-0">{w.pos}</span>}
+                            <span className="text-xs text-muted-foreground truncate flex-1">{w.translation}</span>
+                            {isWordExpanded ? (
+                              <ChevronUp className="w-3.5 h-3.5 text-muted-foreground shrink-0" />
+                            ) : (
+                              <ChevronDown className="w-3.5 h-3.5 text-muted-foreground shrink-0" />
+                            )}
+                          </button>
+                          {isWordExpanded && (
+                            <div className="px-3 pb-3 pt-2 space-y-2 border-t border-border/60">
+                              <div className="space-y-0.5 text-sm">
+                                <div className="flex items-baseline gap-2">
+                                  <span className="font-medium">{w.word}</span>
+                                  {w.phonetic && (
+                                    <span className="text-xs text-muted-foreground">{w.phonetic}</span>
+                                  )}
+                                </div>
+                                {w.pos && <div className="text-xs text-muted-foreground">{w.pos}</div>}
+                                <div className="text-sm text-foreground">{w.translation}</div>
+                              </div>
+                              <div className="flex gap-2 items-center">
+                                <Select
+                                  value={wordTargetGroup}
+                                  onValueChange={(v) => setWordTargetGroup(v)}
+                                >
+                                  <SelectTrigger className="flex-1 h-9">
+                                    <SelectValue placeholder="选择词库" />
+                                  </SelectTrigger>
+                                  <SelectContent>
+                                    <SelectItem value="none">选择词库…</SelectItem>
+                                    {groups.map((g) => (
+                                      <SelectItem key={g.id} value={g.id}>{g.name}</SelectItem>
+                                    ))}
+                                    <SelectItem value="NEW">＋ 新建词库</SelectItem>
+                                  </SelectContent>
+                                </Select>
+                                <Button
+                                  size="sm"
+                                  className="h-9 shrink-0"
+                                  onClick={() => handleAddSingleWord(w.word)}
+                                  disabled={!wordTargetGroup || wordTargetGroup === 'none' || addingWord}
+                                >
+                                  {addingWord ? (
+                                    <Loader2 className="w-3.5 h-3.5 animate-spin mr-1" />
+                                  ) : (
+                                    <Plus className="w-3.5 h-3.5 mr-1" />
+                                  )}
+                                  加入
+                                </Button>
+                              </div>
+                              {wordTargetGroup === 'NEW' && (
+                                <Input
+                                  value={newGroupName}
+                                  onChange={(e) => setNewGroupName(e.target.value)}
+                                  placeholder="新词库名称"
+                                  className="h-9"
+                                />
+                              )}
+                            </div>
+                          )}
+                        </div>
+                      )
+                    })}
                   </div>
                 )}
               </CardContent>
