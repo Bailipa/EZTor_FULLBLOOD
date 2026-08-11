@@ -1,4 +1,4 @@
-export const DAILY_POWER_CAP = 100
+export const DAILY_POWER_CAP = 160
 
 // 注册即赠 50 学力：直接解锁"弹幕复习"（阈值 50）
 export const SIGNUP_POWER_BONUS = 50
@@ -13,12 +13,20 @@ export const TASK_TYPES = {
 
 export type TaskType = (typeof TASK_TYPES)[keyof typeof TASK_TYPES]
 
+export interface TaskMilestone {
+  /** 达到该累计单词数时发奖 */
+  target: number
+  powerReward: number
+}
+
 export interface TaskConfig {
   type: TaskType
   title: string
   description: string
   targetValue: number
   powerReward: number
+  /** 可选：里程碑任务（如闪卡 15/30/50 各发一次奖），达到 target 后进度条进入下一段 */
+  milestones?: TaskMilestone[]
 }
 
 export const TASK_CONFIGS: TaskConfig[] = [
@@ -46,9 +54,14 @@ export const TASK_CONFIGS: TaskConfig[] = [
   {
     type: TASK_TYPES.FLASHCARD_INTERACT,
     title: '闪卡互动',
-    description: '认识/不认识15个单词',
-    targetValue: 15,
+    description: '认识/不认识50个单词，每段达标发奖',
+    targetValue: 50,
     powerReward: 20,
+    milestones: [
+      { target: 15, powerReward: 20 },
+      { target: 30, powerReward: 20 },
+      { target: 50, powerReward: 20 },
+    ],
   },
 ]
 

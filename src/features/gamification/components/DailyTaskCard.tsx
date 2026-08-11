@@ -6,6 +6,34 @@ import { Progress } from '@/components/ui/progress'
 import { CheckCircle2, Circle, Loader2, RefreshCw, ChevronDown, ChevronUp } from 'lucide-react'
 import type { DailyTaskState } from '@/features/gamification/types'
 
+function milestoneStage(task: DailyTaskState): { start: number; end: number; progress: number; nextReward: number } {
+  const milestones = task.milestones ?? []
+  const idx = Math.min(task.milestoneIndex ?? 0, milestones.length)
+  if (idx === 0) {
+    const end = milestones[0]?.target ?? task.targetValue
+    return { start: 0, end, progress: task.currentValue / end * 100, nextReward: milestones[0]?.powerReward ?? task.powerReward }
+  }
+  const end = idx < milestones.length ? milestones[idx].target : (milestones[milestones.length - 1]?.target ?? task.targetValue)
+  const start = milestones[idx - 1]?.target ?? 0
+  const progress = end > start ? (task.currentValue - start) / (end - start) * 100 : 100
+  return { start, end, progress, nextReward: milestones[idx]?.powerReward ?? task.powerReward }
+}
+
+// 里程碑任务进度条显示当前段（达标刷新，目标=段终点）；普通任务显示累计进度
+function renderTaskProgress(task: DailyTaskState) {
+  const isMilestone = (task.milestones?.length ?? 0) > 0
+  const progress = Math.min(100, Math.round((task.currentValue / task.targetValue) * 100))
+  if (isMilestone) {
+    const stage = milestoneStage(task)
+    return {
+      progress: Math.min(100, Math.round(stage.progress)),
+      label: `${Math.min(task.currentValue, stage.end)}/${stage.end}`,
+      reward: stage.nextReward,
+    }
+  }
+  return { progress, label: `${task.currentValue}/${task.targetValue}`, reward: task.powerReward }
+}
+
 interface DailyTaskCardProps {
   refreshKey?: number
   defaultCollapsed?: boolean
@@ -103,7 +131,7 @@ export function DailyTaskCard({ refreshKey = 0, defaultCollapsed = false }: Dail
     }
 
     if (activeTask) {
-      const progress = Math.min(100, Math.round((activeTask.currentValue / activeTask.targetValue) * 100))
+      const rp = renderTaskProgress(activeTask)
       return (
         <Card
           className="cursor-pointer hover:bg-muted/30 transition-colors"
@@ -113,12 +141,12 @@ export function DailyTaskCard({ refreshKey = 0, defaultCollapsed = false }: Dail
             <div className="flex items-center gap-2.5">
               <Circle className="w-4 h-4 text-muted-foreground shrink-0" />
               <span className="text-xs font-medium shrink-0">{activeTask.title}</span>
-              <Progress value={progress} className="h-1.5 flex-1" />
+              <Progress value={rp.progress} className="h-1.5 flex-1" />
               <span className="text-[10px] text-muted-foreground shrink-0 tabular-nums">
-                {activeTask.currentValue}/{activeTask.targetValue}
+                {rp.label}
               </span>
               <span className="text-[10px] text-amber-600 dark:text-amber-400 shrink-0">
-                +{activeTask.powerReward}
+                +{rp.reward}
               </span>
               <ChevronDown className="w-3.5 h-3.5 text-muted-foreground animate-pulse-scale" />
             </div>
@@ -145,7 +173,7 @@ export function DailyTaskCard({ refreshKey = 0, defaultCollapsed = false }: Dail
         </div>
         <div className="space-y-2.5">
           {tasks.map((task) => {
-            const progress = Math.min(100, Math.round((task.currentValue / task.targetValue) * 100))
+            const rp = renderTaskProgress(task)
             return (
               <div key={task.taskType} className="flex items-center gap-2.5">
                 {task.isCompleted ? (
@@ -157,14 +185,14 @@ export function DailyTaskCard({ refreshKey = 0, defaultCollapsed = false }: Dail
                   <div className="flex items-center justify-between mb-0.5">
                     <span className="text-xs font-medium truncate">{task.title}</span>
                     <span className="text-[10px] text-amber-600 dark:text-amber-400 ml-2 shrink-0">
-                      +{task.powerReward}
+                      +{rp.reward}
                     </span>
                   </div>
-                  <Progress value={progress} className="h-1.5" />
+                  <Progress value={rp.progress} className="h-1.5" />
                   <p className="text-[10px] text-muted-foreground mt-0.5">
                     {task.description}
                     {!task.isCompleted && task.currentValue > 0 && (
-                      <span className="ml-1">({task.currentValue}/{task.targetValue})</span>
+                      <span className="ml-1">({rp.label})</span>
                     )}
                   </p>
                 </div>

@@ -1,4 +1,4 @@
-import type { TaskType, FeatureKey } from './constants'
+import type { TaskType, FeatureKey, TaskMilestone } from './constants'
 
 export interface GameProfile {
   id: string
@@ -30,6 +30,10 @@ export interface DailyTaskState {
   powerReward: number
   isCompleted: boolean
   completedAt: Date | null
+  /** 里程碑任务配置（无则普通任务） */
+  milestones?: TaskMilestone[]
+  /** 下一个待发奖的里程碑下标（里程碑任务用） */
+  milestoneIndex?: number
 }
 
 export interface LeaderboardEntry {

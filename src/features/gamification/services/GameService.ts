@@ -214,6 +214,8 @@ export class GameService {
         powerReward: config.powerReward,
         isCompleted: record?.isCompleted ?? false,
         completedAt: record?.completedAt ?? null,
+        milestones: config.milestones,
+        milestoneIndex: record?.milestoneIndex ?? 0,
       }
     })
   }
@@ -281,7 +283,70 @@ export class GameService {
     const after = await prisma.dailyTaskCompletion.findUnique({
       where: { userId_date_taskType: { userId, date: today, taskType } },
     })
-    const reached = (after?.currentValue ?? 0) >= config.targetValue
+    const afterValue = after?.currentValue ?? 0
+
+    // 里程碑任务（如闪卡 15/30/50）：逐段发奖，进度条每达标一段进入下一段
+    if (config.milestones && config.milestones.length > 0) {
+      let milestoneIndex = after?.milestoneIndex ?? 0
+      let powerGained = 0
+      let totalPower = after ? (await prisma.userGameProfile.findUnique({ where: { userId } }))?.combatPower ?? 0 : 0
+      let newlyUnlocked: FeatureKey[] = []
+      let allGranted = true
+
+      while (milestoneIndex < config.milestones.length) {
+        const milestone = config.milestones[milestoneIndex]
+        if (afterValue < milestone.target) {
+          allGranted = false
+          break
+        }
+        // 抢占式发放：milestoneIndex 相当于该段的"已领奖"标记，并发下
+        // 条件不匹配（已被别的请求 +1）的那次 count=0，不会重复发奖。
+        const claimed = await prisma.dailyTaskCompletion.updateMany({
+          where: {
+            userId,
+            date: today,
+            taskType,
+            milestoneIndex,
+            currentValue: { gte: milestone.target },
+          },
+          data: { milestoneIndex: { increment: 1 }, updatedAt: new Date() },
+        })
+        if (claimed.count === 0) {
+          // 该段已被并发请求领取，重读最新进度继续
+          const fresh = await prisma.dailyTaskCompletion.findUnique({
+            where: { userId_date_taskType: { userId, date: today, taskType } },
+          })
+          const freshIndex = fresh?.milestoneIndex ?? milestoneIndex
+          if (freshIndex <= milestoneIndex) {
+            allGranted = false
+            break
+          }
+          milestoneIndex = freshIndex
+          continue
+        }
+        const result = await this.addPower(userId, milestone.powerReward, `TASK:${taskType}:M${milestoneIndex + 1}`)
+        powerGained += result.powerGained
+        totalPower = result.totalPower
+        newlyUnlocked = result.newlyUnlocked
+        milestoneIndex++
+      }
+
+      if (allGranted) {
+        await prisma.dailyTaskCompletion.updateMany({
+          where: { userId, date: today, taskType, isCompleted: false },
+          data: { isCompleted: true, completedAt: new Date(), updatedAt: new Date() },
+        })
+      }
+
+      return {
+        taskCompleted: allGranted,
+        powerGained,
+        totalPower,
+        newlyUnlocked,
+      }
+    }
+
+    const reached = afterValue >= config.targetValue
 
     if (reached) {
       const marked = await prisma.dailyTaskCompletion.updateMany({

@@ -578,7 +578,7 @@ export default function DictationPage() {
   const restartQuiz = () => {
     submittedIndicesRef.current.clear()
     isCheckingRef.current = false
-    setTotalWordsTested(prev => prev + words.length) // 累加已测试单词数
+    setTotalWordsTested(words.length) // 每组独立评分：按当前组单词数（不再跨组累加，避免上组单词被判错）
     setWords([])
     setScore({ correct: 0, total: 0 })
     setCurrentIndex(0)
