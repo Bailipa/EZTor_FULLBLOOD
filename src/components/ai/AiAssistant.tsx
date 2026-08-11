@@ -695,8 +695,8 @@ export function AiAssistant() {
                   >
                     <XCircle className="w-3.5 h-3.5 mr-1" /> 取消
                   </Button>
-                  {m.action === 'add_words_to_group' && m.pattern && m.total && words.length === 0 ? (
-                    // pattern 模式（词列表为空）：只提供"加入全部 N 个"
+                  {m.action === 'add_words_to_group' && m.pattern && m.total ? (
+                    // pattern 模式：提供"加入全部 N 个"（words 可能为空或仅示例，以 total 为准）
                     <Button size="sm" onClick={() => handleConfirmProposal(i, true)} disabled={confirming === i}>
                       {confirming === i ? (
                         <Loader2 className="w-3.5 h-3.5 animate-spin mr-1" />
