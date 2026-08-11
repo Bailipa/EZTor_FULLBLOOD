@@ -461,3 +461,136 @@ When the server is under heavy load (OOM, process crash loops), SSH may become u
 - Set `max_memory_restart` in PM2 to prevent OOM
 - Monitor with `pm2 monit` during deployments
 - Keep SSH sessions alive: `ServerAliveInterval=30` in SSH config
+
+## Symptom: Deploy Tarball Is GB-sized (was MB)
+
+The deployment tar suddenly grows from ~65MB to **multi-GB**, upload takes forever, and deploys keep timing out / getting interrupted.
+
+### Root Cause
+
+`public/downloads/` and `public/updates/` accumulate **every historical installer** (APK/dmg/zip, each 100–115MB). `cp -r public .next/standalone/public` (build checklist step 2) copies them all into the standalone, so the tarball bloats to 4GB+.
+
+The server-side prune logic (deploy-full.sh keeps only latest + 0.3.0 fallback in `public/downloads/` and `public/updates/`) works correctly on the **server**, but the **local** `public/` was never pruned — so every deploy re-uploaded gigabytes of dead weight.
+
+### Fix (already in deploy-full.sh)
+
+**Exclude installers from the tarball entirely** — they're distributed via a separate `scp` and the server restores them from `standalone.bak`:
+
+```bash
+cp -r public .next/standalone/public
+rm -rf .next/standalone/public/downloads .next/standalone/public/updates
+```
+
+### Local hygiene
+
+Prune `public/downloads/` / `public/updates/` to keep only the current version (+ 0.3.0 fallback), same rule as the server-side prune:
+
+```bash
+# downloads: keep 0.3.0 fallback + latest version, all archs
+for f in public/downloads/*; do
+  base=$(basename "$f")
+  case "$base" in
+    *-0.3.0.apk|eztor-0.3.0.apk) : ;;
+    *1.13.4*) : ;;   # <-- current version
+    README.txt|builder-debug.yml) : ;;
+    *) rm -f "$f" ;;
+  esac
+done
+# updates: keep current version + latest*.yml
+for f in public/updates/*; do
+  case "$(basename "$f")" in
+    *1.13.4*|latest.yml|latest-mac.yml) : ;;
+    *) rm -f "$f" ;;
+  esac
+done
+```
+
+**Caveat**: `latest.yml` / `latest-mac.yml` are gitignored and only exist in `public/downloads|updates`. If you delete them, copy them back from `public/updates/` (they're duplicated there). They hold auto-update metadata (sha512, sizes) — do NOT regenerate by hand if the originals exist.
+
+### Expected sizes after cleanup
+
+| Path | Before | After |
+|------|--------|-------|
+| `public/downloads` | 2.5G | ~500M |
+| `public/updates` | 1.5G | ~290M |
+| Deploy tarball | 4.1G | **70M** |
+
+### Sanity check
+
+```bash
+ls -lh /tmp/eztor-deploy-*.tar.gz   # should be ~70M, not GB
+```
+
+## Symptom: Deploy Timed Out / Interrupted → Half-Extracted Standalone
+
+When the deploy's long SSH session drops mid-extraction (often because a multi-GB tar upload + extract exceeds the SSH timeout), the server is left with:
+
+- A `standalone/` directory with **partial files** (some files never extracted)
+- Missing `.env` (the copy step never ran)
+- PM2 possibly running old in-memory code but with a broken file tree
+- `ls standalone/server.js` fails but the app still responds 200 (process holds old code in memory)
+
+### Diagnosis
+
+```bash
+ls /www/wwwroot/<site>/.next/standalone/server.js        # missing = broken extract
+ls /www/wwwroot/<site>/.next/standalone/.env             # missing = env step never ran
+find /www/wwwroot/<site>/.next/standalone -name '._*' | wc -l   # leftover macOS sidecars
+df -h /                                                   # disk may be 100% full
+```
+
+### Recovery (fastest path back online)
+
+The `standalone.bak.*` backup is a **complete, working previous deploy**. Restore it:
+
+```bash
+cd /www/wwwroot/<site>/.next
+mv standalone standalone.broken_<buildid>
+mv standalone.bak.<latest> standalone      # use the NEWEST backup
+pm2 restart cet4-web --update-env
+```
+
+Verify `curl -s -o /dev/null -w '%{http_code}' http://localhost:3000/` returns 200 before doing anything else.
+
+### Recovery (redeploy the new build)
+
+1. **Free disk first** — check `df -h /`; delete old backups (`standalone.bak.*`) keeping the newest, delete `/tmp/eztor-deploy-*.tar.gz`
+2. **Fix the tar bloat** if that was the cause (see previous section)
+3. **Run deploy in background** with `nohup` so a local SSH timeout doesn't kill the remote script:
+   ```bash
+   nohup ./deploy-full.sh > /tmp/deploy.log 2>&1 &
+   tail -f /tmp/deploy.log
+   ```
+4. If the remote script itself dies mid-run (SSH drop kills the heredoc), the server is left half-deployed → **restore from backup** again and re-run with a smaller/faster tar.
+
+### Key lessons
+
+- **A `standalone.bak.*` is your emergency rollback.** Deploy script auto-creates it each run (keeps 2 newest). Don't delete them all during disk pressure — keep at least the newest.
+- **Verify BUILD_ID + health AFTER restore**, not just PM2 status. PM2 can show "online" while serving broken code.
+- **`pm2 list` uptime is the tell**: if uptime is hours but you just deployed, the `pm2 restart` step of the deploy never ran → the running process is stale.
+
+## Symptom: Server Disk 100% Full
+
+The `/` filesystem fills to 100%, deploy extraction fails with `gzip: stdin: unexpected end of file` / `tar: Unexpected EOF in archive`, and SSH becomes sluggish.
+
+### Where the space went (typical)
+
+```bash
+df -h /                                    # overall
+du -sh /tmp/eztor-deploy-*.tar.gz          # abandoned deploy tarballs (GB each)
+du -sh /www/wwwroot/<site>/.next/standalone.bak.*   # rollback backups (2.3G each)
+du -sh /www/wwwroot/<site>/.next/standalone         # current deploy
+```
+
+### Fix
+
+```bash
+rm -f /tmp/eztor-deploy-*.tar.gz                       # old tarballs
+rm -rf /www/wwwroot/<site>/.next/standalone.bak.<oldest>   # keep newest backup only
+```
+
+### Prevention
+
+- The tar bloat fix (exclude downloads/updates) keeps tarballs ~70M → uploads fast, deploy completes before any timeout
+- Deploy script already prunes old backups (keep 2) and old installers — the gap was **local** `public/` bloat feeding GB tar files into the server every deploy
+

@@ -116,6 +116,10 @@ export async function POST(req: NextRequest) {
           isAiFree,
           customGroupCount,
           signal: controller.signal,
+          // 流式：每段增量立即推送；前端追加渲染
+          onText: (delta: string) => {
+            push('text', { text: delta, delta: true })
+          },
         })
 
         for (const r of outcome.searchResults) {
@@ -123,7 +127,9 @@ export async function POST(req: NextRequest) {
         }
         for (const p of outcome.proposals) {
           push('proposal', p)
-        }        push('text', { text: outcome.text, deducted, isAiFree, turns: outcome.turns })
+        }
+        // 最终完整文本（兼容无流式 / 兜底），前端收到 delta:false 时完成渲染
+        push('text', { text: outcome.text, delta: false, deducted, isAiFree, turns: outcome.turns })
 
         // 审计
         await prisma.auditLog.create({

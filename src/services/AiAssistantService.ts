@@ -445,6 +445,14 @@ async function executeTool(userId: string, name: AiToolName, args: Record<string
 
 const WRITE_TOOLS = new Set<AiToolName>(['create_group', 'add_words_to_group'])
 
+export interface AiAskOptions {
+  isAiFree: boolean
+  customGroupCount: number
+  signal?: AbortSignal
+  /** 流式回调：每收到一段 assistant 文本增量即调用（用于 SSE 转发给前端） */
+  onText?: (delta: string) => void
+}
+
 export class AiAssistantService {
   /**
    * 运行 agent 循环。只读工具自动执行；写工具抽成 proposal 返回，不执行。
@@ -453,7 +461,7 @@ export class AiAssistantService {
   async ask(
     userId: string,
     messages: AiMessage[],
-    opts: { isAiFree: boolean; customGroupCount: number; signal?: AbortSignal },
+    opts: AiAskOptions,
   ): Promise<AiAskOutcome> {
     const systemPrompt = buildSystemPrompt(userId, opts.isAiFree, opts.customGroupCount)
     const conversation: AiMessage[] = [{ role: 'system', content: systemPrompt }, ...trimHistory(messages)]
@@ -470,6 +478,7 @@ export class AiAssistantService {
     await withLlmFailover(candidates, async (client, model) => {
       for (let t = 0; t < AI_AGENT_MAX_TURNS; t++) {
         turns = t + 1
+        // 流式：逐 chunk 解析，把 assistant 文本增量推给 onText；tool_calls 分片拼接
         const completion = await client.chat.completions.create(
           {
             model,
@@ -478,12 +487,43 @@ export class AiAssistantService {
             tool_choice: 'auto',
             temperature: 0.4,
             max_tokens: 1600,
+            stream: true,
           },
           { signal: opts.signal },
         )
-        const choice = completion.choices?.[0]
-        const toolCalls = choice?.message?.tool_calls ?? []
-        const assistantContent = choice?.message?.content ?? ''
+
+        let assistantContent = ''
+        // 流式 tool_calls：OpenAI 把 function call 分片下发，按 index 拼接 name/arguments
+        const toolCallAcc: Record<number, { id: string; name: string; arguments: string }> = {}
+        const toolCallOrder: number[] = []
+
+        for await (const chunk of completion) {
+          const delta = chunk.choices?.[0]?.delta
+          if (!delta) continue
+          if (delta.content) {
+            const text = String(delta.content)
+            assistantContent += text
+            opts.onText?.(text)
+          }
+          if (delta.tool_calls) {
+            for (const tc of delta.tool_calls) {
+              const idx = tc.index ?? 0
+              if (!toolCallAcc[idx]) {
+                toolCallAcc[idx] = { id: tc.id ?? '', name: '', arguments: '' }
+                toolCallOrder.push(idx)
+              }
+              if (tc.id) toolCallAcc[idx].id = tc.id
+              if (tc.function?.name) toolCallAcc[idx].name += tc.function.name
+              if (tc.function?.arguments) toolCallAcc[idx].arguments += tc.function.arguments
+            }
+          }
+        }
+
+        const toolCalls = toolCallOrder.map((idx) => ({
+          id: toolCallAcc[idx].id,
+          type: 'function' as const,
+          function: { name: toolCallAcc[idx].name, arguments: toolCallAcc[idx].arguments },
+        }))
 
         if (toolCalls.length === 0) {
           // 无工具调用：最终回答

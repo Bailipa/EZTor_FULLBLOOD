@@ -5,8 +5,9 @@ import { useSession } from 'next-auth/react'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
-import { Zap, Sparkles, Send, Loader2, Search, FolderPlus, CheckCircle2, XCircle, Lock, ChevronDown, ChevronUp, Plus } from 'lucide-react'
+import { Zap, Sparkles, Send, Loader2, Search, FolderPlus, CheckCircle2, XCircle, Lock, ChevronDown, ChevronUp, Plus, Trash2 } from 'lucide-react'
 import { useLoginPrompt } from '@/components/ui/login-prompt-modal'
+import { aiHistoryKey, AI_HISTORY_MAX_ITEMS } from '@/lib/aiHistoryCache'
 
 interface ChatMessage {
   role: 'user' | 'assistant'
@@ -80,6 +81,57 @@ export function AiAssistant() {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: 'smooth' })
   }, [messages, busy])
 
+  const userId = session?.user?.id ?? null
+
+  // 挂载时从 localStorage 恢复对话历史（仅纯文本消息与结果行，搜索卡/提议卡不持久化）
+  useEffect(() => {
+    if (!userId) return
+    try {
+      const raw = localStorage.getItem(aiHistoryKey(userId))
+      if (!raw) return
+      const parsed = JSON.parse(raw)
+      if (Array.isArray(parsed)) {
+        const restored: UiMessage[] = parsed.filter(
+          (m) => m && (m.role === 'user' || m.role === 'assistant' || m.type === 'fact'),
+        )
+        if (restored.length > 0) setMessages(restored)
+      }
+    } catch {
+      // ignore corrupted cache
+    }
+  }, [userId])
+
+  // 对话历史变化时持久化（防抖，纯文本消息才存，上限 AI_HISTORY_MAX_ITEMS 条）
+  useEffect(() => {
+    if (!userId || messages.length === 0) return
+    const serializable: unknown[] = []
+    for (const m of messages) {
+      if (isChat(m)) {
+        serializable.push({ role: m.role, content: m.content })
+      } else if (m.type === 'fact') {
+        serializable.push({ type: 'fact', text: m.text, ok: m.ok })
+      }
+    }
+    const capped = serializable.slice(-AI_HISTORY_MAX_ITEMS)
+    const timer = setTimeout(() => {
+      try {
+        localStorage.setItem(aiHistoryKey(userId), JSON.stringify(capped))
+      } catch {
+        // storage full — drop cache
+        try { localStorage.removeItem(aiHistoryKey(userId)) } catch { /* ignore */ }
+      }
+    }, 300)
+    return () => clearTimeout(timer)
+  }, [messages, userId])
+
+  const clearHistory = useCallback(() => {
+    if (!userId) return
+    try {
+      localStorage.removeItem(aiHistoryKey(userId))
+    } catch { /* ignore */ }
+    setMessages([])
+  }, [userId])
+
   const pushChat = useCallback((role: 'user' | 'assistant', content: string) => {
     setMessages((prev) => [...prev, { role, content }])
   }, [])
@@ -142,21 +194,41 @@ export function AiAssistant() {
         }
         if (eventType === 'text') {
           const text = String(data.text ?? '')
-          if (!firstTextSeen) {
-            setMessages((prev) => [...prev, { role: 'assistant', content: '' }])
-            firstTextSeen = true
-          }
-          setMessages((prev) => {
-            const copy = [...prev]
-            const last = copy[copy.length - 1]
-            if (last && (last as ChatMessage).role === 'assistant') {
-              copy[copy.length - 1] = { role: 'assistant', content: text }
+          const isDelta = data.delta === true
+          if (isDelta) {
+            // 流式增量：追加到最后一个 assistant 气泡
+            setMessages((prev) => {
+              const copy = [...prev]
+              const last = copy[copy.length - 1]
+              if (last && (last as ChatMessage).role === 'assistant') {
+                copy[copy.length - 1] = {
+                  role: 'assistant',
+                  content: (last as ChatMessage).content + text,
+                }
+              } else {
+                copy.push({ role: 'assistant', content: text })
+              }
+              return copy
+            })
+          } else {
+            // 完整文本：覆盖（保证最终一致）
+            if (!firstTextSeen) {
+              setMessages((prev) => [...prev, { role: 'assistant', content: text }])
+              firstTextSeen = true
+            } else {
+              setMessages((prev) => {
+                const copy = [...prev]
+                const last = copy[copy.length - 1]
+                if (last && (last as ChatMessage).role === 'assistant') {
+                  copy[copy.length - 1] = { role: 'assistant', content: text }
+                }
+                return copy
+              })
             }
-            return copy
-          })
-          if (data.isAiFree === true) setIsAiFree(true)
-          if (typeof data.deducted === 'boolean' && data.deducted) {
-            setBalance((b) => (b === null ? b : Math.max(0, b - 10)))
+            if (data.isAiFree === true) setIsAiFree(true)
+            if (typeof data.deducted === 'boolean' && data.deducted) {
+              setBalance((b) => (b === null ? b : Math.max(0, b - 10)))
+            }
           }
         } else if (eventType === 'search_result') {
           const d = data as { tool?: string; data?: { total?: number; words?: SearchResultMsg['words'] } }
@@ -494,6 +566,18 @@ export function AiAssistant() {
             </div>
           </div>
         </div>
+        {messages.length > 0 && (
+          <Button
+            variant="ghost"
+            size="sm"
+            className="text-muted-foreground"
+            onClick={() => {
+              if (window.confirm('清空本次对话记录？')) clearHistory()
+            }}
+          >
+            <Trash2 className="w-4 h-4" />
+          </Button>
+        )}
       </div>
 
       <div ref={scrollRef} className="flex-1 min-h-0 overflow-y-auto p-4">

@@ -38,6 +38,8 @@ import {
   MonitorDown,
   SlidersHorizontal,
   ChevronDown,
+  Trash2,
+  HardDrive,
 } from 'lucide-react'
 import { GameWidget } from '@/components/ui/game/GameWidget'
 import { DanmakuSettingsContent } from '@/components/me/DanmakuSettings'
@@ -54,6 +56,7 @@ import { Switch } from '@/components/ui/switch'
 import { Input } from '@/components/ui/input'
 import { toast } from 'sonner'
 import { useAppVersion } from '@/hooks/useAppVersion'
+import { getAiHistoryBytes, clearAiHistory, formatBytes } from '@/lib/aiHistoryCache'
 
 export default function MePage() {
   const { data: session, status } = useSession()
@@ -72,6 +75,21 @@ export default function MePage() {
   const [reminderTime, setReminderTime] = useState('20:00')
   const [prefsLoaded, setPrefsLoaded] = useState(false)
   const [savingPrefs, setSavingPrefs] = useState(false)
+  const [aiCacheBytes, setAiCacheBytes] = useState(0)
+
+  useEffect(() => {
+    setAiCacheBytes(getAiHistoryBytes())
+  }, [])
+
+  const handleClearAiCache = () => {
+    const { removed } = clearAiHistory()
+    setAiCacheBytes(getAiHistoryBytes())
+    if (removed > 0) {
+      toast.success(`已清理 AI 聊天缓存，释放 ${formatBytes(removed)}`)
+    } else {
+      toast.info('没有可清理的 AI 缓存')
+    }
+  }
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -338,6 +356,23 @@ export default function MePage() {
 
           <Card>
             <CardContent className="p-0 divide-y divide-border">
+              <button
+                type="button"
+                onClick={handleClearAiCache}
+                className="w-full flex items-center justify-between p-4 hover:bg-muted/50 transition-colors text-left"
+              >
+                <span className="flex items-center gap-3">
+                  <HardDrive className="w-5 h-5 text-muted-foreground" />
+                  <span className="font-medium">清除 AI 聊天缓存</span>
+                </span>
+                <span className="flex items-center gap-2">
+                  {aiCacheBytes > 0 && (
+                    <span className="text-xs text-muted-foreground">占用 {formatBytes(aiCacheBytes)}</span>
+                  )}
+                  <Trash2 className="w-4 h-4 text-muted-foreground" />
+                </span>
+              </button>
+
               <button
                 type="button"
                 onClick={() =>
