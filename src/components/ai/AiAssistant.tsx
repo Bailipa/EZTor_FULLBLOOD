@@ -644,8 +644,14 @@ export function AiAssistant() {
                 <p className="text-sm text-muted-foreground">
                   {m.action === 'create_group'
                     ? `将新建词库"${groupName ?? ''}"`
-                    : `将 ${words.length} 个单词加入${currentSel !== 'none' && currentSel !== 'NEW' ? `词库"${groups.find((g) => g.id === currentSel)?.name ?? ''}"` : groupName ? `词库"${groupName}"` : '词库'}`}
-                  {m.total && m.total > words.length ? `（共匹配 ${m.total} 个，展示 ${words.length} 个）` : ''}
+                    : m.pattern && m.total
+                      ? `将匹配的 ${m.total} 个单词加入${currentSel !== 'none' && currentSel !== 'NEW' ? `词库"${groups.find((g) => g.id === currentSel)?.name ?? ''}"` : groupName ? `词库"${groupName}"` : '词库'}`
+                      : `将 ${words.length} 个单词加入${currentSel !== 'none' && currentSel !== 'NEW' ? `词库"${groups.find((g) => g.id === currentSel)?.name ?? ''}"` : groupName ? `词库"${groupName}"` : '词库'}`}
+                  {m.pattern && m.total
+                    ? `（共匹配 ${m.total} 个）`
+                    : m.total && m.total > words.length
+                      ? `（共匹配 ${m.total} 个，展示 ${words.length} 个）`
+                      : ''}
                 </p>
                 {isAddWords && words.length > 0 && (
                   <div className="text-xs text-muted-foreground line-clamp-2 break-words">
@@ -689,7 +695,17 @@ export function AiAssistant() {
                   >
                     <XCircle className="w-3.5 h-3.5 mr-1" /> 取消
                   </Button>
-                  {m.action === 'add_words_to_group' && m.total && m.total > words.length ? (
+                  {m.action === 'add_words_to_group' && m.pattern && m.total && words.length === 0 ? (
+                    // pattern 模式（词列表为空）：只提供"加入全部 N 个"
+                    <Button size="sm" onClick={() => handleConfirmProposal(i, true)} disabled={confirming === i}>
+                      {confirming === i ? (
+                        <Loader2 className="w-3.5 h-3.5 animate-spin mr-1" />
+                      ) : (
+                        <CheckCircle2 className="w-3.5 h-3.5 mr-1" />
+                      )}
+                      确认加入全部 {m.total} 个
+                    </Button>
+                  ) : m.action === 'add_words_to_group' && m.total && m.total > words.length ? (
                     <>
                       <Button size="sm" onClick={() => handleConfirmProposal(i, false)} disabled={confirming === i}>
                         {confirming === i ? (
