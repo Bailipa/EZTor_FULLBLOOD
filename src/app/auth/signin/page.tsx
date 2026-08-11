@@ -24,7 +24,7 @@ export default function SignIn() {
   const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
   const searchParams = useSearchParams()
-  const { status } = useSession()
+  const { status, update } = useSession()
   const wasKicked = searchParams.get('kicked') === '1'
 
   const [onlineCount, setOnlineCount] = useState<number | null>(null)
@@ -107,8 +107,19 @@ export default function SignIn() {
         setError(res.error)
         fetchCaptcha()
         setIsLoading(false)
+      } else {
+        // 成功：signIn(redirect:false) 后 useSession 可能不自动刷新（尤其退出后重登），
+        // 显式调用 update() 强制重取 session，再跳转
+        try {
+          const newSession = await update()
+          const callbackUrl = searchParams.get('callbackUrl')
+          router.push(newSession?.user ? callbackUrl || '/' : '/auth/signin')
+        } catch {
+          // update 失败时兜底：浏览器跳转会让服务端鉴权接管
+          router.push(searchParams.get('callbackUrl') || '/')
+        }
+        // 不 setLoading(false)——成功后立即跳转；跳转失败也不滞留"登录中"
       }
-      // On success: keep isLoading=true, useEffect will redirect when status=authenticated
     } catch (_err) {
       setError('发生未知错误，请刷新页面后重试')
       fetchCaptcha()
