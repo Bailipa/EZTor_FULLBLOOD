@@ -49,7 +49,6 @@ tar -cf "$TARBALL_UNCOMPRESSED" \
   --exclude='./desktop' \
   --exclude='./data' \
   --exclude='./LB' \
-  --exclude='./logs' \
   --exclude='./vendor' \
   --exclude='./scripts' \
   --exclude='./docs' \
