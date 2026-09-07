@@ -10,8 +10,8 @@ android {
         applicationId "com.eztor.app"
         minSdk 24
         targetSdk 34
-        versionCode 34
-        versionName "1.14.1"
+        versionCode 38
+        versionName "1.15.2"
     }
 
     buildTypes {

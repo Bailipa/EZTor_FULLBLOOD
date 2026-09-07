@@ -90,8 +90,11 @@ export default function DictationPage() {
   const [answers, setAnswers] = useState<Record<number, { userInput: string; isCorrect: boolean }>>(
     {},
   ) // 记录每道题的答题状态
-  const [startTime, setStartTime] = useState<number | null>(null) // 记录开始时间
-  const [totalWordsTested, setTotalWordsTested] = useState(0) // 记录总共测试的单词数量
+  const [startTime, setStartTime] = useState<number | null>(null) // 记录本组开始时间
+  const [totalWordsTested, setTotalWordsTested] = useState(0) // 记录本组测试的单词数量
+  const [groupElapsedMs, setGroupElapsedMs] = useState(0) // 本组用时（进入结算页时冻结）
+  const [sessionStats, setSessionStats] = useState({ correct: 0, total: 0 }) // 会话累计：从开始测试后连续测试的答对/总数
+  const [sessionElapsedMs, setSessionElapsedMs] = useState(0) // 会话累计用时
   const [showRestoreDialog, setShowRestoreDialog] = useState(false) // 恢复进度弹窗
   const [savedProgress, setSavedProgress] = useState<{
     answers: Record<number, { userInput: string; isCorrect: boolean }>
@@ -106,6 +109,9 @@ export default function DictationPage() {
     selectedGroupId: string
     timestamp: number
     totalWordsTested: number
+    sessionStats: { correct: number; total: number }
+    sessionElapsedMs: number
+    startTime: number | null
   } | null>(null)
 
   // Settings State
@@ -274,6 +280,10 @@ export default function DictationPage() {
     }
     setIsStarted(true)
     setStartTime(Date.now())
+    setGroupElapsedMs(0)
+    // 新会话起点：连续测试累计统计清零（restartQuiz/startRetest 不清零，继续累计）
+    setSessionStats({ correct: 0, total: 0 })
+    setSessionElapsedMs(0)
     const count = effectiveCount === 'custom' ? selectedWords.length : effectiveCount
     if (overrideCount !== undefined) {
       setTestCount(overrideCount)
@@ -298,12 +308,10 @@ export default function DictationPage() {
     return { emoji: '📖', text: '没关系，学习就是不断重复的过程' }
   }
 
-  // 计算用时
-  const getElapsedTime = () => {
-    if (!startTime) return ''
-    const elapsed = Date.now() - startTime
-    const minutes = Math.floor(elapsed / 60000)
-    const seconds = Math.floor((elapsed % 60000) / 1000)
+  // 格式化用时（毫秒 → 分/秒）
+  const formatDuration = (ms: number) => {
+    const minutes = Math.floor(ms / 60000)
+    const seconds = Math.floor((ms % 60000) / 1000)
     if (minutes > 0) {
       return `${minutes} 分 ${seconds} 秒`
     }
@@ -326,6 +334,9 @@ export default function DictationPage() {
       selectedGroupId,
       timestamp: Date.now(),
       totalWordsTested,
+      sessionStats,
+      sessionElapsedMs,
+      startTime,
     }
     localStorage.setItem('dictation_progress', JSON.stringify(progress))
   }
@@ -344,7 +355,10 @@ export default function DictationPage() {
     setReviewMode(savedProgress.reviewMode)
     setSelectedGroupId(savedProgress.selectedGroupId)
     setTotalWordsTested(savedProgress.totalWordsTested || savedProgress.words.length)
-    setStartTime(Date.now() - (Date.now() - savedProgress.timestamp)) // 保持原有时间差
+    setStartTime(savedProgress.startTime ?? savedProgress.timestamp) // 恢复本组开始时间（旧存档回退到保存时刻）
+    setSessionStats(savedProgress.sessionStats ?? { correct: 0, total: 0 })
+    setSessionElapsedMs(savedProgress.sessionElapsedMs ?? 0)
+    setGroupElapsedMs(0)
     setIsStarted(true)
     setIsLoading(false)
     setShowRestoreDialog(false)
@@ -548,9 +562,17 @@ export default function DictationPage() {
     } else {
       setIsFinished(true)
       trackDictationComplete(score.correct, score.total)
+      // 结算：冻结本组用时，并累加到会话统计（连续测试的累计结果）
+      const elapsed = startTime ? Date.now() - startTime : 0
+      setGroupElapsedMs(elapsed)
+      setSessionElapsedMs((prev) => prev + elapsed)
+      setSessionStats((prev) => ({
+        correct: prev.correct + score.correct,
+        total: prev.total + score.total,
+      }))
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentIndex, words.length, loadQuestionState, score])
+  }, [currentIndex, words.length, loadQuestionState, score, startTime])
 
   const handlePrev = React.useCallback(() => {
     if (currentIndex > 0) {
@@ -579,6 +601,8 @@ export default function DictationPage() {
     submittedIndicesRef.current.clear()
     isCheckingRef.current = false
     setTotalWordsTested(words.length) // 每组独立评分：按当前组单词数（不再跨组累加，避免上组单词被判错）
+    setStartTime(Date.now()) // 新的一组重新计时
+    setGroupElapsedMs(0)
     setWords([])
     setScore({ correct: 0, total: 0 })
     setCurrentIndex(0)
@@ -596,21 +620,19 @@ export default function DictationPage() {
     submittedIndicesRef.current.clear()
     isCheckingRef.current = false
     
-    // 先清空 words，避免自动播放 useEffect 播放旧单词
-    setWords([])
+    // 同步设置 words（React 自动批处理，resetTurn 的 isChecked=false 会同帧生效，
+    // 不再需要 setTimeout 延迟），避免中间帧 words=[] 闪出结算页（0/0 显示 NaN 分）
+    setWords([...mistakes])
     setScore({ correct: 0, total: 0 })
     setCurrentIndex(0)
     setIsFinished(false)
+    setTotalWordsTested(mistakes.length) // 重测按当前错题数量独立评分（与 restartQuiz 一致）
+    setStartTime(Date.now()) // 重测错题重新计时（不再沿用上一组的用时）
+    setGroupElapsedMs(0)
     setMistakes([]) // 清空错题本，准备在重测中重新收集
     setIsRetesting(true)
     setAnswers({})
     resetTurn()
-    
-    // 延迟设置 words，确保 isChecked 已经被重置为 false
-    // 避免 options 的 useMemo 在 isChecked=true 时计算导致返回空数组
-    setTimeout(() => {
-      setWords([...mistakes])
-    }, 0)
   }
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement | HTMLDivElement>) => {
@@ -1311,7 +1333,7 @@ export default function DictationPage() {
                       共测试 {totalWordsTested} 个单词，答对 {score.correct} 个。
                     </p>
                     <p className="text-gray-500 dark:text-muted-foreground">
-                      用时 {getElapsedTime()}
+                      本次用时 {formatDuration(groupElapsedMs)}
                     </p>
                   </div>
 
@@ -1319,8 +1341,36 @@ export default function DictationPage() {
                     correct={score.correct}
                     total={totalWordsTested || words.length}
                     mistakes={mistakes}
-                    elapsedLabel={getElapsedTime()}
+                    elapsedLabel={formatDuration(groupElapsedMs)}
                   />
+
+                  {/* 连续测试累计统计：从开始测试后，本会话所有组（含重测/新的一组）的汇总 */}
+                  <div className="w-full max-w-md pt-5 mt-1 border-t border-border/60">
+                    <p className="text-sm font-semibold text-muted-foreground mb-3 flex items-center justify-center gap-1.5">
+                      <ListChecks className="w-4 h-4" /> 连续测试累计（本次会话）
+                    </p>
+                    <div className="grid grid-cols-3 gap-3">
+                      <div className="bg-muted/30 rounded-xl py-3">
+                        <p className="text-xl font-bold text-foreground">{sessionStats.total}</p>
+                        <p className="text-xs text-muted-foreground mt-0.5">累计测试</p>
+                      </div>
+                      <div className="bg-muted/30 rounded-xl py-3">
+                        <p className="text-xl font-bold text-green-600 dark:text-green-500">
+                          {sessionStats.correct}
+                        </p>
+                        <p className="text-xs text-muted-foreground mt-0.5">累计答对</p>
+                      </div>
+                      <div className="bg-muted/30 rounded-xl py-3">
+                        <p className="text-xl font-bold text-primary">
+                          {Math.round((sessionStats.correct / Math.max(1, sessionStats.total)) * 100)}%
+                        </p>
+                        <p className="text-xs text-muted-foreground mt-0.5">累计正确率</p>
+                      </div>
+                    </div>
+                    <p className="text-sm text-muted-foreground mt-3">
+                      累计用时 {formatDuration(sessionElapsedMs)}
+                    </p>
+                  </div>
                 </CardContent>
               </Card>
             </div>

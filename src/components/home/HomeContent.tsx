@@ -136,7 +136,14 @@ export default function HomeContent() {
 
         {/* 桌面端 */}
         <div className="hidden xl:flex xl:flex-col xl:h-screen">
-          <HomeHeader />
+          <HomeHeader
+            onFlashcardInteraction={() => {
+              // 电脑端「当然」翻卡后刷新每日任务（闪卡互动任务进度实时更新）
+              if (isAuthenticated) {
+                setTaskRefreshKey((k) => k + 1)
+              }
+            }}
+          />
 
           <div className="flex-1 flex flex-col xl:flex-row min-h-0 xl:overflow-hidden">
             <div className="flex flex-col xl:w-[440px] xl:shrink-0 xl:overflow-y-auto xl:border-r xl:border-border">
@@ -147,7 +154,7 @@ export default function HomeContent() {
                     <CombatPowerBadge />
                   </div>
                 )}
-                {isAuthenticated && <DailyTaskCard defaultCollapsed={false} />}
+                {isAuthenticated && <DailyTaskCard refreshKey={taskRefreshKey} defaultCollapsed={false} />}
                 <WordTranslationPanel
                   showPos={showPos}
                   showExample={showExample}

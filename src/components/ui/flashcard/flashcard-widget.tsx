@@ -36,7 +36,7 @@ interface FlashcardGroup {
   [key: string]: unknown
 }
 
-export function FlashcardWidget() {
+export function FlashcardWidget({ onInteraction }: { onInteraction?: () => void } = {}) {
   const { data: session, status } = useSession()
   const [words, setWords] = useState<FlashcardWord[]>([])
   const [currentIndex, setCurrentIndex] = useState(0)
@@ -113,10 +113,10 @@ export function FlashcardWidget() {
 
     setIsSaving(true)
     try {
-      const res = await fetch('/api/dictation/update', {
+      const res = await fetch('/api/vocabulary/save', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ word: currentWord.word, isCorrect: false }),
+        body: JSON.stringify({ word: currentWord.word }),
       })
       const data = await res.json()
 
@@ -194,10 +194,16 @@ export function FlashcardWidget() {
 
       setIsUpdating(true)
       try {
-        const res = await fetch('/api/dictation/update', {
+        // 闪卡"认识/不认识"对接闪卡互动任务（与移动端 FullscreenFlashcard 一致），
+        // 不再走 /api/dictation/update（那会错误地推进"默写复习"任务）
+        const res = await fetch('/api/flashcard/save-and-categorize', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ word: currentWord.word, isCorrect }),
+          body: JSON.stringify({
+            word: currentWord.word,
+            category: isCorrect ? 'known' : 'unknown',
+            isCorrect,
+          }),
         })
 
         const data = await res.json()
@@ -209,6 +215,9 @@ export function FlashcardWidget() {
           } else {
             throw new Error(data.error || '更新失败')
           }
+        } else {
+          // 上报成功后通知外部刷新任务进度（如每日任务卡片）
+          onInteraction?.()
         }
       } catch (e: unknown) {
         if (process.env.NODE_ENV === 'development') console.error('Failed to update stats:', e)

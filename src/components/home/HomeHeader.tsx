@@ -14,7 +14,9 @@ import { FeatureLockedDialog } from '@/features/gamification/components/FeatureL
 import { useSession } from 'next-auth/react'
 import { useAppVersion } from '@/hooks/useAppVersion'
 
-export function HomeHeader() {
+export function HomeHeader({
+  onFlashcardInteraction,
+}: { onFlashcardInteraction?: () => void } = {}) {
   const { data: session, status } = useSession()
   const appVer = useAppVersion()
   const isAuthenticated = status === 'authenticated' && session?.user
@@ -76,7 +78,7 @@ export function HomeHeader() {
           >
             {isAuthenticated && (
               <div className="hidden xl:block">
-                <FlashcardWidget />
+                <FlashcardWidget onInteraction={onFlashcardInteraction} />
               </div>
             )}
             {isAuthenticated && (
