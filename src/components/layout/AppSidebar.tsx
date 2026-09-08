@@ -45,7 +45,7 @@ interface AppSidebarProps {
 
 const DEFAULT_NAV_ITEMS: SidebarNavItem[] = [
   { href: '/', label: '首页', icon: Home, requiresAuth: false },
-  { href: '/ai', label: 'AI询问', icon: Sparkles, requiresAuth: true },
+  { href: '/ai', label: '更多翻译', icon: Sparkles, requiresAuth: false },
   { href: '/dictation', label: '默写复习', icon: PenTool, requiresAuth: true },
   { href: '/history', label: '生词本', icon: BookOpen, requiresAuth: true },
   { href: '/leaderboard', label: '排行榜', icon: Trophy, requiresAuth: true },

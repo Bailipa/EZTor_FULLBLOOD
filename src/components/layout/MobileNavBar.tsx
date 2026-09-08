@@ -15,7 +15,7 @@ interface NavItem {
 const navItems: NavItem[] = [
   { href: '/', label: '首页', icon: Home, requiresAuth: false },
   { href: '/dictation', label: '默写', icon: PenTool, requiresAuth: true },
-  { href: '/ai', label: 'AI', icon: Sparkles, requiresAuth: true },
+  { href: '/ai', label: '更多翻译', icon: Sparkles, requiresAuth: false },
   { href: '/me', label: '我的', icon: User, requiresAuth: false },
 ]
 

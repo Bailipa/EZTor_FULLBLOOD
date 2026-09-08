@@ -19,6 +19,7 @@ import { isInstallerFile } from '@/lib/downloadClassify'
 
 const OPTIONAL_AUTH_PATHS = [
   '/',
+  '/ai',
   '/me',
   '/api/translate',
   '/api/public-translate',
@@ -30,7 +31,7 @@ const OPTIONAL_AUTH_PATHS = [
   '/api/danmaku',
 ]
 
-const PUBLIC_PATHS = ['/site-config.json', '/auth/signin', '/api/auth', '/api/captcha', '/api/health', '/api/auth/xiaoying', '/flywheel-preview.html', '/share', '/api/share-profile', '/download', '/manifest.webmanifest', '/danmaku-overlay.html', '/api/version', '/api/debug', '/updates', '/api/downloads/record']
+const PUBLIC_PATHS = ['/site-config.json', '/auth/signin', '/api/auth', '/api/captcha', '/api/health', '/api/auth/xiaoying', '/flywheel-preview.html', '/share', '/api/share-profile', '/download', '/manifest.webmanifest', '/danmaku-overlay.html', '/api/version', '/api/debug', '/updates', '/api/downloads/record', '/api/zh-to-en']
 
 const ADMIN_PATHS = [
   '/analytics',

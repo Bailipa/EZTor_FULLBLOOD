@@ -5,7 +5,7 @@ import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { HomeHeader } from '@/components/home'
 import { WordTranslationPanel } from '@/components/home/WordTranslationPanel'
-import { AiAssistant } from '@/components/ai/AiAssistant'
+import { ZhEnAssistant } from '@/components/ai/ZhEnAssistant'
 import { useLoginPrompt } from '@/components/ui/login-prompt-modal'
 import AppLayout from '@/components/layout/AppLayout'
 import type { ReviewGroup } from '@/types/api'
@@ -14,23 +14,11 @@ import { FullscreenFlashcard } from '@/components/flashcard/FullscreenFlashcard'
 import { useOnboarding } from '@/components/onboarding/OnboardingProvider'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { GraduationCap, Sparkles, ChevronDown, ChevronUp } from 'lucide-react'
+import { GraduationCap, ChevronDown, ChevronUp } from 'lucide-react'
 import { DailyTaskCard } from '@/features/gamification/components/DailyTaskCard'
 import { CombatPowerBadge } from '@/features/gamification/components/CombatPowerBadge'
 import { FeatureUnlockNotification } from '@/features/gamification/components/FeatureUnlockNotification'
 import type { FeatureKey } from '@/features/gamification/constants'
-
-function GuestAiPlaceholder({ onLogin }: { onLogin: () => void }) {
-  return (
-    <div className="flex items-center justify-center h-full">
-      <div className="text-center space-y-4">
-        <Sparkles className="w-12 h-12 text-muted-foreground mx-auto" />
-        <p className="text-lg font-medium">登录后解锁 AI 询问</p>
-        <Button onClick={onLogin}>登录</Button>
-      </div>
-    </div>
-  )
-}
 
 export default function HomeContent() {
   usePageView('Home')
@@ -168,12 +156,8 @@ export default function HomeContent() {
             </div>
 
               <div className="flex-1 flex flex-col xl:overflow-hidden">
-                <div className="flex-1 p-4 md:p-6 lg:p-8 xl:pl-4">
-                  {isAuthenticated ? (
-                    <AiAssistant />
-                  ) : (
-                    <GuestAiPlaceholder onLogin={() => promptLogin('AI询问')} />
-                  )}
+                <div className="flex-1 min-h-0 flex flex-col p-4 md:p-6 lg:p-8 xl:pl-4">
+                  <ZhEnAssistant />
                 </div>
               <footer className="py-6 px-4 md:px-6 lg:px-8 text-center text-sm text-muted-foreground">
                 <a
