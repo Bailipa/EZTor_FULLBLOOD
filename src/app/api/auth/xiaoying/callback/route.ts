@@ -214,7 +214,7 @@ export async function GET(request: Request) {
 
     res.cookies.set(SESSION_COOKIE, encodedJwt, {
       httpOnly: true,
-      sameSite: 'lax',
+      sameSite: 'none',
       path: '/',
       secure: process.env.NODE_ENV === 'production',
       expires: cookieExpires,

@@ -148,7 +148,8 @@ export default function MePage() {
 
   const guardedHref =
     (requiresAuth: boolean) => (e: React.MouseEvent) => {
-      if (requiresAuth && !isAuthenticated) {
+      // 仅真正未登录时拦截跳登录页；loading（会话加载中）放行，由服务器中间件裁决
+      if (requiresAuth && status === 'unauthenticated') {
         e.preventDefault()
         router.push('/auth/signin')
       }

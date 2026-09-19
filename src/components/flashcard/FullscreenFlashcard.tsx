@@ -5,7 +5,6 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Check, X, Loader2, Volume2 } from 'lucide-react'
 import { useSession } from 'next-auth/react'
-import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 import { speakText } from '@/lib/ttsBrowser'
 import Link from 'next/link'
@@ -24,7 +23,6 @@ interface FlashcardWord {
 
 export function FullscreenFlashcard({ onInteraction }: { onInteraction?: () => void } = {}) {
   const { data: session, status } = useSession()
-  const router = useRouter()
   const { currentStep, isActive, nextStep } = useOnboarding()
   const [words, setWords] = useState<FlashcardWord[]>([])
   const [currentIndex, setCurrentIndex] = useState(0)
@@ -129,7 +127,9 @@ export function FullscreenFlashcard({ onInteraction }: { onInteraction?: () => v
         // 如果是引导步骤1，推进步骤并跳转到默写页
         if (isActive && currentStep === 1) {
           nextStep()
-          router.push('/dictation')
+          // 使用整页导航，确保 Session Cookie 随默写页请求发送。
+          // 客户端路由的 RSC 请求可能在部分浏览器/WebView 中丢失认证 Cookie。
+          window.location.assign('/dictation')
           return
         }
 

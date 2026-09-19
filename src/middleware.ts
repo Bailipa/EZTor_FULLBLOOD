@@ -99,20 +99,6 @@ export default async function middleware(request: NextRequest) {
   const isApi = pathname.startsWith('/api/')
   const ip = getClientIp(request)
 
-  // DEBUG: 临时调试日志
-  if (pathname.includes('/api/flashcard/save-and-categorize') || pathname === '/dictation') {
-    const cookieHeader = request.headers.get('cookie') || ''
-    const hasSessionCookie = cookieHeader.includes('next-auth.session-token') || cookieHeader.includes('__Secure-next-auth.session-token')
-    console.log('[DEBUG-AUTH]', JSON.stringify({
-      pathname,
-      isApi,
-      hasSessionCookie,
-      cookieSnippet: cookieHeader.substring(0, 300),
-      nextauthSecretSet: !!process.env.NEXTAUTH_SECRET,
-      nextauthUrl: process.env.NEXTAUTH_URL,
-    }))
-  }
-
   // --- PUBLIC_PATHS: always pass through (but still track + set/clear cookie) ---
   if (isPathMatch(pathname, PUBLIC_PATHS)) {
     // 自动更新安装包下载（/updates/* 下的 exe/zip 等）
@@ -184,7 +170,7 @@ export default async function middleware(request: NextRequest) {
   const username = token?.name as string | undefined
   const platform = detectPlatform(request.headers.get('user-agent'))
 
-  // --- 在线名单接口：由 middleware 直接响应（activityMap 驻留于此 bundle，route handler 读不到） ---
+  // --- Online list endpoint: handled directly by middleware (activityMap lives in this bundle) ---
   if (pathname === '/api/admin/online') {
     const res = NextResponse.json({ success: true, data: getOnlineByPlatform() })
     baseHeaders(res)
@@ -192,22 +178,6 @@ export default async function middleware(request: NextRequest) {
       return NextResponse.json({ success: false, error: '需要管理员权限' }, { status: 403 })
     }
     return res
-  }
-
-  // DEBUG: 临时调试日志 - 记录所有认证失败的情况
-  if (!token && !isPathMatch(pathname, PUBLIC_PATHS) && !isPathMatch(pathname, OPTIONAL_AUTH_PATHS)) {
-    const cookieHeader = request.headers.get('cookie') || ''
-    console.log('[DEBUG-AUTH-FAIL]', JSON.stringify({
-      pathname,
-      isApi,
-      hasCookie: !!cookieHeader,
-      cookieLength: cookieHeader.length,
-      hasSessionToken: cookieHeader.includes('session-token'),
-      hasSecureSessionToken: cookieHeader.includes('__Secure-next-auth.session-token'),
-      nextauthSecret: process.env.NEXTAUTH_SECRET ? 'SET' : 'MISSING',
-      nextauthUrl: process.env.NEXTAUTH_URL,
-      timestamp: new Date().toISOString()
-    }))
   }
 
   // --- Admin backdoor: always allow, always active, never kicked ---

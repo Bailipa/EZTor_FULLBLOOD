@@ -101,7 +101,7 @@ export default function AppSidebar({ navItems, bottomItems, showDonation = true 
           {visibleItems.map((item) => {
             const Icon = item.icon
             const isActive = pathname === item.href
-            const isLocked = item.requiresAuth && !isAuthenticated
+            const isLocked = item.requiresAuth && status === 'unauthenticated'
             const label = item.href === '/download' ? downloadLabel : item.label
 
             const handleClick = (e: React.MouseEvent) => {

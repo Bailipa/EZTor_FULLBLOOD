@@ -2,7 +2,7 @@
 
 import { signIn, useSession } from 'next-auth/react'
 import { useState, useEffect, useRef } from 'react'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { usePageView } from '@/lib/analytics'
 import { Input } from '@/components/ui/input'
@@ -22,9 +22,8 @@ export default function SignIn() {
   } | null>(null)
   const [error, setError] = useState('')
   const [isLoading, setIsLoading] = useState(false)
-  const router = useRouter()
   const searchParams = useSearchParams()
-  const { status, update } = useSession()
+  const { status } = useSession()
   const wasKicked = searchParams.get('kicked') === '1'
 
   const [onlineCount, setOnlineCount] = useState<number | null>(null)
@@ -44,9 +43,11 @@ export default function SignIn() {
   useEffect(() => {
     if (status === 'authenticated') {
       const callbackUrl = searchParams.get('callbackUrl')
-      router.push(callbackUrl || '/')
+      // 整页跳转（顶级导航）保证 session cookie 一定随请求发送，
+      // 避免客户端路由在 SameSite 跨站场景下不携带 cookie
+      window.location.assign(callbackUrl || '/')
     }
-  }, [status, router, searchParams])
+  }, [status, searchParams])
 
   const fetchCaptcha = async () => {
     try {
@@ -108,16 +109,10 @@ export default function SignIn() {
         fetchCaptcha()
         setIsLoading(false)
       } else {
-        // 成功：signIn(redirect:false) 后 useSession 可能不自动刷新（尤其退出后重登），
-        // 显式调用 update() 强制重取 session，再跳转
-        try {
-          const newSession = await update()
-          const callbackUrl = searchParams.get('callbackUrl')
-          router.push(newSession?.user ? callbackUrl || '/' : '/auth/signin')
-        } catch {
-          // update 失败时兜底：浏览器跳转会让服务端鉴权接管
-          router.push(searchParams.get('callbackUrl') || '/')
-        }
+        // 成功：整页跳转（顶级导航），cookie 一定随请求发送；
+        // 不再依赖 useSession 刷新（避免竞态把已登录用户误踢回登录页）
+        const callbackUrl = searchParams.get('callbackUrl') || '/'
+        window.location.assign(callbackUrl)
         // 不 setLoading(false)——成功后立即跳转；跳转失败也不滞留"登录中"
       }
     } catch (_err) {

@@ -22,11 +22,11 @@ const navItems: NavItem[] = [
 export default function MobileNavBar() {
   const pathname = usePathname()
   const router = useRouter()
-  const { data: session, status } = useSession()
-  const isAuthenticated = status === 'authenticated' && session?.user
+  const { status } = useSession()
 
   const handleNavClick = (e: React.MouseEvent, item: NavItem) => {
-    if (item.requiresAuth && !isAuthenticated) {
+    // 仅真正未登录时拦截跳登录页；loading（会话加载中）放行，由服务器中间件裁决
+    if (item.requiresAuth && status === 'unauthenticated') {
       e.preventDefault()
       router.push('/auth/signin')
     }
@@ -50,7 +50,7 @@ export default function MobileNavBar() {
               className={`flex flex-col items-center justify-center gap-0.5 flex-1 h-full transition-colors ${
                 isActiveTab
                   ? 'text-primary'
-                  : item.requiresAuth && !isAuthenticated
+                  : item.requiresAuth && status === 'unauthenticated'
                     ? 'text-muted-foreground/50'
                     : 'text-muted-foreground hover:text-foreground'
               }`}
