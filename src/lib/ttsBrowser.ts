@@ -1,16 +1,24 @@
 'use client'
 
 import { toast } from 'sonner'
+import { readExperiencePreferences } from '@/lib/experiencePreferences'
 
 type SpeakOptions = {
   voice?: string
   speed?: number
+  volume?: number
 }
 
 let currentAudio: HTMLAudioElement | null = null
 let currentUrl: string | null = null
 
 let audioUnlocked = false
+
+export function isSpeechPlaying(): boolean {
+  return Boolean(currentAudio && !currentAudio.paused) || Boolean(
+    typeof window !== 'undefined' && 'speechSynthesis' in window && window.speechSynthesis.speaking,
+  )
+}
 
 // --- IndexedDB TTS Cache ---
 const DB_NAME = 'tts-cache'
@@ -148,10 +156,11 @@ export function stopSpeech(): void {
   }
 }
 
-function playAudio(audio: HTMLAudioElement, blob: Blob): void {
+function playAudio(audio: HTMLAudioElement, blob: Blob, volume: number): void {
   const url = URL.createObjectURL(blob)
   currentUrl = url
   audio.src = url
+  audio.volume = volume
   audio.play().then(() => {
     audio.addEventListener('ended', () => stopSpeech(), { once: true })
   }).catch((playErr) => {
@@ -177,6 +186,8 @@ export async function speakText(text: string, opts: SpeakOptions = {}): Promise<
   // Create Audio element synchronously (user-gesture context) before async ops
   const audio = new Audio()
   currentAudio = audio
+  const savedVolume = readExperiencePreferences().speechVolume / 100
+  const volume = Math.max(0, Math.min(1, opts.volume ?? savedVolume))
 
   const cacheKey = makeCacheKey(input, opts.voice)
 
@@ -184,7 +195,7 @@ export async function speakText(text: string, opts: SpeakOptions = {}): Promise<
   try {
     const cached = await getFromCache(cacheKey)
     if (cached && Date.now() - cached.timestamp < CACHE_TTL) {
-      playAudio(audio, cached.blob)
+      playAudio(audio, cached.blob, volume)
       return
     }
   } catch {
@@ -212,7 +223,7 @@ export async function speakText(text: string, opts: SpeakOptions = {}): Promise<
       // Save to IndexedDB (fire-and-forget)
       saveToCache(cacheKey, blob)
 
-      playAudio(audio, blob)
+      playAudio(audio, blob, volume)
       return
     }
   } catch {
@@ -223,6 +234,7 @@ export async function speakText(text: string, opts: SpeakOptions = {}): Promise<
   if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
     const utterance = new SpeechSynthesisUtterance(input)
     utterance.lang = 'en-US'
+    utterance.volume = volume
     window.speechSynthesis.speak(utterance)
   } else if (!serverOk) {
     toast.error('当前环境不支持语音播放')

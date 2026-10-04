@@ -52,6 +52,7 @@ export default function PublicWordsPage() {
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc')
   const [minQuality, setMinQuality] = useState('')
   const [maxQuality, setMaxQuality] = useState('')
+  const [appliedQuality, setAppliedQuality] = useState({ min: '', max: '' })
   const [selectedWord, setSelectedWord] = useState<PublicWord | null>(null)
   const [editingWord, setEditingWord] = useState<PublicWord | null>(null)
   const [showAddForm, setShowAddForm] = useState(false)
@@ -62,11 +63,11 @@ export default function PublicWordsPage() {
     (pageNum: number, pageSize: number, query: string) => {
       let url = `/api/public-words?page=${pageNum}&limit=${pageSize}&sortBy=${sortBy}&sortOrder=${sortOrder}`
       if (query) url += `&word=${encodeURIComponent(query)}`
-      if (minQuality) url += `&minQuality=${minQuality}`
-      if (maxQuality) url += `&maxQuality=${maxQuality}`
+      if (appliedQuality.min) url += `&minQuality=${appliedQuality.min}`
+      if (appliedQuality.max) url += `&maxQuality=${appliedQuality.max}`
       return url
     },
-    [sortBy, sortOrder, minQuality, maxQuality],
+    [sortBy, sortOrder, appliedQuality],
   )
 
   const {
@@ -87,6 +88,7 @@ export default function PublicWordsPage() {
   } = useCrudTable<PublicWord>({
     requireAdmin: true,
     pageSize: 20,
+    requestKey: `${sortBy}:${sortOrder}:${appliedQuality.min}:${appliedQuality.max}`,
     buildUrl,
     parseResponse: (json) => {
       const d = json.data as {
@@ -235,6 +237,9 @@ export default function PublicWordsPage() {
               <div>
                 <p className="font-medium">加载失败</p>
                 <p className="text-sm text-gray-500 dark:text-gray-400">{error}</p>
+                <Button className="mt-3" onClick={refresh} disabled={loading}>
+                  {loading ? '重试中...' : '重试'}
+                </Button>
               </div>
             </div>
           </CardContent>
@@ -364,12 +369,22 @@ export default function PublicWordsPage() {
                     value={maxQuality}
                     onChange={(e) => setMaxQuality(e.target.value)}
                   />
+                  <Button
+                    variant="outline"
+                    onClick={() => {
+                      setPage(1)
+                      setAppliedQuality({ min: minQuality, max: maxQuality })
+                    }}
+                  >
+                    应用筛选
+                  </Button>
                 </div>
                 <select
                   className="border rounded px-3 py-2 h-8 text-sm bg-transparent"
                   value={`${sortBy}-${sortOrder}`}
                   onChange={(e) => {
                     const [field, order] = e.target.value.split('-')
+                    setPage(1)
                     setSortBy(field)
                     setSortOrder(order as 'asc' | 'desc')
                   }}
@@ -576,7 +591,10 @@ export default function PublicWordsPage() {
             className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
             onClick={() => setEditingWord(null)}
           >
-            <Card className="max-w-2xl w-full" onClick={(e) => e.stopPropagation()}>
+            <Card
+              className="max-w-2xl w-full max-h-[calc(100dvh-2rem)] overflow-y-auto overscroll-contain"
+              onClick={(e) => e.stopPropagation()}
+            >
               <CardHeader>
                 <CardTitle>编辑单词</CardTitle>
               </CardHeader>
@@ -666,7 +684,10 @@ export default function PublicWordsPage() {
             className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
             onClick={() => setShowAddForm(false)}
           >
-            <Card className="max-w-2xl w-full" onClick={(e) => e.stopPropagation()}>
+            <Card
+              className="max-w-2xl w-full max-h-[calc(100dvh-2rem)] overflow-y-auto overscroll-contain"
+              onClick={(e) => e.stopPropagation()}
+            >
               <CardHeader>
                 <CardTitle>添加单词</CardTitle>
               </CardHeader>

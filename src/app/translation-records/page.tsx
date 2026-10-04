@@ -135,8 +135,9 @@ export default function TranslationRecordsPage() {
         method: 'DELETE',
       })
       const json = await res.json()
-      if (json.success) {
+      if (res.ok && json.success) {
         toast.success(json.message)
+        await refresh()
       } else {
         toast.error(json.error || '删除失败')
       }
@@ -190,8 +191,8 @@ export default function TranslationRecordsPage() {
     <div className="min-h-screen bg-background p-6 md:p-12">
       <div className="max-w-7xl mx-auto space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div style={{ minWidth: 'max-content' }}>
-            <h1 className="text-2xl font-bold" style={{ whiteSpace: 'nowrap' }}>翻译记录</h1>
+          <div className="min-w-0">
+            <h1 className="break-words text-2xl font-bold">翻译记录</h1>
             <p className="text-muted-foreground">查看用户翻译单词的详细记录</p>
           </div>
         </div>
@@ -247,17 +248,17 @@ export default function TranslationRecordsPage() {
         <Card>
           <CardHeader>
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-              <div style={{ minWidth: 'max-content' }}>
-                <CardTitle style={{ whiteSpace: 'nowrap' }}>翻译记录列表</CardTitle>
+              <div className="min-w-0">
+                <CardTitle className="break-words">翻译记录列表</CardTitle>
                 <CardDescription>点击记录查看详情</CardDescription>
               </div>
-              <div className="flex gap-2">
+              <div className="flex min-w-0 w-full gap-2 sm:w-auto">
                 <Input
                   placeholder="搜索单词..."
                   value={searchInput}
                   onChange={(e) => setSearchInput(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-                  className="w-full sm:w-48 max-w-[200px]"
+                  className="min-w-0 w-full max-w-[200px] sm:w-48"
                 />
                 <Button variant="outline" size="sm" onClick={handleSearch}>
                   <Search className="w-4 h-4" />
@@ -340,7 +341,7 @@ export default function TranslationRecordsPage() {
                   </table>
                 </div>
 
-                <div className="flex items-center justify-between">
+                <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                   <div className="flex gap-2">
                     <Button
                       variant="outline"
@@ -353,7 +354,7 @@ export default function TranslationRecordsPage() {
                     </Button>
                   </div>
 
-                  <div className="flex items-center gap-2">
+                  <div className="flex flex-wrap items-center justify-end gap-2">
                     <Button
                       variant="outline"
                       size="sm"

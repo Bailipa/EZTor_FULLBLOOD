@@ -1,5 +1,6 @@
 import { Readable } from 'stream'
 import { randomUUID } from 'crypto'
+import { recordPublicWordCreation } from '@/lib/contributionLedger'
 import prisma from '@/lib/prisma'
 import { getServerSession } from 'next-auth/next'
 import { authOptions } from '@/app/api/auth/[...nextauth]/route'
@@ -468,6 +469,11 @@ export async function POST(req: Request) {
                       },
                     })
                     publicWordId = createdPublic.id
+                    await recordPublicWordCreation(tx, {
+                      word: createdPublic.word,
+                      publicWordId: createdPublic.id,
+                      source: 'SHARE_IMPORT',
+                    })
                   } catch (e: unknown) {
                     const ec = (e as { code?: string }).code
                     if (ec === 'P2002') {

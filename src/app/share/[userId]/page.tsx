@@ -147,6 +147,7 @@ export default function SharePage() {
   const userId = params.userId as string
 
   const [profile, setProfile] = useState<ShareProfileData | null>(null)
+  const [loadedUserId, setLoadedUserId] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [yaliEntered, setYaliEntered] = useState(false)
@@ -156,19 +157,37 @@ export default function SharePage() {
   const pageRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    fetch(`/api/share-profile/${userId}`)
-      .then((r) => r.json())
+    const controller = new AbortController()
+
+    setLoading(true)
+    setLoadedUserId(null)
+    setError(null)
+    setProfile(null)
+    setYaliEntered(false)
+    setNicknameEntered(false)
+    setCtaEntered(false)
+
+    fetch(`/api/share-profile/${userId}`, { signal: controller.signal })
+      .then((r) => r.json().then((data) => ({ response: r, data })))
       .then((data) => {
-        if (data.success && data.data) {
-          setProfile(data.data)
+        if (controller.signal.aborted) return
+        if (data.response.ok && data.data.success && data.data.data) {
+          setProfile(data.data.data)
         } else {
-          setError(data.error || '用户不存在')
+          setError(data.data.error || '用户不存在')
         }
       })
       .catch(() => {
-        setError('加载失败')
+        if (!controller.signal.aborted) setError('加载失败')
       })
-      .finally(() => setLoading(false))
+      .finally(() => {
+        if (!controller.signal.aborted) {
+          setLoading(false)
+          setLoadedUserId(userId)
+        }
+      })
+
+    return () => controller.abort()
   }, [userId])
 
   useEffect(() => {
@@ -235,7 +254,7 @@ export default function SharePage() {
     return () => clearTimeout(t)
   }, [profile, triggerFinalConfetti])
 
-  if (loading) {
+  if (loading || loadedUserId !== userId) {
     return (
       <div className="flex items-center justify-center min-h-screen share-page-bg">
         <Loader2 className="w-8 h-8 animate-spin text-amber-400" />

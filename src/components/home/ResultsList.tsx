@@ -52,6 +52,7 @@ export const ResultsList = forwardRef<HTMLDivElement, ResultsListProps>(function
   const { brandTheme } = useBrandTheme()
   const [mounted, setMounted] = useState(false)
   const isPurple = brandTheme === 'purple'
+  const isIndigo = brandTheme === 'indigo'
 
   useEffect(() => {
     setMounted(true)
@@ -99,6 +100,7 @@ export const ResultsList = forwardRef<HTMLDivElement, ResultsListProps>(function
             mounted={mounted}
             isDark={isDark}
             isPurple={isPurple}
+            isIndigo={isIndigo}
             playAudio={playAudio}
           />
         ))}
@@ -115,6 +117,7 @@ interface ResultCardProps {
   mounted: boolean
   isDark: boolean
   isPurple: boolean
+  isIndigo: boolean
   playAudio: (text: string) => void
 }
 
@@ -126,11 +129,14 @@ function ResultCard({
   mounted,
   isDark,
   isPurple,
+  isIndigo,
   playAudio,
 }: ResultCardProps) {
   const gradientClass = item.isNotFound
     ? 'bg-gradient-to-r from-muted-foreground to-caption'
-    : isPurple
+    : isIndigo
+      ? 'bg-gradient-to-r from-[#1828a9] via-[#3048e8] to-[#8290ff]'
+      : isPurple
       ? 'bg-gradient-to-r from-[#6B5CE7] to-[#A99DF8]'
       : 'bg-gradient-to-r from-cyan-400 via-blue-400 to-blue-500'
 
@@ -138,8 +144,8 @@ function ResultCard({
     <Card
       className={`overflow-hidden rounded-[20px] border-border shadow-sm animate-[slideIn_0.35s_ease-out_${index * 0.03}s_both]`}
       style={{
-        backgroundColor: mounted ? (isDark ? 'rgb(38, 38, 38)' : 'rgb(255, 255, 255)') : undefined,
-        color: mounted ? (isDark ? 'rgb(245, 245, 245)' : 'rgb(23, 23, 23)') : undefined,
+        background: mounted ? (isIndigo ? 'var(--indigo-glass)' : isDark ? 'rgb(38, 38, 38)' : 'rgb(255, 255, 255)') : undefined,
+        color: mounted ? (isIndigo ? 'var(--card-foreground)' : isDark ? 'rgb(245, 245, 245)' : 'rgb(23, 23, 23)') : undefined,
         willChange: 'transform, opacity',
       }}
     >

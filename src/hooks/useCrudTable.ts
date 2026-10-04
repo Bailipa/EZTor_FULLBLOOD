@@ -14,6 +14,7 @@ export interface UseCrudTableConfig<T extends { id: unknown }> {
   requireAdmin?: boolean
   pageSize?: number
   skipFetch?: boolean
+  requestKey?: string | number
   buildUrl?: (page: number, pageSize: number, searchQuery: string) => string
   parseResponse?: (json: Record<string, unknown>) => {
     data: T[]
@@ -23,7 +24,14 @@ export interface UseCrudTableConfig<T extends { id: unknown }> {
 }
 
 export function useCrudTable<T extends { id: unknown }>(config: UseCrudTableConfig<T>) {
-  const { requireAdmin = true, pageSize = 20, skipFetch = false, buildUrl, parseResponse } = config
+  const {
+    requireAdmin = true,
+    pageSize = 20,
+    skipFetch = false,
+    requestKey,
+    buildUrl,
+    parseResponse,
+  } = config
 
   const { isLoading: authLoading, isAdmin, status } = useAdminCheck()
 
@@ -46,30 +54,36 @@ export function useCrudTable<T extends { id: unknown }>(config: UseCrudTableConf
 
   const buildUrlRef = useRef(buildUrl)
   const parseResponseRef = useRef(parseResponse)
+  const requestIdRef = useRef(0)
   buildUrlRef.current = buildUrl
   parseResponseRef.current = parseResponse
 
   const fetchData = useCallback(
     async (pageNum: number, query: string) => {
       if (skipFetch || !buildUrlRef.current || !parseResponseRef.current) return
+      const requestId = ++requestIdRef.current
       setLoading(true)
       setError(null)
+      setData(null)
+      setExtra(null)
+      setPagination({ page: pageNum, limit: pageSize, total: 0, totalPages: 1 })
       try {
         const url = buildUrlRef.current(pageNum, pageSize, query)
         const res = await fetch(url)
         const json = await res.json()
-        if (json.success) {
+        if (requestId !== requestIdRef.current) return
+        if (res.ok && json.success) {
           const { data: items, pagination: pg, extra: xt } = parseResponseRef.current(json)
           setData(items)
           setPagination(pg)
           if (xt !== undefined) setExtra(xt)
         } else {
-          setError(json.error || 'Failed to fetch data')
+          setError(json.error || `Failed to fetch data (${res.status})`)
         }
       } catch (_e) {
-        setError('Network error')
+        if (requestId === requestIdRef.current) setError('Network error')
       } finally {
-        setLoading(false)
+        if (requestId === requestIdRef.current) setLoading(false)
       }
     },
     [pageSize, skipFetch],
@@ -79,7 +93,10 @@ export function useCrudTable<T extends { id: unknown }>(config: UseCrudTableConf
     if (skipFetch) return
     if (requireAdmin && !isAdmin) return
     fetchData(page, searchQuery)
-  }, [page, searchQuery, isAdmin, fetchData, requireAdmin, skipFetch])
+    return () => {
+      requestIdRef.current += 1
+    }
+  }, [page, searchQuery, isAdmin, fetchData, requireAdmin, skipFetch, requestKey])
 
   const handleSearch = useCallback(() => {
     setSearchQuery(searchInput)

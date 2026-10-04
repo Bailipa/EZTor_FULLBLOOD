@@ -1,39 +1,43 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import dynamic from 'next/dynamic'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
-import { HomeHeader } from '@/components/home'
-import { WordTranslationPanel } from '@/components/home/WordTranslationPanel'
-import { ZhEnAssistant } from '@/components/ai/ZhEnAssistant'
+import Link from 'next/link'
+import { HomeHeader } from '@/components/home/HomeHeader'
 import { useLoginPrompt } from '@/components/ui/login-prompt-modal'
 import AppLayout from '@/components/layout/AppLayout'
-import type { ReviewGroup } from '@/types/api'
 import { usePageView } from '@/lib/analytics'
-import { FullscreenFlashcard } from '@/components/flashcard/FullscreenFlashcard'
 import { useOnboarding } from '@/components/onboarding/OnboardingProvider'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { GraduationCap, ChevronDown, ChevronUp } from 'lucide-react'
+import { GraduationCap, BookOpen, AlertCircle, PenLine, Languages, ArrowUpRight, ArrowRight } from 'lucide-react'
+import styles from '@/components/ai/translation-workspace.module.css'
 import { DailyTaskCard } from '@/features/gamification/components/DailyTaskCard'
-import { CombatPowerBadge } from '@/features/gamification/components/CombatPowerBadge'
+import { CombatPowerBadge, type CombatPowerSummary } from '@/features/gamification/components/CombatPowerBadge'
 import { FeatureUnlockNotification } from '@/features/gamification/components/FeatureUnlockNotification'
 import type { FeatureKey } from '@/features/gamification/constants'
+
+const MobileFlashcard = dynamic(
+  () => import('@/components/flashcard/FullscreenFlashcard').then((module) => module.FullscreenFlashcard),
+  { ssr: false, loading: () => <div className="flex min-h-80 items-center justify-center text-sm text-muted-foreground">载入单词卡…</div> },
+)
 
 export default function HomeContent() {
   usePageView('Home')
   const { currentStep, isActive, nextStep, completeOnboarding, startOnboarding } = useOnboarding()
   const router = useRouter()
   const [hasInteractedWithFlashcard, setHasInteractedWithFlashcard] = useState(false)
+  const [flashcardOpenRequest, setFlashcardOpenRequest] = useState(0)
 
-  const [showPos, _setShowPos] = useState(true)
-  const [showExample, _setShowExample] = useState(true)
-  const [groups, setGroups] = useState<ReviewGroup[]>([])
-  const [selectedTargetGroupId, setSelectedTargetGroupId] = useState<string>('none')
   const [unlockNotifOpen, setUnlockNotifOpen] = useState(false)
   const [unlockedFeatures, _setUnlockedFeatures] = useState<FeatureKey[]>([])
   const [taskRefreshKey, setTaskRefreshKey] = useState(0)
-  const [mobileTranslateOpen, setMobileTranslateOpen] = useState(false)
+  const [profile, setProfile] = useState<CombatPowerSummary | null>(null)
+  const [isMobileViewport, setIsMobileViewport] = useState(false)
+  const profileRequestRef = useRef<Promise<CombatPowerSummary | null> | null>(null)
+  const profileUserIdRef = useRef<string | null>(null)
 
   const { data: session, status } = useSession()
   const {
@@ -41,136 +45,148 @@ export default function HomeContent() {
     LoginPromptDialog,
   } = useLoginPrompt()
 
-  const isAuthenticated = status === 'authenticated' && session?.user
-  const isGuestMode = !isAuthenticated
+  const isAuthenticated = status === 'authenticated' && !!session?.user
 
   useEffect(() => {
-    if (session?.user?.id) {
-      fetch('/api/review-groups')
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.success && data.data) {
-            setGroups(data.data)
-          }
-        })
-        .catch(() => {})
-    }
-  }, [session])
+    const media = window.matchMedia('(max-width: 767px)')
+    const update = () => setIsMobileViewport(media.matches)
+    update()
+    media.addEventListener('change', update)
+    return () => media.removeEventListener('change', update)
+  }, [])
 
-  const handleGuestFeatureClick = useCallback(
-    (featureName: string) => {
-      promptLogin(featureName)
-    },
-    [promptLogin],
-  )
+  useEffect(() => {
+    if (!isAuthenticated) {
+      setProfile(null)
+      profileRequestRef.current = null
+      profileUserIdRef.current = null
+      return
+    }
+
+    let cancelled = false
+    const userId = session?.user?.id ?? null
+    if (profileUserIdRef.current !== userId) {
+      profileUserIdRef.current = userId
+      profileRequestRef.current = null
+    }
+    if (!profileRequestRef.current || taskRefreshKey > 0) {
+      let request: Promise<CombatPowerSummary | null>
+      request = fetch('/api/game/profile')
+        .then((response) => response.json())
+        .then((result) => {
+          const data = result?.success ? result.data : null
+          if (!data) return null
+          return {
+            combatPower: data.combatPower,
+            currentStreak: data.currentStreak,
+            dailyPowerGained: data.dailyPowerGained,
+            dailyPowerCap: data.dailyPowerCap,
+          } as CombatPowerSummary
+        })
+        .catch(() => null)
+      profileRequestRef.current = request
+      request.finally(() => {
+        if (profileRequestRef.current === request) profileRequestRef.current = null
+      })
+    }
+    profileRequestRef.current.then((data) => {
+      if (!cancelled && data) setProfile(data)
+    })
+
+    return () => {
+      cancelled = true
+    }
+  }, [isAuthenticated, session?.user?.id, taskRefreshKey])
 
   return (
-    <div className="relative h-screen bg-background font-[family-name:var(--font-geist-sans)] transition-colors duration-300 flex flex-col">
+    <div className="relative min-h-[100dvh] bg-background font-[family-name:var(--font-geist-sans)] transition-colors duration-300 flex flex-col md:h-dvh">
       <AppLayout>
-        {/* 移动端 */}
-        <div className="xl:hidden flex flex-col h-full">
-          <HomeHeader />
-          {isAuthenticated && (
-            <div className="px-4 py-2 flex items-center justify-between border-b border-border bg-background/80 backdrop-blur">
-              <CombatPowerBadge />
-            </div>
-          )}
-          {isAuthenticated && (
-            <div className="px-4 py-2">
-              <DailyTaskCard refreshKey={taskRefreshKey} defaultCollapsed={true} />
-            </div>
-          )}
-          {isAuthenticated && (
-            <div className="px-4 py-1">
-              <Card className="border-border/60">
-                <CardContent className="p-0">
-                  <button
-                    className="flex items-center justify-between w-full px-4 py-2.5 text-sm font-medium"
-                    onClick={() => setMobileTranslateOpen((v) => !v)}
-                  >
-                    <span>实时翻译</span>
-                    {mobileTranslateOpen ? (
-                      <ChevronUp className="w-4 h-4 text-muted-foreground" />
-                    ) : (
-                      <ChevronDown className="w-4 h-4 text-muted-foreground" />
-                    )}
-                  </button>
-                  {mobileTranslateOpen && (
-                    <div className="px-4 pb-4">
-                      <WordTranslationPanel
-                        showPos={showPos}
-                        showExample={showExample}
-                        groups={groups}
-                        selectedTargetGroupId={selectedTargetGroupId}
-                        setSelectedTargetGroupId={setSelectedTargetGroupId}
-                        isGuest={isGuestMode}
-                        onGuestFeatureClick={handleGuestFeatureClick}
-                      />
-                    </div>
-                  )}
-                </CardContent>
-              </Card>
-            </div>
-          )}
-          <div className="flex-1 min-h-0">
-            <FullscreenFlashcard onInteraction={() => {
-              if (isAuthenticated) {
-                setHasInteractedWithFlashcard(true)
-                setTaskRefreshKey((k) => k + 1)
-              }
-            }} />
-          </div>
-        </div>
-
-        {/* 桌面端 */}
-        <div className="hidden xl:flex xl:flex-col xl:h-screen">
+        <div className="flex min-h-[calc(100dvh-var(--mobile-nav-space))] flex-col md:h-dvh md:min-h-0">
           <HomeHeader
+            combatPower={profile?.combatPower ?? null}
+            flashcardOpenRequest={flashcardOpenRequest}
             onFlashcardInteraction={() => {
-              // 电脑端「当然」翻卡后刷新每日任务（闪卡互动任务进度实时更新）
-              if (isAuthenticated) {
-                setTaskRefreshKey((k) => k + 1)
-              }
+              if (isAuthenticated) setTaskRefreshKey((key) => key + 1)
             }}
           />
 
-          <div className="flex-1 flex flex-col xl:flex-row min-h-0 xl:overflow-hidden">
-            <div className="flex flex-col xl:w-[440px] xl:shrink-0 xl:overflow-y-auto xl:border-r xl:border-border">
-              <div className="p-4 md:p-6 lg:p-8 xl:pr-4 space-y-6">
-                {isAuthenticated && (
-                  <div className="flex items-center justify-between">
-                    <div />
-                    <CombatPowerBadge />
-                  </div>
-                )}
-                {isAuthenticated && <DailyTaskCard refreshKey={taskRefreshKey} defaultCollapsed={false} />}
-                <WordTranslationPanel
-                  showPos={showPos}
-                  showExample={showExample}
-                  groups={groups}
-                  selectedTargetGroupId={selectedTargetGroupId}
-                  setSelectedTargetGroupId={setSelectedTargetGroupId}
-                  isGuest={isGuestMode}
-                  onGuestFeatureClick={handleGuestFeatureClick}
-                />
-              </div>
-            </div>
-
-              <div className="flex-1 flex flex-col xl:overflow-hidden">
-                <div className="flex-1 min-h-0 flex flex-col p-4 md:p-6 lg:p-8 xl:pl-4">
-                  <ZhEnAssistant />
+          <main className={`min-h-0 flex-1 overflow-y-auto ${styles.canvas} ${styles.homeCanvas}`}>
+            <div className={styles.homePage}>
+              <section className={styles.homeLead} aria-label="学习与查词">
+                <div className={styles.homeIntro}>
+                  <p className={styles.eyebrow}>我的学习</p>
+                  <h2>温故，知新</h2>
+                  <p className={styles.homeDescription}>从熟悉的单词出发，每次记牢一点。</p>
+                  <Button className="mt-6 min-h-11 gap-3 rounded-lg px-5 shadow-none" onPointerEnter={() => { if (isAuthenticated) router.prefetch('/dictation') }} onFocus={() => { if (isAuthenticated) router.prefetch('/dictation') }} onClick={() => isAuthenticated ? router.push('/dictation') : promptLogin('默写复习')}>
+                    <PenLine className="size-4" />开始默写<ArrowRight className="size-4" />
+                  </Button>
                 </div>
-              <footer className="py-6 px-4 md:px-6 lg:px-8 text-center text-sm text-muted-foreground">
-                <a
-                  href="https://beian.miit.gov.cn/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="transition-colors hover:text-foreground"
-                >
-                  ICP备案号：粤ICP备2026008729号
-                </a>
-              </footer>
+                <div className={styles.learningLinks}>
+                  <button onPointerEnter={() => { if (isAuthenticated) router.prefetch('/mistakes') }} onFocus={() => { if (isAuthenticated) router.prefetch('/mistakes') }} onClick={() => isAuthenticated ? router.push('/mistakes') : promptLogin('错词本')}>
+                    <AlertCircle className="size-5 text-muted-foreground" strokeWidth={1.5} />
+                    <span><strong>错词本</strong><small>把易错的词，再巩固一遍</small></span>
+                    <ArrowUpRight className="size-4 text-muted-foreground" />
+                  </button>
+                  <button onPointerEnter={() => { if (isAuthenticated) router.prefetch('/history') }} onFocus={() => { if (isAuthenticated) router.prefetch('/history') }} onClick={() => isAuthenticated ? router.push('/history') : promptLogin('生词本')}>
+                    <BookOpen className="size-5 text-muted-foreground" strokeWidth={1.5} />
+                    <span><strong>生词本</strong><small>回看收藏，整理所学</small></span>
+                    <ArrowUpRight className="size-4 text-muted-foreground" />
+                  </button>
+                  <Link href="/ai">
+                    <Languages className="size-5 text-muted-foreground" strokeWidth={1.5} />
+                    <span><strong>翻译</strong><small>查一个词，读懂一句话</small></span>
+                    <ArrowUpRight className="size-4 text-muted-foreground" />
+                  </Link>
+                </div>
+
+                {isMobileViewport && (
+                  <section className={styles.mobileFlashcard} aria-label="每日单词">
+                    <MobileFlashcard embedded
+                      onInteraction={() => { if (isAuthenticated) setHasInteractedWithFlashcard(true) }}
+                      onSaved={() => { if (isAuthenticated) setTaskRefreshKey((key) => key + 1) }}
+                    />
+                  </section>
+                )}
+
+              </section>
+
+              {isAuthenticated && (
+                <section className={styles.homeProgress} aria-label="今日进度">
+                  <Card className={`${styles.progressSummary} py-0`}>
+                    <CardContent className="flex min-h-11 flex-wrap items-center justify-between gap-x-3 gap-y-1 px-3 py-1.5">
+                      <h2 className="text-sm font-medium">学力进度</h2>
+                      <CombatPowerBadge data={profile} />
+                    </CardContent>
+                  </Card>
+                  <DailyTaskCard
+                    refreshKey={taskRefreshKey}
+                    defaultCollapsed
+                    onTaskClick={(task) => {
+                      if (task.taskType === 'FLASHCARD_INTERACT') {
+                        setFlashcardOpenRequest((request) => request + 1)
+                      } else if (task.taskType === 'COMPLETE_REVIEWS' || task.taskType === 'REACH_ACCURACY') {
+                        router.push('/dictation')
+                      } else {
+                        router.push('/me')
+                      }
+                    }}
+                  />
+                </section>
+              )}
+              {status === 'unauthenticated' && (
+                <aside className={styles.guestNote} aria-label="账号同步">
+                  <BookOpen className="size-5 shrink-0 text-muted-foreground" strokeWidth={1.5} />
+                  <p>登录，留住所学。<span>生词与学习记录随账号保存。</span></p>
+                  <Link href="/auth/signin" className="inline-flex min-h-11 items-center gap-2 text-sm text-primary">登录<ArrowRight className="size-4" /></Link>
+                </aside>
+              )}
             </div>
-          </div>
+            <footer className={styles.homeFooter}>
+              <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-foreground">
+                ICP备案号：粤ICP备2026008729号
+              </a>
+            </footer>
+          </main>
         </div>
       </AppLayout>
 
@@ -234,7 +250,7 @@ export default function HomeContent() {
               <CardContent className="p-4">
                 <h3 className="font-semibold mb-2">🎉 引导完成！</h3>
                 <p className="text-sm text-muted-foreground mb-3">
-                  去探索更多功能吧：弹幕复习、分享成就、聊天反馈...
+                  去探索更多功能吧：弹幕复习、错词本、公共词库、分享成就和聊天反馈。
                 </p>
                 <Button
                   className="w-full"

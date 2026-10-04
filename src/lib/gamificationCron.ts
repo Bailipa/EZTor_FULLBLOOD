@@ -25,12 +25,9 @@ async function weeklyReset() {
 async function monthlyReset() {
   try {
     await prisma.userGameProfile.updateMany({
-      data: { monthlyPower: 0, zoneId: null },
+      data: { monthlyPower: 0 },
     })
-    await prisma.warZone.updateMany({
-      data: { memberCount: 0 },
-    })
-    logger.info('[Gamification] Monthly power reset and zone redistribution completed')
+    logger.info('[Gamification] Monthly power reset completed')
   } catch (err) {
     logger.error({ err }, '[Gamification] Monthly reset failed')
   }

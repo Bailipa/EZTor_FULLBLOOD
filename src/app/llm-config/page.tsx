@@ -207,8 +207,8 @@ export default function LlmConfigPage() {
       <div className="max-w-7xl mx-auto space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className="shrink-0 w-full sm:w-auto" style={{ minWidth: 'max-content' }}>
-              <h1 className="text-2xl font-bold flex items-center gap-2" style={{ whiteSpace: 'nowrap' }}>
+            <div className="min-w-0 w-full sm:w-auto">
+              <h1 className="text-2xl font-bold flex items-center gap-2">
                 <Settings2 className="w-6 h-6" />
                 大模型 API 配置
               </h1>

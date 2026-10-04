@@ -33,6 +33,29 @@ const INITIAL: AppVersionState = {
   macArm64Installer: null,
 }
 
+type VersionManifest = {
+  latestVersion?: string
+  platforms?: Record<string, { latestVersion?: string; latestInstaller?: string; installers?: string[] }>
+}
+let manifestCache: { data: VersionManifest; fetchedAt: number } | null = null
+let manifestRequest: Promise<VersionManifest> | null = null
+
+function fetchVersionManifest(): Promise<VersionManifest> {
+  if (manifestCache && Date.now() - manifestCache.fetchedAt < 60_000) return Promise.resolve(manifestCache.data)
+  if (manifestRequest) return manifestRequest
+  manifestRequest = fetch('/api/version')
+    .then(async (response) => {
+      if (!response.ok) throw new Error('Version unavailable')
+      const json = await response.json()
+      if (!json?.success) throw new Error('Version unavailable')
+      const data: VersionManifest = json.data ?? {}
+      manifestCache = { data, fetchedAt: Date.now() }
+      return data
+    })
+    .finally(() => { manifestRequest = null })
+  return manifestRequest
+}
+
 /**
  * 应用版本检测：识别是否在桌面/安卓 App 内，并对比服务器最新版本。
  */
@@ -40,16 +63,15 @@ export function useAppVersion(): AppVersionState {
   const [state, setState] = useState<AppVersionState>(INITIAL)
 
   useEffect(() => {
+    let cancelled = false
     const isApp = isInsideApp()
     const installed = parseInstalledVersion()
     setState((s) => ({ ...s, mounted: true, isApp, installedVersion: installed }))
 
     // 始终拉取版本/安装包清单：应用内比对更新，浏览器下载页需要安装包路径
-    fetch('/api/version')
-      .then((r) => r.json())
-      .then((j) => {
-        if (!j?.success) return
-        const data = j.data ?? {}
+    fetchVersionManifest()
+      .then((data) => {
+        if (cancelled) return
         // 按自身平台对照版本，避免跨平台误报（安卓看 apk、桌面看 exe 等）
         const platform = isAndroidApp() ? 'android' : isDesktopApp() ? 'desktop' : null
         const latest: string | null =
@@ -82,7 +104,8 @@ export function useAppVersion(): AppVersionState {
           macArm64Installer: pickLatestDmg(true) ? `/downloads/${pickLatestDmg(true)}` : null,
         }))
       })
-      .catch(() => setState((s) => ({ ...s, hasUpdate: false })))
+      .catch(() => { if (!cancelled) setState((s) => ({ ...s, hasUpdate: false })) })
+    return () => { cancelled = true }
   }, [])
 
   return state

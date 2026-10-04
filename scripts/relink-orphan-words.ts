@@ -16,6 +16,7 @@
 
 import { PrismaClient } from '@prisma/client'
 import { randomUUID } from 'crypto'
+import { recordPublicWordCreation } from '../src/lib/contributionLedger'
 
 const prisma = new PrismaClient({ log: ['warn', 'error'] })
 
@@ -73,18 +74,26 @@ async function main() {
       } else if (w.translation) {
         // 情况 2：没有公共词库 → 新建 PublicWord
         if (!dryRun) {
-          const newPw = await prisma.publicWord.create({
-            data: {
-              id: randomUUID(),
-              word: w.word,
-              phonetic: w.phonetic || '',
-              pos: w.pos || '',
-              translation: w.translation || '',
-              example: w.example || '',
-              exampleTranslation: w.exampleTranslation || '',
-              qualityScore: 50,
-              updatedAt: new Date(),
-            },
+          const newPw = await prisma.$transaction(async (tx) => {
+            const publicWord = await tx.publicWord.create({
+              data: {
+                id: randomUUID(),
+                word: w.word,
+                phonetic: w.phonetic || '',
+                pos: w.pos || '',
+                translation: w.translation || '',
+                example: w.example || '',
+                exampleTranslation: w.exampleTranslation || '',
+                qualityScore: 50,
+                updatedAt: new Date(),
+              },
+            })
+            await recordPublicWordCreation(tx, {
+              word: publicWord.word,
+              publicWordId: publicWord.id,
+              source: 'SYSTEM_REPAIR',
+            })
+            return publicWord
           })
           updates.push({ id: w.id, publicWordId: newPw.id })
           publicWordMap.set(key, newPw)

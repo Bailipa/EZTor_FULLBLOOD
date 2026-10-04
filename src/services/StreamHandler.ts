@@ -34,6 +34,7 @@ export class StreamHandler {
           controller,
           orderedCachedResults,
           targetGroupId,
+          upstreamAbortController?.signal,
         )
       },
       cancel() {

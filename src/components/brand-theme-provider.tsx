@@ -2,7 +2,7 @@
 
 import { createContext, useCallback, useContext, useEffect, useState } from 'react'
 
-type BrandTheme = 'neutral' | 'purple'
+type BrandTheme = 'neutral' | 'purple' | 'gold' | 'indigo'
 
 interface BrandThemeContextValue {
   brandTheme: BrandTheme
@@ -10,28 +10,32 @@ interface BrandThemeContextValue {
 }
 
 const BrandThemeContext = createContext<BrandThemeContextValue>({
-  brandTheme: 'purple',
+  brandTheme: 'gold',
   setBrandTheme: () => {},
 })
 
 function getStoredBrand(): BrandTheme {
-  if (typeof window === 'undefined') return 'purple'
-  const stored = localStorage.getItem('brand-theme')
-  if (stored === 'neutral') return 'neutral'
-  return 'purple'
+  if (typeof window === 'undefined') return 'gold'
+  try {
+    const stored = localStorage.getItem('brand-theme')
+    if (stored === 'neutral' || stored === 'purple' || stored === 'gold' || stored === 'indigo') return stored
+  } catch {
+    // Storage may be unavailable; the current page can still use its theme.
+  }
+  return 'gold'
 }
 
 function applyBrandAttribute(theme: BrandTheme) {
   if (typeof document === 'undefined') return
-  if (theme === 'purple') {
-    document.documentElement.setAttribute('data-brand-theme', 'purple')
-  } else {
+  if (theme === 'neutral') {
     document.documentElement.removeAttribute('data-brand-theme')
+  } else {
+    document.documentElement.setAttribute('data-brand-theme', theme)
   }
 }
 
 export function BrandThemeProvider({ children }: { children: React.ReactNode }) {
-  const [brandTheme, setBrandThemeState] = useState<BrandTheme>('purple')
+  const [brandTheme, setBrandThemeState] = useState<BrandTheme>('gold')
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
@@ -43,13 +47,17 @@ export function BrandThemeProvider({ children }: { children: React.ReactNode }) 
 
   const setBrandTheme = useCallback((theme: BrandTheme) => {
     setBrandThemeState(theme)
-    localStorage.setItem('brand-theme', theme)
+    try {
+      localStorage.setItem('brand-theme', theme)
+    } catch {
+      // Apply the selection for this page even when persistence is unavailable.
+    }
     applyBrandAttribute(theme)
   }, [])
 
   if (!mounted) {
     return (
-      <BrandThemeContext.Provider value={{ brandTheme: 'purple', setBrandTheme }}>
+      <BrandThemeContext.Provider value={{ brandTheme: 'gold', setBrandTheme }}>
         {children}
       </BrandThemeContext.Provider>
     )

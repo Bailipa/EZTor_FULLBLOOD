@@ -14,7 +14,7 @@
 
 # EZTor — 英语词汇学习平台
 
-**🌐 在线演示: [eztor.dogeggcode.cyou](https://eztor.dogeggcode.cyou)**
+**🌐 在线演示: [EZTor](https://eztor.dogeggcode.cyou) · [公共词库](https://eztor.dogeggcode.cyou/public-vocabulary)**
 
 ![EZTor Demo](https://raw.githubusercontent.com/Bailipa/EZTor_FULLBLOOD/main/yanshitupian.png)
 
@@ -69,7 +69,9 @@ npm run dev        # → http://localhost:3000
 - **单词翻译** — 大模型驱动的英汉翻译，包含词性、音标、例句、可数性标注
 - **仅翻译** — 快速翻译不保存，每天 30 次免费使用；支持自定义 API Key
 - **词库** — 保存单词，创建复习组，导入 CET-4/CET-6 词汇
-- **听写 / 复习** — 智能复习系统，支持分组、评分
+- **听写 / 复习** — 智能复习系统，支持分组、评分和错词重测
+- **错词本** — 长期汇总答错的单词，按错误次数排序并直接开始错词专练
+- **公共词库** — 浏览、搜索公共词条，并下载全部词条或搜索结果 CSV
 - **TTS** — 文本转语音（Edge TTS）
 - **弹幕** — 浮动单词展示，被动学习
 - **井字棋** — 无限模式休闲小游戏
@@ -84,6 +86,8 @@ src/
 │   ├── api/        # REST API 端点
 │   ├── analytics/  # 管理后台数据分析
 │   ├── dictation/  # 听写 / 复习
+│   ├── mistakes/   # 错词本
+│   ├── public-vocabulary/ # 可浏览的公共词库
 │   ├── history/    # 翻译历史
 │   ├── game/       # 井字棋游戏
 │   └── ...

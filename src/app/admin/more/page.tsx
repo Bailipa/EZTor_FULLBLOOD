@@ -10,10 +10,17 @@ import {
   Database,
   ChevronRight,
   Loader2,
+  Sparkles,
 } from 'lucide-react'
 import { useAdminCheck } from '@/hooks/useAdminCheck'
 
 const items = [
+  {
+    href: '/admin/ai',
+    label: 'AI 询问统计',
+    description: '查看 AI 使用情况',
+    icon: Sparkles,
+  },
   {
     href: '/admin/chat',
     label: '聊天管理',

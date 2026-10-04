@@ -2,74 +2,76 @@ import { NextResponse } from 'next/server'
 import prisma from '@/lib/prisma'
 import { getServerSession } from 'next-auth/next'
 import { authOptions } from '../../auth/[...nextauth]/route'
-import { safeQueryRaw } from '@/lib/safeQueryRaw'
 import { randomUUID } from 'crypto'
 import { logger } from '@/lib/logger'
+import { checkCsrfHeader } from '@/lib/csrf'
 
-/**
- * 把公共词库单词加入用户生词本（幂等）。
- * 只创建 Word 记录，不更新对错统计、不推进任何每日任务
- * （区别于 /api/dictation/update：那是默写/复习答题上报）。
- */
+/** Add a public word to the user's private library and optionally a review group. */
 export async function POST(req: Request) {
   try {
+    const csrf = checkCsrfHeader(req)
+    if (!csrf.valid) {
+      return NextResponse.json({ success: false, error: csrf.reason || 'Invalid origin' }, { status: 403 })
+    }
+
     const session = await getServerSession(authOptions)
     if (!session?.user?.id) {
       return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 })
     }
 
-    const { word } = await req.json()
-
-    if (!word) {
-      return NextResponse.json({ success: false, error: 'Word is required' }, { status: 400 })
-    }
-
-    const normalizedWord = String(word).toLowerCase().trim()
+    const { word, targetGroupId } = await req.json()
+    const normalizedWord = String(word || '').trim().toLowerCase()
     if (!normalizedWord) {
       return NextResponse.json({ success: false, error: 'Word is required' }, { status: 400 })
     }
 
-    const publicWord = await prisma.publicWord.findUnique({
-      where: { word: normalizedWord },
-    })
+    const publicWord = await prisma.publicWord.findUnique({ where: { word: normalizedWord } })
+    if (!publicWord) {
+      return NextResponse.json({ success: false, error: 'Public word not found' }, { status: 404 })
+    }
 
-    const existingWords = await safeQueryRaw('vocabularySave', () => prisma.$queryRaw<Record<string, unknown>[]>`
-      SELECT id FROM "Word"
-      WHERE "userId" = ${session.user.id}
-        AND lower("word") = ${normalizedWord}
-      LIMIT 1
-    `, [] as Record<string, unknown>[])
-
-    if (existingWords.length === 0) {
-      try {
-        await prisma.word.create({
-          data: {
-            id: randomUUID(),
-            word: String(word).trim(),
-            userId: session.user.id,
-            sourceType: 'PUBLIC',
-            publicWordId: publicWord?.id || null,
-            translation: null,
-            phonetic: null,
-            pos: null,
-            example: null,
-            exampleTranslation: null,
-            correctCount: 0,
-            incorrectCount: 0,
-            totalAttempts: 0,
-            updatedAt: new Date(),
-          },
-        })
-      } catch (err: unknown) {
-        // P2002：并发下两条请求同时创建同一单词，视为已存在（幂等）
-        if ((err as { code?: string }).code === 'P2002') {
-          return NextResponse.json({ success: true })
-        }
-        throw err
+    if (targetGroupId) {
+      const group = await prisma.reviewGroup.findUnique({
+        where: { id: targetGroupId },
+        select: { userId: true },
+      })
+      if (!group || group.userId !== session.user.id) {
+        return NextResponse.json({ success: false, error: 'Invalid target group' }, { status: 400 })
       }
     }
 
-    return NextResponse.json({ success: true })
+    const savedWord = await prisma.$transaction(async (tx) => {
+      const saved = await tx.word.upsert({
+        where: { word_userId: { word: normalizedWord, userId: session.user.id } },
+        update: { publicWordId: publicWord.id, sourceType: 'PUBLIC', updatedAt: new Date() },
+        create: {
+          id: randomUUID(),
+          word: normalizedWord,
+          userId: session.user.id,
+          sourceType: 'PUBLIC',
+          publicWordId: publicWord.id,
+          translation: null,
+          phonetic: null,
+          pos: null,
+          example: null,
+          exampleTranslation: null,
+          correctCount: 0,
+          incorrectCount: 0,
+          totalAttempts: 0,
+          updatedAt: new Date(),
+        },
+      })
+
+      if (targetGroupId) {
+        await tx.reviewGroupWord.createMany({
+          data: [{ id: randomUUID(), reviewGroupId: targetGroupId, wordId: saved.id }],
+          skipDuplicates: true,
+        })
+      }
+      return saved
+    })
+
+    return NextResponse.json({ success: true, exists: true, wordId: savedWord.id })
   } catch (err: unknown) {
     const msg = err instanceof Error ? err.message : String(err)
     logger.error({ err }, `Failed to save word to vocabulary book: ${msg}`)

@@ -5,11 +5,13 @@ export interface ZhEnLookupWord {
   phonetic: string | null
   pos: string | null
   translation: string
+  matchType: 'exact' | 'contains'
 }
 
 export interface ZhEnLookupResult {
   query: string
   total: number
+  hasMore: boolean
   words: ZhEnLookupWord[]
 }
 
@@ -27,24 +29,40 @@ export async function lookupZhEn(
   const cleaned = String(text ?? '')
     .replace(/[^\u4e00-\u9fff]/g, '')
     .trim()
-  if (!cleaned) return { query: String(text ?? '').trim(), total: 0, words: [] }
+  const originalQuery = String(text ?? '').trim()
+  if (!cleaned) return { query: originalQuery, total: 0, hasMore: false, words: [] }
 
   const take = Math.min(Math.max(1, Math.floor(limit)), ZH_EN_MAX_LIMIT)
-  const rows = await prisma.publicWord.findMany({
-    where: { translation: { contains: cleaned } },
-    orderBy: [{ qualityScore: 'desc' }, { word: 'asc' }],
-    take,
-    select: { word: true, phonetic: true, pos: true, translation: true },
-  })
+  const where = { translation: { contains: cleaned } }
+  const [total, exactRows] = await Promise.all([
+    prisma.publicWord.count({ where }),
+    prisma.publicWord.findMany({
+      where: { translation: cleaned },
+      orderBy: [{ qualityScore: 'desc' }, { word: 'asc' }],
+      take,
+      select: { word: true, phonetic: true, pos: true, translation: true },
+    }),
+  ])
+  const containsRows = exactRows.length < take
+    ? await prisma.publicWord.findMany({
+        where: { ...where, ...(exactRows.length ? { word: { notIn: exactRows.map((row) => row.word) } } : {}) },
+        orderBy: [{ qualityScore: 'desc' }, { word: 'asc' }],
+        take: take - exactRows.length,
+        select: { word: true, phonetic: true, pos: true, translation: true },
+      })
+    : []
+  const rows = [...exactRows, ...containsRows]
 
   return {
-    query: cleaned,
-    total: rows.length,
+    query: originalQuery,
+    total,
+    hasMore: total > rows.length,
     words: rows.map((r) => ({
       word: r.word,
       phonetic: r.phonetic,
       pos: r.pos,
       translation: r.translation,
+      matchType: r.translation === cleaned ? 'exact' : 'contains',
     })),
   }
 }

@@ -1,3 +1,4 @@
+import { INTERFACE_STYLES } from '@/lib/interfaceStyle'
 import NextAuth, { NextAuthOptions } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import prisma from '@/lib/prisma'
@@ -88,6 +89,12 @@ export const authOptions: NextAuthOptions = {
               id: crypto.randomUUID(),
               username: normalizedUsername,
               password: hashedPassword,
+              UserPreference: {
+                create: {
+                  interfaceStyle: INTERFACE_STYLES[crypto.randomInt(INTERFACE_STYLES.length)].id,
+                  updatedAt: new Date(),
+                },
+              },
               updatedAt: new Date(),
             },
           })

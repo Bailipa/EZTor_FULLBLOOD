@@ -28,6 +28,8 @@ export function SharePopover({ open, onOpenChange, userId, autoCloseSeconds = 0 
   const [profile, setProfile] = useState<ShareProfileData | null>(null)
   const [loading, setLoading] = useState(false)
   const [sharing, setSharing] = useState(false)
+  const [shareImageDataUrl, setShareImageDataUrl] = useState<string | null>(null)
+  const [shareImageReady, setShareImageReady] = useState(false)
   const [entered, setEntered] = useState(false)
   const [countdown, setCountdown] = useState<number | null>(null)
 
@@ -37,6 +39,8 @@ export function SharePopover({ open, onOpenChange, userId, autoCloseSeconds = 0 
       const res = await fetch(`/api/share-profile/${userId}`)
       const data = await res.json()
       if (data.success) {
+        setShareImageDataUrl(null)
+        setShareImageReady(false)
         setProfile(data.data)
       }
     } catch {
@@ -97,7 +101,7 @@ export function SharePopover({ open, onOpenChange, userId, autoCloseSeconds = 0 
   // 生成导出图片：临时加 .share-export（关动画/实色文字）后截图，避免
   // html-to-image 不支持 background-clip:text、动画被随机帧截到导致图损坏。
   // pixelRatio=1：380x227 → base64 约 40-80KB，远低于安卓 JS 桥 Binder 限制。
-  const captureCard = async (): Promise<string | null> => {
+  const captureCard = useCallback(async (): Promise<string | null> => {
     const card = cardRef.current
     if (!card) return null
     card.classList.add('share-export')
@@ -113,7 +117,26 @@ export function SharePopover({ open, onOpenChange, userId, autoCloseSeconds = 0 
     } finally {
       card.classList.remove('share-export')
     }
-  }
+  }, [])
+
+  // 在用户点击前生成图片，避免 await 截图后调用 navigator.share() 丢失用户激活。
+  useEffect(() => {
+    if (!open || !profile || shareImageReady) return
+
+    let cancelled = false
+    const frameId = requestAnimationFrame(() => {
+      captureCard().then((imageDataUrl) => {
+        if (cancelled) return
+        setShareImageDataUrl(imageDataUrl)
+        setShareImageReady(true)
+      })
+    })
+
+    return () => {
+      cancelled = true
+      cancelAnimationFrame(frameId)
+    }
+  }, [open, profile, shareImageReady, captureCard])
 
   // 分享图片 + 链接：生成战绩卡图片随文字/链接一起发出。
   // 安卓走原生桥（EXTRA_STREAM 图片文件 + EXTRA_TEXT 链接，无需存储权限）；
@@ -123,8 +146,11 @@ export function SharePopover({ open, onOpenChange, userId, autoCloseSeconds = 0 
     setSharing(true)
     const text = getShareText()
     const url = getShareUrl()
-    const imageDataUrl = await captureCard()
-    const result = await shareOrCopy({ title: 'EZTor 学习战报', text, url }, `${text}\n${url}`, imageDataUrl)
+    const result = await shareOrCopy(
+      { title: 'EZTor 学习战报', text, url },
+      `${text}\n${url}`,
+      shareImageDataUrl,
+    )
     if (result === 'shared' || result === 'copied') {
       await reportShare()
       toast.success(result === 'copied' ? '已复制分享内容，可粘贴给好友' : '分享成功！')
@@ -395,14 +421,14 @@ export function SharePopover({ open, onOpenChange, userId, autoCloseSeconds = 0 
                 <Button
                   onClick={handleShare}
                   className="share-neon-btn w-full gap-2 bg-gradient-to-r from-purple-600/80 to-cyan-600/80 border-white/10 text-white hover:from-purple-500/80 hover:to-cyan-500/80"
-                  disabled={sharing}
+                  disabled={sharing || !shareImageReady}
                 >
-                  {sharing ? (
+                  {sharing || !shareImageReady ? (
                     <Loader2 className="w-4 h-4 animate-spin" />
                   ) : (
                     <Share2 className="w-4 h-4" />
                   )}
-                  分享给朋友
+                  {sharing ? '正在分享...' : !shareImageReady ? '准备分享图片...' : '分享给朋友'}
                 </Button>
 
                 <Button

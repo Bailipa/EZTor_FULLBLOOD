@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client'
 import { randomUUID } from 'crypto'
+import { recordPublicWordCreation } from '../src/lib/contributionLedger'
 
 const prisma = new PrismaClient()
 
@@ -64,17 +65,25 @@ async function main() {
         if (existingPublic) {
           publicWordId = existingPublic.id
         } else {
-          const created = await prisma.publicWord.create({
-            data: {
-              id: randomUUID(),
-              word: normalizedWord,
-              translation: translation,
-              phonetic: word.phonetic,
-              pos: word.pos,
-              example: word.example,
-              exampleTranslation: word.exampleTranslation,
-              updatedAt: new Date(),
-            },
+          const created = await prisma.$transaction(async (tx) => {
+            const publicWord = await tx.publicWord.create({
+              data: {
+                id: randomUUID(),
+                word: normalizedWord,
+                translation,
+                phonetic: word.phonetic,
+                pos: word.pos,
+                example: word.example,
+                exampleTranslation: word.exampleTranslation,
+                updatedAt: new Date(),
+              },
+            })
+            await recordPublicWordCreation(tx, {
+              word: publicWord.word,
+              publicWordId: publicWord.id,
+              source: 'SYSTEM_REPAIR',
+            })
+            return publicWord
           })
           publicWordId = created.id
         }

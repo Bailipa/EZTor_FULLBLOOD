@@ -45,20 +45,26 @@ export function OnboardingProvider({ children }: { children: React.ReactNode }) 
     }
 
     try {
-      const res = await fetch('/api/onboarding/status')
+      const savedStep = localStorage.getItem('onboarding_step')
+      const parsed = savedStep ? Number(savedStep) : NaN
+      const resumableStep =
+        Number.isInteger(parsed) && parsed >= 1 && parsed <= 8
+          ? (parsed as OnboardingStep)
+          : null
+
+      if (savedStep && resumableStep === null) {
+        localStorage.removeItem('onboarding_step')
+      }
+
+      const res = await fetch(
+        resumableStep ? '/api/onboarding/status?resume=1' : '/api/onboarding/status',
+      )
+      if (!res.ok) throw new Error(`Onboarding status request failed (${res.status})`)
       const data = await res.json()
+      if (!data.success) throw new Error(data.error || 'Onboarding status request failed')
 
       if (data.success && data.needsOnboarding) {
-        // 检查是否有保存的步骤
-        const savedStep = localStorage.getItem('onboarding_step')
-        const parsed = savedStep ? parseInt(savedStep, 10) : NaN
-        const restored: OnboardingStep =
-          Number.isInteger(parsed) && parsed >= 1 && parsed <= 8
-            ? (parsed as OnboardingStep)
-            : (() => {
-                if (savedStep) localStorage.removeItem('onboarding_step')
-                return 1 as OnboardingStep
-              })()
+        const restored = resumableStep ?? (1 as OnboardingStep)
 
         setState(prev => ({
           ...prev,

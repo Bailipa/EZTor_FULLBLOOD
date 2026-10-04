@@ -128,9 +128,11 @@ export interface TranslationResult {
 export class TranslationService {
   private readonly session: Session | null
   private readonly inputWordMap: Map<string, string>
+  private readonly autoSaveWords: boolean
 
-  constructor(session: Session | null, words: string[]) {
+  constructor(session: Session | null, words: string[], autoSaveWords = true) {
     this.session = session
+    this.autoSaveWords = autoSaveWords
     this.inputWordMap = new Map<string, string>()
     words.forEach((word) => {
       this.inputWordMap.set(word.toLowerCase(), word)
@@ -270,7 +272,7 @@ export class TranslationService {
     return { completedResults, stillNeedFetch: finalStillNeedFetch }
   }
 
-  async saveWordsToDatabase(words: WordData[], targetGroupId?: string) {
+  async saveWordsToDatabase(words: WordData[], targetGroupId?: string, signal?: AbortSignal) {
     const wordsToSave = words
       .filter(
         (item: WordData) =>
@@ -293,13 +295,17 @@ export class TranslationService {
         example: item.example || null,
         exampleTranslation: item.exampleTranslation || null,
       }))
-      .filter((w: WordData) => w.word)
+      .filter((w: WordData) => w.word && w.translation.trim())
 
     const groupWordData: { id: string; reviewGroupId: string; wordId: string }[] = []
     const publicWordService = new PublicWordService(this.session!.user.id)
 
     for (const wordData of wordsToSave) {
+      if (signal?.aborted) break
       const publicWordId = await publicWordService.saveWordToPublicLibrary(wordData)
+
+      if (signal?.aborted) break
+      if (!this.autoSaveWords) continue
 
       // 保存到用户私有库（仅存元数据 + publicWordId，避免冗余复制）
       try {
@@ -354,7 +360,7 @@ export class TranslationService {
     }
 
     logger.info(
-      `Saved ${wordsToSave.length} words to DB during stream for user ${this.session!.user.id}.`,
+      `Saved ${wordsToSave.length} public words and ${this.autoSaveWords ? 'auto-saved them to' : 'did not auto-save them to'} the private library for user ${this.session!.user.id}.`,
     )
   }
 
@@ -363,6 +369,7 @@ export class TranslationService {
     controller: ReadableStreamDefaultController,
     orderedCachedResults: TranslationResult[],
     targetGroupId?: string,
+    signal?: AbortSignal,
   ) {
     const encoder = new TextEncoder()
 
@@ -379,10 +386,7 @@ export class TranslationService {
     try {
       // 接收大模型的流式数据
       for await (const chunk of response) {
-        const ctrl = controller as ReadableStreamDefaultController & {
-          signal?: { aborted?: boolean }
-        }
-        if (ctrl.signal?.aborted) {
+        if (signal?.aborted) {
           logger.info('[TranslationService] Client disconnected, stopping stream')
           break
         }
@@ -397,6 +401,11 @@ export class TranslationService {
           // 直接发送给前端
           controller.enqueue(encoder.encode(content))
         }
+      }
+
+      if (signal?.aborted) {
+        logger.info('[TranslationService] Client cancelled before persistence; skipping generated words')
+        return
       }
 
       logger.debug('=== AI Complete Text ===')
@@ -453,7 +462,7 @@ export class TranslationService {
 
       // 保证数据库写入完成再关闭流
       if (aiParsedResults.length > 0) {
-        await this.saveWordsToDatabase(aiParsedResults, targetGroupId)
+        await this.saveWordsToDatabase(aiParsedResults, targetGroupId, signal)
       }
     } catch (err) {
       logger.error({ err }, 'Stream processing error')

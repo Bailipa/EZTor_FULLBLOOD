@@ -1,6 +1,6 @@
 export default function DictationLoading() {
   return (
-    <div className="min-h-screen bg-background p-6 md:p-12">
+    <div className="min-h-screen bg-background p-6 md:p-12 md:ml-[72px] xl:ml-[208px]">
       <div className="max-w-3xl mx-auto space-y-8">
         <div className="bg-card p-6 rounded-xl shadow-sm border border-border animate-pulse">
           <div className="flex items-center gap-4">

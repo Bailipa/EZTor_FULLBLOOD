@@ -1,0 +1,20 @@
+{
+  "repository": "https://github.com/swamimalode07/rare-ui",
+  "commit": "1d572f4b1862f5f6b1be61bb33380fede433e1df",
+  "files": {
+    "gooey-nav.tsx": {
+      "upstreamSha256": "900db38347cc5bc0ad352eb7bd761cd47c3fe85908b3e36e4d8aaea081e127c8",
+      "adaptedSha256": "c061ea9a8b469dfb223e6267b0d4df1d8f50b80ad630394395d582720e7588ef"
+    },
+    "animated-counter.tsx": {
+      "upstreamSha256": "7913a4e43d8ad16ebac5fe4ea2413890866f14b9a0e01f7feec2b912e399906c",
+      "adaptedSha256": "9d8eb424863002beaa4de819c7cbc554b7e01af32498d491afbc4a0f0695d96a"
+    }
+  },
+  "localChanges": [
+    "Reuse installed framer-motion; no dependency installation",
+    "Honor device data-motion and system reduced-motion with SSR-safe subscription",
+    "Use application theme tokens, 44px touch targets and button aria-pressed",
+    "Keep upstream license and source copyright; visible credit in My/About"
+  ]
+}

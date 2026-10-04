@@ -5,7 +5,7 @@ import { useSession } from 'next-auth/react'
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
 import { Card, CardContent } from '@/components/ui/card'
-import { Loader2, Send, Trash, Ban, ChevronUp } from 'lucide-react'
+import { Loader2, Send, Trash, Ban, ChevronUp, AlertTriangle } from 'lucide-react'
 import { toast } from 'sonner'
 import { isDeveloper, getDisplayName, getAvatar, type ChatAvatar } from '@/lib/chatUser'
 
@@ -36,44 +36,58 @@ export function ChatRoom() {
   const [messages, setMessages] = useState<Message[]>([])
   const [input, setInput] = useState('')
   const [isLoading, setIsLoading] = useState(true)
+  const [loadError, setLoadError] = useState<string | null>(null)
   const [isSending, setIsSending] = useState(false)
   const [onlineCount, setOnlineCount] = useState(0)
   const [hasMore, setHasMore] = useState(false)
-  const [cursor, setCursor] = useState<string | null>(null)
   const [isLoadingMore, setIsLoadingMore] = useState(false)
   const [isShadowBanned, setIsShadowBanned] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const messagesContainerRef = useRef<HTMLDivElement>(null)
+  const cursorRef = useRef<string | null>(null)
+  const pendingScrollHeightRef = useRef<number | null>(null)
+  const shouldAutoScrollRef = useRef(true)
 
   const admin = session?.user ? isDeveloper({ username: session.user.name || '', isAdmin: session.user.isAdmin }) : false
 
   const fetchMessages = useCallback(async (loadMore = false) => {
+    setLoadError(null)
     try {
       const params = new URLSearchParams()
       params.set('limit', '30')
-      if (loadMore && cursor) {
-        params.set('cursor', cursor)
+      if (loadMore && cursorRef.current) {
+        params.set('cursor', cursorRef.current)
       }
 
       const res = await fetch(`/api/chat/messages?${params}`)
       const data = await res.json()
 
-      if (data.success) {
-        if (loadMore) {
-          setMessages(prev => [...data.data, ...prev])
-        } else {
-          setMessages(data.data)
-        }
-        setHasMore(data.pagination.hasMore)
-        setCursor(data.pagination.nextCursor)
+      if (!res.ok || !data.success || !Array.isArray(data.data)) {
+        throw new Error(data.error || '消息加载失败')
       }
+
+      if (loadMore) {
+        pendingScrollHeightRef.current = messagesContainerRef.current?.scrollHeight ?? null
+        setMessages(prev => [...data.data, ...prev])
+      } else {
+        setMessages(data.data)
+      }
+      setHasMore(data.pagination.hasMore)
+      cursorRef.current = data.pagination.nextCursor
     } catch (error) {
       console.error('Failed to fetch messages:', error)
+      if (loadMore) {
+        pendingScrollHeightRef.current = null
+        toast.error(error instanceof Error ? error.message : '历史消息加载失败')
+      } else {
+        setMessages([])
+        setLoadError(error instanceof Error ? error.message : '消息加载失败，请重试。')
+      }
     } finally {
       setIsLoading(false)
       setIsLoadingMore(false)
     }
-  }, [cursor])
+  }, [])
 
   const fetchOnlineCount = useCallback(async () => {
     try {
@@ -106,8 +120,12 @@ export function ChatRoom() {
               : next
           })
         } else if (data.type === 'config') {
-          if (data.data.isCircuitBroken) {
+          if (!data.data.featureEnabled) {
+            window.location.href = '/chat/disabled'
+          } else if (data.data.isCircuitBroken) {
             window.location.href = '/chat/circuit-break'
+          } else if (!data.data.isEnabled && !admin) {
+            window.location.href = '/chat/maintenance'
           }
         }
       } catch (error) {
@@ -121,10 +139,16 @@ export function ChatRoom() {
       eventSource.close()
       clearInterval(interval)
     }
-  }, [fetchMessages, fetchOnlineCount])
+  }, [admin, fetchMessages, fetchOnlineCount])
 
   useEffect(() => {
-    if (!isLoading) {
+    const container = messagesContainerRef.current
+    if (container && pendingScrollHeightRef.current !== null) {
+      container.scrollTop += container.scrollHeight - pendingScrollHeightRef.current
+      pendingScrollHeightRef.current = null
+      return
+    }
+    if (!isLoading && shouldAutoScrollRef.current) {
       messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
     }
   }, [messages, isLoading])
@@ -209,6 +233,11 @@ export function ChatRoom() {
     fetchMessages(true)
   }
 
+  const handleRetryMessages = () => {
+    setIsLoading(true)
+    fetchMessages()
+  }
+
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault()
@@ -224,14 +253,33 @@ export function ChatRoom() {
     )
   }
 
+  if (loadError) {
+    return (
+      <div className="flex h-full items-center justify-center p-6">
+        <div className="max-w-sm text-center">
+          <AlertTriangle className="mx-auto mb-3 h-8 w-8 text-destructive" />
+          <p className="text-sm text-muted-foreground">{loadError}</p>
+          <Button className="mt-4" onClick={handleRetryMessages}>重试</Button>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="flex flex-col h-full">
       <div className="flex items-center justify-between p-4 border-b shrink-0">
-        <h2 className="text-lg font-semibold">💬 用户反馈</h2>
+        <h2 className="text-lg font-semibold">💬 聊天室</h2>
         <span className="text-sm text-muted-foreground">在线: {onlineCount} 人</span>
       </div>
 
-      <div ref={messagesContainerRef} className="flex-1 overflow-y-auto p-4 space-y-4">
+      <div
+        ref={messagesContainerRef}
+        className="flex-1 overflow-y-auto p-4 space-y-4"
+        onScroll={(event) => {
+          const el = event.currentTarget
+          shouldAutoScrollRef.current = el.scrollHeight - el.scrollTop - el.clientHeight < 96
+        }}
+      >
         {hasMore && (
           <div className="flex justify-center">
             <Button

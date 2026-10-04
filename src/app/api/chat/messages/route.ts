@@ -20,11 +20,15 @@ export async function GET(req: Request) {
       return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 })
     }
 
+    const config = await prisma.chatConfig.findUnique({ where: { id: 'global' } })
+    const admin = isDeveloper({ username: session.user.name || '', isAdmin: session.user.isAdmin })
+    if (!config?.featureEnabled || (!config.isEnabled && !admin) || config.isCircuitBroken) {
+      return NextResponse.json({ success: false, error: 'Chat is disabled' }, { status: 403 })
+    }
+
     const { searchParams } = new URL(req.url)
     const cursor = searchParams.get('cursor')
     const limit = Math.min(parseInt(searchParams.get('limit') || '30'), 100)
-
-    const admin = isDeveloper({ username: session.user.name || '', isAdmin: session.user.isAdmin })
 
     const where = admin
       ? { isDeleted: false }
@@ -85,9 +89,10 @@ export async function POST(req: Request) {
     }
 
     const userId = session.user.id
+    const admin = isDeveloper({ username: session.user.name || '', isAdmin: session.user.isAdmin })
 
     const config = await prisma.chatConfig.findUnique({ where: { id: 'global' } })
-    if (!config?.isEnabled || config.isCircuitBroken) {
+    if (!config?.featureEnabled || (!config.isEnabled && !admin) || config.isCircuitBroken) {
       return NextResponse.json({ success: false, error: 'Chat is disabled' }, { status: 403 })
     }
 
@@ -128,7 +133,6 @@ export async function POST(req: Request) {
       finalContent = filterProfanity(trimmedContent)
     }
 
-    const admin = isDeveloper({ username: session.user.name || '', isAdmin: session.user.isAdmin })
     if (!admin) {
       const riskCheck = await checkMessageRisk(trimmedContent)
       if (riskCheck.isRisky) {

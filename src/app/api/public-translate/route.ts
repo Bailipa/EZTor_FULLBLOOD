@@ -32,6 +32,9 @@ export async function POST(req: NextRequest) {
     if (sanitizedWords.length === 0) {
       return NextResponse.json({ error: 'Invalid words list' }, { status: 400 })
     }
+    if (sanitizedWords.length > 50) {
+      return NextResponse.json({ error: '每批词库查询最多支持 50 个单词，请拆分后重试' }, { status: 400 })
+    }
 
     const results = await prisma.publicWord.findMany({
       where: {

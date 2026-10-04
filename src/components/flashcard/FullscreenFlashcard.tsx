@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useCallback, useRef } from 'react'
 import { Button } from '@/components/ui/button'
+import { AnimatedCounter } from '@/components/ui/rare/animated-counter'
 import { Card, CardContent } from '@/components/ui/card'
 import { Check, X, Loader2, Volume2 } from 'lucide-react'
 import { useSession } from 'next-auth/react'
@@ -21,7 +22,7 @@ interface FlashcardWord {
   [key: string]: unknown
 }
 
-export function FullscreenFlashcard({ onInteraction }: { onInteraction?: () => void } = {}) {
+export function FullscreenFlashcard({ onInteraction, onSaved, embedded = false }: { onInteraction?: () => void; onSaved?: () => void; embedded?: boolean } = {}) {
   const { data: session, status } = useSession()
   const { currentStep, isActive, nextStep } = useOnboarding()
   const [words, setWords] = useState<FlashcardWord[]>([])
@@ -31,11 +32,15 @@ export function FullscreenFlashcard({ onInteraction }: { onInteraction?: () => v
   const [isSaving, setIsSaving] = useState(false)
   const [fetchError, setFetchError] = useState<string | null>(null)
   const [isTranslationExpanded, setIsTranslationExpanded] = useState(false)
+  const wordsRef = useRef<FlashcardWord[]>([])
+  const fetchInFlightRef = useRef(false)
   const knowButtonRef = useRef<HTMLButtonElement>(null)
   const dontKnowButtonRef = useRef<HTMLButtonElement>(null)
   const showAnswerButtonRef = useRef<HTMLButtonElement>(null)
 
   const fetchWords = useCallback(async () => {
+    if (fetchInFlightRef.current) return
+    fetchInFlightRef.current = true
     setIsLoading(true)
     setFetchError(null)
     try {
@@ -43,6 +48,7 @@ export function FullscreenFlashcard({ onInteraction }: { onInteraction?: () => v
       const res = await fetch(url)
       const data = await res.json()
       if (data.success && data.data) {
+        wordsRef.current = data.data
         setWords(data.data)
         setCurrentIndex(0)
         setShowAnswer(false)
@@ -53,6 +59,7 @@ export function FullscreenFlashcard({ onInteraction }: { onInteraction?: () => v
       setFetchError('网络错误，请检查连接后重试')
       if (process.env.NODE_ENV === 'development') console.error('Failed to fetch words:', error)
     } finally {
+      fetchInFlightRef.current = false
       setIsLoading(false)
     }
   }, [])
@@ -68,7 +75,7 @@ export function FullscreenFlashcard({ onInteraction }: { onInteraction?: () => v
 
     // 处理页面可见性变化（从其他标签页或页面返回）
     const handleVisibilityChange = () => {
-      if (document.visibilityState === 'visible' && words.length === 0) {
+      if (document.visibilityState === 'visible' && wordsRef.current.length === 0) {
         fetchWords()
       }
     }
@@ -80,7 +87,7 @@ export function FullscreenFlashcard({ onInteraction }: { onInteraction?: () => v
       window.removeEventListener('pageshow', handlePageShow)
       document.removeEventListener('visibilitychange', handleVisibilityChange)
     }
-  }, [fetchWords, words.length])
+  }, [fetchWords])
 
   const currentWord = words[currentIndex]
 
@@ -124,6 +131,7 @@ export function FullscreenFlashcard({ onInteraction }: { onInteraction?: () => v
       }
 
       if (data.success) {
+        onSaved?.()
         // 如果是引导步骤1，推进步骤并跳转到默写页
         if (isActive && currentStep === 1) {
           nextStep()
@@ -159,20 +167,21 @@ export function FullscreenFlashcard({ onInteraction }: { onInteraction?: () => v
   const isGuest = status !== 'authenticated' || !session?.user
 
   return (
-    <div className="flex flex-col h-full bg-background">
+    <div className={`flex flex-col ${embedded ? 'bg-transparent' : 'h-full bg-background'}`}>
       {/* 顶部工具栏 */}
-      <div className="flex items-center justify-between p-4 shrink-0">
+      <div className={`flex items-center justify-between shrink-0 ${embedded ? 'pb-3' : 'p-4'}`}>
+        {embedded && <h2 className="text-sm font-medium">每日单词</h2>}
         <div className="flex items-center gap-2">
           {!isLoading && words.length > 0 && (
             <span className="text-xs text-muted-foreground bg-muted px-2 py-0.5 rounded-full">
-              {currentIndex + 1} / {words.length}
+              <AnimatedCounter value={currentIndex + 1} duration={0.35} /> / {words.length}
             </span>
           )}
         </div>
       </div>
 
       {/* 闪卡内容 - 可滚动 */}
-      <div className="flex-1 overflow-y-auto px-4 pb-4">
+      <div className={embedded ? 'min-w-0' : 'flex-1 overflow-y-auto px-4 pb-4'}>
         {isLoading ? (
           <div className="flex items-center justify-center h-full">
             <Loader2 className="w-8 h-8 animate-spin text-primary" />
@@ -188,7 +197,7 @@ export function FullscreenFlashcard({ onInteraction }: { onInteraction?: () => v
           </div>
         ) : (
           <Card className="w-full max-w-md mx-auto shadow-lg">
-            <CardContent className="p-6">
+            <CardContent className={embedded ? 'p-5' : 'p-6'}>
               <div className="flex items-center justify-center gap-3 w-full mb-4">
                 <h2 className="text-4xl font-bold text-foreground tracking-wide text-center min-w-0 break-all">
                   {currentWord.word}
@@ -250,7 +259,7 @@ export function FullscreenFlashcard({ onInteraction }: { onInteraction?: () => v
 
       {/* 底部按钮 - 固定 */}
       {!isLoading && words.length > 0 && (
-        <div className="p-4 pb-6 shrink-0">
+        <div className={`shrink-0 ${embedded ? 'pt-3' : 'p-4 pb-6'}`}>
           {!showAnswer ? (
             <div className="flex w-full gap-3 max-w-md mx-auto">
               <Button

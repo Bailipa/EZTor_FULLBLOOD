@@ -132,8 +132,14 @@ export async function POST(req: Request) {
     }
 
     // Initialize services
+    const preferences = await prisma.userPreference.findUnique({
+      where: { userId: session.user.id },
+      select: { autoSaveWords: true },
+    })
+    const autoSaveWords = preferences?.autoSaveWords ?? true
+
     const cacheService = new CacheService(session, words)
-    const translationService = new TranslationService(session, words)
+    const translationService = new TranslationService(session, words, autoSaveWords)
     const streamHandler = new StreamHandler(translationService)
 
     // 用于在客户端断开时中断上游 LLM 请求
@@ -155,7 +161,9 @@ export async function POST(req: Request) {
       await cacheService.getPublicCachedWords(missingFromUserWords)
 
     // Copy public words to user database
-    await cacheService.copyPublicWordsToUserDb(publicCachedWords, targetGroupId)
+    if (autoSaveWords) {
+      await cacheService.copyPublicWordsToUserDb(publicCachedWords, targetGroupId)
+    }
 
     // Filter words that need to be fetched from LLM
     const wordsToFetch = missingFromUserWords.filter(
@@ -190,7 +198,9 @@ export async function POST(req: Request) {
     const syncedResults = await cacheService.autoSync(cachedWordStrings, formattedCachedResults)
 
     // Update cache timestamps
-    await cacheService.updateCacheTimestamps(cachedWordStrings, targetGroupId)
+    if (autoSaveWords) {
+      await cacheService.updateCacheTimestamps(cachedWordStrings, targetGroupId)
+    }
 
     // Order results by original input
     const orderedCachedResults = cacheService.orderResultsByInput(words, syncedResults)

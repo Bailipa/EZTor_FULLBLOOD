@@ -1,5 +1,6 @@
 import { getServerSession } from 'next-auth/next'
 import { authOptions } from '@/app/api/auth/[...nextauth]/route'
+import prisma from '@/lib/prisma'
 import { isDeveloper } from '@/lib/chatUser'
 import { subscribeToMessages, subscribeToTodos, subscribeToConfig } from '@/lib/chatSSE'
 
@@ -10,6 +11,10 @@ export async function GET(req: Request) {
   }
 
   const admin = isDeveloper({ username: session.user.name || '', isAdmin: session.user.isAdmin })
+  const config = await prisma.chatConfig.findUnique({ where: { id: 'global' } })
+  if (!config?.featureEnabled || (!config.isEnabled && !admin) || config.isCircuitBroken) {
+    return new Response('Chat is disabled', { status: 403 })
+  }
 
   const stream = new ReadableStream({
     start(controller) {

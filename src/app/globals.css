@@ -193,6 +193,362 @@
   --color-caption: oklch(0.62 0.02 285);
 }
 
+/* Indigo glow: graphite gray with deep lapis-blue accents. */
+html[data-brand-theme='indigo'] {
+  --background: #e9edf3;
+  --foreground: #252a34;
+  --card: #f8f9fc;
+  --card-foreground: #252a34;
+  --popover: #ffffff;
+  --popover-foreground: #252a34;
+  --primary: #3048e8;
+  --primary-foreground: #fff;
+  --secondary: #e1e6ef;
+  --secondary-foreground: #303746;
+  --muted: #e5e9f0;
+  --muted-foreground: #626b7b;
+  --accent: #e1e7ff;
+  --accent-foreground: #293da9;
+  --border: #cbd3df;
+  --input: #bac4d3;
+  --ring: #5368e9;
+  --sidebar: #f4f6fa;
+  --sidebar-foreground: #303746;
+  --sidebar-primary: #3048e8;
+  --sidebar-primary-foreground: #fff;
+  --sidebar-accent: #e5eaff;
+  --sidebar-accent-foreground: #293da9;
+  --sidebar-border: #d7dee9;
+  --sidebar-ring: #5368e9;
+  --color-surface: #e9edf3;
+  --color-surface-alt: #f8f9fc;
+  --color-brand-light: #e1e7ff;
+  --color-brand-light-fg: #293da9;
+  --color-brand-subtle: #626b7b;
+  --color-caption: #626b7b;
+  --indigo-glass: linear-gradient(135deg, rgb(255 255 255 / 76%), transparent 52%), rgb(248 249 252 / 94%);
+  --indigo-glass-border: rgb(116 129 153 / 30%);
+  --indigo-glass-shadow: inset 0 1px 0 rgb(255 255 255 / 90%), 0 10px 26px rgb(41 53 76 / 10%);
+  --indigo-nebula: none;
+  --indigo-button-shadow: inset 0 1px 0 rgb(255 255 255 / 24%), 0 4px 14px rgb(48 72 232 / 24%);
+  --indigo-progress-bg: #f1f3f8;
+  --indigo-panel-bg: #f8f9fc;
+  --indigo-panel-border: #cbd3df;
+  --indigo-active-border: #7484e8;
+}
+
+html.dark[data-brand-theme='indigo'] {
+  --background: #3d3e44;
+  --foreground: #f0f0f2;
+  --card: #4b4c52;
+  --card-foreground: #f0f0f2;
+  --popover: #505158;
+  --popover-foreground: #f4f4f6;
+  --secondary: #68696f;
+  --secondary-foreground: #fff;
+  --muted: #45464d;
+  --muted-foreground: #c1c2c8;
+  --accent: #292d50;
+  --accent-foreground: #d4d8ff;
+  --border: #505158;
+  --input: #5b5c63;
+  --ring: #788aff;
+  --sidebar: #44454b;
+  --sidebar-foreground: #e7e7eb;
+  --sidebar-accent: #45464d;
+  --sidebar-accent-foreground: #e1e3ff;
+  --sidebar-border: #4a4b52;
+  --sidebar-ring: #788aff;
+  --color-surface: #3d3e44;
+  --color-surface-alt: #4b4c52;
+  --color-brand-light: #292d50;
+  --color-brand-light-fg: #d4d8ff;
+  --color-brand-subtle: #c1c2c8;
+  --color-caption: #c1c2c8;
+  --indigo-glass: linear-gradient(135deg, rgb(255 255 255 / 5%), transparent 48%), rgb(72 73 79 / 97%);
+  --indigo-glass-border: rgb(145 146 154 / 34%);
+  --indigo-glass-shadow: inset 0 1px 0 rgb(255 255 255 / 8%), 0 12px 32px rgb(0 0 0 / 25%);
+  --indigo-button-shadow: inset 0 1px 0 rgb(255 255 255 / 18%), 0 5px 16px rgb(0 0 0 / 34%), 0 0 18px rgb(48 72 232 / 55%);
+  --indigo-progress-bg: #38393f;
+  --indigo-panel-bg: #4b4c52;
+  --indigo-panel-border: #5b5c63;
+  --indigo-active-border: #6574cc;
+}
+
+/* Gold material: readable platinum by day, deep-space black gold by night. */
+html[data-brand-theme='gold'] {
+  --background: #edf1f6;
+  --foreground: #3b3122;
+  --card: #fffaf0;
+  --card-foreground: #3b3122;
+  --popover: #fffaf2;
+  --popover-foreground: #3b3122;
+  --primary: #d9b666;
+  --primary-foreground: #30220d;
+  --secondary: #ece3d1;
+  --secondary-foreground: #49391f;
+  --muted: #ece6d9;
+  --muted-foreground: #6c604b;
+  --accent: #f3e5c4;
+  --accent-foreground: #75521c;
+  --border: #d5c7aa;
+  --input: #a69068;
+  --ring: #866021;
+  --sidebar: #f5f0e6;
+  --sidebar-foreground: #3b3122;
+  --sidebar-primary: #866021;
+  --sidebar-primary-foreground: #fffaf0;
+  --sidebar-accent: #f3e5c4;
+  --sidebar-accent-foreground: #75521c;
+  --sidebar-border: #d5c7aa;
+  --sidebar-ring: #866021;
+  --color-surface: #edf1f6;
+  --color-surface-alt: #fffaf0;
+  --color-brand-light: #f3e5c4;
+  --color-brand-light-fg: #75521c;
+  --color-brand-subtle: #6c604b;
+  --color-caption: #6c604b;
+  --gold-glass: linear-gradient(135deg, rgb(219 236 255 / 44%), rgb(255 255 255 / 26%) 35%, transparent 58%, rgb(211 175 97 / 9%)), rgb(255 252 246 / 86%);
+  --gold-glass-border: rgb(151 115 45 / 30%);
+  --gold-glass-shadow: inset 0 1px 0 rgb(255 255 255 / 94%), inset 1px 0 0 rgb(157 201 247 / 40%), inset 0 -1px 0 rgb(176 133 53 / 15%), -10px 0 32px rgb(135 184 237 / 14%), 0 14px 40px rgb(78 102 138 / 9%), 12px 6px 32px rgb(210 175 93 / 20%);
+  --gold-title: #75521c;
+  --gold-metal: linear-gradient(115deg, #71501b 10%, #4e3719 40%, #87612a 57%, #65481e 82%);
+  --gold-button: linear-gradient(115deg, #c5a257, #f2d991 46%, #d1ad5d 75%, #ead08a);
+  --gold-button-shadow: inset 0 1px 0 rgb(255 248 215 / 90%), 0 4px 14px rgb(154 111 30 / 24%), 0 0 32px rgb(235 196 93 / 36%);
+  --gold-input: rgb(255 253 247 / 90%);
+  --gold-nebula: radial-gradient(ellipse 58% 60% at 2% 12%, rgb(134 180 232 / 42%), transparent 76%), radial-gradient(ellipse 46% 55% at 98% 60%, rgb(172 204 241 / 50%), transparent 78%), radial-gradient(ellipse 45% 40% at 50% 108%, rgb(218 183 109 / 30%), transparent 78%);
+  --gold-star: rgb(78 123 177 / 46%);
+  --gold-star-bright: rgb(161 120 33 / 56%);
+}
+
+html.dark[data-brand-theme='gold'] {
+  --background: #070b14;
+  --foreground: #f1e8d6;
+  --card: #101722;
+  --card-foreground: #f1e8d6;
+  --popover: #161e2b;
+  --popover-foreground: #f1e8d6;
+  --primary: #e2bf72;
+  --primary-foreground: #271d0c;
+  --secondary: #232c3a;
+  --secondary-foreground: #e6d7b8;
+  --muted: #1c2532;
+  --muted-foreground: #c4baa7;
+  --accent: #332e24;
+  --accent-foreground: #ecd08e;
+  --border: #4b4435;
+  --input: #89764f;
+  --ring: #eed59b;
+  --sidebar: #111925;
+  --sidebar-foreground: #f1e8d6;
+  --sidebar-primary: #e2bf72;
+  --sidebar-primary-foreground: #271d0c;
+  --sidebar-accent: #332e24;
+  --sidebar-accent-foreground: #ecd08e;
+  --sidebar-border: #4b4435;
+  --sidebar-ring: #eed59b;
+  --color-surface: #070b14;
+  --color-surface-alt: #101722;
+  --color-brand-light: #332e24;
+  --color-brand-light-fg: #ecd08e;
+  --color-brand-subtle: #c4baa7;
+  --color-caption: #c4baa7;
+  --gold-glass: linear-gradient(135deg, rgb(235 209 153 / 7%), transparent 40%, rgb(64 86 126 / 6%)), rgb(16 23 34 / 88%);
+  --gold-glass-border: rgb(217 181 104 / 28%);
+  --gold-glass-shadow: inset 0 1px 0 rgb(249 222 165 / 22%), inset 0 -1px 0 rgb(133 157 196 / 7%), 0 16px 48px rgb(0 0 0 / 30%), 0 0 32px rgb(221 174 77 / 13%);
+  --gold-title: #ecd08e;
+  --gold-metal: linear-gradient(115deg, #d7b873 8%, #fff1c9 43%, #c0a164 61%, #f3d796 84%);
+  --gold-button: linear-gradient(115deg, #b79850, #f1d996 43%, #c8a55d 77%, #e7c880);
+  --gold-button-shadow: inset 0 1px 0 rgb(255 241 194 / 86%), 0 4px 16px rgb(0 0 0 / 30%), 0 0 36px rgb(227 183 85 / 30%);
+  --gold-input: rgb(8 14 24 / 92%);
+  --gold-nebula: radial-gradient(ellipse 50% 58% at 4% 3%, rgb(41 61 106 / 48%), transparent 72%), radial-gradient(ellipse 38% 45% at 96% 65%, rgb(86 62 38 / 30%), transparent 76%), radial-gradient(ellipse 55% 44% at 62% 110%, rgb(28 53 90 / 52%), transparent 75%);
+  --gold-star: rgb(204 220 245 / 44%);
+  --gold-star-bright: rgb(246 218 157 / 78%);
+}
+
+html[data-brand-theme='gold'] body { isolation: isolate; position: relative; }
+/* Two fixed, static layers: no canvas loop, no scroll parallax, no text overlay. */
+html[data-brand-theme='gold'] body::before,
+html[data-brand-theme='gold'] body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+html[data-brand-theme='gold'] body::before { background: var(--gold-nebula); }
+html[data-brand-theme='gold'] body::after {
+  background-image:
+    radial-gradient(circle at 37px 73px, var(--gold-star-bright) 0 .8px, transparent 1.8px),
+    radial-gradient(circle at 121px 163px, var(--gold-star) 0 .7px, transparent 1.4px),
+    radial-gradient(circle at 183px 41px, var(--gold-star) 0 .6px, transparent 1.2px),
+    radial-gradient(circle at 64px 218px, var(--gold-star) 0 .5px, transparent 1.2px),
+    radial-gradient(circle at 291px 127px, var(--gold-star-bright) 0 .5px, transparent 1.4px);
+  background-size: 389px 347px, 277px 431px, 463px 281px, 317px 503px, 547px 397px;
+  opacity: .72;
+}
+html[data-brand-theme='gold'][data-glow='subdued'] body::before { opacity: .55; }
+html[data-brand-theme='gold'][data-glow='subdued'] body::after { opacity: .42; }
+html[data-brand-theme='gold'] :is(div, main, section).bg-background:is(.min-h-screen, .min-h-dvh, .min-h-\[100dvh\]) { background-color: transparent; }
+
+/* Material overrides layout presets; inner padding is owned by the layout module. */
+html[data-brand-theme='gold'][data-ui-style] [data-slot='card'],
+html[data-brand-theme='gold'] section.bg-card {
+  background: var(--gold-glass);
+  border: 1px solid var(--gold-glass-border);
+  border-radius: 18px;
+  box-shadow: var(--gold-glass-shadow);
+  color: var(--card-foreground);
+  -webkit-backdrop-filter: blur(18px) saturate(115%);
+  backdrop-filter: blur(18px) saturate(115%);
+}
+html[data-brand-theme='gold'][data-ui-style] [data-slot='card'] [data-slot='card'] {
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  box-shadow: inset 0 1px 0 var(--gold-glass-border);
+}
+html[data-brand-theme='gold'] [data-slot='card-footer'] { background: color-mix(in srgb, var(--card) 55%, transparent); }
+html[data-brand-theme='gold'] .bg-primary {
+  background: var(--gold-button);
+  color: var(--primary-foreground);
+  box-shadow: var(--gold-button-shadow);
+}
+html[data-brand-theme='gold'][data-glow='subdued'] { --gold-glass-shadow: inset 0 1px 0 var(--gold-glass-border), 0 8px 22px rgb(0 0 0 / 10%); --gold-button-shadow: inset 0 1px 0 rgb(255 239 190 / 60%), 0 3px 12px rgb(192 151 64 / 18%); }
+
+html[data-brand-theme='gold'] :is(h1, h2, h3, [data-slot='card-title']) {
+  color: var(--gold-title);
+}
+@supports (-webkit-background-clip: text) {
+  html[data-brand-theme='gold'] :is(h1, h2, h3, [data-slot='card-title']) {
+    background-image: var(--gold-metal);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+}
+html[data-brand-theme='gold'] .text-primary { color: var(--accent-foreground); }
+html[data-brand-theme='gold'] :is(h1, h2, h3, [data-slot='card-title']) :is(button, a, input, [data-slot='badge']) { -webkit-text-fill-color: currentColor; }
+html[data-brand-theme='gold'] :is(input:not([type='checkbox']):not([type='radio']):not([type='range']), textarea) {
+  color: var(--foreground);
+  caret-color: var(--ring);
+}
+html[data-brand-theme='gold'] :is(input, textarea)::placeholder { color: var(--muted-foreground); opacity: 1; }
+html[data-brand-theme='gold'] :is([data-slot='input'], [data-slot='textarea'], [data-slot='select-trigger']) { background-color: var(--gold-input); }
+html[data-brand-theme='gold'] :is([data-slot='dialog-content'], [data-slot='alert-dialog-content'], [data-slot='popover-content'], [data-slot='dropdown-menu-content'], [data-slot='select-content']) {
+  background: var(--popover);
+  color: var(--popover-foreground);
+  border-color: var(--gold-glass-border);
+}
+html[data-brand-theme='gold'] :focus-visible { outline: 2px solid var(--ring); outline-offset: 3px; }
+@supports not (backdrop-filter: blur(1px)) {
+  html[data-brand-theme='gold'][data-ui-style] [data-slot='card'],
+  html[data-brand-theme='gold'] section.bg-card { background: var(--card); }
+}
+@media (max-width: 767px) {
+  html[data-brand-theme='gold'][data-ui-style] [data-slot='card'],
+  html[data-brand-theme='gold'] section.bg-card { -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
+}
+@media (prefers-reduced-transparency: reduce) {
+  html[data-brand-theme='gold'][data-ui-style] [data-slot='card'],
+  html[data-brand-theme='gold'] section.bg-card { background: var(--card); -webkit-backdrop-filter: none; backdrop-filter: none; }
+}
+@media (forced-colors: active) {
+  html[data-brand-theme='gold'] body::before,
+  html[data-brand-theme='gold'] body::after { display: none; }
+  html[data-brand-theme='gold'] :is(h1, h2, h3, [data-slot='card-title']) { background-image: none; -webkit-text-fill-color: currentColor; }
+}
+
+html[data-brand-theme='indigo'] body { isolation: isolate; position: relative; }
+html[data-brand-theme='indigo'] body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: var(--indigo-nebula);
+}
+html[data-brand-theme='indigo'][data-glow='subdued'] body::before { opacity: .48; }
+html[data-brand-theme='indigo'] :is(div, main, section).bg-background:is(.min-h-screen, .min-h-dvh, .min-h-\[100dvh\]) { background-color: transparent; }
+html[data-brand-theme='indigo'][data-ui-style] [data-slot='card'],
+html[data-brand-theme='indigo'] section.bg-card {
+  background: var(--indigo-glass);
+  border-color: var(--indigo-glass-border);
+  box-shadow: var(--indigo-glass-shadow);
+  color: var(--card-foreground);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+html[data-brand-theme='indigo'][data-ui-style] [data-slot='card'] [data-slot='card'] {
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  box-shadow: inset 0 1px 0 var(--indigo-glass-border);
+}
+html[data-brand-theme='indigo'] .bg-primary {
+  color: var(--primary-foreground);
+  box-shadow: var(--indigo-button-shadow);
+}
+html[data-brand-theme='indigo'][data-glow='subdued'] {
+  --indigo-glass-shadow: inset 0 1px 0 var(--indigo-glass-border), 0 8px 22px rgb(0 0 0 / 12%);
+  --indigo-button-shadow: inset 0 1px 0 rgb(255 255 255 / 18%), 0 3px 12px rgb(48 72 232 / 36%);
+}
+html[data-brand-theme='indigo'] :is(h1, h2, h3, [data-slot='card-title']) {
+  color: var(--foreground);
+  text-shadow: none;
+}
+html[data-brand-theme='indigo'] :is(input:not([type='checkbox']):not([type='radio']):not([type='range']), textarea) {
+  color: var(--foreground);
+  caret-color: var(--ring);
+}
+html[data-brand-theme='indigo'] :is(input, textarea)::placeholder { color: var(--muted-foreground); opacity: 1; }
+html[data-brand-theme='indigo'] :is([data-slot='input'], [data-slot='textarea'], [data-slot='select-trigger']) {
+  background-color: color-mix(in srgb, var(--card) 92%, var(--background));
+}
+html[data-brand-theme='indigo'] :is([data-slot='dialog-content'], [data-slot='alert-dialog-content'], [data-slot='popover-content'], [data-slot='dropdown-menu-content'], [data-slot='select-content']) {
+  background: var(--popover);
+  color: var(--popover-foreground);
+  border-color: var(--indigo-glass-border);
+  box-shadow: var(--indigo-glass-shadow);
+}
+html[data-brand-theme='indigo'] .text-primary { color: var(--accent-foreground); }
+html[data-brand-theme='indigo'] .indigo-page-header {
+  padding: 14px 18px;
+  border: 1px solid rgb(255 255 255 / 18%);
+  border-radius: 14px;
+  background: var(--primary);
+  color: #fff;
+  box-shadow: 0 6px 18px rgb(0 0 0 / 18%);
+}
+html[data-brand-theme='indigo'] .indigo-page-header :is(h1, h2, p, svg) { color: #fff; }
+html[data-brand-theme='indigo'] .indigo-page-header p { color: rgb(255 255 255 / 78%); }
+html[data-brand-theme='indigo'] .indigo-page-header [data-variant='outline'] {
+  border-color: rgb(255 255 255 / 52%);
+  background: transparent;
+  color: #fff;
+}
+html[data-brand-theme='indigo'] .indigo-page-header [data-slot='button']:not([data-variant='outline']):not([data-variant='ghost']) {
+  border-color: #fff;
+  background: #fff;
+  color: #2436ad;
+  box-shadow: none;
+}
+html[data-brand-theme='indigo'] .indigo-page-header [data-slot='select-trigger'] {
+  border-color: rgb(255 255 255 / 45%);
+  background: rgb(255 255 255 / 12%);
+  color: #fff;
+}
+@supports not (backdrop-filter: blur(1px)) {
+  html[data-brand-theme='indigo'][data-ui-style] [data-slot='card'],
+  html[data-brand-theme='indigo'] section.bg-card { background: var(--card); }
+}
+@media (prefers-reduced-transparency: reduce) {
+  html[data-brand-theme='indigo'][data-ui-style] [data-slot='card'],
+  html[data-brand-theme='indigo'] section.bg-card { background: var(--card); -webkit-backdrop-filter: none; backdrop-filter: none; }
+}
+@media (forced-colors: active) {
+  html[data-brand-theme='indigo'] body::before { display: none; }
+  html[data-brand-theme='indigo'] :is(h1, h2, h3, [data-slot='card-title']) { text-shadow: none; }
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
@@ -321,4 +677,30 @@
 
 .animate-pulse-scale {
   animation: pulse-scale 1.5s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root *,
+  :root *::before,
+  :root *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+:root[data-motion='reduce'] *,
+:root[data-motion='reduce'] *::before,
+:root[data-motion='reduce'] *::after {
+  scroll-behavior: auto !important;
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+}
+
+/* Skip offscreen word-card painting while retaining search and accessibility semantics. */
+.public-vocabulary-entry {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 220px;
 }

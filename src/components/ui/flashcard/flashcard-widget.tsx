@@ -36,7 +36,7 @@ interface FlashcardGroup {
   [key: string]: unknown
 }
 
-export function FlashcardWidget({ onInteraction }: { onInteraction?: () => void } = {}) {
+export function FlashcardWidget({ onInteraction, openRequest = 0 }: { onInteraction?: () => void; openRequest?: number } = {}) {
   const { data: session, status } = useSession()
   const [words, setWords] = useState<FlashcardWord[]>([])
   const [currentIndex, setCurrentIndex] = useState(0)
@@ -50,6 +50,10 @@ export function FlashcardWidget({ onInteraction }: { onInteraction?: () => void 
   const [isInVocabularyBook, setIsInVocabularyBook] = useState(false)
   const [isIgnoredWordsOpen, setIsIgnoredWordsOpen] = useState(false)
   const [fetchError, setFetchError] = useState<string | null>(null)
+
+  useEffect(() => {
+    if (openRequest > 0) setIsOpen(true)
+  }, [openRequest])
 
   const fetchGroups = async () => {
     try {

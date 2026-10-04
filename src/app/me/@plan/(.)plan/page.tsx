@@ -1,6 +1,5 @@
 'use client'
 
-import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import {
   Dialog,
@@ -13,16 +12,6 @@ import { AuthorPlanList } from '@/components/me/AuthorPlanList'
 
 export default function PlanModal() {
   const router = useRouter()
-
-  useEffect(() => {
-    const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        router.back()
-      }
-    }
-    window.addEventListener('keydown', onKeyDown)
-    return () => window.removeEventListener('keydown', onKeyDown)
-  }, [router])
 
   return (
     <Dialog

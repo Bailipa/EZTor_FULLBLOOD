@@ -4,6 +4,7 @@ import { randomUUID } from 'crypto'
 import { calculateQualityScore } from '@/lib/qualityScoring'
 import { cascadePublicWordToPrivate } from '@/lib/publicWordCascade'
 import { logger } from '@/lib/logger'
+import { recordPublicWordCreation } from '@/lib/contributionLedger'
 
 export interface WordData {
   word: string
@@ -39,18 +40,27 @@ export default class PublicWordService {
 
       if (!existingPublicWord) {
         try {
-          const created = await prisma.publicWord.create({
-            data: {
-              id: randomUUID(),
-              word: wordData.word,
-              translation: wordData.translation,
-              phonetic: wordData.phonetic || null,
-              pos: wordData.pos || null,
-              example: wordData.example || null,
-              exampleTranslation: wordData.exampleTranslation || null,
-              qualityScore: qualityResult.score,
-              updatedAt: new Date(),
-            },
+          const created = await prisma.$transaction(async (tx) => {
+            const publicWord = await tx.publicWord.create({
+              data: {
+                id: randomUUID(),
+                word: wordData.word,
+                translation: wordData.translation,
+                phonetic: wordData.phonetic || null,
+                pos: wordData.pos || null,
+                example: wordData.example || null,
+                exampleTranslation: wordData.exampleTranslation || null,
+                qualityScore: qualityResult.score,
+                updatedAt: new Date(),
+              },
+            })
+            await recordPublicWordCreation(tx, {
+              word: publicWord.word,
+              publicWordId: publicWord.id,
+              contributorUserId: this.userId,
+              source: 'USER_AI',
+            })
+            return publicWord
           })
           publicWordId = created.id
 

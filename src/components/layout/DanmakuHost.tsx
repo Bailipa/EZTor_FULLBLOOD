@@ -1,10 +1,12 @@
 'use client'
 
 import { useEffect } from 'react'
-import { Danmaku } from '@/components/ui/danmaku'
+import dynamic from 'next/dynamic'
 import { useDanmakuStore } from '@/stores/danmakuStore'
 import { useDanmakuSettingsStore } from '@/stores/danmakuSettingsStore'
 import { isAndroidApp, isDesktopApp } from '@/lib/appEnv'
+
+const Danmaku = dynamic(() => import('@/components/ui/danmaku').then((module) => module.Danmaku), { ssr: false })
 
 declare global {
   interface Window {

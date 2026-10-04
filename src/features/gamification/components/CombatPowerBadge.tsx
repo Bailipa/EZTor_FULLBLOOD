@@ -3,22 +3,23 @@
 import { useEffect, useState } from 'react'
 import { Zap, Flame } from 'lucide-react'
 
-interface ProfileData {
+export interface CombatPowerSummary {
   combatPower: number
   currentStreak: number
   dailyPowerGained: number
   dailyPowerCap: number
 }
 
-export function CombatPowerBadge({ refreshKey = 0 }: { refreshKey?: number }) {
-  const [data, setData] = useState<ProfileData | null>(null)
+export function CombatPowerBadge({ refreshKey = 0, data }: { refreshKey?: number; data?: CombatPowerSummary | null }) {
+  const [loadedData, setLoadedData] = useState<CombatPowerSummary | null>(null)
 
   useEffect(() => {
+    if (data !== undefined) return
     fetch('/api/game/profile')
       .then((r) => r.json())
       .then((res) => {
         if (res.success && res.data) {
-          setData({
+          setLoadedData({
             combatPower: res.data.combatPower,
             currentStreak: res.data.currentStreak,
             dailyPowerGained: res.data.dailyPowerGained,
@@ -27,24 +28,26 @@ export function CombatPowerBadge({ refreshKey = 0 }: { refreshKey?: number }) {
         }
       })
       .catch(() => {})
-  }, [refreshKey])
+  }, [refreshKey, data])
 
-  if (!data) return null
+  const profile = data === undefined ? loadedData : data
+
+  if (!profile) return null
 
   return (
     <div className="flex items-center gap-3 text-xs">
       <div className="flex items-center gap-1 text-amber-600 dark:text-amber-400">
         <Zap className="w-3.5 h-3.5" />
-        <span className="font-semibold">{data.combatPower}</span>
+        <span className="font-semibold">{profile.combatPower}</span>
       </div>
-      {data.currentStreak > 0 && (
+      {profile.currentStreak > 0 && (
         <div className="flex items-center gap-1 text-orange-600 dark:text-orange-400">
           <Flame className="w-3.5 h-3.5" />
-          <span>{data.currentStreak}天</span>
+          <span>{profile.currentStreak}天</span>
         </div>
       )}
       <span className="text-muted-foreground">
-        今日 +{data.dailyPowerGained}/{data.dailyPowerCap}
+        今日 +{profile.dailyPowerGained}/{profile.dailyPowerCap}
       </span>
     </div>
   )

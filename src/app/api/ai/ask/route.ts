@@ -4,8 +4,6 @@ import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import prisma from '@/lib/prisma'
 import { aiAssistantService, trimHistory } from '@/services/AiAssistantService'
-import { AI_ASK_COST } from '@/features/gamification/constants'
-import { gameService } from '@/features/gamification/services/GameService'
 import { rateLimit, getClientKey } from '@/lib/rateLimit'
 import { sanitizeInput, validateInput, MAX_INPUT_LENGTH } from '@/lib/security'
 import { detectPromptInjection } from '@/lib/injectionDetector'
@@ -81,19 +79,6 @@ export async function POST(req: NextRequest) {
   const user = await prisma.user.findUnique({ where: { id: userId }, select: { isAiFree: true } })
   const isAiFree = user?.isAiFree ?? false
 
-  // 扣学力（免费用户跳过）
-  let deducted = false
-  if (!isAiFree) {
-    const spend = await gameService.spendPower(userId, AI_ASK_COST)
-    if (!spend.success) {
-      return new Response(
-        JSON.stringify({ success: false, error: `学力不足，AI 询问需要 ${AI_ASK_COST} 学力（当前 ${spend.balance}）` }),
-        { status: 402 },
-      )
-    }
-    deducted = true
-  }
-
   // 当前自定义词库数
   const customGroupCount = await prisma.reviewGroup.count({ where: { userId, isSystem: false } })
 
@@ -114,7 +99,6 @@ export async function POST(req: NextRequest) {
 
       try {
         const outcome = await aiAssistantService.ask(userId, history, {
-          isAiFree,
           customGroupCount,
           signal: controller.signal,
           // 流式：每段增量立即推送；前端追加渲染
@@ -130,7 +114,7 @@ export async function POST(req: NextRequest) {
           push('proposal', p)
         }
         // 最终完整文本（兼容无流式 / 兜底），前端收到 delta:false 时完成渲染
-        push('text', { text: outcome.text, delta: false, deducted, isAiFree, turns: outcome.turns })
+        push('text', { text: outcome.text, delta: false, turns: outcome.turns })
 
         // 审计
         await prisma.auditLog.create({
@@ -138,7 +122,7 @@ export async function POST(req: NextRequest) {
             userId,
             action: 'AI_ASK',
             entityType: 'AI_ASK',
-            newValue: JSON.stringify({ messages: history.length, turns: outcome.turns, deducted, isAiFree }),
+            newValue: JSON.stringify({ messages: history.length, turns: outcome.turns, deducted: false, isAiFree }),
           },
         })
 
@@ -151,7 +135,7 @@ export async function POST(req: NextRequest) {
               id: randomUUID(),
               userId,
               prompt,
-              cost: deducted ? AI_ASK_COST : 0,
+              cost: 0,
               isAiFree,
               turns: outcome.turns,
             },
@@ -174,12 +158,8 @@ export async function POST(req: NextRequest) {
       } catch (err: unknown) {
         const msg = err instanceof Error ? err.message : String(err)
         logger.error({ err, userId }, 'AI_ASK failed')
-        if (deducted) {
-          await gameService.refundPower(userId, AI_ASK_COST).catch(() => {})
-          deducted = false
-        }
         const isQuota = msg.includes('额度用尽') || msg.includes(API_QUOTA_EXHAUSTED_MESSAGE)
-        push('error', { error: isQuota ? 'AI 额度暂时用尽，已退回学力，请稍后再试' : 'AI 服务暂时不可用，已退回学力，请稍后再试' })
+        push('error', { error: isQuota ? '当前服务繁忙，请稍后再试' : 'AI 服务暂时不可用，请稍后再试' })
         push('done', { success: false })
       } finally {
         try {

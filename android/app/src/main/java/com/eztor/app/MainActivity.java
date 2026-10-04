@@ -14,6 +14,8 @@ import android.net.NetworkCapabilities;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.os.Environment;
 import android.os.Message;
 import android.provider.Settings;
@@ -57,6 +59,21 @@ public class MainActivity extends Activity {
             && !lower.startsWith("file:")
             && !lower.startsWith("data:")
             && !lower.startsWith("javascript:");
+    }
+
+    private boolean isTrustedAppUrl(String url) {
+        try {
+            Uri candidate = Uri.parse(url);
+            Uri trusted = Uri.parse(APP_URL);
+            int candidatePort = candidate.getPort() == -1 ? 443 : candidate.getPort();
+            int trustedPort = trusted.getPort() == -1 ? 443 : trusted.getPort();
+            return "https".equals(candidate.getScheme())
+                && trusted.getHost() != null
+                && trusted.getHost().equalsIgnoreCase(candidate.getHost())
+                && candidatePort == trustedPort;
+        } catch (Exception ignored) {
+            return false;
+        }
     }
 
     /** 把自定义 scheme（如 xiaoying://）交给系统，跳转到对应 App（外联打开） */
@@ -131,6 +148,11 @@ public class MainActivity extends Activity {
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                if (isTrustedAppUrl(url)) {
+                    view.addJavascriptInterface(new FeedbackBridge(), "AndroidFeedback");
+                } else {
+                    view.removeJavascriptInterface("AndroidFeedback");
+                }
                 progressBar.setVisibility(View.VISIBLE);
             }
 
@@ -261,6 +283,36 @@ public class MainActivity extends Activity {
         @android.webkit.JavascriptInterface
         public boolean isActive() {
             return DanmakuService.ACTIVE;
+        }
+    }
+
+    /** Small, versioned haptic bridge with a short event allowlist. */
+    private class FeedbackBridge {
+        @android.webkit.JavascriptInterface
+        public int getVersion() {
+            return 2;
+        }
+
+        @android.webkit.JavascriptInterface
+        public void pulse(String event, String intensity) {
+            String currentUrl = webView == null ? null : webView.getUrl();
+            if (!isTrustedAppUrl(currentUrl)) return;
+
+            final long durationMs;
+            if (!("light".equals(intensity) || "standard".equals(intensity))) return;
+            if ("light".equals(intensity)) durationMs = 10;
+            else if ("correct".equals(event) || "saved".equals(event)) durationMs = 12;
+            else if ("incorrect".equals(event)) durationMs = 20;
+            else if ("error".equals(event)) durationMs = 18;
+            else return;
+
+            Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+            if (vibrator == null || !vibrator.hasVibrator()) return;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                vibrator.vibrate(VibrationEffect.createOneShot(durationMs, VibrationEffect.DEFAULT_AMPLITUDE));
+            } else {
+                vibrator.vibrate(durationMs);
+            }
         }
     }
 

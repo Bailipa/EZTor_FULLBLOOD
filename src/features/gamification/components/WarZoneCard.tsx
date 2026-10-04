@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Loader2, Shield, Users, Plus, Pencil, ArrowRightLeft } from 'lucide-react'
@@ -12,25 +12,41 @@ import { ZoneTitleDialog } from './ZoneTitleDialog'
 export function WarZoneCard({ refreshKey = 0 }: { refreshKey?: number }) {
   const [zone, setZone] = useState<ZoneInfo | null>(null)
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(false)
   const [joining, setJoining] = useState(false)
   const [renameOpen, setRenameOpen] = useState(false)
   const [transferOpen, setTransferOpen] = useState(false)
   const [titleOpen, setTitleOpen] = useState(false)
+  const requestRef = useRef<AbortController | null>(null)
 
-  const fetchZone = () => {
+  const fetchZone = useCallback(async () => {
+    requestRef.current?.abort()
+    const controller = new AbortController()
+    requestRef.current = controller
     setLoading(true)
-    fetch('/api/game/zone')
-      .then((r) => r.json())
-      .then((data) => {
-        if (data.success) setZone(data.data)
-      })
-      .catch(() => {})
-      .finally(() => setLoading(false))
-  }
+
+    setError(false)
+    try {
+      const response = await fetch('/api/game/zone', { signal: controller.signal })
+      const data = await response.json()
+      if (!response.ok || !data.success) throw new Error('zone request failed')
+      if (requestRef.current === controller) setZone(data.data ?? null)
+    } catch {
+      if (!controller.signal.aborted && requestRef.current === controller) {
+        setError(true)
+      }
+    } finally {
+      if (!controller.signal.aborted && requestRef.current === controller) {
+        requestRef.current = null
+        setLoading(false)
+      }
+    }
+  }, [])
 
   useEffect(() => {
-    fetchZone()
-  }, [refreshKey])
+    void fetchZone()
+    return () => requestRef.current?.abort()
+  }, [fetchZone, refreshKey])
 
   const handleJoin = async () => {
     setJoining(true)
@@ -51,6 +67,20 @@ export function WarZoneCard({ refreshKey = 0 }: { refreshKey?: number }) {
       <Card>
         <CardContent className="flex items-center justify-center py-6">
           <Loader2 className="w-4 h-4 animate-spin text-muted-foreground" />
+        </CardContent>
+      </Card>
+    )
+  }
+
+  if (error) {
+    return (
+      <Card>
+        <CardContent className="flex flex-col items-center gap-3 py-6">
+          <Shield className="w-8 h-8 text-muted-foreground" />
+          <p className="text-sm text-muted-foreground" role="alert">学区信息加载失败</p>
+          <Button size="sm" variant="outline" onClick={() => void fetchZone()}>
+            重试
+          </Button>
         </CardContent>
       </Card>
     )

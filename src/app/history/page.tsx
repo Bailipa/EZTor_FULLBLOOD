@@ -59,6 +59,7 @@ import { WordDetailSheet } from '@/components/vocabulary/WordDetailSheet'
 import { useCrudTable } from '@/hooks/useCrudTable'
 import { useOnboarding } from '@/components/onboarding/OnboardingProvider'
 import { OnboardingTooltip } from '@/components/onboarding/OnboardingTooltip'
+import { useImportExportVisibility } from '@/hooks/useImportExportVisibility'
 
 const PAGE_SIZE = 20
 const MAX_VISIBLE_WORDS = 500
@@ -102,6 +103,7 @@ GridItem.displayName = 'GridItem'
 export default function HistoryPage() {
   const router = useRouter()
   const { currentStep, isActive, nextStep } = useOnboarding()
+  const { show: showImportExportActions, ready: importExportPreferenceReady } = useImportExportVisibility()
   const [words, setWords] = useState<WordData[]>([])
   const [totalCount, setTotalCount] = useState(0)
   const [isLoading, setIsLoading] = useState(true)
@@ -116,6 +118,13 @@ export default function HistoryPage() {
     { id: string; name: string; _count?: { ReviewGroupWord: number }; [key: string]: unknown }[]
   >([])
   const [currentViewGroupId, setCurrentViewGroupId] = useState<string>('all')
+  const fetchRequestIdRef = useRef(0)
+
+  useEffect(() => {
+    if (!importExportPreferenceReady || showImportExportActions || !isActive || currentStep !== 4) return
+    nextStep()
+    router.push('/')
+  }, [currentStep, importExportPreferenceReady, isActive, nextStep, router, showImportExportActions])
 
   const {
     selectedIds,
@@ -183,9 +192,15 @@ export default function HistoryPage() {
   groupIdRef.current = currentViewGroupId
 
   const fetchWords = useCallback(async (groupId: string = 'all', cursor?: string | null) => {
+    const requestId = ++fetchRequestIdRef.current
     const isFirstPage = !cursor
     if (isFirstPage) {
       setIsLoading(true)
+      setIsLoadingMore(false)
+      setWords([])
+      setTotalCount(0)
+      setHasMore(false)
+      setNextCursor(null)
     } else {
       setIsLoadingMore(true)
     }
@@ -202,32 +217,34 @@ export default function HistoryPage() {
 
       const res = await fetch(url)
       const data = await res.json()
-      if (data.success) {
-        const newWords = data.data
-        const pagination = data.pagination
-
-        if (isFirstPage) {
-          setWords(newWords)
-        } else {
-          setWords((prev) => {
-            const combined = [...prev, ...newWords]
-            if (combined.length > MAX_VISIBLE_WORDS) {
-              return combined.slice(combined.length - MAX_VISIBLE_WORDS)
-            }
-            return combined
-          })
-        }
-        setTotalCount(pagination.total)
-        setHasMore(pagination.hasMore)
-        setNextCursor(pagination.nextCursor)
+      if (!res.ok || !data.success) {
+        throw new Error(data.error || 'Failed to fetch words')
       }
+      if (requestId !== fetchRequestIdRef.current || groupId !== groupIdRef.current) return
+
+      const newWords = data.data
+      const pagination = data.pagination
+
+      if (isFirstPage) {
+        setWords(newWords.slice(0, MAX_VISIBLE_WORDS))
+      } else {
+        setWords((prev) => [...prev, ...newWords].slice(0, MAX_VISIBLE_WORDS))
+      }
+      setTotalCount(pagination.total)
+      setHasMore(pagination.hasMore)
+      setNextCursor(pagination.nextCursor)
     } catch (error) {
       if (process.env.NODE_ENV === 'development') console.error('Failed to fetch words', error)
+      if (requestId === fetchRequestIdRef.current && groupId === groupIdRef.current) {
+        toast.error('加载失败，请稍后重试')
+      }
     } finally {
-      if (isFirstPage) {
-        setIsLoading(false)
-      } else {
-        setIsLoadingMore(false)
+      if (requestId === fetchRequestIdRef.current && groupId === groupIdRef.current) {
+        if (isFirstPage) {
+          setIsLoading(false)
+        } else {
+          setIsLoadingMore(false)
+        }
       }
     }
   }, [])
@@ -255,7 +272,7 @@ export default function HistoryPage() {
       if (data) {
         setCurrentViewGroupId(data.groupId)
         if (data.newWords.length > 0) {
-          setWords((prevWords) => [...data.newWords, ...prevWords])
+          setWords((prevWords) => [...data.newWords, ...prevWords].slice(0, MAX_VISIBLE_WORDS))
           setTotalCount((prev) => prev + data.newWords.length)
         }
       }
@@ -486,6 +503,7 @@ export default function HistoryPage() {
           method: 'DELETE',
         })
         if (!res.ok) {
+          toast.error('清空失败，请重试')
           fetchWords(currentViewGroupId)
         } else {
           fetchGroups()
@@ -493,11 +511,15 @@ export default function HistoryPage() {
       } else {
         const res = await fetch(`/api/history?action=clear_all`, { method: 'DELETE' })
         if (!res.ok) {
+          toast.error('清空失败，请重试')
           fetchWords(currentViewGroupId)
+        } else {
+          fetchGroups()
         }
       }
     } catch (error) {
       if (process.env.NODE_ENV === 'development') console.error('Clear all failed', error)
+      toast.error('清空失败，请重试')
       fetchWords(currentViewGroupId)
     } finally {
       setIsClearing(false)
@@ -783,11 +805,11 @@ export default function HistoryPage() {
       <main className="min-h-screen bg-background p-6 md:p-12 transition-colors duration-300">
         <div className="max-w-5xl mx-auto space-y-8">
           {/* Header */}
-          <div className="bg-card p-4 sm:p-6 rounded-xl shadow-sm border border-border transition-colors duration-300">
+          <div className="indigo-page-header bg-card p-4 sm:p-6 rounded-xl shadow-sm border border-border transition-colors duration-300">
             {/* Top section: title + controls */}
             <div className="flex flex-wrap items-start gap-x-4 gap-y-3">
-              <div className="flex-1 min-w-[120px]" style={{ minWidth: 'max-content' }}>
-              <h1 className="text-2xl font-bold text-gray-900 dark:text-foreground" style={{ whiteSpace: 'nowrap' }}>
+              <div className="min-w-0 flex-1">
+              <h1 className="break-words text-2xl font-bold text-gray-900 dark:text-foreground">
                 {isGroupView
                   ? groups.find((g) => g.id === currentViewGroupId)?.name || '分组'
                   : '我的生词本'}
@@ -798,7 +820,7 @@ export default function HistoryPage() {
             </div>
             <div className="flex items-center gap-2 shrink-0">
               <Select value={currentViewGroupId} onValueChange={setCurrentViewGroupId}>
-                <SelectTrigger className="w-[160px] sm:w-[180px] h-8">
+              <SelectTrigger className="min-h-11 w-[160px] sm:w-[180px]">
                   <SelectValue placeholder="切换视图" />
                 </SelectTrigger>
                 <SelectContent>
@@ -862,16 +884,18 @@ export default function HistoryPage() {
           {/* Divider + action buttons grid */}
           <div className="mt-4 pt-4 border-t border-border">
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-              <Button
-                ref={importButtonRef}
-                variant="outline"
-                size="sm"
-                onClick={() => setIsImportModalOpen(true)}
-                className="gap-1.5 text-primary"
-              >
-                <Share2 className="w-3.5 h-3.5" />
-                四六级词
-              </Button>
+              {showImportExportActions && (
+                <Button
+                  ref={importButtonRef}
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setIsImportModalOpen(true)}
+                  className="gap-1.5 text-primary"
+                >
+                  <Share2 className="w-3.5 h-3.5" />
+                  四六级词
+                </Button>
+              )}
               {isSelectionMode ? (
                 <>
                   <Button
@@ -938,16 +962,18 @@ export default function HistoryPage() {
                   去默写
                 </Button>
               </Link>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={exportToCSV}
-                disabled={words.length === 0}
-                className="gap-1 text-primary"
-              >
-                <Download className="w-4 h-4" />
-                导出
-              </Button>
+              {showImportExportActions && (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={exportToCSV}
+                  disabled={words.length === 0}
+                  className="gap-1 text-primary"
+                >
+                  <Download className="w-4 h-4" />
+                  导出
+                </Button>
+              )}
               <AlertDialog open={isClearing} onOpenChange={setIsClearing}>
                 <AlertDialogTrigger asChild>
                   <Button
@@ -1002,7 +1028,7 @@ export default function HistoryPage() {
           </div>
         ) : (
           <div className="space-y-4">
-            <div className="grid grid-cols-3 md:grid-cols-2 lg:grid-cols-3 gap-2 md:gap-4">
+            <div className="grid grid-cols-1 min-[375px]:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-2 md:gap-4">
               {isDesktop
                 ? words.map((item, index) => (
                     <div key={item.id}>{renderItemContent(index, item)}</div>
@@ -1187,22 +1213,23 @@ export default function HistoryPage() {
             <CardContent className="p-4">
               <h3 className="font-semibold mb-2">📚 生词本</h3>
               <p className="text-sm text-muted-foreground mb-3">
-                这里记录了你学习过的所有单词，包括答对/答错次数。
+                这里记录了你学习过的所有单词和答题次数。答错的词会进入错词本，可以单独练习。
               </p>
-              <Button
-                size="sm"
-                onClick={() => nextStep()}
-                className="w-full"
-              >
-                知道了
-              </Button>
+              <div className="flex gap-2">
+                <Link href="/mistakes" className="flex-1">
+                  <Button size="sm" variant="outline" className="w-full">查看错词本</Button>
+                </Link>
+                <Button size="sm" onClick={() => nextStep()} className="flex-1">
+                  知道了
+                </Button>
+              </div>
             </CardContent>
           </Card>
         </div>
       )}
 
       {/* 引导步骤 4：词库导入介绍 */}
-      {isActive && currentStep === 4 && (
+      {isActive && currentStep === 4 && showImportExportActions && (
         <OnboardingTooltip
           targetRef={importButtonRef}
           title="导入词库"

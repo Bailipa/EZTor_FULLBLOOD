@@ -1,3 +1,4 @@
+import { isInterfaceStyle, type InterfaceStyle } from '@/lib/interfaceStyle'
 import prisma from '@/lib/prisma'
 import { getServerSession } from 'next-auth/next'
 import { authOptions } from '@/app/api/auth/[...nextauth]/route'
@@ -26,6 +27,10 @@ export async function GET() {
         dailyGoal: true,
         reviewReminderEnabled: true,
         reviewReminderTime: true,
+        autoSaveWords: true,
+        soundEffectsEnabled: true,
+        interfaceStyle: true,
+        showImportExportActions: true,
       },
     })
 
@@ -46,13 +51,28 @@ export async function PUT(req: Request) {
       dailyGoal?: number
       reviewReminderEnabled?: boolean
       reviewReminderTime?: string
+      autoSaveWords?: boolean
+      interfaceStyle?: InterfaceStyle
+      soundEffectsEnabled?: boolean
+      showImportExportActions?: boolean
     }
 
     const data: {
       dailyGoal?: number
       reviewReminderEnabled?: boolean
       reviewReminderTime?: string | null
+      autoSaveWords?: boolean
+      interfaceStyle?: InterfaceStyle
+      soundEffectsEnabled?: boolean
+      showImportExportActions?: boolean
     } = {}
+
+    if ('interfaceStyle' in body) {
+      if (!isInterfaceStyle(body.interfaceStyle)) {
+        return createErrorResponse('无效的界面风格', 400)
+      }
+      data.interfaceStyle = body.interfaceStyle
+    }
 
     if (typeof body.dailyGoal === 'number') {
       if (!Number.isInteger(body.dailyGoal) || body.dailyGoal < DAILY_GOAL_MIN || body.dailyGoal > DAILY_GOAL_MAX) {
@@ -76,6 +96,18 @@ export async function PUT(req: Request) {
       data.reviewReminderTime = time
     }
 
+    if (typeof body.autoSaveWords === 'boolean') {
+      data.autoSaveWords = body.autoSaveWords
+    }
+
+    if (typeof body.soundEffectsEnabled === 'boolean') {
+      data.soundEffectsEnabled = body.soundEffectsEnabled
+    }
+
+    if (typeof body.showImportExportActions === 'boolean') {
+      data.showImportExportActions = body.showImportExportActions
+    }
+
     const prefs = await prisma.userPreference.upsert({
       where: { userId: session.user.id },
       update: data,
@@ -84,6 +116,10 @@ export async function PUT(req: Request) {
         dailyGoal: true,
         reviewReminderEnabled: true,
         reviewReminderTime: true,
+        autoSaveWords: true,
+        soundEffectsEnabled: true,
+        interfaceStyle: true,
+        showImportExportActions: true,
       },
     })
 

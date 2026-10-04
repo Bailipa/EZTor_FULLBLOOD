@@ -2,6 +2,8 @@
 
 import { useEffect, useRef, useState, useCallback } from 'react'
 import { useSession } from 'next-auth/react'
+import ReactMarkdown, { type Components } from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
@@ -13,7 +15,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { Zap, Sparkles, Send, Loader2, Search, FolderPlus, CheckCircle2, XCircle, Lock, ChevronDown, ChevronUp, Plus, Trash2 } from 'lucide-react'
+import { Send, Loader2, Search, FolderPlus, CheckCircle2, XCircle, Lock, ChevronDown, ChevronUp, Plus, Trash2, ArrowLeft } from 'lucide-react'
 import { useLoginPrompt } from '@/components/ui/login-prompt-modal'
 import { aiHistoryKey, AI_HISTORY_MAX_ITEMS } from '@/lib/aiHistoryCache'
 
@@ -45,6 +47,49 @@ interface FactMsg {
 
 type UiMessage = ChatMessage | SearchResultMsg | ProposalMsg | FactMsg
 
+const assistantMarkdownComponents: Components = {
+  h1: ({ children }) => <h1 className="mb-2 mt-4 text-lg font-semibold first:mt-0">{children}</h1>,
+  h2: ({ children }) => <h2 className="mb-2 mt-4 text-base font-semibold first:mt-0">{children}</h2>,
+  h3: ({ children }) => <h3 className="mb-1.5 mt-3 text-sm font-semibold first:mt-0">{children}</h3>,
+  p: ({ children }) => <p className="my-2 whitespace-pre-wrap leading-relaxed first:mt-0 last:mb-0">{children}</p>,
+  ul: ({ children }) => <ul className="my-2 list-disc space-y-1 pl-5">{children}</ul>,
+  ol: ({ children }) => <ol className="my-2 list-decimal space-y-1 pl-5">{children}</ol>,
+  li: ({ children }) => <li className="pl-0.5">{children}</li>,
+  blockquote: ({ children }) => (
+    <blockquote className="my-3 border-l-2 border-primary/50 pl-3 text-muted-foreground">{children}</blockquote>
+  ),
+  a: ({ children, href }) => (
+    <a href={href} className="break-all text-primary underline underline-offset-2" rel="noreferrer">
+      {children}
+    </a>
+  ),
+  hr: () => <hr className="my-3 border-border" />,
+  pre: ({ children }) => (
+    <pre className="my-3 max-w-full overflow-x-auto rounded-lg border border-border/70 bg-background/70 p-3 text-xs leading-relaxed">
+      {children}
+    </pre>
+  ),
+  code: ({ className, children }) => {
+    const isBlock = Boolean(className)
+    return (
+      <code
+        className={isBlock
+          ? `${className ?? ''} block whitespace-pre`
+          : 'rounded bg-background/70 px-1 py-0.5 font-mono text-[0.9em] break-all'}
+      >
+        {children}
+      </code>
+    )
+  },
+  table: ({ children }) => (
+    <div className="my-3 max-w-full overflow-x-auto">
+      <table className="w-full border-collapse text-left text-xs sm:text-sm">{children}</table>
+    </div>
+  ),
+  th: ({ children }) => <th className="border border-border px-2 py-1.5 font-semibold">{children}</th>,
+  td: ({ children }) => <td className="border border-border px-2 py-1.5 align-top">{children}</td>,
+}
+
 const MAX_WORDS_PER_BATCH = 500
 const MAX_BATCH_TOTAL = 2000
 
@@ -52,7 +97,7 @@ function isChat(m: UiMessage): m is ChatMessage {
   return (m as ChatMessage).role !== undefined
 }
 
-export function AiAssistant() {
+export function AiAssistant({ onBack }: { onBack?: () => void }) {
   const { data: session, status } = useSession()
   const isAuthenticated = status === 'authenticated' && session?.user
   const { promptLogin, LoginPromptDialog } = useLoginPrompt()
@@ -60,8 +105,6 @@ export function AiAssistant() {
   const [messages, setMessages] = useState<UiMessage[]>([])
   const [input, setInput] = useState('')
   const [busy, setBusy] = useState(false)
-  const [balance, setBalance] = useState<number | null>(null)
-  const [isAiFree, setIsAiFree] = useState(false)
   const [expandedSearch, setExpandedSearch] = useState<number | null>(null)
   const [expandedWord, setExpandedWord] = useState<{ cardIndex: number; word: string } | null>(null)
   const [groups, setGroups] = useState<{ id: string; name: string }[]>([])
@@ -73,23 +116,10 @@ export function AiAssistant() {
   const [proposalNewName, setProposalNewName] = useState<Record<string, string>>({})
   const [concluding, setConcluding] = useState(false)
   const scrollRef = useRef<HTMLDivElement>(null)
+  const inputRef = useRef<HTMLTextAreaElement>(null)
 
   useEffect(() => {
     if (!isAuthenticated) return
-    fetch('/api/game/profile')
-      .then((r) => r.json())
-      .then((res) => {
-        if (res.success && res.data) {
-          setBalance(res.data.combatPower)
-        }
-      })
-      .catch(() => {})
-    fetch('/api/ai/status')
-      .then((r) => r.json())
-      .then((res) => {
-        if (res.success) setIsAiFree(res.isAiFree)
-      })
-      .catch(() => {})
     fetch('/api/review-groups')
       .then((r) => r.json())
       .then((res) => {
@@ -160,7 +190,7 @@ export function AiAssistant() {
   }, [])
 
   const handleSend = async () => {
-    const text = input.trim()
+    const text = (inputRef.current?.value ?? input).trim()
     if (!text || busy) return
     setInput('')
     setBusy(true)
@@ -184,7 +214,7 @@ export function AiAssistant() {
 
       if (!res.ok) {
         const j = await res.json().catch(() => null)
-        const err = j?.error || (res.status === 402 ? '学力不足' : '请求失败')
+        const err = j?.error || '请求失败'
         pushChat('assistant', `⚠️ ${err}`)
         setBusy(false)
         return
@@ -248,10 +278,6 @@ export function AiAssistant() {
             } else {
               setMessages((prev) => [...prev, { role: 'assistant', content: text }])
               firstTextSeen = true
-            }
-            if (data.isAiFree === true) setIsAiFree(true)
-            if (typeof data.deducted === 'boolean' && data.deducted) {
-              setBalance((b) => (b === null ? b : Math.max(0, b - 10)))
             }
           }
         } else if (eventType === 'search_result') {
@@ -495,13 +521,17 @@ export function AiAssistant() {
             )}
           </div>
           <div
-            className={`max-w-[75%] px-3 py-2 rounded-2xl text-sm whitespace-pre-wrap break-words ${
+            className={`${isUser ? 'max-w-[85%] whitespace-pre-wrap' : 'min-w-0 max-w-4xl flex-1'} px-3 py-2 rounded-2xl text-sm break-words ${
               isUser
                 ? 'bg-primary text-primary-foreground rounded-tr-sm'
                 : 'bg-muted text-foreground rounded-tl-sm'
             }`}
           >
-            {m.content}
+            {isUser ? m.content : (
+              <ReactMarkdown remarkPlugins={[remarkGfm]} components={assistantMarkdownComponents}>
+                {m.content}
+              </ReactMarkdown>
+            )}
           </div>
         </div>
       )
@@ -515,7 +545,7 @@ export function AiAssistant() {
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/ai.jpg" alt="ego-ai助手" className="w-8 h-8 rounded-full object-cover" />
           </div>
-          <div className="max-w-[85%] w-full">
+          <div className="min-w-0 max-w-4xl flex-1">
             <Card className="border-primary/20">
               <CardContent className="p-3 space-y-2">
                 <button
@@ -634,7 +664,7 @@ export function AiAssistant() {
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/ai.jpg" alt="ego-ai助手" className="w-8 h-8 rounded-full object-cover" />
           </div>
-          <div className="max-w-[85%] w-full">
+          <div className="min-w-0 max-w-4xl flex-1">
             <Card className="border-amber-400/50">
               <CardContent className="p-3 space-y-2">
                 <div className="flex items-center gap-1.5 text-sm font-medium">
@@ -748,7 +778,7 @@ export function AiAssistant() {
           <img src="/ai.jpg" alt="ego-ai助手" className="w-8 h-8 rounded-full object-cover" />
         </div>
         <div
-          className={`px-3 py-2 rounded-2xl text-sm break-words max-w-[80%] ${
+          className={`min-w-0 max-w-4xl flex-1 px-3 py-2 rounded-2xl text-sm break-words ${
             m.ok ? 'bg-green-50 dark:bg-green-950/20 text-green-700 dark:text-green-400' : 'bg-destructive/10 text-destructive'
           }`}
         >
@@ -774,32 +804,23 @@ export function AiAssistant() {
           登录后即可使用 AI 询问
         </div>
         <Button onClick={() => promptLogin('AI询问')}>去登录</Button>
+        {onBack && <Button variant="ghost" onClick={onBack}>返回翻译</Button>}
         <LoginPromptDialog />
       </div>
     )
   }
 
   return (
-    <div className="flex flex-col h-full min-h-0">
-      <div className="flex items-center justify-between px-4 py-3 border-b">
+    <div className="flex flex-col h-full min-h-0 min-w-0">
+      <div data-ai-assistant-header className="flex shrink-0 items-center justify-between px-4 py-3 border-b">
         <div className="flex items-center gap-2">
+          {onBack && <Button variant="ghost" size="icon" className="size-11 shrink-0" aria-label="返回翻译" onClick={onBack}><ArrowLeft size={18} /></Button>}
           <div className="w-8 h-8 rounded-full overflow-hidden">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/ai.jpg" alt="ego-ai助手" className="w-8 h-8 rounded-full object-cover" />
           </div>
           <div>
-            <div className="flex items-center gap-1.5">
-              <span className="text-sm font-semibold">ego-ai助手</span>
-              {isAiFree && (
-                <span className="inline-flex items-center gap-0.5 text-[10px] text-amber-600 dark:text-amber-400 bg-amber-100 dark:bg-amber-950/40 rounded-full px-1.5 py-0.5">
-                  <Sparkles className="w-3 h-3" /> AI 免费
-                </span>
-              )}
-            </div>
-            <div className="flex items-center gap-1 text-[10px] text-muted-foreground">
-              <Zap className="w-3 h-3 text-amber-500" />
-              每次提问消耗 10 学力{isAiFree ? '（当前免费）' : balance !== null ? `（当前 ${balance}）` : ''}
-            </div>
+            <span className="text-sm font-semibold">ego-ai助手</span>
           </div>
         </div>
         {messages.length > 0 && (
@@ -816,7 +837,7 @@ export function AiAssistant() {
         )}
       </div>
 
-      <div ref={scrollRef} className="flex-1 min-h-0 overflow-y-auto p-4">
+      <div ref={scrollRef} className="flex-1 min-h-0 min-w-0 overflow-y-auto p-4 [overflow-wrap:anywhere]">
         <div className="space-y-4">
           {messages.length === 0 && !busy && (
             <div className="text-center text-muted-foreground text-sm py-10 space-y-3">
@@ -843,24 +864,23 @@ export function AiAssistant() {
         </div>
       </div>
 
-      <div className="p-3 border-t space-y-2">
-        {!isAiFree && balance !== null && balance < 10 && (
-          <p className="text-[11px] text-amber-600 dark:text-amber-400">
-            学力不足（当前 {balance}），完成每日任务或默写可赚取学力
-          </p>
-        )}
+      <div className="shrink-0 p-3 border-t space-y-2">
         <div className="flex items-end gap-2">
           <Textarea
+            ref={inputRef}
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
             placeholder="问我任何单词问题，如：找以ed结尾的单词…"
             rows={2}
-            disabled={busy || (!isAiFree && balance !== null && balance < 10)}
+            className="min-w-0 flex-1 max-h-28 resize-none overflow-y-auto text-base md:text-base"
+            disabled={busy}
           />
-          <Button size="icon" onClick={handleSend} disabled={busy || !input.trim() || (!isAiFree && balance !== null && balance < 10)}>
-            <Send className="w-4 h-4" />
-          </Button>
+          <div className="flex shrink-0 flex-col gap-1">
+            <Button size="icon" className="h-11 w-11 shrink-0" onClick={handleSend} disabled={busy || !input.trim()} aria-label="发送消息">
+              <Send className="w-4 h-4" />
+            </Button>
+          </div>
         </div>
       </div>
     </div>

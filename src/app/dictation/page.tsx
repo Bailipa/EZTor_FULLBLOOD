@@ -1,8 +1,8 @@
 'use client'
 
-import React, { useState, useEffect, useRef, useMemo } from 'react'
+import React, { Suspense, useState, useEffect, useRef, useMemo } from 'react'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { toast } from 'sonner'
 import { getIrregularForms, getFormHint, isCorrectAnswer, getAlternateStems } from '@/lib/irregularForms'
 import { Button } from '@/components/ui/button'
@@ -38,15 +38,42 @@ import { ScrollArea } from '@/components/ui/scroll-area'
 import { Checkbox } from '@/components/ui/checkbox'
 import { useAnalytics } from '@/lib/analytics'
 import { usePageView } from '@/lib/analytics'
-import { speakText } from '@/lib/ttsBrowser'
+import { speakText, stopSpeech } from '@/lib/ttsBrowser'
 import { useOnboarding } from '@/components/onboarding/OnboardingProvider'
 import { OnboardingTooltip } from '@/components/onboarding/OnboardingTooltip'
 import { useMediaQuery } from '@/hooks/useMediaQuery'
 import { DictationResultCharts } from '@/components/dictation/DictationResultCharts'
+import { ReviewNavigation } from '@/components/dictation/ReviewNavigation'
+import { triggerHapticFeedback } from '@/lib/hapticFeedback'
+import { readExperiencePreferences } from '@/lib/experiencePreferences'
 
 type QuizMode = 'dictation' | 'sentence_blank'
 
 export default function DictationPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex min-h-screen items-center justify-center">
+          <Loader2 className="size-8 animate-spin text-primary" aria-label="正在加载默写" />
+        </div>
+      }
+    >
+      <DictationRoute />
+    </Suspense>
+  )
+}
+
+function DictationRoute() {
+  const isMistakePractice = useSearchParams().get('source') === 'mistakes'
+  return (
+    <DictationContent
+      key={isMistakePractice ? 'mistakes' : 'dictation'}
+      isMistakePractice={isMistakePractice}
+    />
+  )
+}
+
+function DictationContent({ isMistakePractice }: { isMistakePractice: boolean }) {
   usePageView('Dictation')
   const router = useRouter()
   const { trackDictationStart, trackDictationComplete } = useAnalytics()
@@ -62,6 +89,7 @@ export default function DictationPage() {
       [key: string]: unknown
     }[]
   >([])
+  const [fetchError, setFetchError] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [mode, setMode] = useState<QuizMode>('dictation')
 
@@ -99,6 +127,10 @@ export default function DictationPage() {
   const [savedProgress, setSavedProgress] = useState<{
     answers: Record<number, { userInput: string; isCorrect: boolean }>
     currentIndex: number
+    userInput?: string
+    isChecked?: boolean
+    isCorrect?: boolean
+    showHint?: boolean
     words: typeof words
     score: { correct: number; total: number }
     mode: QuizMode
@@ -117,6 +149,8 @@ export default function DictationPage() {
   // Settings State
   const [isMuted, setIsMuted] = useState(true)
   const [isSfxMuted, setIsSfxMuted] = useState(false)
+  const [sessionMuted, setSessionMuted] = useState(false)
+  const [soundEffectsEnabled, setSoundEffectsEnabled] = useState(true)
   const [hideChinese, setHideChinese] = useState(false)
   const [reviewMode, setReviewMode] = useState<'random' | 'smart'>('smart') // 新增：复习模式
   const [selectedGroupId, setSelectedGroupId] = useState<string>('all')
@@ -170,6 +204,7 @@ export default function DictationPage() {
   const fetchWords = async (overrideCount?: number) => {
     const effectiveCount = overrideCount ?? testCount
     setIsLoading(true)
+    setFetchError(null)
     try {
       if (effectiveCount === 'custom') {
         // 如果是自定义模式，直接过滤出选中的单词作为题库
@@ -178,13 +213,25 @@ export default function DictationPage() {
         const shuffled = [...customWords].sort(() => 0.5 - Math.random())
         setWords(shuffled)
       } else {
-        // 根据用户选择的数量和模式获取词汇
-        const endpoint = reviewMode === 'smart' ? '/api/dictation/smart' : '/api/danmaku'
-        const url = `${endpoint}?limit=${effectiveCount}&groupId=${selectedGroupId}&t=${Date.now()}`
+        // 错词专练从持久化错词记录中取词，其余模式按复习设置取词。
+        const endpoint = isMistakePractice
+          ? '/api/dictation/mistakes'
+          : reviewMode === 'smart'
+            ? '/api/dictation/smart'
+            : '/api/danmaku'
+        const params = new URLSearchParams({ limit: String(effectiveCount), t: String(Date.now()) })
+        if (!isMistakePractice) params.set('groupId', selectedGroupId)
+        const url = `${endpoint}?${params}`
         const res = await fetch(url)
         const data = await res.json()
+        if (!res.ok || !data.success || !Array.isArray(data.data)) {
+          setWords([])
+          setFetchError(data.error || '默写单词加载失败，请重试。')
+          return
+        }
         if (data.success && data.data) {
           const wordList = data.data
+          if (isMistakePractice) setTotalWordsTested(wordList.length)
           // 词库不足 4 词时，从公共词库补充干扰项（不混入测试题库）
           if (wordList.length < 4) {
             try {
@@ -209,6 +256,8 @@ export default function DictationPage() {
     } catch (error) {
       if (process.env.NODE_ENV === 'development')
         console.error('Failed to fetch dictation words', error)
+      setWords([])
+      setFetchError('默写单词加载失败，请检查网络后重试。')
     } finally {
       setIsLoading(false)
     }
@@ -231,6 +280,18 @@ export default function DictationPage() {
   useEffect(() => {
     fetchAllHistoryWords()
     fetchGroups()
+    const devicePreferences = readExperiencePreferences()
+    if (!localStorage.getItem('dictation_progress')) {
+      setIsMuted(!devicePreferences.autoSpeak)
+    }
+    fetch('/api/preferences')
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success && typeof data.data?.soundEffectsEnabled === 'boolean') {
+          setSoundEffectsEnabled(data.data.soundEffectsEnabled)
+        }
+      })
+      .catch(() => {})
 
     // 初始化 Audio 对象
     if (typeof window !== 'undefined') {
@@ -254,15 +315,17 @@ export default function DictationPage() {
 
   // 播放音效的辅助函数
   const playSoundEffect = (type: 'correct' | 'incorrect') => {
-    if (isSfxMuted) return
+    if (sessionMuted || isSfxMuted || !soundEffectsEnabled) return
     try {
       if (type === 'correct' && correctAudioRef.current) {
         correctAudioRef.current.currentTime = 0
+        correctAudioRef.current.volume = readExperiencePreferences().sfxVolume / 100
         correctAudioRef.current.play().catch((e) => {
           if (process.env.NODE_ENV === 'development') console.error('Audio play failed:', e)
         })
       } else if (type === 'incorrect' && incorrectAudioRef.current) {
         incorrectAudioRef.current.currentTime = 0
+        incorrectAudioRef.current.volume = readExperiencePreferences().sfxVolume / 100
         incorrectAudioRef.current.play().catch((e) => {
           if (process.env.NODE_ENV === 'development') console.error('Audio play failed:', e)
         })
@@ -294,7 +357,7 @@ export default function DictationPage() {
   }
 
   const playAudio = (text: string) => {
-    if (isMuted) return
+    if (sessionMuted) return
     speakText(text)
   }
 
@@ -320,10 +383,14 @@ export default function DictationPage() {
 
   // 保存进度到 localStorage
   const saveProgress = () => {
-    if (!isStarted || isFinished) return
+    if (isMistakePractice || !isStarted || isFinished) return
     const progress = {
       answers,
       currentIndex,
+      userInput,
+      isChecked,
+      isCorrect,
+      showHint,
       words,
       score,
       mode,
@@ -344,8 +411,16 @@ export default function DictationPage() {
   // 恢复进度
   const restoreProgress = () => {
     if (!savedProgress) return
-    setAnswers(savedProgress.answers)
-    setCurrentIndex(savedProgress.currentIndex)
+    const restoredAnswers = savedProgress.answers ?? {}
+    const requestedIndex = Number.isInteger(savedProgress.currentIndex) ? savedProgress.currentIndex : 0
+    const restoredIndex = Math.max(0, Math.min(requestedIndex, savedProgress.words.length - 1))
+    const currentAnswer = restoredAnswers[restoredIndex]
+    setAnswers(restoredAnswers)
+    setCurrentIndex(restoredIndex)
+    setUserInput(savedProgress.userInput ?? currentAnswer?.userInput ?? '')
+    setIsChecked(savedProgress.isChecked ?? Boolean(currentAnswer))
+    setIsCorrect(savedProgress.isCorrect ?? currentAnswer?.isCorrect ?? false)
+    setShowHint(savedProgress.showHint ?? false)
     setWords(savedProgress.words)
     setScore(savedProgress.score)
     setMode(savedProgress.mode)
@@ -359,6 +434,9 @@ export default function DictationPage() {
     setSessionStats(savedProgress.sessionStats ?? { correct: 0, total: 0 })
     setSessionElapsedMs(savedProgress.sessionElapsedMs ?? 0)
     setGroupElapsedMs(0)
+    isCheckingRef.current = false
+    submittedIndicesRef.current.clear()
+    Object.keys(restoredAnswers).forEach((index) => submittedIndicesRef.current.add(Number(index)))
     setIsStarted(true)
     setIsLoading(false)
     setShowRestoreDialog(false)
@@ -375,6 +453,7 @@ export default function DictationPage() {
 
   // 检查是否有保存的进度
   useEffect(() => {
+    if (isMistakePractice) return
     const saved = localStorage.getItem('dictation_progress')
     if (saved) {
       try {
@@ -390,7 +469,7 @@ export default function DictationPage() {
         localStorage.removeItem('dictation_progress')
       }
     }
-  }, [])
+  }, [isMistakePractice])
 
   // 引导步骤2时自动开始默写（已移除，改为点击"知道了"后开始）
   // useEffect(() => {
@@ -402,10 +481,34 @@ export default function DictationPage() {
 
   // 保存进度到 localStorage
   useEffect(() => {
-    if (isStarted && !isFinished && Object.keys(answers).length > 0) {
+    if (!isMistakePractice && isStarted && !isFinished && !isLoading && words.length > 0) {
       saveProgress()
     }
-  }, [answers, currentIndex, score, isStarted, isFinished])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    answers,
+    currentIndex,
+    score,
+    isStarted,
+    isFinished,
+    isLoading,
+    words,
+    userInput,
+    isChecked,
+    isCorrect,
+    showHint,
+    mode,
+    isMuted,
+    isSfxMuted,
+    hideChinese,
+    reviewMode,
+    selectedGroupId,
+    totalWordsTested,
+    sessionStats,
+    sessionElapsedMs,
+    startTime,
+    isMistakePractice,
+  ])
 
   // 默写完成后清除进度
   useEffect(() => {
@@ -416,15 +519,15 @@ export default function DictationPage() {
 
   // 自动播放当前单词发音
   useEffect(() => {
-    if (mode === 'dictation' && words.length > 0 && !isChecked && !isFinished && !isMuted) {
+    if (mode === 'dictation' && words.length > 0 && !isChecked && !isFinished && !isMuted && !sessionMuted) {
       playAudio(words[currentIndex].word)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentIndex, mode, words, isChecked, isFinished, isMuted])
+  }, [currentIndex, mode, words, isChecked, isFinished, isMuted, sessionMuted])
 
   // 预加载下一题发音（命中缓存后下一题 0 延迟）
   useEffect(() => {
-    if (mode !== 'dictation' || isMuted || !words.length) return
+    if (mode !== 'dictation' || isMuted || sessionMuted || !words.length) return
     const nextIndex = currentIndex + 1
     if (nextIndex >= words.length) return
     const nextWord = words[nextIndex]
@@ -434,7 +537,7 @@ export default function DictationPage() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ input: nextWord.word, response_format: 'wav' }),
     }).catch(() => {})
-  }, [currentIndex, mode, isMuted, words])
+  }, [currentIndex, mode, isMuted, sessionMuted, words])
 
   // 答题后 / 换题后自动滚动到题目区域（暂时禁用）
   // useEffect(() => {
@@ -483,14 +586,15 @@ export default function DictationPage() {
   }, [currentIndex, mode, isChecked, words, extraOptions, allHistoryWords])
 
   const handleCheck = async () => {
-    if (!userInput.trim()) return
+    const answer = inputRef.current?.value ?? userInput
+    if (!answer.trim()) return
     if (answers[currentIndex]) return // 如果已经答过了，不再重复判断
     if (submittedIndicesRef.current.has(currentIndex)) return // 已提交过，跳过
     if (isCheckingRef.current) return // 防止重复提交
     isCheckingRef.current = true
     submittedIndicesRef.current.add(currentIndex) // 标记为已提交
 
-    const userWord = userInput.toLowerCase().trim()
+    const userWord = answer.toLowerCase().trim()
 
     const correct = isCorrectAnswer(userWord, currentWord.word)
     setIsCorrect(correct)
@@ -504,6 +608,7 @@ export default function DictationPage() {
 
     // 播放音效
     playSoundEffect(correct ? 'correct' : 'incorrect')
+    triggerHapticFeedback(correct ? 'correct' : 'incorrect')
 
     if (correct) {
       setScore((prev) => ({ ...prev, correct: prev.correct + 1 }))
@@ -636,6 +741,7 @@ export default function DictationPage() {
   }
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement | HTMLDivElement>) => {
+    if (e.nativeEvent.isComposing || e.keyCode === 229) return
     if (e.key === 'Enter') {
       e.preventDefault()
       // 如果还没检查，执行检查
@@ -650,6 +756,9 @@ export default function DictationPage() {
 
   useEffect(() => {
     const handleGlobalKeyDown = (e: KeyboardEvent) => {
+      if (e.isComposing || e.keyCode === 229) return
+      const target = e.target instanceof HTMLElement ? e.target : null
+      if (target?.closest('input, textarea, select, button, [contenteditable="true"], [role="dialog"]')) return
       // 必须确保是已经检查过的状态，且当前没有弹窗打开，才允许回车进入下一题
       if (e.key === 'Enter' && isChecked && !isFinished) {
         e.preventDefault()
@@ -675,7 +784,9 @@ export default function DictationPage() {
     if (!isFinished) return
 
     const handleFinishedKeyDown = (e: KeyboardEvent) => {
-      if ((e.target as HTMLElement)?.tagName === 'BUTTON') return
+      if (e.isComposing || e.keyCode === 229) return
+      const target = e.target instanceof HTMLElement ? e.target : null
+      if (target?.closest('input, textarea, select, button, [contenteditable="true"], [role="dialog"]')) return
       if (e.key === 'Enter') {
         e.preventDefault()
         restartQuiz()
@@ -842,36 +953,49 @@ export default function DictationPage() {
     return (
       <div className="min-h-screen bg-background p-6 flex flex-col items-center justify-center">
         <p className="text-gray-500 dark:text-muted-foreground text-lg mb-4">
-          生词本数量不足，无法开启默写！
+          {fetchError || (isMistakePractice ? '错词本里还没有可练习的单词。' : '生词本数量不足，无法开启默写！')}
         </p>
-        <Link href="/">
-          <Button>去添加单词</Button>
-        </Link>
+        {fetchError ? (
+          <Button onClick={() => void fetchWords()}>
+            重试加载
+          </Button>
+        ) : (
+          <Link href={isMistakePractice ? '/mistakes' : '/'}>
+            <Button>{isMistakePractice ? '返回错词本' : '去添加单词'}</Button>
+          </Link>
+        )}
       </div>
     )
   }
 
   return (
     <AppLayout>
-      <main className="h-[calc(100dvh-3.5rem-env(safe-area-inset-bottom,0px))] xl:h-screen bg-background p-4 md:p-8 transition-colors duration-300 flex flex-col">
+      <main className="h-[calc(var(--app-visible-height,100dvh)-var(--mobile-nav-space))] md:h-screen bg-background p-4 md:p-8 transition-colors duration-300 flex flex-col">
         <div className="max-w-3xl mx-auto flex-1 flex flex-col min-h-0 w-full">
 
+        {!isStarted && (
+          <div className="mb-4 shrink-0">
+            <ReviewNavigation active={isMistakePractice ? 'mistakes' : 'dictation'} />
+          </div>
+        )}
         {!isStarted ? (
           /* 设置与启动页面 */
-          <Card className="border-2 shadow-sm flex-1 flex flex-col">
+          <Card className="border-2 shadow-sm flex-1 flex flex-col min-h-0 overflow-y-auto">
             <CardContent className="p-6 md:p-8 flex flex-col items-center text-center space-y-6 flex-1">
               <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center">
                 <RefreshCw className="w-8 h-8 text-primary" />
               </div>
               <div className="space-y-2">
-                <h2 className="text-xl font-bold">配置本次默写</h2>
+                <h2 className="text-xl font-bold">{isMistakePractice ? '配置错词专练' : '配置本次默写'}</h2>
                 <p className="text-sm text-muted-foreground">
-                  根据你的时间安排，选择本次要复习的单词数量。
+                  {isMistakePractice
+                    ? '按答错次数优先抽取错词，选择本次练习数量。'
+                    : '根据你的时间安排，选择本次要复习的单词数量。'}
                 </p>
               </div>
 
               <div className="w-full max-w-xs space-y-3 flex-1 flex flex-col">
-                <div className="flex justify-between items-center bg-muted/30 p-4 rounded-lg border">
+                {!isMistakePractice && <div className="flex justify-between items-center bg-muted/30 p-4 rounded-lg border">
                   <span className="font-medium">复习范围</span>
                   <select
                     className="bg-background border rounded-md px-3 py-1.5 text-sm outline-none focus:ring-2 focus:ring-primary max-w-[150px] sm:max-w-[180px]"
@@ -886,9 +1010,9 @@ export default function DictationPage() {
                       </option>
                     ))}
                   </select>
-                </div>
+                </div>}
 
-                <div className="flex justify-between items-center bg-muted/30 p-4 rounded-lg border">
+                {!isMistakePractice && <div className="flex justify-between items-center bg-muted/30 p-4 rounded-lg border">
                   <span className="font-medium">复习模式</span>
                   <select
                     className="bg-background border rounded-md px-3 py-1.5 text-sm outline-none focus:ring-2 focus:ring-primary"
@@ -899,7 +1023,7 @@ export default function DictationPage() {
                     <option value="smart">智能排序 (推荐)</option>
                     <option value="random">随机抽取</option>
                   </select>
-                </div>
+                </div>}
 
                 <div className="flex justify-between items-center bg-muted/30 p-4 rounded-lg border">
                   <span className="font-medium">单词数量</span>
@@ -915,11 +1039,11 @@ export default function DictationPage() {
                     <option value={20}>20 个 (约 5 分钟)</option>
                     <option value={30}>30 个 (约 8 分钟)</option>
                     <option value={50}>50 个 (极限挑学)</option>
-                    <option value="custom">自定义默写本</option>
+                    {!isMistakePractice && <option value="custom">自定义默写本</option>}
                   </select>
                 </div>
 
-                {testCount === 'custom' && (
+                {!isMistakePractice && testCount === 'custom' && (
                   <div className="pt-2 animate-in fade-in slide-in-from-top-2">
                     <Dialog open={isCustomModalOpen} onOpenChange={setIsCustomModalOpen}>
                       <DialogTrigger asChild>
@@ -1069,8 +1193,28 @@ export default function DictationPage() {
                 <Button
                   variant="outline"
                   size="icon"
+                  className="h-11 w-11"
+                  aria-label={sessionMuted ? '恢复本次学习声音' : '本次学习静音'}
+                  onClick={() => {
+                    const next = !sessionMuted
+                    setSessionMuted(next)
+                    if (next) {
+                      stopSpeech()
+                      correctAudioRef.current?.pause()
+                      incorrectAudioRef.current?.pause()
+                    }
+                  }}
+                  title={sessionMuted ? '恢复本次学习声音' : '本次学习静音'}
+                >
+                  {sessionMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
+                </Button>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  className="h-11 w-11"
+                  aria-label={isMuted ? '开启自动朗读' : '关闭自动朗读'}
                   onClick={() => setIsMuted(!isMuted)}
-                  title={isMuted ? '取消静音' : '静音'}
+                  title={isMuted ? '开启自动朗读' : '关闭自动朗读'}
                 >
                   {isMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
                 </Button>
@@ -1094,20 +1238,17 @@ export default function DictationPage() {
                 />
               </div>
 
-              {isMuted && (
+              {sessionMuted && (
                 <div className="bg-muted/50 border-b border-border px-4 py-2 flex items-center justify-center gap-2">
-                  <span className="text-sm text-muted-foreground">发音已关闭</span>
+                  <span className="text-sm text-muted-foreground">本次学习的语音与提示音已暂停</span>
                   <Button
                     variant="outline"
                     size="sm"
                     className="h-7 text-xs gap-1"
-                    onClick={() => {
-                      setIsMuted(false)
-                      playAudio(currentWord.word)
-                    }}
+                    onClick={() => setSessionMuted(false)}
                   >
                     <Volume2 className="w-3.5 h-3.5" />
-                    开启发音
+                    恢复本次声音
                   </Button>
                 </div>
               )}
@@ -1143,8 +1284,8 @@ export default function DictationPage() {
                         size="lg"
                         variant="secondary"
                         className={`rounded-full w-16 h-16 shadow-inner hover:scale-105 transition-transform ${isMuted ? 'opacity-50 cursor-not-allowed' : ''}`}
-                        onClick={() => !isMuted && playAudio(currentWord.word)}
-                        disabled={isMuted}
+                        onClick={() => !sessionMuted && playAudio(currentWord.word)}
+                        disabled={sessionMuted}
                       >
                         <Volume2 className="w-8 h-8 text-primary" />
                       </Button>
@@ -1196,7 +1337,8 @@ export default function DictationPage() {
 
                 {/* 交互区域 */}
                 <div className="space-y-6 max-w-md mx-auto">
-                  <div className="relative">
+                  <div className="flex items-center gap-2">
+                    <div className="relative min-w-0 flex-1">
                     <Input
                       ref={inputRef}
                       type="text"
@@ -1223,6 +1365,7 @@ export default function DictationPage() {
                         )}
                       </div>
                     )}
+                    </div>
                   </div>
 
                   {/* 结果反馈与操作按钮 */}

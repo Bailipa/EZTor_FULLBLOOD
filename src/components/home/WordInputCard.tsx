@@ -25,6 +25,7 @@ import { saveToStorage, loadFromStorage } from '@/lib/storage'
 import { useAnalytics } from '@/lib/analytics'
 import { isSentence } from '@/lib/sentenceDetector'
 import { useWordTranslation } from '@/hooks/useWordTranslation'
+import { useImportExportVisibility } from '@/hooks/useImportExportVisibility'
 
 interface WordInputCardProps {
   isLoading: boolean
@@ -53,6 +54,7 @@ export function WordInputCard({
   wordsInput,
   setWordsInput,
 }: WordInputCardProps) {
+  const { show: showImportExportActions } = useImportExportVisibility()
   const [inputStatus, setInputStatus] = useState<{
     type: 'normal' | 'non-english' | 'sentence'
     message: string
@@ -718,14 +720,6 @@ export function WordInputCard({
           </CardDescription>
         </div>
         <div className="w-full sm:w-auto">
-          <input
-            type="file"
-            accept=".csv"
-            ref={fileInputRef}
-            onChange={handleFileUpload}
-            className="hidden"
-            aria-label="上传CSV文件"
-          />
           <div className="flex flex-wrap items-center gap-2">
             {groups.length > 0 && (
               <Select value={selectedTargetGroupId} onValueChange={setSelectedTargetGroupId}>
@@ -745,16 +739,28 @@ export function WordInputCard({
                 </SelectContent>
               </Select>
             )}
-            <Button
-              variant="outline"
-              size="sm"
-              className="gap-1.5 sm:gap-2 h-8 text-xs sm:text-sm px-2.5 sm:px-3"
-              onClick={() => fileInputRef.current?.click()}
-              aria-label="导入CSV文件"
-            >
-              <Upload className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-              导入 CSV
-            </Button>
+            {showImportExportActions && (
+              <>
+                <input
+                  type="file"
+                  accept=".csv"
+                  ref={fileInputRef}
+                  onChange={handleFileUpload}
+                  className="hidden"
+                  aria-label="上传CSV文件"
+                />
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="gap-1.5 sm:gap-2 h-8 text-xs sm:text-sm px-2.5 sm:px-3"
+                  onClick={() => fileInputRef.current?.click()}
+                  aria-label="导入CSV文件"
+                >
+                  <Upload className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                  导入 CSV
+                </Button>
+              </>
+            )}
           </div>
         </div>
       </CardHeader>

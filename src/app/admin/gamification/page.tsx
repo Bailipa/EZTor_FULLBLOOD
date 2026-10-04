@@ -910,7 +910,7 @@ function AssignZoneDialog({
   onClose: () => void
   onDone: () => void
 }) {
-  const [zoneChoice, setZoneChoice] = useState('__none__')
+  const [zoneChoice, setZoneChoice] = useState('')
   const [saving, setSaving] = useState(false)
 
   const activeZones = useMemo(() => zones.filter((z) => z.isActive), [zones])
@@ -918,7 +918,7 @@ function AssignZoneDialog({
   const handleConfirm = async () => {
     setSaving(true)
     try {
-      const zoneId = zoneChoice === '__none__' ? null : zoneChoice
+      const zoneId = zoneChoice === '__remove__' ? null : zoneChoice
       const res = await fetch('/api/admin/gamification/assign-zone', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -965,10 +965,10 @@ function AssignZoneDialog({
             </label>
             <Select value={zoneChoice} onValueChange={setZoneChoice}>
               <SelectTrigger>
-                <SelectValue />
+                <SelectValue placeholder="请选择目标学区或移除操作" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="__none__">移除学区</SelectItem>
+                <SelectItem value="__remove__">明确移除此批用户的学区</SelectItem>
                 {activeZones.length === 0 && (
                   <SelectItem value="__no_active__" disabled>
                     暂无可用学区
@@ -985,7 +985,7 @@ function AssignZoneDialog({
                 })}
               </SelectContent>
             </Select>
-            {zoneChoice !== '__none__' && (() => {
+            {zoneChoice && zoneChoice !== '__remove__' && (() => {
               const z = activeZones.find((x) => x.id === zoneChoice)
               if (!z) return null
               if (z.memberCount >= z.maxMembers) {
@@ -1001,13 +1001,18 @@ function AssignZoneDialog({
           <div className="text-xs text-muted-foreground">
             本次将处理 <span className="font-semibold">{userIds.length}</span> 位用户
           </div>
+          {zoneChoice === '__remove__' && (
+            <p role="alert" className="text-sm text-destructive">
+              确认后会移除这 {userIds.length} 位用户当前的学区归属。
+            </p>
+          )}
           <Button
             onClick={handleConfirm}
-            disabled={saving || (zoneChoice !== '__none__' && activeZones.length === 0)}
+            disabled={!zoneChoice || saving || (zoneChoice !== '__remove__' && activeZones.length === 0)}
             className="w-full"
           >
             {saving ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : null}
-            确认指派
+            {zoneChoice === '__remove__' ? '确认移除学区' : '确认指派'}
           </Button>
         </div>
       </DialogContent>

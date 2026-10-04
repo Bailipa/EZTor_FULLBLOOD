@@ -29,9 +29,11 @@ export async function POST(req: NextRequest) {
   const words = rawWords
     .map((w) => String(w).trim())
     .filter(Boolean)
-    .slice(0, MAX_WORDS)
   if (words.length === 0) {
     return NextResponse.json({ success: false, error: '请输入中文词或词组' }, { status: 400 })
+  }
+  if (words.length > MAX_WORDS) {
+    return NextResponse.json({ success: false, error: `一次最多查询 ${MAX_WORDS} 行，请拆分后重试` }, { status: 400 })
   }
 
   const results = []

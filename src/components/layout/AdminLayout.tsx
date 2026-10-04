@@ -31,7 +31,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
     <>
       <AppSidebar navItems={adminNavItems} bottomItems={adminBottomItems} showDonation={false} />
       <AdminMobileNavBar />
-      <div className="xl:ml-[240px] pb-[calc(3.5rem+env(safe-area-inset-bottom,0px))] xl:pb-0">
+      <div className="md:ml-[72px] xl:ml-[208px] pb-[calc(3.5rem+env(safe-area-inset-bottom,0px))] xl:pb-0">
         {children}
       </div>
     </>

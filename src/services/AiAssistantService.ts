@@ -174,10 +174,7 @@ export function trimHistory(messages: AiMessage[], maxMessages = MAX_MESSAGES, m
   return out
 }
 
-function buildSystemPrompt(userId: string, isAiFree: boolean, customGroupCount: number): string {
-  const costNote = isAiFree
-    ? '- 你被标记为 AI 免费用户，本次不消耗学力，回答时向用户说明"本次不消耗学力"。'
-    : '- 说明消耗：每次提问消耗 10 学力。'
+function buildSystemPrompt(customGroupCount: number): string {
   return `你是一个单词学习助手（昵称 ego-ai助手），帮助用户查找和整理英语单词。你通过工具完成数据操作，
 但涉及修改用户数据的操作只负责提议，最终由用户点击确认执行。
 
@@ -206,12 +203,10 @@ function buildSystemPrompt(userId: string, isAiFree: boolean, customGroupCount: 
 【输出风格】
 - 用中文回答，简洁友好。
 - 搜索到单词后，只说明总数和匹配模式（如"共 467 个以 ed 结尾的单词"），**不要在回复里逐词罗列**——单词会以卡片形式展示，用户可自行展开/点击。需要引用具体词时，只提几个示例即可。
-- ${costNote}
 - 数字要准确：用了多少个词、跳过了多少个不存在的词，都要如实说明。
 
 【当前用户状态】
-- 自定义词库数量：${customGroupCount}/3
-- AI 免费：${isAiFree}`
+- 自定义词库数量：${customGroupCount}/3`
 }
 
 async function resolveGroupId(userId: string, args: AddWordsArgs): Promise<{ groupId: string; groupName: string }> {
@@ -452,7 +447,6 @@ async function executeTool(userId: string, name: AiToolName, args: Record<string
 const WRITE_TOOLS = new Set<AiToolName>(['create_group', 'add_words_to_group'])
 
 export interface AiAskOptions {
-  isAiFree: boolean
   customGroupCount: number
   signal?: AbortSignal
   /** 流式回调：每收到一段 assistant 文本增量即调用（用于 SSE 转发给前端） */
@@ -469,7 +463,7 @@ export class AiAssistantService {
     messages: AiMessage[],
     opts: AiAskOptions,
   ): Promise<AiAskOutcome> {
-    const systemPrompt = buildSystemPrompt(userId, opts.isAiFree, opts.customGroupCount)
+    const systemPrompt = buildSystemPrompt(opts.customGroupCount)
     const conversation: AiMessage[] = [{ role: 'system', content: systemPrompt }, ...trimHistory(messages)]
 
     const candidates = await getProviderCandidates()

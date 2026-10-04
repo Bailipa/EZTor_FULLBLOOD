@@ -45,9 +45,9 @@ export function useDonationConfig(): DonationConfig | null {
   return config
 }
 
-function DonationDialogContent({ config }: { config: DonationConfig }) {
+function DonationDialogContent({ config, contentClassName }: { config: DonationConfig; contentClassName?: string }) {
   return (
-    <DialogContent className="sm:max-w-md">
+    <DialogContent className={contentClassName ? `sm:max-w-md ${contentClassName}` : 'sm:max-w-md'}>
       <DialogHeader>
         <DialogTitle className="flex items-center gap-2">
           <Heart className="w-5 h-5 text-pink-500" aria-hidden="true" />
@@ -121,16 +121,30 @@ export function DonationButton() {
   )
 }
 
-export function DonationDialog({ children }: { children: ReactNode }) {
+export function DonationDialog({
+  children,
+  onOpenChange,
+  contentClassName,
+}: {
+  children: ReactNode
+  onOpenChange?: (open: boolean) => void
+  contentClassName?: string
+}) {
   const config = useDonationConfig()
   const [isOpen, setIsOpen] = useState(false)
 
   if (!config?.isActive) return <>{children}</>
 
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+    <Dialog
+      open={isOpen}
+      onOpenChange={(nextOpen) => {
+        setIsOpen(nextOpen)
+        onOpenChange?.(nextOpen)
+      }}
+    >
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DonationDialogContent config={config} />
+      <DonationDialogContent config={config} contentClassName={contentClassName} />
     </Dialog>
   )
 }

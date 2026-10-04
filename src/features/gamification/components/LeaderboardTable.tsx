@@ -68,23 +68,44 @@ export function LeaderboardTable({ refreshKey = 0 }: { refreshKey?: number }) {
   const [activeTab, setActiveTab] = useState('total')
   const [data, setData] = useState<Record<string, LeaderboardEntry[]>>({})
   const [loading, setLoading] = useState<Record<string, boolean>>({})
-  const activeTabRef = useRef(activeTab)
-
-  useEffect(() => {
-    activeTabRef.current = activeTab
-  }, [activeTab])
+  const [errors, setErrors] = useState<Record<string, string | null>>({})
+  const requestsRef = useRef<Record<string, AbortController>>({})
 
   const fetchLeaderboard = useCallback(async (type: string, silent = false) => {
-    if (!silent) setLoading((prev) => ({ ...prev, [type]: true }))
+    requestsRef.current[type]?.abort()
+    const controller = new AbortController()
+    requestsRef.current[type] = controller
+
+    if (!silent) {
+      setLoading((prev) => ({ ...prev, [type]: true }))
+      setErrors((prev) => ({ ...prev, [type]: null }))
+    }
+
     try {
-      const res = await fetch(`/api/game/leaderboard?type=${type}`)
+      const res = await fetch(`/api/game/leaderboard?type=${type}`, {
+        signal: controller.signal,
+      })
       const result = await res.json()
-      if (result.success) {
+      if (!res.ok || !result.success || !Array.isArray(result.data)) {
+        throw new Error('leaderboard request failed')
+      }
+
+      if (requestsRef.current[type] === controller) {
         setData((prev) => ({ ...prev, [type]: result.data }))
+        setErrors((prev) => ({ ...prev, [type]: null }))
       }
     } catch {
+      if (!controller.signal.aborted && requestsRef.current[type] === controller) {
+        setErrors((prev) => ({
+          ...prev,
+          [type]: '排行榜加载失败，请检查网络后重试。',
+        }))
+      }
     } finally {
-      if (!silent) setLoading((prev) => ({ ...prev, [type]: false }))
+      if (!controller.signal.aborted && requestsRef.current[type] === controller) {
+        delete requestsRef.current[type]
+        setLoading((prev) => ({ ...prev, [type]: false }))
+      }
     }
   }, [])
 
@@ -94,10 +115,14 @@ export function LeaderboardTable({ refreshKey = 0 }: { refreshKey?: number }) {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      fetchLeaderboard(activeTabRef.current, true)
+      fetchLeaderboard(activeTab, true)
     }, 15000)
     return () => clearInterval(interval)
-  }, [fetchLeaderboard])
+  }, [activeTab, fetchLeaderboard])
+
+  useEffect(() => () => {
+    Object.values(requestsRef.current).forEach((controller) => controller.abort())
+  }, [])
 
   return (
     <Card>
@@ -126,6 +151,17 @@ export function LeaderboardTable({ refreshKey = 0 }: { refreshKey?: number }) {
               {loading[tab.value] ? (
                 <div className="flex items-center justify-center py-8">
                   <Loader2 className="w-5 h-5 animate-spin text-muted-foreground" />
+                </div>
+              ) : errors[tab.value] ? (
+                <div className="flex flex-col items-center gap-3 py-8 text-center" role="alert">
+                  <p className="text-sm text-muted-foreground">{errors[tab.value]}</p>
+                  <button
+                    type="button"
+                    onClick={() => fetchLeaderboard(tab.value)}
+                    className="text-sm font-medium text-primary hover:underline"
+                  >
+                    重试
+                  </button>
                 </div>
               ) : (
                 <LeaderboardList entries={data[tab.value] || []} />

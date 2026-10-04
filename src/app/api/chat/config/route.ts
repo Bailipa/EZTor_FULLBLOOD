@@ -38,9 +38,10 @@ export async function PUT(req: Request) {
     }
 
     const body = await req.json()
-    const { isEnabled, isCircuitBroken, circuitBreakReason } = body
+    const { featureEnabled, isEnabled, isCircuitBroken, circuitBreakReason } = body
 
     const data: Record<string, unknown> = {}
+    if (featureEnabled !== undefined) data.featureEnabled = featureEnabled
     if (isEnabled !== undefined) data.isEnabled = isEnabled
     if (isCircuitBroken !== undefined) {
       data.isCircuitBroken = isCircuitBroken

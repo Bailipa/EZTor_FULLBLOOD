@@ -178,17 +178,20 @@ export function Danmaku({ isVisible }: { isVisible: boolean }) {
   useEffect(() => {
     if (!isVisible) return
     const cleanupInterval = setInterval(() => {
-      setItems((prev) =>
-        prev.filter((it) => {
+      if (document.visibilityState !== 'visible') return
+      setItems((prev) => {
+        const remaining = prev.filter((it) => {
           const anims = animsRef.current.get(it.id)
           return !(anims && anims[0] && anims[0].playState === 'finished')
-        }),
-      )
+        })
+        return remaining.length === prev.length ? prev : remaining
+      })
     }, 2000)
     return () => clearInterval(cleanupInterval)
   }, [isVisible])
 
   const fetchAndGenerateDanmaku = async (skipDelay = false) => {
+    if (document.visibilityState !== 'visible') return
     try {
       // getState() 而非 hook 选择器：函数被 interval/订阅闭包持有，getState() 每次取最新
       const { speed, amount } = useDanmakuSettingsStore.getState()
@@ -196,6 +199,7 @@ export function Danmaku({ isVisible }: { isVisible: boolean }) {
       const limit = Math.max(1, Math.min(8, Math.ceil(3 * amount)))
       const res = await fetch(`/api/danmaku?limit=${limit}&t=${Date.now()}`)
       const result = await res.json()
+      if (document.visibilityState !== 'visible') return
 
       if (result.success && result.data && result.data.length > 0) {
         const words = result.data

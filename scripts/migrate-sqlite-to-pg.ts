@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client'
+import { recordPublicWordCreation } from '../src/lib/contributionLedger'
 import { execSync } from 'child_process'
 import * as fs from 'fs'
 
@@ -42,31 +43,38 @@ async function main() {
   console.log('Migrating PublicWord...')
   const publicWords = sqliteJSON('SELECT * FROM PublicWord')
   for (const pw of publicWords) {
-    await pg.publicWord.upsert({
-      where: { word: pw.word },
-      update: {
-        translation: pw.translation,
-        phonetic: pw.phonetic || null,
-        pos: pw.pos || null,
-        example: pw.example || null,
-        exampleTranslation: pw.exampleTranslation || null,
-        qualityScore: pw.qualityScore || 0,
-        version: pw.version || 1,
-        updatedAt: new Date(pw.updatedAt || Date.now()),
-      },
-      create: {
-        id: pw.id,
-        word: pw.word,
-        translation: pw.translation || '',
-        phonetic: pw.phonetic || null,
-        pos: pw.pos || null,
-        example: pw.example || null,
-        exampleTranslation: pw.exampleTranslation || null,
-        qualityScore: pw.qualityScore || 0,
-        version: pw.version || 1,
-        createdAt: new Date(pw.createdAt || Date.now()),
-        updatedAt: new Date(pw.updatedAt || Date.now()),
-      },
+    await pg.$transaction(async (tx) => {
+      const publicWord = await tx.publicWord.upsert({
+        where: { word: pw.word },
+        update: {
+          translation: pw.translation,
+          phonetic: pw.phonetic || null,
+          pos: pw.pos || null,
+          example: pw.example || null,
+          exampleTranslation: pw.exampleTranslation || null,
+          qualityScore: pw.qualityScore || 0,
+          version: pw.version || 1,
+          updatedAt: new Date(pw.updatedAt || Date.now()),
+        },
+        create: {
+          id: pw.id,
+          word: pw.word,
+          translation: pw.translation || '',
+          phonetic: pw.phonetic || null,
+          pos: pw.pos || null,
+          example: pw.example || null,
+          exampleTranslation: pw.exampleTranslation || null,
+          qualityScore: pw.qualityScore || 0,
+          version: pw.version || 1,
+          createdAt: new Date(pw.createdAt || Date.now()),
+          updatedAt: new Date(pw.updatedAt || Date.now()),
+        },
+      })
+      await recordPublicWordCreation(tx, {
+        word: publicWord.word,
+        publicWordId: publicWord.id,
+        source: 'MIGRATION',
+      })
     })
   }
   console.log(`  Migrated ${publicWords.length} public words`)

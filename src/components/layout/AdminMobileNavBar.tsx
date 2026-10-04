@@ -25,6 +25,7 @@ export default function AdminMobileNavBar() {
           const isActiveTab =
             item.href === '/admin/more'
               ? pathname.startsWith('/admin/more') ||
+                pathname === '/admin/ai' ||
                 pathname === '/admin/chat' ||
                 pathname === '/translation-records' ||
                 pathname === '/llm-config'

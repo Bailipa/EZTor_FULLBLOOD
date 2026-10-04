@@ -5,10 +5,13 @@ import { Toaster } from 'sonner'
 import { ThemeProvider } from '@/components/theme-provider'
 import { NextAuthProvider } from '@/components/providers/session-provider'
 import { OnlineLimitBanner } from '@/components/OnlineLimitBanner'
+import { InterfaceStyleProvider } from '@/components/interface-style-provider'
 import { BrandThemeProvider } from '@/components/brand-theme-provider'
 import { OnboardingProvider } from '@/components/onboarding/OnboardingProvider'
 import { DanmakuHost } from '@/components/layout/DanmakuHost'
 import { AppUpdatePrompt } from '@/components/layout/AppUpdatePrompt'
+import SharedNavigation from '@/components/layout/SharedNavigation'
+import { NativeKeyboardLayoutProvider } from '@/components/layout/NativeKeyboardLayoutProvider'
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -33,9 +36,6 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
   },
-  icons: {
-    icon: '/favicon.ico',
-  },
   openGraph: {
     title: 'EZTor - 智能英语翻译与词汇记忆工具',
     description:
@@ -54,11 +54,11 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="zh-CN" suppressHydrationWarning className="h-full antialiased font-sans" data-build-id={BUILD_ID} data-brand-theme="purple">
+    <html lang="zh-CN" suppressHydrationWarning className="h-full antialiased font-sans dark" data-build-id={BUILD_ID} data-brand-theme="gold" data-ui-style="reading">
       <head>
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){if(localStorage.getItem('brand-theme')==='neutral')document.documentElement.removeAttribute('data-brand-theme')})()`,
+            __html: `(function(){try{if(localStorage.getItem('eztor-black-gold-default-v1')!=='applied'){localStorage.setItem('brand-theme','gold');localStorage.setItem('theme','dark');localStorage.setItem('eztor-black-gold-default-v1','applied')}var d=localStorage.getItem('theme')||'dark';var dark=d==='dark'||(d==='system'&&matchMedia('(prefers-color-scheme: dark)').matches);document.documentElement.classList.toggle('dark',dark);document.documentElement.style.colorScheme=dark?'dark':'light';var u=localStorage.getItem('eztor-interface-style');if(u==='reading'||u==='studio'||u==='vivid')document.documentElement.setAttribute('data-ui-style',u);var t=localStorage.getItem('brand-theme');if(t==='neutral')document.documentElement.removeAttribute('data-brand-theme');else if(t==='purple'||t==='gold'||t==='indigo')document.documentElement.setAttribute('data-brand-theme',t);var g=localStorage.getItem('eztor-experience-preferences-v1');var p=g?JSON.parse(g):{};var m=p.motion||localStorage.getItem('eztor-motion');if(m==='reduce'||m==='full')document.documentElement.setAttribute('data-motion',m);else document.documentElement.removeAttribute('data-motion');if(p.glow==='subdued')document.documentElement.setAttribute('data-glow','subdued');else document.documentElement.removeAttribute('data-glow')}catch(_){}})()`,
           }}
         />
       </head>
@@ -67,17 +67,22 @@ export default function RootLayout({
         <NextAuthProvider>
           <ThemeProvider
             attribute="class"
-            defaultTheme="light"
+            defaultTheme="dark"
             enableSystem
             disableTransitionOnChange
           >
             <BrandThemeProvider>
+              <InterfaceStyleProvider>
               <OnboardingProvider>
+                <NativeKeyboardLayoutProvider>
                 <DanmakuHost />
+                <SharedNavigation />
                 {children}
+                </NativeKeyboardLayoutProvider>
               </OnboardingProvider>
               <AppUpdatePrompt />
               <Toaster />
+                          </InterfaceStyleProvider>
             </BrandThemeProvider>
           </ThemeProvider>
         </NextAuthProvider>

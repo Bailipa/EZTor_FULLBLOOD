@@ -20,6 +20,7 @@ import { isInstallerFile } from '@/lib/downloadClassify'
 const OPTIONAL_AUTH_PATHS = [
   '/',
   '/ai',
+  '/chat',
   '/me',
   '/api/translate',
   '/api/public-translate',
@@ -31,7 +32,7 @@ const OPTIONAL_AUTH_PATHS = [
   '/api/danmaku',
 ]
 
-const PUBLIC_PATHS = ['/site-config.json', '/auth/signin', '/api/auth', '/api/captcha', '/api/health', '/api/auth/xiaoying', '/flywheel-preview.html', '/share', '/api/share-profile', '/download', '/manifest.webmanifest', '/danmaku-overlay.html', '/api/version', '/api/debug', '/updates', '/api/downloads/record', '/api/zh-to-en']
+const PUBLIC_PATHS = ['/vendor/canvas-confetti/confetti-1.9.4.browser.js', '/site-config.json', '/auth/signin', '/api/auth', '/api/captcha', '/api/health', '/api/auth/xiaoying', '/flywheel-preview.html', '/share', '/api/share-profile', '/download', '/manifest.webmanifest', '/danmaku-overlay.html', '/api/version', '/api/debug', '/updates', '/api/downloads/record', '/api/zh-to-en', '/public-vocabulary', '/api/public-vocabulary', '/robots.txt', '/sitemap.xml', '/b40aa04f8861b8f440dcd1be37a799ad.txt']
 
 const ADMIN_PATHS = [
   '/analytics',

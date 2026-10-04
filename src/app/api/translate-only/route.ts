@@ -182,7 +182,7 @@ export async function POST(req: Request) {
         {
           success: false,
           error: 'DAILY_LIMIT_EXCEEDED',
-          message: '每日免费翻译次数已用完',
+          message: '当前暂时无法继续翻译，请稍后再试',
           limit: DAILY_LIMIT,
         },
         { status: 429 },

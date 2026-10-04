@@ -1,0 +1,3 @@
+ALTER TABLE "UserPreference"
+ADD COLUMN "autoSaveWords" BOOLEAN NOT NULL DEFAULT true,
+ADD COLUMN "soundEffectsEnabled" BOOLEAN NOT NULL DEFAULT true;

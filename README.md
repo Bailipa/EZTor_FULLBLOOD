@@ -16,7 +16,7 @@
 
 A full-stack Next.js application for English vocabulary learning, powered by LLMs.
 
-**🌐 Live Demo: [eztor.dogeggcode.cyou](https://eztor.dogeggcode.cyou)**
+**🌐 Live Demo: [EZTor](https://eztor.dogeggcode.cyou) · [Public Vocabulary](https://eztor.dogeggcode.cyou/public-vocabulary)**
 
 
 ![EZTor Demo](https://raw.githubusercontent.com/Bailipa/EZTor_FULLBLOOD/main/yanshitupian.png)
@@ -70,7 +70,9 @@ npm run dev        # → http://localhost:3000
 - **Word Translation** — LLM-powered English-Chinese translation with POS, phonetics, examples, countability marking
 - **Translate Only** — Quick translation without saving, 30 free uses/day; supports custom API keys
 - **Word Bank** — Save words, create review groups, import CET-4/CET-6 vocabulary
-- **Dictation / Review** — Smart review system with grouping, scoring
+- **Dictation / Review** — Smart review system with grouping, scoring, and mistake retests
+- **Mistake Notebook** — Keeps incorrectly answered words, sorts by error count, and starts focused practice
+- **Public Vocabulary** — Browse and search shared words, then download the full list or search results as CSV
 - **TTS** — Text-to-speech via Edge TTS
 - **Danmaku Overlay** — Floating word display for passive learning
 - **Infinite Tic-Tac-Toe** — Casual game widget
@@ -85,6 +87,8 @@ src/
 │   ├── api/        # REST API endpoints
 │   ├── analytics/  # Admin analytics dashboard
 │   ├── dictation/  # Dictation / review
+│   ├── mistakes/   # Mistake notebook
+│   ├── public-vocabulary/ # Browseable public vocabulary
 │   ├── history/    # Translation history
 │   ├── game/       # Tic-Tac-Toe game
 │   └── ...

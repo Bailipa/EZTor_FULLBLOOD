@@ -79,6 +79,7 @@ export function ChatManagement() {
   const [profanityWords, setProfanityWords] = useState<CustomProfanity[]>([])
   const [todos, setTodos] = useState<AdminTodo[]>([])
   const [isLoading, setIsLoading] = useState(true)
+  const [loadError, setLoadError] = useState(false)
 
   const [newWords, setNewWords] = useState('')
   const [newTodoTitle, setNewTodoTitle] = useState('')
@@ -91,11 +92,11 @@ export function ChatManagement() {
     try {
       const res = await fetch('/api/chat/config')
       const data = await res.json()
-      if (data.success) {
-        setConfig(data.data)
-      }
+      if (!res.ok || !data.success) throw new Error(data.error || '聊天设置加载失败')
+      setConfig(data.data)
     } catch (error) {
       console.error('Failed to fetch config:', error)
+      setLoadError(true)
     }
   }, [])
 
@@ -103,11 +104,11 @@ export function ChatManagement() {
     try {
       const res = await fetch('/api/chat/ban')
       const data = await res.json()
-      if (data.success) {
-        setBans(data.data)
-      }
+      if (!res.ok || !data.success) throw new Error(data.error || '禁言列表加载失败')
+      setBans(data.data)
     } catch (error) {
       console.error('Failed to fetch bans:', error)
+      setLoadError(true)
     }
   }, [])
 
@@ -115,11 +116,11 @@ export function ChatManagement() {
     try {
       const res = await fetch('/api/admin/profanity')
       const data = await res.json()
-      if (data.success) {
-        setProfanityWords(data.data)
-      }
+      if (!res.ok || !data.success) throw new Error(data.error || '敏感词加载失败')
+      setProfanityWords(data.data)
     } catch (error) {
       console.error('Failed to fetch profanity words:', error)
+      setLoadError(true)
     }
   }, [])
 
@@ -127,17 +128,18 @@ export function ChatManagement() {
     try {
       const res = await fetch('/api/admin/todos')
       const data = await res.json()
-      if (data.success) {
-        setTodos(data.data)
-      }
+      if (!res.ok || !data.success) throw new Error(data.error || '待办列表加载失败')
+      setTodos(data.data)
     } catch (error) {
       console.error('Failed to fetch todos:', error)
+      setLoadError(true)
     }
   }, [])
 
   useEffect(() => {
     const fetchAll = async () => {
       setIsLoading(true)
+      setLoadError(false)
       await Promise.all([
         fetchConfig(),
         fetchBans(),
@@ -157,9 +159,11 @@ export function ChatManagement() {
         body: JSON.stringify({ featureEnabled: checked })
       })
       const data = await res.json()
-      if (data.success) {
+      if (res.ok && data.success) {
         setConfig(data.data)
         toast.success(checked ? '聊天功能已开启' : '聊天功能已关闭')
+      } else {
+        toast.error(data.error || '操作失败')
       }
     } catch (error) {
       toast.error('操作失败')
@@ -174,9 +178,11 @@ export function ChatManagement() {
         body: JSON.stringify({ isEnabled: checked })
       })
       const data = await res.json()
-      if (data.success) {
+      if (res.ok && data.success) {
         setConfig(data.data)
         toast.success(checked ? '聊天入口已开启' : '聊天入口已关闭')
+      } else {
+        toast.error(data.error || '操作失败')
       }
     } catch (error) {
       toast.error('操作失败')
@@ -195,9 +201,11 @@ export function ChatManagement() {
         })
       })
       const data = await res.json()
-      if (data.success) {
+      if (res.ok && data.success) {
         setConfig(data.data)
         toast.success('熔断已解除')
+      } else {
+        toast.error(data.error || '操作失败')
       }
     } catch (error) {
       toast.error('操作失败')
@@ -404,6 +412,16 @@ export function ChatManagement() {
 
   return (
     <div className="space-y-6">
+      {loadError && (
+        <div role="alert" className="flex flex-wrap items-center justify-between gap-3 rounded-md border border-destructive/30 bg-destructive/5 p-3 text-sm">
+          <span>部分管理数据加载失败，当前列表可能不完整。</span>
+          <Button variant="outline" size="sm" onClick={() => {
+            setIsLoading(true)
+            setLoadError(false)
+            void Promise.all([fetchConfig(), fetchBans(), fetchProfanityWords(), fetchTodos()]).finally(() => setIsLoading(false))
+          }}>重新加载</Button>
+        </div>
+      )}
       {/* 聊天管理 */}
       <Card>
         <CardHeader>
@@ -420,6 +438,7 @@ export function ChatManagement() {
             </div>
             <Switch
               checked={config?.featureEnabled ?? true}
+              disabled={!config}
               onCheckedChange={handleToggleFeature}
             />
           </div>
@@ -431,6 +450,7 @@ export function ChatManagement() {
             </div>
             <Switch
               checked={config?.isEnabled ?? true}
+              disabled={!config}
               onCheckedChange={handleToggleEnabled}
             />
           </div>

@@ -1,3 +1,4 @@
+import { INTERFACE_STYLES } from '@/lib/interfaceStyle'
 import { NextResponse } from 'next/server'
 import { encode } from 'next-auth/jwt'
 import crypto from 'crypto'
@@ -172,6 +173,12 @@ export async function GET(request: Request) {
           id: crypto.randomUUID(),
           username,
           password: hashedPassword,
+              UserPreference: {
+                create: {
+                  interfaceStyle: INTERFACE_STYLES[crypto.randomInt(INTERFACE_STYLES.length)].id,
+                  updatedAt: new Date(),
+                },
+              },
           updatedAt: new Date(),
         },
       })

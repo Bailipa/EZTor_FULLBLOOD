@@ -51,7 +51,7 @@ export default function DownloadPage() {
     <AppLayout>
       <div className="min-h-screen bg-background p-4 md:p-8 pb-24 xl:pb-8">
         <div className="max-w-2xl mx-auto space-y-6">
-          <header className="space-y-1">
+          <header className="indigo-page-header space-y-1">
             <h1 className="text-2xl font-bold">{appVer.mounted && appVer.isApp ? '更新 EZTor' : '下载 EZTor'}</h1>
             <p className="text-sm text-muted-foreground">
               桌面 / 安卓安装包 · 数据与网页版完全同步

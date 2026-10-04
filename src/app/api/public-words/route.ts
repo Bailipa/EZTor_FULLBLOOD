@@ -5,6 +5,7 @@ import { authOptions } from '@/app/api/auth/[...nextauth]/route'
 import prisma from '@/lib/prisma'
 import { cascadePublicWordToPrivate } from '@/lib/publicWordCascade'
 import { logger } from '@/lib/logger'
+import { recordPublicWordCreation } from '@/lib/contributionLedger'
 
 export async function GET(req: NextRequest) {
   try {
@@ -259,18 +260,26 @@ export async function POST(req: NextRequest) {
       )
     }
 
-    const created = await prisma.publicWord.create({
-      data: {
-        id: randomUUID(),
-        word: word.toLowerCase().trim(),
-        phonetic: phonetic || null,
-        pos: pos || null,
-        translation,
-        example: example || null,
-        exampleTranslation: exampleTranslation || null,
-        qualityScore: qualityScore !== undefined ? Math.max(0, Math.min(100, qualityScore)) : 0,
-        updatedAt: new Date(),
-      },
+    const created = await prisma.$transaction(async (tx) => {
+      const publicWord = await tx.publicWord.create({
+        data: {
+          id: randomUUID(),
+          word: word.toLowerCase().trim(),
+          phonetic: phonetic || null,
+          pos: pos || null,
+          translation,
+          example: example || null,
+          exampleTranslation: exampleTranslation || null,
+          qualityScore: qualityScore !== undefined ? Math.max(0, Math.min(100, qualityScore)) : 0,
+          updatedAt: new Date(),
+        },
+      })
+      await recordPublicWordCreation(tx, {
+        word: publicWord.word,
+        publicWordId: publicWord.id,
+        source: 'ADMIN_MANUAL',
+      })
+      return publicWord
     })
 
     await cascadePublicWordToPrivate({
