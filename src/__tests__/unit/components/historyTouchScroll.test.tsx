@@ -50,6 +50,8 @@ let mouseUp: (() => void) | undefined
 let cleanups: (() => void)[] = []
 beforeEach(() => {
   harness.states = [[{ id: 'word-a', word: 'test', translation: '测试' }], 1, false]
+  harness.states[5] = 'all'
+  harness.states[12] = 'all'
   harness.refs = []
   harness.stateIndex = 0
   harness.refIndex = 0

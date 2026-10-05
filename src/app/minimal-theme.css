@@ -92,6 +92,17 @@ html:root[data-ui-style='minimal'][data-ui-style][data-ui-style] {
     backdrop-filter: none;
   }
   & [data-slot='card-footer'] { background: var(--muted); }
+  /* Chat bubbles carry their own foreground/background pair. Keep it above the
+     generic card reset so minimal light and dark modes remain readable. */
+  & [data-chat-message='own'] {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: var(--primary-foreground);
+  }
+  & [data-chat-message='other'] {
+    background: var(--muted);
+    color: var(--foreground);
+  }
 
   & :is([data-slot='button'], .bg-primary) { box-shadow: none; }
   & .bg-primary { background: var(--primary); color: var(--primary-foreground); }

@@ -13,7 +13,7 @@ import { DonationDialog } from '@/components/home/DonationModal'
 import { useDanmakuStore } from '@/stores/danmakuStore'
 import { FEATURE_UNLOCK_THRESHOLDS } from '@/features/gamification/constants'
 import { FeatureLockedDialog } from '@/features/gamification/components/FeatureLockedDialog'
-import { playFeedbackSound } from '@/lib/feedbackSounds'
+import { playFeedbackSound, startRadialChargeSound, stopRadialChargeSound } from '@/lib/feedbackSounds'
 
 const navItems = [
   { href: '/', label: '首页', icon: Home, requiresAuth: false, x: -140, y: 48 },
@@ -27,6 +27,14 @@ const downloadTarget = navItems.length
 const donationTarget = navItems.length + 1
 const danmakuTarget = navItems.length + 2
 const prefetchRoutes = process.env.NODE_ENV === 'production'
+const interactionTime = () => (typeof performance !== 'undefined' ? performance.now() : Date.now())
+
+function navPosition(index: number, count: number) {
+  if (count <= 1) return { x: 0, y: 148 }
+  const angle = (160 - (140 * index) / (count - 1)) * Math.PI / 180
+  const radius = count >= 5 ? 168 : 156
+  return { x: Math.round(Math.cos(angle) * radius), y: Math.round(Math.sin(angle) * radius) }
+}
 
 function dragTargetLabel(target: number) {
   if (target === downloadTarget) return '下载APP'
@@ -72,6 +80,9 @@ export default function MobileNavBar() {
   const highlightedRef = useRef<number | null>(null)
   const gesture = useRef<{ id: number; x: number; y: number; startX: number; startY: number; moved: boolean; wasOpen: boolean; target: HTMLButtonElement } | null>(null)
   const suppressClickUntil = useRef(0)
+  const visibleNavItems = navItems
+    .map((item, originalIndex) => ({ item, originalIndex }))
+    .filter(({ item }) => mainVisible(item.href))
   const activeItem = navItems.find((item) => matchesPage(item.href, pathname))
   const ActiveIcon = activeItem?.icon ?? Grid2X2
 
@@ -83,13 +94,14 @@ export default function MobileNavBar() {
 
   const changeOpen = useCallback((next: boolean) => {
     if (!next) {
+      stopRadialChargeSound()
       cancelAnimationFrame(dragFrame.current)
       dragFrame.current = 0
       latestPointer.current = null
       highlightedRef.current = null
       const current = gesture.current
       gesture.current = null
-      if (current) suppressClickUntil.current = performance.now() + 500
+      if (current) suppressClickUntil.current = interactionTime() + 500
       if (current?.target.hasPointerCapture(current.id)) current.target.releasePointerCapture(current.id)
       setDragging(false)
       setHighlighted(null)
@@ -114,6 +126,7 @@ export default function MobileNavBar() {
     setHighlighted(null)
     setDragging(true)
     setMenuOpen(true)
+    startRadialChargeSound()
   }
 
   // Directional sectors are wider than the icons; returning to the hub cancels.
@@ -142,12 +155,13 @@ export default function MobileNavBar() {
     if (showDanmaku && Math.abs(x) <= 38 && y <= -44 && y >= -150) return danmakuTarget
     let best: number | null = null
     let alignment = Math.cos(27 * Math.PI / 180)
-    navItems.forEach((item, index) => {
-      if (!mainVisible(item.href)) return
-      const itemX = window.innerWidth < 360 ? item.x * 0.84 : item.x
-      const itemY = -item.y * (window.innerWidth < 360 ? 0.84 : 1)
+    visibleNavItems.forEach(({ originalIndex }, index) => {
+      const position = navPosition(index, visibleNavItems.length)
+      const scale = window.innerWidth < 360 ? 0.84 : 1
+      const itemX = position.x * scale
+      const itemY = -position.y * scale
       const score = (x * itemX + y * itemY) / (distance * Math.hypot(itemX, itemY))
-      if (score > alignment) { alignment = score; best = index }
+      if (score > alignment) { alignment = score; best = originalIndex }
     })
     return best
   }
@@ -183,12 +197,13 @@ export default function MobileNavBar() {
   const finishDrag = (event: Pick<PointerEvent, 'pointerId' | 'clientX' | 'clientY'>, cancelled = false) => {
     const current = gesture.current
     if (!current || current.id !== event.pointerId) return
+    stopRadialChargeSound()
     cancelAnimationFrame(dragFrame.current)
     dragFrame.current = 0
     latestPointer.current = null
     highlightedRef.current = null
     gesture.current = null
-    suppressClickUntil.current = performance.now() + 500
+    suppressClickUntil.current = interactionTime() + 500
     if (current.target.hasPointerCapture(current.id)) current.target.releasePointerCapture(current.id)
     setDragging(false)
     setHighlighted(null)
@@ -216,13 +231,13 @@ export default function MobileNavBar() {
     onPointerCancel: (event: ReactPointerEvent<HTMLButtonElement>) => finishDrag(event, true),
     onLostPointerCapture: (event: ReactPointerEvent<HTMLButtonElement>) => finishDrag(event, true),
     onClick: (event: React.MouseEvent<HTMLButtonElement>) => {
-      if (event.detail > 0 && performance.now() < suppressClickUntil.current) event.preventDefault()
+      if (event.detail > 0 && interactionTime() < suppressClickUntil.current) event.preventDefault()
     },
   }
 
   useEffect(() => { changeOpen(false) }, [pathname, changeOpen])
   useEffect(() => { if (keyboardVisible) changeOpen(false) }, [keyboardVisible, changeOpen])
-  useEffect(() => () => { cancelAnimationFrame(dragFrame.current) }, [])
+  useEffect(() => () => { cancelAnimationFrame(dragFrame.current); stopRadialChargeSound() }, [])
 
   useEffect(() => { setCombatPower(null) }, [status, session?.user?.id])
 
@@ -290,23 +305,23 @@ export default function MobileNavBar() {
           <span ref={cursorRef} className={styles.dragCursor} aria-hidden />
           <nav aria-label="手机主导航">
             <ul className={styles.items}>
-              {navItems.map((item, index) => {
-                if (!mainVisible(item.href)) return null
+              {visibleNavItems.map(({ item, originalIndex }, index) => {
                 const active = matchesPage(item.href, pathname)
+                const position = navPosition(index, visibleNavItems.length)
                 const locked = item.requiresAuth && status === 'unauthenticated'
                 const Icon = item.icon
                 return (
-                  <li key={item.href} className={styles.item} style={{ '--x': `${item.x}px`, '--y': `${item.y}px` } as CSSProperties}>
+                  <li key={item.href} className={styles.item} style={{ '--x': `${position.x}px`, '--y': `${position.y}px` } as CSSProperties}>
                     <Link
                       ref={active || (!activeItem && index === 0) ? activeLinkRef : undefined}
-                      href={destination(index)}
+                      href={destination(originalIndex)}
                       prefetch={false}
-                      onPointerEnter={() => { if (prefetchRoutes) router.prefetch(destination(index)) }}
-                      onFocus={() => { if (prefetchRoutes) router.prefetch(destination(index)) }}
+                      onPointerEnter={() => { if (prefetchRoutes) router.prefetch(destination(originalIndex)) }}
+                      onFocus={() => { if (prefetchRoutes) router.prefetch(destination(originalIndex)) }}
                       aria-current={active ? 'page' : undefined}
                       aria-label={locked ? `${item.label}，需要登录` : item.label}
                       data-minimal-surface className={styles.destination}
-                      data-highlighted={highlighted === index}
+                      data-highlighted={highlighted === originalIndex}
                       onClick={() => { playFeedbackSound('navigate'); changeOpen(false) }}
                     >
                       <Icon size={22} strokeWidth={1.7} aria-hidden />

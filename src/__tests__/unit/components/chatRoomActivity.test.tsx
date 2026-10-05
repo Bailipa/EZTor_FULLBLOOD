@@ -15,6 +15,7 @@ vi.mock('react', () => ({
   },
   useRef: (initial: unknown) => harness.refs[harness.refIndex++] ?? (harness.refs[harness.refIndex - 1] = { current: initial }),
   useCallback: (callback: unknown) => callback,
+  useLayoutEffect: (effect: () => void) => harness.effects.push(effect),
   useEffect: (effect: () => void) => harness.effects.push(effect),
 }))
 vi.mock('next-auth/react', () => ({ useSession: () => ({ data: null }) }))
@@ -50,7 +51,7 @@ beforeEach(() => {
   fetchMock.mockImplementation(() => new Promise(() => {}))
   vi.stubGlobal('fetch', fetchMock)
   vi.stubGlobal('EventSource', Stream)
-  vi.stubGlobal('window', { location: { href: '' } })
+  vi.stubGlobal('window', { location: { href: '' }, addEventListener: vi.fn(), removeEventListener: vi.fn() })
 })
 afterEach(() => {
   cleanups.forEach(cleanup => cleanup())
@@ -101,6 +102,6 @@ describe('mounted chat panel activity', () => {
     resolveReads.forEach(resolve => resolve({ ok: true, json: async () => ({ success: true, count: 99, data: [{ id: 'late' }], pagination: {} }) }))
     await vi.advanceTimersByTimeAsync(0)
     expect(harness.states[0]).toEqual([])
-    expect(harness.states[5]).toBe(0)
+    expect(harness.states[6]).toBe(0)
   })
 })

@@ -8,11 +8,12 @@ vi.mock('react', () => ({
   default: { createElement: () => null },
   useState: (initial: unknown) => {
     const index = harness.stateIndex++
-    if (!(index in harness.states)) harness.states[index] = initial
+    if (!(index in harness.states)) harness.states[index] = typeof initial === 'function' ? (initial as () => unknown)() : initial
     return [harness.states[index], (value: unknown) => { harness.states[index] = value }]
   },
   useRef: (initial: unknown) => ({ current: initial }),
   useCallback: (callback: unknown) => callback,
+  useLayoutEffect: (effect: () => void) => harness.effects.push(effect),
   useEffect: (effect: () => void) => harness.effects.push(effect),
 }))
 vi.mock('next-auth/react', () => ({ useSession: () => ({ data: { user: { id: 'test-user' } }, status: 'authenticated' }) }))
@@ -35,6 +36,7 @@ beforeEach(() => {
   fetchMock.mockReset()
   fetchMock.mockImplementation(() => new Promise(() => {}))
   vi.stubGlobal('fetch', fetchMock)
+  vi.stubGlobal('window', { addEventListener: vi.fn(), removeEventListener: vi.fn() })
   vi.stubGlobal('localStorage', { getItem: () => null })
 })
 afterEach(() => {
@@ -48,10 +50,10 @@ describe('AI workspace group reads', () => {
     const groups = [{ id: 'group-a', name: '生词本' }]
     render(groups)
     expect(fetchMock).not.toHaveBeenCalled()
-    expect(harness.states[5]).toEqual(groups)
+    expect(harness.states[6]).toEqual(groups)
     render([])
     expect(fetchMock).not.toHaveBeenCalled()
-    expect(harness.states[5]).toEqual([])
+    expect(harness.states[6]).toEqual([])
   })
   it('keeps a standalone read and aborts it before a stale response can update state', async () => {
     let resolveRead!: (value: unknown) => void
@@ -63,6 +65,6 @@ describe('AI workspace group reads', () => {
     expect(signal.aborted).toBe(true)
     resolveRead({ json: async () => ({ success: true, data: [{ id: 'stale', name: '旧账户' }] }) })
     await new Promise(resolve => setTimeout(resolve, 0))
-    expect(harness.states[5]).toEqual([])
+    expect(harness.states[6]).toEqual([])
   })
 })

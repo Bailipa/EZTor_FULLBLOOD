@@ -888,3 +888,16 @@ Web 1.20.0 发布与线上验收（2026-10-04 20:30 CST）
 - 发布后只读复核：PM2 1.22.0 online，BUILD_ID 4B4j8Et5fVDVpAi-IxJ21，目录/文件/env权限755/644/600；回环关键路由全200，磁盘18GiB可用、inode15%。最终计数User457/Word248476/PublicWord17906/receipt65/重复组0，较迁移后增加的词与公开词为线上正常活动，部署脚本未写业务数据。
 
 - 最终窄屏IAB复核：约514px预览中首页与设置页可向下滚动，内容到达底部且底部导航未遮挡；/ai横向栏目入口正常。证据/tmp/eztor-final-mobile-home.png；未宣称真实手机实机。
+
+## 2026-10-05 15:50 本轮 UI、图标与下载入口检查（未部署）
+- 用户需求：极简主题聊天室提高文字/背景对比度；径向菜单在隐藏入口后实时紧凑重排；长按径向菜单播放持续蓄力音效；网页与原生图标更新边界说明；下载页先选择设备/系统再显示对应链接。
+- 已实现：`ChatRoom` 为自己/他人消息增加明确的 `data-chat-message` 语义样式，极简模式下使用成对前景/背景变量；`MobileNavBar` 根据当前可见入口重新计算位置与拖动命中区域；新增可停止、可取消、遵循音效开关/语音占用/可见性/减弱动效偏好的径向菜单蓄力音效；下载页首屏选择 Android、iPhone、Mac、Windows 或 Linux，选择后只显示对应下载卡片，保留原动态安装包地址和桌面自动更新逻辑。
+- 图标核验：线上 `/icons/icon-512.png` SHA-256 为 `8ac8e5f3342159e13d662054b13c83f09743bc66c0fdfc2c526767af5d3bb205`（新版）；线上 `/favicon.ico` SHA-256 为 `9916b935ca5f48d0758bc7ff438a32604be2c310f08e3d4106fc183f5519ed0d`，响应 `Last-Modified: Wed, 20 May 2026`，实际仍是旧图标。网页侧栏原先引用该旧静态入口，已改为带 `NEXT_PUBLIC_BUILD_ID` 查询参数的新 PNG；移除 Next 文件约定旧 favicon，显式 metadata/manifest 统一引用带构建版本的 192/512/maskable PNG；图标生成脚本不再重新生成已移除的 `src/app/favicon.ico`。这只修复网页引用与缓存失效；原生桌面/移动安装包图标仍需随新安装包重建。
+- 验证：`npm run typecheck` 通过；`npm run build` 通过（Next 16.2.3，路由清单完整；仅保留既有 middleware 弃用提示和构建时未设置 `LLM_API_KEY` 警告）；目标文件 ESLint 0 errors、5 warnings（3 个 ChatRoom 未使用 caught error、2 个 `<img>` 优化建议）；`git diff --check` 通过；音效与弹幕定向测试 7/7 通过；本地 3011 预览 `/`、`/download`、`/ai`、`/manifest.webmanifest`、`/favicon.ico`、`/icons/icon-512.png` 返回 200，未登录 `/history` 按预期 307，下载首屏五个设备选项均可见。
+- 完整 `npx vitest run` 当前仍有 12 个失败（25 个测试文件中 20 个通过）：既有 React mock 缺少 `useLayoutEffect`、history harness 返回 null、env 测试环境变量假设、realtime hook 无渲染器等，与本轮修改无直接调用链；本轮相关音效定向测试已通过。未部署、未改生产数据、未提交或 push。
+
+## 2026-10-05 16:12 测试夹具修复与本地服务恢复
+- 对前一轮完整测试的 12 个失败逐项复核：确认均为测试夹具落后于当前实现，未发现对应页面运行时回归。
+- 修正内容：补齐 ChatRoom/AiAssistant mock 的 `useLayoutEffect` 和窗口事件；为 realtime hook 提供 next-auth session 与正确的草稿状态键；初始化词库测试的已加载状态；补全 envValidator 当前全部必需环境变量断言；同步新增草稿状态后的组列表/在线人数状态索引。
+- 验证：`npx vitest run` 通过，25 个测试文件、256 个测试通过、1 个跳过；测试中的预期错误日志和缺失变量警告均为测试场景本身。`npm run typecheck`、前轮生产构建仍通过。
+- 本地服务已恢复：`npm run dev -- --port 3000`，本地 `/`、`/download`、`/ai`、`/me` 均 HTTP 200；下载页设备选择和带版本参数的新版图标链接已在本地 HTML 中确认。

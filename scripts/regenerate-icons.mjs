@@ -41,7 +41,6 @@ async function writeIco(path, sizes) {
 }
 
 async function writeIcos() {
-  await writeIco('src/app/favicon.ico', [16, 24, 32, 48, 64, 128, 256])
   await writeIco('public/favicon.ico', [16, 24, 32, 48, 64, 128, 256])
   await writeIco('public/eztor_favicon.ico', [16, 24, 32, 48, 64, 128, 256])
   await writeIco('desktop/build/icon.ico', [16, 24, 32, 48, 64, 128, 256])

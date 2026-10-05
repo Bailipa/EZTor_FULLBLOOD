@@ -27,6 +27,7 @@ vi.mock('react', async (importOriginal) => {
 })
 vi.mock('@/lib/hapticFeedback', () => ({ triggerHapticFeedback: vi.fn() }))
 vi.mock('@/lib/savedFeedbackScheduler', () => ({ scheduleSavedFeedback: vi.fn() }))
+vi.mock('next-auth/react', () => ({ useSession: () => ({ data: null, status: 'unauthenticated' }) }))
 
 import { useRealtimeTranslation, type WordEntry } from '@/hooks/useRealtimeTranslation'
 import { WordInputRow } from '@/components/home/WordInputRow'
@@ -43,6 +44,7 @@ function render() {
 }
 beforeEach(() => {
   hooks.states = [[entry('first', 'alpha'), entry('second', 'beta')]]
+  hooks.states[1] = { key: 'eztor:input-draft:v1:realtime-translation:guest', value: hooks.states[0] }
   hooks.setters = []; hooks.refs = []; hooks.callbacks = []
   fetchMock.mockReset(); fetchMock.mockImplementation(() => new Promise(() => {}))
   vi.stubGlobal('fetch', fetchMock)
@@ -52,7 +54,7 @@ afterEach(() => { vi.clearAllTimers(); vi.useRealTimers(); vi.unstubAllGlobals()
 
 describe('realtime row memo eligibility', () => {
   it('leaves a sibling entry and every row action shallow-equal after editing another row', () => {
-    const first = render()
+  const first = render()
     first.updateWord('second', 'gamma', true)
     const second = render()
     expect(second.entries[0]).toBe(first.entries[0])

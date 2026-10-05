@@ -24,6 +24,9 @@ describe('validateEnv', () => {
     vi.stubEnv('NEXTAUTH_SECRET', 'A8x!mK92#pL5@vR7&wN3$qB1*eC6)zF4')
     vi.stubEnv('NEXTAUTH_URL', 'http://localhost:3000')
     vi.stubEnv('DATABASE_URL', 'postgresql://localhost:5432/db')
+    vi.stubEnv('XIAOYING_OIDC_CLIENT_ID', 'test-client-id')
+    vi.stubEnv('XIAOYING_OIDC_CLIENT_SECRET', 'xys_TestValue_4f2A')
+    vi.stubEnv('NEXT_PUBLIC_APP_URL', 'http://localhost:3000')
 
     const { validateEnv } = await import('@/lib/envValidator')
     const result = validateEnv()

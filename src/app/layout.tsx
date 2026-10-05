@@ -14,6 +14,8 @@ import { NativeKeyboardLayoutProvider } from '@/components/layout/NativeKeyboard
 import { GlobalFeedbackSounds } from '@/components/layout/GlobalFeedbackSounds'
 import { FeedbackToaster } from '@/components/layout/FeedbackToaster'
 
+const APP_ICON_VERSION = process.env.NEXT_PUBLIC_BUILD_ID || 'dev'
+
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
@@ -43,6 +45,13 @@ export const metadata: Metadata = {
       'EZTor 是一款简洁强大的英语翻译与词汇记忆工具，支持 AI 批量翻译、生词本管理、默写复习等功能。',
     type: 'website',
     images: '/icons/icon-512.png',
+  },
+  icons: {
+    icon: [
+      { url: `/icons/icon-512.png?v=${APP_ICON_VERSION}`, type: 'image/png', sizes: '512x512' },
+      { url: `/icons/icon-192.png?v=${APP_ICON_VERSION}`, type: 'image/png', sizes: '192x192' },
+    ],
+    apple: `/icons/icon-192.png?v=${APP_ICON_VERSION}`,
   },
   manifest: '/manifest.webmanifest',
 }

@@ -27,6 +27,8 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { useMinimalFeatures } from '@/components/interface-style-provider'
 import { useQQGroupUrl } from '@/lib/siteConfig'
 
+const APP_ICON_VERSION = process.env.NEXT_PUBLIC_BUILD_ID || 'dev'
+
 export interface SidebarNavItem {
   href: string
   label: string
@@ -95,7 +97,7 @@ export default function AppSidebar({ navItems, bottomItems, showDonation = true 
   return (
     <aside data-minimal-surface data-workspace-sidebar={!navItems || undefined} className={`${styles.sidebar} ${!navItems ? workbench.sidebar : ''} hidden md:flex md:flex-col md:fixed md:left-0 md:top-0 md:bottom-0 md:w-[72px] xl:w-[208px] bg-sidebar border-r border-sidebar-border z-30`}>
       <div data-minimal-surface className={`${styles.sidebarBrand} flex items-center justify-center xl:justify-start gap-3 px-2 xl:px-6 shrink-0`}>
-        <img src="/favicon.ico" alt="EZTor" loading="lazy" className="w-8 h-8 rounded-lg" />
+        <img src={`/icons/icon-512.png?v=${APP_ICON_VERSION}`} alt="EZTor" loading="lazy" className="w-8 h-8 rounded-lg" />
         <span data-sidebar-label className="hidden xl:inline font-semibold text-sidebar-foreground text-base">
           EZTor
         </span>

@@ -18,6 +18,8 @@ const cues: Record<FeedbackSound, { frequencies: number[]; duration: number; gai
 
 let feedbackAudioContext: AudioContext | null = null
 let activeSound: { oscillator: OscillatorNode; gain: GainNode } | null = null
+let activeCharge: { oscillator: OscillatorNode; gain: GainNode } | null = null
+let chargeRevision = 0
 let soundEnabled = false
 let soundRevision = 0
 let lastPlayedAt = -Infinity
@@ -26,7 +28,7 @@ let lastResult: 'success' | 'error' | null = null
 
 export function setFeedbackSoundEnabled(enabled: boolean): void {
   soundEnabled = enabled
-  if (!enabled) stopActiveSound()
+  if (!enabled) { stopActiveSound(); stopRadialChargeSound() }
 }
 
 export function getFeedbackSoundRevision(): number {
@@ -43,6 +45,44 @@ function stopActiveSound(): void {
   activeSound.oscillator.disconnect()
   activeSound.gain.disconnect()
   activeSound = null
+}
+
+export function stopRadialChargeSound(): void {
+  chargeRevision += 1
+  const charge = activeCharge
+  activeCharge = null
+  if (!charge) return
+  try { charge.gain.gain.cancelScheduledValues(0); charge.gain.gain.setTargetAtTime(0.0001, charge.oscillator.context.currentTime, 0.015); charge.oscillator.stop(charge.oscillator.context.currentTime + 0.06) } catch { /* cue may already have ended */ }
+}
+
+export function startRadialChargeSound(): void {
+  stopRadialChargeSound()
+  if (typeof window === 'undefined' || !soundEnabled || document.visibilityState === 'hidden' || isSpeechPlaying() || readExperiencePreferences().sfxVolume <= 0) return
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || document.documentElement.dataset.motion === 'reduce') return
+  try {
+    const unlocking = unlockFeedbackAudio()
+    const context = feedbackAudioContext
+    if (!context) return
+    const revision = chargeRevision
+    const begin = () => {
+      if (revision !== chargeRevision || !soundEnabled || context.state !== 'running') return
+      const now = context.currentTime
+      const oscillator = context.createOscillator()
+      const gain = context.createGain()
+      const charge = { oscillator, gain }
+      oscillator.type = 'sine'
+      oscillator.frequency.setValueAtTime(118, now)
+      gain.gain.setValueAtTime(0.0001, now)
+      gain.gain.linearRampToValueAtTime(0.035 * (readExperiencePreferences().sfxVolume / 100), now + 0.04)
+      oscillator.connect(gain)
+      gain.connect(context.destination)
+      oscillator.onended = () => { oscillator.disconnect(); gain.disconnect(); if (activeCharge === charge) activeCharge = null }
+      activeCharge = charge
+      oscillator.start(now)
+    }
+    if (context.state === 'running') begin()
+    else void unlocking?.then(begin)
+  } catch { /* Sound is optional. */ }
 }
 
 // Called during a real user gesture so Safari and native WebViews can unlock audio.
