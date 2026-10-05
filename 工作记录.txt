@@ -917,3 +917,12 @@ Web 1.20.0 发布与线上验收（2026-10-04 20:30 CST）
 - 修复：以接口/自定义题库实际返回的题目数量更新本组题数；答题分数同时写入 ref，最后一题结算、完成埋点和连续统计读取同一份最新分数；开始新组、重开和重测时统一清空本组分数/答案/错词状态；结算正确率、鼓励文案、图表统一使用实际已答题数，并对异常分数做边界保护。
 - 完成页改为“本轮战报”：顶部展示本轮状态与正确率，三项摘要展示答对、需巩固和平均答题节奏；中部保留环形正确率但增加状态文案、对错进度和复习建议；底部将错词改为可滚动的复习清单，移动端单列、桌面端两列，不新增接口或依赖。
 - 验证：`npm run typecheck` 通过；目标文件 ESLint 0 errors（保留1条既有完成态键盘 effect 依赖 warning）；`git diff --check` 通过；`NEXT_PUBLIC_BUILD_ID=20261005_170000 NEXT_PUBLIC_APP_URL=https://eztor.dogeggcode.cyou npm run build` 通过，Next 16.2.3路由生成完成。尚未做登录态完整默写操作、真实手机实测或线上验收。
+
+## 2026-10-05 22:48 1.23.1 Web 发布与线上核验
+- 发布范围：默写结算统计口径修复与“本轮战报”可视化重设计；版本按小更新规则从1.23.0升至1.23.1。源代码提交 `9505d734eded913f28bd754b20d5d87063a1f0a9`，工作区提交前为干净状态。
+- 构建与载荷：`npm run build`（Next 16.2.3/Turbopack）通过，TypeScript与路由生成通过；Next standalone BUILD_ID `WPjmsX01YfSo7Do9ANvt_`；归档 `eztor-web-1.23.1-WPjmsX01YfSo7Do9ANvt_-20261005144416222.tar.gz`，39,966,359 bytes，SHA256 `a368004449ada1fd6418c859843619f69ed667cb26a4818e1675b0e1803488e5`，manifest记录sourceDirty=false、sourceCommit=`9505d734eded913f28bd754b20d5d87063a1f0a9`。归档核对未包含环境文件、数据库文件、`public/downloads`或`public/updates`持久目录；上传后远端哈希一致。
+- 数据保护：切换前生产数据库通过服务器PostgreSQL容器完成custom格式备份，服务器目录 `/var/backups/eztor-predeploy-1.23.1-20261005_224325`（权限700）；快照复制到服务器外 `/Users/elee987/Library/Application Support/EZTor/Backups/predeploy-1.23.1-20261005_224325/eztor-predeploy.dump`，29,706,246 bytes，SHA256 `ac4a5919472025b3d5566bf1dc93e59cb75fda31ae676d5efdc8030be46b75fb`，本地`pg_restore --list`为242行，远端与本地校验值一致。部署过程未写入业务数据、未执行数据库迁移。
+- 部署过程：远端发布前根分区约17G可用、inode使用约15%；暂存目录预启动使用3103（3102已有预览进程），`/api/health`、`/`、`/ai`、`/api/version`均200后原子切换。保留现有`public/downloads`约507M、`public/updates`约291M及`.env`权限600；旧线上目录保留为 `/www/wwwroot/114.55.58.90/.next/standalone.bak.20261005_224803`，可回滚。
+- 线上状态：PM2 `cet4-web` online，PID 1167494，运行时版本1.23.1，BUILD_ID核对为`WPjmsX01YfSo7Do9ANvt_`；回环匿名路由`/`、`/ai`、`/me`、`/download`、`/public-vocabulary`、manifest、图标、`/api/health`、`/api/version`、公共词库API、认证session/providers均200；未登录`/history`、`/dictation`、`/contributions`、`/leaderboard`均按保护逻辑307。公网HTTPS匿名路由与图标返回200，首页包含`/icons/icon-512.png`引用。
+- 数据库只读核验：生产`_prisma_migrations`已完成迁移25条，最新为`20261005090000_share_import_receipts`；与本地25个迁移目录一致。服务器应用日志未见启动失败，环境校验通过。公网`/api/version`仍展示现有原生安装包清单1.13.4，这是安装包目录现状，不代表Web运行版本；本轮未重建原生安装包。
+- 状态：Web 1.23.1 已实现 / 已构建 / 白名单归档与哈希已验证 / 已部署 / 回环与公网匿名、认证入口、公共数据和保护路由已线上核验；真实登录态默写提交与真实手机实测未在本轮执行。工作记录待提交并push。
