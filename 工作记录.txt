@@ -901,3 +901,12 @@ Web 1.20.0 发布与线上验收（2026-10-04 20:30 CST）
 - 修正内容：补齐 ChatRoom/AiAssistant mock 的 `useLayoutEffect` 和窗口事件；为 realtime hook 提供 next-auth session 与正确的草稿状态键；初始化词库测试的已加载状态；补全 envValidator 当前全部必需环境变量断言；同步新增草稿状态后的组列表/在线人数状态索引。
 - 验证：`npx vitest run` 通过，25 个测试文件、256 个测试通过、1 个跳过；测试中的预期错误日志和缺失变量警告均为测试场景本身。`npm run typecheck`、前轮生产构建仍通过。
 - 本地服务已恢复：`npm run dev -- --port 3000`，本地 `/`、`/download`、`/ai`、`/me` 均 HTTP 200；下载页设备选择和带版本参数的新版图标链接已在本地 HTML 中确认。
+
+## 2026-10-05 16:43 1.23.0 Web 发布与线上核验
+- 发布载荷：版本 1.23.0；源代码提交 `9de75083c3201fbb8f4732dee1bf336fd0db2036`；Next standalone BUILD_ID `egQoQaiE1RzEgzDRGhlT1`；本地构建时 `NEXT_PUBLIC_BUILD_ID=20261005_162500`；归档 `eztor-web-1.23.0-egQoQaiE1RzEgzDRGhlT1-20261005083050423.tar.gz`，大小 39,966,976 bytes，SHA256 `d68a4654108c4a3aa8c4fbea1ca014f83223fb8616d866059f4f3c92137b6441`。归档为白名单产物，未包含环境文件、数据库或本地缓存；服务器上传后再次核对哈希。
+- 数据保护：切换前生产数据库完整备份已保存到服务器外 `/Users/elee987/Library/Application Support/EZTor/Backups/predeploy-1.23.0-20261005_1630/eztor-predeploy.dump`，29,702,993 bytes，SHA256 `159a21b2087949ad5501dd1c7294392314cc5a4ca58ff8030f3a7c8cfd05c00d`，本地 `pg_restore --list` 返回242行。服务器端对应备份目录权限700；本次无生产业务写入、无数据库迁移。
+- 部署过程：服务器根分区发布前约18 GiB可用；归档先解压到独立暂存目录，复制现有 `public/downloads`（约507 MiB）与 `public/updates`（约291 MiB），保留 `.env` 权限600；3101端口因已有预览进程占用，未将其响应作为新包结果，改用3102启动暂存包，健康、首页、/ai、/api/version均通过后再切换。旧线上目录保留为 `/www/wwwroot/114.55.58.90/.next/standalone.bak.20261005_164027`，可用于回滚。
+- 线上状态：PM2 `cet4-web` online，PID 1165281，PM2报告版本1.23.0；运行时 BUILD_ID 从 `/www/wwwroot/114.55.58.90/.next/standalone/.next/BUILD_ID` 核对为 `egQoQaiE1RzEgzDRGhlT1`。本地回环 `/`、`/ai`、`/me`、`/download`、`/public-vocabulary`、manifest、图标、健康、版本、公共词库API均200；未登录的 `/history`、`/dictation`、`/contributions`、`/leaderboard` 均按保护逻辑307。公网HTTPS上述匿名页面与静态资源均200，HTML包含带 `?v=20261005_162500` 的新PNG图标引用。
+- 数据库与安全核验：线上 `prisma migrate status` 显示23个迁移且数据库 up to date；`/api/auth/session` 返回200空会话，providers返回200，公共词库只读查询返回200并有数据。响应CSP包含 `https://file.xiaoying.life`，同时保留 `https://api.xiaoying.life`；未执行登录写入、贡献提交或模型调用。
+- 资源与限制：切换后根分区约17 GiB可用、inode使用15%；旧回滚目录和服务器安装包均保留，未做未经授权的删除。原生APK/桌面安装包本轮未重建，Web发布不改变已安装原生包；`/api/version`仍按服务器现有安装包文件报告1.13.4，这是安装包目录现状，不代表Web版本。
+- 状态：Web 1.23.0 已实现 / 构建与归档哈希已验证 / 已部署 / 公网匿名、认证入口、公共数据、保护路由和数据库迁移状态已线上核验；真实登录后的私有写入流程、真实移动设备和原生安装包仍未在本轮线上操作。发布后工作区仅新增本条工作记录，待提交并push。
