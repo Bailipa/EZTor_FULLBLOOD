@@ -119,6 +119,7 @@ function DictationWorkspaceSession({
   const [isCorrect, setIsCorrect] = useState(false)
   const [showHint, setShowHint] = useState(false)
   const [score, setScore] = useState({ correct: 0, total: 0 })
+  const scoreRef = useRef({ correct: 0, total: 0 })
   const [isFinished, setIsFinished] = useState(false)
   const [isStarted, setIsStarted] = useState(false) // 新增状态：是否已经开始测试
   const [testCount, setTestCount] = useState<number | 'custom'>(10) // 默认测试数量，增加 'custom' 选项
@@ -249,6 +250,7 @@ function DictationWorkspaceSession({
         // 打乱顺序
         const shuffled = [...customWords].sort(() => 0.5 - Math.random())
         setWords(shuffled)
+        setTotalWordsTested(shuffled.length)
       } else {
         // 错词专练从持久化错词记录中取词，其余模式按复习设置取词。
         const endpoint = isMistakePractice
@@ -263,12 +265,13 @@ function DictationWorkspaceSession({
         const data = await res.json()
         if (!res.ok || !data.success || !Array.isArray(data.data)) {
           setWords([])
+          setTotalWordsTested(0)
           setFetchError(data.error || '默写单词加载失败，请重试。')
           return
         }
         if (data.success && data.data) {
           const wordList = data.data
-          if (isMistakePractice) setTotalWordsTested(wordList.length)
+          setTotalWordsTested(wordList.length)
           // 词库不足 4 词时，从公共词库补充干扰项（不混入测试题库）
           if (wordList.length < 4) {
             try {
@@ -294,6 +297,7 @@ function DictationWorkspaceSession({
       if (process.env.NODE_ENV === 'development')
         console.error('Failed to fetch dictation words', error)
       setWords([])
+      setTotalWordsTested(0)
       setFetchError('默写单词加载失败，请检查网络后重试。')
     } finally {
       setIsLoading(false)
@@ -386,6 +390,16 @@ function DictationWorkspaceSession({
       return
     }
     setIsStarted(true)
+    setIsFinished(false)
+    setWords([])
+    setAnswers({})
+    setMistakes([])
+    submittedIndicesRef.current.clear()
+    isCheckingRef.current = false
+    scoreRef.current = { correct: 0, total: 0 }
+    setScore(scoreRef.current)
+    setCurrentIndex(0)
+    resetTurn()
     setStartTime(Date.now())
     setGroupElapsedMs(0)
     // 新会话起点：连续测试累计统计清零（restartQuiz/startRetest 不清零，继续累计）
@@ -407,8 +421,9 @@ function DictationWorkspaceSession({
 
   // 根据正确率获取激励文案
   const getEncouragementText = () => {
-    if (words.length === 0) return { emoji: '📖', text: '学习就是不断重复的过程' }
-    const rate = (score.correct / words.length) * 100
+    const roundTotal = score.total || totalWordsTested || words.length
+    if (roundTotal === 0) return { emoji: '📖', text: '学习就是不断重复的过程' }
+    const rate = (score.correct / roundTotal) * 100
     if (rate >= 90) return { emoji: '🎉', text: '太棒了！你已经掌握了这些单词' }
     if (rate >= 70) return { emoji: '👍', text: '不错！再巩固一下就完美了' }
     if (rate >= 50) return { emoji: '💪', text: '继续加油！多复习几次就能掌握' }
@@ -471,6 +486,7 @@ function DictationWorkspaceSession({
     setShowHint(savedProgress.showHint ?? false)
     setWords(savedProgress.words)
     setScore(savedProgress.score)
+    scoreRef.current = savedProgress.score
     setMode(savedProgress.mode)
     setIsMuted(savedProgress.isMuted)
     setIsSfxMuted(savedProgress.isSfxMuted)
@@ -596,6 +612,9 @@ function DictationWorkspaceSession({
   // }, [currentIndex, isChecked])
 
   const currentWord = words[currentIndex]
+  const resultTotal = score.total || totalWordsTested || words.length
+  const resultCorrect = Math.min(resultTotal, Math.max(0, score.correct))
+  const resultAccuracy = resultTotal > 0 ? Math.round((resultCorrect / resultTotal) * 100) : 0
 
   // 生成四选一选项（综合默写模式）
   const options = useMemo(() => {
@@ -658,14 +677,24 @@ function DictationWorkspaceSession({
     triggerHapticFeedback(correct ? 'correct' : 'incorrect')
 
     if (correct) {
-      setScore((prev) => ({ ...prev, correct: prev.correct + 1 }))
+      // 评分同时写入 ref，确保快速点击“查看成绩”时不会读取到上一帧状态。
+      scoreRef.current = {
+        correct: scoreRef.current.correct + 1,
+        total: scoreRef.current.total + 1,
+      }
     } else {
       // 如果答错，且当前单词还不在错题本中，则加入错题本
       if (!mistakes.some((m) => m.word === currentWord.word)) {
         setMistakes((prev) => [...prev, currentWord])
       }
     }
-    setScore((prev) => ({ ...prev, total: prev.total + 1 }))
+    if (!correct) {
+      scoreRef.current = {
+        correct: scoreRef.current.correct,
+        total: scoreRef.current.total + 1,
+      }
+    }
+    setScore(scoreRef.current)
     if (!correct) setRecentMistake({ word: currentWord.word, translation: currentWord.translation, status: 'saving' })
 
     const controller = new AbortController()
@@ -702,6 +731,13 @@ function DictationWorkspaceSession({
     }
   }
 
+  const resetTurn = React.useCallback(() => {
+    setUserInput('')
+    setIsChecked(false)
+    setIsCorrect(false)
+    setShowHint(false)
+  }, [])
+
   const loadQuestionState = React.useCallback(
     (index: number) => {
       const savedAnswer = answers[index]
@@ -714,9 +750,8 @@ function DictationWorkspaceSession({
         resetTurn()
       }
       setIsTranslationExpanded(false) // 重置翻译展开状态
-      // eslint-disable-next-line react-hooks/exhaustive-deps
     },
-    [answers],
+    [answers, resetTurn],
   )
 
   const handleNext = React.useCallback(() => {
@@ -725,19 +760,20 @@ function DictationWorkspaceSession({
       setCurrentIndex(nextIndex)
       loadQuestionState(nextIndex)
     } else {
+      const finalScore = scoreRef.current
       setIsFinished(true)
-      trackDictationComplete(score.correct, score.total)
+      trackDictationComplete(finalScore.correct, finalScore.total)
       // 结算：冻结本组用时，并累加到会话统计（连续测试的累计结果）
       const elapsed = startTime ? Date.now() - startTime : 0
       setGroupElapsedMs(elapsed)
       setSessionElapsedMs((prev) => prev + elapsed)
       setSessionStats((prev) => ({
-        correct: prev.correct + score.correct,
-        total: prev.total + score.total,
+        correct: prev.correct + finalScore.correct,
+        total: prev.total + finalScore.total,
       }))
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentIndex, words.length, loadQuestionState, score, startTime])
+  }, [currentIndex, words.length, loadQuestionState, resetTurn, startTime])
 
   const handlePrev = React.useCallback(() => {
     if (currentIndex > 0) {
@@ -746,13 +782,6 @@ function DictationWorkspaceSession({
       loadQuestionState(prevIndex)
     }
   }, [currentIndex, loadQuestionState])
-
-  const resetTurn = React.useCallback(() => {
-    setUserInput('')
-    setIsChecked(false)
-    setIsCorrect(false)
-    setShowHint(false)
-  }, [])
 
   // 电脑端（≥1280px）自动聚焦输入框，手机端保持不变
   useEffect(() => {
@@ -769,7 +798,8 @@ function DictationWorkspaceSession({
     setStartTime(Date.now()) // 新的一组重新计时
     setGroupElapsedMs(0)
     setWords([])
-    setScore({ correct: 0, total: 0 })
+    scoreRef.current = { correct: 0, total: 0 }
+    setScore(scoreRef.current)
     setCurrentIndex(0)
     setIsFinished(false)
     setMistakes([])
@@ -788,7 +818,8 @@ function DictationWorkspaceSession({
     // 同步设置 words（React 自动批处理，resetTurn 的 isChecked=false 会同帧生效，
     // 不再需要 setTimeout 延迟），避免中间帧 words=[] 闪出结算页（0/0 显示 NaN 分）
     setWords([...mistakes])
-    setScore({ correct: 0, total: 0 })
+    scoreRef.current = { correct: 0, total: 0 }
+    setScore(scoreRef.current)
     setCurrentIndex(0)
     setIsFinished(false)
     setTotalWordsTested(mistakes.length) // 重测按当前错题数量独立评分（与 restartQuiz 一致）
@@ -1502,29 +1533,30 @@ function DictationWorkspaceSession({
           <div className="flex-1 min-h-0 flex flex-col" style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}>
             <div className="flex-1 min-h-0 overflow-y-auto">
               <Card className="border-2 border-primary/20 shadow-md">
-                <CardContent className="p-6 md:p-8 flex flex-col items-center text-center space-y-5">
-                  <div className="w-24 h-24 rounded-full bg-primary/10 flex items-center justify-center mb-2">
-                    <CheckCircle2 className="w-12 h-12 text-primary" />
-                  </div>
-                  <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-foreground break-words">{getEncouragementText().emoji} {getEncouragementText().text}</h2>
-                  <div className="space-y-2">
-                    <p className="text-2xl sm:text-3xl md:text-4xl font-black text-primary">
-                      {Math.round((score.correct / words.length) * 100)}{' '}
-                      <span className="text-2xl text-muted-foreground font-medium">分</span>
-                    </p>
-                    <p className="text-gray-500 dark:text-muted-foreground">
-                      共测试 {totalWordsTested} 个单词，答对 {score.correct} 个。
-                    </p>
-                    <p className="text-gray-500 dark:text-muted-foreground">
-                      本次用时 {formatDuration(groupElapsedMs)}
-                    </p>
+                <CardContent className="p-5 md:p-8 flex flex-col items-center text-center space-y-5">
+                  <div className="flex w-full max-w-2xl items-center justify-between gap-4 rounded-3xl border border-primary/20 bg-primary/5 p-4 text-left sm:p-5">
+                    <div className="flex min-w-0 items-center gap-3">
+                      <div className="flex size-12 shrink-0 items-center justify-center rounded-2xl bg-primary/10">
+                        <CheckCircle2 className="size-7 text-primary" />
+                      </div>
+                      <div className="min-w-0">
+                        <p className="text-xs font-semibold uppercase tracking-[0.16em] text-primary/80">本轮战报</p>
+                        <h2 className="mt-1 break-words text-lg font-bold text-foreground sm:text-xl">{getEncouragementText().emoji} {getEncouragementText().text}</h2>
+                        <p className="mt-1 text-xs text-muted-foreground">完成 {resultTotal} 个单词 · 用时 {formatDuration(groupElapsedMs)}</p>
+                      </div>
+                    </div>
+                    <div className="shrink-0 text-right">
+                      <p className="text-3xl font-black text-primary sm:text-4xl">{resultAccuracy}%</p>
+                      <p className="text-xs text-muted-foreground">本轮正确率</p>
+                    </div>
                   </div>
 
                   <DictationResultCharts
-                    correct={score.correct}
-                    total={totalWordsTested || words.length}
+                    correct={resultCorrect}
+                    total={resultTotal}
                     mistakes={mistakes}
                     elapsedLabel={formatDuration(groupElapsedMs)}
+                    elapsedMs={groupElapsedMs}
                   />
 
                   {/* 连续测试累计统计：从开始测试后，本会话所有组（含重测/新的一组）的汇总 */}
