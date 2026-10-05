@@ -74,4 +74,10 @@
 
 ## 发布实况
 
-待生产构建/归档/提交/部署后追加版本、BUILD_ID、源码提交、归档清单与SHA256、回滚目标、迁移结果及线上用户流程证据。
+- 部署载荷对应源码提交 `24fd1e29a1b22b246e24110123b2eb2cb0c90b4b`；部署核验报告随后以提交 `45d08c7` 推送至 `origin/fix/xiaoying-start-500`。版本 `1.22.0`，Android versionCode `54`；原生 APK 因缺少线上匹配签名密钥未重建，Web 发布不改变已安装 APK 签名。
+- 最终生产构建使用 `NEXT_PUBLIC_APP_URL=https://eztor.dogeggcode.cyou`、BUILD 标记 `20261005_144200`，Next BUILD_ID `4B4j8Et5fVDVpAi-IxJ21`。白名单归档 3,101 个文件、40,209,785 bytes，SHA256 `780221d46b1df9d887c7576887bc96efd7451ba80db74c464ce26cff743b2aef`；136/136 manifest 路由、86 个静态资源、25 项迁移、Linux Prisma engine、English IPA 与 metadata/license 均在包内；无环境文件、数据库、密钥、AppleDouble、缓存或 downloads/updates。归档上传后远端哈希一致。
+- 切换前服务器根分区 40 GiB、可用 19 GiB、inode 使用 15%；数据库备份在服务器外：`/Users/elee987/Library/Application Support/EZTor/Backups/predeploy-1.22.0-final-20261005_1500/eztor.dump`，29,695,536 bytes，SHA256 `8f11dfbf35136863cc2b8b873dd773ed5f2c7b2f4bf1bbc24832096c9a1a7fdd`，目录242行。旧线上 `1.21.0` 保留为 `.next/standalone.bak.20261005_1505`，公共 downloads/updates 逐文件校验后复用。
+- 先在 3101 暂存实例通过偏好保存/恢复与400/409校验、CSV已有7/2/9和新词3/4/7、分享创建/校验/导入/重复导入拒绝、公开分享页/API；临时两个账号及所有关联数据清理，前后聚合完全一致。重复导入接口现有协议为 HTTP200 + `success:false,error:ALREADY_IMPORTED`，未改变。
+- 生产迁移 `20261005090000_minimal_features` 与 `20261005090000_share_import_receipts` 成功应用；应用前 User457/Word248473/PublicWord17905/receipt65/重复组0，应用后 User457/Word248475/PublicWord17905/receipt65/重复组0（线上期间已有正常用户新增2条私有词，非发布脚本写入）。约束已包含 minimal；无发布脚本业务写入。
+- PM2 `cet4-web` online，路径 `/www/wwwroot/114.55.58.90/.next/standalone/server.js`，线上 BUILD_ID `4B4j8Et5fVDVpAi-IxJ21`。本机线上回环 `/` `/ai` `/me` `/download` `/public-vocabulary` `/api/health` `/api/version` `/api/flashcard/public?limit=5` 全200；匿名 `/history` `/dictation` `/contributions` `/leaderboard` 全307，私有 API 401；公网 HTTPS 同样通过，分享公开页与导入页200、公开分享校验接口匿名401。关键页面SSR资源均逐项200，CSP允许头像文件域名。生产流程已验证暂存认证/数据链路，未读取或修改真实用户私有数据。
+- 状态：已实现 / 已验证 / Web 已部署 / 公网匿名和公开分享流程已验收。真实手机触控、系统 Web Share 面板、浏览器 IDB/自动播放和真实付费模型流仍未实测；这些限制不影响本次已验证的 Web 路由和数据库发布。
