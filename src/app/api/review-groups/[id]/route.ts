@@ -1,6 +1,7 @@
+import { lockGroupOwner } from '@/lib/reviewGroups'
 import prisma from '@/lib/prisma'
 import { getServerSession } from 'next-auth/next'
-import { authOptions } from '@/app/api/auth/[...nextauth]/route'
+import { authOptions } from '@/lib/authOptions'
 import { handleApiError, createErrorResponse, createSuccessResponse } from '@/lib/apiErrorHandler'
 
 export async function GET(req: Request, { params }: { params: Promise<{ id: string }> }) {
@@ -90,16 +91,21 @@ export async function DELETE(req: Request, { params }: { params: Promise<{ id: s
       return createErrorResponse('系统词库不能删除', 400)
     }
 
-    // 删除相关的sharedVocabularyImport记录
-    await prisma.sharedVocabularyImport.deleteMany({
-      where: {
-        targetGroupId: id,
-        importerId: session.user.id,
-      },
-    })
-
-    await prisma.reviewGroup.delete({
-      where: { id },
+    await prisma.$transaction(async (tx) => {
+      await lockGroupOwner(tx, session.user.id)
+      const receipts = await tx.sharedVocabularyImport.findMany({
+        where: { targetGroupId: id, importerId: session.user.id }, orderBy: { sharedId: 'asc' },
+      })
+      // Use the same share -> receipt lock order as batch import and settlement.
+      for (const receipt of receipts) {
+        await tx.$queryRaw`SELECT id FROM "SharedVocabulary" WHERE id = ${receipt.sharedId} FOR UPDATE`
+        const current = await tx.sharedVocabularyImport.findUnique({ where: { id: receipt.id } })
+        if (current?.useReserved) {
+          await tx.sharedVocabulary.update({ where: { id: receipt.sharedId }, data: { usedCount: { decrement: 1 } } })
+        }
+      }
+      await tx.sharedVocabularyImport.deleteMany({ where: { targetGroupId: id, importerId: session.user.id } })
+      await tx.reviewGroup.delete({ where: { id } })
     })
 
     return createSuccessResponse({})

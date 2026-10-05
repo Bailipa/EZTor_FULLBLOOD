@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { after, NextRequest, NextResponse } from 'next/server'
 import { randomUUID } from 'crypto'
 import prisma from '@/lib/prisma'
 import { sanitizeWordList } from '@/lib/security'
@@ -58,51 +58,42 @@ export async function POST(req: NextRequest) {
 
     const responseTime = Date.now() - startTime
 
-    await prisma.analyticsEvent.create({
-      data: {
-        id: randomUUID(),
-        eventType: 'GUEST_TRANSLATE',
-        userId: null,
-        sessionId:
-          Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15),
-        metadata: JSON.stringify({
-          totalWords: sanitizedWords.length,
-          foundWords: results.length,
-          notFoundWords: notFound.length,
-          responseTime,
-        }),
-        ipAddress: clientIp,
-        userAgent: userAgent,
-      },
-    })
+    after(async () => {
+      try {
+        await prisma.analyticsEvent.create({
+          data: {
+            id: randomUUID(),
+            eventType: 'GUEST_TRANSLATE',
+            userId: null,
+            sessionId:
+              Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15),
+            metadata: JSON.stringify({
+              totalWords: sanitizedWords.length,
+              foundWords: results.length,
+              notFoundWords: notFound.length,
+              responseTime,
+            }),
+            ipAddress: clientIp,
+            userAgent: userAgent,
+          },
+        })
 
-    await Promise.all(
-      results.map(
-        (r: {
-          word: string
-          phonetic: string | null
-          pos: string | null
-          translation: string
-          example: string | null
-          exampleTranslation: string | null
-        }) =>
-          prisma.translationRecord.create({
-            data: {
+        if (results.length) {
+          await prisma.translationRecord.createMany({
+            data: results.map((result) => ({
+              ...result,
               id: randomUUID(),
-              word: r.word,
-              phonetic: r.phonetic,
-              pos: r.pos,
-              translation: r.translation,
-              example: r.example,
-              exampleTranslation: r.exampleTranslation,
               isCached: true,
               responseTime,
               ipAddress: clientIp,
-              userAgent: userAgent,
-            },
-          }),
-      ),
-    )
+              userAgent,
+            })),
+          })
+        }
+      } catch (error) {
+        logger.error({ err: error }, 'Failed to record public translation activity')
+      }
+    })
 
     return NextResponse.json({
       success: true,
@@ -132,20 +123,26 @@ export async function POST(req: NextRequest) {
   } catch (error) {
     logger.error({ err: error }, 'Public translate error')
 
-    await prisma.analyticsEvent.create({
-      data: {
-        id: randomUUID(),
-        eventType: 'GUEST_TRANSLATE_ERROR',
-        userId: null,
-        sessionId:
-          Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15),
-        metadata: JSON.stringify({
-          error: error instanceof Error ? error.message : 'Unknown error',
-          responseTime: Date.now() - startTime,
-        }),
-        ipAddress: clientIp,
-        userAgent: userAgent,
-      },
+    after(async () => {
+      try {
+        await prisma.analyticsEvent.create({
+          data: {
+            id: randomUUID(),
+            eventType: 'GUEST_TRANSLATE_ERROR',
+            userId: null,
+            sessionId:
+              Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15),
+            metadata: JSON.stringify({
+              error: error instanceof Error ? error.message : 'Unknown error',
+              responseTime: Date.now() - startTime,
+            }),
+            ipAddress: clientIp,
+            userAgent: userAgent,
+          },
+        })
+      } catch (recordError) {
+        logger.error({ err: recordError }, 'Failed to record public translation error')
+      }
     })
 
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })

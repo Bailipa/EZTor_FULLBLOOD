@@ -1,7 +1,7 @@
 import { randomUUID } from 'crypto'
 import prisma from '@/lib/prisma'
 import { getServerSession } from 'next-auth/next'
-import { authOptions } from '@/app/api/auth/[...nextauth]/route'
+import { authOptions } from '@/lib/authOptions'
 import { handleApiError, createErrorResponse, createSuccessResponse } from '@/lib/apiErrorHandler'
 import { generateUniqueCode } from '@/lib/share/codeGenerator'
 import { sanitizeInput } from '@/lib/security'

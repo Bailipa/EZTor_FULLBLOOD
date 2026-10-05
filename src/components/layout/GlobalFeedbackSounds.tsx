@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react'
 import { useSession } from 'next-auth/react'
+import { readUserPreferences, subscribeUserPreferences } from '@/lib/userPreferences'
 import {
   getFeedbackSoundRevision,
   playFeedbackSound,
@@ -23,15 +24,17 @@ export function GlobalFeedbackSounds() {
 
   useEffect(() => {
     setFeedbackSoundEnabled(status === 'unauthenticated')
-    if (status !== 'authenticated') return
+    if (status !== 'authenticated' || !userId) return
     const controller = new AbortController()
-    fetch('/api/preferences', { signal: controller.signal })
-      .then((response) => response.json())
-      .then((data) => {
-        if (!controller.signal.aborted && data.success) setFeedbackSoundEnabled(data.data?.soundEffectsEnabled !== false)
-      })
-      .catch(() => {})
-    return () => controller.abort()
+    const apply = (data: Awaited<ReturnType<typeof readUserPreferences>>) => {
+      if (!controller.signal.aborted) setFeedbackSoundEnabled(data.soundEffectsEnabled !== false)
+    }
+    const unsubscribe = subscribeUserPreferences(userId, ['soundEffectsEnabled'], apply)
+    readUserPreferences(userId, controller.signal).then(apply).catch(() => {})
+    return () => {
+      unsubscribe()
+      controller.abort()
+    }
   }, [status, userId])
 
   useEffect(() => {

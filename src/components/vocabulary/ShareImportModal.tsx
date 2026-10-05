@@ -111,6 +111,18 @@ export function ShareImportModal({ isOpen, onClose, onSuccess }: ShareImportModa
   })
 
   const isImportingRef = useRef(false)
+  const activeRef = useRef(false)
+  const validationRequest = useRef(0)
+  const validationAbortRef = useRef<AbortController | null>(null)
+  const [defaultRetry, setDefaultRetry] = useState(0)
+  useEffect(() => {
+    activeRef.current = isOpen
+    return () => {
+      activeRef.current = false
+      validationRequest.current += 1
+      validationAbortRef.current?.abort()
+    }
+  }, [isOpen])
 
   const importProgressController = useProgress({
     autoStart: false,
@@ -118,12 +130,14 @@ export function ShareImportModal({ isOpen, onClose, onSuccess }: ShareImportModa
 
   // 获取默认词库列表
   useEffect(() => {
+    const controller = new AbortController()
     if (isOpen) {
       const fetchDefaultVocabularies = async () => {
         try {
           setDefaultVocabularies((prev) => ({ ...prev, isLoading: true, error: null }))
-          const response = await fetch('/api/share/defaults')
+          const response = await fetch('/api/share/defaults', { signal: controller.signal })
           const result = await response.json()
+          if (controller.signal.aborted) return
 
           if (result.success && Array.isArray(result.data)) {
             setDefaultVocabularies({
@@ -139,6 +153,7 @@ export function ShareImportModal({ isOpen, onClose, onSuccess }: ShareImportModa
             })
           }
         } catch (_err) {
+          if (controller.signal.aborted) return
           setDefaultVocabularies({
             isLoading: false,
             data: [],
@@ -149,9 +164,13 @@ export function ShareImportModal({ isOpen, onClose, onSuccess }: ShareImportModa
 
       fetchDefaultVocabularies()
     }
-  }, [isOpen])
+    return () => controller.abort()
+  }, [isOpen, defaultRetry])
 
   const validateShareCode = useCallback(async (code: string) => {
+    validationAbortRef.current?.abort()
+    validationAbortRef.current = null
+    const request = ++validationRequest.current
     if (!code || code.length < 11) {
       setValidation({
         isValidating: false,
@@ -162,6 +181,8 @@ export function ShareImportModal({ isOpen, onClose, onSuccess }: ShareImportModa
       return
     }
 
+    const controller = new AbortController()
+    validationAbortRef.current = controller
     setValidation((prev) => ({
       ...prev,
       isValidating: true,
@@ -169,8 +190,9 @@ export function ShareImportModal({ isOpen, onClose, onSuccess }: ShareImportModa
     }))
 
     try {
-      const response = await fetch(`/api/share/validate/${code}`)
+      const response = await fetch(`/api/share/validate/${code}`, { signal: controller.signal })
       const data = await response.json()
+      if (controller.signal.aborted || !activeRef.current || request !== validationRequest.current) return
 
       if (data.valid) {
         setValidation({
@@ -184,52 +206,59 @@ export function ShareImportModal({ isOpen, onClose, onSuccess }: ShareImportModa
         setValidation({
           isValidating: false,
           isValid: null,
-          error: '请先登录后再验证密钥',
+          error: '请先登录后再验证分享码',
           data: null,
         })
       } else {
         setValidation({
           isValidating: false,
           isValid: false,
-          error: data.message || '密钥无效',
+          error: data.message || '分享码无效',
           data: null,
         })
       }
     } catch (_err) {
+      if (controller.signal.aborted || !activeRef.current || request !== validationRequest.current) return
       setValidation({
         isValidating: false,
         isValid: false,
         error: '验证失败，请稍后重试',
         data: null,
       })
+    } finally {
+      if (validationAbortRef.current === controller) validationAbortRef.current = null
     }
   }, [])
 
   useEffect(() => {
     const handler = setTimeout(() => {
-      if (shareCode) {
+      if (isOpen && shareCode) {
         validateShareCode(shareCode)
       }
     }, 500)
 
     return () => clearTimeout(handler)
-  }, [shareCode, validateShareCode])
+  }, [isOpen, shareCode, validateShareCode])
 
   useEffect(() => {
+    const controller = new AbortController()
     if (isOpen && !createNewGroup) {
       setIsLoadingGroups(true)
-      fetch('/api/review-groups')
+      fetch('/api/review-groups', { signal: controller.signal })
         .then((res) => res.json())
         .then((data) => {
+          if (controller.signal.aborted) return
           if (data.success) {
             setReviewGroups(data.data || [])
           }
           setIsLoadingGroups(false)
         })
         .catch(() => {
+          if (controller.signal.aborted) return
           setIsLoadingGroups(false)
         })
     }
+    return () => controller.abort()
   }, [isOpen, createNewGroup])
 
   useEffect(() => {
@@ -249,9 +278,12 @@ export function ShareImportModal({ isOpen, onClose, onSuccess }: ShareImportModa
   }, [isOpen])
 
   const handleSelectDefaultVocabulary = (vocab: DefaultVocabulary) => {
-    setShareCode(vocab.code)
     setCustomName(vocab.name)
-    validateShareCode(vocab.code)
+    if (vocab.code === shareCode) { validateShareCode(vocab.code); return }
+    validationAbortRef.current?.abort()
+    validationRequest.current += 1
+    setValidation({ isValidating: false, isValid: null, error: null, data: null })
+    setShareCode(vocab.code)
   }
 
   const handleImport = async () => {
@@ -260,7 +292,7 @@ export function ShareImportModal({ isOpen, onClose, onSuccess }: ShareImportModa
     setImportStep('')
 
     if (!shareCode) {
-      setError('请输入分享密钥')
+      setError('请输入分享码')
       return
     }
 
@@ -274,14 +306,14 @@ export function ShareImportModal({ isOpen, onClose, onSuccess }: ShareImportModa
       return
     }
 
-    if (validation.isValid === false) {
-      setError(validation.error || '密钥验证失败')
+    if (validation.isValid !== true) {
+      setError(validation.error || '分享码验证失败')
       return
     }
 
     isImportingRef.current = true
     setIsImporting(true)
-    importProgressController.start()
+    importProgressController.setProgress(0, 'loading')
 
     try {
       const response = await fetch('/api/share/import', {
@@ -316,6 +348,7 @@ export function ShareImportModal({ isOpen, onClose, onSuccess }: ShareImportModa
 
       while (true) {
         const { done, value } = await reader.read()
+        if (!activeRef.current) { await reader.cancel(); return }
         if (done) break
 
         buffer += decoder.decode(value, { stream: true })
@@ -408,6 +441,7 @@ export function ShareImportModal({ isOpen, onClose, onSuccess }: ShareImportModa
         setError('导入完成但未收到有效响应，请检查词库是否已导入')
       }
     } catch (err: unknown) {
+      if (!activeRef.current) return
       importProgressController.error()
       const message = err instanceof Error ? err.message : String(err)
       let errorMessage = '网络错误'
@@ -428,7 +462,7 @@ export function ShareImportModal({ isOpen, onClose, onSuccess }: ShareImportModa
       setError(errorMessage)
     } finally {
       isImportingRef.current = false
-      setIsImporting(false)
+      if (activeRef.current) setIsImporting(false)
     }
   }
 
@@ -441,20 +475,23 @@ export function ShareImportModal({ isOpen, onClose, onSuccess }: ShareImportModa
 
   const handleShareCodeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const formatted = formatShareCode(e.target.value)
+    validationAbortRef.current?.abort()
+    validationRequest.current += 1
+    setValidation({ isValidating: false, isValid: null, error: null, data: null })
     setShareCode(formatted)
   }
 
   return (
-    <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="w-full max-w-[calc(100vw-2rem)] sm:max-w-2xl max-h-[calc(100vh-2rem)] overflow-y-auto p-4 sm:p-6">
+    <Dialog open={isOpen} onOpenChange={(open) => !open && !isImportingRef.current && onClose()}>
+      <DialogContent className="w-full max-w-[calc(100vw-2rem)] sm:max-w-2xl max-h-[calc(100dvh-2rem)] overflow-y-auto p-4 sm:p-6">
         <DialogHeader className="mb-4">
           <DialogTitle className="text-lg sm:text-xl">导入共享词库</DialogTitle>
           <DialogDescription className="text-sm">
-            输入分享密钥或选择默认词库，将词汇导入到您的词库中
+            选择词库或输入好友分享码，确认预览和存放位置后再导入。已有单词会自动跳过。
           </DialogDescription>
         </DialogHeader>
 
-        <div className="space-y-4 sm:space-y-6 py-2 sm:py-4">
+        <fieldset disabled={isImporting} className="min-w-0 space-y-4 sm:space-y-6 py-2 sm:py-4">
           {error && (
             <div className="p-2 sm:p-3 text-xs sm:text-sm text-destructive bg-destructive/10 rounded-lg border border-destructive/20 space-y-1">
               <div className="flex items-start gap-2">
@@ -487,7 +524,8 @@ export function ShareImportModal({ isOpen, onClose, onSuccess }: ShareImportModa
           )}
 
           {isImporting && (
-            <div className="space-y-3">
+            <div className="space-y-3" role="status">
+              <p className="text-xs text-muted-foreground">正在导入，请保持此窗口打开。</p>
               <ProgressBar
                 value={importProgressController.progress}
                 status={importProgressController.status}
@@ -502,7 +540,7 @@ export function ShareImportModal({ isOpen, onClose, onSuccess }: ShareImportModa
 
           <div className="space-y-3 sm:space-y-4">
             <div>
-              <h3 className="text-xs sm:text-sm font-medium mb-2 sm:mb-3">默认词库（推荐）</h3>
+              <h3 className="text-sm font-medium mb-3">1. 选择要导入的词库</h3>
               {defaultVocabularies.isLoading ? (
                 <div className="space-y-2">
                   {[1, 2, 3].map((i) => (
@@ -525,6 +563,7 @@ export function ShareImportModal({ isOpen, onClose, onSuccess }: ShareImportModa
                     <p className="text-xs sm:text-sm text-destructive">
                       {defaultVocabularies.error}
                     </p>
+                    <Button variant="outline" size="sm" className="mt-2" onClick={() => setDefaultRetry((value) => value + 1)}>重新加载默认词库</Button>
                   </CardContent>
                 </Card>
               ) : defaultVocabularies.data.length === 0 ? (
@@ -541,7 +580,7 @@ export function ShareImportModal({ isOpen, onClose, onSuccess }: ShareImportModa
                     <Card
                       key={vocab.id}
                       className={cn(
-                        'cursor-pointer transition-all hover:bg-muted/50',
+                        'cursor-pointer transition-colors hover:bg-muted/50',
                         shareCode === vocab.code && 'bg-muted border-primary',
                       )}
                       onClick={() => handleSelectDefaultVocabulary(vocab)}
@@ -577,14 +616,14 @@ export function ShareImportModal({ isOpen, onClose, onSuccess }: ShareImportModa
                 <span className="w-full border-t" />
               </div>
               <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-background px-2 text-muted-foreground">或输入分享密钥</span>
+                <span className="bg-background px-2 text-muted-foreground">或输入分享码</span>
               </div>
             </div>
 
             <div className="space-y-3 sm:space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="shareCode" className="text-xs sm:text-sm">
-                  分享密钥
+                  分享码
                 </Label>
                 <Input
                   id="shareCode"
@@ -602,16 +641,18 @@ export function ShareImportModal({ isOpen, onClose, onSuccess }: ShareImportModa
                   </div>
                 )}
                 {validation.isValid === true && (
-                  <div className="flex items-center gap-2 text-xs text-green-600">
+                  <div className="flex items-center gap-2 text-xs text-foreground">
                     <CheckIcon className="size-3" />
-                    <span className="truncate">密钥有效：{validation.data?.wordCount} 个单词</span>
+                    <span className="truncate">分享码有效：{validation.data?.wordCount} 个单词</span>
                   </div>
                 )}
-                {validation.isValid === false && validation.error && (
-                  <div className="text-xs text-destructive break-words">{validation.error}</div>
+                {validation.error && (
+                  <div className="space-y-2"><p role="alert" className="text-xs text-destructive break-words">{validation.error}</p><Button type="button" size="sm" variant="outline" onClick={() => validateShareCode(shareCode)}>重新验证</Button></div>
                 )}
               </div>
 
+              {validation.isValid && validation.data && <div className="rounded-lg border border-border p-4 space-y-1"><h3 className="text-sm font-medium">词库预览 · {validation.data.name}</h3><p className="text-xs text-muted-foreground">{validation.data.wordCount} 个单词{validation.data.creator ? ` · 来自 ${validation.data.creator}` : ''}</p>{validation.data.description && <p className="text-xs text-muted-foreground break-words">{validation.data.description}</p>}</div>}
+              <h3 className="text-sm font-medium border-t pt-4">2. 确认存放位置</h3>
               <div className="space-y-2">
                 <Label htmlFor="customName" className="text-xs sm:text-sm">
                   词库名称
@@ -683,7 +724,7 @@ export function ShareImportModal({ isOpen, onClose, onSuccess }: ShareImportModa
               </div>
             </div>
           </div>
-        </div>
+        </fieldset>
 
         <DialogFooter className="flex flex-col sm:flex-row gap-2 sm:gap-3 pt-3 sm:pt-4 border-t mt-4 sm:mt-6">
           <Button
@@ -702,7 +743,7 @@ export function ShareImportModal({ isOpen, onClose, onSuccess }: ShareImportModa
               isImporting ||
               !shareCode ||
               !customName ||
-              validation.isValid === false ||
+              validation.isValid !== true ||
               (!createNewGroup && !targetGroupId)
             }
             className="w-full sm:w-auto order-1 sm:order-2"
@@ -714,7 +755,7 @@ export function ShareImportModal({ isOpen, onClose, onSuccess }: ShareImportModa
                 导入中...
               </>
             ) : (
-              '导入词库'
+              error ? '重试导入' : '确认并导入词库'
             )}
           </Button>
         </DialogFooter>

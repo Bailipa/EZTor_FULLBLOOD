@@ -1,5 +1,7 @@
 const MAX_ERROR_ENTRIES_PER_PROVIDER = 50
 const TRUNCATED_ERROR_LENGTH = 200
+const METRICS_RETENTION_MS = 24 * 60 * 60 * 1000
+const MAX_PROVIDERS = 200
 const METRICS_CLEANUP_INTERVAL = 5 * 60 * 1000
 
 function truncateError(error: string): string {
@@ -22,6 +24,10 @@ class MonitoringService {
   recordRequest(providerId: string, duration: number, success: boolean, error?: string) {
     const key = `provider:${providerId}`
     if (!this.metrics.has(key)) {
+      if (this.metrics.size >= MAX_PROVIDERS) {
+        const oldestKey = this.metrics.keys().next().value
+        if (oldestKey) this.metrics.delete(oldestKey)
+      }
       this.metrics.set(key, {
         totalRequests: 0,
         successfulRequests: 0,
@@ -51,6 +57,8 @@ class MonitoringService {
     }
     metric.totalDuration += duration
     metric.lastRequestAt = new Date()
+    this.metrics.delete(key)
+    this.metrics.set(key, metric)
   }
 
   getMetrics() {
@@ -60,6 +68,13 @@ class MonitoringService {
   getProviderStats(providerId: string) {
     const key = `provider:${providerId}`
     return this.metrics.get(key)
+  }
+
+  pruneExpired() {
+    const cutoff = Date.now() - METRICS_RETENTION_MS
+    for (const [key, metric] of this.metrics) {
+      if (metric.lastRequestAt.getTime() < cutoff) this.metrics.delete(key)
+    }
   }
 
   clear() {
@@ -73,8 +88,9 @@ let cleanupTimer: ReturnType<typeof setInterval> | null = null
 function ensureCleanupTimer() {
   if (cleanupTimer) return
   cleanupTimer = setInterval(() => {
-    monitoringService.clear()
+    monitoringService.pruneExpired()
   }, METRICS_CLEANUP_INTERVAL)
+  cleanupTimer.unref?.()
 }
 
 ensureCleanupTimer()

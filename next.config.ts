@@ -40,6 +40,9 @@ const nextConfig: NextConfig = {
     : { maxInactiveAge: 5 * 60 * 1000, pagesBufferLength: 8 },
   output: 'standalone',
   serverExternalPackages: ['svg-captcha'],
+  outputFileTracingIncludes: {
+    '/api/translate': ['./node_modules/ipa-dict/lib/en_US.js'],
+  },
   outputFileTracingExcludes: {
     // process.cwd() 动态 fs 路径会触发整项目追踪；排除非运行时目录，
     // 避免把源码/设计稿/构建产物打包进 standalone。
@@ -85,6 +88,8 @@ const nextConfig: NextConfig = {
     ],
   },
   experimental: {
+    // Local comparison for dev memory pressure; cache causality is unconfirmed.
+    turbopackFileSystemCacheForDev: false,
     // Avoid spawning a separate Node process for TypeScript checks on Windows,
     // which can fail with `spawn EPERM` in some environments.
     workerThreads: true,

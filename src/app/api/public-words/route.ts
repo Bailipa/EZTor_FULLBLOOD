@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { randomUUID } from 'crypto'
 import { getServerSession } from 'next-auth'
-import { authOptions } from '@/app/api/auth/[...nextauth]/route'
+import { authOptions } from '@/lib/authOptions'
 import prisma from '@/lib/prisma'
 import { cascadePublicWordToPrivate } from '@/lib/publicWordCascade'
 import { logger } from '@/lib/logger'

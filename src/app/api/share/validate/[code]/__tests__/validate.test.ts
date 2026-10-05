@@ -19,6 +19,7 @@ vi.mock('@/lib/prisma', () => {
     },
     sharedVocabularyImport: {
       findUnique: vi.fn(),
+      count: vi.fn(),
       delete: vi.fn(),
     },
     reviewGroup: {
@@ -59,7 +60,8 @@ describe('Share Validate API', () => {
   }
 
   beforeEach(() => {
-    vi.clearAllMocks()
+    vi.resetAllMocks()
+    vi.mocked(prisma.sharedVocabularyImport.count).mockResolvedValue(0)
     vi.mocked(getServerSession).mockResolvedValue(mockSession as any)
   })
 
@@ -172,6 +174,7 @@ describe('Share Validate API', () => {
         sharedId: mockShare.id,
         importerId: mockUserId,
         targetGroupId: 'existing-group-1',
+        status: 'COMPLETED',
       } as any)
       vi.mocked(prisma.reviewGroup.findUnique).mockResolvedValue({
         id: 'existing-group-1',
@@ -189,14 +192,8 @@ describe('Share Validate API', () => {
 
     it('should allow re-import when target group was deleted', async () => {
       vi.mocked(prisma.sharedVocabulary.findUnique).mockResolvedValue(mockShare as any)
-      vi.mocked(prisma.sharedVocabularyImport.findUnique).mockResolvedValue({
-        id: 'import-1',
-        sharedId: mockShare.id,
-        importerId: mockUserId,
-        targetGroupId: 'deleted-group-1',
-      } as any)
-      vi.mocked(prisma.reviewGroup.findUnique).mockResolvedValue(null)
-      vi.mocked(prisma.sharedVocabularyImport.delete).mockResolvedValue({ id: 'import-1' } as any)
+      // Group DELETE already removes the receipt; validation must not write receipts.
+      vi.mocked(prisma.sharedVocabularyImport.findUnique).mockResolvedValue(null)
       vi.mocked(prisma.sharedVocabulary.update).mockResolvedValue({} as any)
 
       const req = new Request('http://localhost/api/share/validate/ABC-234-XYZ')
@@ -204,6 +201,7 @@ describe('Share Validate API', () => {
       const data = await response.json()
 
       expect(data.valid).toBe(true)
+      expect(prisma.sharedVocabularyImport.delete).not.toHaveBeenCalled()
     })
   })
 

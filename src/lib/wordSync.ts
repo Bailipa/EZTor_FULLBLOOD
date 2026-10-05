@@ -1,3 +1,4 @@
+import { Prisma } from '@prisma/client'
 import prisma from '@/lib/prisma'
 import { logger } from '@/lib/logger'
 
@@ -301,28 +302,54 @@ export async function deduplicateUserWords(userId: string): Promise<{
 
     for (const [wordKey, duplicates] of wordMap) {
       if (duplicates.length > 1) {
-        result.duplicates += duplicates.length - 1
-        result.kept.push(duplicates[0].word)
-
-        const toRemove = duplicates.slice(1).map((w) => w.id)
-        result.removed.push(...duplicates.slice(1).map((w) => w.word))
-
-        await prisma.reviewGroupWord.deleteMany({
-          where: { wordId: { in: toRemove } },
+        const removed = await prisma.$transaction(async (tx) => {
+          const ids = duplicates.map((word) => word.id)
+          await tx.$queryRaw`SELECT id FROM "Word" WHERE id IN (${Prisma.join(ids)}) ORDER BY id FOR UPDATE`
+          const current = await tx.word.findMany({
+            where: { id: { in: ids }, userId },
+            orderBy: [{ updatedAt: 'desc' }, { id: 'asc' }],
+            include: { ReviewGroupWord: true },
+          })
+          if (current.length < 2) return []
+          const keep = current[0]
+          const srs = current.find((word) => word.dueDate &&
+            Number.isFinite(word.dueDate.getTime()) && word.intervalDays >= 0 &&
+            Number.isFinite(word.ease) && word.ease > 0 && word.repetitions >= 0 && word.lapses >= 0)
+          const correctCount = Math.max(...current.map((word) => word.correctCount))
+          const incorrectCount = Math.max(...current.map((word) => word.incorrectCount))
+          if (correctCount + incorrectCount > 2147483647) throw new Error('Merged practice counts exceed range')
+          await tx.word.update({
+            where: { id: keep.id },
+            data: {
+              correctCount, incorrectCount, totalAttempts: correctCount + incorrectCount,
+              ...(srs ? { dueDate: srs.dueDate, intervalDays: srs.intervalDays, ease: srs.ease,
+                repetitions: srs.repetitions, lapses: srs.lapses } : {}),
+            },
+          })
+          for (const word of current.slice(1)) {
+            for (const link of word.ReviewGroupWord) {
+              await tx.reviewGroupWord.upsert({
+                where: { reviewGroupId_wordId: { reviewGroupId: link.reviewGroupId, wordId: keep.id } },
+                update: {},
+                create: { reviewGroupId: link.reviewGroupId, wordId: keep.id, addedAt: link.addedAt },
+              })
+            }
+          }
+          await tx.word.deleteMany({ where: { id: { in: current.slice(1).map((word) => word.id) } } })
+          return current.slice(1).map((word) => word.word)
         })
+        result.duplicates += removed.length
+        if (removed.length) result.kept.push(duplicates[0].word)
+        result.removed.push(...removed)
 
-        await prisma.word.deleteMany({
-          where: { id: { in: toRemove } },
-        })
-
-        logger.info({ wordKey, removedCount: toRemove.length }, '[WordSync] Deduplicated')
+        logger.info({ wordKey, removedCount: removed.length }, '[WordSync] Deduplicated')
       }
     }
 
     return result
   } catch (error) {
     logger.error({ err: error }, '[WordSync] Error in deduplication')
-    return result
+    throw error
   }
 }
 

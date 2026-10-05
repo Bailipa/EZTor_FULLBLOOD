@@ -1,72 +1,101 @@
 import sharp from 'sharp'
-import { mkdirSync, existsSync, statSync } from 'fs'
-import { execSync } from 'child_process'
+import { mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import { execFileSync } from 'node:child_process'
 
-const SITE_ICON = '/tmp/site-icon.png'
-const OUT = 'public/icons'
-mkdirSync(OUT, { recursive: true })
+const sourcePath = 'public/icons/brand-master.png'
+const traySourcePath = 'public/icons/brand-mark-tray.svg'
+const source = readFileSync(sourcePath)
+const traySource = readFileSync(traySourcePath)
+const backgroundSample = await sharp(source).extract({ left: 0, top: 0, width: 1, height: 1 }).removeAlpha().raw().toBuffer()
+const background = { r: backgroundSample[0], g: backgroundSample[1], b: backgroundSample[2], alpha: 1 }
 
-async function sampleBg(img) {
-  const { data, info } = await img.raw().toBuffer({ resolveWithObject: true })
-  // 采样左上角像素决定纯色背景
-  const i = 0
-  const hasAlpha = info.channels === 4
-  if (hasAlpha && data[3] < 20) return '#ffffff'
-  return `rgb(${data[0]},${data[1]},${data[2]})`
+async function png(input, size, ensureAlpha = false) {
+  const resized = sharp(input).resize(size, size)
+  return (ensureAlpha ? resized.ensureAlpha() : resized).png().toBuffer()
+}
+
+async function writePng(input, size, path) {
+  await sharp(input).resize(size, size).png().toFile(path)
+}
+
+async function writeIco(path, sizes) {
+  const images = await Promise.all(sizes.map(async (size) => ({ size, data: await png(source, size, true) })))
+  const header = Buffer.alloc(6 + images.length * 16)
+  header.writeUInt16LE(0, 0)
+  header.writeUInt16LE(1, 2)
+  header.writeUInt16LE(images.length, 4)
+  let offset = header.length
+  images.forEach(({ size, data }, index) => {
+    const entry = 6 + index * 16
+    header.writeUInt8(size === 256 ? 0 : size, entry)
+    header.writeUInt8(size === 256 ? 0 : size, entry + 1)
+    header.writeUInt8(0, entry + 2)
+    header.writeUInt8(0, entry + 3)
+    header.writeUInt16LE(1, entry + 4)
+    header.writeUInt16LE(32, entry + 6)
+    header.writeUInt32LE(data.length, entry + 8)
+    header.writeUInt32LE(offset, entry + 12)
+    offset += data.length
+  })
+  writeFileSync(path, Buffer.concat([header, ...images.map(({ data }) => data)]))
+}
+
+async function writeIcos() {
+  await writeIco('src/app/favicon.ico', [16, 24, 32, 48, 64, 128, 256])
+  await writeIco('public/favicon.ico', [16, 24, 32, 48, 64, 128, 256])
+  await writeIco('public/eztor_favicon.ico', [16, 24, 32, 48, 64, 128, 256])
+  await writeIco('desktop/build/icon.ico', [16, 24, 32, 48, 64, 128, 256])
+  await writeIco('desktop/tray-icon.ico', [16, 24, 32, 48, 64])
 }
 
 async function main() {
-  if (!existsSync(SITE_ICON)) throw new Error('缺少站点图标 /tmp/site-icon.png')
-  const src = sharp(SITE_ICON)
-
-  // 1) PWA 常规图标
-  await src.clone().resize(192, 192).png().toFile(`${OUT}/icon-192.png`)
-  await src.clone().resize(512, 512).png().toFile(`${OUT}/icon-512.png`)
-
-  // 2) maskable：纯色背景 + 居中 72% 图标（预留安全区）
-  const bg = await sampleBg(src.clone())
-  await sharp({
-    create: { width: 512, height: 512, channels: 4, background: bg },
-  })
-    .composite([{ input: await src.clone().resize(370, 370).png().toBuffer(), gravity: 'center' }])
-    .png()
-    .toFile(`${OUT}/icon-maskable.png`)
-  console.log('PWA icons ok (bg=' + bg + ')')
-
-  // 3) Electron build icon
-  mkdirSync('desktop/build', { recursive: true })
-  await src.clone().resize(512, 512).png().toFile('desktop/build/icon.png')
-
-  // 4) Android mipmap
-  const mipmaps = [
-    ['mdpi', 48],
-    ['hdpi', 72],
-    ['xhdpi', 96],
-    ['xxhdpi', 144],
-    ['xxxhdpi', 192],
-  ]
-  for (const [d, s] of mipmaps) {
-    const dir = `android/app/src/main/res/mipmap-${d}`
-    mkdirSync(dir, { recursive: true })
-    await src.clone().resize(s, s).png().toFile(`${dir}/ic_launcher.png`)
+  if (process.argv[2] === '--ico-only') {
+    await writeIcos()
+    return
   }
-  console.log('android mipmaps ok')
+
+  mkdirSync('public/icons', { recursive: true })
+
+  await writePng(source, 192, 'public/icons/icon-192.png')
+  await writePng(source, 512, 'public/icons/icon-512.png')
+  const safeIcon = await png(source, 410)
+  await sharp({ create: { width: 512, height: 512, channels: 4, background } })
+    .composite([{ input: safeIcon, gravity: 'center' }])
+    .png()
+    .toFile('public/icons/icon-maskable.png')
+
+  await writePng(source, 512, 'desktop/icon-512.png')
+  await writePng(source, 512, 'desktop/build/icon.png')
+
+  const traySizes = [
+    ['desktop/tray-icon-16.png', 16],
+    ['desktop/tray-icon-32.png', 32],
+    ['desktop/tray-icon.png', 32],
+    ['desktop/tray-icon@2x.png', 64],
+  ]
+  for (const [path, size] of traySizes) await writePng(source, size, path)
+
+  for (const [path, size] of [['desktop/tray-icon-mac.png', 32], ['desktop/tray-icon-mac@2x.png', 64]]) {
+    await sharp(traySource).resize(size, size).png().toFile(path)
+  }
+  await writeIcos()
+
+  const mipmaps = [['mdpi', 48], ['hdpi', 72], ['xhdpi', 96], ['xxhdpi', 144], ['xxxhdpi', 192]]
+  for (const [density, size] of mipmaps) {
+    await writePng(source, size, `android/app/src/main/res/mipmap-${density}/ic_launcher.png`)
+  }
+
+  mkdirSync('desktop/build/icon.iconset', { recursive: true })
+  const iconset = 'desktop/build/icon.iconset'
+  for (const size of [16, 32, 128, 256, 512]) {
+    await writePng(source, size, `${iconset}/icon_${size}x${size}.png`)
+    await writePng(source, size * 2, `${iconset}/icon_${size}x${size}@2x.png`)
+  }
+  execFileSync('iconutil', ['-c', 'icns', iconset, '-o', 'desktop/build/icon.icns'])
+  rmSync(iconset, { recursive: true, force: true })
 }
 
-main()
-  .then(async () => {
-    // 重建 .icns（macOS iconutil）
-    const { execSync } = await import('child_process')
-    const ic = 'desktop/build/icon.iconset'
-    execSync(`rm -rf ${ic} && mkdir -p ${ic}`)
-    for (const s of [16, 32, 64, 128, 256, 512]) {
-      execSync(`sips -z ${s} ${s} desktop/build/icon.png --out ${ic}/icon_${s}x${s}.png >/dev/null 2>&1`)
-      execSync(`sips -z ${s * 2} ${s * 2} desktop/build/icon.png --out ${ic}/icon_${s}x${s}@2x.png >/dev/null 2>&1`)
-    }
-    execSync(`iconutil -c icns ${ic} -o desktop/build/icon.icns && rm -rf ${ic}`)
-    console.log('electron icns ok')
-  })
-  .catch((e) => {
-    console.error('FAIL', e)
-    process.exit(1)
-  })
+main().catch((error) => {
+  console.error(error)
+  process.exitCode = 1
+})

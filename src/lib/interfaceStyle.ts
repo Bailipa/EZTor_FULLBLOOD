@@ -2,6 +2,7 @@ export const INTERFACE_STYLES = [
   { id: 'reading', label: '静阅', description: '留白 · 专注阅读' },
   { id: 'studio', label: '工作台', description: '紧凑 · 高效整理' },
   { id: 'vivid', label: '悦学', description: '鲜明 · 轻快学习' },
+  { id: 'minimal', label: '极简', description: '黑白灰 · 清楚轻盈' },
 ] as const
 
 export type InterfaceStyle = (typeof INTERFACE_STYLES)[number]['id']

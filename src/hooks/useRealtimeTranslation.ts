@@ -5,6 +5,7 @@ import { toast } from 'sonner'
 import type { WordResult } from '@/types/api'
 import { triggerHapticFeedback } from '@/lib/hapticFeedback'
 import { scheduleSavedFeedback } from '@/lib/savedFeedbackScheduler'
+import { useInputDraft } from '@/hooks/useInputDraft'
 
 export interface WordEntry {
   id: string
@@ -73,6 +74,18 @@ function createEmptyEntry(): WordEntry {
   }
 }
 
+const entryDraftCodec = {
+  isEmpty: (entries: WordEntry[]) => entries.every((entry) => !entry.word),
+  encode: (entries: WordEntry[]) => entries.every((entry) => !entry.word) ? null : JSON.stringify(entries.map((entry) => entry.word)),
+  decode: (raw: string): WordEntry[] => {
+    const words: unknown = JSON.parse(raw)
+    if (!Array.isArray(words) || words.length > 500 || !words.every((word) => typeof word === 'string')) return [createEmptyEntry()]
+    return words.length ? words.map((word: string) => ({ ...createEmptyEntry(), word })) : [createEmptyEntry()]
+  },
+}
+
+const createInitialEntries = () => [createEmptyEntry()]
+
 function isInvalidForLibrary(item: {
   pos?: string | null
   translation?: string | null
@@ -112,8 +125,63 @@ function parseTranslationResults(streamText: string): WordResult[] {
   return results
 }
 
+type TranslationReceipt = {
+  type: 'translation-save'
+  words: Array<{ word: string; status: 'saved' | 'not-saved' | 'error' | 'skipped' }>
+  targetGroupId: string | null
+}
+
+async function readTranslationDelivery(response: Response, onFinal: (results: WordResult[]) => void) {
+  if (!response.body) throw new Error('ReadableStream not supported')
+  const reader = response.body.getReader()
+  const decoder = new TextDecoder('utf-8')
+  const deliveryEvents = response.headers.get('Content-Type')?.includes('application/x-ndjson')
+  let text = ''
+  let pending = ''
+  let finalResults: WordResult[] | null = null
+  let receipt: TranslationReceipt | null = null
+  const readFrame = (frame: string) => {
+    if (!frame.trim()) return
+    const parsed = JSON.parse(frame)
+    if (parsed.type === 'translation-final' && Array.isArray(parsed.results)) {
+      finalResults = parsed.results
+      onFinal(parsed.results)
+    } else if (parsed.type === 'translation-save' && Array.isArray(parsed.words)) {
+      receipt = parsed
+    }
+  }
+  try {
+    while (true) {
+      const { value, done } = await reader.read()
+      const chunk = done ? decoder.decode() : decoder.decode(value, { stream: true })
+      if (deliveryEvents) {
+        pending += chunk
+        const frames = pending.split('\n\n')
+        pending = frames.pop() || ''
+        for (const frame of frames) readFrame(frame)
+      } else {
+        text += chunk
+      }
+      if (done) break
+    }
+    if (deliveryEvents) {
+      readFrame(pending)
+      if (!finalResults) throw new Error('Translation finished without a valid result')
+    } else {
+      finalResults = parseTranslationResults(text)
+      if (finalResults.length) onFinal(finalResults)
+    }
+    return { results: finalResults || [], receipt: receipt as TranslationReceipt | null }
+  } catch (error) {
+    await reader.cancel().catch(() => {})
+    throw error
+  } finally {
+    reader.releaseLock()
+  }
+}
+
 export function useRealtimeTranslation({ showPos, showExample, targetGroupId, isGuest, autoSaveWords = true, soundEffectsEnabled = true }: UseRealtimeTranslationOptions) {
-  const [entries, setEntries] = useState<WordEntry[]>([createEmptyEntry()])
+  const [entries, setEntries, draftKey] = useInputDraft('realtime-translation', createInitialEntries, entryDraftCodec)
   const entriesRef = useRef(entries)
   useLayoutEffect(() => { entriesRef.current = entries }, [entries])
   const debounceMapRef = useRef<Map<string, DebouncedFunction>>(new Map())
@@ -134,29 +202,52 @@ export function useRealtimeTranslation({ showPos, showExample, targetGroupId, is
   } | null>(null)
 
   useEffect(() => {
+    setBatchProgress(null)
+    const debounces = debounceMapRef.current
+    const lookups = abortControllerRef.current
+    const saves = saveTimersRef.current
+    const saveControllers = saveControllersRef.current
+    const aiControllers = aiAbortControllersRef.current
+    const aiFlags = aiCancelledMapRef.current
+    const versions = queryVersionRef.current
+    const batchIds = batchEntryIdsRef.current
+    const aiInFlight = aiInFlightRef.current
     return () => {
       batchRunRef.current += 1
       activeBatchControllerRef.current?.abort()
-      debounceMapRef.current.forEach((fn) => fn.cancel())
-      abortControllerRef.current.forEach((controller) => controller.abort())
-      saveTimersRef.current.forEach((timer) => clearTimeout(timer))
-      saveControllersRef.current.forEach((controller) => controller.abort())
-      aiAbortControllersRef.current.forEach((controller) => controller.abort())
+      debounces.forEach((fn) => fn.cancel())
+      lookups.forEach((controller) => controller.abort())
+      saves.forEach((timer) => clearTimeout(timer))
+      saveControllers.forEach((controller) => controller.abort())
+      aiFlags.forEach((flag) => { flag.current = true })
+      aiControllers.forEach((controller) => controller.abort())
+      debounces.clear()
+      lookups.clear()
+      saves.clear()
+      saveControllers.clear()
+      aiControllers.clear()
+      aiFlags.clear()
+      versions.clear()
+      batchIds.clear()
+      aiInFlight.clear()
     }
-  }, [])
+  }, [draftKey])
 
   const updateEntry = useCallback((entryId: string, updates: Partial<WordEntry>) => {
     setEntries((prev) =>
       prev.map((entry) => (entry.id === entryId ? { ...entry, ...updates } : entry)),
     )
-  }, [])
+  }, [setEntries])
 
   const stopBatchRun = useCallback(() => {
     if (batchEntryIdsRef.current.size === 0) return
     batchRunRef.current += 1
     activeBatchControllerRef.current?.abort()
     for (const id of batchEntryIdsRef.current) {
-      updateEntry(id, { status: 'not-found', batchTranslation: false, batchQueued: false })
+      const entry = entriesRef.current.find((item) => item.id === id)
+      updateEntry(id, entry?.aiTranslated
+        ? { batchTranslation: false, batchQueued: false, saveStatus: entry.saveStatus === 'saving' ? 'error' : entry.saveStatus }
+        : { status: 'not-found', batchTranslation: false, batchQueued: false })
     }
     batchEntryIdsRef.current.clear()
     setBatchProgress((current) => current ? { ...current, status: 'stopped' } : current)
@@ -503,8 +594,11 @@ export function useRealtimeTranslation({ showPos, showExample, targetGroupId, is
 
   const retryPublicTranslation = useCallback((entryId: string) => {
     const entry = entriesRef.current.find((item) => item.id === entryId)
-    if (entry) updateWord(entryId, entry.word)
-  }, [updateWord])
+    if (!entry || !entry.word.trim()) return
+    updateWord(entryId, entry.word, true)
+    const version = queryVersionRef.current.get(entryId)!
+    void fetchPublicTranslation(entryId, entry.word, version)
+  }, [updateWord, fetchPublicTranslation])
 
   const cancelSave = useCallback((entryId: string) => {
     cancelSaveTimer(entryId)
@@ -519,7 +613,7 @@ export function useRealtimeTranslation({ showPos, showExample, targetGroupId, is
       queryVersionRef.current.set(entry.id, 1)
     })
     void fetchPublicTranslationBatch(imported)
-  }, [fetchPublicTranslationBatch])
+  }, [fetchPublicTranslationBatch, setEntries])
 
   const addEntry = useCallback(() => {
     const lastEntry = entriesRef.current[entriesRef.current.length - 1]
@@ -528,7 +622,7 @@ export function useRealtimeTranslation({ showPos, showExample, targetGroupId, is
     const entry = createEmptyEntry()
     setEntries((prev) => [...prev, entry])
     return entry.id
-  }, [])
+  }, [setEntries])
 
   const removeEntry = useCallback((entryId: string) => {
     if (batchEntryIdsRef.current.has(entryId)) stopBatchRun()
@@ -567,7 +661,7 @@ export function useRealtimeTranslation({ showPos, showExample, targetGroupId, is
       controller.abort()
       abortControllerRef.current.delete(entryId)
     }
-  }, [cancelSaveTimer, stopBatchRun])
+  }, [cancelSaveTimer, stopBatchRun, setEntries])
 
   const clearAll = useCallback(() => {
     stopBatchRun()
@@ -597,7 +691,7 @@ export function useRealtimeTranslation({ showPos, showExample, targetGroupId, is
     aiInFlightRef.current.clear()
 
     setEntries([createEmptyEntry()])
-  }, [stopBatchRun])
+  }, [stopBatchRun, setEntries])
 
   const translateSingle = useCallback(
     async (entryId: string) => {
@@ -623,6 +717,8 @@ export function useRealtimeTranslation({ showPos, showExample, targetGroupId, is
       cancelSaveTimer(entryId)
         updateEntry(entryId, { status: 'ai-loading', saveStatus: 'idle', batchTranslation: false, batchQueued: false, errorStage: undefined })
 
+      let hasFinalResult = false
+      let finalValidForLibrary = false
       try {
         const response = await fetch('/api/translate', {
           method: 'POST',
@@ -630,6 +726,7 @@ export function useRealtimeTranslation({ showPos, showExample, targetGroupId, is
           body: JSON.stringify({
             words: [entry.word.trim()],
             options: { showPos, showExample },
+            streamProtocol: 'delivery-v1',
             targetGroupId: targetGroupId === 'none' ? null : targetGroupId,
           }),
           signal: controller.signal,
@@ -640,50 +737,19 @@ export function useRealtimeTranslation({ showPos, showExample, targetGroupId, is
           throw new Error(errorData.error || 'Translation failed')
         }
 
-        if (!response.body) throw new Error('ReadableStream not supported')
-
-        const reader = response.body.getReader()
-        const decoder = new TextDecoder('utf-8')
-        let done = false
-        let accumulatedText = ''
-        let lastValidResult: WordResult | null = null
-
-        while (!done) {
-          const { value, done: doneReading } = await reader.read()
-          done = doneReading
-          if (value) {
-            accumulatedText += decoder.decode(value, { stream: true })
-
-            try {
-              const jsonBlocks = accumulatedText.split('\n\n').filter((b) => b.trim())
-              const lastBlock = jsonBlocks[jsonBlocks.length - 1] || ''
-              let cleanText = lastBlock.trim()
-
-              if (cleanText.startsWith('```json')) cleanText = cleanText.substring(7)
-              if (cleanText.startsWith('```')) cleanText = cleanText.substring(3)
-              if (cleanText.endsWith('```')) cleanText = cleanText.substring(0, cleanText.length - 3)
-              cleanText = cleanText.trim()
-
-              const parsedData = JSON.parse(cleanText)
-              if (parsedData?.results?.length > 0) {
-                lastValidResult = parsedData.results[0]
-              }
-            } catch {
-              // Continue parsing
-            }
-          }
-        }
-
-        if (queryVersionRef.current.get(entryId) !== version) return
-
-      if (lastValidResult) {
-          const validForLibrary = !isInvalidForLibrary(lastValidResult)
+        const delivery = await readTranslationDelivery(response, (results) => {
+          if (queryVersionRef.current.get(entryId) !== version || controller.signal.aborted) return
+          const result = results.find((item) => item.word.trim().toLocaleLowerCase() === entry.word.trim().toLocaleLowerCase())
+          if (!result) return
+          hasFinalResult = true
+          const validForLibrary = !isInvalidForLibrary(result)
+          finalValidForLibrary = validForLibrary
           updateEntry(entryId, {
-            translation: lastValidResult.translation,
-            phonetic: lastValidResult.phonetic,
-            pos: lastValidResult.pos,
-            example: lastValidResult.example,
-            exampleTranslation: lastValidResult.exampleTranslation,
+            translation: result.translation,
+            phonetic: result.phonetic,
+            pos: result.pos,
+            example: result.example,
+            exampleTranslation: result.exampleTranslation,
             status: 'found',
             isPublic: false,
             aiTranslated: true,
@@ -691,7 +757,18 @@ export function useRealtimeTranslation({ showPos, showExample, targetGroupId, is
             saveStatus: validForLibrary ? (autoSaveWords ? 'saving' : 'not-saved') : 'idle',
             saveTargetGroupId: targetGroupId === 'none' ? undefined : targetGroupId,
           })
+        })
+        if (queryVersionRef.current.get(entryId) !== version || controller.signal.aborted) return
+        const lastValidResult = delivery.results.find((item) => item.word.trim().toLocaleLowerCase() === entry.word.trim().toLocaleLowerCase())
+        if (lastValidResult) {
+          const validForLibrary = !isInvalidForLibrary(lastValidResult)
           if (validForLibrary && autoSaveWords) {
+            const receipt = delivery.receipt?.words.find((item) => item.word.trim().toLocaleLowerCase() === entry.word.trim().toLocaleLowerCase())
+            if (receipt && delivery.receipt?.targetGroupId === (targetGroupId === 'none' ? null : targetGroupId)) {
+              updateEntry(entryId, { saveStatus: receipt.status === 'saved' ? 'saved' : 'error' })
+              if (receipt.status === 'saved') scheduleSavedFeedback(soundEffectsEnabled)
+              return
+            }
             const params = new URLSearchParams({ word: entry.word.trim() })
             if (targetGroupId !== 'none') params.set('targetGroupId', targetGroupId)
             try {
@@ -724,7 +801,7 @@ export function useRealtimeTranslation({ showPos, showExample, targetGroupId, is
         if (error instanceof Error && error.name === 'AbortError') {
           if (cancelledByUser.current) {
             // 用户主动取消 → 静默退出、状态回到 not-found
-            updateEntry(entryId, { status: 'not-found', saveStatus: 'idle' })
+            updateEntry(entryId, hasFinalResult ? { saveStatus: !finalValidForLibrary ? 'idle' : autoSaveWords ? 'error' : 'not-saved' } : { status: 'not-found', saveStatus: 'idle' })
             return
           }
           toast.error('请求超时')
@@ -732,7 +809,7 @@ export function useRealtimeTranslation({ showPos, showExample, targetGroupId, is
           const err = error as Error
           toast.error(err.message || '翻译失败')
         }
-        updateEntry(entryId, { status: 'error', errorStage: 'ai' })
+        updateEntry(entryId, hasFinalResult ? { saveStatus: !finalValidForLibrary ? 'idle' : autoSaveWords ? 'error' : 'not-saved' } : { status: 'error', errorStage: 'ai' })
       } finally {
         // 只在"我还是当前那次"时清理
         if (aiAbortControllersRef.current.get(entryId) === controller) {
@@ -762,6 +839,8 @@ export function useRealtimeTranslation({ showPos, showExample, targetGroupId, is
       updateEntry(item.id, { status: 'ai-loading', batchTranslation: true, batchQueued: false, saveStatus: 'idle', errorStage: undefined })
     }
 
+    const deliveredIds = new Set<string>()
+    const validDeliveredIds = new Set<string>()
     try {
       const response = await fetch('/api/translate', {
         method: 'POST',
@@ -769,6 +848,7 @@ export function useRealtimeTranslation({ showPos, showExample, targetGroupId, is
         body: JSON.stringify({
           words: items.map((item) => item.word),
           options: { showPos, showExample },
+          streamProtocol: 'delivery-v1',
           targetGroupId: targetGroupId === 'none' ? null : targetGroupId,
         }),
         signal: controller.signal,
@@ -782,49 +862,56 @@ export function useRealtimeTranslation({ showPos, showExample, targetGroupId, is
         }
         throw new Error(errorData.error || '批量 AI 翻译失败')
       }
-      if (!response.body) throw new Error('当前浏览器无法读取翻译结果流')
+      const delivery = await readTranslationDelivery(response, (results) => {
+        if (runId !== batchRunRef.current || controller.signal.aborted) return
+        const resultByWord = new Map(results.map((result) => [result.word.trim().toLocaleLowerCase(), result]))
+        for (const item of items) {
+          if (queryVersionRef.current.get(item.id) !== item.version) continue
+          const result = resultByWord.get(item.word.toLocaleLowerCase())
+          if (!result) {
+            updateEntry(item.id, deliveredIds.has(item.id)
+              ? { saveStatus: autoSaveWords ? 'error' : 'not-saved', batchTranslation: false }
+              : { status: 'error', saveStatus: 'idle', batchTranslation: false, errorStage: 'ai' })
+            continue
+          }
 
-      const reader = response.body.getReader()
-      const decoder = new TextDecoder('utf-8')
-      let streamText = ''
-      while (true) {
-        const { value, done } = await reader.read()
-        if (done) break
-        streamText += decoder.decode(value, { stream: true })
-      }
-      streamText += decoder.decode()
+          deliveredIds.add(item.id)
+          const validForLibrary = !isInvalidForLibrary(result)
+          if (validForLibrary) validDeliveredIds.add(item.id)
+          updateEntry(item.id, {
+            translation: result.translation || '',
+            phonetic: result.phonetic || undefined,
+            pos: result.pos || undefined,
+            example: result.example || undefined,
+            exampleTranslation: result.exampleTranslation || undefined,
+            status: 'found',
+            isPublic: false,
+            aiTranslated: true,
+            errorStage: undefined,
+            batchTranslation: false,
+            saveStatus: !validForLibrary ? 'idle' : autoSaveWords ? 'saving' : 'not-saved',
+            saveTargetGroupId: targetGroupId === 'none' ? undefined : targetGroupId,
+          })
 
-      if (runId !== batchRunRef.current) return 'cancelled'
-      const resultByWord = new Map(
-        parseTranslationResults(streamText).map((result) => [result.word.trim().toLocaleLowerCase(), result]),
-      )
+        }
+      })
+      if (runId !== batchRunRef.current || controller.signal.aborted) return 'cancelled'
+      const resultByWord = new Map(delivery.results.map((result) => [result.word.trim().toLocaleLowerCase(), result]))
       const saveChecks: Promise<void>[] = []
 
       for (const item of items) {
         if (queryVersionRef.current.get(item.id) !== item.version) continue
         const result = resultByWord.get(item.word.toLocaleLowerCase())
-        if (!result) {
-          updateEntry(item.id, { status: 'error', saveStatus: 'idle', batchTranslation: false, errorStage: 'ai' })
-          continue
-        }
-
+        if (!result) continue
         const validForLibrary = !isInvalidForLibrary(result)
-        updateEntry(item.id, {
-          translation: result.translation || '',
-          phonetic: result.phonetic || undefined,
-          pos: result.pos || undefined,
-          example: result.example || undefined,
-          exampleTranslation: result.exampleTranslation || undefined,
-          status: 'found',
-          isPublic: false,
-          aiTranslated: true,
-          errorStage: undefined,
-          batchTranslation: false,
-          saveStatus: !validForLibrary ? 'idle' : autoSaveWords ? 'saving' : 'not-saved',
-          saveTargetGroupId: targetGroupId === 'none' ? undefined : targetGroupId,
-        })
-
         if (validForLibrary && autoSaveWords) {
+          const receipt = delivery.receipt?.words.find((saved) => saved.word.trim().toLocaleLowerCase() === item.word.toLocaleLowerCase())
+          if (receipt && delivery.receipt?.targetGroupId === (targetGroupId === 'none' ? null : targetGroupId)) {
+            updateEntry(item.id, { saveStatus: receipt.status === 'saved' ? 'saved' : 'error' })
+            if (receipt.status === 'saved') scheduleSavedFeedback(soundEffectsEnabled)
+            else triggerHapticFeedback('error')
+            continue
+          }
           const params = new URLSearchParams({ word: item.word })
           if (targetGroupId !== 'none') params.set('targetGroupId', targetGroupId)
           saveChecks.push((async () => {
@@ -851,12 +938,14 @@ export function useRealtimeTranslation({ showPos, showExample, targetGroupId, is
       await Promise.all(saveChecks)
       return 'success'
     } catch (error) {
-      if (controller.signal.aborted || runId !== batchRunRef.current) return 'cancelled'
+      if (runId !== batchRunRef.current) return 'cancelled'
       const message = error instanceof Error ? error.message : '批量 AI 翻译失败'
       toast.error(message)
       for (const item of items) {
         if (queryVersionRef.current.get(item.id) === item.version) {
-          updateEntry(item.id, { status: 'error', saveStatus: 'idle', batchTranslation: false, errorStage: 'ai' })
+          updateEntry(item.id, deliveredIds.has(item.id)
+            ? { saveStatus: !validDeliveredIds.has(item.id) ? 'idle' : autoSaveWords ? 'error' : 'not-saved', batchTranslation: false }
+            : { status: 'error', saveStatus: 'idle', batchTranslation: false, errorStage: 'ai' })
         }
       }
       return 'failed'

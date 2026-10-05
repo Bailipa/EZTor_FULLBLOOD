@@ -1,5 +1,5 @@
 import { getServerSession } from 'next-auth'
-import { authOptions } from '@/app/api/auth/[...nextauth]/route'
+import { authOptions } from '@/lib/authOptions'
 import prisma from '@/lib/prisma'
 import { createSuccessResponse, createErrorResponse } from '@/lib/apiErrorHandler'
 import { logger } from '@/lib/logger'
@@ -40,7 +40,7 @@ export async function GET(req: Request, { params }: { params: Promise<{ id: stri
 
     // Query import records
     const imports = await prisma.sharedVocabularyImport.findMany({
-      where: { sharedId: id },
+      where: { sharedId: id, status: 'COMPLETED' },
       include: {
         User: {
           select: {

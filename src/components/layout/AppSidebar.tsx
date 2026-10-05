@@ -24,6 +24,7 @@ import styles from '@/components/ai/translation-workspace.module.css'
 import workbench from './desktop-workbench.module.css'
 import { getWorkspaceSection } from './workspace-navigation'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
+import { useMinimalFeatures } from '@/components/interface-style-provider'
 import { useQQGroupUrl } from '@/lib/siteConfig'
 
 export interface SidebarNavItem {
@@ -55,6 +56,7 @@ const DEFAULT_NAV_ITEMS: SidebarNavItem[] = [
 ]
 
 export default function AppSidebar({ navItems, bottomItems, showDonation = true }: AppSidebarProps) {
+  const { mainVisible } = useMinimalFeatures()
   const pathname = usePathname()
   const router = useRouter()
   const qqGroupUrl = useQQGroupUrl()
@@ -69,6 +71,7 @@ export default function AppSidebar({ navItems, bottomItems, showDonation = true 
   const downloadLabel = isApp ? '更新软件' : '下载应用'
 
   const visibleItems = items.filter((item) => {
+    if (!mainVisible(item.href)) return false
     if (item.href !== '/download') return true
     if (!isApp) return true
     return appVer.hasUpdate === true
@@ -90,9 +93,9 @@ export default function AppSidebar({ navItems, bottomItems, showDonation = true 
   const bottoms = bottomItems ?? defaultBottomItems
 
   return (
-    <aside data-workspace-sidebar={!navItems || undefined} className={`${styles.sidebar} ${!navItems ? workbench.sidebar : ''} hidden md:flex md:flex-col md:fixed md:left-0 md:top-0 md:bottom-0 md:w-[72px] xl:w-[208px] bg-sidebar border-r border-sidebar-border z-30`}>
-      <div className={`${styles.sidebarBrand} flex items-center justify-center xl:justify-start gap-3 px-2 xl:px-6 shrink-0`}>
-        <img src="/favicon.ico" alt="EZTor" className="w-8 h-8 rounded-lg" />
+    <aside data-minimal-surface data-workspace-sidebar={!navItems || undefined} className={`${styles.sidebar} ${!navItems ? workbench.sidebar : ''} hidden md:flex md:flex-col md:fixed md:left-0 md:top-0 md:bottom-0 md:w-[72px] xl:w-[208px] bg-sidebar border-r border-sidebar-border z-30`}>
+      <div data-minimal-surface className={`${styles.sidebarBrand} flex items-center justify-center xl:justify-start gap-3 px-2 xl:px-6 shrink-0`}>
+        <img src="/favicon.ico" alt="EZTor" loading="lazy" className="w-8 h-8 rounded-lg" />
         <span data-sidebar-label className="hidden xl:inline font-semibold text-sidebar-foreground text-base">
           EZTor
         </span>

@@ -1,6 +1,5 @@
-import prisma from '@/lib/prisma'
 import { logger } from '@/lib/logger'
-import { getTodayDateUTC8 } from '@/lib/dateUtils'
+import { rolloverGamePower } from '@/lib/gamePowerPeriods'
 
 function getNextCheckMs(): number {
   const now = new Date()
@@ -11,71 +10,29 @@ function getNextCheckMs(): number {
   return nextMidnight.getTime() - utc8.getTime()
 }
 
-async function weeklyReset() {
-  try {
-    await prisma.userGameProfile.updateMany({
-      data: { weeklyPower: 0 },
-    })
-    logger.info('[Gamification] Weekly power reset completed')
-  } catch (err) {
-    logger.error({ err }, '[Gamification] Weekly reset failed')
-  }
-}
-
-async function monthlyReset() {
-  try {
-    await prisma.userGameProfile.updateMany({
-      data: { monthlyPower: 0 },
-    })
-    logger.info('[Gamification] Monthly power reset completed')
-  } catch (err) {
-    logger.error({ err }, '[Gamification] Monthly reset failed')
-  }
-}
-
 async function checkAndRunResets() {
-  const today = getTodayDateUTC8()
-  const now = new Date()
-
-  const profile = await prisma.userGameProfile.findFirst({
-    select: { lastWeeklyReset: true, lastMonthlyReset: true },
-  })
-
-  if (!profile) return
-
-  const utc8 = new Date(now.getTime() + 8 * 60 * 60 * 1000)
-  const dayOfWeek = utc8.getUTCDay()
-  const dayOfMonth = utc8.getUTCDate()
-
-  if (dayOfWeek === 1 && (!profile.lastWeeklyReset || profile.lastWeeklyReset.toISOString().split('T')[0] !== today)) {
-    await weeklyReset()
-    await prisma.userGameProfile.updateMany({
-      data: { lastWeeklyReset: now },
-    })
-  }
-
-  if (dayOfMonth === 1 && (!profile.lastMonthlyReset || profile.lastMonthlyReset.toISOString().split('T')[0] !== today)) {
-    await monthlyReset()
-    await prisma.userGameProfile.updateMany({
-      data: { lastMonthlyReset: now },
-    })
+  try {
+    const count = await rolloverGamePower()
+    if (count > 0) logger.info({ count }, '[Gamification] Power periods advanced')
+  } catch (err) {
+    logger.error({ err }, '[Gamification] Reset check failed; next check will retry')
   }
 }
+
+const scheduler = globalThis as typeof globalThis & { gamificationResetsScheduled?: boolean }
 
 export function scheduleGamificationResets() {
-  const checkInterval = 60 * 60 * 1000
+  if (scheduler.gamificationResetsScheduled) return
+  scheduler.gamificationResetsScheduled = true
 
-  setTimeout(() => {
-    checkAndRunResets().catch((err) => {
-      logger.error({ err }, '[Gamification] Reset check failed')
-    })
-
-    setInterval(() => {
-      checkAndRunResets().catch((err) => {
-        logger.error({ err }, '[Gamification] Reset check failed')
-      })
-    }, checkInterval)
+  // Catch up after downtime, including a restart after Monday/month start.
+  void checkAndRunResets()
+  const midnightTimer = setTimeout(() => {
+    void checkAndRunResets()
+    const checkTimer = setInterval(() => void checkAndRunResets(), 60 * 60 * 1000)
+    checkTimer.unref()
   }, getNextCheckMs())
+  midnightTimer.unref()
 
   logger.info('[Gamification] Reset scheduler initialized')
 }

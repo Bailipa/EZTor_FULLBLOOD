@@ -1,6 +1,8 @@
 'use client'
 
 import { useEffect, useId, useMemo, useRef, useState, type PointerEvent as ReactPointerEvent } from 'react'
+import Link from 'next/link'
+import { useMinimalFeatures } from '@/components/interface-style-provider'
 import { motion } from 'framer-motion'
 import { useReducedInterfaceMotion } from '@/hooks/useReducedInterfaceMotion'
 import { usePanelSwipe } from '@/hooks/usePanelSwipe'
@@ -12,6 +14,7 @@ import { WordTranslationPanel } from '@/components/home/WordTranslationPanel'
 import { useLoginPrompt } from '@/components/ui/login-prompt-modal'
 import type { ReviewGroup } from '@/types/api'
 import { readExperiencePreferences } from '@/lib/experiencePreferences'
+import { readUserPreferences, subscribeUserPreferences } from '@/lib/userPreferences'
 import styles from './translation-workspace.module.css'
 
 const ZhEnAssistant = dynamic(
@@ -37,7 +40,6 @@ const translationModes: { value: TranslationMode; label: string }[] = [
   { value: 'chat', label: '聊天室' },
 ]
 
-const panelModes = translationModes.map((mode) => mode.value)
 
 const translationNavigationStoragePrefix = 'eztor:translation-navigation:v1:'
 
@@ -46,6 +48,9 @@ function getTranslationNavigationStorageKey(scope: string) {
 }
 
 export function TranslationWorkspace() {
+  const { minimal, ready: featuresReady, visible: featureVisible } = useMinimalFeatures()
+  const visibleModes = translationModes.filter(({ value }) => featureVisible('translation', value))
+  const panelModes = visibleModes.map(({ value }) => value)
   const indicatorId = useId()
   const reducedMotion = useReducedInterfaceMotion()
   const { data: session, status } = useSession()
@@ -55,10 +60,11 @@ export function TranslationWorkspace() {
   const [task, setTask] = useState<TranslationTask>('realtime')
   const [assistantView, setAssistantView] = useState<AssistantView>('zh-en')
   const [conversationView, setConversationView] = useState<'ai' | 'chat'>('ai')
-  const [deskLayout, setDeskLayout] = useState<DeskLayout>('single')
+  const [viewportLayout, setDeskLayout] = useState<DeskLayout>('single')
+  const deskLayout = minimal ? 'single' : viewportLayout
   const [openedModes, setOpenedModes] = useState<AssistantView[]>([])
   const [loadedNavigationScope, setLoadedNavigationScope] = useState<string | null>(null)
-  const navigationReady = !!navigationScope && loadedNavigationScope === navigationScope
+  const navigationReady = featuresReady && !!navigationScope && loadedNavigationScope === navigationScope
   const mainRef = useRef<HTMLElement>(null)
   const [showPhonetic, setShowPhonetic] = useState(true)
   const [showPos, setShowPos] = useState(true)
@@ -70,6 +76,7 @@ export function TranslationWorkspace() {
   const [soundEffectsEnabled, setSoundEffectsEnabled] = useState(true)
   const [preferencesReady, setPreferencesReady] = useState(false)
   const [preferencesLoadError, setPreferencesLoadError] = useState(false)
+  const realtimeEnabled = featureVisible('translation', 'realtime')
   const realtimeWordRequestId = useRef(0)
   const lineGesture = useRef<{ pointerId: number; startX: number; startY: number; moved: boolean; target: HTMLButtonElement; bounds: { left: number; width: number } } | null>(null)
   const lineMoveFrame = useRef<number | null>(null)
@@ -178,52 +185,60 @@ export function TranslationWorkspace() {
 
   useEffect(() => {
     if (status === 'loading') return
-    if (!isAuthenticated) {
+    if (!isAuthenticated || !userId) {
       setGroups([])
+      setAutoSaveWords(true)
+      setSoundEffectsEnabled(true)
+      setPreferencesLoadError(false)
       setPreferencesReady(true)
       return
     }
 
     let cancelled = false
     setPreferencesReady(false)
-    fetch('/api/review-groups')
-      .then((response) => response.json())
-      .then((groupResult) => {
-        if (!cancelled && groupResult?.success && Array.isArray(groupResult.data)) {
-          setGroups(groupResult.data)
-        }
-      })
-      .catch(() => {})
-
-    fetch('/api/preferences')
-      .then((response) => response.json())
-      .catch(() => null)
-      .then((preferenceResult) => {
+    const controller = new AbortController()
+    const apply = (data: Awaited<ReturnType<typeof readUserPreferences>>) => {
       if (cancelled) return
-      if (preferenceResult?.success && typeof preferenceResult.data?.autoSaveWords === 'boolean') {
-        setAutoSaveWords(preferenceResult.data.autoSaveWords)
-        setSoundEffectsEnabled(preferenceResult.data.soundEffectsEnabled ?? true)
-        setPreferencesLoadError(false)
-      } else {
-        setAutoSaveWords(true)
-        setSoundEffectsEnabled(true)
-        setPreferencesLoadError(true)
-      }
+      setAutoSaveWords(data.autoSaveWords)
+      setSoundEffectsEnabled(data.soundEffectsEnabled ?? true)
+      setPreferencesLoadError(false)
       setPreferencesReady(true)
-      })
+    }
+    const unsubscribe = subscribeUserPreferences(userId, ['autoSaveWords', 'soundEffectsEnabled'], apply)
+    readUserPreferences(userId, controller.signal).then(apply).catch(() => {
+      if (cancelled) return
+      setAutoSaveWords(true)
+      setSoundEffectsEnabled(true)
+      setPreferencesLoadError(true)
+      setPreferencesReady(true)
+    })
 
     return () => {
       cancelled = true
+      unsubscribe()
+      controller.abort()
     }
   }, [isAuthenticated, status, userId])
+
+  useEffect(() => {
+    if (!isAuthenticated || !featuresReady || !realtimeEnabled) { setGroups([]); return }
+    const controller = new AbortController()
+    fetch('/api/review-groups', { signal: controller.signal })
+      .then((response) => response.json())
+      .then((result) => {
+        if (!controller.signal.aborted && result?.success && Array.isArray(result.data)) setGroups(result.data)
+      }).catch(() => {})
+    return () => controller.abort()
+  }, [isAuthenticated, featuresReady, realtimeEnabled, userId])
 
   const tabClass = (active: boolean) =>
     `${styles.taskTab} ${active ? styles.activeTab : ''}`
 
-  const selectedMode: TranslationMode = task === 'realtime' ? 'realtime' : assistantView
+  const requestedMode: TranslationMode = task === 'realtime' ? 'realtime' : assistantView
+  const selectedMode = panelModes.includes(requestedMode) ? requestedMode : panelModes[0]
   const modeAtPointer = (clientX: number, bounds: { left: number; width: number }) => {
     const position = Math.max(0, Math.min(0.9999, (clientX - bounds.left) / bounds.width))
-    return translationModes[Math.floor(position * translationModes.length)].value
+    return visibleModes[Math.floor(position * visibleModes.length)]?.value
   }
   const lineShiftAtPointer = (clientX: number, bounds: { left: number; width: number }) => {
     const offset = Math.max(1, Math.min(81, ((clientX - bounds.left) / bounds.width) * 100 - 9))
@@ -232,13 +247,14 @@ export function TranslationWorkspace() {
 
   const carryToRealtime = (word: string) => {
     const value = word.trim()
-    if (!value) return
+    if (!value || !realtimeEnabled) return
     realtimeWordRequestId.current += 1
     setPendingRealtimeWord({ word: value, requestId: realtimeWordRequestId.current })
     setTask('realtime')
   }
 
-  const selectMode = (nextMode: TranslationMode) => {
+  const selectMode = (nextMode: TranslationMode | undefined) => {
+    if (!nextMode || !featureVisible('translation', nextMode)) return false
     if (nextMode === 'chat') {
       if (!isAuthenticated) {
         promptLogin('聊天室')
@@ -269,11 +285,11 @@ export function TranslationWorkspace() {
     return true
   }
 
-  usePanelSwipe(mainRef, selectedMode, panelModes, (mode) => {
+  usePanelSwipe(mainRef, selectedMode ?? 'realtime', panelModes, (mode) => {
     if (!selectMode(mode)) return false
     playFeedbackSound('swipe')
     return true
-  }, navigationReady && deskLayout === 'single')
+  }, !!selectedMode && navigationReady && deskLayout === 'single')
 
   const handleLinePointerDown = (event: ReactPointerEvent<HTMLButtonElement>) => {
     if (!event.isPrimary || event.button !== 0 || lineGesture.current) return
@@ -335,7 +351,7 @@ export function TranslationWorkspace() {
           <button
             type="button"
             className={styles.navigationLine}
-            disabled={!navigationReady}
+            disabled={!navigationReady || !selectedMode}
             aria-label={`滑动或点击导航线选择翻译功能；当前为${translationModes.find((mode) => mode.value === selectedMode)?.label}`}
             data-mode={selectedMode}
             onPointerDown={handleLinePointerDown}
@@ -345,10 +361,10 @@ export function TranslationWorkspace() {
             onKeyDown={(event) => {
               if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return
               event.preventDefault()
-              const currentIndex = translationModes.findIndex((mode) => mode.value === selectedMode)
+              const currentIndex = visibleModes.findIndex((mode) => mode.value === selectedMode)
               const offset = event.key === 'ArrowRight' ? 1 : -1
-              const nextIndex = (currentIndex + offset + translationModes.length) % translationModes.length
-              selectMode(translationModes[nextIndex].value)
+              const nextIndex = (currentIndex + offset + visibleModes.length) % visibleModes.length
+              selectMode(visibleModes[nextIndex]?.value)
             }}
             onClick={(event) => {
               if (suppressLineClick.current) {
@@ -367,16 +383,17 @@ export function TranslationWorkspace() {
           </button>
           <div className={styles.translationControls}>
             <div className={styles.taskTabs} role="group" aria-label="翻译与聊天">
-              {translationModes.map(({ value, label }) => {
+              {visibleModes.map(({ value, label }) => {
                 const active = selectedMode === value
                 return (
-                  <button key={value} type="button" disabled={!navigationReady} aria-pressed={active} className={tabClass(active)} onClick={() => selectMode(value)}>
+                  <button key={value} type="button" disabled={!navigationReady || !selectedMode} aria-pressed={active} className={tabClass(active)} onClick={() => selectMode(value)}>
                     {label}{active && <motion.span aria-hidden className={styles.tabIndicator} layoutId={reducedMotion ? undefined : indicatorId} initial={false} transition={reducedMotion ? { duration: 0 } : { type: 'spring', stiffness: 420, damping: 34 }} />}
                   </button>
                 )
               })}
             </div>
           </div>
+          {minimal && <Link href="/me#minimal-features" className="text-xs text-muted-foreground underline">显示功能设置</Link>}
         </div>
       </header>
 
@@ -385,9 +402,11 @@ export function TranslationWorkspace() {
           <div className="flex min-h-32 items-center justify-center gap-2 text-sm text-muted-foreground" role="status">
             <Loader2 className="size-4 animate-spin" />正在恢复翻译界面…
           </div>
+        ) : !selectedMode ? (
+          <p role="status" className="p-6 text-sm text-muted-foreground">翻译栏目已隐藏，可在设置中恢复。</p>
         ) : (
           <div data-translation-panels className={styles.deskPanels}>
-            <section data-desk-mode="realtime" data-desk-active={selectedMode === 'realtime'} data-panel-swipe-active={selectedMode === 'realtime'} className={deskLayout !== 'single' || task === 'realtime' ? styles.taskPanel : 'hidden'} aria-label="实时翻译">
+            {realtimeEnabled && (!minimal || selectedMode === 'realtime') && <section data-desk-mode="realtime" data-desk-active={selectedMode === 'realtime'} data-panel-swipe-active={selectedMode === 'realtime'} className={deskLayout !== 'single' || selectedMode === 'realtime' ? styles.taskPanel : 'hidden'} aria-label="实时翻译">
               <h2 className={styles.deskPanelHeading}>实时翻译</h2>
               <div data-workspace-translation-content className={styles.translationPage}>
                 {status === 'loading' || (isAuthenticated && !preferencesReady) ? (
@@ -418,20 +437,26 @@ export function TranslationWorkspace() {
                   </>
                 )}
               </div>
-            </section>
+            </section>}
 
             {(['zh-en', 'text', 'ai', 'chat'] as AssistantView[]).map((mode) => {
+              if (!featureVisible('translation', mode)) return null
               const visible = deskLayout === 'full'
                 ? mode === 'zh-en' || mode === 'text' || mode === conversationView
-                : deskLayout === 'split' ? mode === assistantView : task === 'supplement' && mode === assistantView
-              if (!visible && !openedModes.includes(mode)) return null
+                : deskLayout === 'split' ? mode === assistantView : mode === selectedMode
+              if (!visible && (minimal || !openedModes.includes(mode))) return null
               const conversation = mode === 'ai' || mode === 'chat'
               return (
                 <section key={`${navigationScope}:${mode}`} data-desk-mode={mode} data-desk-active={selectedMode === mode} data-panel-swipe-active={selectedMode === mode} className={visible ? `${conversation ? styles.fillPanel : ''} ${styles.taskPanel}` : 'hidden'} aria-label={translationModes.find((item) => item.value === mode)?.label}>
                   {!conversation && <h2 className={styles.deskPanelHeading}>{mode === 'zh-en' ? '中译英' : '译句子'}</h2>}
                   <div data-workspace-translation-content data-chat-content={conversation} className={`${styles.translationPage} ${conversation ? styles.assistantPage : ''}`}>
-                    {mode === 'chat' ? <ChatRoom active={visible} /> : (
-                      <ZhEnAssistant view={mode} onViewChange={selectMode} onCarryToRealtime={carryToRealtime} groups={groupOptions} />
+                    {minimal && !isAuthenticated && mode !== 'zh-en' ? (
+                      <div className="flex min-h-32 flex-col items-center justify-center gap-3 p-6 text-sm">
+                        <p>登录后使用{translationModes.find((item) => item.value === mode)?.label}</p>
+                        <button type="button" className="min-h-9 text-primary underline" onClick={() => promptLogin(translationModes.find((item) => item.value === mode)?.label ?? '翻译功能')}>登录</button>
+                      </div>
+                    ) : mode === 'chat' ? <ChatRoom active={visible} /> : (
+                      <ZhEnAssistant view={mode} onViewChange={selectMode} onCarryToRealtime={realtimeEnabled ? carryToRealtime : undefined} groups={groupOptions} />
                     )}
                   </div>
                 </section>

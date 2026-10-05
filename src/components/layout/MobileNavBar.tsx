@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { Dialog } from 'radix-ui'
 import { Home, PenTool, Sparkles, Settings2, Grid2X2, LockKeyhole, BookOpen, Trophy, MonitorDown, Coffee, MonitorPlay } from 'lucide-react'
 import { useSession } from 'next-auth/react'
+import { useMinimalFeatures } from '@/components/interface-style-provider'
 import styles from './mobile-navigation.module.css'
 import { useKeyboardVisibility } from '@/components/layout/NativeKeyboardLayoutProvider'
 import { DonationDialog } from '@/components/home/DonationModal'
@@ -45,6 +46,8 @@ function matchesPage(href: string, pathname: string) {
 }
 
 export default function MobileNavBar() {
+  const { mainVisible, visible } = useMinimalFeatures()
+  const showDanmaku = visible('main', 'danmaku')
   const pathname = usePathname()
   const router = useRouter()
   const { data: session, status } = useSession()
@@ -121,7 +124,7 @@ export default function MobileNavBar() {
     }
     if (isInside(downloadActionRef.current)) return downloadTarget
     if (isInside(donationActionRef.current)) return donationTarget
-    if (isInside(danmakuActionRef.current)) return danmakuTarget
+    if (showDanmaku && isInside(danmakuActionRef.current)) return danmakuTarget
     const topActionEdge = Math.min(160, Math.max(88, window.innerHeight * 0.18))
     if (clientY <= topActionEdge) {
       if (clientX <= window.innerWidth * 0.4) return downloadTarget
@@ -136,10 +139,11 @@ export default function MobileNavBar() {
 
     const distance = Math.hypot(x, y)
     if (distance < 38 || distance > 240 || y > -8) return null
-    if (Math.abs(x) <= 38 && y <= -44 && y >= -150) return danmakuTarget
+    if (showDanmaku && Math.abs(x) <= 38 && y <= -44 && y >= -150) return danmakuTarget
     let best: number | null = null
     let alignment = Math.cos(27 * Math.PI / 180)
     navItems.forEach((item, index) => {
+      if (!mainVisible(item.href)) return
       const itemX = window.innerWidth < 360 ? item.x * 0.84 : item.x
       const itemY = -item.y * (window.innerWidth < 360 ? 0.84 : 1)
       const score = (x * itemX + y * itemY) / (distance * Math.hypot(itemX, itemY))
@@ -223,7 +227,7 @@ export default function MobileNavBar() {
   useEffect(() => { setCombatPower(null) }, [status, session?.user?.id])
 
   useEffect(() => {
-    if (!open || status !== 'authenticated') return
+    if (!open || !showDanmaku || status !== 'authenticated') return
     const controller = new AbortController()
     fetch('/api/game/profile', { signal: controller.signal })
       .then((response) => response.json())
@@ -232,7 +236,7 @@ export default function MobileNavBar() {
       })
       .catch(() => {})
     return () => controller.abort()
-  }, [open, status, session?.user?.id])
+  }, [open, showDanmaku, status, session?.user?.id])
 
   useEffect(() => {
     const mobile = window.matchMedia('(max-width: 767px)')
@@ -254,7 +258,7 @@ export default function MobileNavBar() {
     <>
       <Dialog.Root open={open} onOpenChange={changeOpen} modal={false}>
       <Dialog.Trigger asChild>
-        <button type="button" {...dragHandlers} className={styles.launcher} data-open={open} data-feedback-sound="none" hidden={keyboardVisible} aria-label={`${activeItem?.label ?? '当前页面'}，按住滑动或点击打开页面导航`}>
+        <button type="button" {...dragHandlers} data-minimal-surface className={styles.launcher} data-open={open} data-feedback-sound="none" hidden={keyboardVisible} aria-label={`${activeItem?.label ?? '当前页面'}，按住滑动或点击打开页面导航`}>
           <span className={styles.launcherLabel} aria-hidden>
             <ActiveIcon size={20} />
             <span>{activeItem?.label ?? '导航'}</span>
@@ -287,6 +291,7 @@ export default function MobileNavBar() {
           <nav aria-label="手机主导航">
             <ul className={styles.items}>
               {navItems.map((item, index) => {
+                if (!mainVisible(item.href)) return null
                 const active = matchesPage(item.href, pathname)
                 const locked = item.requiresAuth && status === 'unauthenticated'
                 const Icon = item.icon
@@ -300,7 +305,7 @@ export default function MobileNavBar() {
                       onFocus={() => { if (prefetchRoutes) router.prefetch(destination(index)) }}
                       aria-current={active ? 'page' : undefined}
                       aria-label={locked ? `${item.label}，需要登录` : item.label}
-                      className={styles.destination}
+                      data-minimal-surface className={styles.destination}
                       data-highlighted={highlighted === index}
                       onClick={() => { playFeedbackSound('navigate'); changeOpen(false) }}
                     >
@@ -310,11 +315,11 @@ export default function MobileNavBar() {
                   </li>
                 )
               })}
-              <li className={styles.item} style={{ '--x': '0px', '--y': '108px' } as CSSProperties}>
+              {showDanmaku && <li className={styles.item} style={{ '--x': '0px', '--y': '108px' } as CSSProperties}>
                 <button
                   ref={danmakuActionRef}
                   type="button"
-                  className={styles.destination}
+                  data-minimal-surface className={styles.destination}
                   data-highlighted={highlighted === danmakuTarget}
                   aria-pressed={!danmakuLocked && (danmakuStatus === 'active' || danmakuStatus === 'counting')}
                   aria-label={danmakuLocked ? '弹幕复习，未解锁' : danmakuStatus === 'counting' ? `弹幕倒计时 ${countdownValue}，点击取消` : danmakuStatus === 'active' ? '关闭弹幕复习' : danmakuStatus === 'empty' ? '先添加单词吧' : '开启弹幕复习'}
@@ -323,19 +328,19 @@ export default function MobileNavBar() {
                   {danmakuLocked ? <LockKeyhole size={22} strokeWidth={1.7} aria-hidden /> : danmakuStatus === 'counting' ? <span className={styles.countdown} aria-hidden>{countdownValue}</span> : <MonitorPlay size={22} strokeWidth={1.7} aria-hidden />}
                   <span>{!danmakuLocked && danmakuStatus === 'empty' ? '先添加单词' : '弹幕复习'}</span>
                 </button>
-              </li>
+              </li>}
             </ul>
           </nav>
         </Dialog.Content>
       </Dialog.Portal>
       </Dialog.Root>
       <div className={styles.utilityActions} data-open={open} data-feedback-sound="none" aria-hidden={!open}>
-        <Link ref={downloadActionRef} href="/download" className={styles.utilityAction} data-highlighted={highlighted === downloadTarget} onClick={() => { playFeedbackSound('navigate'); changeOpen(false) }}>
+        <Link ref={downloadActionRef} href="/download" data-minimal-surface className={styles.utilityAction} data-highlighted={highlighted === downloadTarget} onClick={() => { playFeedbackSound('navigate'); changeOpen(false) }}>
           <MonitorDown size={17} aria-hidden="true" />
           <span>下载APP</span>
         </Link>
         <DonationDialog contentClassName="z-[90]" onOpenChange={(nextOpen) => { if (nextOpen) changeOpen(false) }}>
-          <button ref={donationActionRef} type="button" className={styles.utilityAction} data-highlighted={highlighted === donationTarget} aria-label="打赏作者" onClick={() => playFeedbackSound('tap')}>
+          <button ref={donationActionRef} type="button" data-minimal-surface className={styles.utilityAction} data-highlighted={highlighted === donationTarget} aria-label="打赏作者" onClick={() => playFeedbackSound('tap')}>
             <Coffee size={17} aria-hidden="true" />
             <span>打赏作者</span>
           </button>

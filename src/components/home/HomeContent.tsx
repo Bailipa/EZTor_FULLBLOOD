@@ -5,6 +5,7 @@ import dynamic from 'next/dynamic'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import { useMinimalFeatures } from '@/components/interface-style-provider'
 import { HomeHeader } from '@/components/home/HomeHeader'
 import { useLoginPrompt } from '@/components/ui/login-prompt-modal'
 import AppLayout from '@/components/layout/AppLayout'
@@ -25,6 +26,7 @@ const DailyFlashcard = dynamic(
 )
 
 export default function HomeContent() {
+  const { minimal, mainVisible } = useMinimalFeatures()
   usePageView('Home')
   const { currentStep, isActive, nextStep, completeOnboarding, startOnboarding } = useOnboarding()
   const router = useRouter()
@@ -117,26 +119,27 @@ export default function HomeContent() {
                   <p className={styles.eyebrow}>我的学习</p>
                   <h2>温故，知新</h2>
                   <p className={styles.homeDescription}>从熟悉的单词出发，每次记牢一点。</p>
-                  <Button className="mt-6 min-h-11 gap-3 rounded-lg px-5 shadow-none" onPointerEnter={() => { if (isAuthenticated) router.prefetch('/dictation') }} onFocus={() => { if (isAuthenticated) router.prefetch('/dictation') }} onClick={() => isAuthenticated ? router.push('/dictation') : promptLogin('默写复习')}>
+                  {mainVisible('/dictation') && <Button className="mt-6 min-h-11 gap-3 rounded-lg px-5 shadow-none" onPointerEnter={() => { if (isAuthenticated) router.prefetch('/dictation') }} onFocus={() => { if (isAuthenticated) router.prefetch('/dictation') }} onClick={() => isAuthenticated ? router.push('/dictation') : promptLogin('默写复习')}>
                     <PenLine className="size-4" />开始默写<ArrowRight className="size-4" />
-                  </Button>
+                  </Button>}
                 </div>
                 <div data-home-shortcuts className={styles.learningLinks}>
-                  <button onPointerEnter={() => { if (isAuthenticated) router.prefetch('/mistakes') }} onFocus={() => { if (isAuthenticated) router.prefetch('/mistakes') }} onClick={() => isAuthenticated ? router.push('/mistakes') : promptLogin('错词本')}>
+                  {mainVisible('/dictation') && <button onPointerEnter={() => { if (isAuthenticated) router.prefetch('/mistakes') }} onFocus={() => { if (isAuthenticated) router.prefetch('/mistakes') }} onClick={() => isAuthenticated ? router.push('/mistakes') : promptLogin('错词本')}>
                     <AlertCircle className="size-5 text-muted-foreground" strokeWidth={1.5} />
                     <span><strong>错词本</strong><small>把易错的词，再巩固一遍</small></span>
                     <ArrowUpRight className="size-4 text-muted-foreground" />
-                  </button>
-                  <button onPointerEnter={() => { if (isAuthenticated) router.prefetch('/history') }} onFocus={() => { if (isAuthenticated) router.prefetch('/history') }} onClick={() => isAuthenticated ? router.push('/history') : promptLogin('生词本')}>
+                  </button>}
+                  {mainVisible('/history') && <button onPointerEnter={() => { if (isAuthenticated) router.prefetch('/history') }} onFocus={() => { if (isAuthenticated) router.prefetch('/history') }} onClick={() => isAuthenticated ? router.push('/history') : promptLogin('生词本')}>
                     <BookOpen className="size-5 text-muted-foreground" strokeWidth={1.5} />
                     <span><strong>生词本</strong><small>回看收藏，整理所学</small></span>
                     <ArrowUpRight className="size-4 text-muted-foreground" />
-                  </button>
-                  <Link href="/ai">
+                  </button>}
+                  {mainVisible('/ai') && <Link href="/ai">
                     <Languages className="size-5 text-muted-foreground" strokeWidth={1.5} />
                     <span><strong>翻译</strong><small>查一个词，读懂一句话</small></span>
                     <ArrowUpRight className="size-4 text-muted-foreground" />
-                  </Link>
+                  </Link>}
+                  {minimal && <Link href="/me#minimal-features">显示功能设置</Link>}
                 </div>
 
               </section>

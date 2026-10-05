@@ -259,6 +259,13 @@ model SharedVocabularyImport {
   targetGroupId    String
   skipExisting     Boolean          @default(true)
   createdAt        DateTime         @default(now())
+  status           String           @default("COMPLETED")
+  processedCount   Int              @default(0)
+  payload          Json?
+  leaseToken       String?
+  leaseExpiresAt   DateTime?
+  useReserved      Boolean          @default(false)
+  updatedAt        DateTime         @default(now())
   User             User             @relation(fields: [importerId], references: [id], onDelete: Cascade)
   SharedVocabulary SharedVocabulary @relation(fields: [sharedId], references: [id], onDelete: Cascade)
 
@@ -355,6 +362,7 @@ model UserPreference {
   reviewReminderTime    String?
   autoSaveWords         Boolean  @default(true)
   soundEffectsEnabled   Boolean  @default(true)
+  minimalFeatures       Json?
   interfaceStyle        String   @default("reading")
   showImportExportActions Boolean @default(false)
   theme                 String   @default("system")

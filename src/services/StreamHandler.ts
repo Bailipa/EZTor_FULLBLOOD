@@ -20,6 +20,40 @@ export class StreamHandler {
     return stream
   }
 
+  createCompletedTranslationStream(
+    results: CachedWord[],
+    targetGroupId?: string,
+    upstreamAbortController?: AbortController,
+  ): ReadableStream {
+    const translationService = this.translationService
+    const signal = upstreamAbortController?.signal
+    const encoder = new TextEncoder()
+    return new ReadableStream({
+      async start(controller) {
+        controller.enqueue(encoder.encode(JSON.stringify({ type: 'translation-final', results }) + '\n\n'))
+        try {
+          const words = await translationService.saveWordsToDatabase(results, targetGroupId, signal)
+          if (!signal?.aborted) {
+            controller.enqueue(encoder.encode(JSON.stringify({
+              type: 'translation-save', words, targetGroupId: targetGroupId || null,
+            }) + '\n\n'))
+          }
+        } catch {
+          if (!signal?.aborted) {
+            controller.enqueue(encoder.encode(JSON.stringify({
+              type: 'translation-save',
+              words: results.map((result) => ({ word: result.word, status: 'error' })),
+              targetGroupId: targetGroupId || null,
+            }) + '\n\n'))
+          }
+        } finally {
+          if (!signal?.aborted) controller.close()
+        }
+      },
+      cancel() { upstreamAbortController?.abort() },
+    })
+  }
+
   createTranslationStream(
     response: AsyncIterable<{ choices?: Array<{ delta?: { content?: string | null } }> }>,
     orderedCachedResults: CachedWord[],
@@ -45,10 +79,11 @@ export class StreamHandler {
     return stream
   }
 
-  createStreamResponse(stream: ReadableStream): Response {
+  createStreamResponse(stream: ReadableStream, deliveryEvents = false): Response {
     return new Response(stream, {
       headers: {
-        'Content-Type': 'text/event-stream',
+        'Content-Type': deliveryEvents ? 'application/x-ndjson' : 'text/event-stream',
+        'X-Accel-Buffering': 'no',
         'Cache-Control': 'no-cache',
         Connection: 'keep-alive',
       },

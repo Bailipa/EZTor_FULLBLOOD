@@ -3,6 +3,8 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/navigation'
+import { useSession } from 'next-auth/react'
+import { readUserPreferences, subscribeUserPreferences } from '@/lib/userPreferences'
 import { toast } from 'sonner'
 import { getIrregularForms, getFormHint, isCorrectAnswer, getAlternateStems } from '@/lib/irregularForms'
 import { Button } from '@/components/ui/button'
@@ -38,7 +40,7 @@ import { ScrollArea } from '@/components/ui/scroll-area'
 import { Checkbox } from '@/components/ui/checkbox'
 import { useAnalytics } from '@/lib/analytics'
 import { usePageView } from '@/lib/analytics'
-import { speakText, stopSpeech } from '@/lib/ttsBrowser'
+import { speakText, stopSpeech, preloadSpeech } from '@/lib/ttsBrowser'
 import { useOnboarding } from '@/components/onboarding/OnboardingProvider'
 import { OnboardingTooltip } from '@/components/onboarding/OnboardingTooltip'
 import { useMediaQuery } from '@/hooks/useMediaQuery'
@@ -54,14 +56,45 @@ const MistakeNotebook = dynamic(() => import('@/components/dictation/MistakeNote
   loading: () => <div className="flex min-h-24 items-center justify-center text-sm text-muted-foreground" role="status">正在载入错词本…</div>,
 })
 
-export function DictationWorkspace({ isMistakePractice, initialPanel = 'practice' }: { isMistakePractice: boolean; initialPanel?: 'practice' | 'mistakes' }) {
+export function DictationWorkspace(props: { isMistakePractice: boolean; initialPanel?: 'practice' | 'mistakes' }) {
+  const { data: session, status } = useSession()
+  const userId = session?.user?.id
+  if (status === 'loading' || (status === 'authenticated' && !userId)) {
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <Loader2 className="size-8 animate-spin text-primary" aria-label="正在加载默写" />
+      </div>
+    )
+  }
+
+  const accountScope = userId ?? 'anonymous'
+  return (
+    <DictationWorkspaceSession
+      key={`${props.isMistakePractice ? 'mistakes' : 'dictation'}:${accountScope}`}
+      {...props}
+      accountScope={accountScope}
+    />
+  )
+}
+
+function DictationWorkspaceSession({
+  isMistakePractice,
+  initialPanel = 'practice',
+  accountScope,
+}: {
+  isMistakePractice: boolean
+  initialPanel?: 'practice' | 'mistakes'
+  accountScope: string
+}) {
   usePageView(initialPanel === 'mistakes' ? 'Mistake Words' : 'Dictation')
   const [activePanel, setActivePanel] = useState(initialPanel)
   const [hasMountedMistakeNotebook, setHasMountedMistakeNotebook] = useState(initialPanel === 'mistakes')
   const [mistakeRefresh, setMistakeRefresh] = useState(0)
   const [recentMistake, setRecentMistake] = useState<RecentMistake | null>(null)
-  const progressStorageKey = isMistakePractice ? 'dictation_mistakes_progress' : 'dictation_progress'
+  const progressStorageKey = `${isMistakePractice ? 'dictation_mistakes_progress' : 'dictation_progress'}:${accountScope}`
   const router = useRouter()
+  const { data: session, status } = useSession()
+  const userId = session?.user?.id
   const { trackDictationStart, trackDictationComplete } = useAnalytics()
   const { currentStep, isActive, nextStep } = useOnboarding()
   const [words, setWords] = useState<
@@ -184,8 +217,11 @@ export function DictationWorkspace({ isMistakePractice, initialPanel = 'practice
 
   const inputRef = useRef<HTMLInputElement>(null)
   const isCheckingRef = useRef(false) // 防止重复提交
+  const answerRequestControllerRef = useRef<AbortController | null>(null)
   const submittedIndicesRef = useRef(new Set<number>()) // 已提交到 API 的题目索引
   const isDesktop = useMediaQuery('(min-width: 1280px)') // 电脑端（≥1280px）自动聚焦，手机端保持不变
+
+  useEffect(() => () => answerRequestControllerRef.current?.abort(), [])
 
   useEffect(() => {
     if (activePanel === 'mistakes') setHasMountedMistakeNotebook(true)
@@ -285,15 +321,6 @@ export function DictationWorkspace({ isMistakePractice, initialPanel = 'practice
     if (!localStorage.getItem(progressStorageKey)) {
       setIsMuted(!devicePreferences.autoSpeak)
     }
-    fetch('/api/preferences')
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.success && typeof data.data?.soundEffectsEnabled === 'boolean') {
-          setSoundEffectsEnabled(data.data.soundEffectsEnabled)
-        }
-      })
-      .catch(() => {})
-
     // 初始化 Audio 对象
     if (typeof window !== 'undefined') {
       correctAudioRef.current = new Audio('/sounds/correct.mp3')
@@ -313,6 +340,22 @@ export function DictationWorkspace({ isMistakePractice, initialPanel = 'practice
       }
     }
   }, [progressStorageKey])
+
+  useEffect(() => {
+    setSoundEffectsEnabled(true)
+    if (status !== 'authenticated' || !userId) return
+    const controller = new AbortController()
+    const apply = (data: Awaited<ReturnType<typeof readUserPreferences>>) => {
+      if (!controller.signal.aborted) setSoundEffectsEnabled(data.soundEffectsEnabled !== false)
+    }
+    const unsubscribe = subscribeUserPreferences(userId, ['soundEffectsEnabled'], apply)
+    readUserPreferences(userId, controller.signal).then(apply).catch(() => {})
+    return () => {
+      unsubscribe()
+      controller.abort()
+    }
+  }, [status, userId])
+
 
   // 播放音效的辅助函数
   const playSoundEffect = (type: 'correct' | 'incorrect') => {
@@ -527,21 +570,20 @@ export function DictationWorkspace({ isMistakePractice, initialPanel = 'practice
     if (mode === 'dictation' && words.length > 0 && !isChecked && !isFinished && !isMuted && !sessionMuted) {
       playAudio(words[currentIndex].word)
     }
+    return () => stopSpeech()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentIndex, mode, words, isChecked, isFinished, isMuted, sessionMuted])
 
-  // 预加载下一题发音（命中缓存后下一题 0 延迟）
+  // 预加载下一题音频到浏览器缓存，与实际播放共享请求
   useEffect(() => {
     if (mode !== 'dictation' || isMuted || sessionMuted || !words.length) return
     const nextIndex = currentIndex + 1
     if (nextIndex >= words.length) return
     const nextWord = words[nextIndex]
     if (!nextWord?.word) return
-    fetch('/api/tts', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ input: nextWord.word, response_format: 'wav' }),
-    }).catch(() => {})
+    const controller = new AbortController()
+    void preloadSpeech(nextWord.word, controller.signal)
+    return () => controller.abort()
   }, [currentIndex, mode, isMuted, sessionMuted, words])
 
   // 答题后 / 换题后自动滚动到题目区域（暂时禁用）
@@ -626,10 +668,13 @@ export function DictationWorkspace({ isMistakePractice, initialPanel = 'practice
     setScore((prev) => ({ ...prev, total: prev.total + 1 }))
     if (!correct) setRecentMistake({ word: currentWord.word, translation: currentWord.translation, status: 'saving' })
 
+    const controller = new AbortController()
+    answerRequestControllerRef.current = controller
     try {
       const res = await fetch('/api/dictation/update', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        signal: controller.signal,
         body: JSON.stringify({ word: currentWord.word, isCorrect: correct }),
       })
       const result = await res.json()
@@ -646,11 +691,13 @@ export function DictationWorkspace({ isMistakePractice, initialPanel = 'practice
         if (!correct) setRecentMistake({ word: currentWord.word, translation: currentWord.translation, status: 'saved' })
       }
     } catch (e) {
+      if (controller.signal.aborted) return
       toast.error('答题记录同步未确认，请刷新错词本核对')
       if (!correct) setRecentMistake({ word: currentWord.word, translation: currentWord.translation, status: 'unconfirmed' })
       if (process.env.NODE_ENV === 'development') console.error('Failed to update stats', e)
       submittedIndicesRef.current.delete(currentIndex) // 失败时允许重试
     } finally {
+      if (answerRequestControllerRef.current === controller) answerRequestControllerRef.current = null
       isCheckingRef.current = false
     }
   }

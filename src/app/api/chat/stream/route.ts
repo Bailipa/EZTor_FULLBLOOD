@@ -1,5 +1,5 @@
 import { getServerSession } from 'next-auth/next'
-import { authOptions } from '@/app/api/auth/[...nextauth]/route'
+import { authOptions } from '@/lib/authOptions'
 import prisma from '@/lib/prisma'
 import { isDeveloper } from '@/lib/chatUser'
 import { subscribeToMessages, subscribeToTodos, subscribeToConfig } from '@/lib/chatSSE'

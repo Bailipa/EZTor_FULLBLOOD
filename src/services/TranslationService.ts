@@ -125,14 +125,22 @@ export interface TranslationResult {
   fromCache?: boolean
 }
 
+export interface TranslationSaveReceipt {
+  word: string
+  status: 'saved' | 'not-saved' | 'error' | 'skipped'
+}
+
 export class TranslationService {
   private readonly session: Session | null
   private readonly inputWordMap: Map<string, string>
   private readonly autoSaveWords: boolean
+  private readonly deliveryEvents: boolean
+  private providerRequestAndQuotaMs: number | undefined
 
-  constructor(session: Session | null, words: string[], autoSaveWords = true) {
+  constructor(session: Session | null, words: string[], autoSaveWords = true, deliveryEvents = false) {
     this.session = session
     this.autoSaveWords = autoSaveWords
+    this.deliveryEvents = deliveryEvents
     this.inputWordMap = new Map<string, string>()
     words.forEach((word) => {
       this.inputWordMap.set(word.toLowerCase(), word)
@@ -297,15 +305,20 @@ export class TranslationService {
       }))
       .filter((w: WordData) => w.word && w.translation.trim())
 
+    const receipts = new Map<string, TranslationSaveReceipt>(words.map((word) => [
+      word.word.toLowerCase().trim(), { word: word.word, status: 'skipped' },
+    ]))
     const groupWordData: { id: string; reviewGroupId: string; wordId: string }[] = []
+    const groupWords: string[] = []
     const publicWordService = new PublicWordService(this.session!.user.id)
 
     for (const wordData of wordsToSave) {
+      receipts.set(wordData.word, { word: wordData.word, status: this.autoSaveWords ? 'error' : 'not-saved' })
       if (signal?.aborted) break
       const publicWordId = await publicWordService.saveWordToPublicLibrary(wordData)
 
       if (signal?.aborted) break
-      if (!this.autoSaveWords) continue
+      if (!this.autoSaveWords || !publicWordId) continue
 
       // 保存到用户私有库（仅存元数据 + publicWordId，避免冗余复制）
       try {
@@ -337,11 +350,14 @@ export class TranslationService {
         })
 
         if (targetGroupId && savedWord) {
+          groupWords.push(wordData.word)
           groupWordData.push({
             id: randomUUID(),
             reviewGroupId: targetGroupId,
             wordId: savedWord.id,
           })
+        } else {
+          receipts.set(wordData.word, { word: wordData.word, status: 'saved' })
         }
       } catch (err: unknown) {
         logger.error({ err, word: wordData.word }, 'Failed to save mirrored word')
@@ -354,14 +370,19 @@ export class TranslationService {
           data: groupWordData,
           skipDuplicates: true,
         })
+        for (const word of groupWords) receipts.set(word, { word, status: 'saved' })
       } catch (err: unknown) {
         logger.error({ err }, 'Failed to batch add words to group')
       }
     }
 
-    logger.info(
-      `Saved ${wordsToSave.length} public words and ${this.autoSaveWords ? 'auto-saved them to' : 'did not auto-save them to'} the private library for user ${this.session!.user.id}.`,
-    )
+    logger.info({
+      attempted: wordsToSave.length,
+      saved: [...receipts.values()].filter((receipt) => receipt.status === 'saved').length,
+      autoSaveWords: this.autoSaveWords,
+      userId: this.session!.user.id,
+    }, 'Translation persistence completed')
+    return [...receipts.values()]
   }
 
   async processTranslationStream(
@@ -372,9 +393,15 @@ export class TranslationService {
     signal?: AbortSignal,
   ) {
     const encoder = new TextEncoder()
+    const startedAt = Date.now()
+    let firstTokenAt: number | undefined
+    let generatedAt: number | undefined
+    let validatedAt: number | undefined
+    let persistedAt: number | undefined
+    let failed = false
 
     // 如果有缓存结果，直接作为第一块完整的数据发送过去
-    if (orderedCachedResults.length > 0) {
+    if (orderedCachedResults.length > 0 && !this.deliveryEvents) {
       const cacheChunk = JSON.stringify({ results: orderedCachedResults })
       controller.enqueue(encoder.encode(cacheChunk + '\n\n'))
     }
@@ -392,14 +419,15 @@ export class TranslationService {
         }
         const content = chunk.choices?.[0]?.delta?.content || ''
         if (content) {
+          firstTokenAt ??= Date.now()
           accumulatedAiText += content
           if (accumulatedAiText.length > MAX_ACCUMULATED_SIZE) {
             logger.error('[TranslationService] Accumulated text exceeds limit, stopping stream')
-            break
+            throw new Error('Translation output exceeds size limit')
           }
 
           // 直接发送给前端
-          controller.enqueue(encoder.encode(content))
+          if (!this.deliveryEvents) controller.enqueue(encoder.encode(content))
         }
       }
 
@@ -408,6 +436,7 @@ export class TranslationService {
         return
       }
 
+      generatedAt = Date.now()
       logger.debug('=== AI Complete Text ===')
       logger.debug(accumulatedAiText)
 
@@ -430,7 +459,9 @@ export class TranslationService {
         const validJson = cleanText.substring(startIndex, endIndex + 1)
         try {
           const parsed = JSON.parse(validJson)
-          if (parsed && parsed.results) {
+          if (parsed && Array.isArray(parsed.results) && parsed.results.every(
+            (result: { translation?: unknown }) => result && typeof result.translation === 'string',
+          )) {
             aiParsedResults = parsed.results.map(
               (result: {
                 word: string | string[]
@@ -456,17 +487,38 @@ export class TranslationService {
             }
           }
         } catch (e) {
+          aiParsedResults = []
           logger.error({ err: e }, 'Failed to parse AI complete output')
         }
       }
 
-      // 保证数据库写入完成再关闭流
+      validatedAt = Date.now()
+      if (this.deliveryEvents) {
+        if (!aiParsedResults.length) throw new Error('No valid translation results')
+        // Only complete, IPA-validated results are authoritative for the new UI.
+        controller.enqueue(encoder.encode('\n\n' + JSON.stringify({
+          type: 'translation-final', results: [...orderedCachedResults, ...aiParsedResults],
+        }) + '\n\n'))
+      }
       if (aiParsedResults.length > 0) {
-        await this.saveWordsToDatabase(aiParsedResults, targetGroupId, signal)
+        let receipts: TranslationSaveReceipt[]
+        try {
+          receipts = await this.saveWordsToDatabase(aiParsedResults, targetGroupId, signal)
+        } catch (error) {
+          logger.error({ err: error }, 'Translation persistence failed')
+          receipts = aiParsedResults.map((result) => ({ word: result.word, status: 'error' }))
+        }
+        persistedAt = Date.now()
+        if (this.deliveryEvents && !signal?.aborted) {
+          controller.enqueue(encoder.encode(JSON.stringify({
+            type: 'translation-save', words: receipts, targetGroupId: targetGroupId || null,
+          }) + '\n\n'))
+        }
       }
     } catch (err) {
+      failed = true
       logger.error({ err }, 'Stream processing error')
-      controller.error(err)
+      if (!signal?.aborted) controller.error(err)
     } finally {
       // 将AI处理结果保存到completed缓存，供后续并发请求使用
       if (aiParsedResults.length > 0) {
@@ -477,7 +529,16 @@ export class TranslationService {
           resolvePendingRequest(wordKey, [result])
         }
       }
-      controller.close()
+      logger.info({
+        providerRequestAndQuotaMs: this.providerRequestAndQuotaMs ?? null,
+        firstTokenMs: firstTokenAt === undefined ? null : firstTokenAt - startedAt,
+        generationMs: generatedAt === undefined ? null : generatedAt - startedAt,
+        validationMs: generatedAt === undefined || validatedAt === undefined ? null : validatedAt - generatedAt,
+        persistenceMs: validatedAt === undefined || persistedAt === undefined ? null : persistedAt - validatedAt,
+        totalMs: Date.now() - startedAt,
+        failed, cancelled: signal?.aborted ?? false,
+      }, 'Translation stream delivery timings (after provider stream acquisition)')
+      if (!failed && !signal?.aborted) controller.close()
     }
   }
 
@@ -551,6 +612,7 @@ export class TranslationService {
     })
     setPendingRequest(pendingKey, pendingPromise)
 
+    const providerRequestAt = Date.now()
     const response = await withLlmFailover(
       providerCandidates,
       (client, model) =>
@@ -569,6 +631,7 @@ export class TranslationService {
       1,
     )
 
+    this.providerRequestAndQuotaMs = Date.now() - providerRequestAt
     return { response, pendingKey, resolvePending }
   }
 }

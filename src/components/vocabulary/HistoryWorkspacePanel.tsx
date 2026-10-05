@@ -108,6 +108,9 @@ export const HistoryWorkspacePanel = React.memo(function HistoryWorkspacePanel({
   const [words, setWords] = useState<WordData[]>([])
   const [totalCount, setTotalCount] = useState(0)
   const [isLoading, setIsLoading] = useState(true)
+  const [loadError, setLoadError] = useState(false)
+  const [loadErrorGroupId, setLoadErrorGroupId] = useState<string | null>(null)
+  const [loadedGroupId, setLoadedGroupId] = useState<string | null>(null)
   const [isLoadingMore, setIsLoadingMore] = useState(false)
   const [hasMore, setHasMore] = useState(false)
   const [nextCursor, setNextCursor] = useState<string | null>(null)
@@ -120,6 +123,7 @@ export const HistoryWorkspacePanel = React.memo(function HistoryWorkspacePanel({
   >([])
   const [currentViewGroupId, setCurrentViewGroupId] = useState<string>('all')
   const fetchRequestIdRef = useRef(0)
+  const retryCursorRef = useRef<string | null>(null)
 
   const {
     selectedIds,
@@ -198,12 +202,12 @@ export const HistoryWorkspacePanel = React.memo(function HistoryWorkspacePanel({
     if (isFirstPage) {
       setIsLoading(true)
       setIsLoadingMore(false)
-      setWords([])
-      setTotalCount(0)
+      setLoadError(false)
       setHasMore(false)
       setNextCursor(null)
     } else {
       setIsLoadingMore(true)
+      setLoadError(false)
     }
 
     try {
@@ -228,16 +232,22 @@ export const HistoryWorkspacePanel = React.memo(function HistoryWorkspacePanel({
 
       if (isFirstPage) {
         setWords(newWords.slice(0, MAX_VISIBLE_WORDS))
+        setLoadedGroupId(groupId)
       } else {
         setWords((prev) => [...prev, ...newWords].slice(0, MAX_VISIBLE_WORDS))
       }
+      retryCursorRef.current = null
+      setLoadError(false)
+      setLoadErrorGroupId(null)
       setTotalCount(pagination.total)
       setHasMore(pagination.hasMore)
       setNextCursor(pagination.nextCursor)
     } catch (error) {
       if (process.env.NODE_ENV === 'development') console.error('Failed to fetch words', error)
       if (requestId === fetchRequestIdRef.current && groupId === groupIdRef.current) {
-        toast.error('加载失败，请稍后重试')
+        retryCursorRef.current = cursor ?? null
+        setLoadError(true)
+        setLoadErrorGroupId(groupId)
       }
     } finally {
       if (requestId === fetchRequestIdRef.current && groupId === groupIdRef.current) {
@@ -309,14 +319,12 @@ export const HistoryWorkspacePanel = React.memo(function HistoryWorkspacePanel({
     (data?: { groupId: string; groupName: string; newWords: WordData[] }) => {
       if (data) {
         setCurrentViewGroupId(data.groupId)
-        if (data.newWords.length > 0) {
-          setWords((prevWords) => [...data.newWords, ...prevWords].slice(0, MAX_VISIBLE_WORDS))
-          setTotalCount((prev) => prev + data.newWords.length)
-        }
+        // Refresh an existing target too: changing to the same group does not rerun the effect.
+        if (data.groupId === currentViewGroupId) fetchWords(data.groupId)
       }
       fetchGroups()
     },
-    [fetchGroups],
+    [currentViewGroupId, fetchWords, fetchGroups],
   )
 
   useEffect(() => {
@@ -781,6 +789,8 @@ export const HistoryWorkspacePanel = React.memo(function HistoryWorkspacePanel({
   }, [hasMore, isLoadingMore, nextCursor, currentViewGroupId, fetchWords, words.length])
 
   const isGroupView = currentViewGroupId !== 'all'
+  const hasCurrentGroupData = loadedGroupId === currentViewGroupId
+  const hasCurrentGroupError = loadError && loadErrorGroupId === currentViewGroupId
 
   const renderItemContent = useCallback(
     (index: number, item: WordData) => (
@@ -866,7 +876,7 @@ export const HistoryWorkspacePanel = React.memo(function HistoryWorkspacePanel({
                     : '我的词库'}
                 </h1>
                 <p className="m-0 shrink-0 text-xs text-gray-500 dark:text-muted-foreground">
-                  共收录 {totalCount} 个单词
+                  {hasCurrentGroupError ? '词条加载失败' : !hasCurrentGroupData ? '正在加载词条…' : `共收录 ${totalCount} 个单词`}
                 </p>
               </div>
               <div data-workspace-history-actions className="grid w-full min-w-0 gap-2">
@@ -1083,66 +1093,85 @@ export const HistoryWorkspacePanel = React.memo(function HistoryWorkspacePanel({
           </div>
 
         {/* Content */}
-        {isLoading ? (
+        {!hasCurrentGroupData && !hasCurrentGroupError ? (
           <div className="flex items-center justify-center py-20">
             <Loader2 className="w-8 h-8 animate-spin text-primary" />
           </div>
-        ) : words.length === 0 ? (
-          <div className="text-center py-20 bg-card rounded-xl border border-border shadow-sm">
-            <p className="text-gray-500 dark:text-muted-foreground text-lg">
-              {isGroupView ? '这个自定义词库还没有单词。' : '私人词库空空如也，快去查几个单词吧！'}
-            </p>
-            {isGroupView && totalCount === 0 ? (
-              <div className="mt-4 flex flex-wrap justify-center gap-2">
-                <Button
-                  variant="outline"
-                  onClick={() => {
-                    setCurrentViewGroupId('all')
-                    setIsSelectionMode(true)
-                  }}
-                >
-                  从全部单词中添加
-                </Button>
-                <Link href="/">
-                  <Button>去查词并保存</Button>
-                </Link>
-              </div>
-            ) : (
-              <Link href="/">
-                <Button className="mt-4">返回首页查词</Button>
-              </Link>
-            )}
+        ) : hasCurrentGroupError && !hasCurrentGroupData ? (
+          <div className="flex flex-col items-center justify-center gap-3 rounded-xl border border-border bg-card py-12 text-center shadow-sm" role="alert">
+            <p className="text-gray-500 dark:text-muted-foreground">词条加载失败，请检查网络后重试。</p>
+            <Button variant="outline" onClick={() => fetchWords(currentViewGroupId, retryCursorRef.current)}>重试</Button>
           </div>
         ) : (
           <div className="space-y-4">
-            <div data-workspace-list data-workspace-history-list className="grid grid-cols-1 min-[375px]:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-2 md:gap-4">
-              {isDesktop
-                ? words.map((item, index) => (
-                    <div key={item.id}>{renderItemContent(index, item)}</div>
-                  ))
-                : words.map((item, index) => (
-                    <div key={item.id}>{renderChipContent(index, item)}</div>
-                  ))}
-            </div>
-
-            {isLoadingMore && (
-              <div className="flex items-center justify-center py-4">
-                <Loader2 className="w-6 h-6 animate-spin text-muted-foreground" />
+            {(isLoading || hasCurrentGroupError) && (
+              <div className="flex flex-wrap items-center justify-center gap-3 rounded-lg border border-border bg-card px-4 py-3 text-sm text-muted-foreground" role={hasCurrentGroupError ? 'alert' : 'status'}>
+                <span>{hasCurrentGroupError ? '词条加载失败，请重试。' : '正在更新词条…'}</span>
+                {hasCurrentGroupError && (
+                  <Button variant="outline" size="sm" onClick={() => fetchWords(currentViewGroupId, retryCursorRef.current)}>
+                    重试
+                  </Button>
+                )}
               </div>
             )}
-
-            {hasMore && words.length < MAX_VISIBLE_WORDS && (
-              <div className="flex justify-center py-4">
-                <Button variant="outline" onClick={loadMore} disabled={isLoadingMore} className="text-primary">
-                  {isLoadingMore ? '加载中...' : '加载更多'}
-                </Button>
+            {words.length === 0 ? (
+              <div className="text-center py-20 bg-card rounded-xl border border-border shadow-sm">
+                <p className="text-gray-500 dark:text-muted-foreground text-lg">
+                  {isGroupView ? '这个自定义词库还没有单词。' : '私人词库空空如也，快去查几个单词吧！'}
+                </p>
+                {isGroupView && totalCount === 0 ? (
+                  <div className="mt-4 flex flex-wrap justify-center gap-2">
+                    <Button
+                      variant="outline"
+                      onClick={() => {
+                        setCurrentViewGroupId('all')
+                        setIsSelectionMode(true)
+                      }}
+                    >
+                      从全部单词中添加
+                    </Button>
+                    <Link href="/">
+                      <Button>去查词并保存</Button>
+                    </Link>
+                  </div>
+                ) : (
+                  <Link href="/">
+                    <Button className="mt-4">返回首页查词</Button>
+                  </Link>
+                )}
               </div>
-            )}
+            ) : (
+              <>
+                <div data-workspace-list data-workspace-history-list className="grid grid-cols-1 min-[375px]:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-2 md:gap-4">
+                  {isDesktop
+                    ? words.map((item, index) => (
+                        <div key={item.id}>{renderItemContent(index, item)}</div>
+                      ))
+                    : words.map((item, index) => (
+                        <div key={item.id}>{renderChipContent(index, item)}</div>
+                      ))}
+                </div>
 
-            {words.length >= MAX_VISIBLE_WORDS && hasMore && (
-              <p className="text-center text-sm text-muted-foreground py-4">
-                已显示最近 {MAX_VISIBLE_WORDS} 个单词，刷新可查看最新词条
-              </p>
+                {isLoadingMore && (
+                  <div className="flex items-center justify-center py-4">
+                    <Loader2 className="w-6 h-6 animate-spin text-muted-foreground" />
+                  </div>
+                )}
+
+                {hasMore && words.length < MAX_VISIBLE_WORDS && (
+                  <div className="flex justify-center py-4">
+                    <Button variant="outline" onClick={loadMore} disabled={isLoadingMore || hasCurrentGroupError} className="text-primary">
+                      {isLoadingMore ? '加载中...' : '加载更多'}
+                    </Button>
+                  </div>
+                )}
+
+                {words.length >= MAX_VISIBLE_WORDS && hasMore && (
+                  <p className="text-center text-sm text-muted-foreground py-4">
+                    已显示最近 {MAX_VISIBLE_WORDS} 个单词，刷新可查看最新词条
+                  </p>
+                )}
+              </>
             )}
           </div>
         )}

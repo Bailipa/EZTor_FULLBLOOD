@@ -8,7 +8,7 @@ export default function DesktopWorkspaceHeader({ pathname }: { pathname: string 
   const { label, icon: Icon } = workspaceSections[section]
 
   return (
-    <header className={styles.header}>
+    <header data-minimal-surface className={styles.header}>
       <div className={styles.headerTitle}><Icon size={18} strokeWidth={1.7} /><h1>{label}</h1></div>
     </header>
   )

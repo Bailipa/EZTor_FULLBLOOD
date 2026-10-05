@@ -2,9 +2,11 @@
 
 import { useEffect, useState } from 'react'
 import { useSession } from 'next-auth/react'
+import { readUserPreferences, subscribeUserPreferences } from '@/lib/userPreferences'
 
 export function useImportExportVisibility(): { show: boolean; ready: boolean } {
-  const { status } = useSession()
+  const { data: session, status } = useSession()
+  const userId = session?.user?.id
   const [show, setShow] = useState(false)
   const [ready, setReady] = useState(false)
 
@@ -14,7 +16,7 @@ export function useImportExportVisibility(): { show: boolean; ready: boolean } {
       return
     }
 
-    if (status !== 'authenticated') {
+    if (status !== 'authenticated' || !userId) {
       setShow(false)
       setReady(true)
       return
@@ -24,11 +26,11 @@ export function useImportExportVisibility(): { show: boolean; ready: boolean } {
     let active = true
     setShow(false)
     setReady(false)
-    fetch('/api/preferences', { signal: controller.signal })
-      .then((response) => response.json())
-      .then((result) => {
-        if (active && result.success) setShow(result.data?.showImportExportActions === true)
-      })
+    const apply = (data: Awaited<ReturnType<typeof readUserPreferences>>) => {
+      if (active) setShow(data.showImportExportActions === true)
+    }
+    const unsubscribe = subscribeUserPreferences(userId, ['showImportExportActions'], apply)
+    readUserPreferences(userId, controller.signal).then(apply)
       .catch(() => {})
       .finally(() => {
         if (active) setReady(true)
@@ -36,9 +38,10 @@ export function useImportExportVisibility(): { show: boolean; ready: boolean } {
 
     return () => {
       active = false
+      unsubscribe()
       controller.abort()
     }
-  }, [status])
+  }, [status, userId])
 
   return { show: status === 'authenticated' && show, ready }
 }

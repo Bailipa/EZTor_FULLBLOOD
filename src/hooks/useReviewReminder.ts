@@ -3,6 +3,7 @@
 import { useEffect, useRef } from 'react'
 import { useSession } from 'next-auth/react'
 import { toast } from 'sonner'
+import { readUserPreferences, subscribeUserPreferences } from '@/lib/userPreferences'
 
 interface PrefData {
   dailyGoal: number
@@ -28,15 +29,18 @@ function todayKey(): string {
  * 则触发一次浏览器通知 + toast（仅当天一次）。
  */
 export function useReviewReminder() {
-  const { status } = useSession()
+  const { data: session, status } = useSession()
+  const userId = session?.user?.id
   const firedForToday = useRef<string | null>(null)
 
   useEffect(() => {
-    if (status !== 'authenticated') return
+    if (status !== 'authenticated' || !userId) return
 
     let pref: PrefData | null = null
     let interval: ReturnType<typeof setInterval> | null = null
     let disposed = false
+    const controller = new AbortController()
+    const unsubscribe = subscribeUserPreferences(userId, ['dailyGoal', 'reviewReminderEnabled', 'reviewReminderTime'], (data) => { pref = data })
 
     const check = async () => {
       if (disposed || status !== 'authenticated') return
@@ -44,9 +48,8 @@ export function useReviewReminder() {
       try {
         // 先只拉偏好（轻量只读）；只有"已启用提醒且到点"才拉任务数据（会触发游戏化写入）
         if (!pref) {
-          const prefRes = await fetch('/api/preferences')
-          if (!prefRes.ok) return
-          pref = (await prefRes.json()).data as PrefData
+          pref = await readUserPreferences(userId, controller.signal)
+          if (disposed) return
         }
 
         if (!pref.reviewReminderEnabled || !pref.reviewReminderTime) return
@@ -56,12 +59,14 @@ export function useReviewReminder() {
         const passed = now.getHours() > h || (now.getHours() === h && now.getMinutes() >= m)
         if (!passed) return
 
-        const key = `${todayKey()}:${pref.dailyGoal}`
+        const key = `${userId}:${todayKey()}:${pref.dailyGoal}`
         if (firedForToday.current === key) return
 
+        const checkedPreference = pref
         const taskRes = await fetch('/api/game/tasks')
         if (!taskRes.ok) return
         const taskData = (await taskRes.json()).data as TaskData[]
+        if (disposed || pref !== checkedPreference) return
         const reviewTask = taskData.find((t) => t.taskType === 'COMPLETE_REVIEWS')
         const reviewed = reviewTask?.currentValue ?? 0
 
@@ -90,9 +95,11 @@ export function useReviewReminder() {
 
     return () => {
       disposed = true
+      unsubscribe()
+      controller.abort()
       if (interval) clearInterval(interval)
     }
-  }, [status])
+  }, [status, userId])
 }
 
 export function ReviewReminder() {

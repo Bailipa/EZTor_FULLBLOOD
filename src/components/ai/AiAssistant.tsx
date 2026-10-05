@@ -18,6 +18,7 @@ import {
 import { Send, Loader2, Search, FolderPlus, CheckCircle2, XCircle, Lock, ChevronDown, ChevronUp, Plus, Trash2, ArrowLeft } from 'lucide-react'
 import { useLoginPrompt } from '@/components/ui/login-prompt-modal'
 import { aiHistoryKey, AI_HISTORY_MAX_ITEMS } from '@/lib/aiHistoryCache'
+import { useInputDraft } from '@/hooks/useInputDraft'
 
 interface ChatMessage {
   role: 'user' | 'assistant'
@@ -103,7 +104,7 @@ export function AiAssistant({ onBack, groups: initialGroups }: { onBack?: () => 
   const { promptLogin, LoginPromptDialog } = useLoginPrompt()
 
   const [messages, setMessages] = useState<UiMessage[]>([])
-  const [input, setInput] = useState('')
+  const [input, setInput] = useInputDraft('ai-assistant')
   const [busy, setBusy] = useState(false)
   const [expandedSearch, setExpandedSearch] = useState<number | null>(null)
   const [expandedWord, setExpandedWord] = useState<{ cardIndex: number; word: string } | null>(null)

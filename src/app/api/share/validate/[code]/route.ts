@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import prisma from '@/lib/prisma'
 import { getServerSession } from 'next-auth/next'
-import { authOptions } from '@/app/api/auth/[...nextauth]/route'
+import { authOptions } from '@/lib/authOptions'
 import { handleApiError, createErrorResponse } from '@/lib/apiErrorHandler'
 import { isValidShareCode } from '@/lib/share/codeGenerator'
 
@@ -76,51 +76,18 @@ export async function GET(req: Request, { params }: { params: Promise<{ code: st
       )
     }
 
-    if (share.maxUses !== null && share.usedCount >= share.maxUses) {
-      return NextResponse.json(
-        {
-          valid: false,
-          error: 'MAX_USES_REACHED',
-          message: '该密钥使用次数已达上限',
-        },
-        { status: 429 },
-      )
-    }
-
     const existingImport = await prisma.sharedVocabularyImport.findUnique({
-      where: {
-        sharedId_importerId: {
-          sharedId: share.id,
-          importerId: userId,
-        },
-      },
+      where: { sharedId_importerId: { sharedId: share.id, importerId: userId } },
     })
-
-    if (existingImport) {
-      // 检查对应的组是否存在
-      const targetGroup = await prisma.reviewGroup.findUnique({
-        where: {
-          id: existingImport.targetGroupId,
-        },
-      })
-
-      // 如果组不存在，允许重新导入
-      if (!targetGroup) {
-        await prisma.sharedVocabularyImport.delete({
-          where: {
-            id: existingImport.id,
-          },
-        })
-      } else {
-        return NextResponse.json(
-          {
-            valid: false,
-            error: 'ALREADY_IMPORTED',
-            message: '您已导入过该词库，无需重复导入',
-          },
-          { status: 409 },
-        )
-      }
+    if (existingImport?.status === 'COMPLETED') {
+      return NextResponse.json({ valid: false, error: 'ALREADY_IMPORTED', message: '您已导入过该词库，无需重复导入' }, { status: 409 })
+    }
+    // Expired reservations are reclaimed by POST, keeping validation read-only for receipts.
+    const expiredReservations = await prisma.sharedVocabularyImport.count({ where: {
+      sharedId: share.id, status: 'RUNNING', useReserved: true, leaseExpiresAt: { lte: new Date() },
+    } })
+    if (!existingImport?.useReserved && share.maxUses !== null && share.usedCount - expiredReservations >= share.maxUses) {
+      return NextResponse.json({ valid: false, error: 'MAX_USES_REACHED', message: '该密钥使用次数已达上限' }, { status: 429 })
     }
 
     await prisma.sharedVocabulary.update({

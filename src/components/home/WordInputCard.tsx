@@ -616,7 +616,7 @@ export function WordInputCard({
 
         try {
           setIsLoading(true)
-          const lines = text.split(/\r?\n/).filter((line) => line.trim())
+          const lines = text.split(/\r?\n/)
           if (lines.length < 2) {
             toast.error('文件内容为空或格式不正确')
             return
@@ -626,8 +626,9 @@ export function WordInputCard({
             .split(',')
             .map((h) => h.replace(/^"|"$/g, '').trim().toLowerCase())
 
-          const uploadResults: WordResult[] = []
+          const uploadResults: (Omit<Partial<WordResult>, 'correctCount' | 'incorrectCount'> & { correctCount?: string; incorrectCount?: string; csvRow?: number })[] = []
           for (let i = 1; i < lines.length; i++) {
+            if (!lines[i].trim()) continue
             const values: string[] = []
             let currentVal = ''
             let inQuotes = false
@@ -643,7 +644,7 @@ export function WordInputCard({
             }
             values.push(currentVal)
 
-            const wordObj: Partial<WordResult> = {}
+            const wordObj: Omit<Partial<WordResult>, 'correctCount' | 'incorrectCount'> & { correctCount?: string; incorrectCount?: string; csvRow?: number } = {}
             headers.forEach((header, index) => {
               if (values[index] !== undefined) {
                 const val = values[index].replace(/^"|"$/g, '').trim()
@@ -664,17 +665,16 @@ export function WordInputCard({
                   wordObj.phonetic = val
                 } else if (header.includes('pos') || header.includes('词性')) {
                   wordObj.pos = val
-                } else if (header.includes('correct')) {
-                  wordObj.correctCount = parseInt(val, 10) || 0
                 } else if (header.includes('incorrect')) {
-                  wordObj.incorrectCount = parseInt(val, 10) || 0
+                  wordObj.incorrectCount = val
+                } else if (header.includes('correct')) {
+                  wordObj.correctCount = val
                 }
               }
             })
 
-            if (wordObj.word) {
-              uploadResults.push(wordObj as WordResult)
-            }
+            wordObj.csvRow = i + 1
+            uploadResults.push(wordObj)
           }
 
           if (uploadResults.length === 0) {
@@ -689,8 +689,11 @@ export function WordInputCard({
           })
 
           const data = await response.json()
-          if (data.success) {
-            toast.success(`成功导入 ${data.savedCount} 个单词到数据库！`)
+          if (data.failedCount > 0) {
+            const rows = data.failures?.slice(0, 5).map((failure: { row: number; csvRow?: number }) => failure.csvRow ?? failure.row + 1).join('、')
+            toast.error(`已保存 ${data.savedCount} 行，${data.failedCount} 行失败${rows ? `（CSV 行：${rows}）` : ''}。请修正后重试。`)
+          } else if (data.success) {
+            toast.success(`成功导入 ${data.savedCount} 个单词，已有单词的练习进度已保留。`)
           } else {
             toast.error(`导入失败: ${data.error}`)
           }
@@ -754,7 +757,8 @@ export function WordInputCard({
                   size="sm"
                   className="gap-1.5 sm:gap-2 h-8 text-xs sm:text-sm px-2.5 sm:px-3"
                   onClick={() => fileInputRef.current?.click()}
-                  aria-label="导入CSV文件"
+                  aria-label="导入CSV文件，已有单词保留练习进度"
+                  title="已有单词保留练习进度；CSV 次数仅用于新单词"
                 >
                   <Upload className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                   导入 CSV

@@ -3,6 +3,7 @@
 @source not '../__tests__';
 @import 'tw-animate-css';
 @import 'shadcn/tailwind.css';
+@import './minimal-theme.css';
 
 @custom-variant dark (&:is(.dark *));
 

@@ -12,6 +12,7 @@ import { FEATURE_UNLOCK_THRESHOLDS } from '@/features/gamification/constants'
 import { FeatureLockedDialog } from '@/features/gamification/components/FeatureLockedDialog'
 import styles from '@/components/ai/translation-workspace.module.css'
 import { useSession } from 'next-auth/react'
+import { useMinimalFeatures } from '@/components/interface-style-provider'
 
 const GameWidget = dynamic(() => import('@/components/ui/game/GameWidget').then((module) => module.GameWidget), { loading: () => <span className="text-xs text-muted-foreground">载入游戏…</span> })
 
@@ -20,6 +21,8 @@ export function HomeHeader({
   flashcardOpenRequest = 0,
   combatPower = null,
 }: { onFlashcardInteraction?: () => void; flashcardOpenRequest?: number; combatPower?: number | null } = {}) {
+  const { visible } = useMinimalFeatures()
+  const showDanmaku = visible('main', 'danmaku')
   const { data: session, status } = useSession()
   const isAuthenticated = status === 'authenticated' && session?.user
   const [cardExpanded, setCardExpanded] = useState(false)
@@ -88,17 +91,17 @@ export function HomeHeader({
                 )}
               </div>
             )}
-            <div className="hidden xl:block">
+            {showDanmaku && <div className="hidden xl:block">
               <DanmakuToggleButton
                 locked={isAuthenticated && !isDanmakuUnlocked}
                 onLockedClick={() =>
                   handleLockedFeature('弹幕复习', FEATURE_UNLOCK_THRESHOLDS.DANMAKU)
                 }
               />
-            </div>
-            <div className="hidden xl:block">
+            </div>}
+            {showDanmaku && <div className="hidden xl:block">
               <DanmakuSettingsDialog />
-            </div>
+            </div>}
             <div className="hidden xl:block">
               <DonationButton />
             </div>

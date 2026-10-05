@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth/next'
-import { authOptions } from '../auth/[...nextauth]/route'
+import { authOptions } from '@/lib/authOptions'
 import { validateInput, sanitizeWordList } from '@/lib/security'
 import { rateLimit, getClientKey } from '@/lib/rateLimit'
 import { detectBatchPromptInjection } from '@/lib/injectionDetector'
@@ -139,7 +139,7 @@ export async function POST(req: Request) {
     const autoSaveWords = preferences?.autoSaveWords ?? true
 
     const cacheService = new CacheService(session, words)
-    const translationService = new TranslationService(session, words, autoSaveWords)
+    const translationService = new TranslationService(session, words, autoSaveWords, body.streamProtocol === 'delivery-v1')
     const streamHandler = new StreamHandler(translationService)
 
     // 用于在客户端断开时中断上游 LLM 请求
@@ -255,9 +255,20 @@ export async function POST(req: Request) {
         targetGroupId,
         upstreamAbortController,
       )
-      return streamHandler.createStreamResponse(translationStream)
+      return streamHandler.createStreamResponse(translationStream, body.streamProtocol === 'delivery-v1')
     } else {
       // All words were found in cache or concurrent requests
+      if (body.streamProtocol === 'delivery-v1') {
+        // Concurrent results may have been persisted only for another user, or
+        // cached before an earlier save failed. Retry persistence with an ack.
+        const results = [...orderedCachedResults, ...translationResult].filter((result) =>
+          normalizedWords.includes(result.word.toLowerCase().trim()),
+        ) as CachedWord[]
+        const completedStream = streamHandler.createCompletedTranslationStream(
+          results, targetGroupId, upstreamAbortController,
+        )
+        return streamHandler.createStreamResponse(completedStream, true)
+      }
       const cacheStream = streamHandler.createCacheStream([
         ...orderedCachedResults,
         ...translationResult,

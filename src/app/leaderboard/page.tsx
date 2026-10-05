@@ -101,10 +101,10 @@ export default function LeaderboardPage() {
                     setShareOpen(true)
                   }}
                   className="gap-1.5"
-                  aria-label="雷霆分享"
+                  aria-label="分享成果"
                 >
                   <Share2 className="w-4 h-4" />
-                  雷霆分享
+                  分享成果
                 </Button>
                 <CombatPowerBadge refreshKey={refreshKey} />
               </div>

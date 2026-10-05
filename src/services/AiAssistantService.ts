@@ -1,3 +1,4 @@
+import { createCustomGroup, GroupLimitError } from '@/lib/reviewGroups'
 import { randomUUID } from 'crypto'
 import prisma from '@/lib/prisma'
 import { getProviderCandidates, withLlmFailover, API_QUOTA_EXHAUSTED_MESSAGE } from '@/lib/llmPool'
@@ -227,11 +228,9 @@ async function resolveGroupId(userId: string, args: AddWordsArgs): Promise<{ gro
     }
     const count = await prisma.reviewGroup.count({ where: { userId, isSystem: false } })
     if (count >= 3) {
-      throw new Error('最多只能创建 3 个复习分组')
+      throw new Error('最多只能创建 3 个自定义词库')
     }
-    const created = await prisma.reviewGroup.create({
-      data: { id: randomUUID(), name, userId, updatedAt: new Date() },
-    })
+    const created = await createCustomGroup(userId, name)
     return { groupId: created.id, groupName: created.name }
   }
   throw new Error('必须指定 groupId 或 groupName')
@@ -286,15 +285,14 @@ async function executeCreateGroup(userId: string, args: CreateGroupArgs): Promis
   const name = sanitizeInput(String(args.name ?? '').trim(), AI_GROUP_NAME_MAX)
   if (!name) return { tool: 'create_group', data: null, error: '词库名称不能为空' }
   const count = await prisma.reviewGroup.count({ where: { userId, isSystem: false } })
-  if (count >= 3) return { tool: 'create_group', data: null, error: '最多只能创建 3 个复习分组' }
+  if (count >= 3) return { tool: 'create_group', data: null, error: '最多只能创建 3 个自定义词库' }
   const existing = await prisma.reviewGroup.findFirst({ where: { name, userId } })
   if (existing) return { tool: 'create_group', data: null, error: '该词库名称已存在' }
   try {
-    const created = await prisma.reviewGroup.create({
-      data: { id: randomUUID(), name, userId, updatedAt: new Date() },
-    })
+    const created = await createCustomGroup(userId, name)
     return { tool: 'create_group', data: { id: created.id, name: created.name } }
   } catch (err: unknown) {
+    if (err instanceof GroupLimitError) return { tool: 'create_group', data: null, error: err.message }
     if ((err as { code?: string }).code === 'P2002') {
       return { tool: 'create_group', data: null, error: '该词库名称已存在' }
     }

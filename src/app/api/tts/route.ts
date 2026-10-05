@@ -51,6 +51,7 @@ export async function POST(req: Request) {
 
     return new Response(ttsResponse.body, { headers })
   } catch (err: unknown) {
+    if (req.signal.aborted) return new Response(null, { status: 499 })
     logger.error({ err }, '[TTS] Failed')
     return NextResponse.json({ success: false, error: 'TTS failed' }, { status: 500 })
   }

@@ -1,7 +1,8 @@
+import { isMinimalFeatures, type MinimalFeatures } from '@/lib/minimalFeatures'
 import { isInterfaceStyle, type InterfaceStyle } from '@/lib/interfaceStyle'
 import prisma from '@/lib/prisma'
 import { getServerSession } from 'next-auth/next'
-import { authOptions } from '@/app/api/auth/[...nextauth]/route'
+import { authOptions } from '@/lib/authOptions'
 import { handleApiError, createErrorResponse, createSuccessResponse } from '@/lib/apiErrorHandler'
 
 const DAILY_GOAL_MIN = 5
@@ -30,11 +31,12 @@ export async function GET() {
         autoSaveWords: true,
         soundEffectsEnabled: true,
         interfaceStyle: true,
+        minimalFeatures: true,
         showImportExportActions: true,
       },
     })
 
-    return createSuccessResponse({ data: prefs })
+    return createSuccessResponse({ data: prefs, accountId: session.user.id })
   } catch (err: unknown) {
     return handleApiError(err, 'preferences GET')
   }
@@ -47,11 +49,17 @@ export async function PUT(req: Request) {
       return createErrorResponse('未授权访问', 401)
     }
 
+    const expectedAccount = req.headers.get('X-Preferences-Account')
+    if (expectedAccount && expectedAccount !== session.user.id) {
+      return createErrorResponse('登录账号已变化，请刷新后重试', 409)
+    }
+
     const body = (await req.json()) as {
       dailyGoal?: number
       reviewReminderEnabled?: boolean
       reviewReminderTime?: string
       autoSaveWords?: boolean
+      minimalFeatures?: MinimalFeatures
       interfaceStyle?: InterfaceStyle
       soundEffectsEnabled?: boolean
       showImportExportActions?: boolean
@@ -62,10 +70,16 @@ export async function PUT(req: Request) {
       reviewReminderEnabled?: boolean
       reviewReminderTime?: string | null
       autoSaveWords?: boolean
+      minimalFeatures?: MinimalFeatures
       interfaceStyle?: InterfaceStyle
       soundEffectsEnabled?: boolean
       showImportExportActions?: boolean
     } = {}
+
+    if ('minimalFeatures' in body) {
+      if (!isMinimalFeatures(body.minimalFeatures)) return createErrorResponse('无效的极简功能设置', 400)
+      data.minimalFeatures = body.minimalFeatures
+    }
 
     if ('interfaceStyle' in body) {
       if (!isInterfaceStyle(body.interfaceStyle)) {
@@ -119,11 +133,12 @@ export async function PUT(req: Request) {
         autoSaveWords: true,
         soundEffectsEnabled: true,
         interfaceStyle: true,
+        minimalFeatures: true,
         showImportExportActions: true,
       },
     })
 
-    return createSuccessResponse({ data: prefs })
+    return createSuccessResponse({ data: prefs, accountId: session.user.id })
   } catch (err: unknown) {
     return handleApiError(err, 'preferences PUT')
   }

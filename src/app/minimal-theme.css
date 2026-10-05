@@ -1,0 +1,151 @@
+/* Extra attribute specificity keeps this optional style above brand/module rules,
+   independent of stylesheet loading order. No geometry or keyboard rules change. */
+html:root[data-ui-style='minimal'][data-ui-style][data-ui-style] {
+  --background: #fafafa;
+  --foreground: #181818;
+  --card: #ffffff;
+  --popover: #ffffff;
+  --primary: #222222;
+  --primary-foreground: #ffffff;
+  --secondary: #f1f1f1;
+  --muted: #f1f1f1;
+  --muted-foreground: #686868;
+  --accent: #ededed;
+  --border: #dedede;
+  --input: #c4c4c4;
+  --ring: #737373;
+  --radius: .5rem;
+
+  --card-foreground: var(--foreground);
+  --popover-foreground: var(--foreground);
+  --secondary-foreground: var(--foreground);
+  --accent-foreground: var(--foreground);
+  --sidebar: var(--card);
+  --sidebar-foreground: var(--foreground);
+  --sidebar-primary: var(--primary);
+  --sidebar-primary-foreground: var(--primary-foreground);
+  --sidebar-accent: var(--accent);
+  --sidebar-accent-foreground: var(--foreground);
+  --sidebar-border: var(--border);
+  --sidebar-ring: var(--ring);
+  --color-surface: var(--background);
+  --color-surface-alt: var(--muted);
+  --color-brand-light: var(--accent);
+  --color-brand-light-fg: var(--foreground);
+  --color-brand-subtle: var(--muted-foreground);
+  --color-caption: var(--muted-foreground);
+  --gold-glass: var(--card);
+  --gold-glass-border: var(--border);
+  --gold-glass-shadow: none;
+  --gold-title: var(--foreground);
+  --gold-metal: none;
+  --gold-button: var(--primary);
+  --gold-button-shadow: none;
+  --gold-input: var(--card);
+  --gold-nebula: none;
+  --gold-star: transparent;
+  --gold-star-bright: transparent;
+  --indigo-glass: var(--card);
+  --indigo-glass-border: var(--border);
+  --indigo-glass-shadow: none;
+  --indigo-button-shadow: none;
+  --indigo-nebula: none;
+  --indigo-panel-bg: var(--card);
+  --indigo-panel-border: var(--border);
+  --indigo-progress-bg: var(--muted);
+  --indigo-active-border: var(--primary);
+  --card-glow: none;
+
+  &.dark {
+    --background: #121212;
+    --foreground: #ededed;
+    --card: #1b1b1b;
+    --popover: #202020;
+    --primary: #ededed;
+    --primary-foreground: #181818;
+    --secondary: #252525;
+    --muted: #252525;
+    --muted-foreground: #ababab;
+    --accent: #303030;
+    --border: #383838;
+    --input: #555555;
+    --ring: #b0b0b0;
+  }
+
+  & body { background: var(--background); color: var(--foreground); }
+  & body::before, & body::after { display: none; }
+
+  & :is(h1, h2, h3, [data-slot='card-title']) {
+    color: var(--foreground);
+    background-image: none;
+    -webkit-text-fill-color: currentColor;
+    text-shadow: none;
+  }
+
+  & :is([data-slot='card'], section.bg-card) {
+    --surface-shadow: none;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    box-shadow: none;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+  & [data-slot='card-footer'] { background: var(--muted); }
+
+  & :is([data-slot='button'], .bg-primary) { box-shadow: none; }
+  & .bg-primary { background: var(--primary); color: var(--primary-foreground); }
+  & .text-primary { color: var(--foreground); }
+
+  & :is([data-slot='input'], [data-slot='textarea'], [data-slot='select-trigger']) {
+    background: var(--card);
+    border-color: var(--input);
+    color: var(--foreground);
+    box-shadow: none;
+  }
+  & :is(input, textarea) { caret-color: var(--foreground); }
+  & :is(input, textarea)::placeholder { color: var(--muted-foreground); opacity: 1; }
+
+  & :is([data-slot='dialog-content'], [data-slot='alert-dialog-content'], [data-slot='popover-content'], [data-slot='dropdown-menu-content'], [data-slot='select-content'], [data-slot='sheet-content']) {
+    background: var(--popover);
+    border-color: var(--border);
+    color: var(--popover-foreground);
+    box-shadow: none;
+  }
+  & :focus-visible { outline: 2px solid var(--ring); outline-offset: 3px; }
+
+  & :is([data-minimal-surface], [data-workspace-sidebar], [data-home-header], [data-workspace-translation-header], [data-workspace-settings-heading], .indigo-page-header) {
+    background: var(--card);
+    border-color: var(--border);
+    color: var(--foreground);
+    box-shadow: none;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+  & :is([data-minimal-surface], [data-home-header], [data-workspace-translation-header], [data-workspace-settings-heading], .indigo-page-header) :is(h1, h2, svg, [data-sidebar-label]) { color: inherit; }
+  & :is([data-workspace-settings-heading], .indigo-page-header) p { color: var(--muted-foreground); }
+  & [data-workspace-translation-header] [aria-label='翻译与聊天'] { border-color: var(--border); }
+  & [data-workspace-translation-header] [aria-label='翻译与聊天'] button { color: var(--muted-foreground); }
+  & [data-workspace-translation-header] [aria-label='翻译与聊天'] button[aria-pressed='true'] { color: var(--foreground); }
+  & [data-workspace-translation-header] [aria-label='翻译与聊天'] button > span { background: var(--primary); }
+  & [data-home-header] nav button { background: var(--card); border-color: var(--border); color: var(--foreground); }
+  & [data-home-shortcuts] > :is(a, button) { box-shadow: none; -webkit-backdrop-filter: none; backdrop-filter: none; }
+  & .indigo-page-header :is([data-slot='button'], [data-slot='select-trigger']) { background: var(--card); color: var(--foreground); border-color: var(--border); }
+
+  & [data-minimal-surface]:is([aria-current='page'], [aria-pressed='true'], [data-highlighted='true'], [data-open='true']) {
+    background: var(--primary);
+    color: var(--primary-foreground);
+    border-color: var(--primary);
+  }
+
+  /* Keep the radial menu overlay blur and functional transitions intact. */
+  & [aria-label^='滑动或点击导航线'] > span {
+    background: var(--border);
+    box-shadow: none;
+  }
+  & [aria-label^='滑动或点击导航线'] > span::after { background: var(--primary); box-shadow: none; }
+  & :is(.animate-pulse-scale, .animate-progress-shimmer) { animation: none; }
+  & .bg-stripes { background-image: none; }
+  & [data-vocabulary-grid] { grid-template-columns: minmax(0, 1fr); }
+  & [data-vocabulary-grid] > [data-vocabulary-panel] { display: block; grid-column: 1; grid-row: 1; }
+}

@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect, useRef, useCallback } from 'react'
+import React, { useState, useEffect, useLayoutEffect, useRef, useCallback } from 'react'
 import { useSession } from 'next-auth/react'
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
@@ -8,6 +8,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Loader2, Send, Trash, Ban, ChevronUp, AlertTriangle } from 'lucide-react'
 import { toast } from 'sonner'
 import { isDeveloper, getDisplayName, getAvatar, type ChatAvatar } from '@/lib/chatUser'
+import { useInputDraft } from '@/hooks/useInputDraft'
 
 interface Message {
   id: string
@@ -34,7 +35,9 @@ const MAX_IN_MEMORY_MESSAGES = 500
 export function ChatRoom({ active = true }: { active?: boolean }) {
   const { data: session } = useSession()
   const [messages, setMessages] = useState<Message[]>([])
-  const [input, setInput] = useState('')
+  const [input, setInput, draftKey] = useInputDraft('chat-room')
+  const draftKeyRef = useRef(draftKey)
+  useLayoutEffect(() => { draftKeyRef.current = draftKey }, [draftKey])
   const [isLoading, setIsLoading] = useState(true)
   const [loadError, setLoadError] = useState<string | null>(null)
   const [isSending, setIsSending] = useState(false)
@@ -175,6 +178,8 @@ export function ChatRoom({ active = true }: { active?: boolean }) {
   }, [active, messages, isLoading])
 
   const handleSend = async () => {
+    const sendingDraftKey = draftKey
+    const sendingInput = input
     if (!input.trim() || isSending) return
 
     if (input.trim().length > MAX_CONTENT_LENGTH) {
@@ -191,9 +196,17 @@ export function ChatRoom({ active = true }: { active?: boolean }) {
       })
 
       const data = await res.json()
+      if (draftKeyRef.current !== sendingDraftKey) {
+        if (data.success && sendingDraftKey) {
+          try {
+            if (localStorage.getItem(sendingDraftKey) === sendingInput) localStorage.removeItem(sendingDraftKey)
+          } catch { /* Storage may be unavailable. */ }
+        }
+        return
+      }
 
       if (data.success) {
-        setInput('')
+        setInput((current) => current === sendingInput ? '' : current)
         setMessages(prev => {
           if (prev.some(m => m.id === data.data.id)) return prev
           return [...prev, data.data]

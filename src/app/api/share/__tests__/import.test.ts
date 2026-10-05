@@ -5,7 +5,12 @@
 import { describe, it, expect, beforeEach, vi, afterEach } from 'vitest'
 import { POST } from '../import/route'
 import prisma from '@/lib/prisma'
+// Test-only export from the mocked Prisma module.
+import * as prismaModule from '@/lib/prisma'
 import { getServerSession } from 'next-auth/next'
+import { sanitizeInput } from '@/lib/security'
+
+const fixture = vi.hoisted(() => ({ share: null as any, receipt: null as any, words: {} as Record<string, any>, links: [] as string[] }))
 
 // Mock dependencies
 vi.mock('next-auth/next', () => ({
@@ -17,42 +22,81 @@ vi.mock('@/lib/security', () => ({
 }))
 
 vi.mock('@/lib/prisma', () => {
-  const mockPrisma: any = {
-    publicWord: {
-      findUnique: vi.fn(),
-      create: vi.fn(),
-    },
-    sharedVocabulary: {
-      findUnique: vi.fn(),
-      update: vi.fn(),
-      updateMany: vi.fn().mockResolvedValue({ count: 1 }),
-    },
-    sharedVocabularyImport: {
-      findUnique: vi.fn(),
-      create: vi.fn(),
-      delete: vi.fn(),
-    },
-    reviewGroup: {
-      findUnique: vi.fn(),
-      create: vi.fn(),
-      count: vi.fn().mockResolvedValue(0),
-    },
-    word: {
-      findUnique: vi.fn(),
-      create: vi.fn().mockResolvedValue({ id: 'new-word-1' }),
-      findMany: vi.fn().mockResolvedValue([]),
-    },
-    reviewGroupWord: {
-      create: vi.fn().mockResolvedValue({}),
-      findUnique: vi.fn().mockResolvedValue(null),
-    },
-    $executeRaw: vi.fn(),
-    $transaction: vi.fn(async (fn: any) => {
-      const result = await fn(mockPrisma)
-      return result
-    }),
+  const apply = (record: any, data: any) => {
+    for (const [key, value] of Object.entries(data)) {
+      record[key] = value && typeof value === 'object' && 'increment' in value
+        ? (record[key] || 0) + (value as any).increment
+        : value && typeof value === 'object' && 'decrement' in value
+          ? (record[key] || 0) - (value as any).decrement : value
+    }
+    return { ...record }
   }
-  return { default: mockPrisma }
+  const mockPrisma: any = {
+    publicWord: { findUnique: vi.fn(), create: vi.fn(), createMany: vi.fn() },
+    sharedVocabulary: { findUnique: vi.fn(), findUniqueOrThrow: vi.fn(), update: vi.fn(), updateMany: vi.fn() },
+    sharedVocabularyImport: { findUnique: vi.fn(), findUniqueOrThrow: vi.fn(), findMany: vi.fn(), create: vi.fn(), update: vi.fn(), updateMany: vi.fn(), delete: vi.fn() },
+    reviewGroup: { findUnique: vi.fn(), findFirst: vi.fn(), create: vi.fn(), count: vi.fn() },
+    word: { findUnique: vi.fn(), findUniqueOrThrow: vi.fn(), create: vi.fn(), createMany: vi.fn(), findMany: vi.fn() },
+    reviewGroupWord: { create: vi.fn(), createMany: vi.fn(), findUnique: vi.fn() },
+    $queryRaw: vi.fn(), $executeRaw: vi.fn(), $transaction: vi.fn(),
+  }
+  // Install a small stateful mock so committed receipts/counters survive later calls,
+  // while rejected transactions restore their own batch snapshot.
+  const reset = () => {
+    fixture.share = null; fixture.receipt = null; fixture.words = {}; fixture.links = []
+    mockPrisma.$queryRaw.mockResolvedValue([])
+    mockPrisma.sharedVocabulary.findUniqueOrThrow.mockImplementation(async () => {
+      fixture.share ??= { ...await mockPrisma.sharedVocabulary.findUnique() }
+      return { ...fixture.share }
+    })
+    mockPrisma.sharedVocabulary.update.mockImplementation(async ({ data }: any) => apply(fixture.share, data))
+    mockPrisma.sharedVocabularyImport.findUnique.mockImplementation(async () => fixture.receipt && { ...fixture.receipt })
+    mockPrisma.sharedVocabularyImport.findUniqueOrThrow.mockImplementation(async () => {
+      if (!fixture.receipt) throw new Error('Missing receipt')
+      return { ...fixture.receipt }
+    })
+    mockPrisma.sharedVocabularyImport.findMany.mockResolvedValue([])
+    mockPrisma.sharedVocabularyImport.updateMany.mockResolvedValue({ count: 0 })
+    mockPrisma.sharedVocabularyImport.create.mockImplementation(async ({ data }: any) => {
+      fixture.receipt = { processedCount: 0, wordsSkipped: 0, ...data }
+      return { ...fixture.receipt }
+    })
+    mockPrisma.sharedVocabularyImport.update.mockImplementation(async ({ data, select }: any) => {
+      const receipt = apply(fixture.receipt, data)
+      return select ? Object.fromEntries(Object.keys(select).map((key) => [key, receipt[key]])) : receipt
+    })
+    mockPrisma.reviewGroup.count.mockResolvedValue(0)
+    mockPrisma.reviewGroup.create.mockImplementation(async ({ data }: any) => ({ ...data, id: 'new-group-1' }))
+    mockPrisma.reviewGroup.findFirst.mockImplementation(async ({ where }: any) => {
+      const group = where.id === 'new-group-1'
+        ? { id: where.id, name: 'Test Group', userId: 'test-user-123' }
+        : await mockPrisma.reviewGroup.findUnique({ where: { id: where.id } })
+      return group?.userId === where.userId ? group : null
+    })
+    mockPrisma.publicWord.findUnique.mockResolvedValue({ id: 'public-word-1' })
+    mockPrisma.word.findUnique.mockImplementation(async ({ where }: any) => fixture.words[where.word_userId.word] ?? null)
+    mockPrisma.word.createMany.mockImplementation(async ({ data }: any) => {
+      let count = 0
+      for (const word of data) if (!fixture.words[word.word]) { fixture.words[word.word] = { ...word }; count++ }
+      return { count }
+    })
+    mockPrisma.word.findUniqueOrThrow.mockImplementation(async ({ where }: any) => fixture.words[where.word_userId.word])
+    mockPrisma.reviewGroupWord.createMany.mockImplementation(async ({ data }: any) => {
+      const existing = await mockPrisma.reviewGroupWord.findUnique()
+      let count = 0
+      for (const link of data) {
+        const key = link.reviewGroupId + ':' + link.wordId
+        if (!existing && !fixture.links.includes(key)) { fixture.links.push(key); count++ }
+      }
+      return { count }
+    })
+    mockPrisma.$transaction.mockImplementation(async (fn: any) => {
+      const snapshot = structuredClone(fixture)
+      try { return await fn(mockPrisma) }
+      catch (error) { Object.assign(fixture, snapshot); throw error }
+    })
+  }
+  return { default: mockPrisma, resetImportFixture: reset }
 })
 
 describe('Share Import API', () => {
@@ -102,7 +146,10 @@ describe('Share Import API', () => {
   }
 
   beforeEach(() => {
-    vi.clearAllMocks()
+    vi.resetAllMocks()
+    vi.mocked(sanitizeInput).mockImplementation((input) => input)
+    ;(prismaModule as unknown as { resetImportFixture: () => void }).resetImportFixture()
+    vi.mocked(prisma.sharedVocabulary.findUnique).mockResolvedValue(mockShare)
     vi.mocked(getServerSession).mockResolvedValue(mockSession as any)
   })
 
@@ -172,7 +219,6 @@ describe('Share Import API', () => {
 
     it('should normalize lowercase share code to uppercase', async () => {
       vi.mocked(prisma.sharedVocabulary.findUnique).mockResolvedValue(mockShare)
-      vi.mocked(prisma.sharedVocabularyImport.findUnique).mockResolvedValue(null)
       vi.mocked(prisma.sharedVocabulary.updateMany).mockResolvedValue({ count: 1 })
       vi.mocked(prisma.reviewGroup.create).mockResolvedValue({
         id: 'new-group-1',
@@ -181,8 +227,6 @@ describe('Share Import API', () => {
       } as any)
       vi.mocked(prisma.word.create).mockResolvedValue({ id: 'new-word-1' } as any)
       vi.mocked(prisma.reviewGroupWord.create).mockResolvedValue({} as any)
-      vi.mocked(prisma.sharedVocabulary.update).mockResolvedValue({} as any)
-      vi.mocked(prisma.sharedVocabularyImport.create).mockResolvedValue({} as any)
       vi.mocked(prisma.word.findMany).mockResolvedValue([])
 
       const req = new Request('http://localhost/api/share/import', {
@@ -331,13 +375,13 @@ describe('Share Import API', () => {
       expect(data.error).toBe('MAX_USES_REACHED')
     })
 
-    it('should reject when atomic maxUses check fails (race condition)', async () => {
+    it('should reject when the locked share has reached maxUses after the initial read', async () => {
       vi.mocked(prisma.sharedVocabulary.findUnique).mockResolvedValue({
         ...mockShare,
         maxUses: 5,
         usedCount: 4,
       })
-      vi.mocked(prisma.sharedVocabulary.updateMany).mockResolvedValue({ count: 0 })
+      vi.mocked(prisma.sharedVocabulary.findUniqueOrThrow).mockResolvedValue({ ...mockShare, maxUses: 5, usedCount: 5 } as any)
 
       const req = new Request('http://localhost/api/share/import', {
         method: 'POST',
@@ -354,6 +398,8 @@ describe('Share Import API', () => {
       expect(response.status).toBe(429)
       expect(data.success).toBe(false)
       expect(data.error).toBe('MAX_USES_REACHED')
+      expect(prisma.sharedVocabulary.update).not.toHaveBeenCalled()
+      expect(vi.mocked(prisma.$queryRaw).mock.calls.some((call) => (call[0] as unknown as string[]).join('?').includes('\"SharedVocabulary\"'))).toBe(true)
     })
   })
 
@@ -365,6 +411,7 @@ describe('Share Import API', () => {
         sharedId: mockShare.id,
         importerId: mockUserId,
         targetGroupId: 'existing-group-1',
+        status: 'COMPLETED',
       } as any)
       vi.mocked(prisma.reviewGroup.findUnique).mockResolvedValue({
         id: 'existing-group-1',
@@ -391,14 +438,7 @@ describe('Share Import API', () => {
 
     it('should allow re-import when target group was deleted', async () => {
       vi.mocked(prisma.sharedVocabulary.findUnique).mockResolvedValue(mockShare)
-      vi.mocked(prisma.sharedVocabularyImport.findUnique).mockResolvedValue({
-        id: 'import-1',
-        sharedId: mockShare.id,
-        importerId: mockUserId,
-        targetGroupId: 'deleted-group-1',
-      } as any)
-      vi.mocked(prisma.reviewGroup.findUnique).mockResolvedValue(null)
-      vi.mocked(prisma.sharedVocabularyImport.delete).mockResolvedValue({ id: 'import-1' } as any)
+      vi.mocked(prisma.sharedVocabularyImport.findUnique).mockResolvedValue(null)
       vi.mocked(prisma.reviewGroup.create).mockResolvedValue({
         id: 'new-group-1',
         name: 'Test Group',
@@ -406,8 +446,6 @@ describe('Share Import API', () => {
       } as any)
       vi.mocked(prisma.word.create).mockResolvedValue({ id: 'new-word-1' } as any)
       vi.mocked(prisma.reviewGroupWord.create).mockResolvedValue({} as any)
-      vi.mocked(prisma.sharedVocabulary.update).mockResolvedValue({} as any)
-      vi.mocked(prisma.sharedVocabularyImport.create).mockResolvedValue({} as any)
       vi.mocked(prisma.word.findMany).mockResolvedValue([])
 
       const req = new Request('http://localhost/api/share/import', {
@@ -424,14 +462,14 @@ describe('Share Import API', () => {
 
       expect(response.status).toBe(200)
       expect(data.success).toBe(true)
-      expect(prisma.sharedVocabularyImport.delete).toHaveBeenCalled()
+      expect(prisma.sharedVocabularyImport.delete).not.toHaveBeenCalled()
+      expect(fixture.receipt.status).toBe('COMPLETED')
     })
   })
 
   describe('Target Group Management', () => {
     it('should create new group when createNewGroup is true', async () => {
       vi.mocked(prisma.sharedVocabulary.findUnique).mockResolvedValue(mockShare)
-      vi.mocked(prisma.sharedVocabularyImport.findUnique).mockResolvedValue(null)
       vi.mocked(prisma.reviewGroup.create).mockResolvedValue({
         id: 'new-group-1',
         name: 'Test Group',
@@ -439,8 +477,6 @@ describe('Share Import API', () => {
       } as any)
       vi.mocked(prisma.word.create).mockResolvedValue({ id: 'new-word-1' } as any)
       vi.mocked(prisma.reviewGroupWord.create).mockResolvedValue({} as any)
-      vi.mocked(prisma.sharedVocabulary.update).mockResolvedValue({} as any)
-      vi.mocked(prisma.sharedVocabularyImport.create).mockResolvedValue({} as any)
       vi.mocked(prisma.word.findMany).mockResolvedValue([])
 
       const req = new Request('http://localhost/api/share/import', {
@@ -470,7 +506,6 @@ describe('Share Import API', () => {
 
     it('should reject when user already owns 3 non-system groups', async () => {
       vi.mocked(prisma.sharedVocabulary.findUnique).mockResolvedValue(mockShare)
-      vi.mocked(prisma.sharedVocabularyImport.findUnique).mockResolvedValue(null)
       vi.mocked(prisma.reviewGroup.count).mockResolvedValue(3)
 
       const req = new Request('http://localhost/api/share/import', {
@@ -494,7 +529,6 @@ describe('Share Import API', () => {
 
     it('should use existing group when targetGroupId is provided', async () => {
       vi.mocked(prisma.sharedVocabulary.findUnique).mockResolvedValue(mockShare)
-      vi.mocked(prisma.sharedVocabularyImport.findUnique).mockResolvedValue(null)
       vi.mocked(prisma.reviewGroup.findUnique).mockResolvedValue({
         id: 'existing-group-1',
         name: 'Existing Group',
@@ -502,8 +536,6 @@ describe('Share Import API', () => {
       } as any)
       vi.mocked(prisma.word.create).mockResolvedValue({ id: 'new-word-1' } as any)
       vi.mocked(prisma.reviewGroupWord.create).mockResolvedValue({} as any)
-      vi.mocked(prisma.sharedVocabulary.update).mockResolvedValue({} as any)
-      vi.mocked(prisma.sharedVocabularyImport.create).mockResolvedValue({} as any)
       vi.mocked(prisma.word.findMany).mockResolvedValue([])
 
       const req = new Request('http://localhost/api/share/import', {
@@ -520,8 +552,8 @@ describe('Share Import API', () => {
 
       expect(response.status).toBe(200)
       expect(data.success).toBe(true)
-      expect(prisma.reviewGroup.findUnique).toHaveBeenCalledWith({
-        where: { id: 'existing-group-1' },
+      expect(prisma.reviewGroup.findFirst).toHaveBeenCalledWith({
+        where: { id: 'existing-group-1', userId: mockUserId },
       })
     })
 
@@ -565,7 +597,7 @@ describe('Share Import API', () => {
       const response = await POST(req)
       const data = await response.json()
 
-      expect(response.status).toBe(403)
+      expect(response.status).toBe(404)
       expect(data.success).toBe(false)
     })
 
@@ -592,23 +624,16 @@ describe('Share Import API', () => {
   describe('Import Process', () => {
     beforeEach(() => {
       vi.mocked(prisma.sharedVocabulary.findUnique).mockResolvedValue(mockShare as any)
-      vi.mocked(prisma.sharedVocabularyImport.findUnique).mockResolvedValue(null)
       vi.mocked(prisma.reviewGroup.create).mockResolvedValue({
         id: 'new-group-1',
         name: 'Test Group',
         userId: mockUserId,
       } as any)
-      vi.mocked(prisma.publicWord.findUnique).mockResolvedValue(null as any)
       vi.mocked(prisma.publicWord.create).mockResolvedValue({ id: 'public-word-1' } as any)
       vi.mocked(prisma.word.create).mockResolvedValue({ id: 'new-word-1' } as any)
       vi.mocked(prisma.reviewGroupWord.create).mockResolvedValue({} as any)
       vi.mocked(prisma.reviewGroupWord.findUnique).mockResolvedValue(null)
-      vi.mocked(prisma.sharedVocabulary.update).mockResolvedValue({} as any)
-      vi.mocked(prisma.sharedVocabularyImport.create).mockResolvedValue({} as any)
       vi.mocked(prisma.word.findMany).mockResolvedValue([])
-      vi.mocked(prisma.$transaction).mockImplementation(async (fn: any) => {
-        return await fn(prisma)
-      })
     })
 
     it('should successfully import words', async () => {
@@ -655,11 +680,9 @@ describe('Share Import API', () => {
       expect(response.status).toBe(200)
       expect(data.success).toBe(true)
       expect(data.data.wordsSkipped).toBe(1)
-      expect(prisma.reviewGroupWord.create).toHaveBeenCalledWith({
-        data: expect.objectContaining({
-          reviewGroupId: 'new-group-1',
-          wordId: 'existing-word-1',
-        }),
+      expect(prisma.reviewGroupWord.createMany).toHaveBeenCalledWith({
+        data: [expect.objectContaining({ reviewGroupId: 'new-group-1', wordId: 'existing-word-1' })],
+        skipDuplicates: true,
       })
     })
 
@@ -690,7 +713,8 @@ describe('Share Import API', () => {
       expect(response.status).toBe(200)
       expect(data.success).toBe(true)
       expect(data.data.wordsSkipped).toBe(1)
-      expect(prisma.reviewGroupWord.create).not.toHaveBeenCalled()
+      expect(fixture.links).toHaveLength(0)
+      expect(prisma.reviewGroupWord.createMany).toHaveBeenCalledWith(expect.objectContaining({ skipDuplicates: true }))
     })
 
     it('should update share usage count after successful import', async () => {
@@ -709,12 +733,13 @@ describe('Share Import API', () => {
         where: { id: mockShare.id },
         data: {
           importedCount: { increment: 1 },
-          usedCount: { increment: 1 },
         },
       })
+      expect(fixture.share.usedCount).toBe(1)
+      expect(fixture.share.importedCount).toBe(1)
     })
 
-    it('should create import record after successful import', async () => {
+    it('should reserve a receipt before importing words and mark it completed', async () => {
       const req = new Request('http://localhost/api/share/import', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -731,15 +756,72 @@ describe('Share Import API', () => {
           sharedId: mockShare.id,
           importerId: mockUserId,
           targetGroupId: 'new-group-1',
+          status: 'RUNNING',
+          useReserved: true,
         }),
       })
+      expect(fixture.receipt).toMatchObject({ status: 'COMPLETED', wordsImported: 1, processedCount: 1 })
+    })
+  })
+
+  describe('Persistent receipt recovery', () => {
+    it('commits only complete batches, releases the failed reservation and resumes exactly once', async () => {
+      const source = Array.from({ length: 52 }, (_, index) => ({
+        Word: { ...mockShare.ReviewGroup.ReviewGroupWord[0].Word, word: `word-${index}` },
+      }))
+      vi.mocked(prisma.sharedVocabulary.findUnique).mockResolvedValue({
+        ...mockShare, maxUses: 1, ReviewGroup: { ReviewGroupWord: source },
+      } as any)
+      const createWords = vi.mocked(prisma.word.createMany).getMockImplementation()!
+      vi.mocked(prisma.word.createMany).mockImplementation(((args: any) => {
+        if (args.data[0].word === 'word-51') throw new Error('Second batch failure')
+        return createWords(args)
+      }) as typeof createWords)
+      const request = () => new Request('http://localhost/api/share/import', {
+        method: 'POST', body: JSON.stringify({ code: validShareCode, customName: 'Test Group' }),
+      })
+      const failed = await (await POST(request())).json()
+      expect(failed.success).toBe(false)
+      expect(failed.data).toEqual({ wordsImported: 50, wordsSkipped: 0, processedCount: 50 })
+      expect(fixture.receipt).toMatchObject({ status: 'FAILED', processedCount: 50, useReserved: false })
+      expect(fixture.share).toMatchObject({ usedCount: 0, importedCount: 50 })
+      expect(Object.keys(fixture.words)).toHaveLength(50)
+      expect(fixture.links).toHaveLength(50)
+      expect(prisma.$transaction).toHaveBeenCalledWith(expect.any(Function), { timeout: 30000 })
+      const sql = vi.mocked(prisma.$queryRaw).mock.calls.map((call) => (call[0] as unknown as string[]).join('?'))
+      expect(sql.some((query) => query.includes('"SharedVocabulary"') && query.includes('FOR UPDATE'))).toBe(true)
+      expect(sql.some((query) => query.includes('"SharedVocabularyImport"') && query.includes('FOR UPDATE'))).toBe(true)
+
+      vi.mocked(prisma.word.createMany).mockImplementation(createWords)
+      const recovered = await (await POST(request())).json()
+      expect(recovered.success).toBe(true)
+      expect(recovered.data.wordsImported).toBe(52)
+      expect(fixture.receipt).toMatchObject({ status: 'COMPLETED', processedCount: 52, wordsImported: 52, useReserved: false })
+      expect(fixture.share).toMatchObject({ usedCount: 1, importedCount: 52 })
+      expect(Object.keys(fixture.words)).toHaveLength(52)
+      expect(fixture.links).toHaveLength(52)
+      expect(prisma.sharedVocabularyImport.create).toHaveBeenCalledTimes(1)
+      expect((await (await POST(request())).json()).error).toBe('ALREADY_IMPORTED')
+      expect(fixture.share.usedCount).toBe(1)
+    })
+
+    it('rejects an active same-account lease without reserving another use or creating a group', async () => {
+      fixture.receipt = { id: 'running-import', status: 'RUNNING', leaseToken: 'other-request',
+        leaseExpiresAt: new Date(Date.now() + 120000), useReserved: true, targetGroupId: 'new-group-1' }
+      const response = await POST(new Request('http://localhost/api/share/import', {
+        method: 'POST', body: JSON.stringify({ code: validShareCode, customName: 'Test Group' }),
+      }))
+      expect(response.status).toBe(409)
+      expect((await response.json()).error).toBe('IMPORT_IN_PROGRESS')
+      expect(prisma.sharedVocabulary.update).not.toHaveBeenCalled()
+      expect(prisma.sharedVocabularyImport.create).not.toHaveBeenCalled()
+      expect(prisma.reviewGroup.create).not.toHaveBeenCalled()
     })
   })
 
   describe('Error Handling & Transaction Rollback', () => {
     beforeEach(() => {
       vi.mocked(prisma.sharedVocabulary.findUnique).mockResolvedValue(mockShare)
-      vi.mocked(prisma.sharedVocabularyImport.findUnique).mockResolvedValue(null)
       vi.mocked(prisma.reviewGroup.create).mockResolvedValue({
         id: 'new-group-1',
         name: 'Test Group',
@@ -786,6 +868,9 @@ describe('Share Import API', () => {
 
       // Should handle error gracefully
       expect(response.status).toBe(500)
+      expect(fixture.receipt).toBeNull()
+      expect(Object.keys(fixture.words)).toHaveLength(0)
+      expect(prisma.sharedVocabulary.update).not.toHaveBeenCalled()
     })
 
     it('should handle unique constraint errors', async () => {
@@ -806,9 +891,9 @@ describe('Share Import API', () => {
       const response = await POST(req)
       const data = await response.json()
 
-      expect(response.status).toBe(409)
+      expect(response.status).toBe(500)
       expect(data.success).toBe(false)
-      expect(data.error).toBe('数据已存在')
+      expect(data.error).toBe('IMPORT_FAILED')
     })
 
     it('should handle record not found errors', async () => {
@@ -829,9 +914,9 @@ describe('Share Import API', () => {
       const response = await POST(req)
       const data = await response.json()
 
-      expect(response.status).toBe(404)
+      expect(response.status).toBe(500)
       expect(data.success).toBe(false)
-      expect(data.error).toBe('记录不存在')
+      expect(data.error).toBe('IMPORT_FAILED')
     })
 
     it('should handle transaction errors gracefully', async () => {

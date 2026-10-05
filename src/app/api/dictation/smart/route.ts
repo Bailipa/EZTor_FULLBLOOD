@@ -54,7 +54,7 @@ const ALL_WORDS_QUERY = (userId: string, limit: number) => prisma.$queryRaw<Reco
   LIMIT ${limit}
 `
 import { getServerSession } from 'next-auth/next'
-import { authOptions } from '../../auth/[...nextauth]/route'
+import { authOptions } from '@/lib/authOptions'
 import { logger } from '@/lib/logger'
 
 export const dynamic = 'force-dynamic'

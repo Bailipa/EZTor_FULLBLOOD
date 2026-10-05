@@ -197,7 +197,11 @@ export const WordInputRow = React.memo(function WordInputRow({
   const renderTranslationResult = () => {
     switch (entry.status) {
       case 'idle':
-        return null
+        return entry.word.trim() ? (
+          <Button type="button" size="sm" variant="outline" className="min-h-11 gap-1.5" onClick={() => onRetryQuery(entry.id)} aria-label={`查询 ${entry.word} 的词库释义`}>
+            <Search className="h-3.5 w-3.5" />查词
+          </Button>
+        ) : null
 
       case 'loading':
         return (
@@ -282,6 +286,14 @@ export const WordInputRow = React.memo(function WordInputRow({
               onSave={onSave}
               onCancelSave={onCancelSave}
             />
+            {entry.aiTranslated && entry.saveStatus === 'error' && !isGuest && (
+              <div className="flex flex-wrap items-center gap-2 py-1 text-xs text-muted-foreground">
+                <span>释义已保留；优先重试缓存保存，无缓存时可能再次调用 AI</span>
+                <Button type="button" variant="outline" size="sm" className="min-h-11 px-3" onClick={handleStartTranslate}>
+                  重试处理（AI）
+                </Button>
+              </div>
+            )}
           </div>
         )
 
@@ -338,7 +350,7 @@ export const WordInputRow = React.memo(function WordInputRow({
     }
   }
 
-  const hasContent = entry.status !== 'idle'
+  const hasContent = entry.status !== 'idle' || !!entry.word.trim()
 
   return (
     <div

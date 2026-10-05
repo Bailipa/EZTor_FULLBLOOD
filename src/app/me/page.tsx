@@ -3,10 +3,12 @@
 import { useSession, signOut } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import AppLayout from '@/components/layout/AppLayout'
 import { useInterfaceStyle } from '@/components/interface-style-provider'
+import { DEFAULT_MINIMAL_FEATURES, MINIMAL_FEATURE_GROUPS, type MinimalFeatures } from '@/lib/minimalFeatures'
 import { INTERFACE_STYLES } from '@/lib/interfaceStyle'
+import { commitUserPreferences, readUserPreferences, subscribeUserPreferences, type UserPreferences } from '@/lib/userPreferences'
 import styles from '@/components/ai/translation-workspace.module.css'
 import scrollStyles from './me-scroll.module.css'
 import { Card, CardContent } from '@/components/ui/card'
@@ -55,7 +57,7 @@ import { toast } from 'sonner'
 import { useAppVersion } from '@/hooks/useAppVersion'
 import { getAiHistoryBytes, clearAiHistory, formatBytes } from '@/lib/aiHistoryCache'
 import { speakText } from '@/lib/ttsBrowser'
-import { playSavedFeedbackSound, setFeedbackSoundEnabled } from '@/lib/feedbackSounds'
+import { playSavedFeedbackSound } from '@/lib/feedbackSounds'
 import {
   defaultExperiencePreferences,
   isHapticFeedbackAvailable,
@@ -70,6 +72,7 @@ export default function MePage() {
   const { data: session, status } = useSession()
   const router = useRouter()
   const qqGroupUrl = useQQGroupUrl()
+  const userId = session?.user?.id
   const isAuthenticated = status === 'authenticated' && !!session?.user
   const appVer = useAppVersion()
   const interfaceStyle = useInterfaceStyle()
@@ -97,6 +100,7 @@ export default function MePage() {
     setHapticsAvailable(isHapticFeedbackAvailable())
   }, [])
   const [savingPrefs, setSavingPrefs] = useState(false)
+  const activePrefsSave = useRef<AbortController | null>(null)
   const [aiCacheBytes, setAiCacheBytes] = useState(0)
 
   useEffect(() => {
@@ -127,34 +131,56 @@ export default function MePage() {
   }, [isAuthenticated])
 
   useEffect(() => {
-    if (!isAuthenticated) return
-    fetch('/api/preferences')
-      .then((r) => r.json())
-      .then((data) => {
-        if (data.success && data.data) {
-          setDailyGoal(data.data.dailyGoal ?? 20)
-          setReminderEnabled(!!data.data.reviewReminderEnabled)
-          setAutoSaveWords(data.data.autoSaveWords ?? true)
-          setSoundEffectsEnabled(data.data.soundEffectsEnabled ?? true)
-          setFeedbackSoundEnabled(data.data.soundEffectsEnabled ?? true)
-          setShowImportExportActions(data.data.showImportExportActions === true)
-          if (data.data.reviewReminderTime) {
-            setReminderTime(data.data.reviewReminderTime)
-          }
-        } else {
-          setPrefsLoadError(true)
-        }
-      })
-      .catch(() => setPrefsLoadError(true))
-      .finally(() => setPrefsLoaded(true))
-  }, [isAuthenticated])
+    setPrefsLoaded(false)
+    setPrefsLoadError(false)
+    setSavingPrefs(false)
+    setDailyGoal(20)
+    setReminderEnabled(false)
+    setReminderTime('20:00')
+    setAutoSaveWords(true)
+    setSoundEffectsEnabled(true)
+    setShowImportExportActions(false)
+    if (!isAuthenticated || !userId) return
+    const controller = new AbortController()
+    let previous: UserPreferences | undefined
+    const apply = (data: UserPreferences) => {
+      if (controller.signal.aborted) return
+      // Preserve unsaved form fields when an unrelated setting is committed elsewhere.
+      if (!previous || previous.dailyGoal !== data.dailyGoal) setDailyGoal(data.dailyGoal ?? 20)
+      if (!previous || previous.reviewReminderEnabled !== data.reviewReminderEnabled) setReminderEnabled(!!data.reviewReminderEnabled)
+      if (!previous || previous.autoSaveWords !== data.autoSaveWords) setAutoSaveWords(data.autoSaveWords ?? true)
+      if (!previous || previous.soundEffectsEnabled !== data.soundEffectsEnabled) setSoundEffectsEnabled(data.soundEffectsEnabled ?? true)
+      if (!previous || previous.showImportExportActions !== data.showImportExportActions) setShowImportExportActions(data.showImportExportActions === true)
+      if (!previous || previous.reviewReminderTime !== data.reviewReminderTime) setReminderTime(data.reviewReminderTime || '20:00')
+      previous = data
+      setPrefsLoadError(false)
+      setPrefsLoaded(true)
+    }
+    const unsubscribe = subscribeUserPreferences(userId, ['dailyGoal', 'reviewReminderEnabled', 'reviewReminderTime', 'autoSaveWords', 'soundEffectsEnabled', 'showImportExportActions'], apply)
+    readUserPreferences(userId, controller.signal).then(apply).catch(() => {
+      if (!controller.signal.aborted) {
+        setPrefsLoadError(true)
+        setPrefsLoaded(true)
+      }
+    })
+    return () => {
+      unsubscribe()
+      controller.abort()
+      activePrefsSave.current?.abort()
+      activePrefsSave.current = null
+    }
+  }, [isAuthenticated, status, userId])
 
   const savePrefs = async () => {
+    if (!userId || activePrefsSave.current) return
+    const controller = new AbortController()
+    activePrefsSave.current = controller
     setSavingPrefs(true)
     try {
       const res = await fetch('/api/preferences', {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'X-Preferences-Account': userId },
+        signal: controller.signal,
         body: JSON.stringify({
           dailyGoal,
           reviewReminderEnabled: reminderEnabled,
@@ -165,15 +191,20 @@ export default function MePage() {
         }),
       })
       const data = await res.json()
-      if (data.success) {
+      if (controller.signal.aborted) return
+      if (res.ok && data.success && data.data && data.accountId === userId) {
+        commitUserPreferences(userId, data.data)
         toast.success('设置已保存')
       } else {
         toast.error(data.error || '保存失败')
       }
     } catch {
-      toast.error('保存失败，请重试')
+      if (!controller.signal.aborted) toast.error('保存失败，请重试')
     } finally {
-      setSavingPrefs(false)
+      if (activePrefsSave.current === controller) {
+        activePrefsSave.current = null
+        setSavingPrefs(false)
+      }
     }
   }
 
@@ -277,18 +308,37 @@ export default function MePage() {
                     {interfaceStyle.error && (
                       <p role="alert" className="mt-2 text-xs text-destructive">
                         {interfaceStyle.error}
-                        {!interfaceStyle.ready && (
-                          <button
+                        <button
                             type="button"
                             onClick={interfaceStyle.retry}
                             className="ml-2 min-h-9 underline"
                           >
                             重试
-                          </button>
-                        )}
+                        </button>
                       </p>
                     )}
                   </div>
+                  {interfaceStyle.style === 'minimal' && (
+                    <div id="minimal-features" className="space-y-4 border-t pt-4">
+                      <h3 className="font-medium">显示功能</h3>
+                      <p className="text-xs text-muted-foreground">隐藏入口和栏目不会删除数据；设置入口始终保留。</p>
+                      {Object.entries(MINIMAL_FEATURE_GROUPS).map(([group, options]) => (
+                        <fieldset key={group} disabled={!interfaceStyle.ready || interfaceStyle.saving} className="space-y-2">
+                          <legend className="mb-2 text-sm font-medium">{group === 'main' ? '主入口' : group === 'translation' ? '翻译栏目' : '词库栏目'}</legend>
+                          <div className="flex flex-wrap gap-x-5 gap-y-2">
+                            {options.map(({ id, label }) => {
+                              const key = group as keyof MinimalFeatures
+                              const selected = interfaceStyle.minimalFeatures[key].includes(id)
+                              return <label key={id} className="flex min-h-9 items-center gap-2 text-sm">
+                                <input type="checkbox" checked={selected} onChange={() => void interfaceStyle.selectMinimalFeatures({ ...interfaceStyle.minimalFeatures, [key]: selected ? interfaceStyle.minimalFeatures[key].filter((item) => item !== id) : [...interfaceStyle.minimalFeatures[key], id] })} />{label}
+                              </label>
+                            })}
+                          </div>
+                        </fieldset>
+                      ))}
+                      <Button variant="outline" disabled={!interfaceStyle.ready || interfaceStyle.saving} onClick={() => void interfaceStyle.selectMinimalFeatures(DEFAULT_MINIMAL_FEATURES)}>恢复专注预设</Button>
+                    </div>
+                  )}
                   <div className="flex items-center justify-between gap-4 border-t pt-4">
                     <div className="space-y-0.5 min-w-0">
                       <p className="font-medium">主题外观</p>
@@ -355,7 +405,6 @@ export default function MePage() {
                             checked={soundEffectsEnabled}
                             onCheckedChange={(enabled) => {
                               setSoundEffectsEnabled(enabled)
-                              setFeedbackSoundEnabled(enabled)
                             }}
                             aria-label="学习提示音"
                           />

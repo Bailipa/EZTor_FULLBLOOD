@@ -13,6 +13,14 @@ let currentAudio: HTMLAudioElement | null = null
 let currentUrl: string | null = null
 
 let audioUnlocked = false
+let playbackGeneration = 0
+let playbackController: AbortController | null = null
+const FETCH_TIMEOUT_MS = 20000
+const pendingAudio = new Map<string, {
+  promise: Promise<Blob>
+  controller: AbortController
+  consumers: number
+}>()
 
 export function isSpeechPlaying(): boolean {
   return Boolean(currentAudio && !currentAudio.paused) || Boolean(
@@ -50,18 +58,20 @@ function openDB(): Promise<IDBDatabase> {
       resolve(dbInstance)
     }
     request.onerror = () => reject(request.error)
+    request.onblocked = () => reject(new Error('IndexedDB blocked'))
   })
 }
 
 async function getFromCache(key: string): Promise<{ blob: Blob; timestamp: number } | null> {
   try {
     const db = await openDB()
-    return new Promise((resolve, reject) => {
+    return await new Promise((resolve, reject) => {
       const tx = db.transaction(STORE_NAME, 'readonly')
       const store = tx.objectStore(STORE_NAME)
       const req = store.get(key)
       req.onsuccess = () => resolve(req.result || null)
       req.onerror = () => reject(req.error)
+      tx.onabort = () => reject(tx.error)
     })
   } catch {
     return null
@@ -71,53 +81,103 @@ async function getFromCache(key: string): Promise<{ blob: Blob; timestamp: numbe
 async function saveToCache(key: string, blob: Blob): Promise<void> {
   try {
     const db = await openDB()
-    // Evict oldest entries if at capacity
-    await evictIfNeeded(db)
-    return new Promise((resolve, reject) => {
+    return await new Promise((resolve, reject) => {
       const tx = db.transaction(STORE_NAME, 'readwrite')
       const store = tx.objectStore(STORE_NAME)
       store.put({ key, blob, timestamp: Date.now() })
+      const countReq = store.count()
+      countReq.onsuccess = () => {
+        let remaining = countReq.result - CACHE_MAX
+        if (remaining <= 0) return
+        const cursorReq = store.index('timestamp').openCursor()
+        cursorReq.onsuccess = () => {
+          const cursor = cursorReq.result
+          if (cursor && remaining-- > 0) {
+            cursor.delete()
+            cursor.continue()
+          }
+        }
+      }
       tx.oncomplete = () => resolve()
       tx.onerror = () => reject(tx.error)
+      tx.onabort = () => reject(tx.error)
     })
   } catch {
     // cache write failure is non-critical
   }
 }
 
-async function evictIfNeeded(db: IDBDatabase): Promise<void> {
-  return new Promise((resolve) => {
-    const tx = db.transaction(STORE_NAME, 'readwrite')
-    const store = tx.objectStore(STORE_NAME)
-    const countReq = store.count()
-    countReq.onsuccess = () => {
-      if (countReq.result < CACHE_MAX) {
-        resolve()
-        return
+function makeCacheKey(input: string, voice?: string): string {
+  return JSON.stringify(['mp3-v2', voice?.trim() || 'default', input.trim()])
+}
+
+function abortError(): DOMException {
+  return new DOMException('Aborted', 'AbortError')
+}
+
+function loadAudio(input: string, opts: SpeakOptions, signal: AbortSignal): Promise<Blob> {
+  if (signal.aborted) return Promise.reject(abortError())
+  const key = makeCacheKey(input, opts.voice)
+  let pending = pendingAudio.get(key)
+  if (!pending) {
+    const controller = new AbortController()
+    const timeout = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS)
+    const promise = (async () => {
+      const cached = await getFromCache(key)
+      if (controller.signal.aborted) throw abortError()
+      if (cached && Date.now() - cached.timestamp < CACHE_TTL) return cached.blob
+      const res = await fetch('/api/tts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ input, voice: opts.voice, response_format: 'mp3' }),
+        signal: controller.signal,
+      })
+      if (!res.ok) throw new Error(`TTS failed: ${res.status}`)
+      const blob = await res.blob()
+      if (controller.signal.aborted) throw abortError()
+      if (!blob.size) throw new Error('TTS returned empty audio')
+      void saveToCache(key, blob)
+      return blob
+    })().finally(() => {
+      clearTimeout(timeout)
+      if (pendingAudio.get(key)?.controller === controller) pendingAudio.delete(key)
+    })
+    pending = { promise, controller, consumers: 0 }
+    pendingAudio.set(key, pending)
+  }
+  const request = pending
+  request.consumers++
+  return new Promise((resolve, reject) => {
+    let released = false
+    const release = () => {
+      if (released) return
+      released = true
+      signal.removeEventListener('abort', onAbort)
+      request.controller.signal.removeEventListener('abort', onAbort)
+      if (--request.consumers === 0) {
+        if (pendingAudio.get(key) === request) pendingAudio.delete(key)
+        request.controller.abort()
       }
-      // Delete oldest entries (by timestamp index) to make room
-      const idx = store.index('timestamp')
-      let deleted = 0
-      const toDelete = countReq.result - CACHE_MAX + 1
-      const cursorReq = idx.openCursor()
-      cursorReq.onsuccess = () => {
-        const cursor = cursorReq.result
-        if (cursor && deleted < toDelete) {
-          cursor.delete()
-          deleted++
-          cursor.continue()
-        } else {
-          resolve()
-        }
-      }
-      cursorReq.onerror = () => resolve() // non-critical
     }
-    countReq.onerror = () => resolve() // non-critical
+    const onAbort = () => { release(); reject(abortError()) }
+    signal.addEventListener('abort', onAbort, { once: true })
+    request.controller.signal.addEventListener('abort', onAbort, { once: true })
+    request.promise.then((blob) => {
+      if (signal.aborted) reject(abortError())
+      else resolve(blob)
+      release()
+    }, (error: unknown) => { reject(error); release() })
   })
 }
 
-function makeCacheKey(input: string, voice?: string): string {
-  return `${voice || 'default'}:${input.toLowerCase().trim()}`
+export async function preloadSpeech(text: string, signal: AbortSignal): Promise<void> {
+  const input = (text || '').trim()
+  if (!input || signal.aborted) return
+  try {
+    await loadAudio(input, {}, signal)
+  } catch {
+    // Preloading is optional; playback retries or falls back when needed.
+  }
 }
 
 // --- Audio unlock & controls ---
@@ -142,6 +202,9 @@ export function unlockAudio(): void {
 }
 
 export function stopSpeech(): void {
+  playbackGeneration++
+  playbackController?.abort()
+  playbackController = null
   if (currentAudio) {
     currentAudio.pause()
     currentAudio.currentTime = 0
@@ -156,14 +219,17 @@ export function stopSpeech(): void {
   }
 }
 
-function playAudio(audio: HTMLAudioElement, blob: Blob, volume: number): void {
+function playAudio(audio: HTMLAudioElement, blob: Blob, volume: number, generation: number): void {
+  if (generation !== playbackGeneration || currentAudio !== audio) return
   const url = URL.createObjectURL(blob)
   currentUrl = url
   audio.src = url
   audio.volume = volume
-  audio.play().then(() => {
-    audio.addEventListener('ended', () => stopSpeech(), { once: true })
-  }).catch((playErr) => {
+  audio.addEventListener('ended', () => {
+    if (generation === playbackGeneration && currentAudio === audio) stopSpeech()
+  }, { once: true })
+  audio.play().catch((playErr) => {
+    if (generation !== playbackGeneration || currentAudio !== audio) return
     const msg = playErr instanceof Error ? playErr.name : String(playErr)
     stopSpeech()
     if (msg === 'NotAllowedError' || msg.includes('NotAllowed')) {
@@ -177,66 +243,31 @@ function playAudio(audio: HTMLAudioElement, blob: Blob, volume: number): void {
 export async function speakText(text: string, opts: SpeakOptions = {}): Promise<void> {
   const input = (text || '').trim()
   if (!input) return
-
   stopSpeech()
+  const generation = playbackGeneration
+  const controller = new AbortController()
+  playbackController = controller
 
-  // Unlock audio context so async play() works on mobile autoplay policy
+  // Keep audio creation and unlock in the initiating user gesture.
   unlockAudio()
-
-  // Create Audio element synchronously (user-gesture context) before async ops
   const audio = new Audio()
   currentAudio = audio
   const savedVolume = readExperiencePreferences().speechVolume / 100
   const volume = Math.max(0, Math.min(1, opts.volume ?? savedVolume))
-
-  const cacheKey = makeCacheKey(input, opts.voice)
-
-  // 1. Try IndexedDB cache first
   try {
-    const cached = await getFromCache(cacheKey)
-    if (cached && Date.now() - cached.timestamp < CACHE_TTL) {
-      playAudio(audio, cached.blob, volume)
-      return
-    }
+    const blob = await loadAudio(input, opts, controller.signal)
+    playAudio(audio, blob, volume, generation)
+    return
   } catch {
-    // cache read failure — continue to server fetch
+    if (controller.signal.aborted || generation !== playbackGeneration) return
   }
 
-  // 2. Fetch from server
-  let serverOk = false
-  try {
-    const res = await fetch('/api/tts', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        input,
-        voice: opts.voice,
-        speed: opts.speed,
-        response_format: 'wav',
-      }),
-    })
-
-    if (res.ok) {
-      serverOk = true
-      const blob = await res.blob()
-
-      // Save to IndexedDB (fire-and-forget)
-      saveToCache(cacheKey, blob)
-
-      playAudio(audio, blob, volume)
-      return
-    }
-  } catch {
-    // server TTS network error — silently fallback
-  }
-
-  // 3. Fallback: browser speechSynthesis
   if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
     const utterance = new SpeechSynthesisUtterance(input)
     utterance.lang = 'en-US'
     utterance.volume = volume
     window.speechSynthesis.speak(utterance)
-  } else if (!serverOk) {
+  } else {
     toast.error('当前环境不支持语音播放')
   }
 }

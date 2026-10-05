@@ -1,6 +1,7 @@
 import { randomUUID } from 'crypto'
 import prisma from '@/lib/prisma'
 import { getTodayDateUTC8, daysBetweenUTC8 } from '@/lib/dateUtils'
+import { getPowerPeriodStarts, rolloverGamePower } from '@/lib/gamePowerPeriods'
 import { loadCustomProfanity, containsProfanity } from '@/lib/profanityFilter'
 import {
   DAILY_POWER_CAP,
@@ -41,8 +42,10 @@ import type {
 
 export class GameService {
   async getOrCreateProfile(userId: string): Promise<GameProfile> {
+    const { week, month } = getPowerPeriodStarts()
+    let profile
     try {
-      const profile = await prisma.userGameProfile.upsert({
+      profile = await prisma.userGameProfile.upsert({
         where: { userId },
         update: {},
         create: {
@@ -52,21 +55,28 @@ export class GameService {
           combatPower: SIGNUP_POWER_BONUS,
           monthlyPower: SIGNUP_POWER_BONUS,
           weeklyPower: SIGNUP_POWER_BONUS,
+          lastWeeklyReset: week,
+          lastMonthlyReset: month,
           unlockedFeatures: ['DANMAKU'],
           dailyPowerDate: getTodayDateUTC8(),
           updatedAt: new Date(),
         },
       })
-
-      return profile as GameProfile
     } catch (e) {
       // P2002: 并发 upsert 时两个请求都尝试 INSERT，第二个被 userId 唯一约束拦截
       if (e && typeof e === 'object' && 'code' in e && (e as { code: string }).code === 'P2002') {
-        const profile = await prisma.userGameProfile.findUniqueOrThrow({ where: { userId } })
-        return profile as GameProfile
+        profile = await prisma.userGameProfile.findUniqueOrThrow({ where: { userId } })
+      } else {
+        throw e
       }
-      throw e
     }
+
+    if (!profile.lastWeeklyReset || profile.lastWeeklyReset < week ||
+      !profile.lastMonthlyReset || profile.lastMonthlyReset < month) {
+      await rolloverGamePower(userId)
+      profile = await prisma.userGameProfile.findUniqueOrThrow({ where: { userId } })
+    }
+    return profile as GameProfile
   }
 
   async checkDailyReset(profile: GameProfile): Promise<GameProfile> {

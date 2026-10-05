@@ -1,12 +1,13 @@
 'use client'
 
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useEffect, useRef } from 'react'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
-import { Copy, Check, Calendar, Link2, Clock } from 'lucide-react'
+import { Copy, Check, Calendar, Link2, Clock, Share2 } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import { shareText } from '@/lib/share'
+import { copyToClipboard, shareText } from '@/lib/share'
+import { toast } from 'sonner'
 
 interface ShareCodeDisplayProps {
   code: string
@@ -27,25 +28,42 @@ export function ShareCodeDisplay({
   className,
   onCopy,
 }: ShareCodeDisplayProps) {
+  const [sending, setSending] = useState(false)
   const [copied, setCopied] = useState(false)
+  const copyTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const mounted = useRef(false)
+  useEffect(() => {
+    mounted.current = true
+    return () => { mounted.current = false; if (copyTimer.current) clearTimeout(copyTimer.current) }
+  }, [])
 
   const handleCopy = useCallback(async () => {
-    // 优先分享面板（安卓 App 内可分享到微信/QQ），网页端降级复制
-    const result = await shareText(code)
-    if (result === 'failed') {
-      if (process.env.NODE_ENV === 'development') console.error('Failed to share/copy code:')
+    const result = await copyToClipboard(code)
+    if (!mounted.current) return
+    if (!result) {
+      toast.error('复制失败，请选择分享码手动复制')
       return
     }
     setCopied(true)
-
-    // 2 秒后重置复制状态
-    setTimeout(() => setCopied(false), 2000)
+    if (copyTimer.current) clearTimeout(copyTimer.current)
+    copyTimer.current = setTimeout(() => setCopied(false), 2000)
 
     // 调用外部回调
     if (onCopy) {
       onCopy()
     }
   }, [code, onCopy])
+
+  const handleSend = async () => {
+    setSending(true)
+    try {
+      const result = await shareText(code)
+      if (!mounted.current) return
+      if (result === 'shared') toast.success('已打开分享')
+      else if (result === 'copied') toast.success('分享码已复制，可粘贴给好友')
+      else if (result === 'failed') toast.error('分享失败，请复制分享码后发送')
+    } finally { if (mounted.current) setSending(false) }
+  }
 
   const formatExpiration = useCallback((dateString: string | null | undefined) => {
     if (!dateString) return '永久有效'
@@ -99,19 +117,19 @@ export function ShareCodeDisplay({
   return (
     <Card className={cn('w-full', className)}>
       <CardContent className="p-4 sm:p-6 space-y-4">
-        {/* 密钥显示区域 */}
+        {/* 分享码显示区域 */}
         <div className="space-y-2">
           <div className="flex items-center justify-between">
-            <span className="text-xs sm:text-sm font-medium text-muted-foreground">分享密钥</span>
+            <span className="text-xs sm:text-sm font-medium text-muted-foreground">分享码</span>
             <div className="flex items-center gap-2">{getStatusBadge()}</div>
           </div>
 
           <div className="flex gap-2">
-            {/* 大字体密钥显示 */}
+            {/* 大字体分享码显示 */}
             <div
               className={cn(
                 'flex-1 p-3 sm:p-4 bg-muted rounded-lg',
-                'font-mono text-center tracking-wider break-all',
+                'font-mono text-center tracking-wider break-all select-all',
                 'text-xl sm:text-2xl md:text-3xl font-bold',
                 !isActive && 'text-muted-foreground opacity-60',
               )}
@@ -130,21 +148,24 @@ export function ShareCodeDisplay({
                 'sm:h-12 sm:w-12',
                 !isActive && 'opacity-50',
               )}
-              title={isActive ? '复制密钥' : '密钥已失效'}
+              aria-label="复制分享码"
+              title={isActive ? '复制分享码' : '分享码已失效'}
             >
               {copied ? (
-                <Check className="size-5 sm:size-6 text-green-600" />
+                <Check className="size-5 sm:size-6 text-foreground" />
               ) : (
                 <Copy className="size-5 sm:size-6" />
               )}
             </Button>
           </div>
 
+          <Button className="w-full gap-2" onClick={handleSend} disabled={!isActive || sending}><Share2 className="size-4" />{sending ? '正在分享…' : '发送给好友'}</Button>
+
           {/* 复制成功提示 */}
           {copied && (
-            <div className="flex items-center justify-center gap-2 text-xs text-green-600 animate-in fade-in slide-in-from-top-2">
+            <div className="flex items-center justify-center gap-2 text-xs text-foreground animate-in fade-in slide-in-from-top-2">
               <Check className="size-3" />
-              <span>密钥已复制到剪贴板</span>
+              <span>分享码已复制到剪贴板</span>
             </div>
           )}
         </div>

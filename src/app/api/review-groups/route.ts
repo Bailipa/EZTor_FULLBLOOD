@@ -1,7 +1,7 @@
-import { randomUUID } from 'crypto'
+import { createCustomGroup, GroupLimitError } from '@/lib/reviewGroups'
 import prisma from '@/lib/prisma'
 import { getServerSession } from 'next-auth/next'
-import { authOptions } from '@/app/api/auth/[...nextauth]/route'
+import { authOptions } from '@/lib/authOptions'
 import { handleApiError, createErrorResponse, createSuccessResponse } from '@/lib/apiErrorHandler'
 
 export async function GET(_req: Request) {
@@ -35,21 +35,15 @@ export async function POST(req: Request) {
     }
 
     const { name } = await req.json()
-    if (!name || name.trim() === '') {
+    if (typeof name !== 'string' || name.trim() === '') {
       return createErrorResponse('自定义词库名称不能为空', 400)
     }
 
-    const group = await prisma.reviewGroup.create({
-      data: {
-        id: randomUUID(),
-        name: name.trim(),
-        userId: session.user.id,
-        updatedAt: new Date(),
-      },
-    })
+    const group = await createCustomGroup(session.user.id, name.trim())
 
     return createSuccessResponse({ data: group })
   } catch (err: unknown) {
+    if (err instanceof GroupLimitError) return createErrorResponse(err.message, 400)
     if ((err as { code?: string }).code === 'P2002') {
       return createErrorResponse('该自定义词库名称已存在', 400)
     }

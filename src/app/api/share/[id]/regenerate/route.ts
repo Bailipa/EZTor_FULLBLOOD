@@ -1,5 +1,5 @@
 import { getServerSession } from 'next-auth'
-import { authOptions } from '@/app/api/auth/[...nextauth]/route'
+import { authOptions } from '@/lib/authOptions'
 import prisma from '@/lib/prisma'
 import { generateUniqueCode } from '@/lib/share/codeGenerator'
 import { createSuccessResponse, createErrorResponse } from '@/lib/apiErrorHandler'
