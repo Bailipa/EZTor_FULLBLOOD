@@ -141,6 +141,7 @@
   touch-action: manipulation;
 }
 .destination > span { display: flex; align-items: center; gap: 3px; font-size: 11px; white-space: nowrap; }
+.destination > .countdown { font-size: 22px; line-height: 22px; font-variant-numeric: tabular-nums; }
 .destination[data-highlighted='true'] {
   transform: translateY(-4px) scale(1.06);
   outline: 2px solid var(--ring);
@@ -184,11 +185,11 @@
   pointer-events: none;
 }
 .fan[data-dragging='true'] .dragCursor { display: block; }
-.destination[aria-current='page'] { background: var(--primary); color: var(--primary-foreground); border-color: var(--primary); }
+.destination[aria-current='page'],
+.destination[aria-pressed='true'] { background: var(--primary); color: var(--primary-foreground); border-color: var(--primary); }
 .destination:active { filter: brightness(.94); }
 :global(html[data-brand-theme='gold']) .destination[aria-current='page'],
 :global(html[data-brand-theme='gold']) .launcher { box-shadow: 0 4px 18px color-mix(in srgb, var(--primary) 35%, transparent); }
-.overlay[data-state='closed'] { animation: veil-out 140ms ease-in both; }
 .fan[data-state='closed'] { animation: veil-out 140ms ease-in both; }
 @keyframes radial-in {
   from { opacity: 0; transform: translate(-50%, 50%) translate(calc(-1 * var(--x) * var(--nav-scale)), calc(var(--y) * var(--nav-scale))) scale(.65); }
@@ -226,7 +227,8 @@
   -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
 }
-:global(html[data-brand-theme='gold']) .destination[aria-current='page'] {
+:global(html[data-brand-theme='gold']) .destination[aria-current='page'],
+:global(html[data-brand-theme='gold']) .destination[aria-pressed='true'] {
   background: var(--gold-button);
   color: var(--primary-foreground);
   box-shadow: var(--gold-button-shadow);
@@ -243,12 +245,12 @@
 }
 @supports not (backdrop-filter: blur(1px)) {
   :global(html[data-brand-theme='gold']) .launcher,
-  :global(html[data-brand-theme='gold']) .destination:not([aria-current='page']),
+  :global(html[data-brand-theme='gold']) .destination:not([aria-current='page']):not([aria-pressed='true']),
   :global(html[data-brand-theme='gold']) .utilityAction { background: var(--card); }
 }
 @media (prefers-reduced-transparency: reduce) {
   :global(html[data-brand-theme='gold']) .launcher,
-  :global(html[data-brand-theme='gold']) .destination:not([aria-current='page']),
+  :global(html[data-brand-theme='gold']) .destination:not([aria-current='page']):not([aria-pressed='true']),
   :global(html[data-brand-theme='gold']) .utilityAction { background: var(--card); -webkit-backdrop-filter: none; backdrop-filter: none; }
 }
 :global(html[data-brand-theme='indigo']) .launcher,
@@ -260,6 +262,7 @@
   backdrop-filter: none;
 }
 :global(html[data-brand-theme='indigo']) .destination[aria-current='page'],
+:global(html[data-brand-theme='indigo']) .destination[aria-pressed='true'],
 :global(html[data-brand-theme='indigo']) .destination[data-highlighted='true'] {
   box-shadow: var(--indigo-button-shadow);
 }

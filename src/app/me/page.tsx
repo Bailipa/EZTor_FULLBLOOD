@@ -8,6 +8,7 @@ import AppLayout from '@/components/layout/AppLayout'
 import { useInterfaceStyle } from '@/components/interface-style-provider'
 import { INTERFACE_STYLES } from '@/lib/interfaceStyle'
 import styles from '@/components/ai/translation-workspace.module.css'
+import scrollStyles from './me-scroll.module.css'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { ModeToggle } from '@/components/mode-toggle'
@@ -54,7 +55,7 @@ import { toast } from 'sonner'
 import { useAppVersion } from '@/hooks/useAppVersion'
 import { getAiHistoryBytes, clearAiHistory, formatBytes } from '@/lib/aiHistoryCache'
 import { speakText } from '@/lib/ttsBrowser'
-import { playSavedFeedbackSound } from '@/lib/feedbackSounds'
+import { playSavedFeedbackSound, setFeedbackSoundEnabled } from '@/lib/feedbackSounds'
 import {
   defaultExperiencePreferences,
   isHapticFeedbackAvailable,
@@ -135,6 +136,7 @@ export default function MePage() {
           setReminderEnabled(!!data.data.reviewReminderEnabled)
           setAutoSaveWords(data.data.autoSaveWords ?? true)
           setSoundEffectsEnabled(data.data.soundEffectsEnabled ?? true)
+          setFeedbackSoundEnabled(data.data.soundEffectsEnabled ?? true)
           setShowImportExportActions(data.data.showImportExportActions === true)
           if (data.data.reviewReminderTime) {
             setReminderTime(data.data.reviewReminderTime)
@@ -206,9 +208,9 @@ export default function MePage() {
 
   return (
     <AppLayout>
-      <div className={styles.mePage}>
-        <div className={styles.meContent}>
-          <header className={styles.meHeading}>
+      <div data-workspace-page className={`${styles.mePage} ${scrollStyles.page}`}>
+        <div data-workspace-content className={`${styles.meContent} ${scrollStyles.content}`}>
+          <header data-workspace-settings-heading className={styles.meHeading}>
             <h1>设置</h1>
             {isAuthenticated && (
               <p className="text-sm text-muted-foreground">
@@ -217,9 +219,9 @@ export default function MePage() {
             )}
           </header>
 
-          <div className={styles.meGrid}>
-            <section className="min-w-0 space-y-8" aria-label="个人偏好">
-              <Card className={styles.settingsBlock}>
+          <div data-workspace-settings-grid className={`${styles.meGrid} ${scrollStyles.grid}`}>
+            <section className={`min-w-0 space-y-8 ${scrollStyles.column}`} aria-label="个人偏好">
+              <Card data-workspace-settings="appearance" className={styles.settingsBlock}>
                 <h2 className={styles.sectionLabel}>外观与布局</h2>
                 <CardContent className="p-4 space-y-5">
                   <div>
@@ -297,7 +299,7 @@ export default function MePage() {
                 </CardContent>
               </Card>
               {isAuthenticated && (
-                <Card className={styles.settingsBlock}>
+                <Card data-workspace-settings="learning" className={styles.settingsBlock}>
                   <CardContent className="p-4 space-y-4">
                     <div className="space-y-0.5">
                       <p className="font-medium">学习与反馈设置</p>
@@ -346,12 +348,15 @@ export default function MePage() {
                           <div className="space-y-0.5">
                             <p className="text-sm font-medium">学习提示音</p>
                             <p className="text-xs text-muted-foreground">
-                              控制答题和保存反馈；只同步开关，音量保存在本设备
+                              控制操作、答题和保存反馈；只同步开关，音量保存在本设备
                             </p>
                           </div>
                           <Switch
                             checked={soundEffectsEnabled}
-                            onCheckedChange={setSoundEffectsEnabled}
+                            onCheckedChange={(enabled) => {
+                              setSoundEffectsEnabled(enabled)
+                              setFeedbackSoundEnabled(enabled)
+                            }}
                             aria-label="学习提示音"
                           />
                         </div>
@@ -381,6 +386,7 @@ export default function MePage() {
                             variant="outline"
                             className="min-h-11"
                             disabled={!soundEffectsEnabled || devicePrefs.sfxVolume === 0}
+                            data-feedback-sound="none"
                             onClick={() => playSavedFeedbackSound(soundEffectsEnabled)}
                           >
                             试听提示音
@@ -576,7 +582,9 @@ export default function MePage() {
                   </CardContent>
                 </Card>
               )}
-              <Card className={styles.settingsBlock}>
+            </section>
+            <section className={`min-w-0 space-y-8 ${scrollStyles.column}`} aria-label="设置与支持">
+              <Card data-workspace-settings="tools" className={styles.settingsBlock}>
                 <h2 className={styles.sectionLabel}>学习工具</h2>
                 <CardContent className="p-0 divide-y divide-border">
                   <div className="flex items-center justify-between p-4 hover:bg-muted/50 transition-colors">
@@ -654,9 +662,7 @@ export default function MePage() {
                   </div>
                 </CardContent>
               </Card>
-            </section>
-            <section className="min-w-0 space-y-8" aria-label="设置与支持">
-              <Card className={styles.settingsBlock}>
+              <Card data-workspace-settings="about" className={styles.settingsBlock}>
                 <h2 className={styles.sectionLabel}>关于 EZTor</h2>
                 <CardContent className="p-0 divide-y divide-border">
                   <Link
@@ -699,7 +705,7 @@ export default function MePage() {
                   </Link>
                 </CardContent>
               </Card>
-              <Card className={styles.settingsBlock}>
+              <Card data-workspace-settings="support" className={styles.settingsBlock}>
                 <h2 className={styles.sectionLabel}>帮助与支持</h2>
                 <CardContent className="p-0 divide-y divide-border">
                   <button

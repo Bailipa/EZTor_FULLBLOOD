@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from 'next'
 import './globals.css'
-import { Toaster } from 'sonner'
 
 import { ThemeProvider } from '@/components/theme-provider'
 import { NextAuthProvider } from '@/components/providers/session-provider'
@@ -12,6 +11,8 @@ import { DanmakuHost } from '@/components/layout/DanmakuHost'
 import { AppUpdatePrompt } from '@/components/layout/AppUpdatePrompt'
 import SharedNavigation from '@/components/layout/SharedNavigation'
 import { NativeKeyboardLayoutProvider } from '@/components/layout/NativeKeyboardLayoutProvider'
+import { GlobalFeedbackSounds } from '@/components/layout/GlobalFeedbackSounds'
+import { FeedbackToaster } from '@/components/layout/FeedbackToaster'
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -65,6 +66,7 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col">
         <OnlineLimitBanner />
         <NextAuthProvider>
+          <GlobalFeedbackSounds />
           <ThemeProvider
             attribute="class"
             defaultTheme="dark"
@@ -81,7 +83,7 @@ export default function RootLayout({
                 </NativeKeyboardLayoutProvider>
               </OnboardingProvider>
               <AppUpdatePrompt />
-              <Toaster />
+              <FeedbackToaster />
                           </InterfaceStyleProvider>
             </BrandThemeProvider>
           </ThemeProvider>

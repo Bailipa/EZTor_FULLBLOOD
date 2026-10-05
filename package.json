@@ -1,11 +1,14 @@
 {
   "name": "web",
-  "version": "1.19.4",
+  "version": "1.21.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --turbopack",
+    "dev:webpack": "next dev --webpack",
     "build": "next build",
     "start": "next start",
+    "preview:build": "node scripts/local-preview.mjs build",
+    "preview:start": "node scripts/local-preview.mjs start",
     "lint": "eslint",
     "test": "vitest",
     "test:ui": "vitest --ui",

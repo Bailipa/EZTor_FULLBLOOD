@@ -53,6 +53,7 @@ export async function GET(req: Request) {
   const myAlias = profiles.find((profile) => profile.userId === session.user.id)?.publicAlias
   const myRowIndex = myAlias ? allRows.findIndex((row) => row.alias === myAlias) : -1
   const myRank = myRowIndex >= 0 ? allRows.findIndex((row) => row.count === allRows[myRowIndex].count) + 1 : null
+  const myPage = myRowIndex >= 0 ? Math.floor(myRowIndex / pageSize) + 1 : null
   const rankByCount = new Map<number, number>()
   allRows.forEach((row, index) => {
     if (!rankByCount.has(row.count)) rankByCount.set(row.count, index + 1)
@@ -76,6 +77,7 @@ export async function GET(req: Request) {
       rows,
       page,
       pageSize,
+      myPage,
       totalParticipants: allRows.length,
       totalPages: Math.max(1, Math.ceil(allRows.length / pageSize)),
       myCount: totals.get(session.user.id) || 0,

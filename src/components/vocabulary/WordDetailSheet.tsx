@@ -91,7 +91,7 @@ export function WordDetailSheet({
                 <button
                   onClick={() => onSetDeletingId(word.id)}
                   className="p-1 text-gray-300 dark:text-gray-600 hover:text-red-500"
-                  title={isGroupView ? '从分组中移除' : '删除此单词'}
+                  title={isGroupView ? '从自定义词库中移除' : '删除此单词'}
                   aria-label="删除"
                 >
                   <Trash2 size={16} />

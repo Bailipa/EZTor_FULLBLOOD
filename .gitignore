@@ -102,3 +102,5 @@ deploy_*.tar.gz
 # 个人文档（非项目代码）
 /*.docx
 
+
+/.local-preview/

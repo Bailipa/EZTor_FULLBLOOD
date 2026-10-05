@@ -19,7 +19,7 @@ import { CombatPowerBadge, type CombatPowerSummary } from '@/features/gamificati
 import { FeatureUnlockNotification } from '@/features/gamification/components/FeatureUnlockNotification'
 import type { FeatureKey } from '@/features/gamification/constants'
 
-const MobileFlashcard = dynamic(
+const DailyFlashcard = dynamic(
   () => import('@/components/flashcard/FullscreenFlashcard').then((module) => module.FullscreenFlashcard),
   { ssr: false, loading: () => <div className="flex min-h-80 items-center justify-center text-sm text-muted-foreground">载入单词卡…</div> },
 )
@@ -111,9 +111,9 @@ export default function HomeContent() {
           />
 
           <main className={`min-h-0 flex-1 overflow-y-auto ${styles.canvas} ${styles.homeCanvas}`}>
-            <div className={styles.homePage}>
-              <section className={styles.homeLead} aria-label="学习与查词">
-                <div className={styles.homeIntro}>
+            <div data-workspace-home className={styles.homePage}>
+              <section data-home-lead className={styles.homeLead} aria-label="学习与查词">
+                <div data-home-intro className={styles.homeIntro}>
                   <p className={styles.eyebrow}>我的学习</p>
                   <h2>温故，知新</h2>
                   <p className={styles.homeDescription}>从熟悉的单词出发，每次记牢一点。</p>
@@ -121,7 +121,7 @@ export default function HomeContent() {
                     <PenLine className="size-4" />开始默写<ArrowRight className="size-4" />
                   </Button>
                 </div>
-                <div className={styles.learningLinks}>
+                <div data-home-shortcuts className={styles.learningLinks}>
                   <button onPointerEnter={() => { if (isAuthenticated) router.prefetch('/mistakes') }} onFocus={() => { if (isAuthenticated) router.prefetch('/mistakes') }} onClick={() => isAuthenticated ? router.push('/mistakes') : promptLogin('错词本')}>
                     <AlertCircle className="size-5 text-muted-foreground" strokeWidth={1.5} />
                     <span><strong>错词本</strong><small>把易错的词，再巩固一遍</small></span>
@@ -139,49 +139,50 @@ export default function HomeContent() {
                   </Link>
                 </div>
 
-                {isMobileViewport && (
-                  <section className={styles.mobileFlashcard} aria-label="每日单词">
-                    <MobileFlashcard embedded
-                      onInteraction={() => { if (isAuthenticated) setHasInteractedWithFlashcard(true) }}
-                      onSaved={() => { if (isAuthenticated) setTaskRefreshKey((key) => key + 1) }}
+              </section>
+
+              <div data-home-grid>
+                <section data-home-words className={styles.mobileFlashcard} aria-label="每日单词">
+                  <DailyFlashcard embedded
+                    onInteraction={() => { if (isAuthenticated) setHasInteractedWithFlashcard(true) }}
+                    onSaved={() => { if (isAuthenticated) setTaskRefreshKey((key) => key + 1) }}
+                  />
+                </section>
+
+                {isAuthenticated && (
+                  <section data-home-progress className={styles.homeProgress} aria-label="今日进度">
+                    <Card className={`${styles.progressSummary} py-0`}>
+                      <CardContent className="flex min-h-11 flex-wrap items-center justify-between gap-x-3 gap-y-1 px-3 py-1.5">
+                        <h2 className="text-sm font-medium">学力进度</h2>
+                        <CombatPowerBadge data={profile} />
+                      </CardContent>
+                    </Card>
+                    <DailyTaskCard
+                      refreshKey={taskRefreshKey}
+                      defaultCollapsed
+                      forceExpanded={!isMobileViewport}
+                      onTaskClick={(task) => {
+                        if (task.taskType === 'FLASHCARD_INTERACT') {
+                          setFlashcardOpenRequest((request) => request + 1)
+                        } else if (task.taskType === 'COMPLETE_REVIEWS' || task.taskType === 'REACH_ACCURACY') {
+                          router.push('/dictation')
+                        } else {
+                          router.push('/me')
+                        }
+                      }}
                     />
                   </section>
                 )}
-
-              </section>
-
-              {isAuthenticated && (
-                <section className={styles.homeProgress} aria-label="今日进度">
-                  <Card className={`${styles.progressSummary} py-0`}>
-                    <CardContent className="flex min-h-11 flex-wrap items-center justify-between gap-x-3 gap-y-1 px-3 py-1.5">
-                      <h2 className="text-sm font-medium">学力进度</h2>
-                      <CombatPowerBadge data={profile} />
-                    </CardContent>
-                  </Card>
-                  <DailyTaskCard
-                    refreshKey={taskRefreshKey}
-                    defaultCollapsed
-                    onTaskClick={(task) => {
-                      if (task.taskType === 'FLASHCARD_INTERACT') {
-                        setFlashcardOpenRequest((request) => request + 1)
-                      } else if (task.taskType === 'COMPLETE_REVIEWS' || task.taskType === 'REACH_ACCURACY') {
-                        router.push('/dictation')
-                      } else {
-                        router.push('/me')
-                      }
-                    }}
-                  />
-                </section>
-              )}
-              {status === 'unauthenticated' && (
-                <aside className={styles.guestNote} aria-label="账号同步">
-                  <BookOpen className="size-5 shrink-0 text-muted-foreground" strokeWidth={1.5} />
-                  <p>登录，留住所学。<span>生词与学习记录随账号保存。</span></p>
-                  <Link href="/auth/signin" className="inline-flex min-h-11 items-center gap-2 text-sm text-primary">登录<ArrowRight className="size-4" /></Link>
-                </aside>
-              )}
+                {status === 'unauthenticated' && (
+                  <aside className={styles.guestNote} aria-label="账号同步">
+                    <BookOpen className="size-5 shrink-0 text-muted-foreground" strokeWidth={1.5} />
+                    <p>登录，留住所学。<span>生词与学习记录随账号保存。</span></p>
+                    <Link href="/auth/signin" className="inline-flex min-h-11 items-center gap-2 text-sm text-primary">登录<ArrowRight className="size-4" /></Link>
+                  </aside>
+                )}
+              </div>
             </div>
-            <footer className={styles.homeFooter}>
+            <footer data-home-footer className={styles.homeFooter}>
               <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-foreground">
                 ICP备案号：粤ICP备2026008729号
               </a>

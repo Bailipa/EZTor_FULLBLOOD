@@ -270,7 +270,7 @@ export function ShareImportModal({ isOpen, onClose, onSuccess }: ShareImportModa
     }
 
     if (!createNewGroup && !targetGroupId) {
-      setError('请选择目标分组')
+      setError('请选择目标自定义词库')
       return
     }
 
@@ -627,7 +627,7 @@ export function ShareImportModal({ isOpen, onClose, onSuccess }: ShareImportModa
               </div>
 
               <div className="space-y-2">
-                <Label className="text-xs sm:text-sm">导入到分组</Label>
+                <Label className="text-xs sm:text-sm">导入到自定义词库</Label>
                 <div className="flex flex-col sm:flex-row gap-2 sm:gap-4">
                   <label className="flex items-center gap-2 text-sm cursor-pointer">
                     <input
@@ -637,7 +637,7 @@ export function ShareImportModal({ isOpen, onClose, onSuccess }: ShareImportModa
                       disabled={isImporting}
                       className="size-4"
                     />
-                    <span className="text-xs sm:text-sm">创建新分组</span>
+                    <span className="text-xs sm:text-sm">创建新自定义词库</span>
                   </label>
                   <label className="flex items-center gap-2 text-sm cursor-pointer">
                     <input
@@ -647,7 +647,7 @@ export function ShareImportModal({ isOpen, onClose, onSuccess }: ShareImportModa
                       disabled={isImporting}
                       className="size-4"
                     />
-                    <span className="text-xs sm:text-sm">导入到现有分组</span>
+                    <span className="text-xs sm:text-sm">导入到现有词库</span>
                   </label>
                 </div>
 
@@ -658,12 +658,12 @@ export function ShareImportModal({ isOpen, onClose, onSuccess }: ShareImportModa
                     disabled={isLoadingGroups || isImporting}
                   >
                     <SelectTrigger className="mt-2 w-full text-sm sm:text-base">
-                      <SelectValue placeholder="选择目标分组" />
+                      <SelectValue placeholder="选择自定义词库" />
                     </SelectTrigger>
                     <SelectContent className="max-h-60">
                       {reviewGroups.length === 0 ? (
                         <SelectItem value="none" disabled>
-                          暂无分组
+                          暂无自定义词库
                         </SelectItem>
                       ) : (
                         reviewGroups.map((group) => (

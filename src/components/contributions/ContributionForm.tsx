@@ -17,10 +17,10 @@ const labels: Record<string, string> = {
   STALE: '词条已更新', ERROR: '等待重试', VOID: '已作废',
 }
 
-export default function ContributionForm({ onUpdated, correctionWord, compact = false }: { onUpdated: () => Promise<void>; correctionWord?: string; compact?: boolean }) {
+export default function ContributionForm({ onUpdated, correctionWord, compact = false, inDialog = false }: { onUpdated: () => Promise<void>; correctionWord?: string; compact?: boolean; inDialog?: boolean }) {
   const searchCorrect = useSearchParams().get('correct') || ''
   const correct = correctionWord ?? searchCorrect
-  const [open, setOpen] = useState(Boolean(correct))
+  const [open, setOpen] = useState(Boolean(correct || inDialog))
   const [kind, setKind] = useState<Kind>(correct ? 'CORRECTION' : 'NEW')
   const [word, setWord] = useState(correct)
   const [translation, setTranslation] = useState('')
@@ -113,14 +113,14 @@ export default function ContributionForm({ onUpdated, correctionWord, compact = 
   }
 
   return (
-    <Card className={compact ? 'border-0 bg-transparent py-0 shadow-none' : undefined}>
-      <CardContent className={compact ? 'space-y-4 p-0' : 'space-y-4 p-4 sm:p-6'}>
-        {!compact && <div className="flex flex-wrap items-center justify-between gap-3">
+    <Card className={compact || inDialog ? 'border-0 bg-transparent py-0 shadow-none' : undefined}>
+      <CardContent className={compact || inDialog ? 'space-y-4 p-0' : 'space-y-4 p-4 sm:p-6'}>
+        {!compact && !inDialog && <div className="flex flex-wrap items-center justify-between gap-3">
           <div><h2 className="font-semibold">{kind === 'CORRECTION' ? '说说你的疑问' : '一起完善词库'}</h2><p className="mt-1 text-sm text-muted-foreground">{kind === 'CORRECTION' ? '先看看当前释义，再告诉我们哪里让你困惑，以及你认为正确的内容。' : '新增词条或完善释义，通过审核后贡献 +1'}</p></div>
           <Button onClick={() => setOpen((value) => !value)} aria-expanded={open}><Plus className="size-4" />{open ? '收起表单' : '我要贡献'}</Button>
         </div>}
         {open && (
-          <form onSubmit={submit} className={compact ? 'space-y-4' : 'space-y-4 border-t pt-4'}>
+          <form onSubmit={submit} className={compact || inDialog ? 'space-y-4' : 'space-y-4 border-t pt-4'}>
             {!compact && <div className="flex gap-2" role="group" aria-label="贡献类型">
               {([['NEW', '新增词条'], ['CORRECTION', '释义疑问']] as const).map(([value, label]) => (
                 <Button key={value} type="button" variant={kind === value ? 'default' : 'outline'} aria-pressed={kind === value} disabled={busy} onClick={() => { setKind(value); setResult(null) }}>{label}</Button>

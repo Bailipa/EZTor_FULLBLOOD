@@ -1,7 +1,7 @@
 'use client'
 
 import { ReactNode } from 'react'
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect } from 'react'
 import {
   Dialog,
   DialogContent,
@@ -21,26 +21,32 @@ interface DonationConfig {
   isActive: boolean
 }
 
+let donationRequest: Promise<DonationConfig | null> | null = null
+
+function fetchDonationConfig() {
+  if (!donationRequest) {
+    donationRequest = fetch('/api/donation')
+      .then(async (response) => {
+        if (!response.ok) return null
+        const data = await response.json()
+        return data.success && data.data ? data.data as DonationConfig : null
+      })
+      .catch(() => null)
+      .finally(() => { donationRequest = null })
+  }
+  return donationRequest
+}
+
 export function useDonationConfig(): DonationConfig | null {
   const [config, setConfig] = useState<DonationConfig | null>(null)
 
-  const fetchConfig = useCallback(async () => {
-    try {
-      const res = await fetch('/api/donation')
-      if (res.ok) {
-        const data = await res.json()
-        if (data.success && data.data) {
-          setConfig(data.data)
-        }
-      }
-    } catch {
-      // Silently fail
-    }
-  }, [])
-
   useEffect(() => {
-    fetchConfig()
-  }, [fetchConfig])
+    let disposed = false
+    fetchDonationConfig().then((data) => {
+      if (!disposed && data) setConfig(data)
+    })
+    return () => { disposed = true }
+  }, [])
 
   return config
 }

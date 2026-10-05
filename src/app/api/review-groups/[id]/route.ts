@@ -42,7 +42,7 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
     const { name } = await req.json()
 
     if (!name || name.trim() === '') {
-      return createErrorResponse('分组名称不能为空', 400)
+      return createErrorResponse('自定义词库名称不能为空', 400)
     }
 
     const group = await prisma.reviewGroup.findUnique({
@@ -51,6 +51,9 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
 
     if (!group || group.userId !== session.user.id) {
       return createErrorResponse('分组不存在或无权访问', 404)
+    }
+    if (group.isSystem) {
+      return createErrorResponse('系统词库不能重命名', 400)
     }
 
     const updatedGroup = await prisma.reviewGroup.update({
@@ -61,7 +64,7 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
     return createSuccessResponse({ data: updatedGroup })
   } catch (err: unknown) {
     if ((err as { code?: string }).code === 'P2002') {
-      return createErrorResponse('该分组名称已存在', 400)
+      return createErrorResponse('该自定义词库名称已存在', 400)
     }
     return handleApiError(err, 'review-groups/[id] PATCH')
   }
@@ -82,6 +85,9 @@ export async function DELETE(req: Request, { params }: { params: Promise<{ id: s
 
     if (!group || group.userId !== session.user.id) {
       return createErrorResponse('分组不存在或无权访问', 404)
+    }
+    if (group.isSystem) {
+      return createErrorResponse('系统词库不能删除', 400)
     }
 
     // 删除相关的sharedVocabularyImport记录

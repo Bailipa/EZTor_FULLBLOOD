@@ -55,6 +55,12 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
         { status: 404 },
       )
     }
+    if (group.isSystem) {
+      return NextResponse.json(
+        { success: false, error: '不能修改系统词库内容' },
+        { status: 400 },
+      )
+    }
 
     // 模式一：按私有 Word id 链接（原逻辑）
     if (Array.isArray(wordIds) && wordIds.length > 0) {
@@ -236,6 +242,12 @@ export async function DELETE(req: Request, { params }: { params: Promise<{ id: s
       return NextResponse.json(
         { success: false, error: 'Group not found or unauthorized' },
         { status: 404 },
+      )
+    }
+    if (group.isSystem) {
+      return NextResponse.json(
+        { success: false, error: '不能修改系统词库内容' },
+        { status: 400 },
       )
     }
 

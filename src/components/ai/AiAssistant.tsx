@@ -97,7 +97,7 @@ function isChat(m: UiMessage): m is ChatMessage {
   return (m as ChatMessage).role !== undefined
 }
 
-export function AiAssistant({ onBack }: { onBack?: () => void }) {
+export function AiAssistant({ onBack, groups: initialGroups }: { onBack?: () => void; groups?: { id: string; name: string }[] }) {
   const { data: session, status } = useSession()
   const isAuthenticated = status === 'authenticated' && session?.user
   const { promptLogin, LoginPromptDialog } = useLoginPrompt()
@@ -107,7 +107,7 @@ export function AiAssistant({ onBack }: { onBack?: () => void }) {
   const [busy, setBusy] = useState(false)
   const [expandedSearch, setExpandedSearch] = useState<number | null>(null)
   const [expandedWord, setExpandedWord] = useState<{ cardIndex: number; word: string } | null>(null)
-  const [groups, setGroups] = useState<{ id: string; name: string }[]>([])
+  const [groups, setGroups] = useState<{ id: string; name: string }[]>(initialGroups ?? [])
   const [wordTargetGroup, setWordTargetGroup] = useState<string>('none')
   const [newGroupName, setNewGroupName] = useState('')
   const [addingWord, setAddingWord] = useState(false)
@@ -119,16 +119,23 @@ export function AiAssistant({ onBack }: { onBack?: () => void }) {
   const inputRef = useRef<HTMLTextAreaElement>(null)
 
   useEffect(() => {
+    if (initialGroups) {
+      setGroups(initialGroups)
+      return
+    }
     if (!isAuthenticated) return
-    fetch('/api/review-groups')
+    let cancelled = false
+    const controller = new AbortController()
+    fetch('/api/review-groups', { signal: controller.signal })
       .then((r) => r.json())
       .then((res) => {
-        if (res.success && res.data) {
+        if (!cancelled && res.success && res.data) {
           setGroups(res.data.map((g: { id: string; name: string }) => ({ id: g.id, name: g.name })))
         }
       })
       .catch(() => {})
-  }, [isAuthenticated])
+    return () => { cancelled = true; controller.abort() }
+  }, [initialGroups, isAuthenticated])
 
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: 'smooth' })

@@ -1,12 +1,6 @@
-'use client'
-
-import { usePathname } from 'next/navigation'
-import { hasSharedNavigation } from '@/components/layout/SharedNavigation'
-
 export default function Loading() {
-  const sharedNavigation = hasSharedNavigation(usePathname())
   return (
-    <div className={`min-h-screen bg-background p-6 md:p-12 ${sharedNavigation ? 'md:ml-[72px] xl:ml-[208px]' : ''}`}>
+    <div data-workspace-page className="min-h-screen bg-background p-6 pb-[calc(80px+env(safe-area-inset-bottom,0px))] md:[body:has([data-workspace-sidebar])_&]:ml-16 md:p-12 lg:[body:has([data-workspace-sidebar])_&]:ml-44">
       <main className="max-w-7xl mx-auto space-y-6">
         <div className="bg-card p-4 sm:p-6 rounded-xl shadow-sm border border-border animate-pulse">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">

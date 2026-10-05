@@ -819,12 +819,13 @@
 
 /* The mobile home is a learning entry, with the flashcard in the first screen. */
 @media (max-width: 47.999rem) {
+  .homeCanvas {
+    overflow-y: visible;
+  }
   .mePage {
-    height: calc(100dvh - var(--mobile-nav-space));
-    min-height: 0;
-    overflow-y: auto;
-    overscroll-behavior-y: contain;
-    -webkit-overflow-scrolling: touch;
+    height: auto;
+    min-height: calc(100dvh - var(--mobile-nav-space));
+    overflow: visible;
     padding-bottom: 40px;
   }
   .homeHeader { padding: 12px 20px; border: 0; border-bottom: 1px solid var(--border); border-radius: 0; box-shadow: none; }
@@ -1175,4 +1176,14 @@
 @media (max-width: 767px) {
   :global(html[data-keyboard-open='true']) .assistantPage :global([data-ai-assistant-header]) { padding-block: 4px; }
   :global(html[data-keyboard-open='true']) .assistantPage :global([data-ai-assistant-header] > div > button) { width: 32px; height: 32px; }
+}
+
+/* Each function keeps its draft when the desktop workspace changes size. */
+.deskPanels { min-height: 100%; }
+.deskPanels:has(> .fillPanel) { height: 100%; }
+.deskPanelHeading { display: none; }
+
+@media (max-width: 63.999rem) {
+  .canvas { overflow-x: clip; }
+  .taskPanel { animation: none; }
 }

@@ -38,7 +38,7 @@ export function HomeHeader({
 
   return (
     <>
-      <header className={`${styles.homeHeader} flex flex-col bg-white dark:bg-card md:bg-sidebar md:dark:bg-sidebar p-4 sm:p-6 md:h-14 md:p-0 md:shrink-0 rounded-xl md:rounded-none shadow-sm md:shadow-none border border-border md:border-x-0 md:border-t-0 md:border-b md:border-sidebar-border transition-colors duration-300`}>
+      <header data-home-header className={`${styles.homeHeader} flex flex-col bg-white dark:bg-card md:bg-sidebar md:dark:bg-sidebar p-4 sm:p-6 md:h-14 md:p-0 md:shrink-0 rounded-xl md:rounded-none shadow-sm md:shadow-none border border-border md:border-x-0 md:border-t-0 md:border-b md:border-sidebar-border transition-colors duration-300`}>
         <button
           type="button"
           onClick={() => setCardExpanded((v) => !v)}
@@ -52,7 +52,7 @@ export function HomeHeader({
           </span>
         </button>
         <div className={`${cardExpanded ? 'block' : 'hidden sm:block'} md:mx-auto md:flex md:h-full md:w-full md:max-w-7xl md:items-center md:justify-between md:gap-4 md:px-6 xl:px-8`}>
-          <h1 className="hidden shrink-0 items-center gap-2 text-lg font-semibold text-sidebar-foreground md:flex"><Home className="size-5 text-primary" />首页</h1>
+          <h1 className="hidden shrink-0 items-center gap-2 text-lg font-semibold text-sidebar-foreground md:flex"><Home className="size-5 text-primary" />工作台</h1>
           <div className="space-y-1.5 mt-2 md:hidden">
             <p className="text-sm sm:text-base text-gray-500 dark:text-muted-foreground">
               An Easier Translator.

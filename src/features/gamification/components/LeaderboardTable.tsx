@@ -29,37 +29,96 @@ function LeaderboardList({ entries }: { entries: LeaderboardEntry[] }) {
     )
   }
 
+  const podium = entries.length >= 3 ? entries.slice(0, 3) : []
+  const remaining = podium.length ? entries.slice(3) : entries
+  const topScore = Math.max(...entries.map((entry) => entry.score), 0)
+
   return (
-    <div className="space-y-1">
-      {entries.map((entry) => (
-        <div
-          key={entry.userId}
-          className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm ${
-            entry.isCurrentUser
-              ? 'bg-primary/10 border border-primary/20'
-              : 'hover:bg-muted/50'
-          }`}
-        >
-          <RankBadge rank={entry.rank} />
-          <div className="flex-1 min-w-0">
-            <span className={`font-medium truncate block ${entry.isCurrentUser ? 'text-primary' : ''}`}>
-              {entry.nickname}
-              {entry.isCurrentUser && <span className="text-xs ml-1 opacity-60">(你)</span>}
-            </span>
+    <div className="space-y-5">
+      {podium.length > 0 && (
+        <section className="space-y-2" aria-label="前三名">
+          <div className="flex items-center justify-between px-1">
+            <h3 className="text-xs font-semibold tracking-wide text-muted-foreground">本期领跑</h3>
+            <span className="text-[11px] tabular-nums text-muted-foreground">{entries.length} 位学习者</span>
           </div>
-          <div className="flex items-center gap-3 shrink-0">
-            {entry.currentStreak > 0 && (
-              <span className="text-xs text-orange-500 flex items-center gap-0.5">
-                <Flame className="w-3 h-3" />
-                {entry.currentStreak}
-              </span>
-            )}
-            <span className="font-mono text-xs font-semibold text-amber-600 dark:text-amber-400">
-              {entry.score}
-            </span>
-          </div>
+          <ol className="grid gap-2 sm:grid-cols-3 sm:items-end" aria-label="前三名">
+          {podium.map((entry, index) => (
+            <li
+              key={entry.userId}
+              className={`relative flex min-h-24 flex-col justify-between overflow-hidden rounded-xl border p-3 sm:min-h-32 ${
+                index === 0 ? 'sm:col-start-2 sm:row-start-1 sm:min-h-40 border-amber-500/40 bg-gradient-to-b from-amber-500/15 to-primary/5' :
+                index === 1 ? 'sm:col-start-1 sm:row-start-1 border-slate-400/35 bg-gradient-to-b from-slate-400/10 to-muted/25' :
+                'sm:col-start-3 sm:row-start-1 border-orange-700/25 bg-gradient-to-b from-orange-700/10 to-muted/25'
+              } ${entry.isCurrentUser ? 'ring-2 ring-primary/35' : ''}`}
+            >
+              <div className={`absolute inset-x-0 top-0 h-1 ${index === 0 ? 'bg-amber-500' : index === 1 ? 'bg-slate-400' : 'bg-orange-700/60'}`} />
+              <div className="flex items-center justify-between gap-2">
+                <span className={`inline-flex size-8 items-center justify-center rounded-full ${index === 0 ? 'bg-amber-500/15 text-amber-700 dark:text-amber-300' : 'bg-background/80 text-muted-foreground'}`}>
+                  {index === 0 ? <Crown className="size-4" /> : <span className="text-xs font-semibold">{entry.rank}</span>}
+                </span>
+                <span className="text-[11px] font-medium text-muted-foreground">{entry.rank === 1 ? '榜首' : `第 ${entry.rank} 名`}</span>
+              </div>
+              <div className="mt-3 min-w-0">
+                <p title={entry.nickname} className={`truncate text-sm font-semibold ${entry.isCurrentUser ? 'text-primary' : ''}`}>
+                  {entry.nickname}{entry.isCurrentUser && <span className="ml-1 text-xs font-normal">（你）</span>}
+                </p>
+                <div className="mt-1 flex items-center justify-between gap-2">
+                  {entry.currentStreak > 0 ? (
+                    <span className="inline-flex items-center gap-1 text-[11px] text-orange-500"><Flame className="size-3" />{entry.currentStreak} 天</span>
+                  ) : <span className="text-[11px] text-muted-foreground">累计学力</span>}
+                  <span className="font-mono text-sm font-bold tabular-nums text-amber-600 dark:text-amber-400">{entry.score}</span>
+                </div>
+              </div>
+            </li>
+          ))}
+          </ol>
+        </section>
+      )}
+
+      {remaining.length > 0 && (
+        <div className="space-y-1.5">
+          {podium.length > 0 && <h3 className="px-1 text-xs font-medium text-muted-foreground">其他排名</h3>}
+          <ol start={podium.length ? 4 : undefined} className="space-y-1.5">
+            {remaining.map((entry) => (
+              <li
+                key={entry.userId}
+                className={`relative flex min-h-12 items-center gap-3 rounded-lg border border-transparent px-3 pb-3 pt-2 text-sm transition-colors ${
+                  entry.isCurrentUser
+                    ? 'border-primary/30 bg-primary/10'
+                    : 'hover:border-border/70 hover:bg-muted/45'
+                }`}
+              >
+                <span className="grid size-7 shrink-0 place-items-center rounded-full bg-muted/70"><RankBadge rank={entry.rank} /></span>
+                <div className="flex-1 min-w-0">
+                  <span className={`font-medium truncate block ${entry.isCurrentUser ? 'text-primary' : ''}`}>
+                    {entry.nickname}
+                    {entry.isCurrentUser && <span className="text-xs ml-1 opacity-60">(你)</span>}
+                  </span>
+                </div>
+                <div className="flex items-center gap-3 shrink-0">
+                  {entry.currentStreak > 0 && (
+                    <span className="text-xs text-orange-500 flex items-center gap-0.5">
+                      <Flame className="w-3 h-3" />
+                      {entry.currentStreak}
+                    </span>
+                  )}
+                  <span className="font-mono text-sm font-semibold tabular-nums text-amber-600 dark:text-amber-400">
+                    {entry.score}
+                  </span>
+                </div>
+                {topScore > 0 && (
+                  <div className="absolute inset-x-3 bottom-1 h-0.5 overflow-hidden rounded-full bg-muted/70" aria-hidden="true">
+                    <div
+                      className="h-full rounded-full bg-primary/60"
+                      style={{ width: `${Math.max(4, Math.min(100, (entry.score / topScore) * 100))}%` }}
+                    />
+                  </div>
+                )}
+              </li>
+            ))}
+          </ol>
         </div>
-      ))}
+      )}
     </div>
   )
 }

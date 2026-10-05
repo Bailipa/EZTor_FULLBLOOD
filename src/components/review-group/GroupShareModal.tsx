@@ -241,9 +241,9 @@ export function GroupShareModal({ groupId, isOpen, onClose }: GroupShareModalPro
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <DialogContent className="w-full max-w-[calc(100vw-2rem)] sm:max-w-2xl max-h-[calc(100vh-2rem)] overflow-y-auto p-4 sm:p-6">
         <DialogHeader className="mb-4">
-          <DialogTitle className="text-lg sm:text-xl">分享分组词库</DialogTitle>
+          <DialogTitle className="text-lg sm:text-xl">分享自定义词库</DialogTitle>
           <DialogDescription className="text-sm">
-            生成分享密钥，让其他用户可以导入该分组的词汇
+            生成分享密钥，让其他用户可以导入这份自定义词库
           </DialogDescription>
         </DialogHeader>
 

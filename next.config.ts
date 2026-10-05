@@ -35,6 +35,9 @@ const cspDevelopment = [
 
 const nextConfig: NextConfig = {
   allowedDevOrigins: ['127.0.0.1'],
+  onDemandEntries: isProduction
+    ? undefined
+    : { maxInactiveAge: 5 * 60 * 1000, pagesBufferLength: 8 },
   output: 'standalone',
   serverExternalPackages: ['svg-captcha'],
   outputFileTracingExcludes: {

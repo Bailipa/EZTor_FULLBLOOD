@@ -24,6 +24,7 @@ interface WordCardProps {
   onTouchStart: (index: number, id: string, e: React.TouchEvent) => void
   onTouchMove: (e: React.TouchEvent) => void
   onTouchEnd: () => void
+  onTouchCancel: () => void
   onSetDeletingId: (id: string | null) => void
 }
 
@@ -41,6 +42,7 @@ const WordCard = memo(
     onTouchStart,
     onTouchMove,
     onTouchEnd,
+    onTouchCancel,
     onSetDeletingId,
   }: WordCardProps) {
     const commonProps = {
@@ -51,6 +53,7 @@ const WordCard = memo(
       onTouchStart: (e: React.TouchEvent) => onTouchStart(index, item.id, e),
       onTouchMove,
       onTouchEnd,
+      onTouchCancel,
       onDragStart: (e: React.DragEvent) => e.preventDefault(),
     }
 
@@ -97,6 +100,8 @@ const WordCard = memo(
     return (
       <Card
         {...commonProps}
+        data-workspace-word-card
+        data-selected={isSelectionMode && isSelected}
         className={cn(
           isSelectionMode && 'cursor-pointer select-none touch-pan-y',
           isSelectionMode && isSelected && 'ring-2 ring-primary border-primary bg-primary/5',
@@ -127,8 +132,8 @@ const WordCard = memo(
               onMouseDown={(e) => e.stopPropagation()}
               onTouchStart={(e) => e.stopPropagation()}
               className="absolute top-5 right-5 z-10 p-1 text-gray-300 dark:text-gray-600 hover:text-red-500"
-              title={isGroupView ? '从分组中移除' : '删除此单词'}
-              aria-label={isGroupView ? '从分组中移除' : '删除此单词'}
+              title={isGroupView ? '从自定义词库中移除' : '删除此单词'}
+              aria-label={isGroupView ? '从自定义词库中移除' : '删除此单词'}
             >
               <Trash2 size={16} />
             </button>

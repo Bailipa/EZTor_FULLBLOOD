@@ -3,11 +3,12 @@
 import { useEffect, useId, useMemo, useRef, useState, type PointerEvent as ReactPointerEvent } from 'react'
 import { motion } from 'framer-motion'
 import { useReducedInterfaceMotion } from '@/hooks/useReducedInterfaceMotion'
+import { usePanelSwipe } from '@/hooks/usePanelSwipe'
+import { playFeedbackSound } from '@/lib/feedbackSounds'
 import dynamic from 'next/dynamic'
 import { useSession } from 'next-auth/react'
 import { Loader2 } from 'lucide-react'
 import { WordTranslationPanel } from '@/components/home/WordTranslationPanel'
-import { ChatRoom } from '@/components/chat/ChatRoom'
 import { useLoginPrompt } from '@/components/ui/login-prompt-modal'
 import type { ReviewGroup } from '@/types/api'
 import { readExperiencePreferences } from '@/lib/experiencePreferences'
@@ -18,9 +19,15 @@ const ZhEnAssistant = dynamic(
   { loading: () => <div className="p-6 text-sm text-muted-foreground" role="status">正在打开翻译功能…</div> },
 )
 
+const ChatRoom = dynamic(
+  () => import('@/components/chat/ChatRoom').then((module) => module.ChatRoom),
+  { loading: () => <div className="p-6 text-sm text-muted-foreground" role="status">正在打开聊天室…</div> },
+)
+
 type TranslationTask = 'realtime' | 'supplement'
 type AssistantView = 'zh-en' | 'text' | 'ai' | 'chat'
 type TranslationMode = 'realtime' | AssistantView
+type DeskLayout = 'single' | 'split' | 'full'
 
 const translationModes: { value: TranslationMode; label: string }[] = [
   { value: 'realtime', label: '实时翻译' },
@@ -29,6 +36,8 @@ const translationModes: { value: TranslationMode; label: string }[] = [
   { value: 'ai', label: '问AI助手' },
   { value: 'chat', label: '聊天室' },
 ]
+
+const panelModes = translationModes.map((mode) => mode.value)
 
 const translationNavigationStoragePrefix = 'eztor:translation-navigation:v1:'
 
@@ -45,8 +54,9 @@ export function TranslationWorkspace() {
   const navigationScope = status === 'loading' ? null : userId ? `user:${userId}` : 'guest'
   const [task, setTask] = useState<TranslationTask>('realtime')
   const [assistantView, setAssistantView] = useState<AssistantView>('zh-en')
-  const assistantFullHeight = assistantView === 'ai' || assistantView === 'chat'
-  const [hasOpenedSupplement, setHasOpenedSupplement] = useState(false)
+  const [conversationView, setConversationView] = useState<'ai' | 'chat'>('ai')
+  const [deskLayout, setDeskLayout] = useState<DeskLayout>('single')
+  const [openedModes, setOpenedModes] = useState<AssistantView[]>([])
   const [loadedNavigationScope, setLoadedNavigationScope] = useState<string | null>(null)
   const navigationReady = !!navigationScope && loadedNavigationScope === navigationScope
   const mainRef = useRef<HTMLElement>(null)
@@ -73,12 +83,14 @@ export function TranslationWorkspace() {
 
     let savedTask: TranslationTask = 'realtime'
     let savedView: AssistantView = 'zh-en'
+    let savedConversation: 'ai' | 'chat' = 'ai'
     try {
       const raw = localStorage.getItem(getTranslationNavigationStorageKey(navigationScope))
       if (raw) {
         const saved = JSON.parse(raw)
         if (saved?.task === 'supplement') savedTask = 'supplement'
         if (saved?.view === 'text' || saved?.view === 'ai' || saved?.view === 'chat') savedView = saved.view
+        if (saved?.conversation === 'chat' || savedView === 'chat') savedConversation = 'chat'
       }
     } catch {
       // Keep the first-visit defaults when browser storage is unavailable or invalid.
@@ -86,7 +98,8 @@ export function TranslationWorkspace() {
 
     setTask(savedTask)
     setAssistantView(savedView)
-    setHasOpenedSupplement(savedTask === 'supplement')
+    setConversationView(savedConversation)
+    setOpenedModes(savedTask === 'supplement' ? [savedView] : [])
     setLoadedNavigationScope(navigationScope)
   }, [navigationScope])
 
@@ -99,19 +112,39 @@ export function TranslationWorkspace() {
       return
     }
 
-    setHasOpenedSupplement(true)
+    setOpenedModes((modes) => modes.includes('chat') ? modes : [...modes, 'chat'])
     setTask('supplement')
     setAssistantView('chat')
+    setConversationView('chat')
   }, [isAuthenticated, navigationReady, promptLogin])
 
   useEffect(() => {
     if (!navigationReady || !navigationScope) return
     try {
-      localStorage.setItem(getTranslationNavigationStorageKey(navigationScope), JSON.stringify({ task, view: assistantView }))
+      localStorage.setItem(getTranslationNavigationStorageKey(navigationScope), JSON.stringify({ task, view: assistantView, conversation: conversationView }))
     } catch {
       // Navigation still works for this visit if browser storage is unavailable.
     }
-  }, [assistantView, navigationReady, navigationScope, task])
+  }, [assistantView, conversationView, navigationReady, navigationScope, task])
+
+  useEffect(() => {
+    const split = window.matchMedia('(min-width: 1100px)')
+    const full = window.matchMedia('(min-width: 1440px)')
+    const updateLayout = () => setDeskLayout(full.matches ? 'full' : split.matches ? 'split' : 'single')
+    updateLayout()
+    split.addEventListener('change', updateLayout)
+    full.addEventListener('change', updateLayout)
+    return () => {
+      split.removeEventListener('change', updateLayout)
+      full.removeEventListener('change', updateLayout)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (!navigationReady || deskLayout === 'single') return
+    const visibleModes: AssistantView[] = deskLayout === 'full' ? ['zh-en', 'text', conversationView] : [assistantView]
+    setOpenedModes((modes) => [...new Set([...modes, ...visibleModes])])
+  }, [assistantView, conversationView, deskLayout, navigationReady])
 
   useEffect(() => {
     const main = mainRef.current
@@ -209,29 +242,38 @@ export function TranslationWorkspace() {
     if (nextMode === 'chat') {
       if (!isAuthenticated) {
         promptLogin('聊天室')
-        return
+        return false
       }
-      setHasOpenedSupplement(true)
+      setOpenedModes((modes) => modes.includes('chat') ? modes : [...modes, 'chat'])
       setTask('supplement')
       setAssistantView('chat')
-      return
+      setConversationView('chat')
+      return true
     }
     if (nextMode === 'realtime') {
       setTask('realtime')
-      return
+      return true
     }
     if (nextMode === 'text' && !isAuthenticated) {
       promptLogin('文本翻译')
-      return
+      return false
     }
     if (nextMode === 'ai' && !isAuthenticated) {
       promptLogin('AI询问')
-      return
+      return false
     }
-    setHasOpenedSupplement(true)
+    setOpenedModes((modes) => modes.includes(nextMode) ? modes : [...modes, nextMode])
     setTask('supplement')
     setAssistantView(nextMode)
+    if (nextMode === 'ai') setConversationView('ai')
+    return true
   }
+
+  usePanelSwipe(mainRef, selectedMode, panelModes, (mode) => {
+    if (!selectMode(mode)) return false
+    playFeedbackSound('swipe')
+    return true
+  }, navigationReady && deskLayout === 'single')
 
   const handleLinePointerDown = (event: ReactPointerEvent<HTMLButtonElement>) => {
     if (!event.isPrimary || event.button !== 0 || lineGesture.current) return
@@ -288,8 +330,8 @@ export function TranslationWorkspace() {
 
   return (
     <div className="flex h-full min-h-0 flex-col">
-      <header className={styles.translationHeader}>
-        <div className={styles.translationHeading}>
+      <header data-workspace-translation-header className={styles.translationHeader}>
+        <div data-workspace-translation-heading className={styles.translationHeading}>
           <button
             type="button"
             className={styles.navigationLine}
@@ -338,57 +380,64 @@ export function TranslationWorkspace() {
         </div>
       </header>
 
-      <main ref={mainRef} className={`min-h-0 flex-1 overflow-y-auto ${styles.canvas}`}>
+      <main ref={mainRef} data-translation-desk={deskLayout} className={`min-h-0 flex-1 overflow-y-auto ${styles.canvas}`}>
         {!navigationReady ? (
           <div className="flex min-h-32 items-center justify-center gap-2 text-sm text-muted-foreground" role="status">
             <Loader2 className="size-4 animate-spin" />正在恢复翻译界面…
           </div>
         ) : (
-          <>
-        <section className={task === 'realtime' ? styles.taskPanel : 'hidden'} aria-label="实时翻译">
-          <div className={styles.translationPage}>
-            {status === 'loading' || (isAuthenticated && !preferencesReady) ? (
-              <div className="flex min-h-32 items-center justify-center gap-2 text-sm text-muted-foreground" role="status">
-                <Loader2 className="size-4 animate-spin" />正在载入翻译设置…
-              </div>
-            ) : (
-              <>
-                <WordTranslationPanel
-                  showPhonetic={showPhonetic}
-                  showPos={showPos}
-                  showExample={showExample}
-                  groups={groups}
-                  selectedTargetGroupId={selectedTargetGroupId}
-                  setSelectedTargetGroupId={setSelectedTargetGroupId}
-                  isGuest={!isAuthenticated}
-                  autoSaveWords={autoSaveWords}
-                  soundEffectsEnabled={soundEffectsEnabled}
-                  onGuestFeatureClick={promptLogin}
-                  pendingRealtimeWord={pendingRealtimeWord}
-                  showTitle={false}
-                />
-                {isAuthenticated && preferencesLoadError && (
-                  <p className="mt-2 text-xs text-amber-700 dark:text-amber-300" role="status">
-                    保存设置暂未同步，本次按默认自动保存处理。
-                  </p>
+          <div data-translation-panels className={styles.deskPanels}>
+            <section data-desk-mode="realtime" data-desk-active={selectedMode === 'realtime'} data-panel-swipe-active={selectedMode === 'realtime'} className={deskLayout !== 'single' || task === 'realtime' ? styles.taskPanel : 'hidden'} aria-label="实时翻译">
+              <h2 className={styles.deskPanelHeading}>实时翻译</h2>
+              <div data-workspace-translation-content className={styles.translationPage}>
+                {status === 'loading' || (isAuthenticated && !preferencesReady) ? (
+                  <div className="flex min-h-32 items-center justify-center gap-2 text-sm text-muted-foreground" role="status">
+                    <Loader2 className="size-4 animate-spin" />正在载入翻译设置…
+                  </div>
+                ) : (
+                  <>
+                    <WordTranslationPanel
+                      showPhonetic={showPhonetic}
+                      showPos={showPos}
+                      showExample={showExample}
+                      groups={groups}
+                      selectedTargetGroupId={selectedTargetGroupId}
+                      setSelectedTargetGroupId={setSelectedTargetGroupId}
+                      isGuest={!isAuthenticated}
+                      autoSaveWords={autoSaveWords}
+                      soundEffectsEnabled={soundEffectsEnabled}
+                      onGuestFeatureClick={promptLogin}
+                      pendingRealtimeWord={pendingRealtimeWord}
+                      showTitle={false}
+                    />
+                    {isAuthenticated && preferencesLoadError && (
+                      <p className="mt-2 text-xs text-amber-700 dark:text-amber-300" role="status">
+                        保存设置暂未同步，本次按默认自动保存处理。
+                      </p>
+                    )}
+                  </>
                 )}
-              </>
-            )}
-          </div>
-        </section>
+              </div>
+            </section>
 
-        {hasOpenedSupplement && (
-          <section className={task === 'supplement' ? `${assistantFullHeight ? styles.fillPanel : 'min-h-full'} ${styles.taskPanel}` : 'hidden'} aria-label="中译英、译句子、AI 助手与聊天室">
-            <div className={`${styles.translationPage} ${assistantFullHeight ? styles.assistantPage : ''}`}>
-              {assistantView === 'chat' ? (
-                <ChatRoom />
-              ) : (
-                <ZhEnAssistant key={navigationScope} view={assistantView} onViewChange={setAssistantView} onCarryToRealtime={carryToRealtime} groups={groupOptions} />
-              )}
-            </div>
-          </section>
-        )}
-          </>
+            {(['zh-en', 'text', 'ai', 'chat'] as AssistantView[]).map((mode) => {
+              const visible = deskLayout === 'full'
+                ? mode === 'zh-en' || mode === 'text' || mode === conversationView
+                : deskLayout === 'split' ? mode === assistantView : task === 'supplement' && mode === assistantView
+              if (!visible && !openedModes.includes(mode)) return null
+              const conversation = mode === 'ai' || mode === 'chat'
+              return (
+                <section key={`${navigationScope}:${mode}`} data-desk-mode={mode} data-desk-active={selectedMode === mode} data-panel-swipe-active={selectedMode === mode} className={visible ? `${conversation ? styles.fillPanel : ''} ${styles.taskPanel}` : 'hidden'} aria-label={translationModes.find((item) => item.value === mode)?.label}>
+                  {!conversation && <h2 className={styles.deskPanelHeading}>{mode === 'zh-en' ? '中译英' : '译句子'}</h2>}
+                  <div data-workspace-translation-content data-chat-content={conversation} className={`${styles.translationPage} ${conversation ? styles.assistantPage : ''}`}>
+                    {mode === 'chat' ? <ChatRoom active={visible} /> : (
+                      <ZhEnAssistant view={mode} onViewChange={selectMode} onCarryToRealtime={carryToRealtime} groups={groupOptions} />
+                    )}
+                  </div>
+                </section>
+              )
+            })}
+          </div>
         )}
       </main>
       <LoginPromptDialog />

@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+import dynamic from 'next/dynamic'
 import { useSession } from 'next-auth/react'
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
@@ -25,9 +26,13 @@ import {
   ArrowRight,
 } from 'lucide-react'
 import { useLoginPrompt } from '@/components/ui/login-prompt-modal'
-import { AiAssistant } from './AiAssistant'
 import { Checkbox } from '@/components/ui/checkbox'
 import styles from './translation-workspace.module.css'
+
+const AiAssistant = dynamic(
+  () => import('./AiAssistant').then((module) => module.AiAssistant),
+  { loading: () => <div className="p-6 text-sm text-muted-foreground" role="status">正在打开AI助手…</div> },
+)
 
 interface ZhEnWord {
   word: string
@@ -215,7 +220,7 @@ export function ZhEnAssistant({ view, onViewChange, onCarryToRealtime, groups: i
     return (
       <div className="flex min-h-0 min-w-0 flex-1 flex-col">
         <div className="min-h-0 min-w-0 flex-1">
-          <AiAssistant />
+          <AiAssistant groups={groups} />
         </div>
         <LoginPromptDialog />
       </div>
@@ -225,7 +230,7 @@ export function ZhEnAssistant({ view, onViewChange, onCarryToRealtime, groups: i
   if (view === 'text') {
     return (
       <div className="space-y-4">
-        <div className={`grid items-stretch gap-4 lg:grid-cols-2 ${styles.sentenceSheet}`}>
+        <div data-desk-sentence className={`grid items-stretch gap-4 lg:grid-cols-2 ${styles.sentenceSheet}`}>
           <Card className={`min-w-0 py-0 ${styles.sentencePane}`}>
             <CardContent className={`space-y-3 p-4 ${styles.sentenceBody}`}>
               <div className="flex items-center justify-between">
@@ -255,7 +260,7 @@ export function ZhEnAssistant({ view, onViewChange, onCarryToRealtime, groups: i
               </Button>
             </CardContent>
           </Card>
-          <Card className={`min-w-0 py-0 ${styles.sentencePane} ${textResult ? 'ring-primary/30' : 'hidden lg:flex'}`}>
+          <Card data-desk-sentence-result={!!textResult} className={`min-w-0 py-0 ${styles.sentencePane} ${textResult ? 'ring-primary/30' : 'hidden lg:flex'}`}>
             <CardContent className={`flex flex-1 flex-col gap-3 p-4 ${styles.sentenceBody}`}>
               <div className="flex min-h-11 items-center justify-between gap-2">
                 <h2 className="font-medium">译文</h2>
@@ -283,7 +288,7 @@ export function ZhEnAssistant({ view, onViewChange, onCarryToRealtime, groups: i
   return (
     <div className="space-y-4">
       <div className={`space-y-4 ${styles.lookupContent}`}>
-        <Card className={`py-0 shadow-sm ${styles.supplementQuery}`}>
+        <Card data-desk-lookup className={`py-0 shadow-sm ${styles.supplementQuery}`}>
           <CardContent className="p-4 space-y-3">
             {isAuthenticated && (
               <div className="flex flex-wrap items-center gap-2">

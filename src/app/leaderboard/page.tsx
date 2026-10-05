@@ -89,46 +89,48 @@ export default function LeaderboardPage() {
   return (
     <div className="relative h-screen bg-background transition-colors duration-300 flex flex-col">
       <AppLayout>
-        <div className="flex flex-col h-full overflow-y-auto p-4 md:p-6 lg:p-8 space-y-4">
-          <div className="indigo-page-header flex items-center justify-between">
-            <h1 className="text-2xl font-bold">排行榜</h1>
-            <div className="flex items-center gap-2">
-              <Button
-                variant="outline"
-                onClick={() => {
-                  setAutoCloseSeconds(0)
-                  setShareOpen(true)
-                }}
-                className="gap-1.5"
-                aria-label="雷霆分享"
-              >
-                <Share2 className="w-4 h-4" />
-                雷霆分享
-              </Button>
-              <CombatPowerBadge refreshKey={refreshKey} />
+        <div data-workspace-page data-workspace-ranking className="flex flex-col h-full overflow-y-auto p-4 md:p-6 lg:p-8 space-y-4">
+          <div data-workspace-ranking-summary className="flex flex-col gap-4">
+            <div data-workspace-toolbar className="indigo-page-header flex items-center justify-between">
+              <h1 className="text-2xl font-bold">排行榜</h1>
+              <div className="flex items-center gap-2">
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    setAutoCloseSeconds(0)
+                    setShareOpen(true)
+                  }}
+                  className="gap-1.5"
+                  aria-label="雷霆分享"
+                >
+                  <Share2 className="w-4 h-4" />
+                  雷霆分享
+                </Button>
+                <CombatPowerBadge refreshKey={refreshKey} />
+              </div>
             </div>
-          </div>
 
-          {profile && (
-            <div className="flex items-center gap-4 flex-wrap">
-              {profile.nickname && (
-                <span className="text-sm text-muted-foreground flex items-center gap-1">
-                  昵称：<span className="font-medium text-foreground">{profile.nickname}</span>
-                  <button
-                    onClick={() => setNicknameOpen(true)}
-                    className="text-muted-foreground hover:text-foreground transition-colors"
-                    title="修改昵称"
-                  >
-                    <Pencil className="w-3.5 h-3.5" />
-                  </button>
-                </span>
-              )}
-              <StreakCalendar
-                currentStreak={profile.currentStreak}
-                longestStreak={profile.longestStreak}
-              />
-            </div>
-          )}
+            {profile && (
+              <div data-workspace-ranking-profile className="flex items-center gap-4 flex-wrap">
+                {profile.nickname && (
+                  <span className="text-sm text-muted-foreground flex items-center gap-1">
+                    昵称：<span className="font-medium text-foreground">{profile.nickname}</span>
+                    <button
+                      onClick={() => setNicknameOpen(true)}
+                      className="text-muted-foreground hover:text-foreground transition-colors"
+                      title="修改昵称"
+                    >
+                      <Pencil className="w-3.5 h-3.5" />
+                    </button>
+                  </span>
+                )}
+                <StreakCalendar
+                  currentStreak={profile.currentStreak}
+                  longestStreak={profile.longestStreak}
+                />
+              </div>
+            )}
+          </div>
 
           {profile?.provider === 'xiaoying' && !profile?.nickname && (
             <Card className="border-blue-200 bg-blue-50/50 dark:bg-blue-950/20 dark:border-blue-900">
@@ -147,13 +149,13 @@ export default function LeaderboardPage() {
             </Card>
           )}
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 flex-1">
-            <div className="space-y-4">
+          <div data-workspace-ranking-grid className="grid grid-cols-1 gap-4 lg:grid-cols-[minmax(260px,0.85fr)_minmax(0,2.15fr)] lg:items-start">
+            <aside aria-label="我的学区">
               <WarZoneCard refreshKey={refreshKey} />
-            </div>
-            <div className="lg:col-span-2">
+            </aside>
+            <section aria-label="学力排行榜" className="min-w-0">
               <LeaderboardTable refreshKey={refreshKey} />
-            </div>
+            </section>
           </div>
         </div>
       </AppLayout>

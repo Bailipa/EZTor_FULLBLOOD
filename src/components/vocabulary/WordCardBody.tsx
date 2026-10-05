@@ -23,8 +23,8 @@ interface WordCardBodyProps {
 
 export function WordCardBody({ item }: WordCardBodyProps) {
   return (
-    <div className="space-y-3">
-      <div className="flex items-center gap-2 flex-1 min-w-0 pr-8">
+    <div data-workspace-word-body className="space-y-3">
+      <div data-workspace-history-word className="flex items-center gap-2 flex-1 min-w-0 pr-8">
         <span className="text-lg font-bold text-primary break-all">{item.word}</span>
         {item.phonetic && (
           <span className="text-xs text-gray-500 dark:text-gray-400 font-mono shrink-0">
@@ -45,7 +45,7 @@ export function WordCardBody({ item }: WordCardBodyProps) {
         </button>
       </div>
 
-      <div className="text-sm text-gray-700 dark:text-gray-300 font-medium leading-relaxed break-words">
+      <div data-workspace-history-definition className="text-sm text-gray-700 dark:text-gray-300 font-medium leading-relaxed break-words">
         {item.pos && (
           <Badge variant="secondary" className="text-xs px-1.5 py-0 mr-1.5 align-middle">
             {item.pos}
@@ -61,7 +61,7 @@ export function WordCardBody({ item }: WordCardBodyProps) {
 
         if (totalCount > 0) {
           return (
-            <div className="flex gap-3 text-xs mt-2 p-2 bg-muted/50 rounded-md border border-border/50">
+            <div data-workspace-history-stats className="flex gap-3 text-xs mt-2 p-2 bg-muted/50 rounded-md border border-border/50">
               <span className="text-green-600 dark:text-green-500 font-medium">
                 答对: {correctCount}
               </span>
@@ -76,14 +76,14 @@ export function WordCardBody({ item }: WordCardBodyProps) {
         }
 
         return (
-          <div className="text-xs text-muted-foreground opacity-70 mt-2 p-2 bg-muted/50 rounded-md border border-border/50">
+          <div data-workspace-history-stats className="text-xs text-muted-foreground opacity-70 mt-2 p-2 bg-muted/50 rounded-md border border-border/50">
             暂无默写记录
           </div>
         )
       })()}
 
       {item.example && (
-        <div className="pt-3 mt-3 border-t border-border space-y-2">
+        <div data-workspace-history-example className="pt-3 mt-3 border-t border-border space-y-2">
           {item.example.split('\n').map((ex: string, i: number) => {
             if (!ex.trim()) return null
 

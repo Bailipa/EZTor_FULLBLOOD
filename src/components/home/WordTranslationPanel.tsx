@@ -258,8 +258,8 @@ export function WordTranslationPanel({
     || (batchProgress && batchProgress.status !== 'running')
 
   return (
-    <Card className={`shadow-sm ${styles.sheet}`}>
-      <CardHeader className={`${styles.sheetHeader} ${!showTitle && isGuest ? 'hidden lg:grid' : ''}`}>
+    <Card data-workspace-translation-sheet className={`shadow-sm ${styles.sheet}`}>
+      <CardHeader data-workspace-sheet-header className={`${styles.sheetHeader} ${!showTitle && isGuest ? 'hidden lg:grid' : ''}`}>
         <div className="flex flex-wrap items-center gap-3">
           {!showTitle && <div className="hidden items-center gap-2.5 lg:flex">
             <PenTool className="size-4 text-primary" />
@@ -319,7 +319,7 @@ export function WordTranslationPanel({
         </div>
       </CardHeader>
       <CardContent className={styles.sheetBody}>
-        <div className={`mb-2 hidden grid-cols-[minmax(14rem,0.38fr)_minmax(0,1fr)] text-xs text-muted-foreground lg:grid ${styles.columnLabels}`} aria-hidden="true">
+        <div data-workspace-sheet-labels className={`mb-2 hidden grid-cols-[minmax(14rem,0.38fr)_minmax(0,1fr)] text-xs text-muted-foreground lg:grid ${styles.columnLabels}`} aria-hidden="true">
           <span className="px-3">单词</span>
           <span className="px-3">释义</span>
         </div>
@@ -351,7 +351,7 @@ export function WordTranslationPanel({
           ))}
         </div>
 
-        <div className={`mt-3 flex items-center justify-between ${styles.sheetActions}`}>
+        <div data-workspace-sheet-actions className={`mt-3 flex items-center justify-between ${styles.sheetActions}`}>
           <button
             type="button"
             onClick={handleAddEntry}

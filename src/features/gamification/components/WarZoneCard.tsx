@@ -104,23 +104,25 @@ export function WarZoneCard({ refreshKey = 0 }: { refreshKey?: number }) {
   return (
     <>
       <Card>
-        <CardHeader>
-          <CardTitle className="text-sm flex items-center gap-2">
+        <CardHeader className="pb-3">
+          <CardTitle className="flex items-center gap-2 text-sm font-semibold">
             <Shield className="w-4 h-4 text-blue-500" />
             {zone.name}
             <div className="ml-auto flex items-center gap-1">
               <button
                 onClick={() => setTransferOpen(true)}
-                className="text-muted-foreground hover:text-foreground transition-colors"
+                className="grid size-8 place-items-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
                 title="学区转移（消耗 20 学力）"
+                aria-label="学区转移"
               >
                 <ArrowRightLeft className="w-3.5 h-3.5" />
               </button>
               {zone.isCurrentUserTop && (
                 <button
                   onClick={() => setRenameOpen(true)}
-                  className="text-muted-foreground hover:text-foreground transition-colors"
+                  className="grid size-8 place-items-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
                   title="修改学区名称（消耗 10 学力）"
+                  aria-label="修改学区名称"
                 >
                   <Pencil className="w-3.5 h-3.5" />
                 </button>
@@ -140,42 +142,46 @@ export function WarZoneCard({ refreshKey = 0 }: { refreshKey?: number }) {
             </p>
           )}
         </CardHeader>
-        <CardContent>
-          <div className="flex items-center gap-2 text-xs text-muted-foreground mb-1">
+        <CardContent className="space-y-3">
+          <div className="flex items-center justify-between gap-2">
+            <div className="flex items-center gap-2 text-xs text-muted-foreground">
             <Users className="w-3.5 h-3.5" />
             <span>{zone.memberCount}/{zone.maxMembers} 成员</span>
+            </div>
+            <span className="rounded-full bg-muted px-2 py-1 text-[10px] text-muted-foreground">本月战区</span>
           </div>
-          <p className="text-[10px] text-muted-foreground mb-3">
-            本月学力第一玩家可以修改自己的称号，还可以修改学区名字
+          <p className="rounded-md bg-muted/45 px-2.5 py-2 text-[11px] leading-relaxed text-muted-foreground">
+            本月学力第一可修改称号与学区名称
           </p>
-          <div className="space-y-1">
+          <ol className="space-y-1" aria-label={`${zone.name}成员排名`}>
             {zone.members.slice(0, 10).map((m) => (
-              <div
+              <li
                 key={m.userId}
-                className={`flex items-center gap-2 px-2 py-1.5 rounded text-xs ${
-                  m.isCurrentUser ? 'bg-primary/10' : ''
+                className={`flex min-h-9 items-center gap-1.5 rounded-md border border-transparent px-2 py-1.5 text-xs ${
+                  m.isCurrentUser ? 'border-primary/30 bg-primary/10' : 'hover:bg-muted/45'
                 }`}
               >
-                <span className="w-4 text-center text-muted-foreground">{m.rank}</span>
-                <span className="inline-flex items-center gap-0.5 shrink-0 px-1.5 py-0.5 rounded bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300 text-[10px] font-medium">
+                <span className={`grid size-5 shrink-0 place-items-center rounded-full text-[10px] font-semibold tabular-nums ${m.rank <= 3 ? 'bg-primary/10 text-primary' : 'text-muted-foreground'}`}>{m.rank}</span>
+                <span className="inline-flex shrink-0 items-center gap-0.5 rounded-md bg-amber-500/10 px-1.5 py-1 text-[10px] font-medium text-amber-700 dark:text-amber-300">
                   {m.zoneTitle}
                   {m.rank === 1 && zone.isCurrentUserTop && (
                     <button
                       onClick={() => setTitleOpen(true)}
                       className="ml-0.5 hover:text-amber-900 dark:hover:text-amber-100 transition-colors"
                       title="修改称号（消耗 20 学力）"
+                      aria-label="修改我的学区称号"
                     >
                       <Pencil className="w-2.5 h-2.5" />
                     </button>
                   )}
                 </span>
-                <span className={`flex-1 truncate ${m.isCurrentUser ? 'font-medium text-primary' : ''}`}>
+                <span className={`min-w-0 flex-1 truncate ${m.isCurrentUser ? 'font-semibold text-primary' : ''}`}>
                   {m.nickname}
                 </span>
-                <span className="font-mono text-amber-600 dark:text-amber-400">{m.score}</span>
-              </div>
+                <span className="shrink-0 font-mono text-xs font-semibold tabular-nums text-amber-600 dark:text-amber-400">{m.score}</span>
+              </li>
             ))}
-          </div>
+          </ol>
         </CardContent>
       </Card>
 

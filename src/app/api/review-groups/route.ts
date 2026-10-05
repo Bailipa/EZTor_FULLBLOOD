@@ -12,7 +12,7 @@ export async function GET(_req: Request) {
     }
 
     const groups = await prisma.reviewGroup.findMany({
-      where: { userId: session.user.id },
+      where: { userId: session.user.id, isSystem: false },
       include: {
         _count: {
           select: { ReviewGroupWord: true },
@@ -36,18 +36,7 @@ export async function POST(req: Request) {
 
     const { name } = await req.json()
     if (!name || name.trim() === '') {
-      return createErrorResponse('分组名称不能为空', 400)
-    }
-
-    const count = await prisma.reviewGroup.count({
-      where: { 
-        userId: session.user.id,
-        isSystem: false
-      },
-    })
-
-    if (count >= 3) {
-      return createErrorResponse('最多只能创建 3 个复习分组', 400)
+      return createErrorResponse('自定义词库名称不能为空', 400)
     }
 
     const group = await prisma.reviewGroup.create({
@@ -62,7 +51,7 @@ export async function POST(req: Request) {
     return createSuccessResponse({ data: group })
   } catch (err: unknown) {
     if ((err as { code?: string }).code === 'P2002') {
-      return createErrorResponse('该分组名称已存在', 400)
+      return createErrorResponse('该自定义词库名称已存在', 400)
     }
     return handleApiError(err, 'review-groups POST')
   }

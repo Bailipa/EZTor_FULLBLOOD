@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef, useCallback, useEffect } from 'react'
+import { useState, useRef, useCallback, useEffect, useLayoutEffect } from 'react'
 import { toast } from 'sonner'
 import type { WordResult } from '@/types/api'
 import { triggerHapticFeedback } from '@/lib/hapticFeedback'
@@ -114,6 +114,8 @@ function parseTranslationResults(streamText: string): WordResult[] {
 
 export function useRealtimeTranslation({ showPos, showExample, targetGroupId, isGuest, autoSaveWords = true, soundEffectsEnabled = true }: UseRealtimeTranslationOptions) {
   const [entries, setEntries] = useState<WordEntry[]>([createEmptyEntry()])
+  const entriesRef = useRef(entries)
+  useLayoutEffect(() => { entriesRef.current = entries }, [entries])
   const debounceMapRef = useRef<Map<string, DebouncedFunction>>(new Map())
   const abortControllerRef = useRef<Map<string, AbortController>>(new Map())
   const saveTimersRef = useRef<Map<string, ReturnType<typeof setTimeout>>>(new Map())
@@ -500,9 +502,9 @@ export function useRealtimeTranslation({ showPos, showExample, targetGroupId, is
   )
 
   const retryPublicTranslation = useCallback((entryId: string) => {
-    const entry = entries.find((item) => item.id === entryId)
+    const entry = entriesRef.current.find((item) => item.id === entryId)
     if (entry) updateWord(entryId, entry.word)
-  }, [entries, updateWord])
+  }, [updateWord])
 
   const cancelSave = useCallback((entryId: string) => {
     cancelSaveTimer(entryId)
@@ -520,13 +522,13 @@ export function useRealtimeTranslation({ showPos, showExample, targetGroupId, is
   }, [fetchPublicTranslationBatch])
 
   const addEntry = useCallback(() => {
-    const lastEntry = entries[entries.length - 1]
+    const lastEntry = entriesRef.current[entriesRef.current.length - 1]
     if (lastEntry && lastEntry.word.trim() === '') return null
 
     const entry = createEmptyEntry()
     setEntries((prev) => [...prev, entry])
     return entry.id
-  }, [entries])
+  }, [])
 
   const removeEntry = useCallback((entryId: string) => {
     if (batchEntryIdsRef.current.has(entryId)) stopBatchRun()
@@ -603,7 +605,7 @@ export function useRealtimeTranslation({ showPos, showExample, targetGroupId, is
         toast.info('当前批量翻译结束后再处理新词条')
         return
       }
-      const entry = entries.find((e) => e.id === entryId)
+      const entry = entriesRef.current.find((e) => e.id === entryId)
       if (!entry || !entry.word.trim()) return
 
       // 如果该 entry 已有在飞 AI 翻译，把它当作"被新一次顶掉"
@@ -741,7 +743,7 @@ export function useRealtimeTranslation({ showPos, showExample, targetGroupId, is
         }
       }
     },
-    [entries, showPos, showExample, targetGroupId, autoSaveWords, soundEffectsEnabled, updateEntry, cancelSaveTimer],
+    [showPos, showExample, targetGroupId, autoSaveWords, soundEffectsEnabled, updateEntry, cancelSaveTimer],
   )
 
   const translateBatchEntries = useCallback(async (batch: WordEntry[], runId: number): Promise<'success' | 'failed' | 'cancelled'> => {

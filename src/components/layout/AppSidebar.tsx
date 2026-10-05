@@ -3,9 +3,8 @@
 import { usePathname, useRouter } from 'next/navigation'
 import { signOut, useSession } from 'next-auth/react'
 import Link from 'next/link'
-import { ScrollArea } from '@/components/ui/scroll-area'
 import { Button } from '@/components/ui/button'
-import { Home, PenTool, BookOpen, MessageCircle, LogOut, ExternalLink, Trophy, Download, Sparkles, Database, AlertCircle, Settings2 } from 'lucide-react'
+import { Home, PenTool, BookOpen, MessageCircle, LogOut, ExternalLink, Trophy, Download, Sparkles, Settings2, Ellipsis } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import { ModeToggle } from '@/components/mode-toggle'
 import { DonationButton } from '@/components/home/DonationModal'
@@ -22,6 +21,9 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog'
 import styles from '@/components/ai/translation-workspace.module.css'
+import workbench from './desktop-workbench.module.css'
+import { getWorkspaceSection } from './workspace-navigation'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { useQQGroupUrl } from '@/lib/siteConfig'
 
 export interface SidebarNavItem {
@@ -45,15 +47,11 @@ interface AppSidebarProps {
 }
 
 const DEFAULT_NAV_ITEMS: SidebarNavItem[] = [
-  { href: '/', label: '首页', icon: Home, requiresAuth: false },
-  { href: '/ai', label: '翻译', icon: Sparkles, requiresAuth: false },
+  { href: '/', label: '工作台', icon: Home, requiresAuth: false },
+  { href: '/ai', label: '翻译与聊天', icon: Sparkles, requiresAuth: false },
   { href: '/dictation', label: '默写复习', icon: PenTool, requiresAuth: true },
-  { href: '/mistakes', label: '错词本', icon: AlertCircle, requiresAuth: true },
-  { href: '/history', label: '生词本', icon: BookOpen, requiresAuth: true },
-  { href: '/public-vocabulary', label: '公共词库', icon: Database, requiresAuth: false },
+  { href: '/history', label: '词库', icon: BookOpen, requiresAuth: false },
   { href: '/leaderboard', label: '排行榜', icon: Trophy, requiresAuth: true },
-  { href: '/me', label: '设置', icon: Settings2, requiresAuth: false },
-  { href: '/download', label: '下载应用', icon: Download, requiresAuth: false },
 ]
 
 export default function AppSidebar({ navItems, bottomItems, showDonation = true }: AppSidebarProps) {
@@ -64,7 +62,7 @@ export default function AppSidebar({ navItems, bottomItems, showDonation = true 
   const isAuthenticated = status === 'authenticated' && session?.user
   const appVer = useAppVersion()
 
-  const items = navItems ?? DEFAULT_NAV_ITEMS
+  const items = navItems ?? DEFAULT_NAV_ITEMS.map((item) => item.href === '/history' && status === 'unauthenticated' ? { ...item, href: '/public-vocabulary' } : item)
 
   // 下载/更新项：浏览器恒显示"下载应用"；应用内仅确知有更新时显示"更新软件"，加载中/已最新均隐藏
   const isApp = appVer.mounted && appVer.isApp
@@ -92,19 +90,19 @@ export default function AppSidebar({ navItems, bottomItems, showDonation = true 
   const bottoms = bottomItems ?? defaultBottomItems
 
   return (
-    <aside className={`${styles.sidebar} hidden md:flex md:flex-col md:fixed md:left-0 md:top-0 md:bottom-0 md:w-[72px] xl:w-[208px] bg-sidebar border-r border-sidebar-border z-30`}>
+    <aside data-workspace-sidebar={!navItems || undefined} className={`${styles.sidebar} ${!navItems ? workbench.sidebar : ''} hidden md:flex md:flex-col md:fixed md:left-0 md:top-0 md:bottom-0 md:w-[72px] xl:w-[208px] bg-sidebar border-r border-sidebar-border z-30`}>
       <div className={`${styles.sidebarBrand} flex items-center justify-center xl:justify-start gap-3 px-2 xl:px-6 shrink-0`}>
         <img src="/favicon.ico" alt="EZTor" className="w-8 h-8 rounded-lg" />
-        <span className="hidden xl:inline font-semibold text-sidebar-foreground text-base">
+        <span data-sidebar-label className="hidden xl:inline font-semibold text-sidebar-foreground text-base">
           EZTor
         </span>
       </div>
 
-      <ScrollArea className={`${styles.sidebarScroll} flex-1 px-1 xl:px-3`}>
+      <div className={`${styles.sidebarScroll} min-h-0 flex-1 overflow-y-auto px-1 xl:px-3`}>
         <nav className="space-y-1" aria-label="主导航">
           {visibleItems.map((item) => {
             const Icon = item.icon
-            const isActive = pathname === item.href || (item.href === '/ai' && pathname === '/chat') || (item.href === '/public-vocabulary' && pathname === '/contributions') || (item.href === '/leaderboard' && pathname.startsWith('/leaderboard/'))
+            const isActive = navItems ? pathname === item.href : getWorkspaceSection(pathname) === getWorkspaceSection(item.href)
             const isLocked = item.requiresAuth && status === 'unauthenticated'
             const label = item.href === '/download' ? downloadLabel : item.label
 
@@ -120,24 +118,40 @@ export default function AppSidebar({ navItems, bottomItems, showDonation = true 
                 key={item.href}
                 asChild
                 variant="ghost"
-                className={`${styles.sidebarLink} flex w-full justify-center xl:justify-start gap-3 h-10 rounded-md px-1 xl:px-3 text-sm ${isActive ? 'bg-primary/8 font-medium text-primary hover:bg-primary/12 hover:text-primary' : 'text-sidebar-foreground/70'} ${isLocked ? 'opacity-70' : ''} ${!navItems && ['/dictation', '/public-vocabulary', '/me'].includes(item.href) ? styles.sidebarGroupStart : ''}`}
+                className={`${styles.sidebarLink} flex w-full justify-center xl:justify-start gap-3 h-10 rounded-md px-1 xl:px-3 text-sm ${isActive ? 'bg-primary/8 font-medium text-primary hover:bg-primary/12 hover:text-primary' : 'text-sidebar-foreground/70'} ${isLocked ? 'opacity-70' : ''}`}
               >
                 <Link href={item.href} onClick={handleClick} aria-label={label} title={label} aria-current={isActive ? 'page' : undefined}>
                   <Icon className="size-[18px] shrink-0" strokeWidth={isActive ? 2 : 1.7} />
-                  <span className="hidden xl:inline">{label}</span>
+                  <span data-sidebar-label className="hidden xl:inline">{label}</span>
                 </Link>
               </Button>
             )
           })}
         </nav>
-      </ScrollArea>
+      </div>
 
       <div className={`${styles.sidebarFooter} px-1 xl:px-3 py-3 border-t border-sidebar-border space-y-1 shrink-0`}>
-        <div className="flex items-center justify-center xl:justify-start gap-1 px-1 xl:px-3 pb-1">
+        {!navItems && (
+          <Button asChild variant="ghost" className={`${workbench.settingsLink} w-full justify-center xl:justify-start gap-3 h-10 px-1 xl:px-3 text-sm`}>
+            <Link href="/me" aria-label="设置" title="设置" aria-current={pathname.startsWith('/me') ? 'page' : undefined}>
+              <Settings2 className="size-[18px] shrink-0" /><span data-sidebar-label className="hidden xl:inline">设置</span>
+            </Link>
+          </Button>
+        )}
+        <div className={`${!navItems ? workbench.utilities : ''} flex items-center justify-center xl:justify-start gap-1 px-1 xl:px-3 pb-1`}>
           <ModeToggle />
-          {isAuthenticated && showDonation && <span className="hidden xl:inline-flex"><DonationButton /></span>}
+          {isAuthenticated && showDonation && <span data-sidebar-label className="hidden xl:inline-flex"><DonationButton /></span>}
+          {!navItems && (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild><Button variant="ghost" size="icon" aria-label="更多工具" title="更多工具"><Ellipsis className="size-4" /></Button></DropdownMenuTrigger>
+              <DropdownMenuContent side="right" align="end">
+                {(!isApp || appVer.hasUpdate === true) && <DropdownMenuItem asChild><Link href="/download"><Download className="size-4" />{downloadLabel}</Link></DropdownMenuItem>}
+                {bottoms.map((item) => <DropdownMenuItem key={item.label} onSelect={item.onClick}><item.icon className="size-4" />{item.label}</DropdownMenuItem>)}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          )}
         </div>
-        {bottoms.map((item) => {
+        {navItems && bottoms.map((item) => {
           const Icon = item.icon
           return (
             <Button
@@ -167,7 +181,7 @@ export default function AppSidebar({ navItems, bottomItems, showDonation = true 
             onClick={() => router.push('/auth/signin')}
           >
             <LogOut className="w-4 h-4 shrink-0 rotate-180" />
-            <span className="hidden xl:inline">登录</span>
+            <span data-sidebar-label className="hidden xl:inline">登录</span>
           </Button>
         )}
 
@@ -181,7 +195,7 @@ export default function AppSidebar({ navItems, bottomItems, showDonation = true 
               className="w-full justify-center xl:justify-start gap-3 h-10 px-1 xl:px-3 text-sm text-destructive/70 hover:text-destructive"
             >
               <LogOut className="w-4 h-4 shrink-0" />
-              <span className="hidden xl:inline">退出</span>
+              <span data-sidebar-label className="hidden xl:inline">退出</span>
             </Button>
           </AlertDialogTrigger>
           <AlertDialogContent>

@@ -132,7 +132,7 @@ function SaveStatusIndicator({
   return null
 }
 
-export function WordInputRow({
+export const WordInputRow = React.memo(function WordInputRow({
   entry,
   rowNumber,
   singleEntry,
@@ -342,6 +342,7 @@ export function WordInputRow({
 
   return (
     <div
+      data-workspace-translation-row
       className={cn(
         'group relative rounded-lg border bg-card transition-colors hover:border-primary/30 lg:grid lg:grid-cols-[minmax(14rem,0.38fr)_minmax(0,1fr)]',
         styles.wordRow,
@@ -349,7 +350,7 @@ export function WordInputRow({
         aiTranslated && 'ring-2 ring-emerald-500 border-emerald-500/40',
       )}
     >
-      <div className={`flex min-w-0 items-center gap-2 self-start p-3 ${styles.wordInput}`}>
+      <div data-workspace-translation-input className={`flex min-w-0 items-center gap-2 self-start p-3 ${styles.wordInput}`}>
         <span className="hidden shrink-0 pr-1 text-[11px] leading-[44px] tabular-nums text-muted-foreground/60 lg:block" aria-hidden="true">{String(rowNumber).padStart(2, '0')}</span>
         <Input
           ref={inputRef}
@@ -375,11 +376,11 @@ export function WordInputRow({
         </button>
       </div>
 
-      <div className={cn('min-w-0 break-words border-t px-3 lg:border-t-0 lg:border-l', styles.definition, !hasContent && `hidden lg:flex ${styles.emptyDefinition}`)}>
+      <div data-workspace-translation-definition className={cn('min-w-0 break-words border-t px-3 lg:border-t-0 lg:border-l', styles.definition, !hasContent && `hidden lg:flex ${styles.emptyDefinition}`)}>
         {hasContent ? renderTranslationResult() : singleEntry ? (
           <p className="text-sm text-muted-foreground/70">输入后查看释义</p>
         ) : <span className="text-muted-foreground/50" aria-hidden="true">—</span>}
       </div>
     </div>
   )
-}
+})

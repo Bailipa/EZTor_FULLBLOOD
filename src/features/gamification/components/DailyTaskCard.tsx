@@ -37,10 +37,11 @@ function renderTaskProgress(task: DailyTaskState) {
 interface DailyTaskCardProps {
   refreshKey?: number
   defaultCollapsed?: boolean
+  forceExpanded?: boolean
   onTaskClick?: (task: DailyTaskState) => void
 }
 
-export function DailyTaskCard({ refreshKey = 0, defaultCollapsed = false, onTaskClick }: DailyTaskCardProps) {
+export function DailyTaskCard({ refreshKey = 0, defaultCollapsed = false, forceExpanded = false, onTaskClick }: DailyTaskCardProps) {
   const [tasks, setTasks] = useState<DailyTaskState[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -149,7 +150,7 @@ export function DailyTaskCard({ refreshKey = 0, defaultCollapsed = false, onTask
     )
   }
 
-  if (collapsed) {
+  if (collapsed && !forceExpanded) {
     const allCompleted = tasks.every((t) => t.isCompleted)
     const flashcardInProgress = flashcardTask && !flashcardTask.isCompleted
     const activeTask = flashcardInProgress
@@ -210,9 +211,9 @@ export function DailyTaskCard({ refreshKey = 0, defaultCollapsed = false, onTask
           <span className="text-xs font-medium">每日任务</span>
           <div className="flex items-center gap-2">
             <span className="text-[10px] text-muted-foreground">{completedCount}/{tasks.length}</span>
-            <button type="button" className="grid size-11 place-items-center rounded-md text-muted-foreground hover:bg-muted" aria-label="收起每日任务" onClick={() => setCollapsed(true)}>
+            {!forceExpanded && <button type="button" className="grid size-11 place-items-center rounded-md text-muted-foreground hover:bg-muted" aria-label="收起每日任务" onClick={() => setCollapsed(true)}>
               <ChevronUp className="w-3.5 h-3.5" />
-            </button>
+            </button>}
           </div>
         </div>
         <div className="space-y-2.5">

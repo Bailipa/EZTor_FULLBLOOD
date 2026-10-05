@@ -38,11 +38,20 @@ export function danmakuPollInterval(speed: number): number {
   return Math.max(3000, FETCH_INTERVAL_MS / speed)
 }
 
+export function setDanmakuAnimationsSpeed(
+  animations: Iterable<Animation[]>,
+  speed = useDanmakuSettingsStore.getState().speed,
+) {
+  for (const group of animations) {
+    for (const animation of group) animation.playbackRate = speed
+  }
+}
+
 /**
  * 弹幕渲染（浏览器端）：WAAPI 驱动（与 danmaku-overlay.html 同规则）——
  * playbackRate 可对已在途弹幕实时平滑调速（CSS animation 改 duration 会跳变）。
  * 透明度/字号变化走父组件重渲染，实时生效。
- * memo + 内部订阅 speed：速度滑块拖动时子组件零重渲染，主线程不卡动画。
+ * memo：速度滑块拖动时子组件零重渲染，主线程不卡动画。
  */
 function DanmakuBulletBase({
   item,
@@ -60,7 +69,6 @@ function DanmakuBulletBase({
   onRegister: (id: string, anims: Animation[] | null) => void
 }) {
   const ref = useRef<HTMLDivElement>(null)
-  const animsRef = useRef<Animation[]>([])
 
   useEffect(() => {
     const el = ref.current
@@ -85,23 +93,13 @@ function DanmakuBulletBase({
         easing: 'linear',
       },
     )
-    fly.playbackRate = useDanmakuSettingsStore.getState().speed
-    fade.playbackRate = useDanmakuSettingsStore.getState().speed
-    animsRef.current = [fly, fade]
+    setDanmakuAnimationsSpeed([[fly, fade]])
     fly.onfinish = () => onDone(item.id)
     onRegister(item.id, [fly, fade])
 
-    // 速度实时：订阅 store，在途弹幕立即按新 speed 调速且不触发重渲染
-    const unsub = useDanmakuSettingsStore.subscribe((state, prev) => {
-      if (state.speed === prev.speed) return
-      for (const a of animsRef.current) a.playbackRate = state.speed
-    })
-
     return () => {
-      unsub()
       fly.cancel()
       fade.cancel()
-      animsRef.current = []
       onRegister(item.id, null)
     }
     // 弹幕唯一，动画只在挂载时创建
@@ -315,6 +313,8 @@ export function Danmaku({ isVisible }: { isVisible: boolean }) {
       // 调速后重算每条在途弹幕的轨道空闲时间（剩余占用 × 旧速/新速）。
       // 否则 tracksFreeTime 是旧速度下算的，改慢速后同轨新弹幕会追尾在途弹幕。
       if (state.speed !== prev.speed) {
+        setDanmakuAnimationsSpeed(animsRef.current.values(), state.speed)
+
         const ratio = prev.speed / state.speed
         const now = Date.now()
         for (const entry of busyRef.current.values()) {
@@ -378,6 +378,7 @@ export function Danmaku({ isVisible }: { isVisible: boolean }) {
   return (
     <div
       className="fixed inset-0 pointer-events-none z-[100] overflow-hidden"
+      style={{ pointerEvents: 'none' }}
       aria-hidden="true"
     >
       {items.map((item) => (

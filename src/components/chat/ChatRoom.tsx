@@ -31,7 +31,7 @@ const MAX_CONTENT_LENGTH = 300
 // 这里封顶在内存中的条数，超出则丢弃最旧（仍可通过"加载更多"从服务端拉取历史）。
 const MAX_IN_MEMORY_MESSAGES = 500
 
-export function ChatRoom() {
+export function ChatRoom({ active = true }: { active?: boolean }) {
   const { data: session } = useSession()
   const [messages, setMessages] = useState<Message[]>([])
   const [input, setInput] = useState('')
@@ -47,10 +47,12 @@ export function ChatRoom() {
   const cursorRef = useRef<string | null>(null)
   const pendingScrollHeightRef = useRef<number | null>(null)
   const shouldAutoScrollRef = useRef(true)
+  const activityController = useRef<AbortController | null>(null)
 
   const admin = session?.user ? isDeveloper({ username: session.user.name || '', isAdmin: session.user.isAdmin }) : false
 
-  const fetchMessages = useCallback(async (loadMore = false) => {
+  const fetchMessages = useCallback(async (loadMore = false, preserveHistory = false) => {
+    const signal = activityController.current?.signal
     setLoadError(null)
     try {
       const params = new URLSearchParams()
@@ -59,8 +61,9 @@ export function ChatRoom() {
         params.set('cursor', cursorRef.current)
       }
 
-      const res = await fetch(`/api/chat/messages?${params}`)
+      const res = await fetch(`/api/chat/messages?${params}`, { signal })
       const data = await res.json()
+      if (signal?.aborted) return
 
       if (!res.ok || !data.success || !Array.isArray(data.data)) {
         throw new Error(data.error || '消息加载失败')
@@ -70,44 +73,59 @@ export function ChatRoom() {
         pendingScrollHeightRef.current = messagesContainerRef.current?.scrollHeight ?? null
         setMessages(prev => [...data.data, ...prev])
       } else {
-        setMessages(data.data)
+        setMessages(prev => preserveHistory
+          ? [...prev.filter(message => !data.data.some((fresh: Message) => fresh.id === message.id)), ...data.data].slice(-MAX_IN_MEMORY_MESSAGES)
+          : data.data)
       }
-      setHasMore(data.pagination.hasMore)
-      cursorRef.current = data.pagination.nextCursor
+      if (!preserveHistory || !cursorRef.current) {
+        setHasMore(data.pagination.hasMore)
+        cursorRef.current = data.pagination.nextCursor
+      }
     } catch (error) {
+      if (signal?.aborted) return
       console.error('Failed to fetch messages:', error)
       if (loadMore) {
         pendingScrollHeightRef.current = null
         toast.error(error instanceof Error ? error.message : '历史消息加载失败')
       } else {
-        setMessages([])
+        if (!preserveHistory) setMessages([])
         setLoadError(error instanceof Error ? error.message : '消息加载失败，请重试。')
       }
     } finally {
-      setIsLoading(false)
-      setIsLoadingMore(false)
+      if (!signal?.aborted) {
+        setIsLoading(false)
+        setIsLoadingMore(false)
+      }
     }
   }, [])
 
   const fetchOnlineCount = useCallback(async () => {
+    const signal = activityController.current?.signal
     try {
-      const res = await fetch('/api/chat/online')
+      const res = await fetch('/api/chat/online', { signal })
       const data = await res.json()
+      if (signal?.aborted) return
       if (data.success) {
         setOnlineCount(data.count)
       }
     } catch (error) {
+      if (signal?.aborted) return
       console.error('Failed to fetch online count:', error)
     }
   }, [])
 
   useEffect(() => {
-    fetchMessages()
+    if (!active) return
+    const controller = new AbortController()
+    activityController.current = controller
+    setIsLoadingMore(false)
+    fetchMessages(false, true)
     fetchOnlineCount()
 
     const eventSource = new EventSource('/api/chat/stream')
 
     eventSource.onmessage = (event) => {
+      if (controller.signal.aborted) return
       try {
         const data = JSON.parse(event.data)
 
@@ -136,12 +154,15 @@ export function ChatRoom() {
     const interval = setInterval(fetchOnlineCount, 30000)
 
     return () => {
+      controller.abort()
+      if (activityController.current === controller) activityController.current = null
       eventSource.close()
       clearInterval(interval)
     }
-  }, [admin, fetchMessages, fetchOnlineCount])
+  }, [active, admin, fetchMessages, fetchOnlineCount])
 
   useEffect(() => {
+    if (!active) return
     const container = messagesContainerRef.current
     if (container && pendingScrollHeightRef.current !== null) {
       container.scrollTop += container.scrollHeight - pendingScrollHeightRef.current
@@ -151,7 +172,7 @@ export function ChatRoom() {
     if (!isLoading && shouldAutoScrollRef.current) {
       messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
     }
-  }, [messages, isLoading])
+  }, [active, messages, isLoading])
 
   const handleSend = async () => {
     if (!input.trim() || isSending) return
@@ -235,7 +256,7 @@ export function ChatRoom() {
 
   const handleRetryMessages = () => {
     setIsLoading(true)
-    fetchMessages()
+    fetchMessages(false, true)
   }
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
