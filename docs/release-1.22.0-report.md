@@ -81,4 +81,5 @@
 - 生产迁移 `20261005090000_minimal_features` 与 `20261005090000_share_import_receipts` 成功应用；应用前 User457/Word248473/PublicWord17905/receipt65/重复组0，应用后 User457/Word248475/PublicWord17905/receipt65/重复组0（线上期间已有正常用户新增2条私有词，非发布脚本写入）。约束已包含 minimal；无发布脚本业务写入。
 - PM2 `cet4-web` online，路径 `/www/wwwroot/114.55.58.90/.next/standalone/server.js`，线上 BUILD_ID `4B4j8Et5fVDVpAi-IxJ21`。本机线上回环 `/` `/ai` `/me` `/download` `/public-vocabulary` `/api/health` `/api/version` `/api/flashcard/public?limit=5` 全200；匿名 `/history` `/dictation` `/contributions` `/leaderboard` 全307，私有 API 401；公网 HTTPS 同样通过，分享公开页与导入页200、公开分享校验接口匿名401。关键页面SSR资源均逐项200，CSP允许头像文件域名。生产流程已验证暂存认证/数据链路，未读取或修改真实用户私有数据。
 - 发布后最终只读复核（15:xx）：PM2 online/version1.22.0，BUILD_ID与载荷一致，live目录755、server.js644、.env600，健康和关键回环路由全200，磁盘18 GiB可用、inode15%。数据库读数为 User457/Word248476/PublicWord17906/receipt65/重复组0；相较迁移后记录的两个词/公开词增长来自线上正常用户活动，发布脚本未写入业务数据。
-- 状态：已实现 / 已验证 / Web 已部署 / 公网匿名和公开分享流程已验收。真实手机触控、系统 Web Share 面板、浏览器 IDB/自动播放和真实付费模型流仍未实测；这些限制不影响本次已验证的 Web 路由和数据库发布。
+- 本地最终预览的窄屏视口（IAB 约514px宽）验证：首页向下滚动后每日单词、答案和登录提示完整到达底部；设置页向下滚动后关于/帮助/登录入口可见，底部导航没有覆盖内容；翻译页入口和横向栏目均可见。截图证据保存在本轮 `/tmp/eztor-final-mobile-home.png`；未把该预览当作真实手机设备或触摸实机。
+- 状态：已实现 / 已验证 / Web 已部署 / 公网匿名和公开分享流程已验收。真实手机系统 Web Share 面板、浏览器 IDB/自动播放和真实付费模型流仍未实测；这些限制不影响本次已验证的 Web 路由和数据库发布。
