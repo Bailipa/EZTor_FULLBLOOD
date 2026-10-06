@@ -9,7 +9,7 @@ import { useMinimalFeatures } from '@/components/interface-style-provider'
 import { HomeHeader } from '@/components/home/HomeHeader'
 import { useLoginPrompt } from '@/components/ui/login-prompt-modal'
 import AppLayout from '@/components/layout/AppLayout'
-import { usePageView } from '@/lib/analytics'
+import { useAnalytics, usePageView } from '@/lib/analytics'
 import { useOnboarding } from '@/components/onboarding/OnboardingProvider'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -28,6 +28,7 @@ const DailyFlashcard = dynamic(
 export default function HomeContent() {
   const { minimal, mainVisible } = useMinimalFeatures()
   usePageView('Home')
+  const { track } = useAnalytics()
   const { currentStep, isActive, nextStep, completeOnboarding, startOnboarding } = useOnboarding()
   const router = useRouter()
   const [hasInteractedWithFlashcard, setHasInteractedWithFlashcard] = useState(false)
@@ -119,22 +120,22 @@ export default function HomeContent() {
                   <p className={styles.eyebrow}>我的学习</p>
                   <h2>温故，知新</h2>
                   <p className={styles.homeDescription}>从熟悉的单词出发，每次记牢一点。</p>
-                  {mainVisible('/dictation') && <Button className="mt-6 min-h-11 gap-3 rounded-lg px-5 shadow-none" onPointerEnter={() => { if (isAuthenticated) router.prefetch('/dictation') }} onFocus={() => { if (isAuthenticated) router.prefetch('/dictation') }} onClick={() => isAuthenticated ? router.push('/dictation') : promptLogin('默写复习')}>
+                  {mainVisible('/dictation') && <Button className="mt-6 min-h-11 gap-3 rounded-lg px-5 shadow-none" onPointerEnter={() => { if (isAuthenticated) router.prefetch('/dictation') }} onFocus={() => { if (isAuthenticated) router.prefetch('/dictation') }} onClick={() => { track('CTA_CLICK', { placement: 'home', action: 'start_dictation' }); if (isAuthenticated) router.push('/dictation'); else promptLogin('默写复习') }}>
                     <PenLine className="size-4" />开始默写<ArrowRight className="size-4" />
                   </Button>}
                 </div>
                 <div data-home-shortcuts className={styles.learningLinks}>
-                  {mainVisible('/dictation') && <button onPointerEnter={() => { if (isAuthenticated) router.prefetch('/mistakes') }} onFocus={() => { if (isAuthenticated) router.prefetch('/mistakes') }} onClick={() => isAuthenticated ? router.push('/mistakes') : promptLogin('错词本')}>
+                  {mainVisible('/dictation') && <button onPointerEnter={() => { if (isAuthenticated) router.prefetch('/mistakes') }} onFocus={() => { if (isAuthenticated) router.prefetch('/mistakes') }} onClick={() => { track('CTA_CLICK', { placement: 'home', action: 'mistakes' }); if (isAuthenticated) router.push('/mistakes'); else promptLogin('错词本') }}>
                     <AlertCircle className="size-5 text-muted-foreground" strokeWidth={1.5} />
                     <span><strong>错词本</strong><small>把易错的词，再巩固一遍</small></span>
                     <ArrowUpRight className="size-4 text-muted-foreground" />
                   </button>}
-                  {mainVisible('/history') && <button onPointerEnter={() => { if (isAuthenticated) router.prefetch('/history') }} onFocus={() => { if (isAuthenticated) router.prefetch('/history') }} onClick={() => isAuthenticated ? router.push('/history') : promptLogin('生词本')}>
+                  {mainVisible('/history') && <button onPointerEnter={() => { if (isAuthenticated) router.prefetch('/history') }} onFocus={() => { if (isAuthenticated) router.prefetch('/history') }} onClick={() => { track('CTA_CLICK', { placement: 'home', action: 'vocabulary' }); if (isAuthenticated) router.push('/history'); else promptLogin('生词本') }}>
                     <BookOpen className="size-5 text-muted-foreground" strokeWidth={1.5} />
                     <span><strong>生词本</strong><small>回看收藏，整理所学</small></span>
                     <ArrowUpRight className="size-4 text-muted-foreground" />
                   </button>}
-                  {mainVisible('/ai') && <Link href="/ai">
+                  {mainVisible('/ai') && <Link href="/ai" onClick={() => track('CTA_CLICK', { placement: 'home', action: 'translate' })}>
                     <Languages className="size-5 text-muted-foreground" strokeWidth={1.5} />
                     <span><strong>翻译</strong><small>查一个词，读懂一句话</small></span>
                     <ArrowUpRight className="size-4 text-muted-foreground" />

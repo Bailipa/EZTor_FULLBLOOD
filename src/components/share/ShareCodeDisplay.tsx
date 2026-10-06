@@ -8,6 +8,7 @@ import { Copy, Check, Calendar, Link2, Clock, Share2 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { copyToClipboard, shareText } from '@/lib/share'
 import { toast } from 'sonner'
+import { useAnalytics } from '@/lib/analytics'
 
 interface ShareCodeDisplayProps {
   code: string
@@ -32,6 +33,7 @@ export function ShareCodeDisplay({
   const [copied, setCopied] = useState(false)
   const copyTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
   const mounted = useRef(false)
+  const { trackShare } = useAnalytics()
   useEffect(() => {
     mounted.current = true
     return () => { mounted.current = false; if (copyTimer.current) clearTimeout(copyTimer.current) }
@@ -52,12 +54,14 @@ export function ShareCodeDisplay({
     if (onCopy) {
       onCopy()
     }
-  }, [code, onCopy])
+    trackShare('copied', 'review_group_code')
+  }, [code, onCopy, trackShare])
 
   const handleSend = async () => {
     setSending(true)
     try {
       const result = await shareText(code)
+      if (result === 'shared' || result === 'copied') trackShare(result, 'review_group_code')
       if (!mounted.current) return
       if (result === 'shared') toast.success('已打开分享')
       else if (result === 'copied') toast.success('分享码已复制，可粘贴给好友')

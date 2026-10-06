@@ -10,6 +10,22 @@ export async function POST(req: NextRequest) {
   const clientIp =
     req.headers.get('x-forwarded-for')?.split(',')[0] || req.headers.get('x-real-ip') || 'unknown'
   const userAgent = req.headers.get('user-agent') || 'unknown'
+  const sessionId =
+    req.headers.get('x-session-id')?.trim().slice(0, 128) ||
+    req.cookies.get('eztor_analytics_session')?.value?.trim().slice(0, 128) ||
+    randomUUID()
+
+  const withSessionCookie = (response: NextResponse) => {
+    if (!req.cookies.get('eztor_analytics_session')) {
+      response.cookies.set('eztor_analytics_session', sessionId, {
+        httpOnly: true,
+        sameSite: 'lax',
+        maxAge: 30 * 60,
+        path: '/',
+      })
+    }
+    return response
+  }
 
   try {
     const rateLimitKey = `public:${clientIp}`
@@ -65,8 +81,7 @@ export async function POST(req: NextRequest) {
             id: randomUUID(),
             eventType: 'GUEST_TRANSLATE',
             userId: null,
-            sessionId:
-              Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15),
+            sessionId,
             metadata: JSON.stringify({
               totalWords: sanitizedWords.length,
               foundWords: results.length,
@@ -95,7 +110,7 @@ export async function POST(req: NextRequest) {
       }
     })
 
-    return NextResponse.json({
+    return withSessionCookie(NextResponse.json({
       success: true,
       data: {
         results: results.map(
@@ -119,7 +134,7 @@ export async function POST(req: NextRequest) {
         notFound,
         isGuestMode: true,
       },
-    })
+    }))
   } catch (error) {
     logger.error({ err: error }, 'Public translate error')
 
@@ -130,8 +145,7 @@ export async function POST(req: NextRequest) {
             id: randomUUID(),
             eventType: 'GUEST_TRANSLATE_ERROR',
             userId: null,
-            sessionId:
-              Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15),
+            sessionId,
             metadata: JSON.stringify({
               error: error instanceof Error ? error.message : 'Unknown error',
               responseTime: Date.now() - startTime,
@@ -145,6 +159,6 @@ export async function POST(req: NextRequest) {
       }
     })
 
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+    return withSessionCookie(NextResponse.json({ error: 'Internal server error' }, { status: 500 }))
   }
 }

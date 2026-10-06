@@ -2,6 +2,7 @@
 
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react'
 import { useSession } from 'next-auth/react'
+import { useAnalytics } from '@/lib/analytics'
 
 export type OnboardingStep = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
 
@@ -31,6 +32,7 @@ export function useOnboarding() {
 
 export function OnboardingProvider({ children }: { children: React.ReactNode }) {
   const { data: session, status } = useSession()
+  const { track } = useAnalytics()
   const [state, setState] = useState<OnboardingState>({
     currentStep: 0,
     isActive: false,
@@ -100,6 +102,7 @@ export function OnboardingProvider({ children }: { children: React.ReactNode }) 
       if (next > 8) {
         // 终态：调用 complete API 完成引导（幂等）
         fetch('/api/onboarding/complete', { method: 'POST' }).catch(() => {})
+        track('ONBOARDING_COMPLETE', { method: 'guided' })
         localStorage.removeItem('onboarding_step')
         return { ...prev, currentStep: 0, isActive: false, needsOnboarding: false }
       }
@@ -107,11 +110,12 @@ export function OnboardingProvider({ children }: { children: React.ReactNode }) 
       localStorage.setItem('onboarding_step', String(next))
       return { ...prev, currentStep: next }
     })
-  }, [])
+  }, [track])
 
   const completeOnboarding = useCallback(async () => {
     try {
-      await fetch('/api/onboarding/complete', { method: 'POST' })
+      const response = await fetch('/api/onboarding/complete', { method: 'POST' })
+      if (response.ok) track('ONBOARDING_COMPLETE', { method: 'manual' })
       localStorage.removeItem('onboarding_step')
       setState({
         currentStep: 0,
@@ -122,7 +126,7 @@ export function OnboardingProvider({ children }: { children: React.ReactNode }) 
     } catch (error) {
       console.error('Failed to complete onboarding:', error)
     }
-  }, [])
+  }, [track])
 
   const skipOnboarding = useCallback(async () => {
     await completeOnboarding()

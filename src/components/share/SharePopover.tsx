@@ -7,6 +7,7 @@ import { Share2, Copy, Loader2 } from 'lucide-react'
 import { toast } from 'sonner'
 import { copyToClipboard, shareOrCopy } from '@/lib/share'
 import '@/app/share/[userId]/share-page.css'
+import { useAnalytics } from '@/lib/analytics'
 
 interface ShareProfileData {
   nickname: string
@@ -34,6 +35,7 @@ export function SharePopover({ open, onOpenChange, userId, autoCloseSeconds = 0 
   const [prepared, setPrepared] = useState(false)
   const [retry, setRetry] = useState(0)
   const [countdown, setCountdown] = useState<number | null>(null)
+  const { trackShare } = useAnalytics()
 
   useEffect(() => {
     const controller = new AbortController()
@@ -106,7 +108,10 @@ export function SharePopover({ open, onOpenChange, userId, autoCloseSeconds = 0 
       const text = getShareText()
       const url = getShareUrl()
       const result = await shareOrCopy({ title: 'EZTor 学习战报', text, url }, `${text}\n${url}`, image)
-      if (result === 'shared' || result === 'copied') await reportShare()
+      if (result === 'shared' || result === 'copied') {
+        await reportShare()
+        trackShare(result, 'profile')
+      }
       if (session !== sessionRef.current) return
       if (result === 'shared' || result === 'copied') toast.success(result === 'copied' ? '已复制分享内容，可粘贴给好友' : '已打开分享')
       else if (result === 'failed') toast.error('分享失败，可复制下方链接')
@@ -128,7 +133,10 @@ export function SharePopover({ open, onOpenChange, userId, autoCloseSeconds = 0 
     setSharing(true)
     try {
       const copied = await copyToClipboard(getShareUrl())
-      if (copied) await reportShare()
+      if (copied) {
+        await reportShare()
+        trackShare('copied', 'profile_link')
+      }
       if (session !== sessionRef.current) return
       if (copied) toast.success('分享链接已复制')
       else toast.error('复制失败，请选择下方链接手动复制')

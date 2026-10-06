@@ -10,6 +10,26 @@ import { removeKick } from '@/lib/onlineTracker'
 
 const AUTH_ERROR_MESSAGE = '用户名或密码错误 / Invalid username or password'
 
+function recordAuthEvent(
+  eventType: 'LOGIN' | 'REGISTER',
+  userId: string,
+  req?: { headers?: Record<string, string | string[] | undefined> },
+) {
+  const forwarded = req?.headers?.['x-forwarded-for'] || req?.headers?.['x-real-ip']
+  const ipAddress = Array.isArray(forwarded) ? forwarded[0] : forwarded?.split(',')[0]?.trim()
+  const userAgent = req?.headers?.['user-agent']
+  prisma.analyticsEvent.create({
+    data: {
+      id: crypto.randomUUID(),
+      eventType,
+      userId,
+      metadata: JSON.stringify({ method: 'credentials' }),
+      ipAddress: ipAddress || null,
+      userAgent: typeof userAgent === 'string' ? userAgent : null,
+    },
+  }).catch(() => {})
+}
+
 async function simulatePasswordHash(): Promise<void> {
   await bcrypt.hash('dummy_password_for_timing', 10)
 }
@@ -98,6 +118,7 @@ export const authOptions: NextAuthOptions = {
               updatedAt: new Date(),
             },
           })
+          recordAuthEvent('REGISTER', newUser.id, req)
           return { id: newUser.id, name: newUser.username, isAdmin: newUser.isAdmin }
         }
 
@@ -114,6 +135,7 @@ export const authOptions: NextAuthOptions = {
           throw new Error(AUTH_ERROR_MESSAGE)
         }
 
+        recordAuthEvent('LOGIN', user.id, req)
         return { id: user.id, name: user.username, isAdmin: user.isAdmin }
       },
     }),

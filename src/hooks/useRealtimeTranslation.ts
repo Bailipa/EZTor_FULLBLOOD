@@ -6,6 +6,7 @@ import type { WordResult } from '@/types/api'
 import { triggerHapticFeedback } from '@/lib/hapticFeedback'
 import { scheduleSavedFeedback } from '@/lib/savedFeedbackScheduler'
 import { useInputDraft } from '@/hooks/useInputDraft'
+import { getAnalyticsSessionId } from '@/lib/analytics'
 
 export interface WordEntry {
   id: string
@@ -335,7 +336,7 @@ export function useRealtimeTranslation({ showPos, showExample, targetGroupId, is
       try {
         const response = await fetch('/api/public-translate', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: { 'Content-Type': 'application/json', 'x-session-id': getAnalyticsSessionId() },
           body: JSON.stringify({ words: [word.trim()] }),
           signal: controller.signal,
         })
@@ -436,7 +437,7 @@ export function useRealtimeTranslation({ showPos, showExample, targetGroupId, is
     try {
       const response = await fetch('/api/public-translate', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'x-session-id': getAnalyticsSessionId() },
         body: JSON.stringify({ words: items.map((item) => item.word) }),
         signal: controller.signal,
       })
