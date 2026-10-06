@@ -936,3 +936,12 @@ Web 1.20.0 发布与线上验收（2026-10-04 20:30 CST）
 - 线上核验：暂存包在3103通过健康、首页、AI、版本、认证session和图标检查后原子切换；PM2 `cet4-web` online，PID1170542，Web版本1.24.0，BUILD_ID `amnVwVaOkuYbsVTEJ8xAw`；匿名页面、公开API和认证入口200，未登录`/history`、`/dictation`、`/contributions`、`/leaderboard`按预期307；生产迁移25条，最新`20261005090000_share_import_receipts`；根分区切换后约15G可用，持久下载507M、更新291M；旧版本回滚目录保留为 `/www/wwwroot/114.55.58.90/.next/standalone.bak.20261006_103833`。
 - 限制：本轮未伪造登录、分享或查词生产行为来制造统计；新埋点需真实用户产生事件后再评估转化率。公网`/api/version`仍展示旧原生安装包1.13.4，本轮只发布Web，未重建原生安装包。
 - 状态：增长审计已完成 / 测量缺口已修复 / 本地构建已验证 / 1.24.0已部署 / 线上匿名、认证入口、公共数据和保护路由已核验；待提交本条工作记录并push。
+
+## 2026-10-06 11:28 1.25.0 客户端发布准备（待安卓签名与线上发布）
+- 目标：更新 Android、Windows、macOS 客户端及自动更新，保留 Web 回退入口；本轮暂不纳入 iOS 原生客户端。
+- 版本：按中等更新规则从 1.24.0 bump 到 1.25.0；Android versionCode 57→58，package.json 与 desktop/package.json 同步为 1.25.0。源码提交 `7ac914e26a864f92037153c38a4ffa82b17131ad` 已推送到 `fix/xiaoying-start-500`。
+- 桌面构建：Windows x64、macOS Intel、macOS arm64 均在临时目录完成 electron-builder 1.25.0 构建；安装包未签名（本机无 Apple Developer ID/Windows 代码签名证书），与既有安装包分发限制一致。产物目录 `/tmp/eztor-desktop-win-1.25.0-1791257029`、`/tmp/eztor-desktop-mac-1.25.0-1791256963`；Windows 安装包 SHA-256 `ba6e411fa41140d2648793a48f0f838264ccb741c96d5f331525481d5d8925b9`，macOS Intel DMG `80dcf653be2f21c89173920975ff79b1ab1589b9dd77582423269e4caf859d71`，macOS arm64 DMG `09212860828d2ed91abde9c5fcce6cedee8ffe4f09524bc2732843fd7ec87867`。
+- 自动更新：新 Windows `latest.yml` 与 macOS `latest-mac.yml` 已生成并复制到本地 `public/downloads`、`public/updates` 持久目录；本地 `/api/version` 只读返回 desktop/mac 1.25.0，Android 仍为线上可升级的 1.13.4。桌面更新桥 `desktop/smoke-update.js` 在 Electron 运行时通过。
+- Web：`npm run typecheck`、`npm run build` 通过；构建时仅有既有 middleware 弃用提示与未设置 `LLM_API_KEY` 警告。白名单 Web 归档 `/tmp/eztor-web-1.25.0-packages/eztor-web-1.25.0-keJgysOxczENtcaxah-mL-20261006032742464.tar.gz`，39,959,536 bytes，SHA-256 `3ad1663ce30ede672c54174d0838c0d9e35876be5cc151f77f248e2793f0649d`，manifest 标记 sourceDirty=false；归档不含环境文件、数据库和 downloads/updates 持久目录。
+- Android 签名：旧 `eztor-1.13.4.apk` 与 `eztor-0.3.0.apk` 证书 SHA-256 为 `e94e7a6f0717bd1de5ebef70a2e1b54ddacf51d9dcc03e57931b30728d309c30`，对应私有 keystore 未在仓库或本机找到；构建脚本已改为缺少外部签名配置时 exit 2，不再生成可能无法覆盖升级的临时 debug 包。当前安卓可升级包仍保留 1.13.4，等待原 keystore 或明确接受全新安装方案。
+- 状态：客户端发布准备已实现并本地验证；未上传或切换生产 Web/安装包，未执行生产数据库写入；线上部署与最终报告待 Android 签名方案确认及发布前磁盘/备份核验。
