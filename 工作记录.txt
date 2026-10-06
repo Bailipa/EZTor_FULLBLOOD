@@ -976,3 +976,12 @@ Web 1.20.0 发布与线上验收（2026-10-04 20:30 CST）
 - 验证：typecheck与定向ESLint通过，git diff --check通过。更新桥误用node执行曾失败（缺少Electron ipcMain），随后在Electron运行时重新执行全部通过，UPDATE BRIDGE OK；无业务代码改动。版本helper同步1.25.1/versionCode59，锁文件同步。没有新增依赖或轮询。
 - 发布前只读检查：远端根分区12G可用/inode16%，现有downloads1017M/updates801M，迁移完成25条，本轮无迁移。预算约3.5G新增上传/暂存/安装包复制与备份，保留既有回滚版本，剩余空间足够。生产custom备份已复制服务器外/Users/elee987/Library/Application Support/EZTor/Backups/predeploy-1.25.1-20261006_1230/eztor-predeploy.dump，29,710,678bytes，SHA256 4f7af7f3ad32b3f89a01ff94f7712b5c49e07dbeea63e636ba849434b903f389，pg_restore目录242行；未做本次恢复演练。
 - 状态：上述改动已实现/按所列预览、静态与构建范围验证；尚未上传、未部署、未线上验收。后续构建产物及上线记录另追加。
+
+## 2026-10-06 12:38 1.25.1 正式发布与线上核验
+- 实现源码1dfabe3b9e44c43dbaded8de70fa0799df4dbd63已push；版本1.25.1/versionCode59。Next BUILD_ID XkyCyc1SJfoE0abmRejo2，公网标记20261006_123500，白名单归档39,978,113bytes/3758成员/86静态项/25迁移SQL，sourceDirty=false，SHA256 d5f62249e9573b377831d5a641f0a822f253541b282f02d115cdb1c85dcdddac；Native13文件归档535,971,840bytes，SHA256 97c688af56f2b5cf9790c66355f57e641ed46ac3c579076bdab734c012c64b04，上传后全部哈希一致。
+- 切换前已在确认空闲的3104启动暂存包，数据库SELECT1健康、匿名/认证入口和公开数据通过后原子切换；实际切换12:34前后，回滚目录标记为/www/wwwroot/114.55.58.90/.next/standalone.bak.20261006_1238（标记不代表实际时刻）。PM2 cet4-web online/PID1172984/1.25.1，env600；25条迁移不变，本轮无迁移/无业务批量写入。备份位置与校验见12:32记录。
+- 线上浏览器登录态实际进入/ai与词库：1280×900翻译3栏/4区域，词库3栏各约343px且无横溢；选贡献榜后公共词库仍显示、实际独立滚动0→900；捕获error/warn为空。下载页选择Windows得到/downloads/EZTor-Setup-1.25.1.exe；切换设备选择Android得到/downloads/eztor-1.25.1.apk且旧版卸载提示可见。没有提交词条、答案、AI请求或聊天消息，未覆盖真实Windows/手机安装。
+- 公网首页/AI/设置/下载/公共词库、健康、版本、认证session/providers、manifest、头像图标资源、公共词库API均200；匿名私有路由按预期307；AI引用22项静态JS/CSS全部200。/api/version及两个latest更新清单均1.25.1；512圆角PNG公网SHA256 144d0648a14c2e3457da624b6aaedecb0bb1cf6b876866c364bb5cc38b6591c7。Android/Windows/Mac arm64代表安装包公网下载校验一致（详见docs/release-1.25.1-report.md）。
+- 发布中处理：push因本机失效代理失败，仅本次命令清除代理后成功；归档验证误把编译/api/downloads认成持久下载，改精确路径后通过；Linux解压忽略macOS provenance扩展属性的警告不影响实际文件，哈希/运行核验通过。启动等待内首次连接拒绝随后恢复；未用旧3101/3102/3103结果验收新包。
+- 空间：发布前12G、复制/上传峰值剩8G；预算实际约4G（较12:32约3.5G预估稍高，仍安全），仅清除本轮已校验的native.tar及其解压临时目录后剩9G。保留旧线上回滚目录、旧安装包及完整备份。本地3000服务仍运行，末次/ai200/61ms；该请求不作为完整性能对照。
+- 状态：默认配色、圆角图标与三栏适配已实现/按所列范围验证/已部署/线上已验收；实机安装、Windows实际缩放及私有写入流程未覆盖。CET备考大版本goal保持暂停。报告与本条记录待提交push。
