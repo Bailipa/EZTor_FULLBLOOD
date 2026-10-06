@@ -13,7 +13,7 @@ import { isDesktopApp } from '@/lib/appEnv'
 import { MonitorDown, Smartphone, Download, Check, FileCode2, Loader2, Apple, Laptop, Globe2, ArrowLeft } from 'lucide-react'
 
 const FALLBACK_WIN_INSTALLER = '/downloads/EZTor-Setup-1.25.0.exe'
-const FALLBACK_ANDROID_APK = '/downloads/eztor-1.13.4.apk'
+const FALLBACK_ANDROID_APK = '/downloads/eztor-1.25.0.apk'
 const FALLBACK_MAC_INSTALLER = '/downloads/EZTor-1.25.0.dmg'
 const FALLBACK_MAC_ARM64_INSTALLER = '/downloads/EZTor-1.25.0-arm64.dmg'
 
@@ -68,7 +68,7 @@ export default function DownloadPage() {
 
               {platform === 'mac' && <Card><CardContent className="p-5 space-y-4"><div className="flex items-center gap-2"><Apple className="w-5 h-5 text-primary" /><h2 className="text-lg font-semibold">macOS 桌面版</h2><Badge variant="secondary" className="ml-auto">macOS 11.0+</Badge></div><p className="text-sm text-muted-foreground">选择与你的 Mac 芯片对应的安装包。</p><div className="flex flex-wrap gap-2"><Button asChild size="lg"><a href={macInstaller} download><Download className="w-4 h-4 mr-1.5" />下载 Intel (x64)</a></Button><Button asChild variant="outline" size="lg"><a href={macArm64Installer} download><Download className="w-4 h-4 mr-1.5" />下载 Apple 芯片 (arm64)</a></Button></div><p className="text-xs text-muted-foreground/70 leading-relaxed">“关于本机”中显示 Intel 选 x64，显示 Apple M1/M2/… 选 arm64。安装包未签名，首次打开请右键选择“打开”。</p></CardContent></Card>}
 
-              {platform === 'android' && <Card><CardContent className="p-5 space-y-4"><div className="flex items-center gap-2"><Smartphone className="w-5 h-5 text-primary" /><h2 className="text-lg font-semibold">Android APK</h2><Badge variant="secondary" className="ml-auto">Android 7.0+</Badge></div><p className="text-sm text-muted-foreground">安装后即是独立 App，账号数据与网页版同步。</p><Button asChild size="lg"><a href={androidApk} download><Download className="w-4 h-4 mr-1.5" />下载 Android APK</a></Button><p className="text-xs text-muted-foreground/70 leading-relaxed">安装时需允许“安装未知来源应用”。也可用 Chrome 的“安装应用”方式使用网页版。</p></CardContent></Card>}
+              {platform === 'android' && <Card><CardContent className="p-5 space-y-4"><div className="flex items-center gap-2"><Smartphone className="w-5 h-5 text-primary" /><h2 className="text-lg font-semibold">Android APK</h2><Badge variant="secondary" className="ml-auto">Android 7.0+</Badge></div><p className="text-sm text-muted-foreground">安装后即是独立 App，账号数据与网页版同步。</p><Button asChild size="lg"><a href={androidApk} download><Download className="w-4 h-4 mr-1.5" />下载 Android APK</a></Button><div className="space-y-1 text-xs text-muted-foreground/70 leading-relaxed"><p>安装时需允许“安装未知来源应用”。</p><p className="text-amber-600 dark:text-amber-300">如果设备上已安装 1.13.4 或更早版本，请先卸载旧版，再安装新包；新包签名不同，无法覆盖升级。</p><p>也可用 Chrome 的“安装应用”方式使用网页版。</p></div></CardContent></Card>}
 
               {(platform === 'iphone' || platform === 'linux') && <Card><CardContent className="p-5 space-y-4"><div className="flex items-center gap-2"><Globe2 className="w-5 h-5 text-primary" /><h2 className="text-lg font-semibold">网页版（免安装）</h2><Badge variant="secondary" className="ml-auto">{platform === 'iphone' ? 'Safari' : 'Linux'}</Badge></div><p className="text-sm text-muted-foreground">直接打开网页版使用，数据与其它设备同步。支持浏览器“添加到主屏幕”或“安装应用”。</p><Button asChild size="lg"><Link href="/" target="_blank"><Globe2 className="w-4 h-4 mr-1.5" />打开网页版</Link></Button></CardContent></Card>}
             </>

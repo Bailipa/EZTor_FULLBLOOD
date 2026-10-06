@@ -945,3 +945,10 @@ Web 1.20.0 发布与线上验收（2026-10-04 20:30 CST）
 - Web：`npm run typecheck`、`npm run build` 通过；构建时仅有既有 middleware 弃用提示与未设置 `LLM_API_KEY` 警告。白名单 Web 归档 `/tmp/eztor-web-1.25.0-packages/eztor-web-1.25.0-keJgysOxczENtcaxah-mL-20261006032742464.tar.gz`，39,959,536 bytes，SHA-256 `3ad1663ce30ede672c54174d0838c0d9e35876be5cc151f77f248e2793f0649d`，manifest 标记 sourceDirty=false；归档不含环境文件、数据库和 downloads/updates 持久目录。
 - Android 签名：旧 `eztor-1.13.4.apk` 与 `eztor-0.3.0.apk` 证书 SHA-256 为 `e94e7a6f0717bd1de5ebef70a2e1b54ddacf51d9dcc03e57931b30728d309c30`，对应私有 keystore 未在仓库或本机找到；构建脚本已改为缺少外部签名配置时 exit 2，不再生成可能无法覆盖升级的临时 debug 包。当前安卓可升级包仍保留 1.13.4，等待原 keystore 或明确接受全新安装方案。
 - 状态：客户端发布准备已实现并本地验证；未上传或切换生产 Web/安装包，未执行生产数据库写入；线上部署与最终报告待 Android 签名方案确认及发布前磁盘/备份核验。
+
+## 2026-10-06 11:34 1.25.0 安卓全新安装方案与发布载荷（待线上发布）
+- 用户确认：找不到旧版 1.13.4 的签名私钥时，不阻塞发布，改为让用户手动卸载旧版并提示后安装新包。
+- 安卓：使用本机受保护目录 `/Users/elee987/Library/Application Support/EZTor/keys` 中的新 JKS 构建 1.25.0（versionCode 58）；`apksigner verify --verbose --print-certs` 通过，签名证书 SHA-256 为 `46fcd1b35ffd623f21063b71a9cb031e4c77e2ec05c2924507f38f7aa6b54378`。新 APK SHA-256 为 `e9cc735ed634b89be726df98ea7b3e73300f2999cb7489e4bc7978793344d662`，已复制到本地 `public/downloads/eztor-1.25.0.apk` 与 `public/updates/eztor-1.25.0.apk`；旧 APK 未删除。工作记录未写入 keystore 路径之外的密码或秘密。
+- 用户提示：下载页 Android 默认地址改为 `/downloads/eztor-1.25.0.apk`，明确说明已安装 1.13.4 或更早版本必须先卸载；`android/README.md` 同步说明新签名无法覆盖旧包。
+- 验证：`npm run typecheck` 通过；Next 16.2.3 生产构建通过，保留既有 middleware 弃用提示与构建时未设置 `LLM_API_KEY` 警告；Android 构建脚本、`apksigner` 校验通过；desktop Electron 更新桥 `UPDATE BRIDGE OK`；本条变更尚未提交、未上传、未切换生产。
+- 待办：提交并 push 下载页/安卓说明/新 APK；发布前检查远端磁盘、数据库备份和安装包白名单，上传后校验哈希，再按回环与公网关键流程完成线上验收。
