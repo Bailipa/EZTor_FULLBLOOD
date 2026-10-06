@@ -926,3 +926,13 @@ Web 1.20.0 发布与线上验收（2026-10-04 20:30 CST）
 - 线上状态：PM2 `cet4-web` online，PID 1167494，运行时版本1.23.1，BUILD_ID核对为`WPjmsX01YfSo7Do9ANvt_`；回环匿名路由`/`、`/ai`、`/me`、`/download`、`/public-vocabulary`、manifest、图标、`/api/health`、`/api/version`、公共词库API、认证session/providers均200；未登录`/history`、`/dictation`、`/contributions`、`/leaderboard`均按保护逻辑307。公网HTTPS匿名路由与图标返回200，首页包含`/icons/icon-512.png`引用。
 - 数据库只读核验：生产`_prisma_migrations`已完成迁移25条，最新为`20261005090000_share_import_receipts`；与本地25个迁移目录一致。服务器应用日志未见启动失败，环境校验通过。公网`/api/version`仍展示现有原生安装包清单1.13.4，这是安装包目录现状，不代表Web运行版本；本轮未重建原生安装包。
 - 状态：Web 1.23.1 已实现 / 已构建 / 白名单归档与哈希已验证 / 已部署 / 回环与公网匿名、认证入口、公共数据和保护路由已线上核验；真实登录态默写提交与真实手机实测未在本轮执行。工作记录待提交并push。
+
+## 2026-10-06 10:38 1.24.0 增长漏斗埋点与首次激活发布
+- 只读增长审计（2026-10-06）：生产用户总数456，最近30天新增111、最近7天新增6、最近24小时新增0；最近7天有认证行为的用户12人，其中默写行为5人。最近30天首页180个去重访客/862次浏览，默写页95个去重访客/352次浏览，翻译页59个去重访客/252次浏览，公共词库约6个去重访客/40次浏览。最近30天分享记录与`SHARE`事件均为0，公共词库导入6次，游客查词1446次。
+- 审计结论：登录/注册成功、首页入口点击、首次学习、分享成功此前没有可靠埋点；游客查词接口此前每次请求随机生成sessionId，无法计算真实游客留存。上述数据用于定位测量缺口，不把游客请求数直接当作用户数。
+- 实现：游客查词改为优先使用客户端稳定sessionId，服务端以HttpOnly会话Cookie兜底；新增`CTA_CLICK`、`FIRST_ACTION`、`ONBOARDING_COMPLETE`事件；凭据登录成功与自动注册成功记录`LOGIN`/`REGISTER`；首页默写/错词本/生词本/翻译入口记录点击；翻译与默写首次动作按会话去重；新手引导完成、个人战报分享、复习词库分享码复制/发送接入分享事件；管理员分析页补充新事件标签。未改翻译、默写和分享业务规则。
+- 验证：`npm run typecheck`通过；目标文件ESLint 0 errors；`git diff --check`通过；Next 16.2.3生产构建通过，保留既有middleware弃用提示和构建时未设置`LLM_API_KEY`警告；源代码提交`875512d6b3e7aca04cdc05b3dce47bc6bc9d6c5d`。
+- 数据保护与发布：生产数据库custom备份保存于服务器外 `/Users/elee987/Library/Application Support/EZTor/Backups/predeploy-1.24.0-20261006_103717/eztor-predeploy.dump`，29,708,550 bytes，SHA256 `d688d124eb27f9c399ac79843cd74a75a061d80847ea43aabfa3438e7c9264e9`，`pg_restore --list`为242行；服务器端哈希一致，未执行数据库迁移。白名单归档 `eztor-web-1.24.0-amnVwVaOkuYbsVTEJ8xAw-20261006023732912.tar.gz`，39,960,641 bytes，SHA256 `add5de6219555687a8869ce562c8c57e76da327b732e7dbd4a60af549b3782c8`，sourceDirty=false，未包含环境文件、数据库、持久下载目录。
+- 线上核验：暂存包在3103通过健康、首页、AI、版本、认证session和图标检查后原子切换；PM2 `cet4-web` online，PID1170542，Web版本1.24.0，BUILD_ID `amnVwVaOkuYbsVTEJ8xAw`；匿名页面、公开API和认证入口200，未登录`/history`、`/dictation`、`/contributions`、`/leaderboard`按预期307；生产迁移25条，最新`20261005090000_share_import_receipts`；根分区切换后约15G可用，持久下载507M、更新291M；旧版本回滚目录保留为 `/www/wwwroot/114.55.58.90/.next/standalone.bak.20261006_103833`。
+- 限制：本轮未伪造登录、分享或查词生产行为来制造统计；新埋点需真实用户产生事件后再评估转化率。公网`/api/version`仍展示旧原生安装包1.13.4，本轮只发布Web，未重建原生安装包。
+- 状态：增长审计已完成 / 测量缺口已修复 / 本地构建已验证 / 1.24.0已部署 / 线上匿名、认证入口、公共数据和保护路由已核验；待提交本条工作记录并push。
