@@ -12,10 +12,10 @@ import { useAppUpdate } from '@/hooks/useAppUpdate'
 import { isDesktopApp } from '@/lib/appEnv'
 import { MonitorDown, Smartphone, Download, Check, FileCode2, Loader2, Apple, Laptop, Globe2, ArrowLeft } from 'lucide-react'
 
-const FALLBACK_WIN_INSTALLER = '/downloads/EZTor-Setup-1.25.0.exe'
-const FALLBACK_ANDROID_APK = '/downloads/eztor-1.25.0.apk'
-const FALLBACK_MAC_INSTALLER = '/downloads/EZTor-1.25.0.dmg'
-const FALLBACK_MAC_ARM64_INSTALLER = '/downloads/EZTor-1.25.0-arm64.dmg'
+const FALLBACK_WIN_INSTALLER = '/downloads/EZTor-Setup-1.25.1.exe'
+const FALLBACK_ANDROID_APK = '/downloads/eztor-1.25.1.apk'
+const FALLBACK_MAC_INSTALLER = '/downloads/EZTor-1.25.1.dmg'
+const FALLBACK_MAC_ARM64_INSTALLER = '/downloads/EZTor-1.25.1-arm64.dmg'
 
 type Platform = 'android' | 'iphone' | 'mac' | 'windows' | 'linux'
 const platforms: Array<{ id: Platform; label: string; hint: string; icon: typeof Smartphone }> = [

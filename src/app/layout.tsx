@@ -20,8 +20,8 @@ export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
   themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
-    { media: '(prefers-color-scheme: dark)', color: '#171717' },
+    { media: '(prefers-color-scheme: light)', color: '#e9edf3' },
+    { media: '(prefers-color-scheme: dark)', color: '#3d3e44' },
   ],
 }
 
@@ -64,11 +64,11 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="zh-CN" suppressHydrationWarning className="h-full antialiased font-sans dark" data-build-id={BUILD_ID} data-brand-theme="gold" data-ui-style="reading">
+    <html lang="zh-CN" suppressHydrationWarning className="h-full antialiased font-sans dark" data-build-id={BUILD_ID} data-brand-theme="indigo" data-ui-style="reading">
       <head>
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{if(localStorage.getItem('eztor-black-gold-default-v1')!=='applied'){localStorage.setItem('brand-theme','gold');localStorage.setItem('theme','dark');localStorage.setItem('eztor-black-gold-default-v1','applied')}var d=localStorage.getItem('theme')||'dark';var dark=d==='dark'||(d==='system'&&matchMedia('(prefers-color-scheme: dark)').matches);document.documentElement.classList.toggle('dark',dark);document.documentElement.style.colorScheme=dark?'dark':'light';var u=localStorage.getItem('eztor-interface-style');if(u==='reading'||u==='studio'||u==='vivid'||u==='minimal')document.documentElement.setAttribute('data-ui-style',u);var t=localStorage.getItem('brand-theme');if(t==='neutral')document.documentElement.removeAttribute('data-brand-theme');else if(t==='purple'||t==='gold'||t==='indigo')document.documentElement.setAttribute('data-brand-theme',t);var g=localStorage.getItem('eztor-experience-preferences-v1');var p=g?JSON.parse(g):{};var m=p.motion||localStorage.getItem('eztor-motion');if(m==='reduce'||m==='full')document.documentElement.setAttribute('data-motion',m);else document.documentElement.removeAttribute('data-motion');if(p.glow==='subdued')document.documentElement.setAttribute('data-glow','subdued');else document.documentElement.removeAttribute('data-glow')}catch(_){}})()`,
+            __html: `(function(){try{var currentBrand=localStorage.getItem('brand-theme');if(currentBrand==='neutral'){localStorage.setItem('brand-theme','indigo');currentBrand='indigo'}var d=localStorage.getItem('theme')||'dark';var dark=d==='dark'||(d==='system'&&matchMedia('(prefers-color-scheme: dark)').matches);document.documentElement.classList.toggle('dark',dark);document.documentElement.style.colorScheme=dark?'dark':'light';var u=localStorage.getItem('eztor-interface-style');if(u==='reading'||u==='studio'||u==='vivid'||u==='minimal')document.documentElement.setAttribute('data-ui-style',u);var t=currentBrand;if(t==='neutral')document.documentElement.removeAttribute('data-brand-theme');else if(t==='purple'||t==='gold'||t==='indigo')document.documentElement.setAttribute('data-brand-theme',t);var g=localStorage.getItem('eztor-experience-preferences-v1');var p=g?JSON.parse(g):{};var m=p.motion||localStorage.getItem('eztor-motion');if(m==='reduce'||m==='full')document.documentElement.setAttribute('data-motion',m);else document.documentElement.removeAttribute('data-motion');if(p.glow==='subdued')document.documentElement.setAttribute('data-glow','subdued');else document.documentElement.removeAttribute('data-glow')}catch(_){}})()`,
           }}
         />
       </head>

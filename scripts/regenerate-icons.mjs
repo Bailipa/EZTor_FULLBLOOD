@@ -14,12 +14,25 @@ async function png(input, size, ensureAlpha = false) {
   return (ensureAlpha ? resized.ensureAlpha() : resized).png().toBuffer()
 }
 
+async function roundedPng(input, size) {
+  const radius = Math.max(2, Math.round(size * 0.2))
+  const mask = Buffer.from(
+    `<svg width="${size}" height="${size}" xmlns="http://www.w3.org/2000/svg"><rect width="${size}" height="${size}" rx="${radius}" fill="white"/></svg>`,
+  )
+  return sharp(input)
+    .resize(size, size)
+    .ensureAlpha()
+    .composite([{ input: mask, blend: 'dest-in' }])
+    .png()
+    .toBuffer()
+}
+
 async function writePng(input, size, path) {
-  await sharp(input).resize(size, size).png().toFile(path)
+  await sharp(await roundedPng(input, size)).toFile(path)
 }
 
 async function writeIco(path, sizes) {
-  const images = await Promise.all(sizes.map(async (size) => ({ size, data: await png(source, size, true) })))
+  const images = await Promise.all(sizes.map(async (size) => ({ size, data: await roundedPng(source, size) })))
   const header = Buffer.alloc(6 + images.length * 16)
   header.writeUInt16LE(0, 0)
   header.writeUInt16LE(1, 2)

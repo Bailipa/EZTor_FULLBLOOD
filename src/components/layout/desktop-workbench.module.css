@@ -75,6 +75,10 @@
   }
   .frame [data-workspace-toolbar] h1 { font-size: 18px; line-height: 1.4; color: var(--foreground); }
   .frame [data-workspace-toolbar] :is(p, svg) { color: var(--muted-foreground); }
+  :global(html[data-brand-theme='indigo'][data-ui-style]) .frame [data-workspace-toolbar]:global(.indigo-page-header) :is(h1, h2) { color: var(--foreground); }
+  :global(html[data-brand-theme='indigo'][data-ui-style]) .frame [data-workspace-toolbar]:global(.indigo-page-header) :is(p, svg) { color: var(--muted-foreground); }
+  :global(html[data-brand-theme='indigo'][data-ui-style]) .frame [data-workspace-toolbar]:global(.indigo-page-header) [data-variant='outline'] { background: transparent; color: var(--foreground); border-color: var(--border); }
+  :global(html[data-brand-theme='indigo'][data-ui-style]) .frame [data-workspace-toolbar]:global(.indigo-page-header) [data-slot='select-trigger'] { background: var(--background); color: var(--foreground); border-color: var(--border); }
   .frame [data-workspace-toolbar] [data-slot='button'] { min-height: 32px; height: 32px; font-size: 12px; box-shadow: none; }
   .frame [data-workspace-actions] { display: flex; flex-wrap: wrap; gap: 8px; }
   .frame [data-workspace-actions] > * { width: auto; }
@@ -275,7 +279,7 @@
   .frame [data-translation-desk]:not([data-translation-desk='single']) [data-workspace-sheet-actions] > button { color: var(--foreground); }
 }
 
-@media (min-width: 1440px) {
+@media (min-width: 1280px) {
   .frame [data-translation-desk][data-translation-desk='full'] [data-translation-panels] { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1.15fr); grid-template-rows: minmax(0, 1fr) minmax(0, 1fr); }
   .frame [data-translation-desk='full'] [data-workspace-sheet-header] [role='combobox'] { flex: 1; width: auto; min-width: 0; }
   .frame [data-translation-desk='full'] [data-desk-mode='realtime'] { grid-column: 1; grid-row: 1 / span 2; }
@@ -403,13 +407,13 @@
   .frame [data-vocabulary-grid] [data-vocabulary-panel] [data-workspace-content] { padding-right: 8px; }
 }
 
-@media (min-width: 1440px) {
+@media (min-width: 1280px) {
   .frame [data-vocabulary-grid] { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr); }
   .frame [data-vocabulary-grid] > section { display: block !important; }
   .frame [data-vocabulary-grid] > section + section { padding-left: 14px; }
   .frame [data-vocabulary-panel='public'] [data-workspace-toolbar] > div:first-child { flex-direction: column; }
 }
-@media (min-width: 1440px) {
+@media (min-width: 1280px) {
   .frame [data-vocabulary-workspace][data-vocabulary-active] [data-vocabulary-grid] { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .frame [data-vocabulary-workspace][data-vocabulary-active] [data-vocabulary-grid] [data-vocabulary-panel] { display: block !important; }
   .frame [data-vocabulary-panel='history'] [data-workspace-word-body] { display: flex; flex-direction: column; align-items: stretch; gap: 6px; }

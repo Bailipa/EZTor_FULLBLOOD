@@ -51,7 +51,7 @@ export default function VocabularyWorkspace({ initialPanel }: { initialPanel: Vo
   usePageView(initialPanel === 'public' ? 'Public Vocabulary' : initialPanel === 'contributions' ? 'Contributions' : 'Vocabulary')
 
   useEffect(() => {
-    const wide = window.matchMedia('(min-width: 1440px)')
+    const wide = window.matchMedia('(min-width: 1280px)')
     const paired = window.matchMedia('(min-width: 1100px)')
     const updateLayoutTier = () => setLayoutTier(wide.matches ? 'wide' : paired.matches ? 'paired' : 'single')
     updateLayoutTier()

@@ -10,19 +10,19 @@ interface BrandThemeContextValue {
 }
 
 const BrandThemeContext = createContext<BrandThemeContextValue>({
-  brandTheme: 'gold',
+  brandTheme: 'indigo',
   setBrandTheme: () => {},
 })
 
 function getStoredBrand(): BrandTheme {
-  if (typeof window === 'undefined') return 'gold'
+  if (typeof window === 'undefined') return 'indigo'
   try {
     const stored = localStorage.getItem('brand-theme')
-    if (stored === 'neutral' || stored === 'purple' || stored === 'gold' || stored === 'indigo') return stored
+    if (stored === 'purple' || stored === 'gold' || stored === 'indigo') return stored
   } catch {
     // Storage may be unavailable; the current page can still use its theme.
   }
-  return 'gold'
+  return 'indigo'
 }
 
 function applyBrandAttribute(theme: BrandTheme) {
@@ -35,7 +35,7 @@ function applyBrandAttribute(theme: BrandTheme) {
 }
 
 export function BrandThemeProvider({ children }: { children: React.ReactNode }) {
-  const [brandTheme, setBrandThemeState] = useState<BrandTheme>('gold')
+  const [brandTheme, setBrandThemeState] = useState<BrandTheme>('indigo')
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
@@ -57,7 +57,7 @@ export function BrandThemeProvider({ children }: { children: React.ReactNode }) 
 
   if (!mounted) {
     return (
-      <BrandThemeContext.Provider value={{ brandTheme: 'gold', setBrandTheme }}>
+      <BrandThemeContext.Provider value={{ brandTheme: 'indigo', setBrandTheme }}>
         {children}
       </BrandThemeContext.Provider>
     )

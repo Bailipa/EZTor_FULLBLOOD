@@ -18,7 +18,6 @@ import {
   GoldThemeIcon,
   IndigoThemeIcon,
   LightThemeIcon,
-  NeutralThemeIcon,
   PurpleThemeIcon,
   SystemThemeIcon,
 } from '@/components/icons/MinimalThemeIcons'
@@ -67,10 +66,6 @@ export function ModeToggle() {
           value={brandTheme}
           onValueChange={(v) => setBrandTheme(v as 'neutral' | 'purple' | 'gold' | 'indigo')}
         >
-          <DropdownMenuRadioItem value="neutral">
-            <NeutralThemeIcon className="mr-2 h-4 w-4" />
-            默认
-          </DropdownMenuRadioItem>
           <DropdownMenuRadioItem value="purple">
             <PurpleThemeIcon className="mr-2 h-4 w-4" />
             紫色
@@ -81,7 +76,7 @@ export function ModeToggle() {
           </DropdownMenuRadioItem>
           <DropdownMenuRadioItem value="indigo">
             <IndigoThemeIcon className="mr-2 h-4 w-4" />
-            靛辉
+            靛辉（默认）
           </DropdownMenuRadioItem>
         </DropdownMenuRadioGroup>
       </DropdownMenuContent>

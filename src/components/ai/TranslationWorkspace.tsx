@@ -136,7 +136,7 @@ export function TranslationWorkspace() {
 
   useEffect(() => {
     const split = window.matchMedia('(min-width: 1100px)')
-    const full = window.matchMedia('(min-width: 1440px)')
+    const full = window.matchMedia('(min-width: 1280px)')
     const updateLayout = () => setDeskLayout(full.matches ? 'full' : split.matches ? 'split' : 'single')
     updateLayout()
     split.addEventListener('change', updateLayout)
