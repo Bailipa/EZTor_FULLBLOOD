@@ -14,6 +14,17 @@ gradle assembleDebug        # 调试包
 gradle assembleRelease      # 发布包 → app/build/outputs/apk/release/
 ```
 
+发布 APK 前必须使用与线上旧版本相同的签名 keystore。`android/build-apk.sh`
+不会再自动生成 debug keystore；缺少签名配置时会直接失败，避免产出无法覆盖升级的安装包。
+
+```bash
+export EZTOR_ANDROID_KEYSTORE=/secure/path/eztor-release.jks
+export EZTOR_ANDROID_KEY_ALIAS=eztor
+export EZTOR_ANDROID_KEYSTORE_PASSWORD='***'
+export EZTOR_ANDROID_KEY_PASSWORD='***' # 如果与 keystore 密码相同可省略
+./build-apk.sh
+```
+
 ## 产物
 
 - `app/build/outputs/apk/release/app-release.apk`（签名后即可分发）

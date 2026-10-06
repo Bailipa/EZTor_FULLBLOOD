@@ -65,14 +65,22 @@ zip -j "$OUT/unsigned.apk" "$OUT/classes.dex" >/dev/null
 
 echo "[6/6] zipalign + apksigner"
 "$BT/zipalign" -f 4 "$OUT/unsigned.apk" "$OUT/aligned.apk"
-KEYSTORE="$OUT/debug.keystore"
-if [ ! -f "$KEYSTORE" ]; then
-  keytool -genkeypair -keystore "$KEYSTORE" -alias androiddebugkey \
-    -storepass android -keypass android \
-    -dname "CN=Android Debug,O=Android,C=US" \
-    -keyalg RSA -keysize 2048 -validity 10000 >/dev/null 2>&1
+KEYSTORE="${EZTOR_ANDROID_KEYSTORE:-}"
+KEY_ALIAS="${EZTOR_ANDROID_KEY_ALIAS:-}"
+KEYSTORE_PASSWORD="${EZTOR_ANDROID_KEYSTORE_PASSWORD:-}"
+KEY_PASSWORD="${EZTOR_ANDROID_KEY_PASSWORD:-$KEYSTORE_PASSWORD}"
+if [ -z "$KEYSTORE" ] || [ -z "$KEY_ALIAS" ] || [ -z "$KEYSTORE_PASSWORD" ]; then
+  echo "错误：缺少可升级发布所需的 Android 签名配置。" >&2
+  echo "请设置 EZTOR_ANDROID_KEYSTORE、EZTOR_ANDROID_KEY_ALIAS、EZTOR_ANDROID_KEYSTORE_PASSWORD" >&2
+  echo "不要用临时 debug keystore 发布线上 APK，否则用户无法覆盖升级已有安装。" >&2
+  exit 2
 fi
-"$BT/apksigner" sign --ks "$KEYSTORE" --ks-pass pass:android --key-pass pass:android \
+if [ ! -f "$KEYSTORE" ]; then
+  echo "错误：Android 签名 keystore 不存在：$KEYSTORE" >&2
+  exit 2
+fi
+"$BT/apksigner" sign --ks "$KEYSTORE" --ks-key-alias "$KEY_ALIAS" \
+  --ks-pass "pass:$KEYSTORE_PASSWORD" --key-pass "pass:$KEY_PASSWORD" \
   --out "$REL/eztor-$APP_VERSION.apk" "$OUT/aligned.apk"
 
 echo ""
