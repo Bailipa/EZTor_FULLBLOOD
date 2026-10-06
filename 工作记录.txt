@@ -952,3 +952,12 @@ Web 1.20.0 发布与线上验收（2026-10-04 20:30 CST）
 - 用户提示：下载页 Android 默认地址改为 `/downloads/eztor-1.25.0.apk`，明确说明已安装 1.13.4 或更早版本必须先卸载；`android/README.md` 同步说明新签名无法覆盖旧包。
 - 验证：`npm run typecheck` 通过；Next 16.2.3 生产构建通过，保留既有 middleware 弃用提示与构建时未设置 `LLM_API_KEY` 警告；Android 构建脚本、`apksigner` 校验通过；desktop Electron 更新桥 `UPDATE BRIDGE OK`；本条变更尚未提交、未上传、未切换生产。
 - 待办：提交并 push 下载页/安卓说明/新 APK；发布前检查远端磁盘、数据库备份和安装包白名单，上传后校验哈希，再按回环与公网关键流程完成线上验收。
+
+## 2026-10-06 11:44 1.25.0 客户端与 Web 正式发布、线上核验
+- 发布载荷：源码提交 `35dfcb52ffaf114dac3a6baebb086015b753e267`；Web 归档 `/var/folders/d5/qqbprnn92lb5_70kd52fx7mm0000gn/T/eztor-release-packages/eztor-web-1.25.0--v0OInC1qL2JOmNEIdmaS-20261006033508624.tar.gz`，39,963,047 bytes，SHA-256 `8738a85c6e97dce5c4151f3575a07746bbad7cb6e506bd9e996d89abed1aa1d2`，manifest `sourceDirty=false`，Build ID `-v0OInC1qL2JOmNEIdmaS`，公网构建标记 `20261006_113445`。归档清单未包含环境文件、数据库或旧下载缓存；旧下载/更新目录按持久资源保留。
+- 数据保护与磁盘：切换前生产 PostgreSQL 完整 custom dump 保存到服务器外 `/Users/elee987/Library/Application Support/EZTor/Backups/predeploy-1.25.0-20261006_1138/eztor-predeploy.dump`，29,708,695 bytes，SHA-256 `a1fbae241b65a0a49c786980ce79965e39d3d13110e6957db4e4c2ff0fe31638`，`pg_restore --list` 242 行；服务器临时备份哈希一致，迁移完成数25，本次未执行数据库迁移。发布前根分区40G中15G可用、inode15%；切换后约12G可用、inode16%。旧线上版本回滚目录保留为 `/www/wwwroot/114.55.58.90/.next/standalone.bak.20261006_1142`，没有删除既有回滚目录或安装包。
+- 安卓：`eztor-1.25.0.apk` 已上传 `public/downloads` 与 `public/updates`，公网 SHA-256 `e9cc735ed634b89be726df98ea7b3e73300f2999cb7489e4bc7978793344d662`；新签名证书 SHA-256 `46fcd1b35ffd623f21063b71a9cb031e4c77e2ec05c2924507f38f7aa6b54378`。旧 1.13.4/0.3.0 包未删除，下载页与 README 已提示旧版先卸载，不能覆盖升级。
+- 桌面端：Windows 安装包公网 SHA-256 `ba6e411fa41140d2648793a48f0f838264ccb741c96d5f331525481d5d8925b9`；macOS arm64 zip 公网 SHA-256 `58a540ba0100bf72ef89c93f6d4ce1c528d04bba071e8213fc8cdbbc6ed6579b`；`latest.yml`、`latest-mac.yml` 与 1.25.0 blockmap 已同步至下载/更新目录，桌面更新桥本地通过。
+- 暂存与切换：新包先在服务器 3103 暂存启动，`/api/health`、`/`、`/ai`、`/me`、`/download`、`/public-vocabulary`、manifest、图标、`/api/version`、公共词库API、认证session/providers均200，未登录私有路由按保护逻辑307；随后原子替换 standalone 并重启 PM2。
+- 线上状态：PM2 `cet4-web` online，版本1.25.0，运行 PID1171753，BUILD_ID `-v0OInC1qL2JOmNEIdmaS`；本地回环与公网 HTTPS 上述匿名页面和关键API均200，`/api/version`返回全平台最新1.25.0，并将 Android/Windows/macOS 最新安装器分别识别为 `eztor-1.25.0.apk`、`EZTor-Setup-1.25.0.exe`、`EZTor-1.25.0-arm64-mac.zip`。公网下载三个代表安装包的哈希与本地产物一致。
+- 状态：Android/Windows/macOS 新包已实现、构建、上传并线上验收；Web 1.25.0 已实现、构建、部署并线上验收；数据库备份与回滚目标已保留；真实用户登录后的私有写入和真实物理设备安装仍未在本轮执行。发布记录待提交并 push。
