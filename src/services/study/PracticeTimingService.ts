@@ -22,6 +22,11 @@ export async function savePracticeTiming(userId: string, attemptId: string, inpu
     const stages = attempt.mode === 'FULL' ? TIMING_STAGES : TIMING_STAGES.filter(stage => stage === attempt.mode)
     if (attempt.status !== 'COMPLETE' || stages.length === 0 || !stages.every(stage => state.submissions?.[stage])) throw new StudyInputError('完成本次练习后才能保存用时', 409)
     if (TIMING_STAGES.some(stage => !stages.includes(stage) && timing.modules[stage] !== 0)) throw new StudyInputError('计时数据包含本次练习之外的模块')
+    if (state.listeningReuse?.status === 'REUSE' && state.listeningReuse.inheritedElapsedMs !== undefined) {
+      timing.modules.LISTENING = state.listeningReuse.inheritedElapsedMs
+      timing.totalMs = Object.values(timing.modules).reduce((sum, ms) => sum + ms, 0)
+      timing.tracked ||= timing.totalMs > 0
+    }
     if (attempt.practiceTiming !== null) return parsePracticeTiming(attempt.practiceTiming)
     await tx.examAttempt.update({ where: { id: attempt.id }, data: { practiceTiming: timing as unknown as Prisma.InputJsonValue } })
     return timing

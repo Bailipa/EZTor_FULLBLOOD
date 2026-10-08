@@ -1,9 +1,9 @@
 import { randomUUID } from 'node:crypto'
 import { type ExamAnalysisRecord, type PrismaClient, type Prisma } from '@prisma/client'
 import prisma from '@/lib/prisma'
-import { StudyInputError, type StudyLevel } from '@/features/study/domain'
-import { parseExamContent } from '@/features/study/examDomain'
-import type { ExamPaperKind, ExamStage, ExamState } from '@/features/study/examTypes'
+import { StudyInputError } from '@/features/study/domain'
+import { effectiveExamContent } from './ListeningReuseService'
+import type { ExamStage, ExamState } from '@/features/study/examTypes'
 import { ANALYSIS_STAGES, examAnalysisEligible, examAnalysisStats, examModuleComplete, parseAnalysisReport, type ExamAnalysisView } from '@/features/study/examAnalysis'
 import { emptyPracticeTiming, parsePracticeTiming, TIMING_LABELS } from '@/features/study/practiceTiming'
 import { examPaperKey, requireExamAccess } from './ExamAccessService'
@@ -13,7 +13,7 @@ async function eligible(db: Prisma.TransactionClient, userId: string, id: string
   if (!row) throw new StudyInputError('考试记录不存在', 404)
   await requireExamAccess(db, userId, row.paper.slug)
   if (row.paper.rightsStatus !== 'APPROVED') throw new StudyInputError('暂时没有试卷可用', 403)
-  const content = parseExamContent(row.paper.content, row.paper.level as StudyLevel, row.paper.kind as ExamPaperKind)
+  let content = effectiveExamContent(row.paper, row.state as unknown as ExamState)
   let state = row.state as unknown as ExamState
   let timing = parsePracticeTiming(row.practiceTiming)
   let assisted = row.assisted, replayCount = row.replayCount
@@ -26,8 +26,13 @@ async function eligible(db: Prisma.TransactionClient, userId: string, id: string
     })
     state = { drafts: {}, submissions: {}, firstAnswers: {}, audioPlays: {} }
     const sources = ANALYSIS_STAGES.flatMap(stage => {
-      const source = candidates.find(candidate => candidate.mode === stage && examModuleComplete(stage, candidate.state as unknown as ExamState, content))
+      const source = candidates.find(candidate => candidate.mode === stage && examModuleComplete(stage, candidate.state as unknown as ExamState, effectiveExamContent(row.paper, candidate.state as unknown as ExamState)))
       if (!source) { missing.push(stage); return [] }
+      if (stage === 'LISTENING') {
+        const sourceState = source.state as unknown as ExamState
+        content = effectiveExamContent(row.paper, sourceState)
+        state.listeningReuse = sourceState.listeningReuse
+      }
       state.submissions[stage] = (source.state as unknown as ExamState).submissions[stage]
       return [{ stage, source, timing: parsePracticeTiming(source.practiceTiming) }]
     })

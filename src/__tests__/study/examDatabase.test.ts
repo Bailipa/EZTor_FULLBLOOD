@@ -309,6 +309,63 @@ describe.skipIf(!url)('Exam integrity in isolated PostgreSQL', () => {
     expect(session.readingMarks).toEqual([])
     expect(session.readingHighlights).toEqual([mark])
   })
+  it('snapshots explicitly shared listening and reuses shuffled completed work with preserved scoring', async () => {
+    const imported: string[] = []
+    for (const set of [2, 3]) {
+      const fixture = originalExamFixture()
+      fixture.slug = `cet4-2098-12-set${set}`
+      if (set === 3) fixture.content.LISTENING = { instructions: '听力材料', questions: [], audio: [], passages: [], unavailableReason: '官方第三套真题的听力试题与第二套真题的一致,只是选项顺序不同' }
+      const paper = await importExamPaper(users.admin, fixture, db)
+      imported.push(paper.id); paperIds.add(paper.id)
+      await reviewExamPaper(users.admin, paper.id, { rightsStatus: 'APPROVED', reviewEvidence: 'ORIGINAL isolated test license and shared material verified' }, db)
+    }
+    const target = imported[1]
+    const legacy = await startExam(users.a, { paperId: target, mode: 'FULL', clientId: randomUUID() }, db)
+    const legacyState: ExamState = { drafts: { WRITING: { answers: {}, text: 'Keep legacy writing draft' } }, submissions: {}, firstAnswers: {}, audioPlays: {} }
+    const writingDeadline = new Date(Date.now() + 600000)
+    await db.examAttempt.update({ where: { id: legacy.id }, data: { state: legacyState as never, deadlineAt: writingDeadline } })
+    const upgradedWriting = await readExam(users.a, legacy.id, db)
+    expect(upgradedWriting.listeningReuse?.status).toBe('NEW')
+    expect(upgradedWriting.deadlineAt).toBe(writingDeadline.toISOString())
+    expect(upgradedWriting.drafts.WRITING?.text).toBe('Keep legacy writing draft')
+    await db.examAttempt.update({ where: { id: legacy.id }, data: { state: legacyState as never, status: 'LISTENING', deadlineAt: new Date(Date.now() - 60000) } })
+    const upgradedListening = await readExam(users.a, legacy.id, db)
+    expect(upgradedListening.status).toBe('LISTENING')
+    expect(upgradedListening.listeningReuse?.status).toBe('NEW')
+    expect(Date.parse(upgradedListening.deadlineAt!)).toBeGreaterThan(Date.now())
+    await db.examAttempt.update({ where: { id: legacy.id }, data: { state: legacyState as never, status: 'TRANSLATION', deadlineAt: null } })
+    expect((await readExam(users.a, legacy.id, db)).listeningReuse).toBeUndefined()
+    let session = await startExam(users.b, { paperId: target, mode: 'LISTENING', clientId: randomUUID() }, db)
+    expect(session.listeningReuse?.status).toBe('NEW')
+    expect(session.stageContent?.questions).toHaveLength(25)
+    let answers = Object.fromEntries(session.stageContent!.questions.map(question => [question.id, 0]))
+    session = (await examAction(users.b, session.id, { clientId: randomUUID(), revision: session.revision, stage: 'LISTENING', type: 'SUBMIT_STAGE', answers }, db)).session
+    expect(session.result?.objective.correct).toBe(25)
+    session = await startExam(users.b, { paperId: target, mode: 'LISTENING', clientId: randomUUID() }, db)
+    expect(session.listeningReuse?.status).toBe('PENDING')
+    await expect(examAction(users.b, session.id, { clientId: randomUUID(), revision: session.revision, stage: 'LISTENING', type: 'SUBMIT_STAGE' }, db)).rejects.toMatchObject({ status: 409 })
+    session = (await examAction(users.b, session.id, { clientId: randomUUID(), revision: session.revision, stage: 'LISTENING', type: 'LISTENING_REUSE', choice: 'REDO' }, db)).session
+    expect(session.listeningReuse?.status).toBe('REDO')
+    expect(session.stageContent?.questions.every(question => question.choices.join('') !== 'ABCD')).toBe(true)
+    answers = Object.fromEntries(session.stageContent!.questions.map(question => [question.id, question.choices.indexOf('A')]))
+    session = (await examAction(users.b, session.id, { clientId: randomUUID(), revision: session.revision, stage: 'LISTENING', type: 'SUBMIT_STAGE', answers }, db)).session
+    expect(session.result?.objective.correct).toBe(25)
+    session = await startExam(users.b, { paperId: target, mode: 'LISTENING', clientId: randomUUID() }, db)
+    expect(session.listeningReuse?.status).toBe('PENDING')
+    session = (await examAction(users.b, session.id, { clientId: randomUUID(), revision: session.revision, stage: 'LISTENING', type: 'LISTENING_REUSE', choice: 'REUSE' }, db)).session
+    expect(session.status).toBe('COMPLETE')
+    expect(session.result?.objective.correct).toBe(25)
+    expect(session.listeningReuse?.status).toBe('REUSE')
+    expect(session.result?.objective.firstAnswered).toBe(25)
+    expect(session.result?.objective.firstCorrect).toBe(25)
+    session = await startExam(users.b, { paperId: target, mode: 'FULL', clientId: randomUUID() }, db)
+    await expect(examAction(users.b, session.id, { clientId: randomUUID(), revision: session.revision, stage: 'LISTENING', type: 'LISTENING_REUSE', choice: 'REUSE' }, db)).rejects.toMatchObject({ status: 409 })
+    session = (await examAction(users.b, session.id, { clientId: randomUUID(), revision: session.revision, stage: 'WRITING', type: 'SUBMIT_STAGE' }, db)).session
+    expect(session.status).toBe('LISTENING'); expect(session.deadlineAt).toBeNull()
+    session = (await examAction(users.b, session.id, { clientId: randomUUID(), revision: session.revision, stage: 'LISTENING', type: 'LISTENING_REUSE', choice: 'REUSE' }, db)).session
+    expect(session.status).toBe('READING')
+    expect(session.deadlineAt).not.toBeNull()
+  })
   it('isolates reading, translation and writing practice without exposing other sections or changing full simulation', async () => {
     for (const mode of ['READING', 'TRANSLATION', 'WRITING'] as const) {
       const listed = await listExamPapers(users.a, 'CET4', mode, null, db)

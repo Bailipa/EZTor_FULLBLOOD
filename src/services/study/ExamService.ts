@@ -1,3 +1,5 @@
+import { parsePracticeTiming, MAX_MODULE_MS } from '@/features/study/practiceTiming'
+import { effectiveExamContent, prepareListeningReuse, shuffledListening, listeningHash, validListeningSubmission } from './ListeningReuseService'
 import { Prisma, type PrismaClient, type ExamAttempt, type ExamPaper } from '@prisma/client'
 import { createHash } from 'node:crypto'
 import { isDeepStrictEqual } from 'node:util'
@@ -63,12 +65,25 @@ async function lock(tx: Prisma.TransactionClient, userId: string) {
   if (rows[0].isBanned && (!rows[0].banExpiresAt || rows[0].banExpiresAt > new Date()))
     throw new StudyInputError('账号不可用', 403)
 }
-async function owned(db: Prisma.TransactionClient, userId: string, id: string) {
+async function owned(db: Prisma.TransactionClient, userId: string, id: string, upgrade = true) {
   const row = await db.examAttempt.findFirst({ where: { id, userId }, include: { paper: true } })
   if (!row) throw new StudyInputError('考试记录不存在', 404)
   await requireExamAccess(db, userId, row.paper.slug)
   if (row.paper.rightsStatus !== 'APPROVED')
     throw new StudyInputError('试卷来源审核未通过或已撤回', 409)
+  return upgrade ? upgradeListening(db, row) : row
+}
+async function upgradeListening(tx: Prisma.TransactionClient, row: Row): Promise<Row> {
+  const state = stateOf(row)
+  if (!state.listeningReuse && !state.submissions.LISTENING && ['FULL', 'LISTENING'].includes(row.mode) && ['WRITING', 'LISTENING'].includes(row.status)) {
+    await prepareListeningReuse(tx, row.userId, row.paper, state)
+    const reuse = (state as ExamState).listeningReuse
+    if (reuse) {
+      const now = new Date()
+      const listening = row.status === 'LISTENING'
+      return tx.examAttempt.update({ where: { id: row.id }, data: { state: json(state), revision: { increment: 1 }, ...(listening ? { stageStartedAt: now, deadlineAt: row.mode === 'FULL' && reuse.status !== 'PENDING' ? new Date(now.getTime() + examMinutes(row.paper.level as StudyLevel, 'LISTENING', reuse.section.audio.reduce((sum, audio) => sum + audio.durationSeconds, 0)) * 60000) : null } : {}) }, include: { paper: true } })
+    }
+  }
   return row
 }
 function stateOf(row: Row) {
@@ -86,11 +101,11 @@ function submit(row: Row, state: ExamState, at: Date, expired: boolean) {
   row.status = examNext(row.mode as ExamMode, stage)
   row.stageStartedAt = at
   row.deadlineAt =
-    row.status === 'COMPLETE' || row.mode !== 'FULL'
+    row.status === 'COMPLETE' || row.mode !== 'FULL' || (row.status === 'LISTENING' && state.listeningReuse?.status === 'PENDING')
       ? null
       : new Date(
           at.getTime() +
-            examMinutes(row.paper.level as StudyLevel, row.status as ExamStage, parseExamContent(row.paper.content, row.paper.level as StudyLevel, row.paper.kind as ExamPaperKind).LISTENING.audio.reduce((sum, audio) => sum + audio.durationSeconds, 0)) * 60000,
+            examMinutes(row.paper.level as StudyLevel, row.status as ExamStage, effectiveExamContent(row.paper, state).LISTENING.audio.reduce((sum, audio) => sum + audio.durationSeconds, 0)) * 60000,
         )
   if (row.status === 'COMPLETE') row.completedAt = at
 }
@@ -114,12 +129,8 @@ async function advance(tx: Prisma.TransactionClient, row: Row, now: Date) {
   return row
 }
 export function examSessionView(row: Row, now = new Date()): ExamSessionView {
-  const content = parseExamContent(
-      row.paper.content,
-      row.paper.level as StudyLevel,
-      row.paper.kind as ExamPaperKind,
-    ),
-    state = stateOf(row)
+  const state = stateOf(row),
+    content = effectiveExamContent(row.paper, state)
   const current = row.status === 'COMPLETE' ? null : content[row.status as ExamStage]!
   const questions = [
     ...(row.mode === 'FULL' || row.mode === 'LISTENING' ? content.LISTENING.questions : []),
@@ -132,6 +143,7 @@ export function examSessionView(row: Row, now = new Date()): ExamSessionView {
   const graded = questions.filter((q) => q.answerIndex >= 0 && !(q.audioId === undefined && content.LISTENING.audioUnavailableReason && content.LISTENING.questions.some((item) => item.id === q.id)))
   const correct = graded.filter((q) => submittedAnswers[q.id] === q.answerIndex)
   return {
+    ...(state.listeningReuse ? { listeningReuse: { sourcePaperTitle: state.listeningReuse.sourcePaperTitle, sourceAttemptId: state.listeningReuse.sourceAttemptId, status: state.listeningReuse.status, inheritedElapsedMs: state.listeningReuse.inheritedElapsedMs, inheritedTimingSource: state.listeningReuse.inheritedTimingSource, notice: state.listeningReuse.status === 'REDO' ? '复用同场次听力材料，选项已重新排列；非官方第三套选项顺序。' : state.listeningReuse.status === 'REUSE' ? `沿用同一材料的已完成听力成绩；继承${state.listeningReuse.inheritedTimingSource === 'MANUAL' ? '自主计时' : '阶段用时'}。` : '原卷说明听力材料与同场次试卷一致，本练习复用来源套卷材料及选项顺序，非官方第三套选项顺序。' } } : {}),
     practiceTiming: row.practiceTiming as ExamPracticeTiming | null,
     id: row.id,
     revision: row.revision,
@@ -206,12 +218,8 @@ export function examSessionView(row: Row, now = new Date()): ExamSessionView {
   }
 }
 function subjective(row: Row) {
-  const content = parseExamContent(
-      row.paper.content,
-      row.paper.level as StudyLevel,
-      row.paper.kind as ExamPaperKind,
-    ),
-    state = stateOf(row)
+  const state = stateOf(row),
+    content = effectiveExamContent(row.paper, state)
   return {
     level: row.paper.level as StudyLevel,
     submissions: (['WRITING', 'TRANSLATION'] as const).flatMap((kind) => {
@@ -244,7 +252,7 @@ export async function getExamSubjectiveSubmissions(
   id: string,
   db: PrismaClient = prisma,
 ) {
-  const row = await owned(db, userId, id)
+  const row = await owned(db, userId, id, false)
   if (row.status !== 'COMPLETE') throw new StudyInputError('完成考试后才能评分', 409)
   return subjective(row)
 }
@@ -332,7 +340,7 @@ export async function startExam(
       orderBy: { updatedAt: 'desc' },
     })
     if (active) {
-      const resumed = await advance(tx, active, new Date())
+      const resumed = await advance(tx, await upgradeListening(tx, active), new Date())
       if (resumed.status !== 'COMPLETE') {
         await tx.examEvent.create({
           data: {
@@ -357,6 +365,8 @@ export async function startExam(
       : { level: paper.level }
     const now = new Date(),
       stage = mode === 'FULL' ? 'WRITING' : mode
+    const initialState = emptyExamState()
+    if (mode === 'FULL' || mode === 'LISTENING') await prepareListeningReuse(tx, userId, paper, initialState)
     const row = await tx.examAttempt.create({
       data: {
         userId,
@@ -365,7 +375,7 @@ export async function startExam(
         mode,
         goalSnapshot: json(goalSnapshot),
         status: stage,
-        state: json(emptyExamState()),
+        state: json(initialState),
         stageStartedAt: now,
         deadlineAt:
           mode === 'FULL'
@@ -418,15 +428,51 @@ export async function examAction(
     if (row.status !== action.stage && !(readingAction && (row.status === 'COMPLETE' || stateOf(row).submissions.READING)))
       throw new StudyInputError('阶段已结束，请恢复最新考试记录', 409)
     const state = stateOf(row),
-      content = parseExamContent(
-        row.paper.content,
-        row.paper.level as StudyLevel,
-        row.paper.kind as ExamPaperKind,
-      ),
+      content = effectiveExamContent(row.paper, state),
       section = content[action.stage]!
     if (readingAction && (!section || !['FULL', 'READING'].includes(row.mode)))
       throw new StudyInputError('本练习没有阅读内容')
-    if (action.type === 'READING_MARK' || action.type === 'READING_HIGHLIGHT' || action.type === 'READING_HELP') {
+    if (action.stage === 'LISTENING' && state.listeningReuse?.status === 'PENDING' && action.type !== 'LISTENING_REUSE')
+      throw new StudyInputError('请先选择重新作答或沿用听力成绩', 409)
+    if (action.type === 'LISTENING_REUSE') {
+      const reuse = state.listeningReuse
+      if (!reuse || reuse.status !== 'PENDING' || row.status !== 'LISTENING') throw new StudyInputError('当前无需选择听力复用方式', 409)
+      row.stageStartedAt = now
+      if (action.choice === 'REDO') {
+        reuse.section = shuffledListening(reuse.section)
+        reuse.status = 'REDO'
+        row.deadlineAt = row.mode === 'FULL' ? new Date(now.getTime() + examMinutes(row.paper.level as StudyLevel, 'LISTENING', reuse.section.audio.reduce((sum, audio) => sum + audio.durationSeconds, 0)) * 60000) : null
+      } else {
+        const source = await tx.examAttempt.findFirst({ where: { id: reuse.sourceAttemptId, userId }, include: { paper: true } })
+        if (!source || source.paper.rightsStatus !== 'APPROVED') throw new StudyInputError('原听力记录已不可用，请重新作答', 409)
+        const sourceState = stateOf(source)
+        const sourceSection = effectiveExamContent(source.paper, sourceState).LISTENING
+        if ((sourceState.listeningReuse?.sourceHash ?? listeningHash(sourceSection)) !== reuse.sourceHash || !validListeningSubmission(sourceState, sourceSection)) throw new StudyInputError('原听力记录与当前材料不一致，请重新作答', 409)
+        const previous = sourceState.submissions.LISTENING!
+        const mappedChoice = (id: string, selectedIndex: number) => {
+          const question = reuse.section.questions.find(item => item.id === id)!
+          const sourceQuestion = sourceSection.questions.find(item => item.id === id)
+          const selected = sourceQuestion?.choices[selectedIndex]
+          const choice = selectedIndex === sourceQuestion?.answerIndex ? question.answerIndex : question.choices.findIndex((item, index) => item === selected && index !== question.answerIndex)
+          if (selected === undefined || choice < 0) throw new StudyInputError('原听力答案无法映射到当前材料', 409)
+          return choice
+        }
+        const answers = Object.fromEntries(reuse.section.questions.map(question => [question.id, mappedChoice(question.id, previous.answers[question.id])]))
+        for (const question of reuse.section.questions) {
+          const first = sourceState.firstAnswers[question.id]
+          if (first) state.firstAnswers[question.id] = { choice: mappedChoice(question.id, first.choice), at: first.at }
+        }
+        state.drafts.LISTENING = { answers, text: '' }
+        reuse.status = 'REUSE'
+        const sourceTiming = parsePracticeTiming(source.practiceTiming)
+        reuse.inheritedElapsedMs = Math.min(MAX_MODULE_MS, sourceTiming?.tracked ? sourceTiming.modules.LISTENING : previous.elapsedMs)
+        reuse.inheritedTimingSource = sourceTiming?.tracked ? 'MANUAL' : sourceState.listeningReuse?.inheritedTimingSource ?? 'STAGE'
+        submit(row, state, now, false)
+        state.submissions.LISTENING = { ...previous, answers, text: '', submittedAt: now.toISOString(), elapsedMs: reuse.inheritedElapsedMs }
+        row.assisted ||= source.assisted
+        row.replayCount += source.replayCount
+      }
+    } else if (action.type === 'READING_MARK' || action.type === 'READING_HIGHLIGHT' || action.type === 'READING_HELP') {
       const { mark } = action
       const passage = section.passages.find((p) => p.id === mark.passageId)
       if (!passage || passage.text.slice(mark.start, mark.end) !== mark.text)

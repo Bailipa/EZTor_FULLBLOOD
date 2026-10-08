@@ -61,7 +61,12 @@ export type ExamSubmission = ExamDraft & {
   expired: boolean
   elapsedMs: number
 }
+export type ListeningReuseState = {
+  sourcePaperId: string; sourcePaperTitle: string; sourceHash: string; section: ExamSection
+  status: 'PENDING' | 'NEW' | 'REDO' | 'REUSE'; sourceAttemptId?: string; inheritedElapsedMs?: number; inheritedTimingSource?: 'MANUAL' | 'STAGE'
+}
 export type ExamState = {
+  listeningReuse?: ListeningReuseState
   drafts: Partial<Record<ExamStage, ExamDraft>>
   submissions: Partial<Record<ExamStage, ExamSubmission>>
   firstAnswers: Record<string, { choice: number; at: string }>
@@ -95,6 +100,7 @@ export type ExamSubjectiveSubmission = {
 }
 export type ExamPracticeTiming = { version: 1; modules: Record<ExamStage, number>; totalMs: number; tracked: boolean }
 export type ExamSessionView = {
+  listeningReuse?: Omit<ListeningReuseState, 'section' | 'sourceHash' | 'sourcePaperId'> & { notice: string }
   practiceTiming?: ExamPracticeTiming | null
   id: string
   revision: number
@@ -141,6 +147,7 @@ export type ExamSessionView = {
   } | null
 }
 export type ExamAction =
+  | { clientId: string; revision: number; stage: 'LISTENING'; type: 'LISTENING_REUSE'; choice: 'REDO' | 'REUSE' }
   | {
       clientId: string
       revision: number

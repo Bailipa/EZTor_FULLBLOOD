@@ -10,6 +10,7 @@ import { useInputDraft } from '@/hooks/useInputDraft'
 import { studyRequest, StudyRequestError } from './client'
 import type { StudyLevel } from './domain'
 import { examMinutes } from './examDomain'
+import { formatPracticeTime } from './practiceTiming'
 import { isCurrentPaper } from './paperAvailability'
 import { ExamClock, ExamClockReadout } from './ExamClock'
 import { EXAM_MODE_LABELS } from './examTypes'
@@ -116,6 +117,7 @@ export default function StudyExam({ accountId, level, mode, initialSession, onIn
   sessionRef.current = session
   const readingReview = (!!readingSource || reviewingReading) && session?.status !== 'READING'
   const allowReadingHelp = session?.mode !== 'FULL' || session.status === 'COMPLETE'
+  const listeningChoicePending = session?.status === 'LISTENING' && session.listeningReuse?.status === 'PENDING'
   const readingReviewRef = useRef(readingReview)
   readingReviewRef.current = readingReview
   const stage = readingReview ? 'READING' : session?.status !== 'COMPLETE' ? session?.status : undefined
@@ -482,6 +484,7 @@ export default function StudyExam({ accountId, level, mode, initialSession, onIn
       {!!result?.objective.total && <div className={styles.score}><strong>{result?.objective.earnedWeight ?? 0}</strong><span>/ {result?.objective.totalWeight ?? 0} 客观题加权得分</span><span>{result?.objective.correct ?? 0}/{result?.objective.total ?? 0} 题正确</span>{result?.objective.firstAnswered !== undefined && <span>首次作答 {result.objective.firstCorrect}/{result.objective.firstAnswered} 正确</span>}</div>}
       {!!result?.objective.ungraded && <p className={styles.note}>有 {result.objective.ungraded} 题缺少已核对答案或对应录音，未计入得分；作答已保存。</p>}
       {!!result?.objective.limitations?.length && <p className={styles.note}>本卷材料说明：{result.objective.limitations.join(' ')}</p>}
+      {session.listeningReuse && <p className={styles.note}>{session.listeningReuse.status === 'REUSE' ? `听力沿用原成绩 · ${session.listeningReuse.sourcePaperTitle} · 沿用用时 ${formatPracticeTime(session.listeningReuse.inheritedElapsedMs ?? 0)}` : `听力材料来源：${session.listeningReuse.sourcePaperTitle}`}</p>}
       <p className={styles.note}>{result?.subjectiveSubmissions.length ? '答案已保存，可在下方获取AI估分。' : '作答结果已保存。'}</p>
       <div className={styles.actions}>{session.readingContent && <Button variant="outline" onClick={() => setReviewingReading(true)}>回看阅读与标记</Button>}<Button variant="outline" onClick={() => { try { localStorage.removeItem(storageKey(accountId, mode)) } catch { /* Storage is optional. */ }; resetAudioSessionState(); pending.current = null; setSession(null); setPapers(null); void loadPapers() }}>再做一份</Button></div>
       {result?.feedback.map((item) => <details className={styles.feedback} key={item.questionId}><summary>题目解析 · {item.choice === null ? '未作答' : `选择 ${LETTERS[item.choice]}`}</summary><p>{item.answerIndex < 0 ? '本题暂不计分' : `正确答案：${LETTERS[item.answerIndex]}`}</p><p>{item.explanation}</p></details>)}
@@ -501,7 +504,7 @@ export default function StudyExam({ accountId, level, mode, initialSession, onIn
   const subjective = stage === 'WRITING' || stage === 'TRANSLATION'
   const missingListening = stage === 'LISTENING' && !!content.unavailableReason && content.questions.length === 0 && content.audio.length === 0
   const questionFields = content.questions.map((question, index) => {
-    if (stage === 'READING' && question.passageId !== activePassage?.id) return null
+    if (listeningChoicePending || (stage === 'READING' && question.passageId !== activePassage?.id)) return null
     const className = `${styles.question} ${stage === 'READING' && question.id !== currentQuestion?.id ? styles.inactiveQuestion : ''} ${question.type === 'WORD_BANK' ? styles.wordBankQuestion : ''}`
     if (question.type === 'WORD_BANK') {
       const selected = draft.answers[question.id]
@@ -546,21 +549,23 @@ export default function StudyExam({ accountId, level, mode, initialSession, onIn
     <DialogContent className="max-h-[80dvh] overflow-y-auto sm:max-w-lg">
       <DialogTitle>练习说明</DialogTitle>
       <DialogDescription>{modeLabel} · {LABEL[stage]}</DialogDescription>
-      <div className={styles.instructions}><p>{!allowReadingHelp ? `${timingNote} 阅读可划线或荧光标记；整卷提交后可回看并查词、翻译或问 AI。` : readingReview ? '查看已标记的阅读内容，可查词或问 AI。' : timingNote}</p>{stage === 'READING' && <p>{content.instructions}</p>}</div>
+      <div className={styles.instructions}><p>{!allowReadingHelp ? `${timingNote} 阅读可划线或荧光标记；整卷提交后可回看并查词、翻译或问 AI。` : readingReview ? '查看已标记的阅读内容，可查词或问 AI。' : timingNote}</p>{stage === 'READING' && <p>{content.instructions}</p>}{session.listeningReuse && <p>{session.listeningReuse.notice}</p>}</div>
     </DialogContent>
   </Dialog>
-  const stageActions = !readingReview && <div className={`${styles.actions} ${inputStyles.inputActions}`}><Button disabled={readingReview || busy || !!error || hasConflict} onClick={submitStage}>{busy ? '正在保存…' : missingListening ? mode === 'FULL' ? '跳过听力，进入阅读' : '结束本次听力练习' : mode !== 'FULL' ? `提交${modeLabel}` : stage === 'TRANSLATION' ? '提交整卷' : '保存并进入下一阶段'}</Button><span>阶段已用时 <ExamClockReadout elapsed /></span></div>
+  const stageActions = !readingReview && !listeningChoicePending && <div className={`${styles.actions} ${inputStyles.inputActions}`}><Button disabled={readingReview || busy || !!error || hasConflict} onClick={submitStage}>{busy ? '正在保存…' : missingListening ? mode === 'FULL' ? '跳过听力，进入阅读' : '结束本次听力练习' : mode !== 'FULL' ? `提交${modeLabel}` : stage === 'TRANSLATION' ? '提交整卷' : '保存并进入下一阶段'}</Button><span>阶段已用时 <ExamClockReadout elapsed /></span></div>
   return <section className={`${styles.panel} ${inputStyles.editor} ${stage === 'READING' || subjective ? styles.readingPanel : ''}`} aria-label="考试作答" aria-busy={busy}><ExamClock key={`${sessionId}:${stage}:${deadline}`} deadline={deadline} stageStartedAt={stageStarted} serverOffset={clockOffset} expiryKey={`${sessionId}:${stage}:${deadline}`} onExpire={() => { void syncExpiredStage() }}>
     <div className={`${styles.header} ${styles.stickyHeader}`}><div><span className={styles.eyebrow}>{readingReview ? '阅读回看' : modeLabel} · {LABEL[stage]}</span><h3 title={session.paper.title}>{session.paper.title}</h3></div><div className={styles.headerActions}>{practiceInstructions}{readingReview && session.status === 'COMPLETE' && (readingSource ? <Button asChild variant="outline" size="sm"><Link href={`/study?examId=${encodeURIComponent(session.id)}`}>返回作答结果</Link></Button> : <Button variant="outline" size="sm" onClick={() => { setHelp(null); setReviewingReading(false) }}>返回作答结果</Button>)}{!readingReview && <ExamClockReadout className={styles.clock} />}{onSessionSwitch && <Button variant="outline" size="sm" disabled={busy || !!error || hasConflict} onClick={openSwitch}>切换试卷</Button>}</div></div>
-    {!readingReview && <PracticeTimer accountId={accountId} session={session} hidden={mode === 'FULL'} />}
+    {!readingReview && <PracticeTimer accountId={accountId} session={session} hidden={mode === 'FULL' || listeningChoicePending} />}
     {switchDialog}
     {mode === 'FULL' && !readingReview && <nav className={styles.stages} aria-label="考试进度">{STAGES.map((name, index) => <span className={name === stage ? styles.currentStage : ''} key={name}>{index + 1}. {LABEL[name as ExamStage]}</span>)}</nav>}
 
     {notice && <p role="status" className={styles.note}>{notice}</p>}
+    {stage === 'LISTENING' && session.listeningReuse && !listeningChoicePending && <p className={styles.note}>复用听力 · {session.listeningReuse.sourcePaperTitle}（详见说明）</p>}
+    {listeningChoicePending && <div className={styles.missingModule} role="region" aria-label="选择听力作答方式"><strong>这份听力材料你已经做过</strong><p>与{session.listeningReuse!.sourcePaperTitle}使用相同材料。请选择本次作答方式。</p><div className={styles.actions}><Button disabled={busy || !!error || hasConflict} onClick={() => void postAction({ clientId: crypto.randomUUID(), revision: session.revision, stage: 'LISTENING', type: 'LISTENING_REUSE', choice: 'REDO' })}>换序再做一遍</Button><Button variant="outline" disabled={busy || !!error || hasConflict} onClick={() => void postAction({ clientId: crypto.randomUUID(), revision: session.revision, stage: 'LISTENING', type: 'LISTENING_REUSE', choice: 'REUSE' })}>沿用原听力成绩</Button></div><details><summary>查看材料说明</summary><p>{session.listeningReuse!.notice}</p></details></div>}
     {content.sourceNotice && <p className={styles.note} role="status">{content.sourceNotice}</p>}
     {missingListening && <div className={styles.missingModule} role="note"><strong>本套暂无独立听力</strong><p>{mode === 'FULL' ? '可跳过本阶段，继续阅读。缺失听力不计分，本套结果会注明缺项。' : '当前没有可作答的听力题目，可以切换试卷。'}</p><details><summary>查看资源说明</summary><p>{content.unavailableReason}</p></details></div>}
     {!missingListening && [content.unavailableReason, content.audioUnavailableReason, content.wordBankUnavailableReason, content.matchingUnavailableReason].some(Boolean) && <p className={styles.note} role="status">{[content.unavailableReason, content.audioUnavailableReason, content.wordBankUnavailableReason, content.matchingUnavailableReason].filter(Boolean).join(' ')} 可保存作答并继续下一阶段。</p>}
-    {content.instructions && stage !== 'READING' && !subjective && !missingListening && <p className={styles.instructions}>{content.instructions}</p>}
+    {content.instructions && stage !== 'READING' && !subjective && !missingListening && !listeningChoicePending && <p className={styles.instructions}>{content.instructions}</p>}
     {error && <div className={styles.error} role="alert">{error}<div>{conflict ? <button disabled={busy} onClick={() => void syncConflict()}>恢复服务器进度</button> : <><button disabled={busy} onClick={() => pending.current ? void postAction() : void syncConflict()}>{pending.current ? '重试原操作' : '重新同步进度'}</button><button disabled={busy} onClick={() => void syncConflict()}>恢复服务器进度</button></>}</div></div>}
     {hasConflict && <div className={styles.error} role="alert"><strong>本机草稿与服务器版本不同</strong><p>选择使用已同步进度，或以本机草稿作为新保存覆盖。</p><div><button disabled={busy} onClick={useServerDraft}>使用服务器版本</button><button disabled={busy} onClick={keepLocalDraft}>保留本机草稿并保存</button></div></div>}
     {stage === 'READING' && <nav className={styles.passageTabs} aria-label="阅读篇章">{content.passages.map((passage, index) => {
@@ -604,7 +609,7 @@ export default function StudyExam({ accountId, level, mode, initialSession, onIn
           {stageActions}
         </div>
       </> : <>
-        {stage === 'LISTENING' && <>
+        {stage === 'LISTENING' && !listeningChoicePending && <>
           {session.assisted && mode === 'FULL' && <p className={styles.assist}>本次有额外播放、回放或音频调整记录，已标记听力辅助。</p>}
           {audioError && <div className={styles.error} role="alert">{audioError}<button onClick={() => { setAudioError(''); audioRefs.current.forEach((audio) => audio.load()) }}>重试音频</button></div>}
           {content.audio.map((audio) => <ExamAudio key={audio.id} audioId={audio.id} onAttach={(audioId, node) => audioRefs.current.set(audioId, node)} onDetach={(audioId) => {

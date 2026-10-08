@@ -218,6 +218,8 @@ export function parseExamAction(raw: unknown): ExamAction {
     if (typeof r.marked !== 'boolean') fail('阅读标记状态无效')
     return { clientId: id, revision, stage: 'READING', type: r.type, mark: selection, marked: r.marked as boolean }
   }
+  if (r.type === 'LISTENING_REUSE' && r.stage === 'LISTENING' && ['REDO', 'REUSE'].includes(String(r.choice)))
+    return { clientId: id, revision, stage: 'LISTENING', type: 'LISTENING_REUSE', choice: r.choice as 'REDO' | 'REUSE' }
   if (r.type === 'AUDIO_PLAY' && r.stage === 'LISTENING')
     return {
       clientId: id,
