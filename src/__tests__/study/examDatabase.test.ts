@@ -315,6 +315,7 @@ describe.skipIf(!url)('Exam integrity in isolated PostgreSQL', () => {
     for (const set of [2, 3]) {
       const fixture = originalExamFixture()
       fixture.slug = `cet4-2098-12-set${set}-full`
+      if (set === 2) { fixture.content.LISTENING.questions[0].answerIndex = -1; fixture.content.LISTENING.questions[0].answerUnavailableReason = 'Isolated missing answer stays ungraded' }
       if (set === 3) fixture.content.LISTENING = { instructions: '听力材料', questions: [], audio: [], passages: [], unavailableReason: '官方第三套真题的听力试题与第二套真题的一致,只是选项顺序不同' }
       const paper = await importExamPaper(users.admin, fixture, db)
       imported.push(paper.id); paperIds.add(paper.id)
@@ -341,7 +342,7 @@ describe.skipIf(!url)('Exam integrity in isolated PostgreSQL', () => {
     expect(session.stageContent?.questions).toHaveLength(25)
     let answers = Object.fromEntries(session.stageContent!.questions.map(question => [question.id, 0]))
     session = (await examAction(users.b, session.id, { clientId: randomUUID(), revision: session.revision, stage: 'LISTENING', type: 'SUBMIT_STAGE', answers }, db)).session
-    expect(session.result?.objective.correct).toBe(25)
+    expect(session.result?.objective.correct).toBe(24)
     session = await startExam(users.b, { paperId: target, mode: 'LISTENING', clientId: randomUUID() }, db)
     expect(session.listeningReuse?.status).toBe('PENDING')
     await expect(examAction(users.b, session.id, { clientId: randomUUID(), revision: session.revision, stage: 'LISTENING', type: 'SUBMIT_STAGE' }, db)).rejects.toMatchObject({ status: 409 })
@@ -350,15 +351,15 @@ describe.skipIf(!url)('Exam integrity in isolated PostgreSQL', () => {
     expect(session.stageContent?.questions.every(question => question.choices.join('') !== 'ABCD')).toBe(true)
     answers = Object.fromEntries(session.stageContent!.questions.map(question => [question.id, question.choices.indexOf('A')]))
     session = (await examAction(users.b, session.id, { clientId: randomUUID(), revision: session.revision, stage: 'LISTENING', type: 'SUBMIT_STAGE', answers }, db)).session
-    expect(session.result?.objective.correct).toBe(25)
+    expect(session.result?.objective.correct).toBe(24)
     session = await startExam(users.b, { paperId: target, mode: 'LISTENING', clientId: randomUUID() }, db)
     expect(session.listeningReuse?.status).toBe('PENDING')
     session = (await examAction(users.b, session.id, { clientId: randomUUID(), revision: session.revision, stage: 'LISTENING', type: 'LISTENING_REUSE', choice: 'REUSE' }, db)).session
     expect(session.status).toBe('COMPLETE')
-    expect(session.result?.objective.correct).toBe(25)
+    expect(session.result?.objective.correct).toBe(24)
     expect(session.listeningReuse?.status).toBe('REUSE')
-    expect(session.result?.objective.firstAnswered).toBe(25)
-    expect(session.result?.objective.firstCorrect).toBe(25)
+    expect(session.result?.objective.firstAnswered).toBe(24)
+    expect(session.result?.objective.firstCorrect).toBe(24)
     session = await startExam(users.b, { paperId: target, mode: 'FULL', clientId: randomUUID() }, db)
     await expect(examAction(users.b, session.id, { clientId: randomUUID(), revision: session.revision, stage: 'LISTENING', type: 'LISTENING_REUSE', choice: 'REUSE' }, db)).rejects.toMatchObject({ status: 409 })
     session = (await examAction(users.b, session.id, { clientId: randomUUID(), revision: session.revision, stage: 'WRITING', type: 'SUBMIT_STAGE' }, db)).session

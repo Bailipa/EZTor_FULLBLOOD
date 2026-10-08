@@ -33,7 +33,7 @@ export async function prepareListeningReuse(tx: Prisma.TransactionClient, userId
   const source = await tx.examPaper.findFirst({ where: { slug: { in: [sourceKey, `${sourceKey}-full`, `${sourceKey}-listening`] }, kind: 'FULL', level: paper.level, rightsStatus: 'APPROVED' }, orderBy: { version: 'desc' } })
   if (!source) return
   const section = effectiveExamContent(source, { drafts: {}, submissions: {}, firstAnswers: {}, audioPlays: {} }).LISTENING
-  if (section.unavailableReason || section.audioUnavailableReason || section.questions.length !== 25 || !section.audio.length || section.questions.some(question => question.answerIndex < 0 || !question.audioId || !section.audio.some(audio => audio.id === question.audioId))) return
+  if (section.unavailableReason || section.audioUnavailableReason || section.questions.length !== 25 || !section.audio.length || section.questions.some(question => !question.audioId || !section.audio.some(audio => audio.id === question.audioId))) return
   const sourceHash = listeningHash(section)
   let priorId: string | undefined, cursor: string | undefined
   while (!priorId) {
