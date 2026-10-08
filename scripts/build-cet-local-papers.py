@@ -144,6 +144,10 @@ for key,base in shared.items():
    raw=json.dumps(chapter,ensure_ascii=False).replace(base,key);parsed[key]['content'][stage]=json.loads(raw)
 for key,p in parsed.items():
  if 'slug' not in p:continue
+ # Verified against independent English OCR: the PDF text layer splits construct.
+ if key=='cet4-2025-06-set1':
+  for passage in p['content']['READING']['passages']:
+   passage['text']=re.sub(r'how we construc {2,}t our identities','how we construct our identities',passage['text'])
  (output/(key+'.json')).write_text(json.dumps(p,ensure_ascii=False,indent=2)+'\n')
  qs=[q for stage in p['content'].values() for q in stage['questions']];summary.append(dict(key=key,questions=len(qs),graded=sum(q['answerIndex']>=0 for q in qs),audio=len(p['content']['LISTENING']['audio']),missingStages=[s for s,v in p['content'].items() if v.get('unavailableReason')],partialStages=[s for s,v in p['content'].items() if v.get('wordBankUnavailableReason') or v.get('matchingUnavailableReason')],sharedStages=[s for s,v in p['content'].items() if v.get('sourceNotice')]))
 (root/'content/cet-local/conversion-status.json').write_text(json.dumps(summary,ensure_ascii=False,indent=2)+'\n')
