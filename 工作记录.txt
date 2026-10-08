@@ -1668,3 +1668,7 @@ current为releases/2.0.0-6Td5FpVHj3-PeK5HOrQxh，回滚releases/1.30.2-v_VDEly1N
 
 2026-10-08 — 写作要求异常空白修复（2.0.1待发布）
 用户截图为四级2025年12月第3套写作要求。“essay to”和“express your view”之间原始候选文本存在连续13个ASCII空格；现有.prompt p white-space:pre-wrap将其保留显示。仅将主观题提示段落的white-space改为pre-line，使连续水平空格折叠、换行保留；原始试卷数据不改写，阅读文章及用户答案样式不变。此为展示修复，不宣称OCR内容质量提高。版本2.0.1/versionCode71，待构建与体验版发布；未新增镜像实现的单元测试，CSS差异核对后进行构建和服务检查。域名浏览器saved preference仍拒绝，实际视觉验收待用户回看。
+
+2026-10-08 20:06（北京时间）— 2.0.1异常空白修复发布完成
+体验版源码baf706a0b8137ef69f0cf06125525121a292d980，BUILD_ID uApBP5oVCIduaIpm9OKHb，公共标识20261008-test-2.0.1；本机构建通过。归档40551192字节/SHA256 5d4675cfb624f62dfb6df8a762a32877a85eae1be3f4fb4a9328801e5985c3d4，白名单及上传哈希验证通过，无PDF/资源/环境/密钥/数据库。sourceDirty仅既有6张未跟踪预览图。发布前可用6802120704字节，运行仍满足3GiB余量；完整测试库备份backups/eztor_test-before-2.0.1-20261008.dump，3287215字节/SHA256 6c642709b96caaabf4135851c6453e67043a3af49619c2d2135b986c99e2b626，pg_restore目录通过，仅服务器保存。无新增迁移/数据修正，5账号/86试卷/4考试/0阅读/346授权发布前后保持；新增第4条考试已在发布前存在，不回退旧计数。
+current为releases/2.0.1-uApBP5oVCIduaIpm9OKHb，回滚releases/2.0.0-6Td5FpVHj3-PeK5HOrQxh（schema兼容，回滚恢复空白展示）。生产PID未变，两进程online，生产/测试健康status ok。只读验证登录/study、试卷与历史阅读记录接口正常，匿名跳转登录正常；线上CSS资源0vc8-bwfv64b..css已含prompt p white-space:pre-line。无模型请求、无用户数据写入。已实现/构建和资源已验证/已部署；真实页面视觉仍待用户回看，浏览器saved preference阻止访问未绕过。代码与本记录推送codex/test-release-20261008。
