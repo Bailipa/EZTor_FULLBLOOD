@@ -33,9 +33,9 @@ const key = 'cet-practice-timing:v1:alice:attempt'
 const listeners = new Map<string, (event?: unknown) => void>()
 const storage = new Map<string, string>()
 const session = { id: 'attempt', mode: 'FULL', status: 'TRANSLATION', stageStartedAt: '2026-10-08T00:00:00.000Z' } as ExamSessionView
-function render(current = session) {
+function render(current = session, hidden = false) {
   h.cursor = 0; h.refCursor = 0; h.effectCursor = 0; h.pending = []
-  const wrapper = PracticeTimer({ accountId: 'alice', session: current })
+  const wrapper = PracticeTimer({ accountId: 'alice', session: current, hidden })
   const tree = wrapper.type(wrapper.props) as Element
   h.pending.forEach(effect => effect())
   return tree
@@ -49,7 +49,7 @@ function button(element: unknown): Element | undefined {
 }
 function unmount() { h.effects.forEach(effect => effect.cleanup?.()); resetHooks() }
 function resetHooks() { h.states = []; h.refs = []; h.effects = []; h.pending = [] }
-function mount(current = session) { render(current); return render(current) }
+function mount(current = session, hidden = false) { render(current, hidden); return render(current, hidden) }
 beforeEach(() => {
   resetHooks(); storage.clear(); listeners.clear(); h.now = 1000
   vi.spyOn(Date, 'now').mockImplementation(() => h.now)
@@ -122,6 +122,14 @@ describe('practice timer local cache lifecycle', () => {
     expect(timing.modules.WRITING).toBe(1000)
     expect(timing.modules.TRANSLATION).toBe(750)
     expect(timing.totalMs).toBe(1750)
+  })
+
+  it('saves completion timing even when the full-paper timer UI is hidden', () => {
+    expect(mount({ ...session, status: 'COMPLETE' }, true)).toBeNull()
+    expect(h.request).toHaveBeenCalledWith('alice', '/api/study/exams/attempts/attempt/timing', expect.objectContaining({ method: 'PUT' }))
+    const timing = JSON.parse(h.request.mock.calls[0][2].body)
+    expect(timing.tracked).toBe(false)
+    expect(timing.totalMs).toBe(0)
   })
 
 })
