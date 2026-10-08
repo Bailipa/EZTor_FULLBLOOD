@@ -460,7 +460,7 @@ export default function StudyExam({ accountId, level, mode, initialSession, onIn
       {error && <div className={styles.error} role="alert">{error}{switchPapers === null && <Button variant="outline" disabled={switchBusy} onClick={() => void loadPapers(undefined, switchLevel)}>重新加载</Button>}</div>}
       {switchPapers === null && !error && <p role="status">正在读取试卷…</p>}
       {switchPapers !== null && <div className={styles.paperSelector}>
-        {switchTarget ? <><label htmlFor="cet-switch-paper">选择另一份试卷 · {modeLabel}</label><select id="cet-switch-paper" value={switchTarget.id} disabled={switchBusy} onChange={(event) => setSelectedPaperId(event.currentTarget.value)}>{switchPapers.map((paper) => <option key={paper.id} value={paper.id} disabled={paper.id === session?.paper.id}>{paper.level === 'CET4' ? '四级' : '六级'} · {paper.title}{paper.id === session?.paper.id ? '（当前）' : ''}</option>)}</select><p className={styles.note}>{switchTarget.sourceName}</p></> : <p className={styles.note}>{switchNextCursor ? '当前列表没有其他试卷，可以加载更多。' : switchLevel === 'ALL' ? `没有其他支持${modeLabel}的已审核试卷。` : `当前级别没有其他支持${modeLabel}的已审核试卷，可选择“全部级别”查看。`}</p>}
+        {switchTarget ? <><label htmlFor="cet-switch-paper">选择另一份试卷 · {modeLabel}</label><select id="cet-switch-paper" value={switchTarget.id} disabled={switchBusy} onChange={(event) => setSelectedPaperId(event.currentTarget.value)}>{switchPapers.map((paper) => <option key={paper.id} value={paper.id} disabled={paper.id === session?.paper.id}>{paper.level === 'CET4' ? '四级' : '六级'} · {paper.title}{paper.id === session?.paper.id ? '（当前）' : ''}</option>)}</select></> : <p className={styles.note}>{switchNextCursor ? '当前列表没有其他试卷，可以加载更多。' : switchLevel === 'ALL' ? `没有其他支持${modeLabel}的已审核试卷。` : `当前级别没有其他支持${modeLabel}的已审核试卷，可选择“全部级别”查看。`}</p>}
         <div className={styles.actions}>{switchTarget && <Button disabled={switchBusy || conflict || hasConflict} onClick={() => void switchPaper(switchTarget.id)}>{busy ? '正在保存并切换…' : '切换到这份试卷'}</Button>}{switchNextCursor && <Button variant="outline" disabled={switchBusy} onClick={() => void loadPapers(switchNextCursor, switchLevel)}>更多试卷</Button>}<Button variant="outline" disabled={switchBusy} onClick={() => setSwitchOpen(false)}>继续当前试卷</Button></div>
       </div>}
     </DialogContent>
@@ -470,14 +470,13 @@ export default function StudyExam({ accountId, level, mode, initialSession, onIn
     <div className={styles.header}><div><span className={styles.eyebrow}>{level === 'CET4' ? '四级' : '六级'} · {modeLabel}</span><h3>选择试卷</h3></div></div>
     {error && <div className={styles.error} role="alert">{error}<button disabled={busy} onClick={() => startOperation.current ? void start(startOperation.current.paperId) : void loadPapers()}>重试</button></div>}
     {papers === null && !error && <p role="status" className={styles.note}>正在读取材料…</p>}
-    {papers?.length === 0 && <div className={styles.empty}><strong>这个级别暂时没有可用材料</strong><p>这里仅显示经过来源核验并完成审核的试卷。材料来源信息会随试卷展示。</p></div>}
+    {papers?.length === 0 && <div className={styles.empty}><strong>这个级别暂时没有可用材料</strong><p>这里仅显示支持当前练习模式的已审核试卷。</p></div>}
     {!!papers?.length && <>
       <p className={styles.note}>{timingNote}</p>
       {selectedPaper && <div className={styles.paperSelector}>
         <label htmlFor="cet-paper">{papers.length}{nextCursor ? '+' : ''} 份可用试卷 · 当前试卷</label>
         <select id="cet-paper" value={selectedPaper.id} disabled={busy} onChange={(event) => setSelectedPaperId(event.currentTarget.value)}>{papers.map((paper) => <option key={paper.id} value={paper.id}>{paper.title}</option>)}</select>
         <div className={styles.actions}><Button disabled={busy} onClick={() => void start(selectedPaper.id)}>{busy ? '正在打开…' : `开始${modeLabel}`}</Button>{nextCursor && <Button variant="outline" disabled={busy} onClick={() => void loadPapers(nextCursor)}>更多试卷</Button>}</div>
-        <details className={styles.source}><summary>材料来源</summary><p>{selectedPaper.originType === 'ORIGINAL' ? '原创练习（非真题）' : selectedPaper.originType === 'OFFICIAL_SAMPLE' ? '官方样题' : '历年真题'} · {selectedPaper.sourceName}</p></details>
       </div>}
     </>}
   </section>
@@ -552,9 +551,8 @@ export default function StudyExam({ accountId, level, mode, initialSession, onIn
     <div className={`${styles.header} ${styles.stickyHeader}`}><div><span className={styles.eyebrow}>{readingReview ? '阅读回看' : modeLabel} · {LABEL[stage]}</span><h3 title={session.paper.title}>{session.paper.title}</h3></div><div className={styles.headerActions}>{!readingReview && <ExamClockReadout className={styles.clock} />}{onSessionSwitch && <Button variant="outline" size="sm" disabled={busy || !!error || hasConflict} onClick={openSwitch}>切换试卷</Button>}</div></div>
     {switchDialog}
     {mode === 'FULL' && !readingReview && <nav className={styles.stages} aria-label="考试进度">{STAGES.map((name, index) => <span className={name === stage ? styles.currentStage : ''} key={name}>{index + 1}. {LABEL[name as ExamStage]}</span>)}</nav>}
-    <details className={styles.source}><summary>说明与来源</summary><p>{readingReview ? '查看已标记的阅读内容，可查词或问 AI。' : timingNote}</p>{stage === 'READING' && <p>{content.instructions}</p>}{session.paper.sourceName}</details>
+    <details className={styles.source}><summary>练习说明</summary><p>{readingReview ? '查看已标记的阅读内容，可查词或问 AI。' : timingNote}</p>{stage === 'READING' && <p>{content.instructions}</p>}</details>
     {notice && <p role="status" className={styles.note}>{notice}</p>}
-    {content.sourceFileUrl && <a className={styles.source} href={content.sourceFileUrl} target="_blank" rel="noopener noreferrer">查看本卷原文</a>}
     {content.sourceNotice && <p className={styles.note} role="status">{content.sourceNotice}</p>}
     {[content.unavailableReason, content.audioUnavailableReason, content.wordBankUnavailableReason, content.matchingUnavailableReason].some(Boolean) && <p className={styles.note} role="status">{[content.unavailableReason, content.audioUnavailableReason, content.wordBankUnavailableReason, content.matchingUnavailableReason].filter(Boolean).join(' ')} 可保存作答并继续下一阶段。</p>}
     {content.instructions && stage !== 'READING' && !subjective && <p className={styles.instructions}>{content.instructions}</p>}

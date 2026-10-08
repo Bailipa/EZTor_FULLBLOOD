@@ -19,8 +19,6 @@
 .catalogueList h3 { margin: 0 0 6px; font-size: 15px; font-weight: 600; }
 .catalogueList p { margin: 5px 0; color: var(--muted-foreground); font-size: 12px; line-height: 1.7; overflow-wrap: anywhere; }
 .catalogueList summary, .catalogueList a { color: color-mix(in srgb, var(--foreground) 70%, var(--primary)); font-size: 12px; cursor: pointer; }
-.resourceActions { display: flex; flex-wrap: wrap; gap: 8px; margin-block: 8px; }
-.resourceActions a { display: inline-flex; align-items: center; min-height: 36px; padding: 6px 10px; border: 1px solid var(--border); border-radius: 6px; background: var(--muted); }
 .workspace :is(button, select, a):focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
 @media (min-width: 768px) {
   .meta { margin-top: 0; min-height: 34px; }

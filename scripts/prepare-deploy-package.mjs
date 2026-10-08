@@ -68,6 +68,21 @@ async function copyMigrations(source, destination) {
   }
 }
 
+async function copyStudyResources(destination) {
+  const index = JSON.parse(await readFile(path.join(projectRoot, 'content/cet-local/index.json'), 'utf8'))
+  const figures = JSON.parse(await readFile(path.join(projectRoot, 'content/cet-local/writing-figures.json'), 'utf8'))
+  const urls = new Set([
+    ...index.items.flatMap((item) => item.resources.filter((resource) => resource.category === 'audio').map((resource) => resource.url)),
+    ...Object.values(figures).map((figure) => figure.url),
+  ])
+  for (const url of urls) {
+    const relative = url.replace(/^\//, '')
+    const target = path.join(destination, relative)
+    await mkdir(path.dirname(target), { recursive: true })
+    await copyFile(path.join(projectRoot, 'public', relative), target)
+  }
+}
+
 async function inventory(dir, prefix = '') {
   const members = []
   for (const entry of await readdir(dir, { withFileTypes: true })) {
@@ -121,7 +136,8 @@ try {
   await rm(path.join(stageDir, 'node_modules/thread-stream/test'), { recursive: true, force: true })
   await rm(path.join(stageDir, '.next/static'), { recursive: true, force: true })
   await copyRuntimeTree(path.join(projectRoot, '.next/static'), path.join(stageDir, '.next/static'), await realpath(path.join(projectRoot, '.next/static')))
-  await copyRuntimeTree(path.join(projectRoot, 'public'), path.join(stageDir, 'public'), await realpath(path.join(projectRoot, 'public')), ['downloads', 'updates', ...(externalStudyResources ? ['study'] : [])])
+  await copyRuntimeTree(path.join(projectRoot, 'public'), path.join(stageDir, 'public'), await realpath(path.join(projectRoot, 'public')), ['downloads', 'updates', 'study'])
+  if (!externalStudyResources) await copyStudyResources(path.join(stageDir, 'public'))
   await rm(path.join(stageDir, 'node_modules/ipa-dict'), { recursive: true, force: true })
   // Only the English dictionary is used at runtime; keep its package metadata.
   for (const file of ['package.json', 'LICENSE', 'lib/en_US.js']) {
