@@ -16,6 +16,7 @@ import type { ExamAction, ExamDraft, ExamMode, ExamPaperMetadata, ExamSessionVie
 import ReadingPassage from './ReadingPassage'
 import type { ReadingMarkSource } from './readingMarkTypes'
 import ExamDivider from './ExamDivider'
+import ExamPaperPicker from './ExamPaperPicker'
 import { sameExamDraft, canFlushExamDraft } from './examDraft'
 import { examAudioProgressKey, restorableAudioPosition } from './examAudioProgress'
 import styles from './exam.module.css'
@@ -72,12 +73,8 @@ const localDraftCodec = {
 
 export default function StudyExam({ accountId, level, mode, initialSession, onInteraction, readingSource, onSessionSwitch }: Props) {
   const [papers, setPapers] = useState<ExamPaperMetadata[] | null>(null)
-  const [selectedPaperId, setSelectedPaperId] = useState('')
-  const [nextCursor, setNextCursor] = useState<string | null>(null)
   const [switchOpen, setSwitchOpen] = useState(false)
-  const [switchLevel, setSwitchLevel] = useState<'ALL' | StudyLevel>('ALL')
   const [switchPapers, setSwitchPapers] = useState<ExamPaperMetadata[] | null>(null)
-  const [switchNextCursor, setSwitchNextCursor] = useState<string | null>(null)
   const [switchLoading, setSwitchLoading] = useState(false)
   const switching = useRef(false)
   const [session, setSession] = useState<ExamSessionView | null>(initialSession ?? null)
@@ -181,7 +178,7 @@ export default function StudyExam({ accountId, level, mode, initialSession, onIn
       setDraft((current) => ({ ...current, revision: session.revision }))
   }, [session, stage, serverDraft, draft, setDraft])
 
-  const loadPapers = useCallback(async (cursor?: string, targetLevel?: 'ALL' | StudyLevel) => {
+  const loadPapers = useCallback(async (targetLevel?: 'ALL' | StudyLevel) => {
     if (loadingPapers.current) return
     loadingPapers.current = true
     if (targetLevel) setSwitchLoading(true)
@@ -190,12 +187,17 @@ export default function StudyExam({ accountId, level, mode, initialSession, onIn
     try {
       const query = new URLSearchParams({ mode })
       if (targetLevel !== 'ALL') query.set('level', targetLevel ?? level)
-      if (cursor) query.set('cursor', cursor)
-      const result = await studyRequest<Page<ExamPaperMetadata>>(accountId, `/api/study/exams?${query}`)
-      if (alive.current) {
-        if (targetLevel) { setSwitchPapers((old) => cursor && old ? [...old, ...result.items] : result.items); setSwitchNextCursor(result.nextCursor) }
-        else { setPapers((old) => cursor && old ? [...old, ...result.items] : result.items); setNextCursor(result.nextCursor) }
-      }
+      const items: ExamPaperMetadata[] = []
+      let cursor: string | null = null
+      do {
+        if (cursor) query.set('cursor', cursor)
+        const result = await studyRequest<Page<ExamPaperMetadata>>(accountId, `/api/study/exams?${query}`)
+        if (!alive.current) return
+        items.push(...result.items)
+        cursor = result.nextCursor
+      } while (cursor)
+      if (targetLevel) setSwitchPapers(items)
+      else setPapers(items)
     } catch (failure) { if (alive.current) setError(failure instanceof Error ? failure.message : '模拟材料暂不可用') }
     finally { loadingPapers.current = false; if (alive.current) { setBusy(false); if (targetLevel) setSwitchLoading(false) } }
   }, [accountId, level, mode])
@@ -348,12 +350,9 @@ export default function StudyExam({ accountId, level, mode, initialSession, onIn
   const openSwitch = () => {
     saveAllAudioProgress()
     audioRefs.current.forEach((audio) => audio.pause())
-    setSelectedPaperId('')
-    setSwitchLevel('ALL')
     setSwitchPapers(null)
-    setSwitchNextCursor(null)
     setSwitchOpen(true)
-    void loadPapers(undefined, 'ALL')
+    void loadPapers('ALL')
   }
 
   const updateDraft = (next: ExamDraft) => {
@@ -442,27 +441,17 @@ export default function StudyExam({ accountId, level, mode, initialSession, onIn
   }
 
   const modeLabel = EXAM_MODE_LABELS[mode]
-  const selectedPaper = papers?.find((paper) => paper.id === selectedPaperId) ?? papers?.[0]
   const timingNote = mode === 'FULL' ? `标准时长 ${STAGES.reduce((total, name) => total + examMinutes(level, name), 0)} 分钟，刷新不会暂停。` : `不限时 · ${LABEL[mode]}参考时长 ${examMinutes(level, mode)} 分钟`
-  const switchTarget = switchPapers?.find((paper) => paper.id === selectedPaperId && paper.id !== session?.paper.id) ?? switchPapers?.find((paper) => paper.id !== session?.paper.id)
   const switchBusy = busy || switchLoading
   const switchDialog = <Dialog open={switchOpen} onOpenChange={(open) => { if (!switchBusy && !switching.current) setSwitchOpen(open) }}>
     <DialogContent className={styles.switchDialog} showCloseButton={!switchBusy} onEscapeKeyDown={(event) => { if (switchBusy) event.preventDefault() }} onPointerDownOutside={(event) => { if (switchBusy) event.preventDefault() }}>
       <DialogTitle>切换试卷</DialogTitle>
       <DialogDescription>可在四级、六级之间切换，当前练习模式为{modeLabel}。先保存当前作答，再打开所选试卷。未完成的试卷会恢复原进度。{mode === 'FULL' && '整卷模拟切走后仍会继续计时。'}</DialogDescription>
       <p className={styles.note}>当前：{session?.paper.title}</p>
-      <div className={styles.paperSelector}><label htmlFor="cet-switch-level">试卷级别</label><select id="cet-switch-level" value={switchLevel} disabled={switchBusy} onChange={(event) => {
-        const next = event.currentTarget.value as 'ALL' | StudyLevel
-        setSwitchLevel(next); setSwitchPapers(null); setSwitchNextCursor(null); setSelectedPaperId('')
-        void loadPapers(undefined, next)
-      }}><option value="ALL">全部级别</option><option value="CET4">四级</option><option value="CET6">六级</option></select></div>
-      <p className={styles.note}>这里只显示支持{modeLabel}的已审核试卷；试卷目录中的逐句阅读材料不一定包含这一模式。</p>
-      {error && <div className={styles.error} role="alert">{error}{switchPapers === null && <Button variant="outline" disabled={switchBusy} onClick={() => void loadPapers(undefined, switchLevel)}>重新加载</Button>}</div>}
+      {error && <div className={styles.error} role="alert">{error}{switchPapers === null && <Button variant="outline" disabled={switchBusy} onClick={() => void loadPapers('ALL')}>重新加载</Button>}</div>}
       {switchPapers === null && !error && <p role="status">正在读取试卷…</p>}
-      {switchPapers !== null && <div className={styles.paperSelector}>
-        {switchTarget ? <><label htmlFor="cet-switch-paper">选择另一份试卷 · {modeLabel}</label><select id="cet-switch-paper" value={switchTarget.id} disabled={switchBusy} onChange={(event) => setSelectedPaperId(event.currentTarget.value)}>{switchPapers.map((paper) => <option key={paper.id} value={paper.id} disabled={paper.id === session?.paper.id}>{paper.level === 'CET4' ? '四级' : '六级'} · {paper.title}{paper.id === session?.paper.id ? '（当前）' : ''}</option>)}</select></> : <p className={styles.note}>{switchNextCursor ? '当前列表没有其他试卷，可以加载更多。' : switchLevel === 'ALL' ? `没有其他支持${modeLabel}的已审核试卷。` : `当前级别没有其他支持${modeLabel}的已审核试卷，可选择“全部级别”查看。`}</p>}
-        <div className={styles.actions}>{switchTarget && <Button disabled={switchBusy || conflict || hasConflict} onClick={() => void switchPaper(switchTarget.id)}>{busy ? '正在保存并切换…' : '切换到这份试卷'}</Button>}{switchNextCursor && <Button variant="outline" disabled={switchBusy} onClick={() => void loadPapers(switchNextCursor, switchLevel)}>更多试卷</Button>}<Button variant="outline" disabled={switchBusy} onClick={() => setSwitchOpen(false)}>继续当前试卷</Button></div>
-      </div>}
+      {switchPapers !== null && <ExamPaperPicker papers={switchPapers} currentPaperId={session?.paper.id} busy={switchBusy} blocked={conflict || hasConflict} actionLabel="保存并切换" busyLabel="正在保存并切换…" onConfirm={(id) => void switchPaper(id)} onCancel={() => setSwitchOpen(false)} />}
+      {switchPapers === null && <Button variant="outline" disabled={switchBusy} onClick={() => setSwitchOpen(false)}>继续当前试卷</Button>}
     </DialogContent>
   </Dialog>
 
@@ -473,11 +462,7 @@ export default function StudyExam({ accountId, level, mode, initialSession, onIn
     {papers?.length === 0 && <div className={styles.empty}><strong>这个级别暂时没有可用材料</strong><p>这里仅显示支持当前练习模式的已审核试卷。</p></div>}
     {!!papers?.length && <>
       <p className={styles.note}>{timingNote}</p>
-      {selectedPaper && <div className={styles.paperSelector}>
-        <label htmlFor="cet-paper">{papers.length}{nextCursor ? '+' : ''} 份可用试卷 · 当前试卷</label>
-        <select id="cet-paper" value={selectedPaper.id} disabled={busy} onChange={(event) => setSelectedPaperId(event.currentTarget.value)}>{papers.map((paper) => <option key={paper.id} value={paper.id}>{paper.title}</option>)}</select>
-        <div className={styles.actions}><Button disabled={busy} onClick={() => void start(selectedPaper.id)}>{busy ? '正在打开…' : `开始${modeLabel}`}</Button>{nextCursor && <Button variant="outline" disabled={busy} onClick={() => void loadPapers(nextCursor)}>更多试卷</Button>}</div>
-      </div>}
+      <ExamPaperPicker papers={papers!} busy={busy} actionLabel={`开始${modeLabel}`} busyLabel="正在打开…" onConfirm={(id) => void start(id)} />
     </>}
   </section>
 

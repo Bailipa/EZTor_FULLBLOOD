@@ -100,11 +100,8 @@
 .stickyHeader { position: sticky; top: 0; z-index: 10; padding-block: 10px; background: var(--card); border-bottom: 1px solid var(--border); }
 .stickyHeader > div:first-child { min-width: 0; }
 .stickyHeader h3 { font-size: 16px; overflow-wrap: anywhere; }
-.paperSelector { display: grid; gap: 10px; }
-.paperSelector label { color: var(--muted-foreground); font-size: 13px; }
-.paperSelector select { width: 100%; min-width: 0; padding: 10px; color: var(--foreground); background: var(--background); border: 1px solid var(--border); border-radius: 8px; font-size: 16px; }
-.switchDialog { max-height: calc(100dvh - 32px); overflow-y: auto; }
-.switchDialog .actions { flex-wrap: wrap; }
+.switchDialog { width: min(760px, calc(100vw - 24px)); max-width: min(760px, calc(100vw - 24px)); top: calc(var(--app-visible-top, 0px) + var(--app-visible-height, 100dvh) / 2); max-height: calc(var(--app-visible-height, 100dvh) - 24px); overflow-y: auto; }
+.switchDialog > p { margin: 0; }
 @media (max-width: 639px) { .stickyHeader { flex-wrap: wrap; } .stickyHeader > div:first-child { min-width: 0; width: 100%; overflow-wrap: anywhere; } .stickyHeader .headerActions { width: 100%; justify-content: space-between; } }
 .source summary { cursor: pointer; }
 @media (max-width: 1023px) {
