@@ -2,6 +2,7 @@ import { Prisma, type PrismaClient, type StudyGoal, type StudySession, type Stud
 import { isDeepStrictEqual } from 'node:util'
 import { randomUUID } from 'node:crypto'
 import prisma from '@/lib/prisma'
+import { requireExamAccess, accessiblePaperWhere, examAccessSql } from './ExamAccessService'
 import { isCurrentPaper, MINIMUM_CET_YEAR } from '@/features/study/paperAvailability'
 import { chinaDay, clientId, englishLookupTokens, englishTokens, nextProgress, parseContent, parseGoal, parseScoreRecord, StudyInputError, type ScoreRecordInput, type GlossaryEntry, type StudyAction, type StudyAnswer, type StudyContent, type StudyLevel } from '@/features/study/domain'
 import { scoreEvidence } from '@/features/study/scoreEvidence'
@@ -22,6 +23,7 @@ async function lockAccount(tx: Prisma.TransactionClient, userId: string) {
 async function ownedSession(db: Prisma.TransactionClient, userId: string, id: string): Promise<SessionRow> {
   const row = await db.studySession.findFirst({ where: { id, userId }, include: { passage: true } })
   if (!row) throw new StudyInputError('学习记录不存在', 404)
+  await requireExamAccess(db, userId, row.passage.slug)
   return row
 }
 function approved(row: SessionRow) {
@@ -37,6 +39,7 @@ function checkReceipt(data: Prisma.JsonValue, input: unknown): Receipt {
 export async function sessionView(db: Prisma.TransactionClient, userId: string, row: SessionRow): Promise<SessionView> {
   if (row.userId !== userId) throw new StudyInputError('学习记录不存在', 404)
   approved(row)
+  await requireExamAccess(db, userId, row.passage.slug)
   const content = parseContent(row.passage.content)
   const answers = row.answers as unknown as StudyAnswer[]
   const feedback = answers.map((answer, index) => {
@@ -98,7 +101,7 @@ export async function setStudyGoal(userId: string, input: unknown, operationId: 
 async function nextPassage(db: Prisma.TransactionClient, userId: string, level: string) {
   // Choose the latest reviewed version, without repeating a completed article after a correction.
   const rows = await db.$queryRaw<StudyPassage[]>`
-    SELECT p.* FROM "StudyPassage" p WHERE p.level = ${level} AND p."rightsStatus" = 'APPROVED'
+    SELECT p.* FROM "StudyPassage" p WHERE ${examAccessSql(userId)} AND p.level = ${level} AND p."rightsStatus" = 'APPROVED'
     AND CASE WHEN p.slug ~ '^cet[46]-[0-9]{4}-' THEN substring(p.slug from 6 for 4)::int >= ${MINIMUM_CET_YEAR} ELSE TRUE END
     AND NOT EXISTS (SELECT 1 FROM "StudyPassage" newer WHERE newer.slug = p.slug AND newer."rightsStatus" = 'APPROVED' AND newer.version > p.version)
     AND NOT EXISTS (SELECT 1 FROM "StudySession" s JOIN "StudyPassage" read ON read.id = s."passageId" WHERE s."userId" = ${userId} AND s.status = 'COMPLETE' AND read.slug = p.slug)
@@ -117,7 +120,7 @@ export async function startStudy(userId: string, operationId: string, db: Prisma
     }
     const goal = await tx.studyGoal.findUnique({ where: { userId } })
     if (!goal) throw new StudyInputError('请先设置备考目标', 409)
-    let row = await tx.studySession.findFirst({ where: { userId, status: { in: ['READING', 'QUESTIONS'] }, passage: { level: goal.level, rightsStatus: 'APPROVED' } }, include: { passage: true }, orderBy: { updatedAt: 'desc' } })
+    let row = await tx.studySession.findFirst({ where: { userId, status: { in: ['READING', 'QUESTIONS'] }, passage: { level: goal.level, rightsStatus: 'APPROVED', ...await accessiblePaperWhere(tx, userId) } }, include: { passage: true }, orderBy: { updatedAt: 'desc' } })
     if (row && !isCurrentPaper(row.passage.slug)) row = null
     if (!row) {
       const passage = await nextPassage(tx, userId, goal.level)
@@ -133,8 +136,9 @@ export async function studyHome(userId: string, db: PrismaClient = prisma): Prom
   const goal = await db.studyGoal.findUnique({ where: { userId } })
   if (!goal) return { goal: null, session: null, todayCompleted: 0, daysLeft: null, contentReady: false, assessment: null, reading: { completed: 0, answered: 0, correct: 0, assistedSessions: 0 } }
   const day = new Date(`${chinaDay()}T00:00:00+08:00`)
+  const access = await accessiblePaperWhere(db, userId)
   const [row, todayCompleted, evidence, available, records] = await Promise.all([
-    db.studySession.findFirst({ where: { userId, passage: { level: goal.level, rightsStatus: 'APPROVED' } }, include: { passage: true }, orderBy: [{ completedAt: { sort: 'desc', nulls: 'first' } }, { updatedAt: 'desc' }] }),
+    db.studySession.findFirst({ where: { userId, passage: { level: goal.level, rightsStatus: 'APPROVED', ...access } }, include: { passage: true }, orderBy: [{ completedAt: { sort: 'desc', nulls: 'first' } }, { updatedAt: 'desc' }] }),
     db.studySession.count({ where: { userId, status: 'COMPLETE', completedAt: { gte: day }, passage: { level: goal.level } } }),
     db.studySession.findMany({ where: { userId, status: 'COMPLETE', passage: { level: goal.level } }, orderBy: { completedAt: 'desc' }, take: 30, select: { answers: true, assisted: true } }),
     nextPassage(db, userId, goal.level),
@@ -254,7 +258,7 @@ export async function studyArchive(userId: string, cursor?: string, db: PrismaCl
     const owned = await db.studySession.findFirst({ where: { id: cursor, userId }, select: { id: true } })
     if (!owned) throw new StudyInputError('档案分页位置无效', 400)
   }
-  const rows = await db.studySession.findMany({ where: { userId }, ...(cursor ? { cursor: { id: cursor }, skip: 1 } : {}), orderBy: [{ startedAt: 'desc' }, { id: 'desc' }], take: 21,
+  const rows = await db.studySession.findMany({ where: { userId, passage: await accessiblePaperWhere(db, userId) }, ...(cursor ? { cursor: { id: cursor }, skip: 1 } : {}), orderBy: [{ startedAt: 'desc' }, { id: 'desc' }], take: 21,
     select: { id: true, status: true, startedAt: true, completedAt: true, activeMs: true, assisted: true, sentenceIndex: true, answers: true, goalSnapshot: true, passage: { select: { title: true, level: true, kind: true } } } })
   const page = rows.slice(0, 20).map(({ answers, goalSnapshot, ...row }) => {
     const scored = answers as unknown as StudyAnswer[]

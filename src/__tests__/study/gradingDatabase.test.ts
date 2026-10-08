@@ -2,11 +2,20 @@ import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import { PrismaClient } from '@prisma/client'
 import { randomUUID } from 'node:crypto'
 import { gradeStudyWork, readGrade } from '@/services/study/GradingService'
-import { importStudyPassage, reviewStudyPassage } from '@/services/study/ContentService'
+import { importStudyPassage, reviewStudyPassage as reviewPassage } from '@/services/study/ContentService'
 import { setStudyGoal, startStudy, studyAction } from '@/services/study/StudyService'
 import { studyFixture } from './fixture'
 import type { GradeResult } from '@/features/study/grading'
 
+async function reviewStudyPassage(...args: Parameters<typeof reviewPassage>) {
+  const result = await reviewPassage(...args)
+  if (args[2] === 'APPROVED') {
+    const passage = await db.studyPassage.findUniqueOrThrow({ where: { id: args[1] } })
+    const accounts = await db.user.findMany({ select: { id: true } })
+    await db.examAccess.createMany({ data: accounts.map(({ id }) => ({ userId: id, paperKey: passage.slug })), skipDuplicates: true })
+  }
+  return result
+}
 const url = process.env.GRADING_TEST_DATABASE_URL
 if (url) {
   const p = new URL(url)

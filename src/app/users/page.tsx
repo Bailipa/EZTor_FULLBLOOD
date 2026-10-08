@@ -26,6 +26,7 @@ import {
 import { Users, RefreshCw, Trash2 } from 'lucide-react'
 import { toast } from 'sonner'
 import AdminLayout from '@/components/layout/AdminLayout'
+import UserExamAccess from '@/features/admin/UserExamAccess'
 
 type UserRow = {
   id: string
@@ -54,6 +55,7 @@ export default function AdminUsersPage() {
   const [error, setError] = useState<string | null>(null)
   const [deletingUser, setDeletingUser] = useState<UserRow | null>(null)
   const [isDeleting, setIsDeleting] = useState(false)
+  const [accessUser, setAccessUser] = useState<UserRow | null>(null)
 
   const fetchData = useCallback(async () => {
     setLoading(true)
@@ -204,7 +206,8 @@ export default function AdminUsersPage() {
                         <td className="py-2 px-2 text-right">{u.activeDaysInRange}</td>
                         <td className="py-2 px-2 text-right">{u.sessionsInRange}</td>
                         <td className="py-2 px-2 text-right">{u.onlineMinutesInRange}</td>
-                        <td className="py-2 px-2 text-center">
+                        <td className="py-2 px-2 text-center whitespace-nowrap">
+                          <Button variant="outline" size="sm" onClick={() => setAccessUser(u)}>真题权限</Button>
                           <Button
                             variant="ghost"
                             size="sm"
@@ -223,6 +226,8 @@ export default function AdminUsersPage() {
           </CardContent>
         </Card>
       </div>
+
+      {accessUser && <UserExamAccess key={accessUser.id} user={accessUser} onClose={() => setAccessUser(null)} />}
 
       {/* Delete confirmation dialog */}
       <AlertDialog open={!!deletingUser} onOpenChange={(open) => !open && setDeletingUser(null)}>

@@ -99,6 +99,12 @@ function recordDownload(request: NextRequest, fileName: string) {
 
 export default async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
+  // Resource URLs stay compatible; serve them through the current database grant check.
+  if (pathname.startsWith('/study/resources/')) {
+    const target = request.nextUrl.clone()
+    target.pathname = '/api' + pathname
+    return baseHeaders(NextResponse.rewrite(target))
+  }
   const isApi = pathname.startsWith('/api/')
   const ip = getClientIp(request)
 
@@ -272,5 +278,5 @@ export default async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/((?!_next/static|_next/image|favicon.ico|public|xiaoying-icon\\.svg|.*\\.png$|.*\\.jpg$|.*\\.jpeg$|.*\\.gif$|.*\\.svg$|.*\\.ico$|.*\\.webp$|.*\\.mp3$|.*\\.wav$|.*\\.woff2?$).*)'],
+  matcher: ['/study/resources/:path*', '/((?!_next/static|_next/image|favicon.ico|public|xiaoying-icon\\.svg|.*\\.png$|.*\\.jpg$|.*\\.jpeg$|.*\\.gif$|.*\\.svg$|.*\\.ico$|.*\\.webp$|.*\\.mp3$|.*\\.wav$|.*\\.woff2?$).*)'],
 }

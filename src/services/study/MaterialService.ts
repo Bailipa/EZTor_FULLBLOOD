@@ -1,17 +1,19 @@
 import type { PrismaClient } from '@prisma/client'
 import prisma from '@/lib/prisma'
+import { accessiblePaperWhere, examPaperKey } from './ExamAccessService'
 import type { StudyLevel } from '@/features/study/domain'
 import { isCurrentPaper } from '@/features/study/paperAvailability'
 import type { StudyMaterial, StudyMaterialCatalogue } from '@/features/study/materialTypes'
 import resources from '../../../content/cet-local/index.json'
 
-export async function studyMaterialSummary(db: PrismaClient = prisma): Promise<Pick<StudyMaterialCatalogue, 'totalSets'>> {
-  const query = { where: { rightsStatus: 'APPROVED' }, select: { slug: true as const }, distinct: 'slug' as const }
+export async function studyMaterialSummary(userId: string, db: PrismaClient = prisma): Promise<Pick<StudyMaterialCatalogue, 'totalSets'>> {
+  const access = await accessiblePaperWhere(db, userId)
+  const query = { where: { rightsStatus: 'APPROVED', ...access }, select: { slug: true as const }, distinct: 'slug' as const }
   const [readings, exams] = await Promise.all([
     db.studyPassage.findMany(query),
     db.examPaper.findMany(query),
   ])
-  const keys = new Set(resources.items.map((item) => item.key))
+  const keys = new Set<string>()
   for (const row of [...readings, ...exams]) {
     const key = row.slug.replace(/-(?:passage\d+(?:-q\d+-\d+)?|full|listening)$/, '')
     if (isCurrentPaper(key)) keys.add(key)
@@ -19,14 +21,17 @@ export async function studyMaterialSummary(db: PrismaClient = prisma): Promise<P
   return { totalSets: keys.size }
 }
 
-export async function studyMaterials(db: PrismaClient = prisma): Promise<StudyMaterialCatalogue> {
+export async function studyMaterials(userId: string, db: PrismaClient = prisma): Promise<StudyMaterialCatalogue> {
+  const access = await accessiblePaperWhere(db, userId)
   const select = { slug: true, version: true, level: true, title: true, sourceName: true, sourceUrl: true }
   const [readings, exams] = await Promise.all([
-    db.studyPassage.findMany({ where: { rightsStatus: 'APPROVED' }, select, orderBy: { version: 'desc' }, distinct: ['slug'] }),
-    db.examPaper.findMany({ where: { rightsStatus: 'APPROVED' }, select: { ...select, kind: true }, orderBy: { version: 'desc' }, distinct: ['slug'] }),
+    db.studyPassage.findMany({ where: { rightsStatus: 'APPROVED', ...access }, select, orderBy: { version: 'desc' }, distinct: ['slug'] }),
+    db.examPaper.findMany({ where: { rightsStatus: 'APPROVED', ...access }, select: { ...select, kind: true }, orderBy: { version: 'desc' }, distinct: ['slug'] }),
   ])
   const sets = new Map<string, StudyMaterial>()
+  const allowed = new Set([...readings, ...exams].map((row) => examPaperKey(row.slug)))
   for (const item of resources.items) {
+    if (!allowed.has(item.key)) continue
     sets.set(item.key, { key: item.key, title: item.title, level: item.level as StudyLevel,
       resources: item.resources.map(({ id, category, name, url }) => ({ id, category, name, url })),
       sources: [{ name: resources.sourceName, url: null }],

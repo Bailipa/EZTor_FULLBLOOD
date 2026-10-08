@@ -2,6 +2,7 @@ import { Prisma, type PrismaClient, type ExamAttempt, type ExamPaper } from '@pr
 import { createHash } from 'node:crypto'
 import { isDeepStrictEqual } from 'node:util'
 import prisma from '@/lib/prisma'
+import { requireExamAccess, accessiblePaperWhere, examAccessSql } from './ExamAccessService'
 import { isCurrentPaper, MINIMUM_CET_YEAR } from '@/features/study/paperAvailability'
 import { clientId, StudyInputError, type StudyLevel } from '@/features/study/domain'
 import {
@@ -64,6 +65,7 @@ async function lock(tx: Prisma.TransactionClient, userId: string) {
 async function owned(db: Prisma.TransactionClient, userId: string, id: string) {
   const row = await db.examAttempt.findFirst({ where: { id, userId }, include: { paper: true } })
   if (!row) throw new StudyInputError('考试记录不存在', 404)
+  await requireExamAccess(db, userId, row.paper.slug)
   if (row.paper.rightsStatus !== 'APPROVED')
     throw new StudyInputError('试卷来源审核未通过或已撤回', 409)
   return row
@@ -241,6 +243,7 @@ export async function getExamSubjectiveSubmissions(
   return subjective(row)
 }
 export async function listExamPapers(
+  userId: string,
   level: string | null,
   mode: string | null,
   cursor: string | null,
@@ -256,6 +259,7 @@ export async function listExamPapers(
     ? await db.examPaper.findFirst({
         where: {
           id: cursor,
+          ...await accessiblePaperWhere(db, userId),
           rightsStatus: 'APPROVED',
           ...(level ? { level } : {}),
           ...(kind ? { kind } : {}),
@@ -267,7 +271,7 @@ export async function listExamPapers(
   const rank = (type: string) => (type === 'PAST_EXAM' ? 0 : type === 'OFFICIAL_SAMPLE' ? 1 : 2)
   const rows = await db.$queryRaw<ExamPaperMetadata[]>`
     SELECT p.id,p.slug,p.version,p.title,p.level,p.kind,p."originType",p."sourceName",p."sourceUrl",p."contentHash"
-    FROM "ExamPaper" p WHERE p."rightsStatus"='APPROVED' AND (${level}::text IS NULL OR p.level=${level}) AND (${kind}::text IS NULL OR p.kind=${kind})
+    FROM "ExamPaper" p WHERE ${examAccessSql(userId)} AND p."rightsStatus"='APPROVED' AND (${level}::text IS NULL OR p.level=${level}) AND (${kind}::text IS NULL OR p.kind=${kind})
     AND CASE WHEN p.slug ~ '^cet[46]-[0-9]{4}-' THEN substring(p.slug from 6 for 4)::int >= ${MINIMUM_CET_YEAR} ELSE TRUE END
     AND NOT EXISTS (SELECT 1 FROM "ExamPaper" n WHERE n.slug=p.slug AND n."rightsStatus"='APPROVED' AND n.version>p.version)
     AND (${cursor}::text IS NULL OR (CASE p."originType" WHEN 'PAST_EXAM' THEN 0 WHEN 'OFFICIAL_SAMPLE' THEN 1 ELSE 2 END,p.id)>(${cursorRow ? rank(cursorRow.originType) : -1},${cursor ?? ''}))
@@ -308,6 +312,7 @@ export async function startExam(
     const paper = await tx.examPaper.findUnique({ where: { id: paperId } })
     if (!paper || !isCurrentPaper(paper.slug) || paper.rightsStatus !== 'APPROVED' || (mode !== 'LISTENING' && paper.kind !== 'FULL'))
       throw new StudyInputError('没有已核验的对应试卷', 409)
+    await requireExamAccess(tx, userId, paper.slug)
     parseExamContent(paper.content, paper.level as StudyLevel, paper.kind as ExamPaperKind)
     const active = await tx.examAttempt.findFirst({
       where: {
@@ -507,7 +512,7 @@ export async function examArchive(
   )
     throw new StudyInputError('归档分页标识无效')
   const rows = await db.examAttempt.findMany({
-    where: { userId },
+    where: { userId, paper: await accessiblePaperWhere(db, userId) },
     select: {
       id: true,
       mode: true,

@@ -353,6 +353,7 @@ model User {
   StudySession           StudySession[]
   StudyEvent             StudyEvent[]
   ExamAttempt            ExamAttempt[]
+  ExamAccess             ExamAccess[]
 }
 
 model UserPreference {
@@ -794,4 +795,13 @@ model ExamEvent {
   attempt ExamAttempt @relation(fields: [attemptId], references: [id], onDelete: Cascade)
   @@unique([userId, clientId])
   @@index([attemptId, createdAt])
+}
+
+// Access belongs to a complete paper set, shared by its sections and versions.
+model ExamAccess {
+  userId String
+  paperKey String
+  createdAt DateTime @default(now())
+  User User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@id([userId, paperKey])
 }

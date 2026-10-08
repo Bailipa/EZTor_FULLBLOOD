@@ -9,11 +9,19 @@ import {
   importExamPaper,
   listExamPapers,
   readExam,
-  reviewExamPaper,
+  reviewExamPaper as reviewPaper,
   startExam,
 } from '@/services/study/ExamService'
 import type { ExamAction, ExamState } from '@/features/study/examTypes'
 import { originalExamFixture } from './examFixture'
+async function reviewExamPaper(...args: Parameters<typeof reviewPaper>) {
+  const result = await reviewPaper(...args)
+  if (args[2].rightsStatus === 'APPROVED') {
+    const paper = await db.examPaper.findUniqueOrThrow({ where: { id: args[1] } })
+    for (const userId of Object.values(users)) await db.examAccess.upsert({ where: { userId_paperKey: { userId, paperKey: paper.slug } }, create: { userId, paperKey: paper.slug }, update: {} })
+  }
+  return result
+}
 const url = process.env.EXAM_TEST_DATABASE_URL
 if (url) {
   const parsed = new URL(url)
@@ -76,7 +84,7 @@ describe.skipIf(!url)('Exam integrity in isolated PostgreSQL', () => {
     await expect(importExamPaper(users.a, p, db)).rejects.toMatchObject({ status: 403 })
     paperId = (await importExamPaper(users.admin, p, db)).id
     paperIds.add(paperId)
-    expect((await listExamPapers(null, null, null, db)).items.some((p) => p.id === paperId)).toBe(
+    expect((await listExamPapers(users.a, null, null, null, db)).items.some((p) => p.id === paperId)).toBe(
       false,
     )
     await expect(
@@ -92,7 +100,7 @@ describe.skipIf(!url)('Exam integrity in isolated PostgreSQL', () => {
       db,
     )
     expect(
-      (await listExamPapers(null, null, null, db)).items.find((p) => p.id === paperId),
+      (await listExamPapers(users.a, null, null, null, db)).items.find((p) => p.id === paperId),
     ).not.toHaveProperty('content')
   })
   it('serialises starts, enforces account ownership and hides all future answers', async () => {
@@ -204,7 +212,7 @@ describe.skipIf(!url)('Exam integrity in isolated PostgreSQL', () => {
       { rightsStatus: 'APPROVED', reviewEvidence: 'ORIGINAL source correction reviewed' },
       db,
     )
-    const catalog = await listExamPapers('CET4', 'FULL', null, db)
+    const catalog = await listExamPapers(users.a, 'CET4', 'FULL', null, db)
     expect(catalog.items.some((x) => x.id === one.id)).toBe(false)
     expect(catalog.items.some((x) => x.id === two.id)).toBe(true)
     await expect(examArchive(users.b, attemptId, db)).rejects.toThrow('分页')
@@ -272,7 +280,7 @@ describe.skipIf(!url)('Exam integrity in isolated PostgreSQL', () => {
   })
   it('isolates reading, translation and writing practice without exposing other sections or changing full simulation', async () => {
     for (const mode of ['READING', 'TRANSLATION', 'WRITING'] as const) {
-      const listed = await listExamPapers('CET4', mode, null, db)
+      const listed = await listExamPapers(users.a, 'CET4', mode, null, db)
       expect(listed.items.some((paper) => paper.id === paperId)).toBe(true)
       const input = { paperId, mode, clientId: randomUUID() }
       const opened = await startExam(users.b, input, db)

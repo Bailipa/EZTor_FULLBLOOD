@@ -2,6 +2,7 @@ import { createHash } from 'node:crypto'
 import { Prisma, type PrismaClient } from '@prisma/client'
 import { isDeepStrictEqual } from 'node:util'
 import prisma from '@/lib/prisma'
+import { requireExamAccess } from './ExamAccessService'
 import { clientId, parseContent, StudyInputError } from '@/features/study/domain'
 import { parseGradeResult, type GradeInput, type GradeSubmission, type GradeView } from '@/features/study/grading'
 import type { StudyWork } from '@/features/study/types'
@@ -27,6 +28,7 @@ async function submission(userId: string, input: GradeInput, db: PrismaClient): 
   }
   const row = await db.studySession.findFirst({ where: { id: input.id, userId }, include: { passage: true } })
   if (!row) throw new StudyInputError('学习记录不存在', 404)
+  await requireExamAccess(db, userId, row.passage.slug)
   if (row.status !== 'COMPLETE' || row.passage.rightsStatus !== 'APPROVED') throw new StudyInputError('请先完成阅读和提交作品', 409)
   const event = await db.studyEvent.findUnique({ where: { userId_clientId: { userId, clientId: input.revision } } })
   if (event?.sessionId !== row.id || event.type !== 'WORK_SUBMIT') throw new StudyInputError('只能评分已提交的作品版本', 409)

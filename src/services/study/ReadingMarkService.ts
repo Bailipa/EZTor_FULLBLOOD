@@ -1,5 +1,6 @@
 import { Prisma, type PrismaClient, type ExamAttempt, type ExamPaper } from '@prisma/client'
 import prisma from '@/lib/prisma'
+import { requireExamAccess, examAccessSql } from './ExamAccessService'
 import { examSessionView } from './ExamService'
 import { StudyInputError, type StudyLevel } from '@/features/study/domain'
 import { parseExamContent } from '@/features/study/examDomain'
@@ -34,7 +35,7 @@ function item(row: Row, mark: ReadingMark, section: ExamSection): ReadingMarkIte
 export async function readingMarks(userId: string, cursor: string | null, db: PrismaClient = prisma): Promise<ReadingMarkPage> {
   const ids = await db.$queryRaw<{ id: string }[]>(Prisma.sql`
     SELECT a.id FROM "ExamAttempt" a JOIN "ExamPaper" p ON p.id = a."paperId"
-    WHERE a."userId" = ${userId} AND p."rightsStatus" = 'APPROVED'
+    WHERE a."userId" = ${userId} AND ${examAccessSql(userId)} AND p."rightsStatus" = 'APPROVED'
       AND CASE WHEN jsonb_typeof(a.state->'readingMarks') = 'array'
         THEN jsonb_array_length(a.state->'readingMarks') > 0 ELSE false END
       ${cursor ? Prisma.sql`AND a.id < ${cursor}` : Prisma.empty}
@@ -45,6 +46,7 @@ export async function readingMarks(userId: string, cursor: string | null, db: Pr
 export async function readingMarkSource(userId: string, attemptId: string, passageId: string, start: number, end: number, db: PrismaClient = prisma) {
   const row = await db.examAttempt.findFirst({ where: { id: attemptId, userId, paper: { rightsStatus: 'APPROVED' } }, include: { paper: true } })
   if (!row) throw new StudyInputError('标记来源不存在或试卷已不可用', 404)
+  await requireExamAccess(db, userId, row.paper.slug)
   const { section, marks } = markedContent(row)
   const mark = marks.find((m) => m.passageId === passageId && m.start === start && m.end === end)
   if (!mark) throw new StudyInputError('这处标记已取消或不存在', 404)

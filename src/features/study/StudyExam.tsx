@@ -459,7 +459,7 @@ export default function StudyExam({ accountId, level, mode, initialSession, onIn
     <div className={styles.header}><div><span className={styles.eyebrow}>{level === 'CET4' ? '四级' : '六级'} · {modeLabel}</span><h3>选择试卷</h3></div></div>
     {error && <div className={styles.error} role="alert">{error}<button disabled={busy} onClick={() => startOperation.current ? void start(startOperation.current.paperId) : void loadPapers()}>重试</button></div>}
     {papers === null && !error && <p role="status" className={styles.note}>正在读取材料…</p>}
-    {papers?.length === 0 && <div className={styles.empty}><strong>这个级别暂时没有可用材料</strong><p>这里仅显示支持当前练习模式的已审核试卷。</p></div>}
+    {papers?.length === 0 && <div className={styles.empty}><strong>这个级别暂时没有已向你开放的试卷</strong><p>这里仅显示管理员已向你开放、且支持当前练习模式的试卷。需要其他试卷请联系管理员。</p></div>}
     {!!papers?.length && <>
       <p className={styles.note}>{timingNote}</p>
       <ExamPaperPicker papers={papers!} busy={busy} actionLabel={`开始${modeLabel}`} busyLabel="正在打开…" onConfirm={(id) => void start(id)} />
