@@ -15,11 +15,11 @@ type TimingSnapshot = PracticeTiming & { owner?: string }
 const memorySnapshots = new Map<string, TimingSnapshot>()
 const memoryOnlyKeys = new Set<string>()
 
-type Props = { accountId: string; session: ExamSessionView & { practiceTiming?: PracticeTiming | null }; onSaved?: (timing: PracticeTiming) => void }
+type Props = { accountId: string; session: ExamSessionView & { practiceTiming?: PracticeTiming | null }; onSaved?: (timing: PracticeTiming) => void; hidden?: boolean }
 export default function PracticeTimer(props: Props) {
   return <Timer key={`${props.accountId}:${props.session.id}`} {...props} />
 }
-function Timer({ accountId, session, onSaved }: Props) {
+function Timer({ accountId, session, onSaved, hidden = false }: Props) {
   const key = `cet-practice-timing:v1:${accountId}:${session.id}`
   const stage: ExamStage | null = session.status === 'COMPLETE' ? null : session.status
   const [clock, setClock] = useState<LocalPracticeTiming>({ ...emptyPracticeTiming(), stage, runningSince: null })
@@ -142,6 +142,7 @@ function Timer({ accountId, session, onSaved }: Props) {
     return () => { active = false }
   }, [accountId, ready, session.id, session.mode, session.status, saved, retry])
 
+  if (hidden) return null
   const display = saved ?? clock
   const complete = session.status === 'COMPLETE'
   return <FloatingTimer total={display.totalMs} running={clock.runningSince !== null} warning={!!error || storageError}>

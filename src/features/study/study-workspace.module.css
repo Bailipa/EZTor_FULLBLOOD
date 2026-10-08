@@ -2,7 +2,7 @@
 .meta, .catalogueToolbar { display: flex; align-items: center; gap: 10px; justify-content: space-between; }
 .utility { display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 5px 8px; min-height: 36px; color: var(--muted-foreground); background: transparent; font-size: 12px; border-radius: 6px; cursor: pointer; }
 .utility:hover { color: var(--foreground); background: var(--muted); }
-.meta { justify-content: flex-start; margin-top: 8px; }
+.meta { flex-wrap: wrap; justify-content: flex-start; margin-top: 8px; }
 .meta > :last-child { margin-left: auto; }
 .workspace [data-slot="select-trigger"], .catalogueToolbar [data-slot="select-trigger"] { max-width: 100%; min-width: 0; padding: 7px 10px; font-size: 13px; color: var(--foreground); border: 1px solid var(--border); border-radius: 6px; background: var(--background); }
 .catalogueToolbar input { flex: 1; width: 0; min-width: 0; padding: 7px 10px; font-size: 16px; color: var(--foreground); border: 1px solid var(--border); border-radius: 6px; background: var(--background); }

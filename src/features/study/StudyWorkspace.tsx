@@ -6,7 +6,7 @@ import { lazy, Suspense, useEffect, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useSession } from 'next-auth/react'
-import { Files, History, Settings2 } from 'lucide-react'
+import { Files, History, Settings2, ChartNoAxesCombined } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { studyRequest } from './client'
 import { EXAM_MODE_LABELS, type ExamMode, type ExamSessionView } from './examTypes'
@@ -40,7 +40,7 @@ function AccountWorkspace({ accountId, showMaterials, showEvidence, markTarget, 
   const [level, setLevel] = useState<StudyLevel>('CET4')
   const [materials, setMaterials] = useState(showMaterials)
   const [goal, setGoal] = useState(false)
-  const [records, setRecords] = useState<'exams' | 'reading' | null>(null)
+  const [records, setRecords] = useState<'exams' | 'reading' | 'analysis' | null>(null)
   const [reading, setReading] = useState<SessionView | null>(null)
   const [attempt, setAttempt] = useState<ExamSessionView | undefined>()
   const [evidence, setEvidence] = useState(showEvidence)
@@ -86,6 +86,7 @@ function AccountWorkspace({ accountId, showMaterials, showEvidence, markTarget, 
       <ThemedSelect disabled={markLoading} aria-label="练习级别" value={level} onValueChange={(value) => { setLevel(value as StudyLevel); setMarkedSource(null); setMarkError(''); setAttempt(undefined); setReading(null) }}><SelectItem value="CET4">四级</SelectItem><SelectItem value="CET6">六级</SelectItem></ThemedSelect>
       <button className={styles.utility} onClick={() => setMaterials(true)}><Files size={16} />{catalogue ? `试卷目录 · ${catalogue.totalSets} 套` : '试卷目录'}</button>
       <button className={styles.utility} onClick={() => setGoal(true)}><Settings2 size={14} />{home?.goal ? `目标 ${home.goal.targetScore} 分` : '设置目标'}</button>
+      <button className={styles.utility} disabled={markLoading} onClick={() => setRecords('analysis')}><ChartNoAxesCombined size={14} />试卷分析</button>
       <button className={styles.utility} disabled={markLoading} onClick={() => setRecords('exams')}><History size={14} />记录</button>
     </div>
     {error && <p role="alert" className={styles.empty}>{error}<button className={styles.utility} onClick={() => setReload((old) => old + 1)}>重试</button></p>}
@@ -103,7 +104,7 @@ function AccountWorkspace({ accountId, showMaterials, showEvidence, markTarget, 
     <Suspense fallback={<p role="status">正在打开…</p>}>
       {materials && <MaterialCatalogue accountId={accountId} onClose={() => setMaterials(false)} />}
       {goal && <GoalEditor accountId={accountId} goal={home?.goal ?? null} onClose={() => setGoal(false)} onSaved={() => { setGoal(false); setReload((old) => old + 1) }} />}
-      {records === 'exams' && <ExamHistory accountId={accountId} onClose={() => setRecords(null)} onPick={(session) => { setMarkedSource(null); setMarkError(''); setAttempt(session); setLevel(session.paper.level); setMode(session.mode); setReading(null); setRecords(null) }} />}
+      {(records === 'exams' || records === 'analysis') && <ExamHistory accountId={accountId} purpose={records === 'analysis' ? 'analysis' : 'records'} onClose={() => setRecords(null)} onPick={(session) => { setMarkedSource(null); setMarkError(''); setAttempt(session); setLevel(session.paper.level); setMode(session.mode); setReading(null); setRecords(null) }} />}
       {records === 'reading' && <StudyArchive accountId={accountId} onClose={() => setRecords(null)} onPick={(session) => { setReading(session); setRecords(null) }} />}
     </Suspense>
   </main></>
