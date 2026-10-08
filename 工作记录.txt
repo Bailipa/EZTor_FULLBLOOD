@@ -1718,7 +1718,7 @@ current为releases/2.1.1-zXmgg3xEGKHosiQ3M0Mgq；兼容回滚releases/2.1.0-uP36
 你好误判未复现：线上配置无共享systemPrompt，AI助手源码无低俗分类器，精确你好日志0，不能确认具体模型/历史/入口原因；本次修订属于任务边界与误判风险修正。类型与定向ESLint通过，构建通过；未增加或运行测试套件。合成样例提示词前后模型对比另记。真实桌面/手机视觉和用户原会话误判复现尚未验收，saved browser preference拒绝未绕过。
 发布前磁盘7877287936B可用、内存1782MiB可用、Swap0/2047MiB。版本脚本同步2.2.0/versionCode74。
 
-2026-10-08 21:22（北京时间）— 2.2.0体验版部署及接口验收完成
+2026-10-08 21:20（北京时间，记录时间）— 2.2.0体验版部署及接口验收完成
 源码5dcd0b84f9fe0c30e205ca43d25db0e6455f0635，BUILD_ID no4EW6o_DU0rhNiCEvihP，公共标识20261008-test-2.2.0。包40558981B/SHA256 8d89239574bc3d5679ab38f2ae491521e954120989270bbad7b55352f5ad5084，白名单与远端哈希验证通过；sourceDirty仅6张无关原有预览图。备份backups/eztor_test-before-2.2.0-20261008.dump，3290965B/SHA256 db9bb91fd85c70114aa8e0eee4905e1d53da2e79a8b025b9b34d413aac51c8ba，pg_restore目录通过，仅服务器保存；无新增迁移，既有31项完成。current为releases/2.2.0-no4EW6o_DU0rhNiCEvihP，兼容回滚releases/2.1.1-zXmgg3xEGKHosiQ3M0Mgq。
 发布前后7用户/86试卷/8考试/0阅读/349授权一致；上次2.1.1后新增用户/作答/授权在本次发布前已存在，不恢复旧计数。生产PID未变，两进程online、内存约194MB/144MB。生产/测试健康ok，HTTPS健康成功；登录/study及考试/阅读归档200、匿名/study307。新readingCoach/wordBankWorkspace/生成状态/贡献提示资源已服务，不代表视觉验收。
 合成问题前后比较采用doubao-seed-2-0-lite-260428，3组共6次模型请求，不读用户作品、不写业务数据：正常问候前后均通过，无法复现原误判；阅读索要翻译与答案时，旧prompt输出完整翻译，新prompt仅语法关系及思考问题；润色旧prompt扩展额外要求，新prompt保留原意。本次样例不代表所有模型和历史上下文均有同样效果。
