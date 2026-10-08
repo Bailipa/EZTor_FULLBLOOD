@@ -1,6 +1,6 @@
 # 测试版本发布准备
 
-目标域名：`test.eztor.dogeggcode.cyou`。等待用户通知域名已配置，再执行发布；当前未部署。
+目标域名：`test.eztor.dogeggcode.cyou`。2026-10-08用户已通知域名配置好，开始准备1.26.0测试发布；实际部署结果见工作记录。
 
 ## 隔离与资源
 
@@ -8,7 +8,7 @@
 - Git 保存代码、迁移、小型题目 JSON 和来源/校验清单；PDF、音频、图片、原压缩包及本地数据库单独交付。
 - 仅使用 `content/cet-local` 的 86 套试卷。`index.json` 的资源及 `writing-figures.json` 的图片共 212 个文件，放置于 `public/study/resources/`，保持现有 URL。
 - 旧 GitHub 资源、2019 样例及争议候选已移除文件与导入入口；历史本地作答数据未清除。测试环境从当前内容包导入，不复制本地用户和历史作答。
-- `scripts/import-cet-library.ts` 当前只接受本机 `eztor` 数据库，不能直接用来向服务器测试数据库导入。发布时须使用已有管理员导入/审核接口或为测试数据库制定明确限定的导入工具。
+- `scripts/import-cet-library.ts --test-release --import` 只接受localhost的 `eztor_test` 数据库，并要求认证地址为此测试域名；普通模式仍限定本机 `eztor`。采用现有导入/审核服务，不导入旧包。
 
 ## 发布与验收
 
