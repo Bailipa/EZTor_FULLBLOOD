@@ -1,5 +1,7 @@
 'use client'
 
+import { ThemedSelect, SelectItem } from '@/components/ui/themed-select'
+
 import { lazy, Suspense, useEffect, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -81,7 +83,7 @@ function AccountWorkspace({ accountId, showMaterials, showEvidence, markTarget, 
     <nav className={styles.modeTabs} aria-label="备考专项">{MODES.map((item) => <button key={item} disabled={markLoading} onClick={() => pickMode(item)} aria-pressed={mode === item && !reading}>{item === 'FULL' ? '整卷' : EXAM_MODE_LABELS[item].replace('练习', '')}</button>)}</nav>
     <main className={styles.workspace} data-workspace-page data-workspace-study>
     <div className={styles.meta}>
-      <select disabled={markLoading} aria-label="练习级别" value={level} onChange={(event) => { setLevel(event.target.value as StudyLevel); setMarkedSource(null); setMarkError(''); setAttempt(undefined); setReading(null) }}><option value="CET4">四级</option><option value="CET6">六级</option></select>
+      <ThemedSelect disabled={markLoading} aria-label="练习级别" value={level} onValueChange={(value) => { setLevel(value as StudyLevel); setMarkedSource(null); setMarkError(''); setAttempt(undefined); setReading(null) }}><SelectItem value="CET4">四级</SelectItem><SelectItem value="CET6">六级</SelectItem></ThemedSelect>
       <button className={styles.utility} onClick={() => setMaterials(true)}><Files size={16} />{catalogue ? `试卷目录 · ${catalogue.totalSets} 套` : '试卷目录'}</button>
       <button className={styles.utility} onClick={() => setGoal(true)}><Settings2 size={14} />{home?.goal ? `目标 ${home.goal.targetScore} 分` : '设置目标'}</button>
       <button className={styles.utility} disabled={markLoading} onClick={() => setRecords('exams')}><History size={14} />记录</button>

@@ -1,5 +1,7 @@
 'use client'
 
+import { ThemedSelect, SelectItem } from '@/components/ui/themed-select'
+
 import { useRef, useState, type FormEvent } from 'react'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog'
@@ -36,7 +38,7 @@ export default function GoalEditor({ accountId, goal, onClose, onSaved }: { acco
     <form className={styles.form} onSubmit={save} onCompositionStart={() => { composing.current = true }} onCompositionEnd={() => { composing.current = false }} onKeyDown={(event) => {
       if (event.key === 'Enter' && (composing.current || event.nativeEvent.isComposing || event.nativeEvent.keyCode === 229)) event.preventDefault()
     }}>
-      <label>备考级别<select value={level} disabled={busy} onChange={(event) => setLevel(event.target.value as GoalView['level'])}><option value="CET4">大学英语四级</option><option value="CET6">大学英语六级</option></select></label>
+      <label>备考级别<ThemedSelect value={level} disabled={busy} onValueChange={(value) => setLevel(value as GoalView['level'])}><SelectItem value="CET4">大学英语四级</SelectItem><SelectItem value="CET6">大学英语六级</SelectItem></ThemedSelect></label>
       <label>考试日期<input type="date" required min={chinaDay()} value={examDate} disabled={busy} onChange={(event) => setDate(event.currentTarget.value)} onInput={(event) => setDate(event.currentTarget.value)} /></label>
       <label>目标分数<input type="number" inputMode="numeric" enterKeyHint="done" min={220} max={710} required value={score} disabled={busy} onChange={(event) => setScore(event.target.value)} /></label>
       {error && <p role="alert" className={styles.error}>{error}</p>}

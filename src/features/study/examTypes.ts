@@ -93,7 +93,9 @@ export type ExamSubjectiveSubmission = {
   submittedAt: string
   expired: boolean
 }
+export type ExamPracticeTiming = { version: 1; modules: Record<ExamStage, number>; totalMs: number; tracked: boolean }
 export type ExamSessionView = {
+  practiceTiming?: ExamPracticeTiming | null
   id: string
   revision: number
   mode: ExamMode

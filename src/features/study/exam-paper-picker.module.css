@@ -1,8 +1,8 @@
-.picker { display: flex; flex-direction: column; gap: 12px; min-width: 0; min-height: 0; }
+.picker { container-type: inline-size; width: 100%; display: flex; flex-direction: column; gap: 12px; min-width: 0; min-height: 0; }
 .filters { display: flex; flex-wrap: wrap; gap: 10px; }
 .filters label { display: grid; gap: 6px; min-width: 0; color: var(--muted-foreground); font-size: 12px; }
 .search { flex: 1 1 240px; }
-.filters input, .filters select { width: 100%; min-width: 0; min-height: 44px; padding: 9px 11px; border: 1px solid var(--border); border-radius: 9px; color: var(--foreground); background: var(--background); font-size: 16px; }
+.filters input, .filters [data-slot="select-trigger"] { width: 100%; min-width: 0; min-height: 44px; padding: 9px 11px; border: 1px solid var(--border); border-radius: 9px; color: var(--foreground); background: var(--background); font-size: 16px; }
 .summary { display: flex; align-items: center; justify-content: space-between; min-height: 24px; color: var(--muted-foreground); font-size: 12px; }
 .summary button { color: var(--primary); text-decoration: underline; cursor: pointer; }
 .list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-content: start; gap: 10px; min-height: 0; max-height: min(420px, 45dvh); overflow-y: auto; overscroll-behavior: contain; padding: 3px; }
@@ -15,18 +15,26 @@
 .cardMeta { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; color: var(--muted-foreground); font-size: 11px; }
 .cardMeta > span { color: var(--primary); font-weight: 600; }
 .card strong { color: var(--foreground); font-size: 14px; font-weight: 600; line-height: 1.6; overflow-wrap: anywhere; }
-.footer { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; padding-top: 12px; border-top: 1px solid var(--border); background: var(--popover, var(--card)); }
-.footer p { flex: 1 1 180px; margin: 0; color: var(--muted-foreground); font-size: 12px; line-height: 1.6; overflow-wrap: anywhere; }
-.footer > div { display: flex; flex-wrap: wrap; gap: 8px; }
-.footer button { min-height: 44px; }
+.footer { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 12px 20px; flex: none; min-width: 0; padding-top: 16px; border-top: 1px solid var(--border); }
+.footer .selection { min-width: 0; margin: 0; color: var(--muted-foreground); font-size: 12px; line-height: 1.6; overflow-wrap: anywhere; }
+.footerActions { display: flex; justify-content: flex-end; align-items: center; gap: 8px; min-width: 0; }
+.footerActions button { height: auto; min-height: 44px; padding: 10px 16px; line-height: 1.5; }
+.footerActions button:disabled { cursor: not-allowed; }
 .empty { grid-column: 1 / -1; padding: 24px 12px; text-align: center; font-size: 14px; }
 .empty p { color: var(--muted-foreground); line-height: 1.7; }
-.picker :is(input, select, button):focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+.picker :is(input, [data-slot="select-trigger"], button):focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
 @media (max-width: 540px) {
   .search { flex-basis: 100%; }
   .filters label:not(.search) { flex: 1; }
   .list { grid-template-columns: minmax(0, 1fr); max-height: 38dvh; }
   .card { padding: 12px; }
-  .footer > div { width: 100%; }
-  .footer button { flex: 1; }
+  .footer { grid-template-columns: minmax(0, 1fr); }
+  .footerActions { flex-wrap: wrap; width: 100%; }
+  .footerActions button { flex: 1 1 150px; white-space: normal; }
+}
+
+@container (max-width: 560px) {
+  .footer { grid-template-columns: minmax(0, 1fr); }
+  .footerActions { flex-wrap: wrap; width: 100%; }
+  .footerActions button { flex: 1 1 150px; white-space: normal; }
 }

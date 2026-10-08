@@ -2,7 +2,7 @@
 .workspace button, .workspace a { -webkit-tap-highlight-color: transparent; }
 .workspace button { cursor: pointer; }
 .workspace button:disabled { cursor: wait; opacity: .6; }
-.workspace :is(button, a, input, textarea, select):focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
+.workspace :is(button, a, input, textarea, [data-slot="select-trigger"]):focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
 .toolbar, .goal, .row { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
 .toolbar { justify-content: space-between; padding: 0 0 16px; }
 .toolbar h2 { margin: 0; font-size: 18px; font-weight: 600; }
@@ -69,7 +69,8 @@
 .error { margin-block: 12px; padding: 12px; border: 1px solid var(--destructive); border-radius: 8px; color: var(--foreground); font-size: 14px; line-height: 1.6; background: var(--card); }
 .form { display: grid; gap: 16px; }
 .form label { display: grid; gap: 8px; font-size: 14px; }
-.form :is(input:not([type='checkbox']), select, textarea) { width: 100%; min-width: 0; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--background); color: var(--foreground); font-size: 16px; }
+.form :is(input:not([type='checkbox']), [data-slot="select-trigger"], textarea) { width: 100%; min-width: 0; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--background); color: var(--foreground); font-size: 16px; }
+.form [data-slot="select-trigger"] { min-height: 44px; }
 .form textarea { min-height: 140px; line-height: 1.7; resize: vertical; }
 .archive { display: grid; gap: 10px; }
 .archiveEntry { min-width: 0; border: 1px solid var(--border); border-radius: 10px; background: var(--card); }

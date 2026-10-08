@@ -26,7 +26,7 @@ export async function GET(req: Request, { params }: { params: Promise<{ filename
   const keys = keysByUrl.get(`/study/resources/${filename}`)
   if (!keys) return new Response(null, { status: 404, headers })
   const user = await prisma.user.findUnique({ where: { id: session.user.id }, select: { isBanned: true, banExpiresAt: true } })
-  if (!user || user.isBanned && (!user.banExpiresAt || user.banExpiresAt > new Date()) || !await prisma.examAccess.findFirst({ where: { userId: session.user.id, paperKey: { in: [...keys] } }, select: { paperKey: true } })) return Response.json({ error: '尚未开放对应试卷' }, { status: 403, headers })
+  if (!user || user.isBanned && (!user.banExpiresAt || user.banExpiresAt > new Date()) || !await prisma.examAccess.findFirst({ where: { userId: session.user.id, paperKey: { in: [...keys] } }, select: { paperKey: true } })) return Response.json({ error: '暂时没有试卷可用' }, { status: 403, headers })
   const file = path.join(process.cwd(), 'public', 'study', 'resources', filename)
   let size: number
   try { size = (await stat(file)).size } catch { return new Response(null, { status: 404, headers }) }

@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef } from 'react'
 import { usePathname } from 'next/navigation'
+import { shouldRecordAnalytics } from './analyticsPolicy'
 
 export type EventType =
   | 'PAGE_VIEW'
@@ -66,6 +67,7 @@ export function useAnalytics() {
   }, [])
 
   const track = useCallback(async (eventType: EventType, metadata?: Record<string, unknown>) => {
+    if (!shouldRecordAnalytics(eventType)) return
     try {
       if (!sessionIdRef.current) sessionIdRef.current = getSessionId()
       await fetch('/api/analytics', {

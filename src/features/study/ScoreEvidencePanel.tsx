@@ -1,5 +1,7 @@
 'use client'
 
+import { ThemedSelect, SelectItem } from '@/components/ui/themed-select'
+
 import { useCallback, useEffect, useRef, useState, type FormEvent } from 'react'
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
@@ -162,8 +164,8 @@ export default function ScoreEvidencePanel({ accountId, level, onChanged }: {
           {error && <p className={styles.error} role="alert">{error}</p>}
           <label>总分（0–710）<input type="number" min="0" max="710" step="1" required value={score} disabled={busy || canRetry} onChange={(event) => setScore(event.target.value)} /></label>
           <label>考试日期<input type="date" required value={takenDateISO} disabled={busy || canRetry} onChange={(event) => setTakenDateISO(event.target.value)} /></label>
-          <label>级别<select value={level} disabled><option value="CET4">CET4</option><option value="CET6">CET6</option></select></label>
-          <label>成绩来源<select value={source} disabled={busy || canRetry} onChange={(event) => setSource(event.target.value as 'MOCK' | 'OFFICIAL')}><option value="MOCK">自报完整模考</option><option value="OFFICIAL">官方成绩</option></select></label>
+          <label>级别<ThemedSelect value={level} disabled><SelectItem value="CET4">CET4</SelectItem><SelectItem value="CET6">CET6</SelectItem></ThemedSelect></label>
+          <label>成绩来源<ThemedSelect value={source} disabled={busy || canRetry} onValueChange={(value) => setSource(value as 'MOCK' | 'OFFICIAL')}><SelectItem value="MOCK">自报完整模考</SelectItem><SelectItem value="OFFICIAL">官方成绩</SelectItem></ThemedSelect></label>
           <label>完整试卷名称<input type="text" maxLength={120} required value={paper} disabled={busy || canRetry} onChange={(event) => setPaper(event.target.value)} placeholder="例如：2025年12月 CET4 第1套" /></label>
           <label><span><input type="checkbox" checked={assisted} disabled={busy || canRetry} onChange={(event) => setAssisted(event.target.checked)} /> 本次使用了查词、答案提示等辅助</span></label>
           <div className={styles.actions}><Button type="submit" disabled={busy || canRetry}>{busy ? '正在保存…' : '保存成绩'}</Button>{canRetry && <><Button type="button" variant="outline" disabled={busy} onClick={() => void sendMutation()}>用原记录重试</Button><button type="button" className={styles.textButton} disabled={busy} onClick={async () => { await loadScores(); pendingMutation.current = null; setCanRetry(false) }}>核对记录后重新填写</button></>}</div>

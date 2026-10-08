@@ -1,5 +1,7 @@
 'use client'
 
+import { ThemedSelect, SelectItem } from '@/components/ui/themed-select'
+
 import { useState, useCallback } from 'react'
 import { toast } from 'sonner'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -379,23 +381,24 @@ export default function PublicWordsPage() {
                     应用筛选
                   </Button>
                 </div>
-                <select
+                <ThemedSelect
+                  aria-label="词库排序"
                   className="border rounded px-3 py-2 h-8 text-sm bg-transparent"
                   value={`${sortBy}-${sortOrder}`}
-                  onChange={(e) => {
-                    const [field, order] = e.target.value.split('-')
+                  onValueChange={(value) => {
+                    const [field, order] = value.split('-')
                     setPage(1)
                     setSortBy(field)
                     setSortOrder(order as 'asc' | 'desc')
                   }}
                 >
-                  <option value="updatedAt-desc">最近更新</option>
-                  <option value="updatedAt-asc">最早更新</option>
-                  <option value="qualityScore-desc">质量分高到低</option>
-                  <option value="qualityScore-asc">质量分低到高</option>
-                  <option value="word-asc">单词 A-Z</option>
-                  <option value="word-desc">单词 Z-A</option>
-                </select>
+                  <SelectItem value="updatedAt-desc">最近更新</SelectItem>
+                  <SelectItem value="updatedAt-asc">最早更新</SelectItem>
+                  <SelectItem value="qualityScore-desc">质量分高到低</SelectItem>
+                  <SelectItem value="qualityScore-asc">质量分低到高</SelectItem>
+                  <SelectItem value="word-asc">单词 A-Z</SelectItem>
+                  <SelectItem value="word-desc">单词 Z-A</SelectItem>
+                </ThemedSelect>
                 <Button onClick={() => setShowAddForm(true)} className="shrink-0">
                   <Plus className="h-4 w-4 mr-2" />
                   添加单词

@@ -1,0 +1,9 @@
+.timer { border: 1px solid var(--border); border-radius: 16px; padding: 14px 16px; margin-block: 12px; background: var(--card); min-width: 0; }
+.heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.heading > div { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.total { font-variant-numeric: tabular-nums; font-size: 1.25rem; font-weight: 650; }
+.modules { display: flex; flex-wrap: wrap; gap: 8px 18px; margin-top: 10px; font-size: .85rem; }
+.modules span { color: var(--muted-foreground); }
+.modules span[data-active="true"] { color: var(--primary); }
+.modules b { font-variant-numeric: tabular-nums; font-weight: 500; }
+.note { color: var(--muted-foreground); font-size: .78rem; line-height: 1.6; margin-top: 8px; }

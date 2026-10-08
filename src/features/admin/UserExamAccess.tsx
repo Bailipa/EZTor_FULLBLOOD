@@ -1,4 +1,6 @@
 'use client'
+
+import { ThemedSelect, SelectItem } from '@/components/ui/themed-select'
 import { useEffect, useState } from 'react'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
@@ -45,7 +47,7 @@ export default function UserExamAccess({ user, onClose }: { user: { id: string; 
       <DialogHeader><DialogTitle>{user.username} · 真题权限</DialogTitle><DialogDescription>勾选即开放，取消即关闭。每套试卷的所有题型共用权限，答题记录保留。新账号默认不开放任何试卷。</DialogDescription></DialogHeader>
       <div className="flex gap-2">
         <Input aria-label="搜索试卷" placeholder="搜索年份、月份或套数" value={search} onChange={(event) => setSearch(event.target.value)} />
-        <select aria-label="筛选级别" className="rounded-lg border bg-background px-2 text-sm" value={level} onChange={(event) => setLevel(event.target.value)}><option value="ALL">全部</option><option value="CET4">四级</option><option value="CET6">六级</option></select>
+        <ThemedSelect aria-label="筛选级别" className="rounded-lg border bg-background px-2 text-sm" value={level} onValueChange={(value) => setLevel(value)}><SelectItem value="ALL">全部</SelectItem><SelectItem value="CET4">四级</SelectItem><SelectItem value="CET6">六级</SelectItem></ThemedSelect>
       </div>
       <p className="text-sm text-muted-foreground" aria-live="polite">已开放 {papers.filter((paper) => paper.enabled).length} / {papers.length} 套{saving ? ' · 保存中…' : ''}</p>
       <div className="min-h-0 overflow-y-auto space-y-2 pr-1">

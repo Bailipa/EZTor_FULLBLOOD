@@ -7,7 +7,7 @@ export function examPaperKey(slug: string) {
 }
 export async function requireExamAccess(db: AccessDb, userId: string, slug: string) {
   const grant = await db.examAccess.findUnique({ where: { userId_paperKey: { userId, paperKey: examPaperKey(slug) } } })
-  if (!grant) throw new StudyInputError('管理员尚未向你开放这套试卷，请联系管理员', 403)
+  if (!grant) throw new StudyInputError('暂时没有试卷可用', 403)
 }
 export async function accessiblePaperWhere(db: AccessDb, userId: string) {
   const grants = await db.examAccess.findMany({ where: { userId }, select: { paperKey: true } })

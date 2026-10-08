@@ -354,6 +354,7 @@ model User {
   StudyEvent             StudyEvent[]
   ExamAttempt            ExamAttempt[]
   ExamAccess             ExamAccess[]
+  ExamAnalysisRecord     ExamAnalysisRecord[]
 }
 
 model UserPreference {
@@ -762,6 +763,7 @@ model ExamPaper {
   @@index([level, kind, rightsStatus, createdAt])
 }
 model ExamAttempt {
+  practiceTiming Json?
   revision Int @default(0)
   goalSnapshot Json
   id String @id @default(cuid())
@@ -802,6 +804,19 @@ model ExamAccess {
   userId String
   paperKey String
   createdAt DateTime @default(now())
+  User User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@id([userId, paperKey])
+}
+
+model ExamAnalysisRecord {
+  userId String
+  paperKey String
+  attempts Int @default(0)
+  status String @default("READY")
+  token String?
+  leaseUntil DateTime?
+  completedAt DateTime?
+  updatedAt DateTime @updatedAt
   User User @relation(fields: [userId], references: [id], onDelete: Cascade)
   @@id([userId, paperKey])
 }

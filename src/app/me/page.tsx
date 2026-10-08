@@ -1,5 +1,7 @@
 'use client'
 
+import { ThemedSelect, SelectItem } from '@/components/ui/themed-select'
+
 import { useSession, signOut } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
@@ -483,21 +485,21 @@ export default function MePage() {
 
                         <label className="block space-y-2">
                           <span className="block text-sm font-medium">触感反馈</span>
-                          <select
+                          <ThemedSelect
                             value={devicePrefs.haptics}
-                            onChange={(event) =>
+                            onValueChange={(value) =>
                               updateDevicePrefs({
-                                haptics: event.target.value as ExperiencePreferences['haptics'],
+                                haptics: value as ExperiencePreferences['haptics'],
                               })
                             }
                             disabled={!hapticsAvailable}
                             className="h-11 w-full rounded-md border border-input bg-background px-3 text-base disabled:opacity-60"
                             aria-label="触感反馈强度，本设备"
                           >
-                            <option value="off">关闭</option>
-                            <option value="light">轻</option>
-                            <option value="standard">标准</option>
-                          </select>
+                            <SelectItem value="off">关闭</SelectItem>
+                            <SelectItem value="light">轻</SelectItem>
+                            <SelectItem value="standard">标准</SelectItem>
+                          </ThemedSelect>
                           <span className="block text-xs text-muted-foreground">
                             {hapticsAvailable
                               ? '轻/标准仅映射为短振动；本设备设置'
@@ -507,20 +509,20 @@ export default function MePage() {
 
                         <label className="block space-y-2">
                           <span className="block text-sm font-medium">界面动效</span>
-                          <select
+                          <ThemedSelect
                             value={devicePrefs.motion}
-                            onChange={(event) =>
+                            onValueChange={(value) =>
                               updateDevicePrefs({
-                                motion: event.target.value as ExperiencePreferences['motion'],
+                                motion: value as ExperiencePreferences['motion'],
                               })
                             }
                             className="h-11 w-full rounded-md border border-input bg-background px-3 text-base"
                             aria-label="界面动效，本设备"
                           >
-                            <option value="system">跟随系统</option>
-                            <option value="reduce">减少</option>
-                            <option value="full">完整（系统减少偏好优先）</option>
-                          </select>
+                            <SelectItem value="system">跟随系统</SelectItem>
+                            <SelectItem value="reduce">减少</SelectItem>
+                            <SelectItem value="full">完整（系统减少偏好优先）</SelectItem>
+                          </ThemedSelect>
                           <span className="block text-xs text-muted-foreground">
                             本设备设置；系统已要求减少动效时始终遵循系统
                           </span>
@@ -528,19 +530,19 @@ export default function MePage() {
 
                         <label className="block space-y-2">
                           <span className="block text-sm font-medium">辉金主题辉光</span>
-                          <select
+                          <ThemedSelect
                             value={devicePrefs.glow}
-                            onChange={(event) =>
+                            onValueChange={(value) =>
                               updateDevicePrefs({
-                                glow: event.target.value as ExperiencePreferences['glow'],
+                                glow: value as ExperiencePreferences['glow'],
                               })
                             }
                             className="h-11 w-full rounded-md border border-input bg-background px-3 text-base"
                             aria-label="辉金主题辉光，本设备"
                           >
-                            <option value="rich">浓郁（默认）</option>
-                            <option value="subdued">收敛</option>
-                          </select>
+                            <SelectItem value="rich">浓郁（默认）</SelectItem>
+                            <SelectItem value="subdued">收敛</SelectItem>
+                          </ThemedSelect>
                           <span className="block text-xs text-muted-foreground">
                             辉金下生效；外观主题可用上方快捷切换
                           </span>

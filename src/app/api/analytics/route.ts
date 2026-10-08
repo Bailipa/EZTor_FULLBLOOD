@@ -5,6 +5,7 @@ import prisma from '@/lib/prisma'
 import { getServerSession } from 'next-auth/next'
 import { authOptions } from '@/lib/authOptions'
 import { logger } from '@/lib/logger'
+import { shouldRecordAnalytics } from '@/lib/analyticsPolicy'
 
 export type EventType =
   | 'PAGE_VIEW'
@@ -70,9 +71,11 @@ export async function POST(req: Request) {
     const body: TrackEventBody = await req.json()
     const { eventType, metadata } = body
 
-    if (!eventType) {
+    if (typeof eventType !== 'string' || !eventType) {
       return NextResponse.json({ success: false, error: 'Event type is required' }, { status: 400 })
     }
+
+    if (!shouldRecordAnalytics(eventType)) return NextResponse.json({ success: true, ignored: true })
 
     const session = await getServerSession(authOptions)
     const userId = session?.user?.id || null

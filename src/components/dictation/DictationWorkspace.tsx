@@ -1,5 +1,7 @@
 'use client'
 
+import { ThemedSelect, SelectItem } from '@/components/ui/themed-select'
+
 import React, { useState, useEffect, useRef, useMemo } from 'react'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/navigation'
@@ -1068,50 +1070,53 @@ function DictationWorkspaceSession({
               <div data-workspace-practice-options className="w-full max-w-2xl space-y-2 flex flex-col">
                 {!isMistakePractice && <div className="flex justify-between items-center gap-3 bg-muted/30 p-3 rounded-lg border">
                   <span className="font-medium">复习范围</span>
-                  <select
+                  <ThemedSelect
+                    aria-label="复习范围"
                     className="bg-background border rounded-md px-3 py-1.5 text-sm outline-none focus:ring-2 focus:ring-primary max-w-[150px] sm:max-w-[180px]"
                     value={selectedGroupId}
-                    onChange={(e) => setSelectedGroupId(e.target.value)}
+                    onValueChange={(value) => setSelectedGroupId(value)}
                     disabled={testCount === 'custom'}
                   >
-                    <option value="all">全部生词本</option>
+                    <SelectItem value="all">全部生词本</SelectItem>
                     {groups.map((g) => (
-                      <option key={g.id} value={g.id}>
+                      <SelectItem key={g.id} value={g.id}>
                         {g.name === '_unknown_words' ? '陌生词本' : g.name} ({g._count?.ReviewGroupWord || 0})
-                      </option>
+                      </SelectItem>
                     ))}
-                  </select>
+                  </ThemedSelect>
                 </div>}
 
                 {!isMistakePractice && <div className="flex justify-between items-center gap-3 bg-muted/30 p-3 rounded-lg border">
                   <span className="font-medium">复习模式</span>
-                  <select
+                  <ThemedSelect
+                    aria-label="复习模式"
                     className="bg-background border rounded-md px-3 py-1.5 text-sm outline-none focus:ring-2 focus:ring-primary"
                     value={reviewMode}
-                    onChange={(e) => setReviewMode(e.target.value as 'random' | 'smart')}
+                    onValueChange={(value) => setReviewMode(value as 'random' | 'smart')}
                     disabled={testCount === 'custom'}
                   >
-                    <option value="smart">智能排序 (推荐)</option>
-                    <option value="random">随机抽取</option>
-                  </select>
+                    <SelectItem value="smart">智能排序 (推荐)</SelectItem>
+                    <SelectItem value="random">随机抽取</SelectItem>
+                  </ThemedSelect>
                 </div>}
 
                 <div className="flex justify-between items-center gap-3 bg-muted/30 p-3 rounded-lg border">
                   <span className="font-medium">单词数量</span>
-                  <select
+                  <ThemedSelect
+                    aria-label="单词数量"
                     className="bg-background border rounded-md px-3 py-1.5 text-sm outline-none focus:ring-2 focus:ring-primary"
-                    value={testCount}
-                    onChange={(e) => {
-                      const val = e.target.value
+                    value={String(testCount)}
+                    onValueChange={(value) => {
+                      const val = value
                       setTestCount(val === 'custom' ? 'custom' : Number(val))
                     }}
                   >
-                    <option value={10}>10 个 (约 2 分钟)</option>
-                    <option value={20}>20 个 (约 5 分钟)</option>
-                    <option value={30}>30 个 (约 8 分钟)</option>
-                    <option value={50}>50 个 (极限挑学)</option>
-                    {!isMistakePractice && <option value="custom">自定义默写本</option>}
-                  </select>
+                    <SelectItem value="10">10 个 (约 2 分钟)</SelectItem>
+                    <SelectItem value="20">20 个 (约 5 分钟)</SelectItem>
+                    <SelectItem value="30">30 个 (约 8 分钟)</SelectItem>
+                    <SelectItem value="50">50 个 (极限挑学)</SelectItem>
+                    {!isMistakePractice && <SelectItem value="custom">自定义默写本</SelectItem>}
+                  </ThemedSelect>
                 </div>
 
                 {!isMistakePractice && testCount === 'custom' && (

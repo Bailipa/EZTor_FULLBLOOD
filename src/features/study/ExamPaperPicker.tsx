@@ -1,5 +1,7 @@
 'use client'
 
+import { ThemedSelect, SelectItem } from '@/components/ui/themed-select'
+
 import { useId, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import type { ExamPaperMetadata } from './examTypes'
@@ -38,8 +40,8 @@ export default function ExamPaperPicker({ papers, currentPaperId, busy, blocked,
   return <div className={styles.picker} aria-busy={busy}>
     <div className={styles.filters}>
       <label className={styles.search} htmlFor={`${id}-search`}>搜索试卷<input id={`${id}-search`} type="search" placeholder="年份、月份、卷别，例如 2024 6月" value={query} disabled={busy} onChange={(event) => { setQuery(event.target.value); setSelectedId('') }} /></label>
-      {currentPaperId && <label htmlFor={`${id}-level`}>级别<select id={`${id}-level`} value={level} disabled={busy} onChange={(event) => { setLevel(event.target.value); setSelectedId('') }}><option value="ALL">全部级别</option><option value="CET4">四级</option><option value="CET6">六级</option></select></label>}
-      <label htmlFor={`${id}-year`}>年份<select id={`${id}-year`} value={year} disabled={busy} onChange={(event) => { setYear(event.target.value); setSelectedId('') }}><option value="ALL">全部年份</option>{years.map((value) => <option key={value} value={value}>{value} 年</option>)}</select></label>
+      {currentPaperId && <label htmlFor={`${id}-level`}>级别<ThemedSelect id={`${id}-level`} value={level} disabled={busy} onValueChange={(value) => { setLevel(value); setSelectedId('') }}><SelectItem value="ALL">全部级别</SelectItem><SelectItem value="CET4">四级</SelectItem><SelectItem value="CET6">六级</SelectItem></ThemedSelect></label>}
+      <label htmlFor={`${id}-year`}>年份<ThemedSelect id={`${id}-year`} value={year} disabled={busy} onValueChange={(value) => { setYear(value); setSelectedId('') }}><SelectItem value="ALL">全部年份</SelectItem>{years.map((value) => <SelectItem key={value} value={value}>{value} 年</SelectItem>)}</ThemedSelect></label>
     </div>
     <div className={styles.summary}><span role="status">{visible.length} / {papers.length} 套试卷</span>{(query || year !== 'ALL' || level !== 'ALL') && <button type="button" disabled={busy} onClick={reset}>清除筛选</button>}</div>
     <div className={styles.list} role="group" aria-label="选择试卷">
@@ -53,8 +55,8 @@ export default function ExamPaperPicker({ papers, currentPaperId, busy, blocked,
       {!visible.length && <div className={styles.empty}><strong>没有找到符合条件的试卷</strong><p>试试其他关键词，或清除筛选查看全部试卷。</p><Button variant="outline" disabled={busy} onClick={reset}>查看全部试卷</Button></div>}
     </div>
     <div className={styles.footer}>
-      <p>{selected ? `已选：${selected.title}` : '请选择一套试卷，再确认开始。'}</p>
-      <div>{onCancel && <Button variant="outline" disabled={busy} onClick={onCancel}>继续当前试卷</Button>}<Button disabled={busy || blocked || !selected} onClick={() => { if (selected) onConfirm(selected.id) }}>{busy ? busyLabel : actionLabel}</Button></div>
+      <p className={styles.selection} aria-live="polite">{selected ? `已选：${selected.title}` : '请选择一套试卷，再确认开始。'}</p>
+      <div className={styles.footerActions}>{onCancel && <Button variant="outline" disabled={busy} onClick={onCancel}>继续当前试卷</Button>}<Button disabled={busy || blocked || !selected} onClick={() => { if (selected) onConfirm(selected.id) }}>{busy ? busyLabel : actionLabel}</Button></div>
     </div>
   </div>
 }

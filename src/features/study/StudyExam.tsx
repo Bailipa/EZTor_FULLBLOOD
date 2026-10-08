@@ -17,6 +17,8 @@ import ReadingPassage from './ReadingPassage'
 import type { ReadingMarkSource } from './readingMarkTypes'
 import ExamDivider from './ExamDivider'
 import ExamPaperPicker from './ExamPaperPicker'
+import PracticeTimer from './PracticeTimer'
+import ExamAnalysisPanel from './ExamAnalysisPanel'
 import { sameExamDraft, canFlushExamDraft } from './examDraft'
 import { examAudioProgressKey, restorableAudioPosition } from './examAudioProgress'
 import styles from './exam.module.css'
@@ -80,6 +82,7 @@ export default function StudyExam({ accountId, level, mode, initialSession, onIn
   const [session, setSession] = useState<ExamSessionView | null>(initialSession ?? null)
   const [error, setError] = useState('')
   const [notice, setNotice] = useState('')
+  const [timingSavedId, setTimingSavedId] = useState<string | null>(null)
   const [busy, setBusy] = useState(false)
   const [clockOffset, setClockOffset] = useState(0)
   const [audioError, setAudioError] = useState('')
@@ -459,7 +462,7 @@ export default function StudyExam({ accountId, level, mode, initialSession, onIn
     <div className={styles.header}><div><span className={styles.eyebrow}>{level === 'CET4' ? '四级' : '六级'} · {modeLabel}</span><h3>选择试卷</h3></div></div>
     {error && <div className={styles.error} role="alert">{error}<button disabled={busy} onClick={() => startOperation.current ? void start(startOperation.current.paperId) : void loadPapers()}>重试</button></div>}
     {papers === null && !error && <p role="status" className={styles.note}>正在读取材料…</p>}
-    {papers?.length === 0 && <div className={styles.empty}><strong>这个级别暂时没有已向你开放的试卷</strong><p>这里仅显示管理员已向你开放、且支持当前练习模式的试卷。需要其他试卷请联系管理员。</p></div>}
+    {papers?.length === 0 && <div className={styles.empty}><strong>暂时没有试卷可用</strong></div>}
     {!!papers?.length && <>
       <p className={styles.note}>{timingNote}</p>
       <ExamPaperPicker papers={papers!} busy={busy} actionLabel={`开始${modeLabel}`} busyLabel="正在打开…" onConfirm={(id) => void start(id)} />
@@ -470,6 +473,8 @@ export default function StudyExam({ accountId, level, mode, initialSession, onIn
     const result = session.result
     return <section className={styles.panel} aria-label="模拟完成">
       <div className={styles.header}><div><span className={styles.eyebrow}>{session.paper.title} · 已完成</span><h3>本次{modeLabel}已提交</h3></div></div>
+      <PracticeTimer accountId={accountId} session={session} onSaved={() => setTimingSavedId(session.id)} />
+      <ExamAnalysisPanel key={session.id} accountId={accountId} attemptId={session.id} completedEligible timingReady={!!session.practiceTiming || timingSavedId === session.id} />
       {!!result?.objective.total && <div className={styles.score}><strong>{result?.objective.earnedWeight ?? 0}</strong><span>/ {result?.objective.totalWeight ?? 0} 客观题加权得分</span><span>{result?.objective.correct ?? 0}/{result?.objective.total ?? 0} 题正确</span>{result?.objective.firstAnswered !== undefined && <span>首次作答 {result.objective.firstCorrect}/{result.objective.firstAnswered} 正确</span>}</div>}
       {!!result?.objective.ungraded && <p className={styles.note}>有 {result.objective.ungraded} 题缺少已核对答案或对应录音，未计入得分；作答已保存。</p>}
       {!!result?.objective.limitations?.length && <p className={styles.note}>本卷材料说明：{result.objective.limitations.join(' ')}</p>}
@@ -534,6 +539,7 @@ export default function StudyExam({ accountId, level, mode, initialSession, onIn
   const stageActions = !readingReview && <div className={`${styles.actions} ${inputStyles.inputActions}`}><Button disabled={readingReview || busy || !!error || hasConflict} onClick={submitStage}>{busy ? '正在保存…' : mode !== 'FULL' ? `提交${modeLabel}` : stage === 'TRANSLATION' ? '提交整卷' : '保存并进入下一阶段'}</Button><span>阶段已用时 <ExamClockReadout elapsed /></span></div>
   return <section className={`${styles.panel} ${inputStyles.editor} ${stage === 'READING' || subjective ? styles.readingPanel : ''}`} aria-label="考试作答" aria-busy={busy}><ExamClock key={`${sessionId}:${stage}:${deadline}`} deadline={deadline} stageStartedAt={stageStarted} serverOffset={clockOffset} expiryKey={`${sessionId}:${stage}:${deadline}`} onExpire={() => { void syncExpiredStage() }}>
     <div className={`${styles.header} ${styles.stickyHeader}`}><div><span className={styles.eyebrow}>{readingReview ? '阅读回看' : modeLabel} · {LABEL[stage]}</span><h3 title={session.paper.title}>{session.paper.title}</h3></div><div className={styles.headerActions}>{!readingReview && <ExamClockReadout className={styles.clock} />}{onSessionSwitch && <Button variant="outline" size="sm" disabled={busy || !!error || hasConflict} onClick={openSwitch}>切换试卷</Button>}</div></div>
+    {!readingReview && <PracticeTimer accountId={accountId} session={session} />}
     {switchDialog}
     {mode === 'FULL' && !readingReview && <nav className={styles.stages} aria-label="考试进度">{STAGES.map((name, index) => <span className={name === stage ? styles.currentStage : ''} key={name}>{index + 1}. {LABEL[name as ExamStage]}</span>)}</nav>}
     <details className={styles.source}><summary>练习说明</summary><p>{readingReview ? '查看已标记的阅读内容，可查词或问 AI。' : timingNote}</p>{stage === 'READING' && <p>{content.instructions}</p>}</details>

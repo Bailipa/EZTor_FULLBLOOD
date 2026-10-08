@@ -16,6 +16,7 @@ import {
 } from '@/features/study/examDomain'
 import type {
   ExamAction,
+  ExamPracticeTiming,
   ExamMode,
   ExamPaperKind,
   ExamPaperMetadata,
@@ -131,6 +132,7 @@ export function examSessionView(row: Row, now = new Date()): ExamSessionView {
   const graded = questions.filter((q) => q.answerIndex >= 0 && !(q.audioId === undefined && content.LISTENING.audioUnavailableReason && content.LISTENING.questions.some((item) => item.id === q.id)))
   const correct = graded.filter((q) => submittedAnswers[q.id] === q.answerIndex)
   return {
+    practiceTiming: row.practiceTiming as ExamPracticeTiming | null,
     id: row.id,
     revision: row.revision,
     mode: row.mode as ExamMode,

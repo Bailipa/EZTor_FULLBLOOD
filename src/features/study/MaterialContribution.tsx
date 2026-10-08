@@ -1,5 +1,7 @@
 'use client'
 
+import { ThemedSelect, SelectItem } from '@/components/ui/themed-select'
+
 import { useEffect, useRef, useState } from 'react'
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
@@ -60,7 +62,7 @@ export default function MaterialContribution({ accountId, onClose }: { accountId
         <DialogHeader><DialogTitle>贡献学习资料</DialogTitle><DialogDescription>提交内容仅管理员可查看；未经核验不会公开或直接发布答案。</DialogDescription></DialogHeader>
         <form onSubmit={(event) => void submit(event)} className="grid gap-3">
           <label className="grid gap-1">资料名称<input name="name" required maxLength={160} className="rounded-md border bg-background px-3 py-2" placeholder="例如：2024 年 6 月 CET-4 第二套" /></label>
-          <div className="grid grid-cols-2 gap-3"><label className="grid gap-1">年份 / 套次<input name="yearSet" required maxLength={100} className="rounded-md border bg-background px-3 py-2" placeholder="2024-06 · 第二套" /></label><label className="grid gap-1">级别<select name="level" className="rounded-md border bg-background px-3 py-2"><option value="CET-4">四级</option><option value="CET-6">六级</option></select></label></div>
+          <div className="grid grid-cols-2 gap-3"><label className="grid gap-1">年份 / 套次<input name="yearSet" required maxLength={100} className="rounded-md border bg-background px-3 py-2" placeholder="2024-06 · 第二套" /></label><label className="grid gap-1">级别<ThemedSelect name="level" defaultValue="CET-4" className="rounded-md border bg-background px-3 py-2"><SelectItem value="CET-4">四级</SelectItem><SelectItem value="CET-6">六级</SelectItem></ThemedSelect></label></div>
           <label className="grid gap-1">来源 URL<input name="sourceUrl" type="url" required maxLength={1000} className="rounded-md border bg-background px-3 py-2" placeholder="https://…" /></label>
           <label className="grid gap-1">说明（选填）<textarea name="description" rows={2} maxLength={3000} className="rounded-md border bg-background px-3 py-2" /></label>
           <label className="grid gap-1">答案（选填）<textarea name="answers" rows={3} maxLength={20000} className="rounded-md border bg-background px-3 py-2" placeholder="请注明答案依据或版本" /></label>

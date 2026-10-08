@@ -496,7 +496,7 @@ export default function AnalyticsPage() {
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2">
                       <BarChart3 className="w-5 h-5" />
-                      页面访问排行榜
+                      历史页面访问（已停止采集）
                     </CardTitle>
                     <CardDescription>按独立访客数排列</CardDescription>
                   </CardHeader>

@@ -1,5 +1,7 @@
 'use client'
 
+import { ThemedSelect, SelectItem } from '@/components/ui/themed-select'
+
 import { useEffect, useState } from 'react'
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog'
 import { studyRequest } from './client'
@@ -30,7 +32,7 @@ export default function MaterialCatalogue({ accountId, onClose }: { accountId: s
       <DialogDescription>{data ? `保留 ${MINIMUM_CET_YEAR} 年及以后的 ${data.totalSets} 套材料。各卷按实际提供的内容开放在线作答，并提供配套听力。` : '正在读取材料目录…'}</DialogDescription>
       <div className={styles.catalogueToolbar}>
         <input aria-label="搜索试卷" placeholder="搜索年份、月份或卷别" value={query} onChange={(event) => setQuery(event.currentTarget.value)} />
-        <select aria-label="筛选试卷级别" value={level} onChange={(event) => setLevel(event.target.value)}><option value="ALL">全部试卷</option><option value="CET4">四级</option><option value="CET6">六级</option></select>
+        <ThemedSelect aria-label="筛选试卷级别" value={level} onValueChange={(value) => setLevel(value)}><SelectItem value="ALL">全部试卷</SelectItem><SelectItem value="CET4">四级</SelectItem><SelectItem value="CET6">六级</SelectItem></ThemedSelect>
       </div>
       {error && <p role="alert">{error}<button onClick={() => setRetry((old) => old + 1)}>重试</button></p>}
       <div className={styles.catalogueList}>
