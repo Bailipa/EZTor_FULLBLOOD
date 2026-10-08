@@ -35,7 +35,7 @@ const interactionTime = () => (typeof performance !== 'undefined' ? performance.
 
 function navPosition(index: number, count: number) {
   const angle = (count <= 1 ? 0 : -90 + (180 * index) / (count - 1)) * Math.PI / 180
-  return { x: Math.round(Math.sin(angle) * 142), y: Math.round(56 + Math.cos(angle) * 204) }
+  return { x: Math.round(Math.sin(angle) * 136), y: Math.round(56 + Math.cos(angle) * 136) }
 }
 
 function dragTargetLabel(target: number) {
@@ -90,8 +90,6 @@ export default function MobileNavBar() {
   const visibleNavItems = navItems
     .map((item, originalIndex) => ({ item, originalIndex }))
     .filter(({ item }) => mainVisible(item.href))
-  const flashcardBottom = 360
-  const flashcardBottomSmall = 340
   const focusItemIndex = visibleNavItems.find(({ item }) => matchesPage(item.href, pathname))?.originalIndex ?? visibleNavItems[0]?.originalIndex
   const activeItem = navItems.find((item) => matchesPage(item.href, pathname))
   const ActiveIcon = activeItem?.icon ?? Grid2X2
@@ -288,7 +286,6 @@ export default function MobileNavBar() {
         <Dialog.Content
           ref={fanRef}
           className={styles.fan}
-          style={{ '--flashcard-bottom': `${flashcardBottom}px`, '--flashcard-bottom-small': `${flashcardBottomSmall}px` } as CSSProperties}
           data-dragging={dragging}
           data-feedback-sound="none"
           onPointerDown={(event) => {

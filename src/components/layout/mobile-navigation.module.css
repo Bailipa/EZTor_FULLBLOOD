@@ -133,7 +133,7 @@
 .menuFlashcard {
   position: absolute;
   z-index: 1;
-  bottom: clamp(360px, 50vh, 460px);
+  bottom: clamp(280px, 42dvh, 400px);
   left: 50%;
   width: min(460px, calc(100vw - 72px));
   min-height: clamp(200px, 30vh, 320px);
@@ -250,7 +250,7 @@
   .fan { --nav-scale: .883; }
   .item { bottom: calc(50px + var(--y) * var(--nav-scale)); }
   .gestureHint { bottom: calc(50px + 424px * var(--nav-scale)); }
-  .menuFlashcard { width: calc(100vw - 32px); bottom: clamp(340px, 48vh, 460px); min-height: clamp(180px, 28vh, 280px); }
+  .menuFlashcard { width: calc(100vw - 32px); bottom: clamp(280px, 42dvh, 400px); min-height: clamp(180px, 28vh, 280px); }
   .destination:not(.danmakuAction) { width: 52px; height: 52px; }
   .destination:not(.danmakuAction) > svg { width: 20px; height: 20px; }
   .destination:not(.danmakuAction) > span { font-size: 9px; }

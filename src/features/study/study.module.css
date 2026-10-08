@@ -129,7 +129,7 @@
   .homePage [data-home-grid] { display: block; }
   .homePage [data-home-study] {
     min-height: clamp(230px, 36vh, 320px);
-    margin: 0;
+    margin: 16px 0 0;
   }
   .homePage .daily { min-height: 0; height: auto; display: block; }
   .homePage .daily .reader { height: clamp(280px, 39vh, 340px); }
