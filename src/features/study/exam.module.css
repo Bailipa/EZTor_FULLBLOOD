@@ -18,7 +18,7 @@
 .audio audio { width: 100%; }
 .passage { padding: 16px; margin-block: 14px; border: 1px solid var(--border); border-radius: 10px; background: var(--background); font-family: Georgia, 'Times New Roman', serif; font-size: 17px; line-height: 1.85; white-space: pre-wrap; overflow-wrap: anywhere; }
 .prompt { margin-block: 14px; }
-.prompt p { white-space: pre-wrap; line-height: 1.7; }
+.prompt p { white-space: pre-line; line-height: 1.7; }
 .prompt small, .textAnswer span, .actions > span { color: var(--muted-foreground); font-size: 12px; }
 .textAnswer { display: grid; gap: 8px; margin-block: 18px; font-size: 14px; font-weight: 600; }
 .textAnswer textarea { width: 100%; min-height: 180px; padding: 12px; color: var(--foreground); background: var(--background); border: 1px solid var(--border); border-radius: 9px; resize: vertical; font: inherit; font-size: 16px; line-height: 1.7; }
