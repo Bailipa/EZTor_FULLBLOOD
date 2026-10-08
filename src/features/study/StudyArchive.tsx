@@ -3,14 +3,13 @@
 import { useEffect, useRef, useState } from 'react'
 import dynamic from 'next/dynamic'
 import { Button } from '@/components/ui/button'
-import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog'
 import { studyRequest } from './client'
 import type { SessionView, StudyArchivePage } from './types'
 import styles from './study.module.css'
 
 const StudyEventHistory = dynamic(() => import('./StudyEventHistory'), { loading: () => <p role="status">正在读取操作记录…</p> })
 
-export default function StudyArchive({ accountId, onClose, onPick }: { accountId: string; onClose: () => void; onPick: (session: SessionView) => void }) {
+export default function StudyArchive({ accountId, onPick }: { accountId: string; onPick: (session: SessionView) => void }) {
   const [data, setData] = useState<StudyArchivePage | null>(null)
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState('')
@@ -42,11 +41,11 @@ export default function StudyArchive({ accountId, onClose, onPick }: { accountId
     } catch (failure) { if (alive.current) setError(failure instanceof Error ? failure.message : '文章暂不可用') }
     finally { sending.current = false; if (alive.current) setBusy(false) }
   }
-  return <Dialog open onOpenChange={(open) => { if (!open) onClose() }}><DialogContent className={`${styles.workspace} max-h-[85dvh] overflow-y-auto sm:max-w-xl`}>
-    <DialogTitle>我的备考档案</DialogTitle><DialogDescription>阅读、首次答案、生词和有效用时随账号保存。点开一篇继续或回看。</DialogDescription>
+  return <>
+    <p className={styles.subtle}>这里保留逐篇阅读的历史记录，可继续阅读或回看。当前真题阅读专项的记录在“试卷练习”中。</p>
     {error && <div className={styles.error} role="alert">{error}<button className={styles.textButton} disabled={busy} onClick={() => void load()}>重新加载</button></div>}
     {!data && !error && <p role="status">正在读取档案…</p>}
-    {data?.items.length === 0 && <p className={styles.empty}>先读第一篇，档案会自动建立。</p>}
+    {data?.items.length === 0 && <p className={styles.empty}>暂无历史阅读记录。</p>}
     <div className={styles.archive}>{data?.items.map((entry) => <article key={entry.id} className={styles.archiveEntry}><button disabled={busy} onClick={() => void pick(entry.id)}>
       <span><strong>{entry.passage.title}</strong><small>{entry.passage.level === 'CET4' ? '四级' : '六级'} · {new Date(entry.startedAt).toLocaleDateString('zh-CN')} · {entry.assisted ? '查词辅助' : '未查词'}</small></span>
       <span>{entry.status === 'COMPLETE' ? `${entry.correct}/${entry.answered} 题` : '继续学习'}</span>
@@ -54,5 +53,5 @@ export default function StudyArchive({ accountId, onClose, onPick }: { accountId
       <div id={`study-events-${entry.id}`}>{eventSession === entry.id && <StudyEventHistory key={entry.id} accountId={accountId} sessionId={entry.id} />}</div>
     </article>)}</div>
     {data?.nextCursor && <Button variant="outline" disabled={busy} onClick={() => void load(data.nextCursor!)}>{busy ? '加载中…' : '更早的记录'}</Button>}
-  </DialogContent></Dialog>
+  </>
 }

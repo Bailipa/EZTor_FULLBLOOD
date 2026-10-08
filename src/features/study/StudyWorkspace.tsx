@@ -19,8 +19,7 @@ import styles from './study-workspace.module.css'
 const StudyExam = lazy(() => import('./StudyExam'))
 const MaterialCatalogue = lazy(() => import('./MaterialCatalogue'))
 const GoalEditor = lazy(() => import('./GoalEditor'))
-const ExamHistory = lazy(() => import('./ExamHistory'))
-const StudyArchive = lazy(() => import('./StudyArchive'))
+const LearningHistory = lazy(() => import('./LearningHistory'))
 const StudyReader = lazy(() => import('./StudyReader'))
 const ScoreEvidencePanel = lazy(() => import('./ScoreEvidencePanel'))
 type MarkTarget = { attemptId: string; passageId: string; start: string; end: string }
@@ -40,7 +39,7 @@ function AccountWorkspace({ accountId, showMaterials, showEvidence, markTarget, 
   const [level, setLevel] = useState<StudyLevel>('CET4')
   const [materials, setMaterials] = useState(showMaterials)
   const [goal, setGoal] = useState(false)
-  const [records, setRecords] = useState<'exams' | 'reading' | 'analysis' | null>(null)
+  const [records, setRecords] = useState<'records' | 'analysis' | null>(null)
   const [reading, setReading] = useState<SessionView | null>(null)
   const [attempt, setAttempt] = useState<ExamSessionView | undefined>()
   const [evidence, setEvidence] = useState(showEvidence)
@@ -87,7 +86,7 @@ function AccountWorkspace({ accountId, showMaterials, showEvidence, markTarget, 
       <button className={styles.utility} onClick={() => setMaterials(true)}><Files size={16} />{catalogue ? `试卷目录 · ${catalogue.totalSets} 套` : '试卷目录'}</button>
       <button className={styles.utility} onClick={() => setGoal(true)}><Settings2 size={14} />{home?.goal ? `目标 ${home.goal.targetScore} 分` : '设置目标'}</button>
       <button className={styles.utility} disabled={markLoading} onClick={() => setRecords('analysis')}><ChartNoAxesCombined size={14} />试卷分析</button>
-      <button className={styles.utility} disabled={markLoading} onClick={() => setRecords('exams')}><History size={14} />记录</button>
+      <button className={styles.utility} disabled={markLoading} onClick={() => setRecords('records')}><History size={14} />学习记录</button>
     </div>
     {error && <p role="alert" className={styles.empty}>{error}<button className={styles.utility} onClick={() => setReload((old) => old + 1)}>重试</button></p>}
     <div className={styles.practice}>
@@ -97,15 +96,13 @@ function AccountWorkspace({ accountId, showMaterials, showEvidence, markTarget, 
       </Suspense>
     </div>
     <footer className={styles.footer}>
-      <button className={styles.utility} disabled={markLoading} onClick={() => setRecords('reading')}>阅读档案</button>
       <button className={styles.utility} onClick={() => setEvidence((old) => !old)} aria-expanded={evidence}>目标达成参考</button>
     </footer>
     {evidence && <Suspense fallback={<p role="status">读取参考记录…</p>}><ScoreEvidencePanel accountId={accountId} level={level} onChanged={() => setReload((old) => old + 1)} /></Suspense>}
     <Suspense fallback={<p role="status">正在打开…</p>}>
       {materials && <MaterialCatalogue accountId={accountId} onClose={() => setMaterials(false)} />}
       {goal && <GoalEditor accountId={accountId} goal={home?.goal ?? null} onClose={() => setGoal(false)} onSaved={() => { setGoal(false); setReload((old) => old + 1) }} />}
-      {(records === 'exams' || records === 'analysis') && <ExamHistory accountId={accountId} purpose={records === 'analysis' ? 'analysis' : 'records'} onClose={() => setRecords(null)} onPick={(session) => { setMarkedSource(null); setMarkError(''); setAttempt(session); setLevel(session.paper.level); setMode(session.mode); setReading(null); setRecords(null) }} />}
-      {records === 'reading' && <StudyArchive accountId={accountId} onClose={() => setRecords(null)} onPick={(session) => { setReading(session); setRecords(null) }} />}
+      {records && <LearningHistory accountId={accountId} purpose={records} onClose={() => setRecords(null)} onPickExam={(session) => { setMarkedSource(null); setMarkError(''); setAttempt(session); setLevel(session.paper.level); setMode(session.mode); setReading(null); setRecords(null) }} onPickReading={(session) => { setReading(session); setRecords(null) }} />}
     </Suspense>
   </main></>
 }
