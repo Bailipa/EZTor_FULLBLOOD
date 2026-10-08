@@ -41,6 +41,13 @@ describe('new onboarding recovery and completion', () => {
     await vi.waitFor(() => expect(render().currentStep).toBe(13))
     expect(fetch).toHaveBeenCalledWith('/api/onboarding/status?resume=1')
   })
+  it('restores an existing user’s manually reopened tour even after prior completion', async () => {
+    localStorage.setItem('onboarding:v2:alice', '12')
+    vi.mocked(fetch).mockResolvedValueOnce({ ok: true, json: async () => ({ success: true, needsOnboarding: false }) } as Response)
+    render(); h.effects[0]()
+    await vi.waitFor(() => expect(render().currentStep).toBe(12))
+    expect(render().isActive).toBe(true)
+  })
   it('keeps the tour and saved progress when completion fails', async () => {
     render().startOnboarding(); render(); h.effects[1]()
     vi.mocked(fetch).mockResolvedValueOnce({ ok: false } as Response)

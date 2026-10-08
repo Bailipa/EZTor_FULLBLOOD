@@ -54,7 +54,7 @@ export function OnboardingProvider({ children }: { children: React.ReactNode }) 
         if (!response.ok) throw new Error('引导状态暂不可用')
         const result = await response.json()
         if (!result.success) throw new Error('引导状态暂不可用')
-        if (active && requestVersion === revision.current) setState(result.needsOnboarding ? { currentStep: resumable ? saved as OnboardingStep : 11, isActive: true, needsOnboarding: true, isLoading: false } : idle)
+        if (active && requestVersion === revision.current) setState(result.needsOnboarding || resumable ? { currentStep: resumable ? saved as OnboardingStep : 11, isActive: true, needsOnboarding: true, isLoading: false } : idle)
       })
       .catch(() => { if (active && requestVersion === revision.current) setState(idle) })
     return () => { active = false }
