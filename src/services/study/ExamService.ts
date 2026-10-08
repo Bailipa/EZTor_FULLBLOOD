@@ -148,6 +148,10 @@ export function examSessionView(row: Row, now = new Date()): ExamSessionView {
     drafts: state.drafts,
     readingMarks: state.readingMarks ?? [],
     readingHighlights: state.readingHighlights ?? [],
+    ...(row.status === 'COMPLETE' && ['FULL', 'READING'].includes(row.mode) && content.READING ? { readingContent: {
+      instructions: content.READING.instructions, passages: content.READING.passages,
+      questions: content.READING.questions.map(({ answerIndex: _, explanation: __, ...q }) => q), audio: [],
+    } } : {}),
     stageContent: current
       ? {
           instructions: current.instructions,
@@ -398,9 +402,9 @@ export async function examAction(
   return db.$transaction(async (tx) => {
     await lock(tx, userId)
     const now = new Date()
-    const highlighting = action.type === 'READING_HIGHLIGHT'
+    const readingAction = action.type === 'READING_MARK' || action.type === 'READING_HIGHLIGHT' || action.type === 'READING_HELP'
     let row = await owned(tx, userId, id)
-    if (!highlighting) row = await advance(tx, row, now)
+    row = await advance(tx, row, now)
     const old = await tx.examEvent.findUnique({
       where: { userId_clientId: { userId, clientId: action.clientId } },
     })
@@ -411,7 +415,7 @@ export async function examAction(
     }
     if (row.revision !== action.revision)
       throw new StudyInputError('另一处已更新作答，请刷新恢复最新记录', 409)
-    if (!highlighting && row.status !== action.stage)
+    if (row.status !== action.stage && !(readingAction && (row.status === 'COMPLETE' || stateOf(row).submissions.READING)))
       throw new StudyInputError('阶段已结束，请恢复最新考试记录', 409)
     const state = stateOf(row),
       content = parseExamContent(
@@ -420,14 +424,18 @@ export async function examAction(
         row.paper.kind as ExamPaperKind,
       ),
       section = content[action.stage]!
-    if (highlighting && (!section || !['FULL', 'READING'].includes(row.mode)))
+    if (readingAction && (!section || !['FULL', 'READING'].includes(row.mode)))
       throw new StudyInputError('本练习没有阅读内容')
     if (action.type === 'READING_MARK' || action.type === 'READING_HIGHLIGHT' || action.type === 'READING_HELP') {
       const { mark } = action
       const passage = section.passages.find((p) => p.id === mark.passageId)
       if (!passage || passage.text.slice(mark.start, mark.end) !== mark.text)
         throw new StudyInputError('阅读标记与原文不一致')
-      if (action.type === 'READING_HELP') row.assisted = true
+      if (action.type === 'READING_HELP') {
+        if (row.mode === 'FULL' && row.status !== 'COMPLETE')
+          throw new StudyInputError('整卷考试完成后才可查词、翻译或问 AI', 403)
+        if (row.status !== 'COMPLETE') row.assisted = true
+      }
       else if (action.type === 'READING_HIGHLIGHT') {
         const token = [...passage.text.matchAll(/[A-Za-z]+(?:['’\-][A-Za-z]+)*/g)].find((word) => word.index === mark.start && word.index + word[0].length === mark.end)
         if (!token) throw new StudyInputError('荧光标记只能用于完整的单个单词')

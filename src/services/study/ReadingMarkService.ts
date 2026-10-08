@@ -10,7 +10,14 @@ import type { ReadingMarkItem, ReadingMarkPage } from '@/features/study/readingM
 type Row = ExamAttempt & { paper: ExamPaper }
 function markedContent(row: Row) {
   const section = parseExamContent(row.paper.content, row.paper.level as StudyLevel, row.paper.kind as ExamPaperKind).READING
-  const marks = (row.state as unknown as ExamState).readingMarks ?? []
+  const state = row.state as unknown as ExamState
+  const seen = new Set<string>()
+  const marks = [...(state.readingMarks ?? []), ...(state.readingHighlights ?? [])].filter((mark) => {
+    const key = JSON.stringify([mark.passageId, mark.start, mark.end])
+    if (seen.has(key)) return false
+    seen.add(key)
+    return true
+  })
   return { section, marks: marks.filter((mark) => {
     const passage = section?.passages.find((p) => p.id === mark.passageId)
     return passage && Number.isInteger(mark.start) && Number.isInteger(mark.end) && mark.start >= 0 && mark.end > mark.start && passage.text.slice(mark.start, mark.end) === mark.text
@@ -36,8 +43,10 @@ export async function readingMarks(userId: string, cursor: string | null, db: Pr
   const ids = await db.$queryRaw<{ id: string }[]>(Prisma.sql`
     SELECT a.id FROM "ExamAttempt" a JOIN "ExamPaper" p ON p.id = a."paperId"
     WHERE a."userId" = ${userId} AND ${examAccessSql(userId)} AND p."rightsStatus" = 'APPROVED'
-      AND CASE WHEN jsonb_typeof(a.state->'readingMarks') = 'array'
+      AND (CASE WHEN jsonb_typeof(a.state->'readingMarks') = 'array'
         THEN jsonb_array_length(a.state->'readingMarks') > 0 ELSE false END
+        OR CASE WHEN jsonb_typeof(a.state->'readingHighlights') = 'array'
+        THEN jsonb_array_length(a.state->'readingHighlights') > 0 ELSE false END)
       ${cursor ? Prisma.sql`AND a.id < ${cursor}` : Prisma.empty}
     ORDER BY a.id DESC LIMIT 11`)
   const rows = await db.examAttempt.findMany({ where: { userId, id: { in: ids.slice(0, 10).map((r) => r.id) }, paper: { rightsStatus: 'APPROVED' } }, include: { paper: true }, orderBy: { id: 'desc' } })

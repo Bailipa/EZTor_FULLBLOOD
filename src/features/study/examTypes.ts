@@ -111,6 +111,7 @@ export type ExamSessionView = {
   drafts: ExamState['drafts']
   readingMarks?: ReadingMark[]
   readingHighlights?: ReadingMark[]
+  readingContent?: NonNullable<ExamSessionView['stageContent']>
   stageContent:
     | (Omit<ExamSection, 'questions' | 'audio' | 'reference'> & {
         questions: Omit<ExamQuestion, 'answerIndex' | 'explanation'>[]

@@ -6,8 +6,9 @@ import { lazy, Suspense, useEffect, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useSession } from 'next-auth/react'
-import { Files, History, Settings2, ChartNoAxesCombined } from 'lucide-react'
+import { Files, History, Settings2, ChartNoAxesCombined, Ellipsis } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from '@/components/ui/dropdown-menu'
 import { studyRequest } from './client'
 import { EXAM_MODE_LABELS, type ExamMode, type ExamSessionView } from './examTypes'
 import type { StudyLevel } from './domain'
@@ -79,15 +80,24 @@ function AccountWorkspace({ accountId, showMaterials, showEvidence, markTarget, 
   }, [accountId, reload, markTarget, examId])
   const pickMode = (next: ExamMode) => { setMarkedSource(null); setMarkError(''); setAttempt(undefined); setReading(null); setMode(next) }
   return <>
+    <div className={styles.navigation}>
     <nav className={styles.modeTabs} aria-label="备考专项">{MODES.map((item) => <button key={item} disabled={markLoading} onClick={() => pickMode(item)} aria-pressed={mode === item && !reading}>{item === 'FULL' ? '整卷' : EXAM_MODE_LABELS[item].replace('练习', '')}</button>)}</nav>
-    <main className={styles.workspace} data-workspace-page data-workspace-study>
     <div className={styles.meta}>
       <ThemedSelect disabled={markLoading} aria-label="练习级别" value={level} onValueChange={(value) => { setLevel(value as StudyLevel); setMarkedSource(null); setMarkError(''); setAttempt(undefined); setReading(null) }}><SelectItem value="CET4">四级</SelectItem><SelectItem value="CET6">六级</SelectItem></ThemedSelect>
-      <button className={styles.utility} onClick={() => setMaterials(true)}><Files size={16} />{catalogue ? `试卷目录 · ${catalogue.totalSets} 套` : '试卷目录'}</button>
-      <button className={styles.utility} onClick={() => setGoal(true)}><Settings2 size={14} />{home?.goal ? `目标 ${home.goal.targetScore} 分` : '设置目标'}</button>
-      <button className={styles.utility} disabled={markLoading} onClick={() => setRecords('analysis')}><ChartNoAxesCombined size={14} />试卷分析</button>
-      <button className={styles.utility} disabled={markLoading} onClick={() => setRecords('records')}><History size={14} />学习记录</button>
+      <button className={`${styles.utility} ${styles.directTool}`} disabled={markLoading} onClick={() => setRecords('analysis')}><ChartNoAxesCombined size={16} />试卷分析</button>
+      <button className={`${styles.utility} ${styles.directTool}`} disabled={markLoading} onClick={() => setRecords('records')}><History size={16} />学习记录</button>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild><button className={styles.utility} aria-label="打开学习工具"><Ellipsis size={18} /><span>工具</span></button></DropdownMenuTrigger>
+        <DropdownMenuContent align="end" className="min-w-48">
+          <DropdownMenuItem onSelect={() => setMaterials(true)}><Files size={16} />{catalogue ? `试卷目录 · ${catalogue.totalSets} 套` : '试卷目录'}</DropdownMenuItem>
+          <DropdownMenuItem onSelect={() => setGoal(true)}><Settings2 size={16} />{home?.goal ? `目标 ${home.goal.targetScore} 分` : '设置目标'}</DropdownMenuItem>
+          <DropdownMenuItem className={styles.compactMenuItem} disabled={markLoading} onSelect={() => setRecords('analysis')}><ChartNoAxesCombined size={16} />试卷分析</DropdownMenuItem>
+          <DropdownMenuItem className={styles.compactMenuItem} disabled={markLoading} onSelect={() => setRecords('records')}><History size={16} />学习记录</DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
     </div>
+    </div>
+    <main className={styles.workspace} data-workspace-page data-workspace-study>
     {error && <p role="alert" className={styles.empty}>{error}<button className={styles.utility} onClick={() => setReload((old) => old + 1)}>重试</button></p>}
     <div className={styles.practice}>
       {markedSource && <Button asChild variant="outline"><Link href="/history?view=marks">返回标记查询</Link></Button>}

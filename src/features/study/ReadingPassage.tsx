@@ -5,7 +5,7 @@ import type { ReadingMark } from './examTypes'
 import styles from './exam.module.css'
 
 type WordToken = { start: number; end: number; text: string }
-function words(text: string, start: number, highlights: Set<string>, tokens: WordToken[]): ReactNode[] {
+function words(text: string, start: number, highlights: Set<string>, tokens: WordToken[], allowHelp: boolean): ReactNode[] {
   const parts: ReactNode[] = []
   let cursor = 0
   let first = 0, last = tokens.length
@@ -21,16 +21,16 @@ function words(text: string, start: number, highlights: Set<string>, tokens: Wor
     const end = Math.min(token.end, start + text.length) - start
     parts.push(text.slice(cursor, offset))
     const highlighted = highlights.has(`${token.start}:${token.end}`)
-    parts.push(<span role="button" tabIndex={0} aria-label={highlighted ? `${token.text}，再次点按取消荧光` : `${token.text}，点按查词并荧光标记`} aria-pressed={highlighted} key={`${start + offset}:${start + end}`} data-word-start={token.start} data-word-end={token.end} className={`${styles.lookupWord} ${highlighted ? styles.lookupHighlighted : ''}`}>{text.slice(offset, end)}</span>)
+    parts.push(<span role="button" tabIndex={0} aria-label={highlighted ? `${token.text}，再次点按取消荧光` : `${token.text}，${allowHelp ? '点按查词并荧光标记' : '点按荧光标记'}`} aria-pressed={highlighted} key={`${start + offset}:${start + end}`} data-word-start={token.start} data-word-end={token.end} className={`${styles.lookupWord} ${highlighted ? styles.lookupHighlighted : ''}`}>{text.slice(offset, end)}</span>)
     cursor = end
   }
   parts.push(text.slice(cursor))
   return parts
 }
 
-export default function ReadingPassage({ passage, marks, highlights, disabled, onMark, onHighlight, onHelp, readOnly = false, focusMark }: {
+export default function ReadingPassage({ passage, marks, highlights, disabled, onMark, onHighlight, onHelp, readOnly = false, allowHelp = true, focusMark }: {
   passage: { id: string; text: string }; marks: ReadingMark[]; highlights: ReadingMark[]; disabled: boolean
-  readOnly?: boolean; focusMark?: ReadingMark
+  readOnly?: boolean; allowHelp?: boolean; focusMark?: ReadingMark
   onMark: (mark: ReadingMark, marked: boolean) => void
   onHighlight: (mark: ReadingMark, marked: boolean) => Promise<boolean | void>
   onHelp: (mark: ReadingMark, mode: 'translate' | 'ask') => void
@@ -44,7 +44,7 @@ export default function ReadingPassage({ passage, marks, highlights, disabled, o
   const highlighted = useMemo(() => new Set(highlights.filter((mark) => mark.passageId === passage.id).map((mark) => `${mark.start}:${mark.end}`)), [highlights, passage.id])
   useEffect(() => {
     if (!focusMark || focusMark.passageId !== passage.id) return
-    const node = article.current?.querySelector<HTMLElement>(`mark[data-mark-start="${focusMark.start}"][data-mark-end="${focusMark.end}"]`)
+    const node = article.current?.querySelector<HTMLElement>(`mark[data-mark-start="${focusMark.start}"][data-mark-end="${focusMark.end}"], [data-word-start="${focusMark.start}"][data-word-end="${focusMark.end}"]`)
     node?.scrollIntoView({ block: 'center' })
     node?.focus({ preventScroll: true })
   }, [focusMark, passage.id])
@@ -73,13 +73,13 @@ export default function ReadingPassage({ passage, marks, highlights, disabled, o
     const parts: ReactNode[] = []
     let offset = 0
     for (const mark of saved) {
-      parts.push(...words(passage.text.slice(offset, mark.start), offset, highlighted, tokens))
-      parts.push(<mark key={`${mark.start}:${mark.end}`} data-mark-start={mark.start} data-mark-end={mark.end} data-focused={focusMark?.start === mark.start && focusMark.end === mark.end ? 'true' : undefined} tabIndex={0} role="group" aria-label={`已标记：${mark.text}，点击管理`} onClick={(event) => { if (!(event.target as HTMLElement).closest('[data-word-start]')) setSelection(mark) }} onKeyDown={(event) => { if ((event.target as HTMLElement).closest('[data-word-start]')) return; if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); setSelection(mark) } }}>{words(mark.text, mark.start, highlighted, tokens)}</mark>)
+      parts.push(...words(passage.text.slice(offset, mark.start), offset, highlighted, tokens, allowHelp))
+      parts.push(<mark key={`${mark.start}:${mark.end}`} data-mark-start={mark.start} data-mark-end={mark.end} data-focused={focusMark?.start === mark.start && focusMark.end === mark.end ? 'true' : undefined} tabIndex={0} role="group" aria-label={`已标记：${mark.text}，点击管理`} onClick={(event) => { if (!(event.target as HTMLElement).closest('[data-word-start]')) setSelection(mark) }} onKeyDown={(event) => { if ((event.target as HTMLElement).closest('[data-word-start]')) return; if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); setSelection(mark) } }}>{words(mark.text, mark.start, highlighted, tokens, allowHelp)}</mark>)
       offset = mark.end
     }
-    parts.push(...words(passage.text.slice(offset), offset, highlighted, tokens))
+    parts.push(...words(passage.text.slice(offset), offset, highlighted, tokens, allowHelp))
     return parts
-  }, [saved, passage.text, focusMark, highlighted, tokens])
+  }, [saved, passage.text, focusMark, highlighted, tokens, allowHelp])
   const tapWord = async (word: HTMLElement) => {
     if (disabled || tapping.current) return
     const start = Number(word.dataset.wordStart), end = Number(word.dataset.wordEnd)
@@ -87,14 +87,14 @@ export default function ReadingPassage({ passage, marks, highlights, disabled, o
     const removing = highlighted.has(`${start}:${end}`)
     tapping.current = true
     try {
-      if (await onHighlight(mark, !removing) && !removing) onHelp(mark, 'translate')
+      if (await onHighlight(mark, !removing) && !removing && allowHelp) onHelp(mark, 'translate')
     } finally { tapping.current = false }
   }
   const tools = selection && <div className={styles.selectionTools} role="toolbar" aria-label="选中文字操作">
       <span title={selection.text}>{selection.text}</span>
       <button disabled={disabled || readOnly} onClick={() => onMark(selection, !marked)}>{marked ? '取消标记' : '标记'}</button>
-      <button disabled={disabled} onClick={() => onHelp(selection, 'translate')}>查词</button>
-      <button disabled={disabled} onClick={() => onHelp(selection, 'ask')}>问 AI</button>
+      {allowHelp && <button disabled={disabled} onClick={() => onHelp(selection, 'translate')}>查词</button>}
+      {allowHelp && <button disabled={disabled} onClick={() => onHelp(selection, 'ask')}>问 AI</button>}
       <button aria-label="收起选词工具" onClick={() => setSelection(null)}>收起</button>
     </div>
   return <>

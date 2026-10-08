@@ -57,6 +57,7 @@
   :global(html[data-brand-theme='indigo']) .contextTabs a[aria-current='page'] { color: #fff; border-color: #fff; }
 
   :global(html[data-brand-theme][data-ui-style]) .frame [data-workspace-page] { min-height: var(--workspace-content-height); padding: 20px 24px 32px; }
+  :global(html[data-brand-theme][data-ui-style]) .frame [data-workspace-page][data-workspace-study] { min-height: calc(var(--workspace-content-height) - 56px); padding: 12px 16px 16px; }
   .frame [data-workspace-content] { max-width: none; margin: 0; }
   .frame [data-workspace-content] > * { margin-block: 0; }
   .frame [data-workspace-content] > * + * { margin-top: 16px; }

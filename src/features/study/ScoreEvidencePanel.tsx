@@ -1,6 +1,7 @@
 'use client'
 
 import { ThemedSelect, SelectItem } from '@/components/ui/themed-select'
+import Link from 'next/link'
 
 import { useCallback, useEffect, useRef, useState, type FormEvent } from 'react'
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog'
@@ -136,7 +137,10 @@ export default function ScoreEvidencePanel({ accountId, level, onChanged }: {
   return <section className={`${styles.panel} ${styles.workspace}`} aria-label="模考分数证据">
     <div className={styles.toolbar}>
       <h3>目标达成参考</h3>
-      <Button type="button" variant="outline" onClick={() => setDialogOpen(true)}>记录成绩</Button>
+      <div className={styles.row}>
+        <Link href="/history?view=marks" className={styles.textButton}>标记查询</Link>
+        <Button type="button" variant="outline" onClick={() => setDialogOpen(true)}>记录成绩</Button>
+      </div>
     </div>
     <p className={styles.subtle}>这里只显示自报完整模考的观察达标比例与样本范围，不是未来通过率。至少 5 次模考才显示比例（产品显示门槛，无官方背书）；官方成绩仅作历史记录。</p>
     {error && !dialogOpen && <div className={styles.error} role="alert">{error}{canRetry && <button className={styles.textButton} disabled={busy} onClick={() => void sendMutation()}>用原记录重试</button>}{!canRetry && !loading && <button className={styles.textButton} onClick={() => void loadScores()}>重试读取</button>}</div>}

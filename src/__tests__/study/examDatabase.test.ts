@@ -12,6 +12,7 @@ import {
   reviewExamPaper as reviewPaper,
   startExam,
 } from '@/services/study/ExamService'
+import { readingMarks, readingMarkSource } from '@/services/study/ReadingMarkService'
 import type { ExamAction, ExamState } from '@/features/study/examTypes'
 import { originalExamFixture } from './examFixture'
 async function reviewExamPaper(...args: Parameters<typeof reviewPaper>) {
@@ -277,6 +278,36 @@ describe.skipIf(!url)('Exam integrity in isolated PostgreSQL', () => {
     expect(completed.session.status).toBe('COMPLETE')
     expect(completed.session.result?.objective.totalWeight).toBe(35)
     expect(completed.session.result?.subjectiveSubmissions).toEqual([])
+  })
+  it('allows full-exam marks while locking help until the entire exam completes, including marked-source review', async () => {
+    let session = await startExam(users.b, { paperId, mode: 'FULL', clientId: randomUUID() }, db)
+    for (const stage of ['WRITING', 'LISTENING'] as const) {
+      session = (await examAction(users.b, session.id, { clientId: randomUUID(), revision: session.revision, type: 'SUBMIT_STAGE', stage }, db)).session
+    }
+    expect(session.readingContent).toBeUndefined()
+    const passage = session.stageContent!.passages[0]
+    const token = /[A-Za-z]+/.exec(passage.text)!
+    const mark = { passageId: passage.id, start: token.index, end: token.index + token[0].length, text: token[0] }
+    const action = (type: 'READING_MARK' | 'READING_HIGHLIGHT' | 'READING_HELP'): ExamAction => ({ clientId: randomUUID(), revision: session.revision, stage: 'READING', type, mark, marked: true })
+    session = (await examAction(users.b, session.id, action('READING_HIGHLIGHT'), db)).session
+    expect(session.assisted).toBe(false)
+    expect((await readingMarks(users.b, null, db)).items.some((item) => item.attemptId === session.id && item.text === mark.text)).toBe(true)
+    await expect(examAction(users.b, session.id, action('READING_HELP'), db)).rejects.toMatchObject({ status: 403 })
+    session = (await examAction(users.b, session.id, action('READING_MARK'), db)).session
+    session = (await examAction(users.b, session.id, { clientId: randomUUID(), revision: session.revision, type: 'SUBMIT_STAGE', stage: 'READING' }, db)).session
+    const source = await readingMarkSource(users.b, session.id, mark.passageId, mark.start, mark.end, db)
+    expect(source.session.status).toBe('TRANSLATION')
+    await expect(examAction(users.b, session.id, action('READING_HELP'), db)).rejects.toMatchObject({ status: 403 })
+    session = (await examAction(users.b, session.id, { clientId: randomUUID(), revision: session.revision, type: 'SUBMIT_STAGE', stage: 'TRANSLATION' }, db)).session
+    expect(session.status).toBe('COMPLETE')
+    expect(session.readingContent?.passages).toContainEqual(passage)
+    expect(session.readingContent?.questions.every((question) => !('answerIndex' in question))).toBe(true)
+    session = (await examAction(users.b, session.id, action('READING_HELP'), db)).session
+    expect(session.assisted).toBe(false)
+    expect((await readingMarkSource(users.b, session.id, mark.passageId, mark.start, mark.end, db)).session.status).toBe('COMPLETE')
+    session = (await examAction(users.b, session.id, { clientId: randomUUID(), revision: session.revision, stage: 'READING', type: 'READING_MARK', mark, marked: false }, db)).session
+    expect(session.readingMarks).toEqual([])
+    expect(session.readingHighlights).toEqual([mark])
   })
   it('isolates reading, translation and writing practice without exposing other sections or changing full simulation', async () => {
     for (const mode of ['READING', 'TRANSLATION', 'WRITING'] as const) {
