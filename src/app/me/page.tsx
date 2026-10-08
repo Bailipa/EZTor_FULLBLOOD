@@ -38,7 +38,7 @@ import {
   FileSearch,
   Lock,
   ClipboardList,
-  MonitorDown,
+  CircleHelp,
   SlidersHorizontal,
   ChevronDown,
   Trash2,
@@ -54,7 +54,6 @@ import { FEATURE_UNLOCK_THRESHOLDS } from '@/features/gamification/constants'
 import { Switch } from '@/components/ui/switch'
 import { Input } from '@/components/ui/input'
 import { toast } from 'sonner'
-import { useAppVersion } from '@/hooks/useAppVersion'
 import { getAiHistoryBytes, clearAiHistory, formatBytes } from '@/lib/aiHistoryCache'
 import { speakText } from '@/lib/ttsBrowser'
 import { playSavedFeedbackSound } from '@/lib/feedbackSounds'
@@ -74,7 +73,6 @@ export default function MePage() {
   const qqGroupUrl = useQQGroupUrl()
   const userId = session?.user?.id
   const isAuthenticated = status === 'authenticated' && !!session?.user
-  const appVer = useAppVersion()
   const interfaceStyle = useInterfaceStyle()
 
   const [combatPower, setCombatPower] = useState<number | null>(null)
@@ -722,31 +720,9 @@ export default function MePage() {
                     <ChevronRight className="w-4 h-4 text-muted-foreground" />
                   </Link>
 
-                  {/* 下载入口保留已装版本和可用更新信息。 */}
-                  <Link
-                    href="/download"
-                    className="flex items-center justify-between p-4 hover:bg-muted/50 transition-colors"
-                  >
-                    <span className="flex items-center gap-3">
-                      <MonitorDown className="w-5 h-5 text-muted-foreground" />
-                      <span className="font-medium">下载APP</span>
-                    </span>
-                    <span className="flex items-center gap-2">
-                      <span className="text-sm font-mono tabular-nums text-muted-foreground">
-                        {appVer.mounted && appVer.isApp
-                          ? `v${appVer.installedVersion ?? '?'}`
-                          : `v${appVer.latestVersion ?? '?'}`}
-                      </span>
-                      {appVer.mounted &&
-                        appVer.isApp &&
-                        appVer.hasUpdate === true &&
-                        appVer.latestVersion && (
-                          <span className="text-xs text-amber-600 dark:text-amber-400">
-                            → v{appVer.latestVersion}
-                          </span>
-                        )}
-                      <ChevronRight className="w-4 h-4 text-muted-foreground" />
-                    </span>
+                  <Link href="/download" className="flex items-center justify-between p-4 hover:bg-muted/50 transition-colors">
+                    <span className="flex items-center gap-3"><CircleHelp className="w-5 h-5 text-muted-foreground" /><span className="font-medium">使用指南</span></span>
+                    <ChevronRight className="w-4 h-4 text-muted-foreground" />
                   </Link>
                 </CardContent>
               </Card>
@@ -813,8 +789,6 @@ export default function MePage() {
                   {!isAuthenticated && (
                     <a
                       href="/flywheel-preview.html"
-                      target="_blank"
-                      rel="noopener noreferrer"
                       className="flex items-center justify-between p-4 hover:bg-muted/50 transition-colors"
                     >
                       <span className="flex items-center gap-3">

@@ -4,11 +4,10 @@ import { usePathname, useRouter } from 'next/navigation'
 import { signOut, useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import { Home, PenTool, BookOpen, MessageCircle, LogOut, ExternalLink, Trophy, Download, Sparkles, Settings2, Ellipsis } from 'lucide-react'
+import { Home, PenTool, BookOpen, MessageCircle, LogOut, ExternalLink, Trophy, CircleHelp, Sparkles, Settings2, Ellipsis } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import { ModeToggle } from '@/components/mode-toggle'
 import { DonationButton } from '@/components/home/DonationModal'
-import { useAppVersion } from '@/hooks/useAppVersion'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -65,20 +64,11 @@ export default function AppSidebar({ navItems, bottomItems, showDonation = true 
   const qqGroupUrl = useQQGroupUrl()
   const { data: session, status } = useSession()
   const isAuthenticated = status === 'authenticated' && session?.user
-  const appVer = useAppVersion()
 
   const items = navItems ?? DEFAULT_NAV_ITEMS.map((item) => item.href === '/history' && status === 'unauthenticated' ? { ...item, href: '/public-vocabulary' } : item)
 
-  // 下载/更新项：浏览器恒显示"下载应用"；应用内仅确知有更新时显示"更新软件"，加载中/已最新均隐藏
-  const isApp = appVer.mounted && appVer.isApp
-  const downloadLabel = isApp ? '更新软件' : '下载应用'
-
-  const visibleItems = items.filter((item) => {
-    if (!mainVisible(item.href)) return false
-    if (item.href !== '/download') return true
-    if (!isApp) return true
-    return appVer.hasUpdate === true
-  })
+  const guideLabel = '使用指南'
+  const visibleItems = items.filter((item) => mainVisible(item.href))
 
   const defaultBottomItems: SidebarBottomItem[] = [
     {
@@ -110,7 +100,7 @@ export default function AppSidebar({ navItems, bottomItems, showDonation = true 
             const Icon = item.icon
             const isActive = navItems ? pathname === item.href : getWorkspaceSection(pathname) === getWorkspaceSection(item.href)
             const isLocked = item.requiresAuth && status === 'unauthenticated'
-            const label = item.href === '/download' ? downloadLabel : item.label
+            const label = item.href === '/download' ? guideLabel : item.label
 
             const handleClick = (e: React.MouseEvent) => {
               if (isLocked) {
@@ -151,7 +141,7 @@ export default function AppSidebar({ navItems, bottomItems, showDonation = true 
             <DropdownMenu>
               <DropdownMenuTrigger asChild><Button variant="ghost" size="icon" aria-label="更多工具" title="更多工具"><Ellipsis className="size-4" /></Button></DropdownMenuTrigger>
               <DropdownMenuContent side="right" align="end">
-                {(!isApp || appVer.hasUpdate === true) && <DropdownMenuItem asChild><Link href="/download"><Download className="size-4" />{downloadLabel}</Link></DropdownMenuItem>}
+                {<DropdownMenuItem asChild><Link href="/download"><CircleHelp className="size-4" />{guideLabel}</Link></DropdownMenuItem>}
                 {bottoms.map((item) => <DropdownMenuItem key={item.label} onSelect={item.onClick}><item.icon className="size-4" />{item.label}</DropdownMenuItem>)}
               </DropdownMenuContent>
             </DropdownMenu>

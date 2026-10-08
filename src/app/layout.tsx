@@ -8,7 +8,6 @@ import { InterfaceStyleProvider } from '@/components/interface-style-provider'
 import { BrandThemeProvider } from '@/components/brand-theme-provider'
 import { OnboardingProvider } from '@/components/onboarding/OnboardingProvider'
 import { DanmakuHost } from '@/components/layout/DanmakuHost'
-import { AppUpdatePrompt } from '@/components/layout/AppUpdatePrompt'
 import SharedNavigation from '@/components/layout/SharedNavigation'
 import { NativeKeyboardLayoutProvider } from '@/components/layout/NativeKeyboardLayoutProvider'
 import { GlobalFeedbackSounds } from '@/components/layout/GlobalFeedbackSounds'
@@ -91,7 +90,6 @@ export default function RootLayout({
                 {children}
                 </NativeKeyboardLayoutProvider>
               </OnboardingProvider>
-              <AppUpdatePrompt />
               <FeedbackToaster />
                           </InterfaceStyleProvider>
             </BrandThemeProvider>

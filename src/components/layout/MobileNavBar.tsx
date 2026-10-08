@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState, type CSSProperties, type Poin
 import { usePathname, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { Dialog } from 'radix-ui'
-import { Home, PenTool, Sparkles, Settings2, Grid2X2, LockKeyhole, BookOpen, Trophy, MonitorDown, Coffee, MonitorPlay } from 'lucide-react'
+import { Home, PenTool, Sparkles, Settings2, Grid2X2, LockKeyhole, BookOpen, Trophy, CircleHelp, Coffee, MonitorPlay } from 'lucide-react'
 import { useSession } from 'next-auth/react'
 import { useMinimalFeatures } from '@/components/interface-style-provider'
 import styles from './mobile-navigation.module.css'
@@ -27,7 +27,7 @@ const navItems = [
   { href: '/study', label: '四六级备考', icon: BookOpen, requiresAuth: false },
   { href: '/me', label: '设置', icon: Settings2, requiresAuth: false },
 ]
-const downloadTarget = navItems.length
+const guideTarget = navItems.length
 const donationTarget = navItems.length + 1
 const danmakuTarget = navItems.length + 2
 const prefetchRoutes = process.env.NODE_ENV === 'production'
@@ -39,7 +39,7 @@ function navPosition(index: number, count: number) {
 }
 
 function dragTargetLabel(target: number) {
-  if (target === downloadTarget) return '下载APP'
+  if (target === guideTarget) return '使用指南'
   if (target === donationTarget) return '打赏作者'
   if (target === danmakuTarget) return '弹幕复习'
   return navItems[target]?.label ?? ''
@@ -77,7 +77,7 @@ export default function MobileNavBar() {
   const fanRef = useRef<HTMLDivElement>(null)
   const navItemRefs = useRef(new Map<number, HTMLAnchorElement>())
   const utilityActionsRef = useRef<HTMLDivElement>(null)
-  const downloadActionRef = useRef<HTMLAnchorElement>(null)
+  const guideActionRef = useRef<HTMLAnchorElement>(null)
   const donationActionRef = useRef<HTMLButtonElement>(null)
   const danmakuActionRef = useRef<HTMLButtonElement>(null)
   const cursorRef = useRef<HTMLSpanElement>(null)
@@ -143,7 +143,7 @@ export default function MobileNavBar() {
     if (!dragBounds.current.size) {
       const targets: [number, HTMLElement | null][] = [
         ...visibleNavItems.map(({ originalIndex }) => [originalIndex, navItemRefs.current.get(originalIndex) ?? null] as [number, HTMLElement | null]),
-        [downloadTarget, downloadActionRef.current],
+        [guideTarget, guideActionRef.current],
         [donationTarget, donationActionRef.current],
         ...(showDanmaku ? [[danmakuTarget, danmakuActionRef.current] as [number, HTMLElement | null]] : []),
       ]
@@ -178,7 +178,7 @@ export default function MobileNavBar() {
         setHighlighted(target)
         if (target !== null) playFeedbackSound('select')
         if (prefetchRoutes) {
-          if (target === downloadTarget) router.prefetch('/download')
+          if (target === guideTarget) router.prefetch('/download')
           else if (target !== null && target < navItems.length) router.prefetch(destination(target))
         }
       }
@@ -207,7 +207,7 @@ export default function MobileNavBar() {
     if (target !== null) {
       playFeedbackSound(target === donationTarget || target === danmakuTarget ? 'tap' : 'navigate')
       setMenuOpen(false)
-      if (target === downloadTarget) router.push('/download')
+      if (target === guideTarget) router.push('/download')
       else if (target === donationTarget) donationActionRef.current?.click()
       else if (target === danmakuTarget) danmakuActionRef.current?.click()
       else router.push(destination(target))
@@ -297,7 +297,7 @@ export default function MobileNavBar() {
             const edge = event.shiftKey ? targets[0] : targets[targets.length - 1]
             if (event.target === edge) {
               event.preventDefault()
-              ;(event.shiftKey ? donationActionRef.current : downloadActionRef.current)?.focus()
+              ;(event.shiftKey ? donationActionRef.current : guideActionRef.current)?.focus()
             }
           }}
           onInteractOutside={(event) => {
@@ -307,7 +307,7 @@ export default function MobileNavBar() {
           onOpenAutoFocus={(event) => {
             if (gesture.current) { event.preventDefault(); return }
             event.preventDefault()
-            ;(activeLinkRef.current ?? downloadActionRef.current)?.focus()
+            ;(activeLinkRef.current ?? guideActionRef.current)?.focus()
           }}
         >
           <Dialog.Title className="sr-only">页面导航</Dialog.Title>
@@ -369,16 +369,16 @@ export default function MobileNavBar() {
         onKeyDown={(event) => {
           if (event.key === 'Escape') { event.preventDefault(); changeOpen(false); return }
           if (event.key !== 'Tab') return
-          const edge = event.shiftKey ? downloadActionRef.current : donationActionRef.current
+          const edge = event.shiftKey ? guideActionRef.current : donationActionRef.current
           if (event.target !== edge) return
           const targets = fanRef.current?.querySelectorAll<HTMLElement>('a[href], button:not([disabled])')
           const next = event.shiftKey ? targets?.[targets.length - 1] : targets?.[0]
           if (next) { event.preventDefault(); next.focus() }
         }}
       >
-        <Link ref={downloadActionRef} href="/download" data-minimal-surface className={styles.utilityAction} data-highlighted={highlighted === downloadTarget} onClick={() => { playFeedbackSound('navigate'); changeOpen(false) }}>
-          <MonitorDown size={17} aria-hidden="true" />
-          <span>下载APP</span>
+        <Link ref={guideActionRef} href="/download" data-minimal-surface className={styles.utilityAction} data-highlighted={highlighted === guideTarget} onClick={() => { playFeedbackSound('navigate'); changeOpen(false) }}>
+          <CircleHelp size={17} aria-hidden="true" />
+          <span>使用指南</span>
         </Link>
         <DonationDialog contentClassName="z-[90]" onOpenChange={(nextOpen) => { if (nextOpen) changeOpen(false) }}>
           <button ref={donationActionRef} type="button" data-minimal-surface className={styles.utilityAction} data-highlighted={highlighted === donationTarget} aria-label="打赏作者" onClick={() => playFeedbackSound('tap')}>

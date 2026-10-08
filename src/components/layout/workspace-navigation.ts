@@ -1,4 +1,4 @@
-import { BookOpen, Home, PenTool, Settings2, Sparkles, Trophy, Download } from 'lucide-react'
+import { BookOpen, Home, PenTool, Settings2, Sparkles, Trophy, CircleHelp } from 'lucide-react'
 
 export const vocabularyTabs = [
   { href: '/history', label: '生词本' },
@@ -26,5 +26,5 @@ export const workspaceSections = {
   vocabulary: { label: '词库', icon: BookOpen },
   ranking: { label: '排行榜', icon: Trophy },
   settings: { label: '设置', icon: Settings2 },
-  download: { label: '下载APP', icon: Download },
+  download: { label: '使用指南', icon: CircleHelp },
 }

@@ -9,10 +9,9 @@ import { HomeHeader } from '@/components/home/HomeHeader'
 import { useLoginPrompt } from '@/components/ui/login-prompt-modal'
 import AppLayout from '@/components/layout/AppLayout'
 import { useAnalytics, usePageView } from '@/lib/analytics'
-import { useOnboarding } from '@/components/onboarding/OnboardingProvider'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { GraduationCap, BookOpen, AlertCircle, PenLine, Languages, ArrowUpRight, ArrowRight } from 'lucide-react'
+import { BookOpen, AlertCircle, PenLine, Languages, ArrowUpRight, ArrowRight } from 'lucide-react'
 import styles from '@/components/ai/translation-workspace.module.css'
 import studyStyles from '@/features/study/study.module.css'
 import { CombatPowerBadge, type CombatPowerSummary } from '@/features/gamification/components/CombatPowerBadge'
@@ -26,16 +25,13 @@ export default function HomeContent() {
   const { minimal, mainVisible } = useMinimalFeatures()
   usePageView('Home')
   const { track } = useAnalytics()
-  const { currentStep, isActive, nextStep, completeOnboarding, startOnboarding } = useOnboarding()
   const router = useRouter()
-  const [hasInteractedWithFlashcard, setHasInteractedWithFlashcard] = useState(false)
   const [flashcardOpenRequest, setFlashcardOpenRequest] = useState(0)
 
   const [unlockNotifOpen, setUnlockNotifOpen] = useState(false)
   const [unlockedFeatures, _setUnlockedFeatures] = useState<FeatureKey[]>([])
   const [taskRefreshKey, setTaskRefreshKey] = useState(0)
   const [profile, setProfile] = useState<CombatPowerSummary | null>(null)
-  const [isMobileViewport, setIsMobileViewport] = useState(false)
   const profileRequestRef = useRef<Promise<CombatPowerSummary | null> | null>(null)
   const profileUserIdRef = useRef<string | null>(null)
 
@@ -46,14 +42,6 @@ export default function HomeContent() {
   } = useLoginPrompt()
 
   const isAuthenticated = status === 'authenticated' && !!session?.user
-
-  useEffect(() => {
-    const media = window.matchMedia('(max-width: 767px)')
-    const update = () => setIsMobileViewport(media.matches)
-    update()
-    media.addEventListener('change', update)
-    return () => media.removeEventListener('change', update)
-  }, [])
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -145,9 +133,7 @@ export default function HomeContent() {
               <div data-home-grid>
                 <section data-home-study className="mt-5 min-w-0 md:mt-0" aria-label="四六级备考">
                   <Suspense fallback={<div className="flex min-h-60 items-center justify-center text-sm text-muted-foreground">载入阅读工作台…</div>}>
-                    <StudyHome
-                      onInteraction={() => { if (isAuthenticated) setHasInteractedWithFlashcard(true) }}
-                    />
+                    <StudyHome />
                   </Suspense>
                 </section>
 
@@ -194,80 +180,6 @@ export default function HomeContent() {
           </main>
         </div>
       </AppLayout>
-
-      {/* 新手引导入口悬浮按钮（仅登录用户） */}
-      {isAuthenticated && !isMobileViewport && !isActive && !hasInteractedWithFlashcard && (
-        <button
-          onClick={startOnboarding}
-          className="fixed right-4 z-50 flex items-center gap-2 px-4 py-2.5 rounded-full bg-primary text-primary-foreground shadow-lg hover:shadow-xl transition-all hover:scale-105 active:scale-95"
-          style={{ bottom: 'calc(5rem + env(safe-area-inset-bottom, 0px))' }}
-        >
-          <GraduationCap className="w-5 h-5" />
-          <span className="text-sm font-medium">新手引导</span>
-        </button>
-      )}
-
-      {/* 引导步骤 5：排行榜/学区介绍 */}
-      {isAuthenticated && isActive && currentStep === 5 && (
-        <div className="fixed left-4 right-4 z-50" style={{ bottom: 'calc(5rem + env(safe-area-inset-bottom, 0px))' }}>
-          <Card className="shadow-lg">
-            <CardContent className="p-4">
-              <h3 className="font-semibold mb-2">📊 学力系统</h3>
-              <p className="text-sm text-muted-foreground mb-3">
-                完成学习任务获得学力，在学区中排名！每月重置，排名越高称号越强。
-              </p>
-              <Button
-                className="w-full"
-                onClick={() => { nextStep(); router.push('/leaderboard') }}
-              >
-                去看看排行榜
-              </Button>
-            </CardContent>
-          </Card>
-        </div>
-      )}
-
-      {/* 引导步骤 7：每日任务介绍 */}
-      {isAuthenticated && isActive && currentStep === 7 && (
-        <div className="fixed left-4 right-4 z-50" style={{ bottom: 'calc(5rem + env(safe-area-inset-bottom, 0px))' }}>
-          <Card className="shadow-lg">
-            <CardContent className="p-4">
-              <h3 className="font-semibold mb-2">📋 每日任务</h3>
-              <p className="text-sm text-muted-foreground mb-3">
-                每天完成任务可获得最多 85 学力，分享还可额外获得 15 学力，连续打卡有加成！
-              </p>
-              <Button
-                className="w-full"
-                onClick={nextStep}
-              >
-                知道了
-              </Button>
-            </CardContent>
-          </Card>
-        </div>
-      )}
-
-      {/* 引导步骤 8：完成引导 */}
-      {isAuthenticated && isActive && currentStep === 8 && (
-        <>
-          <div className="fixed left-4 right-4 z-50" style={{ bottom: 'calc(5rem + env(safe-area-inset-bottom, 0px))' }}>
-            <Card className="shadow-lg">
-              <CardContent className="p-4">
-                <h3 className="font-semibold mb-2">🎉 引导完成！</h3>
-                <p className="text-sm text-muted-foreground mb-3">
-                  去探索更多功能吧：弹幕复习、错词本、公共词库、分享成就和聊天反馈。
-                </p>
-                <Button
-                  className="w-full"
-                  onClick={completeOnboarding}
-                >
-                  开始学习
-                </Button>
-              </CardContent>
-            </Card>
-          </div>
-        </>
-      )}
 
       {isAuthenticated && (
         <FeatureUnlockNotification

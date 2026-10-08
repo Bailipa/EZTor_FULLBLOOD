@@ -5,7 +5,7 @@ export default function manifest(): MetadataRoute.Manifest {
   return {
     name: 'EZTor - 智能英语翻译与词汇记忆工具',
     short_name: 'EZTor',
-    description: 'AI 批量翻译、生词本、默写复习、弹幕背词。可安装为桌面/安卓应用。',
+    description: '四六级阅读与练习、公共词库查词、文章标记、生词复习。打开即可学习。',
     start_url: '/',
     display: 'standalone',
     background_color: '#09090b',
