@@ -140,6 +140,8 @@
   :global(html[data-brand-theme][data-ui-style]) .frame [data-workspace-settings-heading] { margin: 0 0 16px; padding: 0; min-height: 0; border: 0; border-radius: 0; background: none; }
   .frame [data-workspace-settings-heading] h1 { display: none; }
   :global(html[data-brand-theme][data-ui-style]) .frame [data-workspace-settings-grid] { gap: 32px; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); margin-bottom: 20px; }
+  :global(html[data-ui-style='studio']) .frame [data-workspace-content] { width: 100%; max-width: none; }
+  :global(html[data-ui-style='studio']) .frame [data-workspace-settings-grid] { width: 100%; }
   .frame [data-workspace-settings-grid] > section { display: flex; flex-direction: column; gap: 24px; }
   .frame [data-workspace-settings-grid] > section > * { margin: 0; }
   .frame [data-workspace-settings-grid] > section:last-child { padding-left: 24px; border-left: 1px solid var(--border); }
