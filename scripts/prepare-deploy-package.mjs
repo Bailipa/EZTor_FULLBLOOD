@@ -12,6 +12,7 @@ import { fileURLToPath } from 'node:url'
 const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const outputDir = process.env.DEPLOY_PACKAGE_DIR || path.join(tmpdir(), 'eztor-release-packages')
 const standaloneDir = path.join(projectRoot, '.next/standalone')
+const externalStudyResources = process.env.DEPLOY_EXTERNAL_STUDY_RESOURCES === '1'
 const stageParent = await mkdtemp(path.join(tmpdir(), 'eztor-package-stage-'))
 const stageDir = path.join(stageParent, 'payload')
 const tarPath = path.join(stageParent, 'package.tar.gz')
@@ -117,9 +118,10 @@ try {
   }
   await copyRuntimeTree(path.join(standaloneDir, '.next'), path.join(stageDir, '.next'), standaloneRoot, ['cache'])
   await copyRuntimeTree(path.join(standaloneDir, 'node_modules'), path.join(stageDir, 'node_modules'), standaloneRoot)
+  await rm(path.join(stageDir, 'node_modules/thread-stream/test'), { recursive: true, force: true })
   await rm(path.join(stageDir, '.next/static'), { recursive: true, force: true })
   await copyRuntimeTree(path.join(projectRoot, '.next/static'), path.join(stageDir, '.next/static'), await realpath(path.join(projectRoot, '.next/static')))
-  await copyRuntimeTree(path.join(projectRoot, 'public'), path.join(stageDir, 'public'), await realpath(path.join(projectRoot, 'public')), ['downloads', 'updates'])
+  await copyRuntimeTree(path.join(projectRoot, 'public'), path.join(stageDir, 'public'), await realpath(path.join(projectRoot, 'public')), ['downloads', 'updates', ...(externalStudyResources ? ['study'] : [])])
   await rm(path.join(stageDir, 'node_modules/ipa-dict'), { recursive: true, force: true })
   // Only the English dictionary is used at runtime; keep its package metadata.
   for (const file of ['package.json', 'LICENSE', 'lib/en_US.js']) {
@@ -163,6 +165,7 @@ try {
     nextPublicBuildId: process.env.NEXT_PUBLIC_BUILD_ID || null,
     sourceCommit,
     sourceDirty,
+    externalStudyResources,
     createdAt: now.toISOString(),
     archiveBytes: archiveStats.size,
     sha256: archiveHash,

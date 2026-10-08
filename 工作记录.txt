@@ -1519,3 +1519,14 @@ Web 1.20.0 发布与线上验收（2026-10-04 20:30 CST）
 2026-10-08 — 代理端口更新与 Git push 成功
 用户明确要求替换遗弃代理端口。只读系统代理配置确认 HTTP/HTTPS/SOCKS 当前使用127.0.0.1:12450；Git全局HTTP/HTTPS仍为7897，已通过git config更新两项为http://127.0.0.1:12450。curl首次探测出现TLS错误，但随后实际git push成功，不能将首次探测作为持续网络不可用的证据。
 已推送：origin/codex/test-release-20261008，包含功能提交d27f099及结果记录86a65d8，已建立上游跟踪。更正当前完成状态：之前两次失败记录是当时事实，现在Git push已成功；大资源未入Git。测试版本仍未部署，等待域名就绪。
+
+2026-10-08 — 1.26.0测试域名发布准备与服务器响应异常（未完成发布）
+授权与范围：用户通知test.eztor.dogeggcode.cyou域名就绪，开始隔离测试部署。按规则bump1.26.0（Android versionCode60），同步lockfile，提交e289cb6；OIDC关闭行为提交993ef81。当前生产1.25.1站点未执行代码切换、迁移或主动重启。
+部署前只读核对：服务器114.55.58.90，根分区40G/可用9G、inode16%，内存3495MiB/available1536MiB、swap2047MiB。Node20.20.2。生产cet4-web当时online/PID1172984，健康HTTP200；3200空闲。服务器解析新域名为114.55.58.90。本机代理DNS返回198.18.0.117属于代理解析结果，不作为真实DNS记录。
+已执行：新建/www/wwwroot/test.eztor.dogeggcode.cyou的shared/releases/archives/backups；新建eztor_test角色和数据库，使用独立随机认证/数据库凭据。首次自动审批拒绝复制生产环境凭据，明确拒绝原因是测试发布授权不足以覆盖生产密钥复用；被拒绝初始化未执行，随后删除该复制逻辑并重新执行安全初始化。没有复制生产LLM/OIDC/TTS密钥；测试小应登录显式关闭，账号密码登录保留。当前AI凭据复用需用户明确答复，问题待回复。
+数据保护：迁移前测试空库custom dump831字节，SHA256481094f98666df6609c9f3dae2b68d0aa1d4438a7cf272d8498aa3d83a7691bb；容器pg_restore --list通过。服务器备份位于测试站点backups/eztor_test-before-migrations.dump，服务器外备份位于本机.local-cet-import/deploy-1.26.0/eztor_test-before-migrations.dump，SHA/PGDMP文件头回查一致。本次涉及测试数据库迁移，没有改写生产库。
+已确认阶段结果：白名单源码包7533344字节/SHA256e1710726ffb6f3ae9018c93e67f199343005e3df059c7ca82a6d9b65038b8814上传并远端核对一致，源码提交993ef81；服务端npm ci和测试库prisma migrate deploy通过（构建脚本明确打印阶段完成）。新增精确测试域名HTTP ACME站点，nginx -t通过并reload；Let's Encrypt证书签发成功，到期2027-01-06，尚未启用测试HTTPS反向代理。测试构建未获得完成确认。
+未确认事项：生产公开PublicWord向测试库的只读复制命令SSH断开（255），未确认测试词条计数；导入账号工具SCP与86卷导入连接后来取消，不能当作已导入；须恢复后读取实际数据库与日志。资源独立包566615457字节/SHA256353a26fd42a49c6aa2a3c6cc8677eb28c849c5a9d2c03d8738466315ea289055，212文件；上传停顿时观测到66519040字节约12%，随后取消连接。未核对完整远端包、未解压资源、未启动测试PM2。
+异常已证实的观测：发生于服务端构建阶段，SSH响应逐渐变慢，随后新连接反复banner exchange timeout；本机公网生产健康TLS超时及HTTP请求12秒零字节。外部网页工具也未取得站点内容。依赖安装后一次现场内存available807MiB、swap0，可用磁盘7G；之后无法取得现场负载和日志，不能据此断言此次异常根因。已取消本机上传、构建及其他未完成SSH连接；尝试只终止cwd精确匹配新测试目录的构建进程，两次SSH均在握手阶段超时，停止命令未确认送达，不能声称远端构建已停止。未重启或重置服务器。需要用户打开云控制台查看CPU/内存与远程终端；本机没有控制台登录会话或云CLI凭据。
+后续改为本机构建：Next16.2.3编译6.1秒/TypeScript11.8秒通过，BUILD_ID 9fM3CMY9Fg7woHNt4dwut，公有构建变量为测试域名、OIDC=false，本机数据库地址覆盖为localhost/eztor_test；不连接生产数据库。新增可选DEPLOY_EXTERNAL_STUDY_RESOURCES=1让应用包与study大资源分离；移除thread-stream未使用的测试夹具目录，避免把两份依赖ZIP夹具打包。默认生产打包仍包含study资源。最终白名单成品包40385860字节/SHA256b59eb2bd192d928fe73ae5148018cde0333cc9a421a6bc3c81d6325ba9691b2b，4059成员、162/162路由齐全、Linux Prisma引擎在包内；无环境文件、数据库、ZIP、试卷资源。源码提交993ef81加打包脚本变更及未跟踪预览图，manifest sourceDirty=true。包位于/private/tmp/eztor-test-release-packages，回读记录.local-cet-import/deploy-1.26.0/runtime-package-readback.json。该成品包尚未上传。
+状态：部分准备已实现/静态与本地构建已验证；已部署：否；线上已验收：否。测试发布尚未完成，当前优先恢复服务器可读状态，再验证独立测试库、完成资源传输、成品包启动和功能验收。没有新增或运行自动化测试。
