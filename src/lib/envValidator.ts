@@ -15,6 +15,10 @@ const OPTIONAL_ENV_VARS = [
   'NEXT_PUBLIC_XIAOYING_OIDC_ENABLED',
 ] as const
 
+function requiredEnvVars() {
+  return REQUIRED_ENV_VARS.filter(name => process.env.NEXT_PUBLIC_XIAOYING_OIDC_ENABLED !== 'false' || !name.startsWith('XIAOYING_OIDC_'))
+}
+
 const INSECURE_DEFAULTS = [
   'your-random-secret-key-at-least-32-characters-long',
   'your-api-key',
@@ -63,7 +67,7 @@ export function validateEnv(): EnvValidationResult {
   const missingRequired: string[] = []
   const insecureValues: string[] = []
 
-  for (const varName of REQUIRED_ENV_VARS) {
+  for (const varName of requiredEnvVars()) {
     const value = process.env[varName]
     if (!value) {
       missingRequired.push(varName)
@@ -182,7 +186,7 @@ export function logEnvStatus(): void {
   console.log('========================================\n')
 
   console.log('Required Variables:')
-  for (const varName of REQUIRED_ENV_VARS) {
+  for (const varName of requiredEnvVars()) {
     const value = process.env[varName]
     const status = !value ? '❌ MISSING' : isInsecureValue(value) ? '⚠️ INSECURE' : '✅ SET'
     const displayValue = value ? maskSensitiveValue(value) : 'not set'

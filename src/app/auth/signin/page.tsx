@@ -220,7 +220,7 @@ export default function SignIn() {
             </div>
           </div>
 
-          <div
+          {process.env.NEXT_PUBLIC_XIAOYING_OIDC_ENABLED !== 'false' && <><div
             onClick={handleXiaoyingLogin}
             className="inline-flex min-h-12 w-full cursor-pointer items-center justify-center gap-2.5 rounded-2xl border border-neutral-300 bg-white px-5 text-base font-semibold leading-none text-neutral-900 hover:bg-neutral-50 transition-colors dark:border-neutral-200 dark:bg-[#171722] dark:text-neutral-50 dark:hover:bg-[#20202c]"
             role="button"
@@ -254,7 +254,7 @@ export default function SignIn() {
                 下载最新版本
               </a>
             </div>
-          )}
+          )}</>}
         </CardContent>
       </Card>
     </div>
