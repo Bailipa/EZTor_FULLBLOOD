@@ -511,6 +511,10 @@ export default function StudyExam({ accountId, level, mode, initialSession, onIn
       const pickerOpen = wordBankQuestionId === question.id
       const bankQuestions = content.questions.filter((item) => item.type === 'WORD_BANK')
       const usedIn = (choiceIndex: number) => bankQuestions.filter((item) => draft.answers[item.id] === choiceIndex)
+      const bankPassage = content.passages.find((passage) => passage.id === question.passageId)
+      const blankNumber = question.prompt.match(/\d+/)?.[0]
+      const blankPattern = blankNumber ? new RegExp(`([（(]\\s*${blankNumber}\\s*[）)]|_{1,}\\s*${blankNumber}\\s*_{1,})`) : null
+      const passageParts = bankPassage && blankPattern ? bankPassage.text.split(blankPattern) : [bankPassage?.text ?? '']
       return <fieldset className={className} key={question.id} disabled={busy || !!error || hasConflict}>
         <legend><span>{index + 1}.</span> {question.prompt}</legend>
         <button type="button" className={styles.wordBankTrigger} aria-expanded={pickerOpen} onClick={() => {
@@ -518,25 +522,39 @@ export default function StudyExam({ accountId, level, mode, initialSession, onIn
           setWordBankNotice(null)
         }}>{selected === undefined ? readingReview ? '点击查看选项' : '点击选择选项' : `${LETTERS[selected]}. ${question.choices[selected]}`}</button>
         <Dialog open={pickerOpen} onOpenChange={(open) => { if (!open) setWordBankQuestionId(null) }}>
-          <DialogContent className={styles.wordBankDialog} overlayClassName={styles.wordBankOverlay}>
-            <DialogTitle>选词填空 · 第 {bankQuestions.indexOf(question) + 1} 题</DialogTitle>
-            <p className={styles.wordBankPrompt}>{question.prompt}</p>
-            <DialogDescription className={styles.wordBankHint}>{readingReview ? '查看选项和已保存的作答。' : '选择一个选项填入本题；已选标记仅作提示，仍可重复使用。'}</DialogDescription>
-          <div className={styles.wordBankOptions}>{question.choices.map((choice, choiceIndex) => {
-            const useQuestions = usedIn(choiceIndex)
-            return <button type="button" key={choiceIndex} className={styles.wordBankOption} aria-pressed={selected === choiceIndex} disabled={readingReview || busy || !!error || hasConflict} onClick={() => {
-              const otherUses = useQuestions.filter((item) => item.id !== question.id)
-              updateDraft({ answers: { ...draft.answers, [question.id]: choiceIndex }, text: draft.text })
-              setWordBankQuestionId(null)
-              setWordBankNotice(otherUses.length ? {
-                questionId: question.id,
-                text: `选项 ${LETTERS[choiceIndex]} 已填入第 ${otherUses.map((item) => bankQuestions.indexOf(item) + 1).join('、')} 题，仍可重复使用。`,
-              } : null)
-            }}>
-              <span>{LETTERS[choiceIndex]}. {choice}</span>
-              {useQuestions.length > 0 && <small className={styles.wordBankUsed}>{useQuestions.some((item) => item.id === question.id) ? '本题已选' : '已选'} · 第 {useQuestions.map((item) => bankQuestions.indexOf(item) + 1).join('、')} 题</small>}
-            </button>
-          })}</div>
+          <DialogContent className={styles.wordBankDialog} overlayClassName={styles.wordBankOverlay} onOpenAutoFocus={(event) => {
+            const dialog = event.currentTarget
+            if (!(dialog instanceof HTMLElement)) return
+            const passage = dialog.querySelector<HTMLElement>('[data-word-bank-passage]')
+            const blank = passage?.querySelector<HTMLElement>('[data-current-blank]')
+            if (passage && blank) passage.scrollTop = blank.offsetTop - passage.clientHeight / 3
+          }}>
+            <DialogTitle className={styles.wordBankTitle}>选词填空 · {question.prompt}</DialogTitle>
+            <DialogDescription className={styles.wordBankHint}>{readingReview ? '查看文章、选项和已保存的作答。' : '对照文章选择选项；已选标记仅作提示，仍可重复使用。'}</DialogDescription>
+            <div className={styles.wordBankWorkspace}>
+              <section className={styles.wordBankMaterial} aria-label="选词填空文章">
+                <h4>阅读材料 · 当前 {question.prompt}</h4>
+                <div className={styles.wordBankPrompt} data-word-bank-passage>{passageParts.map((part, partIndex) => partIndex % 2 === 1 ? <mark key={partIndex} className={styles.wordBankCurrentBlank} data-current-blank>{part}</mark> : part)}</div>
+              </section>
+              <section className={styles.wordBankChoices} aria-label="全部选项">
+                <h4>{question.prompt} · {selected === undefined ? '未作答' : `已选 ${LETTERS[selected]}`}</h4>
+                <div className={styles.wordBankOptions}>{question.choices.map((choice, choiceIndex) => {
+                  const useQuestions = usedIn(choiceIndex)
+                  return <button type="button" key={choiceIndex} className={styles.wordBankOption} aria-pressed={selected === choiceIndex} disabled={readingReview || busy || !!error || hasConflict} onClick={() => {
+                    const otherUses = useQuestions.filter((item) => item.id !== question.id)
+                    updateDraft({ answers: { ...draft.answers, [question.id]: choiceIndex }, text: draft.text })
+                    setWordBankQuestionId(null)
+                    setWordBankNotice(otherUses.length ? {
+                      questionId: question.id,
+                      text: `选项 ${LETTERS[choiceIndex]} 已填入第 ${otherUses.map((item) => bankQuestions.indexOf(item) + 1).join('、')} 题，仍可重复使用。`,
+                    } : null)
+                  }}>
+                    <span>{LETTERS[choiceIndex]}. {choice}</span>
+                    {useQuestions.length > 0 && <small className={styles.wordBankUsed}>{useQuestions.some((item) => item.id === question.id) ? '本题已选' : '已选'} · 第 {useQuestions.map((item) => bankQuestions.indexOf(item) + 1).join('、')} 题</small>}
+                  </button>
+                })}</div>
+              </section>
+            </div>
           </DialogContent>
         </Dialog>
         {wordBankNotice?.questionId === question.id && <p role="status" className={styles.wordBankNotice}>{wordBankNotice.text}</p>}

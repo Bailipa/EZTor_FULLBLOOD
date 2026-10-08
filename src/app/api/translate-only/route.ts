@@ -154,9 +154,8 @@ export async function POST(req: Request) {
     let input = validation.sanitized || rawInput
     detectPromptInjection(input)
 
-    const translateSystemPrompt =
-      (await prisma.apiConfig.findUnique({ where: { id: 'global' } }))?.systemPrompt ||
-      DEFAULT_TRANSLATE_ONLY_PROMPT
+    // 文本翻译与结构化词典任务各用自己的提示词，避免共享配置改变输出格式。
+    const translateSystemPrompt = DEFAULT_TRANSLATE_ONLY_PROMPT
 
     const customKey = await prisma.customApiKey.findUnique({ where: { userId } })
     if (customKey) {

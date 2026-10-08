@@ -36,7 +36,7 @@ export async function POST(req: NextRequest) {
     })
   }
 
-  let body: { messages?: unknown }
+  let body: { messages?: unknown; readingCoach?: { title?: unknown; selection?: unknown; context?: unknown; question?: unknown } }
   try {
     body = await req.json()
   } catch {
@@ -66,14 +66,18 @@ export async function POST(req: NextRequest) {
       }
     }
   }
-  const validMessages = sanitizedMessages.filter((m) => m.role && m.content !== undefined) as {
-    role: 'system' | 'user' | 'assistant' | 'tool'
+  const validMessages = sanitizedMessages.filter((m) => (m.role === 'user' || m.role === 'assistant') && m.content?.trim()) as {
+    role: 'user' | 'assistant'
     content: string
   }[]
   if (validMessages.length === 0) {
     return new Response(JSON.stringify({ success: false, error: '消息内容无效' }), { status: 400 })
   }
-  const history = trimHistory(validMessages)
+  const coaching = body?.readingCoach
+  if (coaching && (typeof coaching.selection !== 'string' || !coaching.selection.trim() || coaching.selection.length > 4000 || typeof coaching.context !== 'string' || coaching.context.length > 6000 || typeof coaching.question !== 'string' || !coaching.question.trim() || coaching.question.length > 500)) {
+    return Response.json({ success: false, error: '阅读提问内容无效' }, { status: 400 })
+  }
+  const history = coaching ? [{ role: 'user' as const, content: JSON.stringify({ title: String(coaching.title ?? '').slice(0, 200), selection: coaching.selection, context: coaching.context, question: coaching.question }) }] : trimHistory(validMessages)
 
   // 免费标记
   const user = await prisma.user.findUnique({ where: { id: userId }, select: { isAiFree: true } })
@@ -98,8 +102,11 @@ export async function POST(req: NextRequest) {
       }
 
       try {
+        push('status', { text: '已收到问题，正在准备解答…' })
         const outcome = await aiAssistantService.ask(userId, history, {
           customGroupCount,
+          readingCoach: !!coaching,
+          onReset: () => { push('text', { text: '', delta: false }); push('status', { text: '连接中断，正在切换可用模型…' }) },
           signal: controller.signal,
           // 流式：每段增量立即推送；前端追加渲染
           onText: (delta: string) => {

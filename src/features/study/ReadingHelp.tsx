@@ -16,6 +16,7 @@ export default function ReadingHelp({ mark, mode, title, context, onClose, onPre
   const [contributionNotice, setContributionNotice] = useState('')
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState('')
+  const [progress, setProgress] = useState('')
   const controller = useRef<AbortController | null>(null)
   const sending = useRef(false)
   const sendRef = useRef<() => Promise<void>>(async () => {})
@@ -30,7 +31,7 @@ export default function ReadingHelp({ mark, mode, title, context, onClose, onPre
     sending.current = true
     const request = new AbortController()
     controller.current = request
-    setBusy(true); setError(''); setAnswer(''); setAnswerSource(null); setContributionNotice('')
+    setBusy(true); setProgress('正在同步练习进度…'); setError(''); setAnswer(''); setAnswerSource(null); setContributionNotice('')
     try {
       if (!await onPrepare()) throw new Error('辅助使用记录未保存，请先同步练习进度后重试。')
       if (request.signal.aborted) return
@@ -48,9 +49,10 @@ export default function ReadingHelp({ mark, mode, title, context, onClose, onPre
           return
         }
       }
+      setProgress(mode === 'ask' ? '正在连接阅读助手…' : '正在补充释义…')
       const response = await fetch(mode === 'translate' ? '/api/translate-only' : '/api/ai/ask', {
         method: 'POST', signal: request.signal, headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(mode === 'translate' ? { input: mark.text } : { messages: [{ role: 'user', content: `我在练习英语阅读，请结合上下文解答。试卷：${title}\n选中文字：${mark.text}\n上下文：${context}\n问题：${question}` }] }),
+        body: JSON.stringify(mode === 'translate' ? { input: mark.text } : { messages: [{ role: 'user', content: question }], readingCoach: { title, selection: mark.text, context, question } }),
       })
       if (mode === 'translate' || !response.ok) {
         const body = await response.json()
@@ -96,7 +98,11 @@ export default function ReadingHelp({ mark, mode, title, context, onClose, onPre
         if (!data) return
         const payload = JSON.parse(data)
         if (event === 'error') throw new Error(payload.error || 'AI 暂不可用，请重试')
-        if (event === 'text') text = payload.delta ? text + payload.text : payload.text
+        if (event === 'status' && !request.signal.aborted) setProgress(payload.text)
+        if (event === 'text') {
+          text = payload.delta ? text + payload.text : payload.text
+          if (!request.signal.aborted) { setAnswer(text); setProgress(text ? '正在生成解答…' : '正在重新连接…') }
+        }
         if (event === 'done') finished = payload.success === true
       }
       try {
@@ -107,6 +113,7 @@ export default function ReadingHelp({ mark, mode, title, context, onClose, onPre
           let boundary
           while ((boundary = buffer.indexOf('\n\n')) >= 0) { parse(buffer.slice(0, boundary)); buffer = buffer.slice(boundary + 2) }
         }
+        buffer += decoder.decode()
         if (buffer.trim()) parse(buffer)
         if (!finished || !text.trim()) throw new Error('解答中断，请重试')
         if (!request.signal.aborted) setAnswer(text)
@@ -118,12 +125,13 @@ export default function ReadingHelp({ mark, mode, title, context, onClose, onPre
   sendRef.current = send
   return <Dialog open onOpenChange={(open) => { if (!open) { controller.current?.abort(); onClose() } }}><DialogContent className={styles.helpDialog}>
     <DialogTitle>{mode === 'translate' ? '查看释义' : '阅读提问'}</DialogTitle>
-    <DialogDescription>保留阅读位置；本次使用辅助会记录到练习档案。</DialogDescription>
+    <DialogDescription>保留阅读位置；阅读提问提供理解线索，不直接揭示答案。本次辅助会记录到练习档案。</DialogDescription>
     <blockquote className={styles.selectedText}>{mark.text}</blockquote>
     {mode === 'ask' && <label className={styles.textAnswer}>你的问题<textarea value={question} maxLength={500} onChange={(event) => setQuestion(event.target.value)} placeholder="哪里不理解？" /></label>}
     {(mode === 'ask' || !answer) && <Button disabled={busy || (mode === 'ask' && !question.trim())} onClick={() => void send()}>{busy ? contributionNotice.startsWith('正在登记') ? '正在登记贡献…' : '正在获取解释…' : answer ? '重新解答' : mode === 'translate' ? '查看翻译' : '提问'}</Button>}
+    {busy && <p role="status" className="text-sm font-medium text-primary">{progress}</p>}
     {error && <p role="alert" className={styles.error}>{error}</p>}
-    {answer && <div className={styles.helpAnswer}>{answer}{answerSource && <small className={styles.helpSource}>{answerSource === 'PUBLIC' ? '公共词库' : 'AI 补充释义'}</small>}</div>}
-    {contributionNotice && <p role="status" className="text-sm text-muted-foreground">{contributionNotice}</p>}
+    {answer && <div className={styles.helpAnswer} aria-busy={busy}>{answer}{answerSource && <small className={styles.helpSource}>{answerSource === 'PUBLIC' ? '公共词库' : 'AI 补充释义'}</small>}</div>}
+    {contributionNotice && <p role="status" className="rounded-lg border border-primary bg-primary/10 px-3 py-2 text-sm font-semibold text-primary">{contributionNotice}</p>}
   </DialogContent></Dialog>
 }
