@@ -11,6 +11,7 @@ import { speakText } from '@/lib/ttsBrowser'
 import Link from 'next/link'
 import { useOnboarding } from '@/components/onboarding/OnboardingProvider'
 import { OnboardingTooltip } from '@/components/onboarding/OnboardingTooltip'
+import WordMeaningQuestionButton from '@/components/flashcard/WordMeaningQuestionButton'
 
 interface FlashcardWord {
   word: string
@@ -210,6 +211,7 @@ export function FullscreenFlashcard({ onInteraction, onSaved, embedded = false }
                 >
                   <Volume2 className="w-5 h-5 text-primary" />
                 </Button>
+                <WordMeaningQuestionButton word={currentWord.word} translation={currentWord.translation} />
               </div>
 
               {currentWord.phonetic && (

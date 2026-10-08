@@ -1,0 +1,1119 @@
+{
+  "slug": "cet4-2020-07-set1-full",
+  "version": 1,
+  "title": "2020年7月 · 第1套整卷模拟真题",
+  "level": "CET4",
+  "kind": "FULL",
+  "originType": "PAST_EXAM",
+  "sourceName": "用户提供的本地四六级资料",
+  "sourceUrl": "/study/resources/8ab16f0523ad7c3ac690d2de.pdf",
+  "rightsHolder": "原试卷及解析作者",
+  "rightsEvidence": "用户提供本地资源并要求接入本地学习系统；原文件及校验值见 content/cet-local/index.json。未授权公开再分发或生产部署。",
+  "content": {
+    "WRITING": {
+      "instructions": "原卷写作要求",
+      "prompt": "Directions: For this part, you are allowed 30 minutes to write an essay on the use of translation apps. You can start your essay with the sentence \"The use of translation apps is becoming increasingly popular. \" You should write at least 120 words but no more than 180 words.",
+      "questions": [],
+      "audio": [],
+      "passages": [],
+      "minimumWords": 120,
+      "maximumWords": 180,
+      "sourceFileUrl": "/study/resources/8ab16f0523ad7c3ac690d2de.pdf"
+    },
+    "LISTENING": {
+      "instructions": "原卷听力选择题",
+      "questions": [
+        {
+          "id": "cet4-2020-07-set1-q1",
+          "type": "NEWS",
+          "prompt": "第 1 题(题干在原始录音中)",
+          "choices": [
+            "watch the weather forecast.",
+            "Evacuate the area with the orange alert.",
+            "avoid travel on Wednesday.",
+            "Prepare enough food and drink."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "audioId": "cet4-2020-07-set1-audio"
+        },
+        {
+          "id": "cet4-2020-07-set1-q2",
+          "type": "NEWS",
+          "prompt": "第 2 题(题干在原始录音中)",
+          "choices": [
+            "Pay more attention to the roads.",
+            "Stay at a safer Place.",
+            "Bring more mobile Phones.",
+            "Take a train home."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "audioId": "cet4-2020-07-set1-audio"
+        },
+        {
+          "id": "cet4-2020-07-set1-q3",
+          "type": "NEWS",
+          "prompt": "第 3 题(题干在原始录音中)",
+          "choices": [
+            "There is only one ecosystem in Europe",
+            "Romania's wetlands thrive again.",
+            "The wildlife in Romania isn't well Protected.",
+            "There are 200 species of birds in Romania's wetlands."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "audioId": "cet4-2020-07-set1-audio"
+        },
+        {
+          "id": "cet4-2020-07-set1-q4",
+          "type": "NEWS",
+          "prompt": "第 4 题(题干在原始录音中)",
+          "choices": [
+            "Block the waterways.",
+            "Restore the fishing ban.",
+            "Use monitoring equipment.",
+            "Prohibit fishing in the next 10 years."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "audioId": "cet4-2020-07-set1-audio"
+        },
+        {
+          "id": "cet4-2020-07-set1-q5",
+          "type": "NEWS",
+          "prompt": "第 5 题(题干在原始录音中)",
+          "choices": [
+            "He had a car accident.",
+            "He attended his graduation ceremony.",
+            "He had a heart attack.",
+            "He gave a Performance in the auditorium."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "audioId": "cet4-2020-07-set1-audio"
+        },
+        {
+          "id": "cet4-2020-07-set1-q6",
+          "type": "NEWS",
+          "prompt": "第 6 题(题干在原始录音中)",
+          "choices": [
+            "what happened to him.",
+            "what date it was.",
+            "when the graduation ceremony was.",
+            "where he was."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "audioId": "cet4-2020-07-set1-audio"
+        },
+        {
+          "id": "cet4-2020-07-set1-q7",
+          "type": "NEWS",
+          "prompt": "第 7 题(题干在原始录音中)",
+          "choices": [
+            "He was really touched by his classmates.",
+            "He didn't know what happened at all",
+            "He couldn't remember what to say.",
+            "His Parents wore caps and gowns."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "audioId": "cet4-2020-07-set1-audio"
+        },
+        {
+          "id": "cet4-2020-07-set1-q8",
+          "type": "CONVERSATION",
+          "prompt": "第 8 题(题干在原始录音中)",
+          "choices": [
+            "Her children's disruption.",
+            "quiet atmosphere.",
+            "A sense of isolation.",
+            "Longer working hours"
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "audioId": "cet4-2020-07-set1-audio"
+        },
+        {
+          "id": "cet4-2020-07-set1-q9",
+          "type": "CONVERSATION",
+          "prompt": "第 9 题(题干在原始录音中)",
+          "choices": [
+            "It doesn't offer coffee.",
+            "It's too quiet.",
+            "It doesn't have free Wi-Fi.",
+            "It lacks the material he needs."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "audioId": "cet4-2020-07-set1-audio"
+        },
+        {
+          "id": "cet4-2020-07-set1-q10",
+          "type": "CONVERSATION",
+          "prompt": "第 10 题(题干在原始录音中)",
+          "choices": [
+            "The sense of being out in the world.",
+            "The coffee it provides.",
+            "The coffee table.",
+            "The comfortable working condition."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "audioId": "cet4-2020-07-set1-audio"
+        },
+        {
+          "id": "cet4-2020-07-set1-q11",
+          "type": "CONVERSATION",
+          "prompt": "第 11 题(题干在原始录音中)",
+          "choices": [
+            "People don't order anything.",
+            "People bring their laptops and paperwork.",
+            "People occupy valuable table space in quiet times",
+            "People of two occupy a table for six."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "audioId": "cet4-2020-07-set1-audio"
+        },
+        {
+          "id": "cet4-2020-07-set1-q12",
+          "type": "CONVERSATION",
+          "prompt": "第 12 题(题干在原始录音中)",
+          "choices": [
+            "She is not satisfied with the salary.",
+            "She is not capable of the job.",
+            "She often works overtime.",
+            "She's received a job offer from another company."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "audioId": "cet4-2020-07-set1-audio"
+        },
+        {
+          "id": "cet4-2020-07-set1-q13",
+          "type": "CONVERSATION",
+          "prompt": "第 13 题(题干在原始录音中)",
+          "choices": [
+            "They may be considered as less loyal.",
+            "They won't get the promotion opportunities.",
+            "They should take more responsibility at work",
+            "They will be given hiring priority."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "audioId": "cet4-2020-07-set1-audio"
+        },
+        {
+          "id": "cet4-2020-07-set1-q14",
+          "type": "CONVERSATION",
+          "prompt": "第 14 题(题干在原始录音中)",
+          "choices": [
+            "She might have to do extra work everyday.",
+            "She might not get a pay rise.",
+            "She might not get enough vacation",
+            "She might not gain more experience."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "audioId": "cet4-2020-07-set1-audio"
+        },
+        {
+          "id": "cet4-2020-07-set1-q15",
+          "type": "CONVERSATION",
+          "prompt": "第 15 题(题干在原始录音中)",
+          "choices": [
+            "Experience.",
+            "Confidence.",
+            "Fortune.",
+            "Opportunity."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "audioId": "cet4-2020-07-set1-audio"
+        },
+        {
+          "id": "cet4-2020-07-set1-q16",
+          "type": "PASSAGE",
+          "prompt": "第 16 题(题干在原始录音中)",
+          "choices": [
+            "It's a horrible feeling.",
+            "It can be a blessing.",
+            "It's boring and dangerous.",
+            "It's the most comfortable state."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "audioId": "cet4-2020-07-set1-audio"
+        },
+        {
+          "id": "cet4-2020-07-set1-q17",
+          "type": "PASSAGE",
+          "prompt": "第 17 题(题干在原始录音中)",
+          "choices": [
+            "To be active.",
+            "To meet up with your friends.",
+            "To travel abroad",
+            "To seek advice from others"
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "audioId": "cet4-2020-07-set1-audio"
+        },
+        {
+          "id": "cet4-2020-07-set1-q18",
+          "type": "PASSAGE",
+          "prompt": "第 18 题(题干在原始录音中)",
+          "choices": [
+            "It provides a chance for people to think deeply.",
+            "It makes us treasure the time.",
+            "It enables one to identify true friends.",
+            "It helps us take care of problems more efficiently."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "audioId": "cet4-2020-07-set1-audio"
+        },
+        {
+          "id": "cet4-2020-07-set1-q19",
+          "type": "PASSAGE",
+          "prompt": "第 19 题(题干在原始录音中)",
+          "choices": [
+            "He is a harsh person.",
+            "He is mean to others.",
+            "He is very demanding in his work.",
+            "He usually works very late."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "audioId": "cet4-2020-07-set1-audio"
+        },
+        {
+          "id": "cet4-2020-07-set1-q20",
+          "type": "PASSAGE",
+          "prompt": "第 20 题(题干在原始录音中)",
+          "choices": [
+            "He moved out and divorced.",
+            "It was plagued by drugs and gang violence.",
+            "He lived there for 20 years.",
+            "His parents would move into his new house."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "audioId": "cet4-2020-07-set1-audio"
+        },
+        {
+          "id": "cet4-2020-07-set1-q21",
+          "type": "PASSAGE",
+          "prompt": "第 21 题(题干在原始录音中)",
+          "choices": [
+            "He was only responsible for unloading food.",
+            "He had to sign his name on every label.",
+            "It was a hard and tedious job.",
+            "He was required to work at Friday night."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "audioId": "cet4-2020-07-set1-audio"
+        },
+        {
+          "id": "cet4-2020-07-set1-q22",
+          "type": "PASSAGE",
+          "prompt": "第 22 题(题干在原始录音中)",
+          "choices": [
+            "By recording the time people spend on TV.",
+            "By tracking people's living habits.",
+            "By using memory and fluency tests.",
+            "By scanning people's brains."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "audioId": "cet4-2020-07-set1-audio"
+        },
+        {
+          "id": "cet4-2020-07-set1-q23",
+          "type": "PASSAGE",
+          "prompt": "第 23 题(题干在原始录音中)",
+          "choices": [
+            "watching television for hours.",
+            "Playing video games.",
+            "Reading books and magazines.",
+            "Surfing the Internet."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "audioId": "cet4-2020-07-set1-audio"
+        },
+        {
+          "id": "cet4-2020-07-set1-q24",
+          "type": "PASSAGE",
+          "prompt": "第 24 题(题干在原始录音中)",
+          "choices": [
+            "Television viewing may be a potential factor for Alzheimer's disease.",
+            "Alzheimer's patients tend to watch television more than 3 hours a day.",
+            "Some research has confirmed the link between them.",
+            "Television watching is beneficial to Alzheimer's patients."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "audioId": "cet4-2020-07-set1-audio"
+        },
+        {
+          "id": "cet4-2020-07-set1-q25",
+          "type": "PASSAGE",
+          "prompt": "第 25 题(题干在原始录音中)",
+          "choices": [
+            "watch television no more than 3 hours each day.",
+            "Balance television viewing with other contrasting activities.",
+            "watch some educational TV programs.",
+            "Take more physical exercise."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "audioId": "cet4-2020-07-set1-audio"
+        }
+      ],
+      "audio": [
+        {
+          "id": "cet4-2020-07-set1-audio",
+          "url": "/study/resources/9786aaad4ade492959caffec.m4a",
+          "sourceUrl": "/study/resources/9786aaad4ade492959caffec.m4a",
+          "durationSeconds": 1440.937506,
+          "transcript": "",
+          "identity": "cet4_2020_07_1.mp3 SHA256:9786aaad4ade492959caffec66281656ac58941d2b308665af4c005152503fcc"
+        }
+      ],
+      "passages": [],
+      "sourceFileUrl": "/study/resources/8ab16f0523ad7c3ac690d2de.pdf"
+    },
+    "READING": {
+      "instructions": "请依次完成选词填空、长篇匹配和仔细阅读。",
+      "questions": [
+        {
+          "id": "cet4-2020-07-set1-q26",
+          "type": "WORD_BANK",
+          "prompt": "第 26 空",
+          "choices": [
+            "accessible",
+            "accounted",
+            "adaptation",
+            "appropriately",
+            "considerable",
+            "effective",
+            "ladder",
+            "misread",
+            "nomination",
+            "overlooked",
+            "promoting",
+            "senior",
+            "submission",
+            "suggesting",
+            "thankfully"
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 0.5,
+          "passageId": "cet4-2020-07-set1-bank"
+        },
+        {
+          "id": "cet4-2020-07-set1-q27",
+          "type": "WORD_BANK",
+          "prompt": "第 27 空",
+          "choices": [
+            "accessible",
+            "accounted",
+            "adaptation",
+            "appropriately",
+            "considerable",
+            "effective",
+            "ladder",
+            "misread",
+            "nomination",
+            "overlooked",
+            "promoting",
+            "senior",
+            "submission",
+            "suggesting",
+            "thankfully"
+          ],
+          "answerIndex": 9,
+          "explanation": "原卷答案：J。",
+          "weight": 0.5,
+          "passageId": "cet4-2020-07-set1-bank"
+        },
+        {
+          "id": "cet4-2020-07-set1-q28",
+          "type": "WORD_BANK",
+          "prompt": "第 28 空",
+          "choices": [
+            "accessible",
+            "accounted",
+            "adaptation",
+            "appropriately",
+            "considerable",
+            "effective",
+            "ladder",
+            "misread",
+            "nomination",
+            "overlooked",
+            "promoting",
+            "senior",
+            "submission",
+            "suggesting",
+            "thankfully"
+          ],
+          "answerIndex": 14,
+          "explanation": "原卷答案：O。",
+          "weight": 0.5,
+          "passageId": "cet4-2020-07-set1-bank"
+        },
+        {
+          "id": "cet4-2020-07-set1-q29",
+          "type": "WORD_BANK",
+          "prompt": "第 29 空",
+          "choices": [
+            "accessible",
+            "accounted",
+            "adaptation",
+            "appropriately",
+            "considerable",
+            "effective",
+            "ladder",
+            "misread",
+            "nomination",
+            "overlooked",
+            "promoting",
+            "senior",
+            "submission",
+            "suggesting",
+            "thankfully"
+          ],
+          "answerIndex": 10,
+          "explanation": "原卷答案：K。",
+          "weight": 0.5,
+          "passageId": "cet4-2020-07-set1-bank"
+        },
+        {
+          "id": "cet4-2020-07-set1-q30",
+          "type": "WORD_BANK",
+          "prompt": "第 30 空",
+          "choices": [
+            "accessible",
+            "accounted",
+            "adaptation",
+            "appropriately",
+            "considerable",
+            "effective",
+            "ladder",
+            "misread",
+            "nomination",
+            "overlooked",
+            "promoting",
+            "senior",
+            "submission",
+            "suggesting",
+            "thankfully"
+          ],
+          "answerIndex": 4,
+          "explanation": "原卷答案：E。",
+          "weight": 0.5,
+          "passageId": "cet4-2020-07-set1-bank"
+        },
+        {
+          "id": "cet4-2020-07-set1-q31",
+          "type": "WORD_BANK",
+          "prompt": "第 31 空",
+          "choices": [
+            "accessible",
+            "accounted",
+            "adaptation",
+            "appropriately",
+            "considerable",
+            "effective",
+            "ladder",
+            "misread",
+            "nomination",
+            "overlooked",
+            "promoting",
+            "senior",
+            "submission",
+            "suggesting",
+            "thankfully"
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 0.5,
+          "passageId": "cet4-2020-07-set1-bank"
+        },
+        {
+          "id": "cet4-2020-07-set1-q32",
+          "type": "WORD_BANK",
+          "prompt": "第 32 空",
+          "choices": [
+            "accessible",
+            "accounted",
+            "adaptation",
+            "appropriately",
+            "considerable",
+            "effective",
+            "ladder",
+            "misread",
+            "nomination",
+            "overlooked",
+            "promoting",
+            "senior",
+            "submission",
+            "suggesting",
+            "thankfully"
+          ],
+          "answerIndex": 6,
+          "explanation": "原卷答案：G。",
+          "weight": 0.5,
+          "passageId": "cet4-2020-07-set1-bank"
+        },
+        {
+          "id": "cet4-2020-07-set1-q33",
+          "type": "WORD_BANK",
+          "prompt": "第 33 空",
+          "choices": [
+            "accessible",
+            "accounted",
+            "adaptation",
+            "appropriately",
+            "considerable",
+            "effective",
+            "ladder",
+            "misread",
+            "nomination",
+            "overlooked",
+            "promoting",
+            "senior",
+            "submission",
+            "suggesting",
+            "thankfully"
+          ],
+          "answerIndex": 11,
+          "explanation": "原卷答案：L。",
+          "weight": 0.5,
+          "passageId": "cet4-2020-07-set1-bank"
+        },
+        {
+          "id": "cet4-2020-07-set1-q34",
+          "type": "WORD_BANK",
+          "prompt": "第 34 空",
+          "choices": [
+            "accessible",
+            "accounted",
+            "adaptation",
+            "appropriately",
+            "considerable",
+            "effective",
+            "ladder",
+            "misread",
+            "nomination",
+            "overlooked",
+            "promoting",
+            "senior",
+            "submission",
+            "suggesting",
+            "thankfully"
+          ],
+          "answerIndex": 13,
+          "explanation": "原卷答案：N。",
+          "weight": 0.5,
+          "passageId": "cet4-2020-07-set1-bank"
+        },
+        {
+          "id": "cet4-2020-07-set1-q35",
+          "type": "WORD_BANK",
+          "prompt": "第 35 空",
+          "choices": [
+            "accessible",
+            "accounted",
+            "adaptation",
+            "appropriately",
+            "considerable",
+            "effective",
+            "ladder",
+            "misread",
+            "nomination",
+            "overlooked",
+            "promoting",
+            "senior",
+            "submission",
+            "suggesting",
+            "thankfully"
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 0.5,
+          "passageId": "cet4-2020-07-set1-bank"
+        },
+        {
+          "id": "cet4-2020-07-set1-q36",
+          "type": "MATCHING",
+          "prompt": "Cooking benefits People in many ways and enables them to connect with one another.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段",
+            "O 段"
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "passageId": "cet4-2020-07-set1-matching"
+        },
+        {
+          "id": "cet4-2020-07-set1-q37",
+          "type": "MATCHING",
+          "prompt": "Abundant information about cooking is available either online or on TV.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段",
+            "O 段"
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "passageId": "cet4-2020-07-set1-matching"
+        },
+        {
+          "id": "cet4-2020-07-set1-q38",
+          "type": "MATCHING",
+          "prompt": "Young people do less cooking at home than the elderly these days.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段",
+            "O 段"
+          ],
+          "answerIndex": 5,
+          "explanation": "原卷答案：F。",
+          "weight": 1,
+          "passageId": "cet4-2020-07-set1-matching"
+        },
+        {
+          "id": "cet4-2020-07-set1-q39",
+          "type": "MATCHING",
+          "prompt": "Cooking skills can be improved with practice.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段",
+            "O 段"
+          ],
+          "answerIndex": 14,
+          "explanation": "原卷答案：O。",
+          "weight": 1,
+          "passageId": "cet4-2020-07-set1-matching"
+        },
+        {
+          "id": "cet4-2020-07-set1-q40",
+          "type": "MATCHING",
+          "prompt": "In the mid-20th century, most families ate dinner at home instead of eating out.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段",
+            "O 段"
+          ],
+          "answerIndex": 6,
+          "explanation": "原卷答案：G。",
+          "weight": 1,
+          "passageId": "cet4-2020-07-set1-matching"
+        },
+        {
+          "id": "cet4-2020-07-set1-q41",
+          "type": "MATCHING",
+          "prompt": "Even those short of time or money should be encouraged to cook for themselves and their family.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段",
+            "O 段"
+          ],
+          "answerIndex": 4,
+          "explanation": "原卷答案：E。",
+          "weight": 1,
+          "passageId": "cet4-2020-07-set1-matching"
+        },
+        {
+          "id": "cet4-2020-07-set1-q42",
+          "type": "MATCHING",
+          "prompt": "Eating food not cooked by ourselves can cause serious consequences.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段",
+            "O 段"
+          ],
+          "answerIndex": 9,
+          "explanation": "原卷答案：J。",
+          "weight": 1,
+          "passageId": "cet4-2020-07-set1-matching"
+        },
+        {
+          "id": "cet4-2020-07-set1-q43",
+          "type": "MATCHING",
+          "prompt": "To eat well and still save money, people should buy fresh food and cook it themselves.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段",
+            "O 段"
+          ],
+          "answerIndex": 12,
+          "explanation": "原卷答案：M。",
+          "weight": 1,
+          "passageId": "cet4-2020-07-set1-matching"
+        },
+        {
+          "id": "cet4-2020-07-set1-q44",
+          "type": "MATCHING",
+          "prompt": "We get a fairly large portion of calories from fast food and snacks.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段",
+            "O 段"
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "passageId": "cet4-2020-07-set1-matching"
+        },
+        {
+          "id": "cet4-2020-07-set1-q45",
+          "type": "MATCHING",
+          "prompt": "The popularity of TV led to the popularity of frozen food.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段",
+            "O 段"
+          ],
+          "answerIndex": 7,
+          "explanation": "原卷答案：H。",
+          "weight": 1,
+          "passageId": "cet4-2020-07-set1-matching"
+        },
+        {
+          "id": "cet4-2020-07-set1-q46",
+          "type": "DETAIL",
+          "prompt": "What is happening to the wallet?",
+          "choices": [
+            "It is disappearing.",
+            "It is being fattened.",
+            "It is becoming costly.",
+            "It is changing in style."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "passageId": "cet4-2020-07-set1-detail1"
+        },
+        {
+          "id": "cet4-2020-07-set1-q47",
+          "type": "DETAIL",
+          "prompt": "How are business transactions done in big modern stores?",
+          "choices": [
+            "Individually.",
+            "Electronically.",
+            "In the abstract.",
+            "Via a cash register."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "passageId": "cet4-2020-07-set1-detail1"
+        },
+        {
+          "id": "cet4-2020-07-set1-q48",
+          "type": "DETAIL",
+          "prompt": "What makes the author feel uncomfortable nowadays?",
+          "choices": [
+            "Saving money is becoming a thing of the past.",
+            "The pleasing Friday-night feeling is fading.",
+            "Earning money is getting more difficult.",
+            "Spending money is so fast and easy"
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "passageId": "cet4-2020-07-set1-detail1"
+        },
+        {
+          "id": "cet4-2020-07-set1-q49",
+          "type": "DETAIL",
+          "prompt": "Why does the author choose to write about what's happening to the wallet?",
+          "choices": [
+            "It represents a change in the modern world.",
+            "It has something to do with everybody's life.",
+            "It marks the end of a time-honoured tradition",
+            "It is the concern of contemporary economists."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "passageId": "cet4-2020-07-set1-detail1"
+        },
+        {
+          "id": "cet4-2020-07-set1-q50",
+          "type": "DETAIL",
+          "prompt": "What can we infer from the passage about the author?",
+          "choices": [
+            "He is resistant to social changes.",
+            "He is against technological progress.",
+            "He feels reluctant to part with the traditional wallet.",
+            "He feels insecure in the ever-changing modern world."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "passageId": "cet4-2020-07-set1-detail1"
+        },
+        {
+          "id": "cet4-2020-07-set1-q51",
+          "type": "DETAIL",
+          "prompt": "What is scientists' finding about dreaming?",
+          "choices": [
+            "It involves disconnected, weird images.",
+            "It resembles fragments of science fiction",
+            "Dreaming about a learned task betters its performance.",
+            "Dreaming about things being learned disturbs one's sleep."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "passageId": "cet4-2020-07-set1-detail2"
+        },
+        {
+          "id": "cet4-2020-07-set1-q52",
+          "type": "DETAIL",
+          "prompt": "What happens when one enters a dream state?",
+          "choices": [
+            "The body continues to act as if the sleeper were awake.",
+            "The neural activity of the brain will become intensified",
+            "The brain behaves as if it were playing a virtual reality video game",
+            "The brain once again experiences the learning activities of the day."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "passageId": "cet4-2020-07-set1-detail2"
+        },
+        {
+          "id": "cet4-2020-07-set1-q53",
+          "type": "DETAIL",
+          "prompt": "What does the brain do while we are sleeping?",
+          "choices": [
+            "It systematizes all the data collected during the day.",
+            "It substitutes old information with new data.",
+            "It processes and absorbs newly acquired data",
+            "It classifies information and places it in different files."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "passageId": "cet4-2020-07-set1-detail2"
+        },
+        {
+          "id": "cet4-2020-07-set1-q54",
+          "type": "DETAIL",
+          "prompt": "What does Robert Stickgold suggest about enhancing learning?",
+          "choices": [
+            "Having a little sleep after studying in the day.",
+            "Staying up late before going to bed",
+            "Having a dream about anything",
+            "Thinking about the odds of dreaming about the material."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "passageId": "cet4-2020-07-set1-detail2"
+        },
+        {
+          "id": "cet4-2020-07-set1-q55",
+          "type": "DETAIL",
+          "prompt": "What can be inferred about dreaming from the passage?",
+          "choices": [
+            "We may enhance our learning through dreaming",
+            "Dreaming improves your language ability.",
+            "All sleepwalkers perform dance moves when they are sleeping",
+            "Taking a nap after learning can help you find the way through the maze."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "passageId": "cet4-2020-07-set1-detail2"
+        }
+      ],
+      "audio": [],
+      "passages": [
+        {
+          "id": "cet4-2020-07-set1-bank",
+          "text": "Questions __(26)__ to __(35)__ are based on the following passage. \"Science and everyday life cannot and should not be separated.\" Those were the words uttered by pioneering British scientist Rosalind Franklin, who firmly believed that the pursuit of science should be_ 26 to all. As a woman working in the first half of the 20th century, Franklin's contributions to some of the greatest scientific discoveries of our time including the structure of DN A —were sadly __(27)__ in her lifetime. More than 60 years after Franklin's death, we are __(28)__ living in a different world, where women play an important part in every echelon (Pt /z) of our society-not least in science, innovation, higher education and research. UK universities are world leaders when it comes to advancing and __(29)__ gender equality. In the past decade, we have seen a __(30)__ increase in England in the number of women accepted on to full-time undergraduate degrees in science,technology, engineering and maths(Stem subjects). And in the last academic year, women __(31)__ for more than half of all Stem postgraduates at UK universities. Data shows us the __(32)__ to success gets harder for women to climb the further up they go. Although women make up the majority of undergraduates in our universities, just under half of academic staff are female. At __(33)__ levels,only a quarter of professors are women, and black women make up less than 2% of all female academic staff. There are also stark differences in pay across grades. The gender pay gap based on median salaries across the sector in 2016 - 2017 was 13.7%, __(34)__ there is still some way to go to ensure women are rising through the ranks to higher grade positions and being paid 35"
+        },
+        {
+          "id": "cet4-2020-07-set1-matching",
+          "text": "How to Eat Well\n[A] Why do so many Americans eat tons of processed food, the stuff that is correctly called junk (Evt)x) and should really carry warning labels?\n[B] It's not because fresh ingredients are hard to come by. Supermarkets offer more variety than ever, and there are over four times as many farmers' markets in the US as there were 20 years ago. Nor is it for lack of available information. There are plenty of recipes (Eiri), how-to videos and cooking classes available to anyone who has a computer, smart phone or television. If anything, the information is overwhelming.\n[C] And yet we aren't cooking. If you eat three meals a day and behave like most Americans,you probably get at least a third of your daily calories (FI# El) outside the home. Nearly two-thirds of us grab fast food once a week, and we get almost 25% of our daily calories from snacks. So we're eating out or taking in, and we don't sit down or we do, but we hurry.\n[D] Shouldn't preparing and consuming food be a source of comfort, pride, health, well-being, relaxation, sociability? Something that connects us to other humans? Why would we want to outsource (St (J) this basic task, especially when outsourcing it is so harmful?\n[E] When I talk about cooking, I'm not talking about creating elaborate dinner parties or three-day science projects. I'm talking about simple,easy,everyday meals My mission is to encourage green hands and those lacking time or money to feed themselves. That means we need modest, realistic expectations,and we need to teach people to cook food that's good enough to share with family and friends.\n[F] Perhaps a return to real cooking needn't be far off. A recent Harris poll revealed that 79% of Americans say they enjoy cooking and 30% \"love it\"; 14% admit to not enjoying kitchen work and just 7% won't go near the stove at all. But this doesn't necessarily translate to real cooking, and the result of this survey shouldn't surprise anyone: 52% of those 65 or older cook at home five or more times per week; only a third of young people do.\n[G] Back in the 1950s most of us grew up in households where mom cooked virtually every night. The intention to put a home-cooked meal on the table was pretty much universal. Most people couldn't afford to do otherwise\n[H] Although frozen dinners were invented in the '40s, their Popularity didn't boom until televisions became Popular a decade or so later. Since then, Packaged, pre-prepared meals have been what's for dinner. The microwave and fast-food chains were the biggest catalysts (HE fiT!), but the big food companies-which want to sell anything except the raw ingredients that go into cooking—made the home cook an endangered species.\n[I] Still,I find it strange that only a third of young People report preparing meals at home regularly. Isn't this the same crowd that rails against Processed junk and champions craft cooking? And isn't this the generation who say they're concerned about their health and the well-being of the Planet? If these are truly the values of many young People, then their behavior doesn't match their beliefs.\n[J] There have been half-hearted but    well-Publicized efforts by some food companies to reduce calories in their Processed foods, but the Standard American Diet is still the Polar opposite of the healthy, mostly Plant- based diet that just about every expert says we should be eating. Considering that the government's standards are not nearly ambitious enough, the Picture is clear: by not cooking at home, we're not eating the right things, and the consequences are hard to overstate.\n[K] To help quantify (i (k) the costs of a Poor diet,I recently tried to estimate this impact in terms of a most famous food, the burger (X t). I concluded that the Profit from burgers is more than offset (JIt/if) by the damage they cause in health Problems and environmental harm.\n[L] Cooking real food is the best defense not to mention that any meal you're likely to eat at home contains about 200 fewer calories than one you would eat in a restaurant.\n[M] To those Americans for whom money is a concern,my advice is simple: Buy what you can afford,and cook it yourself. The common Prescription is to Primarily shop the grocery store, since that's where fresh Produce, meat and seafood, and dairy are. And to save money and still eat well you don't need local, organic ingredients; all you need is real food. I'm not saying local food isn't better; it is. But there is Plenty of decent food in the grocery stores.\n[N] The other sections you should get to know are the frozen foods and the canned goods. Frozen Produce is still Produce; canned tomatoes are still tomatoes. Just make sure you're getting real food without tons of added salt or sugar. Ask yourself, would Grandma consider this food? Does it look like something that might occur in nature? It's Pretty much common sense: you want to buy food, not unidentifiable food like objects.\n[O] You don't have to hit the grocery store daily, nor do you need an abundance of skill. Since fewer than half of Americans say they cook at an intermediate level and only 20% describe their cooking skills as advanced, the crisis is one of confidence. And the only remedy for that is Practice. There's nothing mysterious about cooking the evening meal. You just have to do a little thinking ahead and redefine what qualifies as dinner. Like any skill,cooking gets easier as you do it more; every time you cook,you advance your level of skills. Someday you won't even need recipes. M y advice is that you not Pay attention to the number of steps and ingredients, because they can be deceiving IP Time,l realize,is the biggest obstacle to cooking for most People. You must adjust your Priorities to find time to cook. For instance, you can move a TV to the kitchen and watch your favorite shows while you're standing at the sink. No one is asking you to give up activities you like,but if you're watching food shows on TV, try cooking instead."
+        },
+        {
+          "id": "cet4-2020-07-set1-detail1",
+          "text": "The wallet is heading for extinction. As a day-to-day essential, it will die off with the generation who read print newspapers. The kind of shopping where you hand over notes and count out change in return now happens only in the most minor of our retail encounters, like buying a bar of chocolate or a pint of milk, from a corner shop. At the shops where you spend any real money, that money is increasingly abstracted. And this is more and more true, the higher up the scale you go. At the most cutting-edge retail stores-Victoria Beckham on Dover Street, for instance-you don't go and stand at any kind of cash register, when you decide to pay. The staff are equipped with iPads to take your payment while you relax on a sofa Which is nothing more or less than excellent service, if you have the money. But across society, the abstraction of the idea of cash makes me uneasy. Maybe I'm just old-fashioned. But earning money isn't quick or easy for most of us. Isn't it a bit weird that spending it should happen in half a blink (IZ HE ) of an eye ? Doesn't a wallet that time-honoured    Friday-night feeling of pleasing    , promising fatness represent something that matters ? But I'll leave the economics to the experts. What bothers me about the death of the wallet is the change it represents in our physical environment. Everything about the look and feel of a wallet—the way the fastenings and materials wear and tear and loosen with age, the plastic and paper and gold and silver, and handwritten phone numbers and printed cinema tickets—is the very opposite of what our world is becoming. The opposite of a wallet is a smart phone or an iPad. The rounded edges, cool glass, smooth and unknowable as a pebble (19 90 11). Instead of digging through pieces of paper and peering into corners, we move our fingers left and right. No more counting out coins. Show your wallet, if you still have one. It may not be here much longer."
+        },
+        {
+          "id": "cet4-2020-07-set1-detail2",
+          "text": "Questions 5l to 55 are based on the following passage. It's late in the evening: time to close the book and turn off the computer. You're done for the day. What you may not realize, however, is that the learning process actually continues-in your dreams. It might sound like science fiction, but researchers are increasingly focusing on the relationship between the knowledge and skills our brains absorb during the day and the fragmented, often bizarre imaginings they generate at night. Scientists have found that dreaming about a task we've learned is associated with    I improved performance in that activity (suggesting that there's some truth to the popular notion that we're \"getting\" a foreign language once we begin dreaming in it). What's more, researchers are coming to recognize that dreaming is an essential part of understanding,organizing and retaining what we learn. While we sleep, research indicates, the brain replays the patterns of activity it experienced during waking hours, allowing us to enter what one psychologist calls a neural (7442 #J) virtual reality. A vivid example of such replay can be seen in a video researchers made recently about sleep disorders. They taught a series of dance moves to a group of patients with conditions like sleepwalking, in which the sleeper engages in the kind physical movement that does not normally occur during sleep. They then videotaped the subjects as they slept. Lying in bed, eyes closed, one female patient on the tape performs the dance moves she learned earlier. This shows that while our bodies are at rest, our brains are drawing what's important from the information and events we've recently encountered, then integrating that data into the vast store of what we already know. In a 2010 study, researchers at Harvard Medical School reported that college students who dreamed about a computer maze (E) task they had learned showed a l0-fold improvement in their ability to find their way through the maze compared with participants who did not dream about the task Robert Stickgold, one of the Harvard researchers, suggests that studying right before bedtime or taking a nap following a study session in the afternoon might increase the odds of dreaming about the material. Think about that as your head hits the pillow tonight."
+        }
+      ],
+      "sourceFileUrl": "/study/resources/8ab16f0523ad7c3ac690d2de.pdf"
+    },
+    "TRANSLATION": {
+      "instructions": "请将原卷中文翻译成英语。",
+      "prompt": "Directions: For this part, you are allowed 30 minutes to translate a passage from Chinese into English. You should write your answer on Answer Sheet 2. 在中国,火锅已有 2.000 多年的历史,最早流行于最寒冷的地区,然后在 很多地区盛行,出现了具有地方特色的种类。吃火锅时,家人和朋友围坐在桌边, 桌子中间放着热腾腾的火锅。吃火锅时,人们可以根据自己的口味放肉、海鲜、    THHKK 4. 蔬菜和其他配料,自己烹饪。人们可以一边尽情地聊天,一边享受美餐。",
+      "questions": [],
+      "audio": [],
+      "passages": [],
+      "sourceFileUrl": "/study/resources/8ab16f0523ad7c3ac690d2de.pdf"
+    }
+  }
+}

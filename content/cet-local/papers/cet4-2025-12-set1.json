@@ -1,0 +1,1119 @@
+{
+  "slug": "cet4-2025-12-set1-full",
+  "version": 1,
+  "title": "2025年12月 · 第1套整卷模拟真题",
+  "level": "CET4",
+  "kind": "FULL",
+  "originType": "PAST_EXAM",
+  "sourceName": "用户提供的本地四六级资料",
+  "sourceUrl": "/study/resources/39b7c6d0ce4851f25944a9dd.pdf",
+  "rightsHolder": "原试卷及解析作者",
+  "rightsEvidence": "用户提供本地资源并要求接入本地学习系统；原文件及校验值见 content/cet-local/index.json。未授权公开再分发或生产部署。",
+  "content": {
+    "WRITING": {
+      "instructions": "原卷写作要求",
+      "prompt": "Directions: Suppose the student union of your university is collecting opinions on improving its work for the coming year. You are now to write a response by suggesting how it can better enrich student life. You will have 30 minutes to write the essay. You should write at least 120 words but no more than 180 words.",
+      "questions": [],
+      "audio": [],
+      "passages": [],
+      "minimumWords": 120,
+      "maximumWords": 180,
+      "sourceFileUrl": "/study/resources/39b7c6d0ce4851f25944a9dd.pdf"
+    },
+    "LISTENING": {
+      "instructions": "原卷听力选择题",
+      "questions": [
+        {
+          "id": "cet4-2025-12-set1-q1",
+          "type": "NEWS",
+          "prompt": "第 1 题(题干在原始录音中)",
+          "choices": [
+            "At the gate of a grade school in Kent.",
+            "Under the engine cover of a man's car.",
+            "Inside the car of David King's neighbour.",
+            "Outside the office of a charity foundation."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "audioId": "cet4-2025-12-set1-audio"
+        },
+        {
+          "id": "cet4-2025-12-set1-q2",
+          "type": "NEWS",
+          "prompt": "第 2 题(题干在原始录音中)",
+          "choices": [
+            "It got reunited with its owner.",
+            "It was injured during the rescue.",
+            "It was placed in the care of a UK charity.",
+            "It became a pet of Mr. King's grandson."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "audioId": "cet4-2025-12-set1-audio"
+        },
+        {
+          "id": "cet4-2025-12-set1-q3",
+          "type": "NEWS",
+          "prompt": "第 3 题(题干在原始录音中)",
+          "choices": [
+            "The reunion of this year's Olympic gold medalists.",
+            "The opening of the Special Olympics Spring Games.",
+            "The first important political event in the next five years.",
+            "The 100th anniversary celebration of Methodist University."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "audioId": "cet4-2025-12-set1-audio"
+        },
+        {
+          "id": "cet4-2025-12-set1-q4",
+          "type": "NEWS",
+          "prompt": "第 4 题(题干在原始录音中)",
+          "choices": [
+            "Volunteers visit the Games' website to sign up.",
+            "Children play in a fun tent and enjoy themselves fully.",
+            "Organizers devote their time and energy to the Games.",
+            "Athletes with special needs triumph in the Game."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "audioId": "cet4-2025-12-set1-audio"
+        },
+        {
+          "id": "cet4-2025-12-set1-q5",
+          "type": "NEWS",
+          "prompt": "第 5 题(题干在原始录音中)",
+          "choices": [
+            "Compensate for the Swiss manufacturer's loss.",
+            "Change the wrapping of its commodities.",
+            "Destroy its imitation chocolate rabbits.",
+            "Defend itself in the country's commercial court."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "audioId": "cet4-2025-12-set1-audio"
+        },
+        {
+          "id": "cet4-2025-12-set1-q6",
+          "type": "NEWS",
+          "prompt": "第 6 题(题干在原始录音中)",
+          "choices": [
+            "It could be reused in other products.",
+            "It could be resold cheaper to avoid waste.",
+            "It could be reshaped into animals other than rabbits.",
+            "It could be rewrapped and sold by the budget supermarket."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "audioId": "cet4-2025-12-set1-audio"
+        },
+        {
+          "id": "cet4-2025-12-set1-q7",
+          "type": "NEWS",
+          "prompt": "第 7 题(题干在原始录音中)",
+          "choices": [
+            "To be fair to the German supermarkets.",
+            "To protect chocolate retailers' interests.",
+            "To prevent consumers' possible confusion.",
+            "To boost the growth of the chocolate industry"
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "audioId": "cet4-2025-12-set1-audio"
+        },
+        {
+          "id": "cet4-2025-12-set1-q8",
+          "type": "CONVERSATION",
+          "prompt": "第 8 题(题干在原始录音中)",
+          "choices": [
+            "Pass a book to him.",
+            "Make a vegetable dish.",
+            "Return the handbook to him.",
+            "Meet his sister's boyfriend."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "audioId": "cet4-2025-12-set1-audio"
+        },
+        {
+          "id": "cet4-2025-12-set1-q9",
+          "type": "CONVERSATION",
+          "prompt": "第 9 题(题干在原始录音中)",
+          "choices": [
+            "It doesn't sound practical for her.",
+            "It would do harm to one's muscles.",
+            "It would reduce one's protein intake.",
+            "It doesn't seem to be a balanced diet."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "audioId": "cet4-2025-12-set1-audio"
+        },
+        {
+          "id": "cet4-2025-12-set1-q10",
+          "type": "CONVERSATION",
+          "prompt": "第 10 题(题干在原始录音中)",
+          "choices": [
+            "To improve his health.",
+            "To protect animal rights.",
+            "To stick to his religious belief.",
+            "To follow a trendy lifestyle."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "audioId": "cet4-2025-12-set1-audio"
+        },
+        {
+          "id": "cet4-2025-12-set1-q11",
+          "type": "CONVERSATION",
+          "prompt": "第 11 题(题干在原始录音中)",
+          "choices": [
+            "The torture and distress dolphins suffer in parks.",
+            "The urgency of joining an animal rights group.",
+            "The gloomy environments animals are kept in.",
+            "The necessity of having zoos and eating meat."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "audioId": "cet4-2025-12-set1-audio"
+        },
+        {
+          "id": "cet4-2025-12-set1-q12",
+          "type": "CONVERSATION",
+          "prompt": "第 12 题(题干在原始录音中)",
+          "choices": [
+            "The part about not eating on board the plane.",
+            "The part about air travel in the past.",
+            "The part about getting over jetlag.",
+            "The part about avoiding sleeping on the plane."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "audioId": "cet4-2025-12-set1-audio"
+        },
+        {
+          "id": "cet4-2025-12-set1-q13",
+          "type": "CONVERSATION",
+          "prompt": "第 13 题(题干在原始录音中)",
+          "choices": [
+            "Try following the advice given by the expert on the show.",
+            "Concentrate on reading articles recommended by experts.",
+            "Have meals as usual to stay away from hunger.",
+            "Take a nap to adjust to a new time zone."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "audioId": "cet4-2025-12-set1-audio"
+        },
+        {
+          "id": "cet4-2025-12-set1-q14",
+          "type": "CONVERSATION",
+          "prompt": "第 14 题(题干在原始录音中)",
+          "choices": [
+            "She has been well treated when traveling.",
+            "She does not have to worry about jetlag.",
+            "She can spend a lot of time vacationing.",
+            "She does not have any problem flying."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "audioId": "cet4-2025-12-set1-audio"
+        },
+        {
+          "id": "cet4-2025-12-set1-q15",
+          "type": "CONVERSATION",
+          "prompt": "第 15 题(题干在原始录音中)",
+          "choices": [
+            "It affects twenty-five percent of people.",
+            "It has long been ignored by many experts.",
+            "It impacts female travelers more seriously.",
+            "It has caused heavy losses to many airlines."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "audioId": "cet4-2025-12-set1-audio"
+        },
+        {
+          "id": "cet4-2025-12-set1-q16",
+          "type": "PASSAGE",
+          "prompt": "第 16 题(题干在原始录音中)",
+          "choices": [
+            "Learning from skilled designers.",
+            "Joining a 6-month training camp.",
+            "Obtaining real-world experience.",
+            "Anticipating actual challenges."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "audioId": "cet4-2025-12-set1-audio"
+        },
+        {
+          "id": "cet4-2025-12-set1-q17",
+          "type": "PASSAGE",
+          "prompt": "第 17 题(题干在原始录音中)",
+          "choices": [
+            "Core skills.",
+            "Higher education.",
+            "Capability.",
+            "Adaptability."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "audioId": "cet4-2025-12-set1-audio"
+        },
+        {
+          "id": "cet4-2025-12-set1-q18",
+          "type": "PASSAGE",
+          "prompt": "第 18 题(题干在原始录音中)",
+          "choices": [
+            "Face challenges.",
+            "Start anywhere.",
+            "Pursue roles in teams.",
+            "Follow their own path."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "audioId": "cet4-2025-12-set1-audio"
+        },
+        {
+          "id": "cet4-2025-12-set1-q19",
+          "type": "PASSAGE",
+          "prompt": "第 19 题(题干在原始录音中)",
+          "choices": [
+            "To allow students more freedom in their academic work.",
+            "To enable teachers to interact more with their students.",
+            "To engage students more in their learning.",
+            "To respond actively to students' requests."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "audioId": "cet4-2025-12-set1-audio"
+        },
+        {
+          "id": "cet4-2025-12-set1-q20",
+          "type": "PASSAGE",
+          "prompt": "第 20 题(题干在原始录音中)",
+          "choices": [
+            "Rearranging most traditional chairs and desks.",
+            "Adopting a variety of different seating options.",
+            "Shifting from traditional teaching to task-based learning.",
+            "Using new furniture to create a comfortable environment."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "audioId": "cet4-2025-12-set1-audio"
+        },
+        {
+          "id": "cet4-2025-12-set1-q21",
+          "type": "PASSAGE",
+          "prompt": "第 21 题(题干在原始录音中)",
+          "choices": [
+            "A change to teachers' opinion of their students.",
+            "A harmonious relationship among its students.",
+            "A strengthened effect of its discipline.",
+            "A win for all people involved"
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "audioId": "cet4-2025-12-set1-audio"
+        },
+        {
+          "id": "cet4-2025-12-set1-q22",
+          "type": "PASSAGE",
+          "prompt": "第 22 题(题干在原始录音中)",
+          "choices": [
+            "They arrived late for their first day of school.",
+            "They weren't informed of the school's updated rules.",
+            "They answered their headteacher's email in an impolite way.",
+            "They didn't wear the shoes required by the school's new policy."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "audioId": "cet4-2025-12-set1-audio"
+        },
+        {
+          "id": "cet4-2025-12-set1-q23",
+          "type": "PASSAGE",
+          "prompt": "第 23 题(题干在原始录音中)",
+          "choices": [
+            "Panic.",
+            "Anger.",
+            "Disputes.",
+            "Riots."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "audioId": "cet4-2025-12-set1-audio"
+        },
+        {
+          "id": "cet4-2025-12-set1-q24",
+          "type": "PASSAGE",
+          "prompt": "第 24 题(题干在原始录音中)",
+          "choices": [
+            "They rendered the school unique in the district.",
+            "They enhanced the positive image of the school.",
+            "They improved student behavior and performance.",
+            "They strengthened the school's discipline and order."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "audioId": "cet4-2025-12-set1-audio"
+        },
+        {
+          "id": "cet4-2025-12-set1-q25",
+          "type": "PASSAGE",
+          "prompt": "第 25 题(题干在原始录音中)",
+          "choices": [
+            "Tighten her monthly budget.",
+            "Turn to her parents for help.",
+            "Borrow £65 from her friend.",
+            "Postpone paying her other bills"
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "audioId": "cet4-2025-12-set1-audio"
+        }
+      ],
+      "audio": [
+        {
+          "id": "cet4-2025-12-set1-audio",
+          "url": "/study/resources/a0a932f333cfde810843ff74.m4a",
+          "sourceUrl": "/study/resources/a0a932f333cfde810843ff74.m4a",
+          "durationSeconds": 1371.184762,
+          "transcript": "",
+          "identity": "cet4_2025_12_1.mp3 SHA256:a0a932f333cfde810843ff74ffd762f1b7331704a168c4f8e4f8ec4f5ac497ac"
+        }
+      ],
+      "passages": [],
+      "sourceFileUrl": "/study/resources/39b7c6d0ce4851f25944a9dd.pdf"
+    },
+    "READING": {
+      "instructions": "请依次完成选词填空、长篇匹配和仔细阅读。",
+      "questions": [
+        {
+          "id": "cet4-2025-12-set1-q26",
+          "type": "WORD_BANK",
+          "prompt": "第 26 空",
+          "choices": [
+            "approximately",
+            "case",
+            "chance",
+            "confused",
+            "crucial",
+            "deposited",
+            "enter",
+            "invest",
+            "matter",
+            "presented",
+            "range",
+            "regular",
+            "seize",
+            "selection",
+            "ultimately"
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 0.5,
+          "passageId": "cet4-2025-12-set1-bank"
+        },
+        {
+          "id": "cet4-2025-12-set1-q27",
+          "type": "WORD_BANK",
+          "prompt": "第 27 空",
+          "choices": [
+            "approximately",
+            "case",
+            "chance",
+            "confused",
+            "crucial",
+            "deposited",
+            "enter",
+            "invest",
+            "matter",
+            "presented",
+            "range",
+            "regular",
+            "seize",
+            "selection",
+            "ultimately"
+          ],
+          "answerIndex": 13,
+          "explanation": "原卷答案：N。",
+          "weight": 0.5,
+          "passageId": "cet4-2025-12-set1-bank"
+        },
+        {
+          "id": "cet4-2025-12-set1-q28",
+          "type": "WORD_BANK",
+          "prompt": "第 28 空",
+          "choices": [
+            "approximately",
+            "case",
+            "chance",
+            "confused",
+            "crucial",
+            "deposited",
+            "enter",
+            "invest",
+            "matter",
+            "presented",
+            "range",
+            "regular",
+            "seize",
+            "selection",
+            "ultimately"
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 0.5,
+          "passageId": "cet4-2025-12-set1-bank"
+        },
+        {
+          "id": "cet4-2025-12-set1-q29",
+          "type": "WORD_BANK",
+          "prompt": "第 29 空",
+          "choices": [
+            "approximately",
+            "case",
+            "chance",
+            "confused",
+            "crucial",
+            "deposited",
+            "enter",
+            "invest",
+            "matter",
+            "presented",
+            "range",
+            "regular",
+            "seize",
+            "selection",
+            "ultimately"
+          ],
+          "answerIndex": 7,
+          "explanation": "原卷答案：H。",
+          "weight": 0.5,
+          "passageId": "cet4-2025-12-set1-bank"
+        },
+        {
+          "id": "cet4-2025-12-set1-q30",
+          "type": "WORD_BANK",
+          "prompt": "第 30 空",
+          "choices": [
+            "approximately",
+            "case",
+            "chance",
+            "confused",
+            "crucial",
+            "deposited",
+            "enter",
+            "invest",
+            "matter",
+            "presented",
+            "range",
+            "regular",
+            "seize",
+            "selection",
+            "ultimately"
+          ],
+          "answerIndex": 9,
+          "explanation": "原卷答案：J。",
+          "weight": 0.5,
+          "passageId": "cet4-2025-12-set1-bank"
+        },
+        {
+          "id": "cet4-2025-12-set1-q31",
+          "type": "WORD_BANK",
+          "prompt": "第 31 空",
+          "choices": [
+            "approximately",
+            "case",
+            "chance",
+            "confused",
+            "crucial",
+            "deposited",
+            "enter",
+            "invest",
+            "matter",
+            "presented",
+            "range",
+            "regular",
+            "seize",
+            "selection",
+            "ultimately"
+          ],
+          "answerIndex": 4,
+          "explanation": "原卷答案：E。",
+          "weight": 0.5,
+          "passageId": "cet4-2025-12-set1-bank"
+        },
+        {
+          "id": "cet4-2025-12-set1-q32",
+          "type": "WORD_BANK",
+          "prompt": "第 32 空",
+          "choices": [
+            "approximately",
+            "case",
+            "chance",
+            "confused",
+            "crucial",
+            "deposited",
+            "enter",
+            "invest",
+            "matter",
+            "presented",
+            "range",
+            "regular",
+            "seize",
+            "selection",
+            "ultimately"
+          ],
+          "answerIndex": 8,
+          "explanation": "原卷答案：I。",
+          "weight": 0.5,
+          "passageId": "cet4-2025-12-set1-bank"
+        },
+        {
+          "id": "cet4-2025-12-set1-q33",
+          "type": "WORD_BANK",
+          "prompt": "第 33 空",
+          "choices": [
+            "approximately",
+            "case",
+            "chance",
+            "confused",
+            "crucial",
+            "deposited",
+            "enter",
+            "invest",
+            "matter",
+            "presented",
+            "range",
+            "regular",
+            "seize",
+            "selection",
+            "ultimately"
+          ],
+          "answerIndex": 14,
+          "explanation": "原卷答案：O。",
+          "weight": 0.5,
+          "passageId": "cet4-2025-12-set1-bank"
+        },
+        {
+          "id": "cet4-2025-12-set1-q34",
+          "type": "WORD_BANK",
+          "prompt": "第 34 空",
+          "choices": [
+            "approximately",
+            "case",
+            "chance",
+            "confused",
+            "crucial",
+            "deposited",
+            "enter",
+            "invest",
+            "matter",
+            "presented",
+            "range",
+            "regular",
+            "seize",
+            "selection",
+            "ultimately"
+          ],
+          "answerIndex": 6,
+          "explanation": "原卷答案：G。",
+          "weight": 0.5,
+          "passageId": "cet4-2025-12-set1-bank"
+        },
+        {
+          "id": "cet4-2025-12-set1-q35",
+          "type": "WORD_BANK",
+          "prompt": "第 35 空",
+          "choices": [
+            "approximately",
+            "case",
+            "chance",
+            "confused",
+            "crucial",
+            "deposited",
+            "enter",
+            "invest",
+            "matter",
+            "presented",
+            "range",
+            "regular",
+            "seize",
+            "selection",
+            "ultimately"
+          ],
+          "answerIndex": 10,
+          "explanation": "原卷答案：K。",
+          "weight": 0.5,
+          "passageId": "cet4-2025-12-set1-bank"
+        },
+        {
+          "id": "cet4-2025-12-set1-q36",
+          "type": "MATCHING",
+          "prompt": "An increasing amount of data indicates that installing bike lanes raises local business revenues.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段",
+            "O 段"
+          ],
+          "answerIndex": 4,
+          "explanation": "原卷答案：E。",
+          "weight": 1,
+          "passageId": "cet4-2025-12-set1-matching"
+        },
+        {
+          "id": "cet4-2025-12-set1-q37",
+          "type": "MATCHING",
+          "prompt": "According to a magazine writer, some small business owners' resistance to bike lanes arises from cultural factors.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段",
+            "O 段"
+          ],
+          "answerIndex": 10,
+          "explanation": "原卷答案：K。",
+          "weight": 1,
+          "passageId": "cet4-2025-12-set1-matching"
+        },
+        {
+          "id": "cet4-2025-12-set1-q38",
+          "type": "MATCHING",
+          "prompt": "A stretch of Skillman Ave witnessed not only a big increase in sales but also the opening of new businesses.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段",
+            "O 段"
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "passageId": "cet4-2025-12-set1-matching"
+        },
+        {
+          "id": "cet4-2025-12-set1-q39",
+          "type": "MATCHING",
+          "prompt": "When people have no way out in crises, they are more likely to embrace changes.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段",
+            "O 段"
+          ],
+          "answerIndex": 14,
+          "explanation": "原卷答案：O。",
+          "weight": 1,
+          "passageId": "cet4-2025-12-set1-matching"
+        },
+        {
+          "id": "cet4-2025-12-set1-q40",
+          "type": "MATCHING",
+          "prompt": "According to one survey, city design with bike lanes and pedestrian space did not negatively impact local businesses.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段",
+            "O 段"
+          ],
+          "answerIndex": 6,
+          "explanation": "原卷答案：G。",
+          "weight": 1,
+          "passageId": "cet4-2025-12-set1-matching"
+        },
+        {
+          "id": "cet4-2025-12-set1-q41",
+          "type": "MATCHING",
+          "prompt": "Despite increased business activity on Skillman Ave, many store owners insisted the bike lanes were destroying their area.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段",
+            "O 段"
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "passageId": "cet4-2025-12-set1-matching"
+        },
+        {
+          "id": "cet4-2025-12-set1-q42",
+          "type": "MATCHING",
+          "prompt": "In a war of culture, data does not help much in changing people's minds.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段",
+            "O 段"
+          ],
+          "answerIndex": 11,
+          "explanation": "原卷答案：L。",
+          "weight": 1,
+          "passageId": "cet4-2025-12-set1-matching"
+        },
+        {
+          "id": "cet4-2025-12-set1-q43",
+          "type": "MATCHING",
+          "prompt": "A businesswoman said her business dropped sharply when parking space gave way to a bike lane, because most of her customers came by car.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段",
+            "O 段"
+          ],
+          "answerIndex": 9,
+          "explanation": "原卷答案：J。",
+          "weight": 1,
+          "passageId": "cet4-2025-12-set1-matching"
+        },
+        {
+          "id": "cet4-2025-12-set1-q44",
+          "type": "MATCHING",
+          "prompt": "Local business owners on Skillman Ave argued that their businesses would be ruined when parking spots were replaced by bike lanes.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段",
+            "O 段"
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "passageId": "cet4-2025-12-set1-matching"
+        },
+        {
+          "id": "cet4-2025-12-set1-q45",
+          "type": "MATCHING",
+          "prompt": "People may find it more pleasant to wander around streets redesigned for cycling and walking.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段",
+            "O 段"
+          ],
+          "answerIndex": 7,
+          "explanation": "原卷答案：H。",
+          "weight": 1,
+          "passageId": "cet4-2025-12-set1-matching"
+        },
+        {
+          "id": "cet4-2025-12-set1-q46",
+          "type": "DETAIL",
+          "prompt": "What do we learn from the passage about the timing of our behaviors?",
+          "choices": [
+            "It has a considerable impact on our health.",
+            "It confines us to a 24-hour day-night cycle.",
+            "It requires us to follow a particular rhythm.",
+            "It holds the key to all human body functions."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "passageId": "cet4-2025-12-set1-detail1"
+        },
+        {
+          "id": "cet4-2025-12-set1-q47",
+          "type": "DETAIL",
+          "prompt": "What does the author say about the proteins in our body?",
+          "choices": [
+            "They can modify the effects of medicines in different ways.",
+            "They can reduce unwanted side effects of certain medicines.",
+            "Their reaction to medicines changes during the day-night cycle.",
+            "Their design determines how differently they react to medicines."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "passageId": "cet4-2025-12-set1-detail1"
+        },
+        {
+          "id": "cet4-2025-12-set1-q48",
+          "type": "DETAIL",
+          "prompt": "What do doctors do when prescribing medicine for people?",
+          "choices": [
+            "They give little thought to the time of taking it for maximum effect.",
+            "They rarely consider which medicine works better for which patient.",
+            "They tell patients its possible side effects during a period of 24 hours.",
+            "They tell patients to comply with the directions of drug manufacturers."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "passageId": "cet4-2025-12-set1-detail1"
+        },
+        {
+          "id": "cet4-2025-12-set1-q49",
+          "type": "DETAIL",
+          "prompt": "Why do doctors advise patients to take most drugs in the morning or in the evening?",
+          "choices": [
+            "To discourage them from making complaints.",
+            "To ensure they take the drugs as instructed.",
+            "To comply with new research findings strictly.",
+            "To guarantee the maximum effect of the drugs."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "passageId": "cet4-2025-12-set1-detail1"
+        },
+        {
+          "id": "cet4-2025-12-set1-q50",
+          "type": "DETAIL",
+          "prompt": "What does the author suggest near the end of the passage?",
+          "choices": [
+            "Considering drug-taking timing when prescribing drugs for patients.",
+            "Making treatments less complex by taking drug timing into account.",
+            "Conducting more studies to find out the best timing for treating different diseases.",
+            "Finding out the most effective drugs for treating diseases through further research."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "passageId": "cet4-2025-12-set1-detail1"
+        },
+        {
+          "id": "cet4-2025-12-set1-q51",
+          "type": "DETAIL",
+          "prompt": "What do we learn from the passage about the economics professor and her hairdresser?",
+          "choices": [
+            "They differ in their reasons for continuing to work.",
+            "They are both committed to working into their 70s.",
+            "They are happy about their current financial situation.",
+            "They hold different views about postponing retirement."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "passageId": "cet4-2025-12-set1-detail2"
+        },
+        {
+          "id": "cet4-2025-12-set1-q52",
+          "type": "DETAIL",
+          "prompt": "What is one of the reasons for people to delay retirement?",
+          "choices": [
+            "More and more people have switched to less intellectually challenging jobs.",
+            "The number of jobs suitable for older people has increased in the private sector.",
+            "The rate of wage increase in terms of purchasing power has slowed down for years.",
+            "More and more people in the workplace find it hard to rely on traditional pensions."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "passageId": "cet4-2025-12-set1-detail2"
+        },
+        {
+          "id": "cet4-2025-12-set1-q53",
+          "type": "DETAIL",
+          "prompt": "What is the general trend in people delaying retirement?",
+          "choices": [
+            "The higher their earnings, the more likely they are tempted to delay retirement.",
+            "Those who have more job satisfaction tend to retire later than those who have less.",
+            "More men than women are likely to stay in the labor force until their late seventies.",
+            "The higher their educational level, the more likely they are to delay retirement."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "passageId": "cet4-2025-12-set1-detail2"
+        },
+        {
+          "id": "cet4-2025-12-set1-q54",
+          "type": "DETAIL",
+          "prompt": "What is the chief reason for college-educated workers delaying retirement according to an economist?",
+          "choices": [
+            "Enjoying financial security.",
+            "Staying connected socially.",
+            "Contributing more professionally.",
+            "Increasing social security payments."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "passageId": "cet4-2025-12-set1-detail2"
+        },
+        {
+          "id": "cet4-2025-12-set1-q55",
+          "type": "DETAIL",
+          "prompt": "What does the passage say about people doing manual work?",
+          "choices": [
+            "They are eager to enjoy life after retiring.",
+            "They are likely to have financial troubles.",
+            "They generally don't enjoy doing it.",
+            "They tend to anticipate retirement."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "passageId": "cet4-2025-12-set1-detail2"
+        }
+      ],
+      "audio": [],
+      "passages": [
+        {
+          "id": "cet4-2025-12-set1-bank",
+          "text": "People tend to want as many choices as possible. They believe this will maximize their  __(26)__ of making the best decision. But research shows that, when it comes to actually making a     __(27)__ from all of these choices, people can become  __(28)__ .    and avoid making a decision altogether. Even worse, when people finally do decide, they are generally less satisfied with their decision and feel more regretful over whatever choice they made. Why does this happen? Research shows that when people choose from many options, they  __(29)__ more in the decision, but feel less confident in their ability to decide well. In other words, when we are  __(30)__ .    with more choices, making the \"right\" or \"correct\" decision begins to feel more __(31)__  and, at the same time, more difficult to do. This may contribute to the deep fear that we will make the wrong decision. How can we solve this problem? I believe this fear could be tempered by putting decisions into perspective. It might help to remember that many of the choices you make, such as what to have for lunch, will not  __(32)__ much in the future and that, even more important choices, like accepting a new job, can __(33)__  be changed. It could also help to __(34)__  these situations with clear guidelines and ideas of what you want from the __(35)__ .    _ of options, which can narrow the possible choices, and also make you more confident about your ability to make the right decision."
+        },
+        {
+          "id": "cet4-2025-12-set1-matching",
+          "text": "The battle over bike lanes needs a mindset shift\nA) Five years ago, the city of Queens, New York, announced that it would be putting bike lanes onto a stretch of Skillman Ave — and removing 116 parking spots. Cyclists loved the plan, but local business owners got very angry. Taking out those parking spots, as they argued at protests and in letters to the city council, would ruin stores and restaurants along Skillman. \"Parking here is already a nightmare,\" one shouted at a protest rally.\nB) But the bike lanes were a done deal, and soon they were in place. Early this year, Jesse Coburn - an investigative writer with Streetsblog New York - wondered whether those predictions of economic collapse came true. So he asked the city's Department of Finance to give him a few years' worth of sales figures for that stretch of Skillman Ave. How had the businesses on that street fared?\nC) Quite well, it turns out. In the year after the bike lanes arrived, businesses on Skillman saw sales rise by 12 percent, compared to 3 percent for Queens in general. What's more, that section of road saw new businesses open, while Queens overall had a net loss.\nD) The thing is, the actual merchants along Skillman? They didn't believe it. When Coburn spoke to them and described what he'd found, only a few store owners admitted the lanes had helped. Many still insisted the lanes were killing their part of the city. And emotions ran hot: Someone scattered tacks (***]) on the bike lane.\nE) This little story turns out to be a fascinating glimpse at the challenges cities face as they try to update their urban infrastructure — to clean up the air, reduce greenhouse emissions, and speed up travel by making towns more bike-friendly. There's a rising amount of data showing that installing bike lanes and making streets more pedestrian-friendly boosts the economic fortunes of a place. Removing cars and parking spots works. But the folks who run local businesses simply aren't convinced, even when their own street performs. Given that sort of mess, can political fights over bike lanes ever end?\nF) In 2013, researchers at New York City's Department of Transportation studied seven stretches of road that had installed bike lanes or created pedestrian-friendly areas. The city analyzed the data for businesses along those routes and found that by the third year sales grew faster on five of the streets than in the district overall, on average — up to five times faster, in fact.\nG) Beyond New York, a survey of research from 23 cities found that bike lanes and pedestrian-friendly design didn't hurt local retail and food stores. (\"Fears of disastrous consequences for local businesses are unfounded,\" the researchers concluded.) More recent work has shown roughly the same.\nH) The truth is that in fairly dense areas, bikes are more efficient at moving people around. You might lose one car driver's business — but you gain shoppers who now can arrive more easily on bikes. \"Cyclists and pedestrians are consumers too,\" notes Professor Susan Handy. Plus, streets redesigned for bikes and pedestrians tend to become more pleasant places to hang around, so \"in a lot of cases, that's created much nicer environments that are really good for those businesses.\"\nI) Mom-and-pop shops are usually pretty quick at recognizing situations that will help their bottom lines. So why the blind spot here? Perhaps it's that attention focuses on horror stories - and some merchants do get hit when bike lanes come in.\nJ) I spoke to Cindy Hughes, a hairdresser (I!/) in Cambridge, Massachusetts. She said business fell by at least 40 percent when the city removed nearby parking to put in a bike lane. The majority of her customers drive, with many coming from nearby towns. Only a very few have shifted to cycling, and even those almost certainly won't cycle in Boston's snowy winters. So while Hughes supports bike lanes — \"cyclists deserve to be safe\" - she sees the parking loss as an existential risk. \"Look, 90 percent of my customers drive,\" she told me. \"For our business, the bike lanes are way worse than Covid was.\"\nK) For others, the pushback is cultural, says Henry Grabar, a writer for the Slate Magazine. Small business owners are frequently drivers who commute from other parts of the city by car, Grabar points out. They're also often longtime locals. \"They tend to be people with deep roots in the city, who have hung around since before the neighborhood became what it is today,\" he adds. Driving around town in a car is so normal to them that cycling seems weird and unusual - despite its boost from Covid, when bike sales exploded by 75 percent.\nL) Psychology beats all! Who knew, right? The fierce divide between store owners and bike-lane advocates seems similar to our larger culture wars over climate change. If we've learned anything about culture wars, it's that data isn't much good at changing minds.\nM) When Janette Sadik-Khan was the head of New York City's Transportation Department back in the early 2000s, she oversaw a rollout (JEt) of bike lanes — and got angry blowback from residents and business owners who claimed there weren't enough cyclists to justify installing lanes. Now, she notes ironically, the lanes are so foil of activity that opponents have turned to claiming the problem is the opposite: There are too many cyclists getting in the way of cars.\nN) Maybe bike lanes will always be charged with emotion, until enough of the public is finally concerned about climate change — and it seems reckless (#}+HJ) to not have them.\nO) Crises, after all, have a way of opening people's eyes to possibilities. During Covid, restaurants and cafes lost so much business that cities nationwide began allowing them to build curbside seating areas where people could sit, safely, in the open air. It greatly reduced parking — but because, well, shop owners didn't see any way around it. Customers loved the outdoor seating so much that cities are making it permanent: A New York City study of several streets closed during Covid found storeowners making more than before, and diners enjoying the outdoor lifestyle. If data won't change minds, customers might."
+        },
+        {
+          "id": "cet4-2025-12-set1-detail1",
+          "text": "All living organisms on Earth are exposed to a 24-hour day-night cycle. This cycle is the reason why people rest at night and are active during the day. Consequently, all human body functions also follow this daily rhythm, and the timing of behaviors like exercise or food intake can significantly influence your health. For example, eating at night can lead to weight gain over time because food intake at night leads to increased fat storage. Many drug targets in the body follow a 24-hour cycle, too. This means that the specific proteins a drug is designed to modify can react differently to the medicine over the course of a 24-hour time period. Because how the body responds to a drug can differ depending on the time it is taken, it logically follows that taking medicines at specific times could help increase their effectiveness and reduce unwanted side effects. When doctors prescribe medicine for people, they rarely consider the best time to take it. There are two main reasons for that oversight. First, many physicians are not aware that some drugs work better during a specific time of the day. And second, most drugs have not been studied for possible different effects during a 24-hour cycle. Therefore, patients are directed to take most drugs during the morning or evening primarily to ensure compliance. Over 50 years ago, researchers found that the cholesterol drug simvastatin is more effective at lowering cholesterol levels when taken at night rather than during the day. This is because the liver enzyme (fit) these drugs target is more active at night. Taking medicine at the wrong time can even cause harm. My colleagues and I wondered whether midazolam, the most common sedative (tHr#!) used in surgical procedures worldwide, might interfere with the internal clock that protects the heart at night. Currently, there are no guidelines regarding when midazolam should be administered. More research is needed to determine the best times to administer treatments for different diseases. I believe taking drug timing into account could help make treatments more effective and help more people worldwide."
+        },
+        {
+          "id": "cet4-2025-12-set1-detail2",
+          "text": "Katharine Abraham, an economics professor, was chatting with her hairdresser (H/¿lif) about retirement plans. The economist said she plans to continue working because she wants to. The hairdresser agreed but for a different reason: She needs the money. Both scenarios (IFf) are contributing to a big increase in the number of people in the US working into their 70s. Over the past 20 years, the share of Americans working in their 70s has risen from less than 10% to nearly 15%. In addition to people being healthier and living much longer, economists say that a combination of financial considerations such as years of slow rise in real wages and a shift away from traditional pensions in the private sector are some of the reasons people delay retirement. The decline of manufacturing and the increase in the number of people working in less labor-intensive occupations also has contributed to the trend, says Abraham, who researches work and retirement decisions of older Americans. \"Which matters more depends on what your history up until that point has been in the type of work you're doing,\" Abraham says. The overall trend is hitting Americans of all different levels of educational attainment, although the percentages vary by category. The share of Americans with bachelor's degrees who were working into their 70s reached nearly 20% in 2018. For those with a high school degree or less, the proportion of those working in their 70s had risen to around 10%, while those with some college education were in the middle at around 15%. Martin Neil Baily, an economist who is leading a research project on retirement security, notes that quitting a career can lead to feelings of isolation and loneliness, particularly for men. He suggests that many college-educated workers are choosing to stay in the labor force more for social benefits than for financial reasons. They're also more likely to be in professional occupations where they tend to enjoy their work more. Workers in more physical jobs, meanwhile, may be more likely to look forward to retiring, Baily says, suggesting those who stay on are more likely doing so for financial reasons."
+        }
+      ],
+      "sourceFileUrl": "/study/resources/39b7c6d0ce4851f25944a9dd.pdf"
+    },
+    "TRANSLATION": {
+      "instructions": "请将原卷中文翻译成英语。",
+      "prompt": "Directions: For this part, you are allowed 30 minutes to translate a passage from Chinese into English. You should write your answer on Answer Sheet 2. 近年来,中国政府高度重视民营经济(private economy)的发展,出台了一系列政策支持民营企业。截至2025年    MAEN(pivate economy 20254 3月底,全国民营企业数量超过5700万家,占企业总量的92.3%。民营企业不仅数量稳步增长,质量和结构也在不 断提升。民营企业的研发投入不断增加,在新一代信息技术、人工智能等领域发展迅速。民营企业核心竞争力的增 强为中国经济的高质量发展提供了有力支撑。",
+      "questions": [],
+      "audio": [],
+      "passages": [],
+      "sourceFileUrl": "/study/resources/39b7c6d0ce4851f25944a9dd.pdf"
+    }
+  }
+}

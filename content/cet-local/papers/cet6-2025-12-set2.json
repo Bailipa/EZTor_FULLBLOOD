@@ -1,0 +1,1129 @@
+{
+  "slug": "cet6-2025-12-set2-full",
+  "version": 1,
+  "title": "2025年12月 · 第2套整卷模拟真题",
+  "level": "CET6",
+  "kind": "FULL",
+  "originType": "PAST_EXAM",
+  "sourceName": "用户提供的本地四六级资料",
+  "sourceUrl": "/study/resources/ad6b856ce3aa9647344d7ad1.pdf",
+  "rightsHolder": "原试卷及解析作者",
+  "rightsEvidence": "用户提供本地资源并要求接入本地学习系统；原文件及校验值见 content/cet-local/index.json。未授权公开再分发或生产部署。",
+  "content": {
+    "WRITING": {
+      "instructions": "原卷写作要求",
+      "prompt": "Directions: For this part you are allowed 30 minutes to write an essay that begins with the sentence \"While striving for the Chinese Dream, young people enjoy more opportunities to realize their self-worth.\" You can make comments, cite examples or use your personal experiences to develop your essay. You should write at least 150 words but no more than 200 words. You should copy the sentence given in quotes at the beginning of your essay.",
+      "questions": [],
+      "audio": [],
+      "passages": [],
+      "minimumWords": 150,
+      "maximumWords": 200,
+      "sourceFileUrl": "/study/resources/ad6b856ce3aa9647344d7ad1.pdf"
+    },
+    "LISTENING": {
+      "instructions": "原卷听力选择题",
+      "questions": [
+        {
+          "id": "cet6-2025-12-set2-q1",
+          "type": "CONVERSATION",
+          "prompt": "第 1 题(题干在原始录音中)",
+          "choices": [
+            "It is absurdly expensive.",
+            "It is appropriately priced.",
+            "It brings shame on the university.",
+            "It caters to students and teachers."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "audioId": "cet6-2025-12-set2-audio"
+        },
+        {
+          "id": "cet6-2025-12-set2-q2",
+          "type": "CONVERSATION",
+          "prompt": "第 2 题(题干在原始录音中)",
+          "choices": [
+            "They never really appeal to her.",
+            "They are never actually good value.",
+            "They are within students' budgets.",
+            "They always come at a high speed"
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "audioId": "cet6-2025-12-set2-audio"
+        },
+        {
+          "id": "cet6-2025-12-set2-q3",
+          "type": "CONVERSATION",
+          "prompt": "第 3 题(题干在原始录音中)",
+          "choices": [
+            "The food.",
+            "The space.",
+            "The speed.",
+            "The environment."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "audioId": "cet6-2025-12-set2-audio"
+        },
+        {
+          "id": "cet6-2025-12-set2-q4",
+          "type": "CONVERSATION",
+          "prompt": "第 4 题(题干在原始录音中)",
+          "choices": [
+            "A complete refurnishing.",
+            "A ruinous burning down.",
+            "A substantial expansion.",
+            "A massive renovation."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "audioId": "cet6-2025-12-set2-audio"
+        },
+        {
+          "id": "cet6-2025-12-set2-q5",
+          "type": "CONVERSATION",
+          "prompt": "第 5 题(题干在原始录音中)",
+          "choices": [
+            "They have a poor work ethic.",
+            "They don't get along with managers.",
+            "They are struggling in the workplace.",
+            "They aren't as varied as their predecessors."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "audioId": "cet6-2025-12-set2-audio"
+        },
+        {
+          "id": "cet6-2025-12-set2-q6",
+          "type": "CONVERSATION",
+          "prompt": "第 6 题(题干在原始录音中)",
+          "choices": [
+            "Learning about the way they adhere to their own values.",
+            "Recognizing how they try to strike a work-life balance.",
+            "Knowing how they struggle to connect with managers.",
+            "Understanding the way they seek career advancement."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "audioId": "cet6-2025-12-set2-audio"
+        },
+        {
+          "id": "cet6-2025-12-set2-q7",
+          "type": "CONVERSATION",
+          "prompt": "第 7 题(题干在原始录音中)",
+          "choices": [
+            "In terms of the number of hours spent.",
+            "By the amount of work they perform.",
+            "In terms of the work done in 8 hours.",
+            "By the quality of the work they do."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "audioId": "cet6-2025-12-set2-audio"
+        },
+        {
+          "id": "cet6-2025-12-set2-q8",
+          "type": "CONVERSATION",
+          "prompt": "第 8 题(题干在原始录音中)",
+          "choices": [
+            "Those whose culture facilitates their advancement.",
+            "Those allowing them to do projects of their choice.",
+            "Those whose values align with their own.",
+            "Those refraining from discrediting their perspectives"
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "audioId": "cet6-2025-12-set2-audio"
+        },
+        {
+          "id": "cet6-2025-12-set2-q9",
+          "type": "PASSAGE",
+          "prompt": "第 9 题(题干在原始录音中)",
+          "choices": [
+            "They may unconsciously help customers choose greener dishes.",
+            "They may unintentionally encourage customers to eat meat.",
+            "They raise customers' environmental awareness.",
+            "They enable customers to eat in a healthy way."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "audioId": "cet6-2025-12-set2-audio"
+        },
+        {
+          "id": "cet6-2025-12-set2-q10",
+          "type": "PASSAGE",
+          "prompt": "第 10 题(题干在原始录音中)",
+          "choices": [
+            "By inviting them to taste different kinds of food.",
+            "By observing the eating behaviour of strict vegetarians.",
+            "By comparing participants eating vegetarian food frequently with those doing so rarely.",
+            "By requiring participants to choose a meal as if they were feasting at a family gathering"
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "audioId": "cet6-2025-12-set2-audio"
+        },
+        {
+          "id": "cet6-2025-12-set2-q11",
+          "type": "PASSAGE",
+          "prompt": "第 11 题(题干在原始录音中)",
+          "choices": [
+            "They are less likely to choose a vegetarian dish.",
+            "They find vegetarian dishes become more appealing.",
+            "They tend to consume larger portions of unhealthy food",
+            "They are less likely to choose dishes recommended by chefs."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "audioId": "cet6-2025-12-set2-audio"
+        },
+        {
+          "id": "cet6-2025-12-set2-q12",
+          "type": "PASSAGE",
+          "prompt": "第 12 题(题干在原始录音中)",
+          "choices": [
+            "They have found a solution to the global problem of air pollution.",
+            "They have managed to freeze polluting particles to around - 18°C.",
+            "They have been seeking a way to prevent pollutants from penetrating indoors.",
+            "They have been cooperating closely on developing a new type of air-conditioner."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "audioId": "cet6-2025-12-set2-audio"
+        },
+        {
+          "id": "cet6-2025-12-set2-q13",
+          "type": "PASSAGE",
+          "prompt": "第 13 题(题干在原始录音中)",
+          "choices": [
+            "They can be costly and inefficient.",
+            "They are constantly being perfected",
+            "They are by-products of health research.",
+            "They can save over 40,000 lives each year."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "audioId": "cet6-2025-12-set2-audio"
+        },
+        {
+          "id": "cet6-2025-12-set2-q14",
+          "type": "PASSAGE",
+          "prompt": "第 14 题(题干在原始录音中)",
+          "choices": [
+            "They keep their windows closed.",
+            "They spend a lot more time indoors.",
+            "They make more use of air-conditioners.",
+            "They try various ways to purify indoor air."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "audioId": "cet6-2025-12-set2-audio"
+        },
+        {
+          "id": "cet6-2025-12-set2-q15",
+          "type": "PASSAGE",
+          "prompt": "第 15 题(题干在原始录音中)",
+          "choices": [
+            "It shows the importance of eliminating indoor pollution.",
+            "It may change the way of future environmental research.",
+            "It demonstrates the fruitful cooperation between UK and Chinese scientists.",
+            "It may make household appliances serve an additional air cleaner function"
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "audioId": "cet6-2025-12-set2-audio"
+        },
+        {
+          "id": "cet6-2025-12-set2-q16",
+          "type": "LECTURE",
+          "prompt": "第 16 题(题干在原始录音中)",
+          "choices": [
+            "It distinguishes different species of animals.",
+            "It reflects distinct traits in animal behaviour.",
+            "It demonstrates animals' ability to recognise themselves.",
+            "It gauges the level of intelligence of various animal species."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "audioId": "cet6-2025-12-set2-audio"
+        },
+        {
+          "id": "cet6-2025-12-set2-q17",
+          "type": "LECTURE",
+          "prompt": "第 17 题(题干在原始录音中)",
+          "choices": [
+            "It meets few of the behavioural criteria set in the mirror test.",
+            "It behaves similarly to animals capable of self-recognition.",
+            "It removes marks from itself to show self-awareness.",
+            "It matches children over 18 months in intelligence."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "audioId": "cet6-2025-12-set2-audio"
+        },
+        {
+          "id": "cet6-2025-12-set2-q18",
+          "type": "LECTURE",
+          "prompt": "第 18 题(题干在原始录音中)",
+          "choices": [
+            "They have conclusively established the criteria of animal intelligence.",
+            "They have advanced the concept of self-awareness to a higher level.",
+            "They incorporate more perspectives than one.",
+            "They raise more questions than answers."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "audioId": "cet6-2025-12-set2-audio"
+        },
+        {
+          "id": "cet6-2025-12-set2-q19",
+          "type": "LECTURE",
+          "prompt": "第 19 题(题干在原始录音中)",
+          "choices": [
+            "Small children are even more keen on screens than their elders.",
+            "Both parents and children preferred to read electronic books.",
+            "Parents differed from children in reading behavior.",
+            "Children reading electronic books learned more."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "audioId": "cet6-2025-12-set2-audio"
+        },
+        {
+          "id": "cet6-2025-12-set2-q20",
+          "type": "LECTURE",
+          "prompt": "第 20 题(题干在原始录音中)",
+          "choices": [
+            "They came to conflicting conclusions.",
+            "They were based on small samples.",
+            "They yielded unanticipated findings.",
+            "They were focused on younger kids."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "audioId": "cet6-2025-12-set2-audio"
+        },
+        {
+          "id": "cet6-2025-12-set2-q21",
+          "type": "LECTURE",
+          "prompt": "第 21 题(题干在原始录音中)",
+          "choices": [
+            "Those that prove simple enough for them to comprehend.",
+            "Those that produce both audio and visual effects on them.",
+            "Those that draw their attention to the educational content.",
+            "Those that contribute to their increased interest in reading."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "audioId": "cet6-2025-12-set2-audio"
+        },
+        {
+          "id": "cet6-2025-12-set2-q22",
+          "type": "LECTURE",
+          "prompt": "第 22 题(题干在原始录音中)",
+          "choices": [
+            "Regret having wasted much time in making them.",
+            "Think how different we could have made them.",
+            "Keep ourselves from regretting them.",
+            "Live with them for the time being."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "audioId": "cet6-2025-12-set2-audio"
+        },
+        {
+          "id": "cet6-2025-12-set2-q23",
+          "type": "LECTURE",
+          "prompt": "第 23 题(题干在原始录音中)",
+          "choices": [
+            "It has made us the person we are now.",
+            "It has been made with a lot of thinking.",
+            "It stems from our valuable knowledge.",
+            "It benefits us greatly one way or another."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "audioId": "cet6-2025-12-set2-audio"
+        },
+        {
+          "id": "cet6-2025-12-set2-q24",
+          "type": "LECTURE",
+          "prompt": "第 24 题(题干在原始录音中)",
+          "choices": [
+            "Challenging things to do.",
+            "Beautiful things to share.",
+            "Choices to make.",
+            "Lessons to learn."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "audioId": "cet6-2025-12-set2-audio"
+        },
+        {
+          "id": "cet6-2025-12-set2-q25",
+          "type": "LECTURE",
+          "prompt": "第 25 题(题干在原始录音中)",
+          "choices": [
+            "Foreseeing the possibility for regret later.",
+            "Making proper use of the lessons learned.",
+            "Perfecting the decision-making strategies.",
+            "Seeing them as obstacles to moving forward"
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "audioId": "cet6-2025-12-set2-audio"
+        }
+      ],
+      "audio": [
+        {
+          "id": "cet6-2025-12-set2-audio",
+          "url": "/study/resources/a3b51d42450edaee5d85d6e9.m4a",
+          "sourceUrl": "/study/resources/a3b51d42450edaee5d85d6e9.m4a",
+          "durationSeconds": 1555.133243,
+          "transcript": "",
+          "identity": "cet6_2025_12_2.mp3 SHA256:a3b51d42450edaee5d85d6e997251f4c1300b645d0f71529bd103c8c1a5fc2d7"
+        }
+      ],
+      "passages": [],
+      "sourceFileUrl": "/study/resources/ad6b856ce3aa9647344d7ad1.pdf"
+    },
+    "READING": {
+      "instructions": "请依次完成选词填空、长篇匹配和仔细阅读。",
+      "questions": [
+        {
+          "id": "cet6-2025-12-set2-q26",
+          "type": "WORD_BANK",
+          "prompt": "第 26 空",
+          "choices": [
+            "accompanying",
+            "cognitive",
+            "domains",
+            "entertaining",
+            "evoking",
+            "hybrid",
+            "impetus",
+            "intuitive",
+            "once",
+            "oversee",
+            "redundant",
+            "stances",
+            "surpass",
+            "tentatively",
+            "vanish"
+          ],
+          "answerIndex": 8,
+          "explanation": "原卷答案：I。",
+          "weight": 0.5,
+          "passageId": "cet6-2025-12-set2-bank"
+        },
+        {
+          "id": "cet6-2025-12-set2-q27",
+          "type": "WORD_BANK",
+          "prompt": "第 27 空",
+          "choices": [
+            "accompanying",
+            "cognitive",
+            "domains",
+            "entertaining",
+            "evoking",
+            "hybrid",
+            "impetus",
+            "intuitive",
+            "once",
+            "oversee",
+            "redundant",
+            "stances",
+            "surpass",
+            "tentatively",
+            "vanish"
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 0.5,
+          "passageId": "cet6-2025-12-set2-bank"
+        },
+        {
+          "id": "cet6-2025-12-set2-q28",
+          "type": "WORD_BANK",
+          "prompt": "第 28 空",
+          "choices": [
+            "accompanying",
+            "cognitive",
+            "domains",
+            "entertaining",
+            "evoking",
+            "hybrid",
+            "impetus",
+            "intuitive",
+            "once",
+            "oversee",
+            "redundant",
+            "stances",
+            "surpass",
+            "tentatively",
+            "vanish"
+          ],
+          "answerIndex": 12,
+          "explanation": "原卷答案：M。",
+          "weight": 0.5,
+          "passageId": "cet6-2025-12-set2-bank"
+        },
+        {
+          "id": "cet6-2025-12-set2-q29",
+          "type": "WORD_BANK",
+          "prompt": "第 29 空",
+          "choices": [
+            "accompanying",
+            "cognitive",
+            "domains",
+            "entertaining",
+            "evoking",
+            "hybrid",
+            "impetus",
+            "intuitive",
+            "once",
+            "oversee",
+            "redundant",
+            "stances",
+            "surpass",
+            "tentatively",
+            "vanish"
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 0.5,
+          "passageId": "cet6-2025-12-set2-bank"
+        },
+        {
+          "id": "cet6-2025-12-set2-q30",
+          "type": "WORD_BANK",
+          "prompt": "第 30 空",
+          "choices": [
+            "accompanying",
+            "cognitive",
+            "domains",
+            "entertaining",
+            "evoking",
+            "hybrid",
+            "impetus",
+            "intuitive",
+            "once",
+            "oversee",
+            "redundant",
+            "stances",
+            "surpass",
+            "tentatively",
+            "vanish"
+          ],
+          "answerIndex": 10,
+          "explanation": "原卷答案：K。",
+          "weight": 0.5,
+          "passageId": "cet6-2025-12-set2-bank"
+        },
+        {
+          "id": "cet6-2025-12-set2-q31",
+          "type": "WORD_BANK",
+          "prompt": "第 31 空",
+          "choices": [
+            "accompanying",
+            "cognitive",
+            "domains",
+            "entertaining",
+            "evoking",
+            "hybrid",
+            "impetus",
+            "intuitive",
+            "once",
+            "oversee",
+            "redundant",
+            "stances",
+            "surpass",
+            "tentatively",
+            "vanish"
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 0.5,
+          "passageId": "cet6-2025-12-set2-bank"
+        },
+        {
+          "id": "cet6-2025-12-set2-q32",
+          "type": "WORD_BANK",
+          "prompt": "第 32 空",
+          "choices": [
+            "accompanying",
+            "cognitive",
+            "domains",
+            "entertaining",
+            "evoking",
+            "hybrid",
+            "impetus",
+            "intuitive",
+            "once",
+            "oversee",
+            "redundant",
+            "stances",
+            "surpass",
+            "tentatively",
+            "vanish"
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 0.5,
+          "passageId": "cet6-2025-12-set2-bank"
+        },
+        {
+          "id": "cet6-2025-12-set2-q33",
+          "type": "WORD_BANK",
+          "prompt": "第 33 空",
+          "choices": [
+            "accompanying",
+            "cognitive",
+            "domains",
+            "entertaining",
+            "evoking",
+            "hybrid",
+            "impetus",
+            "intuitive",
+            "once",
+            "oversee",
+            "redundant",
+            "stances",
+            "surpass",
+            "tentatively",
+            "vanish"
+          ],
+          "answerIndex": 5,
+          "explanation": "原卷答案：F。",
+          "weight": 0.5,
+          "passageId": "cet6-2025-12-set2-bank"
+        },
+        {
+          "id": "cet6-2025-12-set2-q34",
+          "type": "WORD_BANK",
+          "prompt": "第 34 空",
+          "choices": [
+            "accompanying",
+            "cognitive",
+            "domains",
+            "entertaining",
+            "evoking",
+            "hybrid",
+            "impetus",
+            "intuitive",
+            "once",
+            "oversee",
+            "redundant",
+            "stances",
+            "surpass",
+            "tentatively",
+            "vanish"
+          ],
+          "answerIndex": 9,
+          "explanation": "原卷答案：J。",
+          "weight": 0.5,
+          "passageId": "cet6-2025-12-set2-bank"
+        },
+        {
+          "id": "cet6-2025-12-set2-q35",
+          "type": "WORD_BANK",
+          "prompt": "第 35 空",
+          "choices": [
+            "accompanying",
+            "cognitive",
+            "domains",
+            "entertaining",
+            "evoking",
+            "hybrid",
+            "impetus",
+            "intuitive",
+            "once",
+            "oversee",
+            "redundant",
+            "stances",
+            "surpass",
+            "tentatively",
+            "vanish"
+          ],
+          "answerIndex": 14,
+          "explanation": "原卷答案：O。",
+          "weight": 0.5,
+          "passageId": "cet6-2025-12-set2-bank"
+        },
+        {
+          "id": "cet6-2025-12-set2-q36",
+          "type": "MATCHING",
+          "prompt": "Feeling like they have more control over something or someone than they do, people get more committed to their pursuit when they should give up.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段",
+            "O 段",
+            "P 段"
+          ],
+          "answerIndex": 5,
+          "explanation": "原卷答案：F。",
+          "weight": 1,
+          "passageId": "cet6-2025-12-set2-matching"
+        },
+        {
+          "id": "cet6-2025-12-set2-q37",
+          "type": "MATCHING",
+          "prompt": "If you regard yourself as one who never quits, you may end up trapped in your course of action.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段",
+            "O 段",
+            "P 段"
+          ],
+          "answerIndex": 10,
+          "explanation": "原卷答案：K。",
+          "weight": 1,
+          "passageId": "cet6-2025-12-set2-matching"
+        },
+        {
+          "id": "cet6-2025-12-set2-q38",
+          "type": "MATCHING",
+          "prompt": "One of the author's clients found it hard to give up a design project, in which she had put in a lot of time and effort.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段",
+            "O 段",
+            "P 段"
+          ],
+          "answerIndex": 9,
+          "explanation": "原卷答案：J。",
+          "weight": 1,
+          "passageId": "cet6-2025-12-set2-matching"
+        },
+        {
+          "id": "cet6-2025-12-set2-q39",
+          "type": "MATCHING",
+          "prompt": "The author suggests that one should direct their thoughts to the gains of quitting timely so as to move on.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段",
+            "O 段",
+            "P 段"
+          ],
+          "answerIndex": 4,
+          "explanation": "原卷答案：E。",
+          "weight": 1,
+          "passageId": "cet6-2025-12-set2-matching"
+        },
+        {
+          "id": "cet6-2025-12-set2-q40",
+          "type": "MATCHING",
+          "prompt": "When making a decision, you'd better ask for opinions of those who have less stake in your decision.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段",
+            "O 段",
+            "P 段"
+          ],
+          "answerIndex": 12,
+          "explanation": "原卷答案：M。",
+          "weight": 1,
+          "passageId": "cet6-2025-12-set2-matching"
+        },
+        {
+          "id": "cet6-2025-12-set2-q41",
+          "type": "MATCHING",
+          "prompt": "For people associating their identity with their commitments, quitting can feel like their identity is threatened",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段",
+            "O 段",
+            "P 段"
+          ],
+          "answerIndex": 8,
+          "explanation": "原卷答案：I。",
+          "weight": 1,
+          "passageId": "cet6-2025-12-set2-matching"
+        },
+        {
+          "id": "cet6-2025-12-set2-q42",
+          "type": "MATCHING",
+          "prompt": "People who regard highly the quality of making wise decisions do not feel good when they make a bad one.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段",
+            "O 段",
+            "P 段"
+          ],
+          "answerIndex": 14,
+          "explanation": "原卷答案：O。",
+          "weight": 1,
+          "passageId": "cet6-2025-12-set2-matching"
+        },
+        {
+          "id": "cet6-2025-12-set2-q43",
+          "type": "MATCHING",
+          "prompt": "The wisest leaders learn to distinguish between giving up too soon and sticking with something irrationally.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段",
+            "O 段",
+            "P 段"
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "passageId": "cet6-2025-12-set2-matching"
+        },
+        {
+          "id": "cet6-2025-12-set2-q44",
+          "type": "MATCHING",
+          "prompt": "When people are thinking of an endeavor, they should dig out reliable data that tells them how likely they are to succeed",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段",
+            "O 段",
+            "P 段"
+          ],
+          "answerIndex": 13,
+          "explanation": "原卷答案：N。",
+          "weight": 1,
+          "passageId": "cet6-2025-12-set2-matching"
+        },
+        {
+          "id": "cet6-2025-12-set2-q45",
+          "type": "MATCHING",
+          "prompt": "Having a clear view of what's in your control and what's not is vital to making a good decision regarding whether to give up or stick it out.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段",
+            "O 段",
+            "P 段"
+          ],
+          "answerIndex": 7,
+          "explanation": "原卷答案：H。",
+          "weight": 1,
+          "passageId": "cet6-2025-12-set2-matching"
+        },
+        {
+          "id": "cet6-2025-12-set2-q46",
+          "type": "DETAIL",
+          "prompt": "What does the author say about human beings?",
+          "choices": [
+            "They cannot prosper without cooperating with each other.",
+            "They share a common interest and believe in a just cause.",
+            "They think and behave alike in different social groups.",
+            "They cannot gain independence without fighting for it."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "passageId": "cet6-2025-12-set2-detail1"
+        },
+        {
+          "id": "cet6-2025-12-set2-q47",
+          "type": "DETAIL",
+          "prompt": "What do we learn about solidarity in an increasingly diverse society?",
+          "choices": [
+            "It gives rise to a complicated division of labour.",
+            "It involves many aspects with great complexity.",
+            "It brings individuals together as environment changes.",
+            "It embraces the characteristics of different individuals"
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "passageId": "cet6-2025-12-set2-detail1"
+        },
+        {
+          "id": "cet6-2025-12-set2-q48",
+          "type": "DETAIL",
+          "prompt": "What would we witness in the setting of communitarianism?",
+          "choices": [
+            "Ruling of social norms and ridding of individuality.",
+            "Emphasis on the adherence to individual differences.",
+            "Sacrifice of personal interests for the common good.",
+            "Elimination of individualism and personal choices."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "passageId": "cet6-2025-12-set2-detail1"
+        },
+        {
+          "id": "cet6-2025-12-set2-q49",
+          "type": "DETAIL",
+          "prompt": "What does solidarity entail according to the passage?",
+          "choices": [
+            "A limit to personal differences.",
+            "An opposition to individualism.",
+            "A hindrance to social advancement.",
+            "An inevitable end to liberal pursuits."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "passageId": "cet6-2025-12-set2-detail1"
+        },
+        {
+          "id": "cet6-2025-12-set2-q50",
+          "type": "DETAIL",
+          "prompt": "What do social theorists think of solidarity?",
+          "choices": [
+            "It is especially relevant to the most vulnerable.",
+            "It is most effective in protecting human dignity.",
+            "It is essential to progress and order in society.",
+            "It is indispensable to avoiding shallow relationships"
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "passageId": "cet6-2025-12-set2-detail1"
+        },
+        {
+          "id": "cet6-2025-12-set2-q51",
+          "type": "DETAIL",
+          "prompt": "What is the finding of one study about people who keep giving unsolicited advice?",
+          "choices": [
+            "They turn out to be well-meaning.",
+            "They are genuinely kind-hearted.",
+            "They are capable of influencing others.",
+            "They are inclined to crave for power"
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "passageId": "cet6-2025-12-set2-detail2"
+        },
+        {
+          "id": "cet6-2025-12-set2-q52",
+          "type": "DETAIL",
+          "prompt": "What is the problem with people who are driven to give you unsolicited advice?",
+          "choices": [
+            "They may be quick to upset others.",
+            "They may be emotionally vulnerable.",
+            "They want their voice to be the loudest.",
+            "They respond to discomfort excessively."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "passageId": "cet6-2025-12-set2-detail2"
+        },
+        {
+          "id": "cet6-2025-12-set2-q53",
+          "type": "DETAIL",
+          "prompt": "What is the advice receiver tempted to do when noticing the advice giver's underlying anxiety?",
+          "choices": [
+            "Reveal the undesirable result of their approach.",
+            "Refuse their advice in an undisguised manner.",
+            "Bring their real motives to the surface.",
+            "Accuse them of trying to control others."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "passageId": "cet6-2025-12-set2-detail2"
+        },
+        {
+          "id": "cet6-2025-12-set2-q54",
+          "type": "DETAIL",
+          "prompt": "How is the advice giver likely to react to the rejection of their advice?",
+          "choices": [
+            "They may regard it as a threat.",
+            "They may modify their behavior.",
+            "They get ready for a larger conflict.",
+            "They begin to doubt their self-worth."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "passageId": "cet6-2025-12-set2-detail2"
+        },
+        {
+          "id": "cet6-2025-12-set2-q55",
+          "type": "DETAIL",
+          "prompt": "What should the advice receiver do to avoid unnecessary conflict?",
+          "choices": [
+            "Concede the advice is perfectly reasonable.",
+            "Give their reasons for not taking the advice.",
+            "Understand why the advice giver offers the advice.",
+            "Explain their chosen way of handling the situation"
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "passageId": "cet6-2025-12-set2-detail2"
+        }
+      ],
+      "audio": [],
+      "passages": [
+        {
+          "id": "cet6-2025-12-set2-bank",
+          "text": "We humans love to believe we are special, but science and technology have repeatedly proved this conviction wrong. People __(26)__     thought that humans were the only animals to use tools, to form teams or to propagate culture, but science has shown that other animals do each of these things. Meanwhile, technology has quashed (1& FiX), one by one, claims that __(27)__ tasks require a human brain. The first adding machine was invented in 1623. This past year, a computer-generated work won an art contest. I believe the moment when computers meet and __(28)__ human intelligence is on the horizon. How will human intelligence and creativity be valued when machines become smarter and more creative than the brightest people? There will likely be a spectrum. In some  __(29)__ .    _ people still value humans doing things, even if a computer can do it better. It's been a quarter of a century since a computer beat world champion Garry Kasparov, but human chess hasn't gone away. In other fields, human skill will seem costly and  __(30)__  . Take illustration for example: most readers don't care whether the graphic __(31)__  a magazine article was drawn by a person or a computer — they just want it to be relevant, new and perhaps __(32)__ And, of course, this question isn't black or white. Many fields will be a  __(33)__  where some humans find a lucky place, but most of the work is done by computers, like in manufacturing today, where, much of the work is accomplished by robots, but some humans must be there to __(34)__ the machines. If history is any guide, it's almost certain that advances in Al will cause more jobs to __(35)__ .    _ that creative workers with human-only skills will become richer but fewer in number, and that those who own creative technology will become the new ultra-rich."
+        },
+        {
+          "id": "cet6-2025-12-set2-matching",
+          "text": "Do You Know When to Quit Wisely?\nA) Projects, relationships, and jobs don't always work out as planned- and it's not always clear when to give up. We've all repeatedly heard the saying that \"quitters never win,\" but sometimes the best decision is to cut our losses.\nB) Think about that relationship you held on to even after it had run its course or the job you stayed in despite your boss making you miserable. Many of us try to hold onto the last ray of hope, thinking we can make it work, whatever \"it\" is. And while perseverance is generally an excellent quality, it may also incline you to over-invest in something that is no longer a good idea.\nC) As an executive coach, I work with numerous passionate and hard-working leaders who don't want to \"quit.\" But the smartest leaders learn to discern the difference between quitting too soon and holding onto something that they shouldn't.\nD) We are all susceptible to the sunk-cost delusion, an unconscious bias that leads us to persist in an endeavor we have already invested time, effort, or money into — even when abandoning it would be more beneficial. We realize that we can't get back the resources we've given, so we persevere - investing in a project that should be halted, staying in a relationship that should be over, or finishing a book we no longer enjoy and should put down, because we're already halfway through it. If quitting is \"not your thing,\" you may be especially susceptible to this bias.\nE) The sunk-cost delusion causes us to overly worry about what we'll lose if we move on and not think enough about the costs of not moving on. To offset this bias, deliberately refocus your thinking on the gains so you can more objectively weigh the alternatives. Ask yourself: What might I gain by cutting my losses now? Will you be happier or have time for another (better) opportunity? Then ask yourself: What will it cost me to soldier on? For example, is it possible that you'll be throwing more good money after what you've already lost? Or that you won't have the energy to capitalize on other promising possibilities?\nF) The illusion of control can also interfere with our best judgment, leading us to overestimate our ability to control events and attain a positive outcome. This bias gives us a sense of agency and can promote mental health. However, the bias can also result in escalating commitment to a losing course of action. Especially when combined with an \"I'm not a quitter\" mentality, feeling like we have more control over an event or person than we do puts us at risk of doubling down when we should pull out.\nG) To counteract this bias, consider your situation and make a simple two-column list of what's in your control and what's not. Think rigorously. While you may be able to influence other people and various circumstances, you can't force them to change or go your way.\nH) Getting clear on what you can control and what you can't is essential to making a quality decision about whether to call it quits or persevere. With a written list in hand, you can ensure you focus on what you can control and better assess whether your continued efforts are worth the expense. Expending effort and emotion on things you can't control can be both draining and disempowering.\nI) Research indicates that people link their self-identity and social status to their commitments. And because we identify with our commitments, withdrawing from one can feel like a threat to our identity or status.\nJ) Take my client Ryan, a leader at a technology company. Ryan had invested two years and a lot of effort in a design project that wasn't delivering the needed outcomes, but the thought of abandoning it after all she had put in was hard to bear. As Ryan and I explored whether she should cancel the initiative she'd been leading or continue to persevere, she stated, \"The thing is, I'm not a quitter.\" This singular, fixed sense of self was clouding her judgment and limiting her choices for action.\nK) Our self-concept and identity are mental concepts that influence our behavior. If you strongly identify as not being a quitter, you can end up staying stuck in a course of action due to your narrow and rigid self-concept. To overcome this kind of internal obstacle, recall your other positive traits and personality characteristics. Ask yourself: What additional strengths do I have (or aspire to have) that would be helpful to employ here? For example, when I asked Ryan what other positive qualities from her personality she needed to leverage for decision making, she replied, \"Discernment and bravery.\"\nL) Now, examine your situation through the lens of each of these facets of yourself. What does the discerning part of you say? The brave part? Considering your decision through these different characteristics will enable you to see that you have more choices. It's also helpful to seek external sources of information, rather than relying solely on your thinking and instincts. But it's important to think through whose opinions you solicit.\nM) Ideally, seek out people who are less invested in your decision than you are. If you're considering whether to shut down your entrepreneurial venture, for instance, reach out to other founders as opposed to just your business partner. Similarly, if you're looking for love advice, ask someone removed from the ups and downs of your relationship instead of relying only on your best friend. In all cases, I recommend describing your situation and following up with a question like: \"How would you manage this situation?\"\nN) Alternately, you could also seek out hard data that illuminates your real chance of success in whatever endeavor you are contemplating. Sticking with the example of the entrepreneurial venture, numbers are your best friend. Use them to remove yourself from the love you have for this idea and consider your bum rate relative to growth plan, industry growth rates, and other factors that predict start-up success. External sources of information can help you see angles and possibilities you might not have considered.\nO) When something that seemed so promising at the start doesn't turn out the way we imagined, we can become overly self- critical. Nobody likes to feel that they've made a poor decision, especially if making intelligent decisions is a quality you hold in high esteem. The most effective strategy here is to give yourself a break. Practicing self-compassion increases your resilience (#''#), emotional intelligence, compassion toward others, and can boost your performance as well as help you develop a growth mindset.\nP) Instead of deliberating and criticizing yourself, focus instead on what you can learn from this situation. For example, Ryan recognized she had developed various new skills and leadership capabilities from leading the design project. And despite ultimately deciding to drop it, she was still happy she had tried and grateful for what the experience taught her.\nQ) Undeniably, perseverance can help us succeed. But for your wellbeing, it's important to learn how to distinguish quitting too soon and clinging to a losing course of action. While letting go can be difficult, it will free up your time, energy, and mental space to imagine new possibilities and pursue new opportunities."
+        },
+        {
+          "id": "cet6-2025-12-set2-detail1",
+          "text": "As interdependent beings we cannot thrive independent of others. We like to work with people who are like-minded, with whom we share a common interest, or who also believe in a cause we are serious about. This is evident in how we have organised ourselves into various collective groups such as nations, regions, communities, organisations, and families. Does the group you belong to have a strong collective consciousness or shared beliefs? Is there interdependence among its members? Do you consider this group a significant part of your existence? If your answers are affirmative, then you are experiencing a micro version of solidarity. What is solidarity? Its simplest definition in the dictionary is: \"...a unifying opinion, feeling, purpose or interest among a group of people.\" In this increasingly diverse society we live in, solidarity takes on a complex and multifaceted character as it forms bonds of interdependence among unique individuals living in a fast-changing environment and working within a complex division of labour. One facet of solidarity fits well with the principles of communitarianism (AL#f Z. X). In this setting, individuals give up their own interests to serve the common good. However, its strict adherence to social cohesiveness and exclusiveness restricts expression and practice of individual differences and preferences. Consequently, individuality and autonomy is sacrificed to maintain the unity of the group. Solidarity is also viewed as a reaction to the extreme emphasis on individualism and freedom of choice. It goes against the liberal idea of unrestricted individuals who see society as a hindrance to their freedom to make choices and to act according to what is good for them regardless of how these will affect others. But despite its many facets, social theorists have viewed solidarity as a key factor in bringing about order and progress in society. They believe that for human society to survive as it becomes more diverse, more new bonds need to be formed based on the differences. In the light of this, they regard a genuine solidarity as more than just shallow relationships based on common interests. Solidarity is not just a product of strategic calculations of how much it will benefit the self. It is not an exclusive class founded on the you-and-me-against-the-world principle. Rather, it is inclusive and is not forced. Acting out of solidarity means supporting and standing up for each other — in recognition that one's fate is in the fate of the other. It is a bond characterised by cooperative practices and strengthened by the concern for the well-being of others or the common good. It fights for the protection of human dignity and listens to and acts on the cries of the most vulnerable."
+        },
+        {
+          "id": "cet6-2025-12-set2-detail2",
+          "text": "People who repeatedly give unwanted advice can be well-meaning and genuinely want to help. Others might do this out of a sense of self-worth around the ability to influence others. One study found that people with a high tendency to seek power were more likely to give advice than those with an opposite tendency. Under the guise (9r7€) of unselfishness, people may be driven to give you unwanted advice because it makes them feel powerful or in control. They may not be fully aware of this drive, however. These people may also display a problematic degree of emotional vulnerability, becoming upset very quickly, and taking a long time to calm down. It is possible that their emotions were only validated in childhood when they were at their loudest, encouraging them to adopt responses to discomfort that are excessive in most situations. When someone is giving advice in order to make themselves feel more powerful, there is underlying anxiety to their behavior that recipients of the advice tend to notice. It can be tempting in this situation to react harshly to the advice giver and to accuse them of being manipulative, but this approach might produce an undesirable result. If the act of giving advice is contributing actively to someone's feelings of self-worth, an outright (E *ÍJ) rejection may be perceived as a threat, activating their fight-or-flight response, possibly causing them to double down on their validation-seeking behavior, or leading to a larger conflict. The key is to validate without over-identifying. You can let them know that you have heard them and appreciate where they are coming from without taking on the potentially damaging narrative that you could not have gotten by without their help. You had better say something like, \"Thanks for the idea. I have my own plan for handling this, but I really appreciate your perspective and will take it into consideration. Can I let you know when I need help in the future?\" If you have trouble setting boundaries tactfully, prioritize working on your own ability to self-regulate. As uncomfortable as it may make you continuously receiving unwanted advice, if you can respond with compassion, the situation will likely diffuse much faster. Though it is usually not the intended outcome of giving unsolicited advice, many who receive it often feel stressed, offended, or simply annoyed by unwanted suggestions. Setting a boundary in this regard, if you feel you need one, is perfectly reasonable and something that can bring you increased emotional safety. It is best to set boundaries in a way that takes into account the individual's underlying reasons for doing what they are doing to avoid unnecessary conflict and more stress."
+        }
+      ],
+      "sourceFileUrl": "/study/resources/ad6b856ce3aa9647344d7ad1.pdf"
+    },
+    "TRANSLATION": {
+      "instructions": "请将原卷中文翻译成英语。",
+      "prompt": "Directions: For this part, you are allowed 30 minutes to translate a passage from Chinese into English. You should write your answer on Answer Sheet 2. 中华民族崇尚自强自立的精神,这一精神深植于中国文化之中,是民族生存与发展的重要支撑。改革开放以来,中 国在自强自立的征程上,持续加大科研投入,在信息技术、人工智能、航天工程等领域不断取得新突破。5G 网络覆 盖全国,远程医疗发展迅速,电子支付的使用全球领先,嫦娥探月工程展现了航天领域引人注目的发展。自强自立 精神成为推动国家现代化进程的强大动力,激励着中国人民为实现民族复兴(rejuvenation)的中国梦不断奋进。    nation",
+      "questions": [],
+      "audio": [],
+      "passages": [],
+      "sourceFileUrl": "/study/resources/ad6b856ce3aa9647344d7ad1.pdf"
+    }
+  }
+}

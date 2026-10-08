@@ -71,13 +71,11 @@ export function TranslationWorkspace() {
   const [showExample, setShowExample] = useState(true)
   const [groups, setGroups] = useState<ReviewGroup[]>([])
   const [selectedTargetGroupId, setSelectedTargetGroupId] = useState('none')
-  const [pendingRealtimeWord, setPendingRealtimeWord] = useState<{ word: string; requestId: number } | null>(null)
   const [autoSaveWords, setAutoSaveWords] = useState(true)
   const [soundEffectsEnabled, setSoundEffectsEnabled] = useState(true)
   const [preferencesReady, setPreferencesReady] = useState(false)
   const [preferencesLoadError, setPreferencesLoadError] = useState(false)
   const realtimeEnabled = featureVisible('translation', 'realtime')
-  const realtimeWordRequestId = useRef(0)
   const lineGesture = useRef<{ pointerId: number; startX: number; startY: number; moved: boolean; target: HTMLButtonElement; bounds: { left: number; width: number } } | null>(null)
   const lineMoveFrame = useRef<number | null>(null)
   const pendingLineShift = useRef<{ target: HTMLButtonElement; shift: number } | null>(null)
@@ -111,18 +109,20 @@ export function TranslationWorkspace() {
   }, [navigationScope])
 
   useEffect(() => {
-    if (!navigationReady || window.location.hash !== '#chat') return
+    if (!navigationReady || !['#chat', '#assistant'].includes(window.location.hash)) return
+
+    const mode = window.location.hash === '#assistant' ? 'ai' : 'chat'
 
     window.history.replaceState(window.history.state, '', `${window.location.pathname}${window.location.search}`)
     if (!isAuthenticated) {
-      promptLogin('聊天室')
+      promptLogin(mode === 'ai' ? 'AI 助手' : '聊天室')
       return
     }
 
-    setOpenedModes((modes) => modes.includes('chat') ? modes : [...modes, 'chat'])
+    setOpenedModes((modes) => modes.includes(mode) ? modes : [...modes, mode])
     setTask('supplement')
-    setAssistantView('chat')
-    setConversationView('chat')
+    setAssistantView(mode)
+    setConversationView(mode)
   }, [isAuthenticated, navigationReady, promptLogin])
 
   useEffect(() => {
@@ -243,14 +243,6 @@ export function TranslationWorkspace() {
   const lineShiftAtPointer = (clientX: number, bounds: { left: number; width: number }) => {
     const offset = Math.max(1, Math.min(81, ((clientX - bounds.left) / bounds.width) * 100 - 9))
     return ((offset - 1) / 18) * 100
-  }
-
-  const carryToRealtime = (word: string) => {
-    const value = word.trim()
-    if (!value || !realtimeEnabled) return
-    realtimeWordRequestId.current += 1
-    setPendingRealtimeWord({ word: value, requestId: realtimeWordRequestId.current })
-    setTask('realtime')
   }
 
   const selectMode = (nextMode: TranslationMode | undefined) => {
@@ -426,7 +418,6 @@ export function TranslationWorkspace() {
                       autoSaveWords={autoSaveWords}
                       soundEffectsEnabled={soundEffectsEnabled}
                       onGuestFeatureClick={promptLogin}
-                      pendingRealtimeWord={pendingRealtimeWord}
                       showTitle={false}
                     />
                     {isAuthenticated && preferencesLoadError && (
@@ -456,7 +447,7 @@ export function TranslationWorkspace() {
                         <button type="button" className="min-h-9 text-primary underline" onClick={() => promptLogin(translationModes.find((item) => item.value === mode)?.label ?? '翻译功能')}>登录</button>
                       </div>
                     ) : mode === 'chat' ? <ChatRoom active={visible} /> : (
-                      <ZhEnAssistant view={mode} onViewChange={selectMode} onCarryToRealtime={realtimeEnabled ? carryToRealtime : undefined} groups={groupOptions} />
+                      <ZhEnAssistant view={mode} onViewChange={selectMode} groups={groupOptions} />
                     )}
                   </div>
                 </section>

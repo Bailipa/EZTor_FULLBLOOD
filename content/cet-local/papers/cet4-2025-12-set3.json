@@ -1,0 +1,715 @@
+{
+  "slug": "cet4-2025-12-set3-full",
+  "version": 1,
+  "title": "2025年12月 · 第3套整卷模拟真题",
+  "level": "CET4",
+  "kind": "FULL",
+  "originType": "PAST_EXAM",
+  "sourceName": "用户提供的本地四六级资料",
+  "sourceUrl": "/study/resources/8b29c1b4b871def55ade9a16.pdf",
+  "rightsHolder": "原试卷及解析作者",
+  "rightsEvidence": "用户提供本地资源并要求接入本地学习系统；原文件及校验值见 content/cet-local/index.json。未授权公开再分发或生产部署。",
+  "content": {
+    "WRITING": {
+      "instructions": "原卷写作要求",
+      "prompt": "Directions: Suppose your university is organizing a forum on how students can make the best use of on-campus resources for academic development. You are now to write an essay to             express your view. You will have 30 minutes to write the essay. You should write at least 120 words but no more than 180 words.",
+      "questions": [],
+      "audio": [],
+      "passages": [],
+      "minimumWords": 120,
+      "maximumWords": 180,
+      "sourceFileUrl": "/study/resources/8b29c1b4b871def55ade9a16.pdf"
+    },
+    "LISTENING": {
+      "instructions": "听力材料",
+      "questions": [],
+      "audio": [],
+      "passages": [],
+      "unavailableReason": "原卷未刊载本卷独立听力题文。由于多题多卷,官方第三套真题的听力试题与第二套真题的一致,只是选项顺序不同,因此本套试卷不再提供听力部分。",
+      "sourceFileUrl": "/study/resources/8b29c1b4b871def55ade9a16.pdf"
+    },
+    "READING": {
+      "instructions": "请依次完成选词填空、长篇匹配和仔细阅读。",
+      "questions": [
+        {
+          "id": "cet4-2025-12-set3-q26",
+          "type": "WORD_BANK",
+          "prompt": "第 26 空",
+          "choices": [
+            "concerns",
+            "expansion",
+            "forth",
+            "geography",
+            "importance",
+            "imposed",
+            "inspired",
+            "national",
+            "partners",
+            "potential",
+            "pursues",
+            "rescues",
+            "rest",
+            "strengthened",
+            "together"
+          ],
+          "answerIndex": 12,
+          "explanation": "原卷答案：M。",
+          "weight": 0.5,
+          "passageId": "cet4-2025-12-set3-bank"
+        },
+        {
+          "id": "cet4-2025-12-set3-q27",
+          "type": "WORD_BANK",
+          "prompt": "第 27 空",
+          "choices": [
+            "concerns",
+            "expansion",
+            "forth",
+            "geography",
+            "importance",
+            "imposed",
+            "inspired",
+            "national",
+            "partners",
+            "potential",
+            "pursues",
+            "rescues",
+            "rest",
+            "strengthened",
+            "together"
+          ],
+          "answerIndex": 6,
+          "explanation": "原卷答案：G。",
+          "weight": 0.5,
+          "passageId": "cet4-2025-12-set3-bank"
+        },
+        {
+          "id": "cet4-2025-12-set3-q28",
+          "type": "WORD_BANK",
+          "prompt": "第 28 空",
+          "choices": [
+            "concerns",
+            "expansion",
+            "forth",
+            "geography",
+            "importance",
+            "imposed",
+            "inspired",
+            "national",
+            "partners",
+            "potential",
+            "pursues",
+            "rescues",
+            "rest",
+            "strengthened",
+            "together"
+          ],
+          "answerIndex": 7,
+          "explanation": "原卷答案：H。",
+          "weight": 0.5,
+          "passageId": "cet4-2025-12-set3-bank"
+        },
+        {
+          "id": "cet4-2025-12-set3-q29",
+          "type": "WORD_BANK",
+          "prompt": "第 29 空",
+          "choices": [
+            "concerns",
+            "expansion",
+            "forth",
+            "geography",
+            "importance",
+            "imposed",
+            "inspired",
+            "national",
+            "partners",
+            "potential",
+            "pursues",
+            "rescues",
+            "rest",
+            "strengthened",
+            "together"
+          ],
+          "answerIndex": 4,
+          "explanation": "原卷答案：E。",
+          "weight": 0.5,
+          "passageId": "cet4-2025-12-set3-bank"
+        },
+        {
+          "id": "cet4-2025-12-set3-q30",
+          "type": "WORD_BANK",
+          "prompt": "第 30 空",
+          "choices": [
+            "concerns",
+            "expansion",
+            "forth",
+            "geography",
+            "importance",
+            "imposed",
+            "inspired",
+            "national",
+            "partners",
+            "potential",
+            "pursues",
+            "rescues",
+            "rest",
+            "strengthened",
+            "together"
+          ],
+          "answerIndex": 13,
+          "explanation": "原卷答案：N。",
+          "weight": 0.5,
+          "passageId": "cet4-2025-12-set3-bank"
+        },
+        {
+          "id": "cet4-2025-12-set3-q31",
+          "type": "WORD_BANK",
+          "prompt": "第 31 空",
+          "choices": [
+            "concerns",
+            "expansion",
+            "forth",
+            "geography",
+            "importance",
+            "imposed",
+            "inspired",
+            "national",
+            "partners",
+            "potential",
+            "pursues",
+            "rescues",
+            "rest",
+            "strengthened",
+            "together"
+          ],
+          "answerIndex": 14,
+          "explanation": "原卷答案：O。",
+          "weight": 0.5,
+          "passageId": "cet4-2025-12-set3-bank"
+        },
+        {
+          "id": "cet4-2025-12-set3-q32",
+          "type": "WORD_BANK",
+          "prompt": "第 32 空",
+          "choices": [
+            "concerns",
+            "expansion",
+            "forth",
+            "geography",
+            "importance",
+            "imposed",
+            "inspired",
+            "national",
+            "partners",
+            "potential",
+            "pursues",
+            "rescues",
+            "rest",
+            "strengthened",
+            "together"
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 0.5,
+          "passageId": "cet4-2025-12-set3-bank"
+        },
+        {
+          "id": "cet4-2025-12-set3-q33",
+          "type": "WORD_BANK",
+          "prompt": "第 33 空",
+          "choices": [
+            "concerns",
+            "expansion",
+            "forth",
+            "geography",
+            "importance",
+            "imposed",
+            "inspired",
+            "national",
+            "partners",
+            "potential",
+            "pursues",
+            "rescues",
+            "rest",
+            "strengthened",
+            "together"
+          ],
+          "answerIndex": 8,
+          "explanation": "原卷答案：I。",
+          "weight": 0.5,
+          "passageId": "cet4-2025-12-set3-bank"
+        },
+        {
+          "id": "cet4-2025-12-set3-q34",
+          "type": "WORD_BANK",
+          "prompt": "第 34 空",
+          "choices": [
+            "concerns",
+            "expansion",
+            "forth",
+            "geography",
+            "importance",
+            "imposed",
+            "inspired",
+            "national",
+            "partners",
+            "potential",
+            "pursues",
+            "rescues",
+            "rest",
+            "strengthened",
+            "together"
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 0.5,
+          "passageId": "cet4-2025-12-set3-bank"
+        },
+        {
+          "id": "cet4-2025-12-set3-q35",
+          "type": "WORD_BANK",
+          "prompt": "第 35 空",
+          "choices": [
+            "concerns",
+            "expansion",
+            "forth",
+            "geography",
+            "importance",
+            "imposed",
+            "inspired",
+            "national",
+            "partners",
+            "potential",
+            "pursues",
+            "rescues",
+            "rest",
+            "strengthened",
+            "together"
+          ],
+          "answerIndex": 10,
+          "explanation": "原卷答案：K。",
+          "weight": 0.5,
+          "passageId": "cet4-2025-12-set3-bank"
+        },
+        {
+          "id": "cet4-2025-12-set3-q36",
+          "type": "MATCHING",
+          "prompt": "Hiring managers believe unemployed workers over 45 lack good skills and are less adaptable.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段"
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "passageId": "cet4-2025-12-set3-matching"
+        },
+        {
+          "id": "cet4-2025-12-set3-q37",
+          "type": "MATCHING",
+          "prompt": "Switching to a new career is difficult and getting reemployed after a layoff is even tougher.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段"
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "passageId": "cet4-2025-12-set3-matching"
+        },
+        {
+          "id": "cet4-2025-12-set3-q38",
+          "type": "MATCHING",
+          "prompt": "People from poor neighborhoods tend to have the least interest in retraining.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段"
+          ],
+          "answerIndex": 9,
+          "explanation": "原卷答案：J。",
+          "weight": 1,
+          "passageId": "cet4-2025-12-set3-matching"
+        },
+        {
+          "id": "cet4-2025-12-set3-q39",
+          "type": "MATCHING",
+          "prompt": "Hiring managers who are not yet 45 years old seem unwilling to hire people their senior.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段"
+          ],
+          "answerIndex": 5,
+          "explanation": "原卷答案：F。",
+          "weight": 1,
+          "passageId": "cet4-2025-12-set3-matching"
+        },
+        {
+          "id": "cet4-2025-12-set3-q40",
+          "type": "MATCHING",
+          "prompt": "Some analysts find age 45+ jobless workers are most likely to be unemployed for more than a year.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段"
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "passageId": "cet4-2025-12-set3-matching"
+        },
+        {
+          "id": "cet4-2025-12-set3-q41",
+          "type": "MATCHING",
+          "prompt": "People who had succeeded in career change after 45 told a nonprofit organization they owed a great deal to the education and training they had received.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段"
+          ],
+          "answerIndex": 8,
+          "explanation": "原卷答案：I。",
+          "weight": 1,
+          "passageId": "cet4-2025-12-set3-matching"
+        },
+        {
+          "id": "cet4-2025-12-set3-q42",
+          "type": "MATCHING",
+          "prompt": "Older workers who actively pursue more education and training have a good chance of being hired.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段"
+          ],
+          "answerIndex": 6,
+          "explanation": "原卷答案：G。",
+          "weight": 1,
+          "passageId": "cet4-2025-12-set3-matching"
+        },
+        {
+          "id": "cet4-2025-12-set3-q43",
+          "type": "MATCHING",
+          "prompt": "A new study finds that more education and training helps midcareer individuals find a new job.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段"
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "passageId": "cet4-2025-12-set3-matching"
+        },
+        {
+          "id": "cet4-2025-12-set3-q44",
+          "type": "MATCHING",
+          "prompt": "Owing to the internet, it is now more convenient than ever to receive training in new skills.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段"
+          ],
+          "answerIndex": 11,
+          "explanation": "原卷答案：L。",
+          "weight": 1,
+          "passageId": "cet4-2025-12-set3-matching"
+        },
+        {
+          "id": "cet4-2025-12-set3-q45",
+          "type": "MATCHING",
+          "prompt": "People over 45 stimulated by training suffer shorter periods of unemployment, get more job offers and have greater satisfaction in them",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段"
+          ],
+          "answerIndex": 7,
+          "explanation": "原卷答案：H。",
+          "weight": 1,
+          "passageId": "cet4-2025-12-set3-matching"
+        },
+        {
+          "id": "cet4-2025-12-set3-q46",
+          "type": "DETAIL",
+          "prompt": "What do we learn about New York’s Eleven Madison Park?",
+          "choices": [
+            "It is the first vegan restaurant to receive the highest Michelin rating.",
+            "It is the first restaurant in the city to remove meat from its menu.",
+            "It was famed throughout the U.S. for its fancy regional dishes.",
+            "It was established as a three-star Michelin restaurant in 2011."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "passageId": "cet4-2025-12-set3-detail1"
+        },
+        {
+          "id": "cet4-2025-12-set3-q47",
+          "type": "DETAIL",
+          "prompt": "Why did Daniel Humm decide to remove meat from the menu of his restaurant?",
+          "choices": [
+            "To encourage more customers to be vegan.",
+            "To contribute to a sustainable food system.",
+            "To show the appeal of a plant-based menu.",
+            "To strive for the three-star Michelin rating."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "passageId": "cet4-2025-12-set3-detail1"
+        },
+        {
+          "id": "cet4-2025-12-set3-q48",
+          "type": "DETAIL",
+          "prompt": "What did Daniel Humm think of his move to a meat-free menu?",
+          "choices": [
+            "It was a worthwhile effort even though he was unsure of its success.",
+            "It would set a model for many more restaurants to follow.",
+            "It was a mad gamble few chefs in the fine dining world would risk taking.",
+            "It would prove a right step to take in today’s catering business."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "passageId": "cet4-2025-12-set3-detail1"
+        },
+        {
+          "id": "cet4-2025-12-set3-q49",
+          "type": "DETAIL",
+          "prompt": "What does Michelin’s 2022 New York guide say about Eleven Madison Park’s decision?",
+          "choices": [
+            "It elevates the restaurant’s cooking to an art form.",
+            "It proves the validity of ratings awarded by Michelin.",
+            "It shows a daring foresight regarding future fine dining.",
+            "It is an effort to transform the restaurant into a luxury one."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "passageId": "cet4-2025-12-set3-detail1"
+        },
+        {
+          "id": "cet4-2025-12-set3-q50",
+          "type": "DETAIL",
+          "prompt": "What does the awarding of three Michelin stars to Eleven Madison Park indicate?",
+          "choices": [
+            "An optimistic vision of vegan foods becoming mainstream.",
+            "A greater responsibility for the culinary world to undertake.",
+            "A strong incentive for more restaurants to offer healthier foods to their customers.",
+            "An explicit recognition of the rising importance of restaurants serving vegan food"
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "passageId": "cet4-2025-12-set3-detail1"
+        },
+        {
+          "id": "cet4-2025-12-set3-q51",
+          "type": "DETAIL",
+          "prompt": "What does the passage say is of importance regarding genetic tests?",
+          "choices": [
+            "Knowing their accuracy.",
+            "Evaluating their applicability.",
+            "Utilizing the information they provide.",
+            "Weighing the consequences they have."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "passageId": "cet4-2025-12-set3-detail2"
+        },
+        {
+          "id": "cet4-2025-12-set3-q52",
+          "type": "DETAIL",
+          "prompt": "What kind of genetic tests tend to be comparatively reliable?",
+          "choices": [
+            "Those complex enough to reveal the genetics behind a trait.",
+            "Those looking for traits responsible for certain diseases.",
+            "Those focusing on the specific questions being asked.",
+            "Those looking for traits determined by a single gene."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "passageId": "cet4-2025-12-set3-detail2"
+        },
+        {
+          "id": "cet4-2025-12-set3-q53",
+          "type": "DETAIL",
+          "prompt": "What do we learn about genetic health tests from the passage?",
+          "choices": [
+            "They are unable to identify certain hereditary diseases by themselves.",
+            "They are generally unable to separate genetic and non-genetic factors.",
+            "They cannot independently identify the majority of potential diseases.",
+            "They cannot tell apart the impact of lifestyle and that of the environment."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "passageId": "cet4-2025-12-set3-detail2"
+        },
+        {
+          "id": "cet4-2025-12-set3-q54",
+          "type": "DETAIL",
+          "prompt": "What makes genetic tests for multi-factorial traits tricky to interpret?",
+          "choices": [
+            "The challenge in determining the role of each individual gene.",
+            "The difficulty of foretelling how the various genes will interact.",
+            "The difficulty of telling genetic factors from environmental ones.",
+            "The enormous work to identify the hundreds of genes involved."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "passageId": "cet4-2025-12-set3-detail2"
+        },
+        {
+          "id": "cet4-2025-12-set3-q55",
+          "type": "DETAIL",
+          "prompt": "What does the passage say about DNA tests to predict personality or talents?",
+          "choices": [
+            "They are solid scientific bases for application.",
+            "They are helpful in finding a romantic match.",
+            "They do not look promising at the moment.",
+            "They do not make any sense at present."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "passageId": "cet4-2025-12-set3-detail2"
+        }
+      ],
+      "audio": [],
+      "passages": [
+        {
+          "id": "cet4-2025-12-set3-bank",
+          "text": "Earth Day is an annual celebration that honors the achievements of the environmental movement and raise                       s awareness of the need to protect Earth’s natural resources for future generations. Earth Day is celebrated on April 22 in the United States and on either April 22 or the day the spring equinox (春分) occurs throughout the  __(26)__  of the world.      Environmental activism during the 1960s           __(27)__  Wisconsin Senator Gaylord Nelson to create             a  __(28)__  celebration uniting the environmental movement. With the help of Denis Hayes, a graduate student at                         Harvard University, Nelson organized the first Earth Day on April 22, 1970, educating participants in the  __(29)__  of environmental protection. Attended by 20 million people across the United States, the event  __(30)__  support for legislation such as the Clean Air Act and the Endangered Species Act.      In 1990, Hayes organized a global Earth Day, with more than 200 million participants in 140 countries. Earth Day now brings  __(31)__  citizens and activists from around the world to raise awareness and take action regarding such environmental  __(32)__  as global warming and renewable energy.      Today, the Earth Day Network, which rallies more than 20,000  __(33)__  and organizations in 190 countries, supports the Earth Day mission year-round. This mission is founded on the proposition that all people, regardless of race, gender, income, or  __(34)__ , have a moral right to a healthy, sustainable environment. The Earth Day Network  __(35)__  this mission through education, public policy, and activism campaigns."
+        },
+        {
+          "id": "cet4-2025-12-set3-matching",
+          "text": "Looking for a job after 45\nA) Ageism and long-term unemployment are most damaging for those in the second half of their careers. Changing careers is    hard. Getting back into work after you’ve been laid off is even harder. Those over 45 make up the bulk of the long-term    unemployed, in America and elsewhere. Hiring managers admit they are reluctant to hire those over 40 or 45, arguing they    probably won’t be a good “fit,” their experience won’t be relevant to the workplace, and they’ll be unable or unwilling to    learn new skills.\nB) But the one thing that can really make a difference? More education and training. These are the results from a new study    by Generation, a nonprofit founded by former McKinsey consultants. They’ve just published a global survey on midcareer    employment, based on surveys of over 5,000 workers and managers in seven countries.\nC) “Older midcareer workers...make up the bulk of the long-term unemployed in many countries,” Generation’s analysts write    in their report. Those over 45 comprise over 40% of the long-term unemployed, for example. And if you’re out of work    past the age of 45, there’s nearly a two in three chance you’ll be out of work for                         over a year, they find. “Midcareer    individuals are finding it harder to get jobs,” they write. “People age 45+ face persistent and rising pressure in the global    job market. They are unemployed for much longer than the average, and their age is indeed one of the greatest barriers to    their finding a job.”\nD) A substantial part of this, they report, is “widespread ageism” on the part of hiring managers. Although such managers    admit that post-45 hires turn out on average to be just as good as or better than younger workers, they still don’t want to    hire them. “Hiring managers have a strong perception bias against 45+ job candidates — they believe that members of this    age group have poor skills and low adaptability,” Generation’s analysts report.\nE) The survey results are remarkable. Hiring managers are three times as likely to rate job applicants age 35-44 as a better    “fit” than those over 45. They rate the post-45 job seekers lower on average on all three measures — even experience —    than those ages 18 to 34. This is true even though nearly nine managers in 10 also said their post-45 workers were as good    as or better than younger employees in the same jobs.\nF) Their biggest fears about hiring those over 45? Managers said they worry that older hires will be reluctant                               to try new    technologies, and will be unable to learn new skills. Besides, the majority of hiring managers are under 45 — and seem    reluctant to hire people older than themselves.\nG) But here's the good news. Older workers who’ve actively engaged in more education and training relevant to their jobs    turn this pretty much on its head. Three-quarters of hiring managers said they’d be more likely to hire an over-45 who had    relevant education, training or credentials (文凭). Among those over 45 who’d successfully switched careers, 74% said    training helped them get their new job.\nH) “Midcareer switchers overwhelmingly say that training enabled them to shift to a new career path,                        ” the analysts write. And    when they asked over-45 candidates about their attitudes, they found that “those who are excited by training are unemployed    for less time, receive more job offers, and are more satisfied by the job offers they receive.”\nI) Hiring managers said training was three times more likely to get them to hire applicants over age 45 than, say, government    subsidies (补贴). What training are we talking about? Obviously it depends on the job. And, yes, managers are most likely    to be impressed by industry qualifications you get in school. These things                  cost money, and time. But these aren’t the only    things helpful. Those who had successfully changed careers after 45 told Generation that education and training had been    a big help — and that included in-person, on-the-job training, “'informal learning,” and online courses — with or without    certification.\nJ) If they think we’re too old to learn new skills after we’re 45, just learning some new skills may have an effect on its own.    There’s a downside to this. The people least interested in retraining are more likely to come from historically disadvantaged    communities, more likely to have low incomes, and are more likely to                      have the least schooling after getting their high           -    school diploma or earlier. On average, post          -45 job switchers with higher incomes participate in 2.5 training programs each.    Those with lower incomes: 0.9 programs on average.\nK) Many years ago, I wrote about a study which found that employers are much more likely to hire a college                                graduate who    has some work experience in the industry than a college graduate who took the “right” degree. A bank is more likely to hire    a literature graduate who spent their summers working in their local bank than a finance or economics graduate who spent    their summers surfing or traveling around Italy.            They’ve learned through long experience. The person who worked in the    bank is more likely ready, willing and able to be part of the team and do the job from day 1.\n\n\n\nL) We can rail against “ageism” all we like. It gets us nowhere. And it’s easy to forget that employers, like everyone else, are    under time pressure and are just trying to solve problems. Any and all                      “training,” including inexpensive and informal    training, is going to help resolve their worries about hiring someone over 45. And it has never been easier or cheaper to    gain instruction in new skills, thanks to the internet. Online schools like Udemy and Lynda.com offer sweet deals at sign-    up. And courses on YouTube are free.\nM) Bottom line? Yes, it really can be difficult getting a new job after age 45, let alone changing careers. One of the best things we can do to help ourselves is to go online and learn new, relevant skills. Sadly, the people who most need the help are least likely to take it — which raises a challenge for society as a whole. Not only do we not want to see lives go to waste, but we all benefit if more people are working and fewer are unemployed"
+        },
+        {
+          "id": "cet4-2025-12-set3-detail1",
+          "text": "New York's Eleven Madison Park has become the first vegan (素食主义的) restaurant to be awarded three Michelin stars.       The fine dining establishment received its first three-star Michelin rating in 2011 when the menu was famed for its fancy animal-based dishes.       However, last year, the restaurant’s co-owner and famous chef, Daniel Humm, made the bold decision to remove meat from the menu, citing our unsustainable food system. While cow milk is still served for tea and coffee, the menu is almost 100 percent vegan.       At the time, Humm acknowledged the move was risky, admitting that “it wasn’t clear if guests would come”, but called the gamble “a risk worth taking.”       “In view of the climate crisis, I didn’t want to open the same restaurant,” Humm told the Financial Times in an interview. “If we can show the possibilities of eating plant-based food in this setting, it can open a lot of doors” for others to follow.       Now, this impressive new accomplishment validates Eleven Madison Park’s decision to take meat off the menu and embrace plant-based foods, with Michelin’s 2022 New York guide branding it a “bold vision of luxury dining”.       “We took the jump to transform Eleven Madison Park into a plant-based fine dining restaurant knowing in our hearts this is what we believed in,” stated Humm on Instagram. “Last night, we were honored to be awarded three Michelin stars for the 11th year in a row. I am so grateful to the team members who contributed through its nearly 25-year history. We are also grateful to our guests and partners who believed in our vision and encouraged us to push harder?.” Three Michelin stars is the highest award, given to chefs who are at the peak of their profession. “Their cooking is elevated to an art form and some of their dishes are destined to become classics,” reads Michelin’s website, in a clear nod to plant- based foods’ growing significance in the culinary (烹饪的) world.\n\n\n\n      “I think luxury companies have a real role to play and a responsibility,” says Humm. “The more creative we are, the more beautiful and delicious our future will be.”"
+        },
+        {
+          "id": "cet4-2025-12-set3-detail2",
+          "text": "With genetic testing becoming increasingly popular, many people are left wondering exactly how accurate it is. Whether you are taking a DNA test to build your extended DNA family tree, or want precise information on inborn (先天的) health conditions, it is important to understand how accurate genetic tests are, and what                    information we can rely upon.       How accurate DNA tests are relies greatly upon the kind of test being taken, on                        the specific question you        ask, and on how complex the genetics behind a trait (            特征) is. For example, tests for traits that depend on a                single gene provide much more reliable results, because you can see whether a disease               -causing trait is present.       Ancestry tests claim to reveal our genetic identities. But saying you are 30 percent East Asian or American                          hardly reflects your real ancestry.       What about using DNA tests to discover distant family members? There are tools to compare one                             ’s DNA with others’ to find distant relatives based on their genetic identification. These kinds of applications are                     generally accurate. It’s relatively easy to tell whether two DNA samples belong to close relatives. With distant                     relatives, results become hazier.       Genetic health tests claim to be able to detect certain hereditary (                遗传的) diseases, or other health conditions.                 While certain rare diseases can be easily identified, most potential health conditions cannot be identified by                         genetic testing alone. The large majority of our trait       s and diseases also depend upon non-genetic factors, such as lifestyle, the environment, and many others.       Genetic tests for multi      -factorial traits are often very tricky to interpret. Height, for example, depends on                     hundreds of genes, each contributing a li      ttle to the outcome, together with a bunch of environmental factors. A                 test can look at many genes at once, but it’s difficult to predict how they will play together. Then you should also                   account for non-genetic factors that are not written in the DNA.       Tests that offer to find your perfect romantic match and those claiming to predict personality or talents based                             on your DNA are pure nonsense. At the moment              , the scientific bases for these applications are non          -existent or incredibly weak."
+        }
+      ],
+      "sourceFileUrl": "/study/resources/8b29c1b4b871def55ade9a16.pdf"
+    },
+    "TRANSLATION": {
+      "instructions": "请将原卷中文翻译成英语。",
+      "prompt": "Directions: For this part, you are allowed 30 minutes to translate a passage from Chinese into English. You should write your answer on Answer Sheet 2.\n\n     中国政府十分重视绿色经济的发展。通过加强森林资源保护、加大污染治理力度等一系列措施,许多地区的生 态环境得到了显著改善。绿水青山(lucid waters and lush mountains)促进了当地的旅游、健康等产业的发展,创造了 可观的经济效益。如今,生态环境与人类社会和谐共存的观念在中国已深入人心。绿色经济的推进不仅能为中国可 持续发展做出贡献,也为全球环境保护提供了宝贵经验。",
+      "questions": [],
+      "audio": [],
+      "passages": [],
+      "sourceFileUrl": "/study/resources/8b29c1b4b871def55ade9a16.pdf"
+    }
+  }
+}

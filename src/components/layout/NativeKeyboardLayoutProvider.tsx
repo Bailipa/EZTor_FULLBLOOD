@@ -18,6 +18,7 @@ export function NativeKeyboardLayoutProvider({ children }: { children: ReactNode
 
   const closeLayout = useCallback(() => {
     document.documentElement.style.removeProperty('--app-visible-height')
+    document.documentElement.style.removeProperty('--app-visible-top')
     delete document.documentElement.dataset.keyboardOpen
     keyboardOpenRef.current = false
     setKeyboardOpen(false)
@@ -27,6 +28,7 @@ export function NativeKeyboardLayoutProvider({ children }: { children: ReactNode
     const viewport = window.visualViewport
     const query = window.matchMedia('(max-width: 767px)')
     let frame = 0
+    let revealFrame = 0
     let restingHeight = 0
     let editor: HTMLElement | null = null
 
@@ -51,17 +53,28 @@ export function NativeKeyboardLayoutProvider({ children }: { children: ReactNode
       const open = mobile && editing && restingHeight - visibleHeight > 120
 
       if (!editing && !keyboardOpenRef.current) restingHeight = Math.max(visibleHeight, window.innerHeight)
-      if (mobile) document.documentElement.style.setProperty('--app-visible-height', `${Math.max(0, visibleHeight)}px`)
-      else document.documentElement.style.removeProperty('--app-visible-height')
-      if (open) document.documentElement.dataset.keyboardOpen = 'true'
-      else delete document.documentElement.dataset.keyboardOpen
-      keyboardOpenRef.current = open
-      setKeyboardOpen(open)
-      if (open) requestAnimationFrame(revealEditor)
+      const root = document.documentElement
+      const height = `${Math.max(0, visibleHeight)}px`
+      if (mobile) {
+        if (root.style.getPropertyValue('--app-visible-height') !== height) root.style.setProperty('--app-visible-height', height)
+      } else if (root.style.getPropertyValue('--app-visible-height')) root.style.removeProperty('--app-visible-height')
+      const top = `${mobile && open ? Math.max(0, viewport?.offsetTop ?? 0) : 0}px`
+      if (mobile && open) {
+        if (root.style.getPropertyValue('--app-visible-top') !== top) root.style.setProperty('--app-visible-top', top)
+      } else if (root.style.getPropertyValue('--app-visible-top')) root.style.removeProperty('--app-visible-top')
+      if (keyboardOpenRef.current !== open) {
+        if (open) root.dataset.keyboardOpen = 'true'
+        else delete root.dataset.keyboardOpen
+        keyboardOpenRef.current = open
+        setKeyboardOpen(open)
+      }
+      cancelAnimationFrame(revealFrame)
+      if (open) revealFrame = requestAnimationFrame(revealEditor)
     }
 
     const schedule = () => {
       cancelAnimationFrame(frame)
+      cancelAnimationFrame(revealFrame)
       frame = requestAnimationFrame(update)
     }
     const rotate = () => { restingHeight = 0; schedule() }
@@ -81,6 +94,7 @@ export function NativeKeyboardLayoutProvider({ children }: { children: ReactNode
 
     return () => {
       cancelAnimationFrame(frame)
+      cancelAnimationFrame(revealFrame)
       viewport?.removeEventListener('resize', schedule)
       viewport?.removeEventListener('scroll', schedule)
       window.removeEventListener('resize', schedule)
@@ -89,6 +103,7 @@ export function NativeKeyboardLayoutProvider({ children }: { children: ReactNode
       document.removeEventListener('focusout', schedule)
       query.removeEventListener('change', schedule)
       document.documentElement.style.removeProperty('--app-visible-height')
+      document.documentElement.style.removeProperty('--app-visible-top')
       delete document.documentElement.dataset.keyboardOpen
     }
   }, [])

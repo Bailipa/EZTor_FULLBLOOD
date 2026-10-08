@@ -78,6 +78,12 @@ npm run dev        # → http://localhost:3000
 - **管理后台** — 数据分析、公共词库、翻译记录、用户管理、LLM 供应商池
 - **安全** — CSRF 防护、提示词注入检测、限流、封禁升级、设备指纹
 
+## CET 真题阅读内容核对
+
+本地内容包收录了 2025 年 12 月 CET6 第 1 套两篇仔细阅读：Passage One 讨论友谊与个人成功，46–49 答案为 **DADB**；第50题依据印刷解析PDF暂录 **B**。Passage Two 讨论种族公平与 Martin Luther King Jr. 的遗志，51–55 暂录 **CACDB**。题文和选项按逐句内容核对，包内答案解析为项目自编简析。
+
+交叉核对来源：[新东方真题及答案汇总](https://mtoutiao.xdf.cn/cet4-6/202512/15047810.html)、[懒笔记第一篇逐题页](https://english-exam.lazynote.cn/cet6/sections/2025-12-1/part3-section-c/)和[第二篇逐题页](https://english-exam.lazynote.cn/cet6/sections/2025-12-1/part3-section-c-2/)、[过级鸭第二篇原题页](https://www.guojiya.cn/exam/cet6_2025_12_1/reading-passage-2)，以及[考研记印刷解析PDF的公开预览/OCR文本](https://www.yeyulingfeng.com/wendang/586891.html)（18页PDF，文档署名“公众号考研记”）。第50题，新东方汇总页给 C；考研记印刷解析逐项说明 B “No one can afford to neglect close friends” 符合全文，而 C “Collectivism is superior to individualism” 推论过度；懒笔记逐题页目前也给 B。因此内容包暂录 B，并保留新东方分歧，不把它表述为官方答案。第53题，新东方汇总页给 A；考研记印刷解析、懒笔记和过级鸭均给 C。C“继续追求 Martin Luther King Jr. 的事业”与原文 “by honoring King's legacy” 对应，因此内容包暂录 C，同时保留新东方分歧。这两份包仍是本地候选，尚未作为已核对的官方标准答案导入数据库。真题权利归属和再分发许可未核验，不代表官方背书或已获授权。
+
 ## 项目结构
 
 ```
@@ -110,3 +116,7 @@ src/
 ## 许可证
 
 GNU General Public License v3.0。详见 [LICENSE](LICENSE)。
+
+## 本地四六级全量接入（2026-10-08）
+
+用户提供的“四级”“六级”资料中，2020–2025 年四级 43 套、六级 43 套已导入本地题库，接入 `/study` 现有整卷、分项练习及试卷切换。2020 年前的资料不进入新作答列表，历史作答保留。原卷缺项、共用题序和未确认答案在页面提示；未确认答案不计分。资源、重建命令及核对范围见 [本地题库说明](content/cet-local/README.md)。本轮未部署生产，登录后的完整用户流程尚未验收。

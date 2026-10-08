@@ -20,11 +20,14 @@ export default function DictationPage() {
 }
 
 function DictationRoute() {
-  const isMistakePractice = useSearchParams().get('source') === 'mistakes'
+  const params = useSearchParams()
+  const isMistakePractice = params.get('source') === 'mistakes'
+  const initialGroupId = params.get('groupId') || undefined
   return (
     <DictationWorkspace
-      key={isMistakePractice ? 'mistakes' : 'dictation'}
+      key={`${isMistakePractice ? 'mistakes' : 'dictation'}:${initialGroupId ?? 'all'}`}
       isMistakePractice={isMistakePractice}
+      initialGroupId={initialGroupId}
     />
   )
 }

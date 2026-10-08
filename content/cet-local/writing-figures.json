@@ -1,0 +1,20 @@
+{
+  "cet6-2021-06-set1": {
+    "url": "/study/resources/68e5252b4381fde373d0b14f.png",
+    "sha256": "68e5252b4381fde373d0b14fbfa53d0ea2d7e68a26e8584520e0e19aeef94c69",
+    "sourceId": "28ee0371724573166ed299ae",
+    "physicalPage": 1
+  },
+  "cet6-2021-06-set2": {
+    "url": "/study/resources/d068d236fac0e14bd8221152.png",
+    "sha256": "d068d236fac0e14bd822115200ef25375b00cdea07add442cec211354453f7ee",
+    "sourceId": "175f3c61257e97dbbbde948f",
+    "physicalPage": 1
+  },
+  "cet6-2021-06-set3": {
+    "url": "/study/resources/001e68122e25ec57ac5f199b.png",
+    "sha256": "001e68122e25ec57ac5f199beab4ce61481aec950a23d3096ccfb0396c64b733",
+    "sourceId": "1bb51699ea16bd7abf5ebc12",
+    "physicalPage": 1
+  }
+}

@@ -1,0 +1,705 @@
+{
+  "slug": "cet6-2023-12-set3-full",
+  "version": 1,
+  "title": "2023年12月 · 第3套整卷模拟真题",
+  "level": "CET6",
+  "kind": "FULL",
+  "originType": "PAST_EXAM",
+  "sourceName": "用户提供的本地四六级资料",
+  "sourceUrl": "/study/resources/863dce5f60d8f4dad1b0920e.pdf",
+  "rightsHolder": "原试卷及解析作者",
+  "rightsEvidence": "用户提供本地资源并要求接入本地学习系统；原文件及校验值见 content/cet-local/index.json。未授权公开再分发或生产部署。",
+  "content": {
+    "WRITING": {
+      "instructions": "原卷写作要求",
+      "prompt": "Directions: For this par, you are allowed 30 minutes to write an essay that begins with the sentence \"With their valuable skills and experience, elderly people can continue to make significant contributions to society.\" You can make comments, cite examples or use your personal observations to develop your essay. You should write at least 150 words but no more than 200 words (not including the sentence given).",
+      "questions": [],
+      "audio": [],
+      "passages": [],
+      "minimumWords": 150,
+      "maximumWords": 200,
+      "sourceFileUrl": "/study/resources/863dce5f60d8f4dad1b0920e.pdf"
+    },
+    "LISTENING": {
+      "instructions": "听力材料",
+      "questions": [],
+      "audio": [],
+      "passages": [],
+      "unavailableReason": "原卷未刊载本卷独立听力题文。说明:由于2023年12月六级考试全国共考了两套听力,本套真题听力与前两套内容相同,只 是选项顺序不同,因此在本套真题中不再重复出现。",
+      "sourceFileUrl": "/study/resources/863dce5f60d8f4dad1b0920e.pdf"
+    },
+    "READING": {
+      "instructions": "请依次完成选词填空、长篇匹配和仔细阅读。",
+      "questions": [
+        {
+          "id": "cet6-2023-12-set3-q26",
+          "type": "WORD_BANK",
+          "prompt": "第 26 空",
+          "choices": [
+            "correlation",
+            "dense",
+            "deter",
+            "equity",
+            "foster",
+            "imperative",
+            "impose",
+            "irrespective",
+            "longevity",
+            "navigate",
+            "recreational",
+            "rotten",
+            "sprawl",
+            "vibrate",
+            "vicinity"
+          ],
+          "answerIndex": 6,
+          "explanation": "原卷答案：G。",
+          "weight": 0.5,
+          "passageId": "cet6-2023-12-set3-bank"
+        },
+        {
+          "id": "cet6-2023-12-set3-q27",
+          "type": "WORD_BANK",
+          "prompt": "第 27 空",
+          "choices": [
+            "correlation",
+            "dense",
+            "deter",
+            "equity",
+            "foster",
+            "imperative",
+            "impose",
+            "irrespective",
+            "longevity",
+            "navigate",
+            "recreational",
+            "rotten",
+            "sprawl",
+            "vibrate",
+            "vicinity"
+          ],
+          "answerIndex": 12,
+          "explanation": "原卷答案：M。",
+          "weight": 0.5,
+          "passageId": "cet6-2023-12-set3-bank"
+        },
+        {
+          "id": "cet6-2023-12-set3-q28",
+          "type": "WORD_BANK",
+          "prompt": "第 28 空",
+          "choices": [
+            "correlation",
+            "dense",
+            "deter",
+            "equity",
+            "foster",
+            "imperative",
+            "impose",
+            "irrespective",
+            "longevity",
+            "navigate",
+            "recreational",
+            "rotten",
+            "sprawl",
+            "vibrate",
+            "vicinity"
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 0.5,
+          "passageId": "cet6-2023-12-set3-bank"
+        },
+        {
+          "id": "cet6-2023-12-set3-q29",
+          "type": "WORD_BANK",
+          "prompt": "第 29 空",
+          "choices": [
+            "correlation",
+            "dense",
+            "deter",
+            "equity",
+            "foster",
+            "imperative",
+            "impose",
+            "irrespective",
+            "longevity",
+            "navigate",
+            "recreational",
+            "rotten",
+            "sprawl",
+            "vibrate",
+            "vicinity"
+          ],
+          "answerIndex": 5,
+          "explanation": "原卷答案：F。",
+          "weight": 0.5,
+          "passageId": "cet6-2023-12-set3-bank"
+        },
+        {
+          "id": "cet6-2023-12-set3-q30",
+          "type": "WORD_BANK",
+          "prompt": "第 30 空",
+          "choices": [
+            "correlation",
+            "dense",
+            "deter",
+            "equity",
+            "foster",
+            "imperative",
+            "impose",
+            "irrespective",
+            "longevity",
+            "navigate",
+            "recreational",
+            "rotten",
+            "sprawl",
+            "vibrate",
+            "vicinity"
+          ],
+          "answerIndex": 4,
+          "explanation": "原卷答案：E。",
+          "weight": 0.5,
+          "passageId": "cet6-2023-12-set3-bank"
+        },
+        {
+          "id": "cet6-2023-12-set3-q31",
+          "type": "WORD_BANK",
+          "prompt": "第 31 空",
+          "choices": [
+            "correlation",
+            "dense",
+            "deter",
+            "equity",
+            "foster",
+            "imperative",
+            "impose",
+            "irrespective",
+            "longevity",
+            "navigate",
+            "recreational",
+            "rotten",
+            "sprawl",
+            "vibrate",
+            "vicinity"
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 0.5,
+          "passageId": "cet6-2023-12-set3-bank"
+        },
+        {
+          "id": "cet6-2023-12-set3-q32",
+          "type": "WORD_BANK",
+          "prompt": "第 32 空",
+          "choices": [
+            "correlation",
+            "dense",
+            "deter",
+            "equity",
+            "foster",
+            "imperative",
+            "impose",
+            "irrespective",
+            "longevity",
+            "navigate",
+            "recreational",
+            "rotten",
+            "sprawl",
+            "vibrate",
+            "vicinity"
+          ],
+          "answerIndex": 8,
+          "explanation": "原卷答案：I。",
+          "weight": 0.5,
+          "passageId": "cet6-2023-12-set3-bank"
+        },
+        {
+          "id": "cet6-2023-12-set3-q33",
+          "type": "WORD_BANK",
+          "prompt": "第 33 空",
+          "choices": [
+            "correlation",
+            "dense",
+            "deter",
+            "equity",
+            "foster",
+            "imperative",
+            "impose",
+            "irrespective",
+            "longevity",
+            "navigate",
+            "recreational",
+            "rotten",
+            "sprawl",
+            "vibrate",
+            "vicinity"
+          ],
+          "answerIndex": 10,
+          "explanation": "原卷答案：K。",
+          "weight": 0.5,
+          "passageId": "cet6-2023-12-set3-bank"
+        },
+        {
+          "id": "cet6-2023-12-set3-q34",
+          "type": "WORD_BANK",
+          "prompt": "第 34 空",
+          "choices": [
+            "correlation",
+            "dense",
+            "deter",
+            "equity",
+            "foster",
+            "imperative",
+            "impose",
+            "irrespective",
+            "longevity",
+            "navigate",
+            "recreational",
+            "rotten",
+            "sprawl",
+            "vibrate",
+            "vicinity"
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 0.5,
+          "passageId": "cet6-2023-12-set3-bank"
+        },
+        {
+          "id": "cet6-2023-12-set3-q35",
+          "type": "WORD_BANK",
+          "prompt": "第 35 空",
+          "choices": [
+            "correlation",
+            "dense",
+            "deter",
+            "equity",
+            "foster",
+            "imperative",
+            "impose",
+            "irrespective",
+            "longevity",
+            "navigate",
+            "recreational",
+            "rotten",
+            "sprawl",
+            "vibrate",
+            "vicinity"
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 0.5,
+          "passageId": "cet6-2023-12-set3-bank"
+        },
+        {
+          "id": "cet6-2023-12-set3-q36",
+          "type": "MATCHING",
+          "prompt": "Research indicates that brain training is likely to boost one's ability at specific tasks, but not one's other cognitive abilities.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "passageId": "cet6-2023-12-set3-matching"
+        },
+        {
+          "id": "cet6-2023-12-set3-q37",
+          "type": "MATCHING",
+          "prompt": "According to estimates, the number of people who speak two languages or more is greater than those who speak one language only.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 5,
+          "explanation": "原卷答案：F。",
+          "weight": 1,
+          "passageId": "cet6-2023-12-set3-matching"
+        },
+        {
+          "id": "cet6-2023-12-set3-q38",
+          "type": "MATCHING",
+          "prompt": "For the time being, we do not know what causes people to lose their cognitive abilities, or what we can do to prevent it.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "passageId": "cet6-2023-12-set3-matching"
+        },
+        {
+          "id": "cet6-2023-12-set3-q39",
+          "type": "MATCHING",
+          "prompt": "It is hard to determine whether people who are free from dementia tend to have more social activities, or more social activities keep people away from dementia.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 10,
+          "explanation": "原卷答案：K。",
+          "weight": 1,
+          "passageId": "cet6-2023-12-set3-matching"
+        },
+        {
+          "id": "cet6-2023-12-set3-q40",
+          "type": "MATCHING",
+          "prompt": "There is evidence that learning foreign languages might be beneficial to boosting one's cognitive abilities.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 4,
+          "explanation": "原卷答案：E。",
+          "weight": 1,
+          "passageId": "cet6-2023-12-set3-matching"
+        },
+        {
+          "id": "cet6-2023-12-set3-q41",
+          "type": "MATCHING",
+          "prompt": "It was suggested that only those who always spoke two languages could benefit from bilingualism.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 8,
+          "explanation": "原卷答案：I。",
+          "weight": 1,
+          "passageId": "cet6-2023-12-set3-matching"
+        },
+        {
+          "id": "cet6-2023-12-set3-q42",
+          "type": "MATCHING",
+          "prompt": "The brain is different from muscles in that it keeps working even when the body is at rest.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "passageId": "cet6-2023-12-set3-matching"
+        },
+        {
+          "id": "cet6-2023-12-set3-q43",
+          "type": "MATCHING",
+          "prompt": "People who speak two languages do better at a number of cognitive tasks than those who speak only one language.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 6,
+          "explanation": "原卷答案：G。",
+          "weight": 1,
+          "passageId": "cet6-2023-12-set3-matching"
+        },
+        {
+          "id": "cet6-2023-12-set3-q44",
+          "type": "MATCHING",
+          "prompt": "Dementia is different from being merely forgetful and entails more serious trouble.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "passageId": "cet6-2023-12-set3-matching"
+        },
+        {
+          "id": "cet6-2023-12-set3-q45",
+          "type": "MATCHING",
+          "prompt": "It is claimed that more monolinguals suffer from Alzheimer's disease than bilinguals.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 7,
+          "explanation": "原卷答案：H。",
+          "weight": 1,
+          "passageId": "cet6-2023-12-set3-matching"
+        },
+        {
+          "id": "cet6-2023-12-set3-q46",
+          "type": "DETAIL",
+          "prompt": "How can research serve its full purpose according to the author?",
+          "choices": [
+            "With researchers being aware of public interests.",
+            "With its findings published in prominent journals.",
+            "With researchers creating products that enhance social development.",
+            "With its findings properly communicated beyond the academic circle."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "passageId": "cet6-2023-12-set3-detail1"
+        },
+        {
+          "id": "cet6-2023-12-set3-q47",
+          "type": "DETAIL",
+          "prompt": "Why do ordinary readers find it difficult to access the results of researchers' studies?",
+          "choices": [
+            "They cannot understand the academic language used for reporting these results.",
+            "They feel intimidated by the jargon researchers use to describe their findings.",
+            "They do not attend conferences where these results are freely available.",
+            "They have few chances to locate the journals that publish these findings."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "passageId": "cet6-2023-12-set3-detail1"
+        },
+        {
+          "id": "cet6-2023-12-set3-q48",
+          "type": "DETAIL",
+          "prompt": "What is one of the reasons some researchers won't prioritise communicating their findings to the public?",
+          "choices": [
+            "They can thrive on the papers published.",
+            "Their top consideration is to win tenure.",
+            "Their main goal is gaining recognition in their field. 2023-12-CET6(7 3 1)-5",
+            "They have to struggle to reach out to the community."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "passageId": "cet6-2023-12-set3-detail1"
+        },
+        {
+          "id": "cet6-2023-12-set3-q49",
+          "type": "DETAIL",
+          "prompt": "How can sharing findings benefit researchers themselves?",
+          "choices": [
+            "By helping them to identify new research directions.",
+            "By enabling them to understand crises plaguing society.",
+            "By enabling them to effectively address social discrepancies.",
+            "By helping them to forge ties with government agencies."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "passageId": "cet6-2023-12-set3-detail1"
+        },
+        {
+          "id": "cet6-2023-12-set3-q50",
+          "type": "DETAIL",
+          "prompt": "Why are researchers advised to engage the services of professional writers or communication officers?",
+          "choices": [
+            "To satisfy ethics committees' mandatory requirements of researchers.",
+            "To translate their study into languages accessible to readers overseas.",
+            "To make their publications correctly understood by the public.",
+            "To render their findings acceptable by prominent journals."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "passageId": "cet6-2023-12-set3-detail1"
+        },
+        {
+          "id": "cet6-2023-12-set3-q51",
+          "type": "DETAIL",
+          "prompt": "What do we learn about spiders in the UK since the middle ages?",
+          "choices": [
+            "They have been generally misconceived.",
+            "They have adversely impacted crop growth.",
+            "They have been a constant reminder of bad luck.",
+            "They have made their presence felt when spinning webs."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "passageId": "cet6-2023-12-set3-detail2"
+        },
+        {
+          "id": "cet6-2023-12-set3-q52",
+          "type": "DETAIL",
+          "prompt": "What have spiders been associated with in the UK for centuries?",
+          "choices": [
+            "Harm.",
+            "Evil.",
+            "Suffering.",
+            "Aggression."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "passageId": "cet6-2023-12-set3-detail2"
+        },
+        {
+          "id": "cet6-2023-12-set3-q53",
+          "type": "DETAIL",
+          "prompt": "What partly accounts for the reduction in spiders' food supply?",
+          "choices": [
+            "The long tradition of collecting insects.",
+            "Fast reproduction of their competitors.",
+            "Chemicals used for killing insects.",
+            "The extinction of a lot of wildlife."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "passageId": "cet6-2023-12-set3-detail2"
+        },
+        {
+          "id": "cet6-2023-12-set3-q54",
+          "type": "DETAIL",
+          "prompt": "What does the passage say is conservationists' biggest worry?",
+          "choices": [
+            "A variety of spiders are threatened due to pollution of marshes and wasteland.",
+            "Certain species of spiders are endangered due to loss of their natural homes.",
+            "An increasing number of spiders are being killed by deadly pesticides.",
+            "More and more spider species are found losing their ability to migrate."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "passageId": "cet6-2023-12-set3-detail2"
+        },
+        {
+          "id": "cet6-2023-12-set3-q55",
+          "type": "DETAIL",
+          "prompt": "What wish does the author express close to the end of the passage?",
+          "choices": [
+            "More people would recognise spiders' unique status in the ecosystem.",
+            "People would show greater enthusiasm for spiders than for butterflies.",
+            "There would be sufficient corridors for spiders to move along.",
+            "There would be more people appreciating spiders' splendour."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "passageId": "cet6-2023-12-set3-detail2"
+        }
+      ],
+      "audio": [],
+      "passages": [
+        {
+          "id": "cet6-2023-12-set3-bank",
+          "text": "Modern U.S. cities were designed to make exercise unnecessary. Cars and elevators once symbolized urban areas as machines for more efficient living. Now it is clear that these improvements provide great benefits but also __(26)__  health costs. Recent studies show that urban __(27)__ encou- rages more driving and is associated with heavier weight. This __(28)__ suggests that the layout and design of cities can hinder or promote healthier lifestyle choices and it is __(29)__ that urban planners bear this in mind. Unfortunately, urban planning still centers in large part on solving the problems of the past. Of course cities still need to __(30)__  standard public health practices, such as separating toxic facilities from homes and restricting heavy truck traffic through __(31)__  residential areas. But it's also important to create healthier cities— and the discussion is already underway. More and more city planners are paying increasing attention to encouraging physical activity by making it easier and safer for people to recreate, walk, bike and take public transportation. Many studies of __(32)__  show that people live the longest in environments where physical activity is part of everyday life. Providing more walkable spaces, better protected bike lanes and more  __(33)__ spaces are important steps. But even smaller changes can be effective. Cities can close off streets on weekends to encourage communities to get out and walk. They also can provide more seating in public places, so that less-fit residents can rest during their journeys. Using public spaces in cities as places where people can exercise promotes __(34)__ , rather than allowing physical activity to become restricted to private gyms with often-expensive monthly fees that __(35)__ less wealthy people from joining. 2023-12-CET6(7* 3 1)-1"
+        },
+        {
+          "id": "cet6-2023-12-set3-matching",
+          "text": "Can Learning a Foreign Language Prevent Dementia?\nA) You may have heard that learning another language is one method for preventing or at least postponing the onset of dementia. Dementia refers to the loss of cognitive abilities, and one of its most common forms is Alzheimer's disease IT 7 * #HE t). At this time, the causes of the disease are not well understood, and consequently, there are no proven steps that people can take to prevent it. Nonetheless, some researchers have suggested that learning a foreign language might help delay the onset of dementia.\nB) To explore this possibility more deeply, let's look at some of the common misconceptions about dementia and the aging brain. First of all, dementia is not an inevitable part of the normal aging process. Most older adults do not develop Alzheimer's disease or other forms of dementia. It is also important to remember that dementia is not the same thing as normal forgetfulness. At any age, we might experience difficulty finding the exact word we want or have trouble remembering the name of the person we just met. People with dementia have more serious problems, like feeling confused or getting lost in a familiar place. Think of it this way: If you forget where you parked your car at the mall, that's normal; if you forget how to drive a car, that may be a signal that something more serious is going on.\nC) The idea that dementia can be prevented is based on the comparison of the brain to a muscle. When people talk about the brain, they sometimes say things like \"It is important to exercise your brain\" or \"To stay mentally fit, you have to give your brain a workout.\" Although these are colorful analogies, in reality the brain is not a muscle. Unlike muscles, the brain is always active and works even during periods of rest and sleep. In addition, although some muscle cells have a lifespan of only a few days, brain cells last a lifetime. Not only that, but it has been shown that new brain cells are being created throughout one's lifespan.\nD) While it makes for a colorful analogy, comparing the brain to a muscle is inaccurate and misleading. So, if the brain is not a muscle, can it still be exercised? Once again, researchers don't know for sure. There are now many computer, online, and mobile device applications that claim to be able to \"train your brain,\" and they typically tap into a variety of cognitive abilities. However, research suggests that although this type of training may improve one's abilities at the tasks themselves, they don't 2023-12-CET6(7* 3 1)-2 seem to improve other abilities. In other words, practicing a letter-detection task will, over time, improve your letter-detection skills, but it will not necessarily enhance your other perceptual abilities.\nE) However, there is some reason to believe that learning languages might be different. The best evidence that foreign language learning confers cognitive benefits comes from research with those who are already bilingual (2X it 4J). Bilingualism most commonly occurs when children are exposed to two languages, either in the home (mom speaks Dutch, dad speaks Spanish) or more formally in early schooling. But bilingualism certainly occurs in adulthood as well.\nF) Bilingualism and multilingualism are actually more common than you might think. In fact, it has been estimated that there are fewer monolingual speakers in the world than bilinguals and multilinguals. Although in many countries most inhabitants share just one language, other countries have several official languages. Switzerland, for example, has four official languages: German, French, Italian, and Romansh. Throughout large parts of Africa, Arabic, Swahili, French, and English are often known and used by individuals who speak a different, native language in their home than they do in the marketplace. So bilingualism and multilingualism are to be found throughout the world. And with regard to cognitive abilities, the research on those who speak more than one language paints an encouraging picture.\nG) For one thing, bilinguals are better at multitasking. One explanation of this superiority is that speakers of two languages are continually inhibiting one of their languages, and this process of inhibition confers general cognitive benefits to other activities. In fact, bilingual individuals outperform their monolingual counterparts on a variety of cognitive tasks, such as following complex instructions, and switching to new instructions. For the sake of completeness, it should be noted that the advantages of being bilingual are not universal across all cognitive domains. Bilingual individuals have been shown to have smaller vocabularies and to take longer in retrieving words from memory when compared to monolinguals. In the long run, however, the cognitive and linguistic advantages of being bilingual far outweigh these two drawbacks.\nH) If the benefits of being bilingual spill over to other aspects of cognition, then we would expect to see a lower incidence of Alzheimer's disease in bilinguals than in monolinguals, or at least a later onset of Alzheimer's for bilinguals. In fact, there is evidence to support this claim. The psychologist Ellen Bialystok and her colleagues obtained the histories of 184 individuals who had made use of a memory clinic in Toronto. For those who showed signs of dementia, the monolinguals in the sample had an average age of 71.4 years at time of onset. The bilinguals, in contrast, received their diagnosis at 75.5 years, on average. In a study of this sort, a difference of four years is highly significant, and could not be explained by other systematic differences between the two groups. For example, the monolinguals reported, on average, a year and a half more schooling than their bilingual counterparts, so the effect was clearly not due to formal education.\nI) A separate study, conducted in India, found strikingly similar results: bilingual patients developed symptoms of dementia 4.5 years later than monolinguals, even after other potential factors, such as gender and occupation, were controlled for. In addition, researchers have reported other positive effects of bilingualism for cognitive abilities in later life, even when the person acquired the language in adulthood. Crucially, Bialystok suggested that the positive benefits of being bilingual were only found in those who used both languages all the time.\nJ) But encouraging as these kinds of studies are, they still have not established exactly how or why differences between bilinguals and monolinguals exist. Because these studies looked back at the histories of people who were already bilingual, the results can only say that a difference between the 2023-12-CET6(7 3 1)-3 two groups was found, but not why that difference occurred. Further research is needed to determine what caused the differences in age of onset between the two groups.\nK) Other studies of successful aging suggest that being connected to one's community and having plenty of social interaction is also important in delaying or even preventing the onset of dementia. Once again, however, the results are far less clear than the popular media might lead you to believe. Older individuals who lead active social lives are, almost by definition, healthier than their counterparts who rarely leave their homes or interact with others. So we can't really say whether being socially active prevents the onset of dementia, or if people who don't have dementia are more likely to be socially active.\nL) But even if studying a foreign language is not a magical cure-all, there is one thing it will do: It will make you a better speaker of a foreign language. Doing that confers a whole host of advantages we do know about."
+        },
+        {
+          "id": "cet6-2023-12-set3-detail1",
+          "text": "Research is meant to benefit society by raising public awareness and creating products and innovations that enhance development. For research to serve its full purpose, the results must leave the confines of research laboratories and academic journals. Findings effectively communicated can go a long way to serve the interests of the public. They can help address social injustices or improve treatments offered to patients. Many researchers seem to be content with sharing the results of their studies in academic journals or at conferences. But few journals allow everybody to read the findings. Even articles freely available are 2023-12-CET6(7 3 1)-4 usually written in academic language incomprehensible to the average reader. For researchers in the tenure-track system, their main goal is winning tenure, which in part can be achieved by getting a number of papers published in prominent journals. Pressures like this mean community-level outreach is not prioritised. Many researchers lack the writing skills to describe their results to a general audience. They may also worry about whether the public will understand their findings, or about findings being used to influence controversial policies. These concerns cause some researchers to shy away from communicating their findings outside the academic community. Propagating research findings beyond academic publications is particularly crucial for addressing certain social discrepancies. It can help families, communities, healthcare providers, policymakers, government agencies and other stakeholders to understand and respond to crises that plague society. The benefits of sharing findings flow both ways. Engaging with other researchers and the public can lead to unexpected new connections and new ideas that could suggest fruitful new directions for research. To benefit both researchers and the communities, the need to find innovative, accessible ways to share the work cannot be overstated Institutions and funding organisations should support more researchers to publish in open access journals so that the public doesn't have to pay to read them. Institutions and researchers should invest in partnerships that expand capacity for sharing results more broadly. Furthermore, ethics committees should make it mandatory for researchers to share their results with the public. Every research participant should opt in or out of receiving results, as part of the process of giving informed consent. There could be misunderstanding of the findings presented by the researcher because of technical terms. But this can be resolved by researchers engaging the services of professional writers or communication officers to help with translating their study into more accessible language and share it widely with media outlets and the public. Sharing results with the people who are most affected by them makes us better researchers and ensures that our work can be used to improve people s lives. Institutions and collaborators must recognise the value of doing so."
+        },
+        {
+          "id": "cet6-2023-12-set3-detail2",
+          "text": "Spiders make their presence felt in late August and through early autumn. This is the mating season of some of the most common varieties, when male house spiders come out of hidden corners to look for females, and garden spiders reach adult size and spin their most dazzling webs. Yet while the spider is a familiar fixture of nursery poems or songs and Halloween decorations, its relationship with humans is complicated. Fear of spiders is common and has serious impacts on the lives of sufferers. Its prevalence appears unrelated to any rational assessment of risk. Spiders in the UK are almost all harmless. Farmland species perform valuable ecosystem services, by preying on insects that are our competitors for crops. But they are a constant source of human anxieties-with a cultural association with witches and wickedness dating back to the middle ages. Does this perhaps explain, in part, the lack of data about how spiders are faring in our age of ecological crisis? British butterflies are the most studied group of insects in the world, due to the long tradition of collecting and observing them. But spider conservationists point out that it was only in the 1980s that the classification of house spiders was properly sorted out. And while information about insect populations is gathered by experiments that measure the numbers hitting windscreens or traps, there have been few attempts to count spiders. The huge reductions in the numbers of flying insects can only mean a reduction in spiders' food supply. A recent landmark study identified a 75% fall in insect populations between 1989 and 2016, with pesticide use thought to be to blame along with the destruction of wild areas for development. This means the overall picture for spiders is worrying, as it is for most creatures. But conservationists are most concerned about those varieties that are threatened due to habitat loss and fragmentation, which makes it impossible for them to migrate. Of around 650 spider species regularly recorded in the UK, the majority thrive in marshes and wasteland. Conservation efforts, often led by determined individuals, have helped some species to recover by reintroducing them to new areas. With rewilding now firmly on the environmental policy agenda, the hope is that in future, spiders will be enabled to migrate by themselves, adapting to climate change by moving along wildlife corridors. It seems unlikely that spiders will ever attract the same level of human enthusiasm as bees, birds or butterflies, in spite of their unique status as nature's spinners. But as they reveal themselves in all their splendour this autumn, it would be a good thing if more animal lovers recognised the ways in which spiders are simply terrific. 2023-12-CET6(7 3 1)-6"
+        }
+      ],
+      "sourceFileUrl": "/study/resources/863dce5f60d8f4dad1b0920e.pdf"
+    },
+    "TRANSLATION": {
+      "instructions": "请将原卷中文翻译成英语。",
+      "prompt": "Directions: For this part, you are allowed 30 minutes to translate a passage from Chinese into English. You should write your answer on Answer Sheet 2. 近年来,中国老龄人口特续增长。中国政府正采取各种措施,推进养老服务体系建设,使老年 人晚年生活健康幸福。全国兴建了各类养老服务机构。为了提升养老机构的服务质量,政府颁布了 一系列标准,加强对养老机构的监管。许多城市为方便老年人用餐,开设了社区食堂,为他们提供 价格实惠的饭菜。行动不便的老年人还能享受上门送餐服务。同时,中国还在积极探索居家和社区 养老等其他养老模式,以确保所有老年人老有所养。 2023-12-CET6(7 3 1)-7",
+      "questions": [],
+      "audio": [],
+      "passages": [],
+      "sourceFileUrl": "/study/resources/863dce5f60d8f4dad1b0920e.pdf"
+    }
+  }
+}

@@ -1,4 +1,5 @@
-.header { display: none; }
+.frame { --workspace-header-height: calc(52px + env(safe-area-inset-top, 0px)); }
+.header { display: flex; }
 .frame [data-workspace-public-labels] { display: none; }
 .frame [data-review-workspace] { min-width: 0; gap: 12px; }
 .frame [data-review-grid] { display: flex; flex-direction: column; gap: 12px; overflow: hidden; }
@@ -46,9 +47,6 @@
     border-bottom: 1px solid var(--border);
     background: var(--sidebar);
   }
-  .headerTitle { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
-  .headerTitle h1 { font-size: 15px; font-weight: 600; line-height: 1.5; }
-  .headerTitle svg { color: var(--primary); }
   .contextTabs { align-self: stretch; display: flex; align-items: stretch; gap: 24px; }
   .contextTabs a { display: flex; align-items: center; padding: 0 2px; font-size: 13px; color: var(--muted-foreground); border-bottom: 2px solid transparent; }
   .contextTabs a:hover { color: var(--foreground); }
@@ -140,7 +138,6 @@
 
   :global(html[data-brand-theme][data-ui-style]) .frame [data-workspace-settings-heading] { margin: 0 0 16px; padding: 0; min-height: 0; border: 0; border-radius: 0; background: none; }
   .frame [data-workspace-settings-heading] h1 { display: none; }
-  .frame [data-workspace-settings-heading] p { margin: 0; font-size: 12px; color: var(--muted-foreground); }
   :global(html[data-brand-theme][data-ui-style]) .frame [data-workspace-settings-grid] { gap: 32px; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); margin-bottom: 20px; }
   .frame [data-workspace-settings-grid] > section { display: flex; flex-direction: column; gap: 24px; }
   .frame [data-workspace-settings-grid] > section > * { margin: 0; }
@@ -197,7 +194,7 @@
   .frame [data-workspace-review-nav] > a > span:last-child > span:first-child { font-size: 13px; }
   :global(html[data-brand-theme][data-ui-style]) .frame [data-workspace-practice] { height: var(--workspace-content-height); min-height: 0; }
   :global(html[data-brand-theme][data-ui-style]) .frame [data-workspace-practice-setup] { flex: 0 1 auto; border: 1px solid var(--border); border-radius: 8px; background: var(--card); box-shadow: none; backdrop-filter: none; }
-  .frame [data-workspace-practice-setup] > [data-slot='card-content'] { display: grid; grid-template-columns: minmax(0, 1fr) minmax(300px, 1fr); align-items: start; gap: 32px; padding: 24px; text-align: left; }
+  .frame [data-workspace-practice-setup] > [data-slot='card-content'] { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); align-items: start; gap: 20px; padding: 20px; text-align: left; }
   .frame [data-workspace-practice-setup] > [data-slot='card-content'] > div:first-child { display: none; }
   .frame [data-workspace-practice-intro] { margin: 0; padding-top: 8px; }
   .frame [data-workspace-practice-options] { max-width: none; margin: 0; }
@@ -268,6 +265,7 @@
   .frame [data-translation-desk]:not([data-translation-desk='single']) [data-desk-lookup] > [data-slot='card-content'] { padding: 0; }
   .frame [data-translation-desk]:not([data-translation-desk='single']) [data-desk-lookup] textarea { min-height: 80px; font-size: 14px; }
   .frame [data-translation-desk]:not([data-translation-desk='single']) :is(button[role='combobox'], [data-slot='button']) { min-height: 32px; height: auto; padding-block: 6px; font-size: 13px; box-shadow: none; }
+  .frame [data-translation-desk]:not([data-translation-desk='single']) [data-supplement-word-actions] :is(button[role='combobox'], [data-slot='button']) { min-height: 44px; padding-block: 8px; font-size: 14px; }
   :global(html[data-brand-theme][data-ui-style]) .frame [data-translation-desk]:not([data-translation-desk='single']) [data-desk-sentence] { grid-template-columns: minmax(0, 1fr); gap: 0; border: 0; border-radius: 0; }
   .frame [data-translation-desk]:not([data-translation-desk='single']) [data-desk-sentence] [data-slot='card'] { border: 0; border-radius: 0; background: none; }
   .frame [data-translation-desk]:not([data-translation-desk='single']) [data-desk-sentence] [data-slot='card-content'] { padding: 0; gap: 8px; }
@@ -275,7 +273,6 @@
   :global(html[data-brand-theme][data-ui-style]) .frame [data-translation-desk]:not([data-translation-desk='single']) [data-desk-sentence] textarea { min-height: 96px; padding: 10px 12px; border: 1px solid var(--border); border-radius: 4px; font-size: 14px; line-height: 1.7; }
   .frame [data-translation-desk]:not([data-translation-desk='single']) [data-desk-sentence-result='false'] { display: none; }
   .frame [data-translation-desk]:not([data-translation-desk='single']) [data-desk-sentence-result='true'] { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border); }
-  .frame [data-translation-desk]:not([data-translation-desk='single']) [data-ai-assistant-header] { padding: 8px 12px; }
   .frame [data-translation-desk]:not([data-translation-desk='single']) [data-workspace-sheet-actions] > button { color: var(--foreground); }
 }
 
@@ -309,11 +306,11 @@
   .frame [data-review-practice] [data-workspace-practice-options] { flex: none; }
   .frame [data-review-practice] [data-workspace-practice-options] > div { flex-wrap: wrap; gap: 8px; padding: 10px 12px; font-size: 13px; }
   .frame [data-review-practice] [data-workspace-practice-options] > button { height: 36px; margin-top: 16px; }
-  .frame [data-review-question] { gap: 16px; }
-  .frame [data-review-question] > * + * { margin-top: 16px; }
+  .frame [data-review-question] { gap: 12px; }
+  .frame [data-review-question] > * + * { margin-top: 12px; }
   :global(html[data-brand-theme][data-ui-style]) .frame [data-review-question-card] { border: 1px solid var(--border); border-radius: 6px; box-shadow: none; backdrop-filter: none; }
-  .frame [data-review-question-card] > [data-slot='card-content'] { padding: 24px; }
-  .frame [data-review-question-card] > [data-slot='card-content'] > * + * { margin-top: 20px; }
+  .frame [data-review-question-card] > [data-slot='card-content'] { padding: 16px; }
+  .frame [data-review-question-card] > [data-slot='card-content'] > * + * { margin-top: 14px; }
   .frame [data-review-question-card] h2 { font-size: 21px; }
   .frame [data-review-question-card] input { height: 44px; font-size: 20px; }
   .frame [data-review-question-card] [data-slot='button'] { min-height: 36px; height: 36px; font-size: 13px; box-shadow: none; }
@@ -435,4 +432,51 @@
   :global(html[data-brand-theme][data-ui-style]) .frame [data-vocabulary-grid] [data-vocabulary-panel='contributions'] > [data-workspace-page][data-workspace-content] { height: auto; overflow: visible; }
   .frame [data-vocabulary-grid] [data-vocabulary-panel] [data-workspace-content] { height: auto; min-height: 0; overflow: visible; overscroll-behavior-y: auto; padding-right: 0; }
   .frame [data-vocabulary-panel='history'] [data-workspace-history-primary-actions] [data-slot='button'] { height: 44px; min-height: 44px; }
+}
+
+/* Page identity lives in shared navigation; the top band holds local actions. */
+.frame .header {
+  position: sticky; top: 0; z-index: 20; flex: none;
+  height: var(--workspace-header-height); padding: 0 24px;
+  background: var(--primary); color: var(--primary-foreground);
+  border: 0; box-shadow: none;
+}
+.frame .header :is([data-vocabulary-nav], [data-workspace-review-nav]) {
+  display: flex; flex: 1; height: 100%; gap: 24px; overflow-x: auto;
+  border: 0; scrollbar-width: none;
+}
+.frame .header :is([data-vocabulary-nav], [data-workspace-review-nav]) > :is(button, a) {
+  display: inline-flex; flex: none; align-items: center; justify-content: center;
+  min-height: 44px; gap: 8px; padding: 0 8px;
+  border: 0; border-bottom: 3px solid transparent; border-radius: 0;
+  color: inherit; background: transparent; font-size: 14px; white-space: nowrap;
+  opacity: .8;
+}
+.frame .header :is([data-vocabulary-nav], [data-workspace-review-nav]) > :is([aria-pressed='true'], [aria-current='true']) {
+  border-color: var(--primary-foreground); opacity: 1;
+  background: color-mix(in srgb, var(--primary-foreground) 10%, transparent);
+}
+.frame .header :is(button, a):focus-visible { outline: 2px solid currentColor; outline-offset: -5px; }
+.frame .header [data-workspace-review-nav] > :is(button, a) > span:first-child { width: 20px; height: 20px; color: inherit; background: none; }
+.frame .header [data-workspace-review-nav] > :is(button, a) > span:last-child > span:first-child { font-size: 14px; }
+.frame .header [data-workspace-review-nav] > :is(button, a) > span:last-child > span:last-child:not(:first-child) { display: none; }
+@media (max-width: 767px) {
+  .frame .header { padding: env(safe-area-inset-top, 0px) 48px 0 12px; }
+  .frame .header :is([data-vocabulary-nav], [data-workspace-review-nav]) { gap: 0; }
+  .frame .header :is([data-vocabulary-nav], [data-workspace-review-nav]) > :is(button, a) { flex: 1; padding-inline: 4px; font-size: 13px; }
+  .frame .header [data-vocabulary-nav] svg { display: none; }
+  .frame [data-workspace-settings-heading] { margin: 0; padding: 0; border: 0; background: none; box-shadow: none; }
+}
+
+/* Mark lookup is an independent view across all layout tiers. */
+.frame [data-vocabulary-workspace][data-vocabulary-active][data-vocabulary-entry] [data-vocabulary-grid] [data-vocabulary-panel='marks'] { display: none !important; }
+.frame .header [data-vocabulary-label-compact] { display: none; }
+.frame [data-vocabulary-workspace][data-vocabulary-active='marks'][data-vocabulary-entry] [data-vocabulary-grid] { display: flex; gap: 0; }
+.frame [data-vocabulary-workspace][data-vocabulary-active='marks'][data-vocabulary-entry] [data-vocabulary-grid] > [data-vocabulary-panel] { display: none !important; }
+.frame [data-vocabulary-workspace][data-vocabulary-active='marks'][data-vocabulary-entry] [data-vocabulary-grid] > [data-vocabulary-panel][data-vocabulary-panel='marks'] { display: block !important; border: 0; padding-left: 0; }
+@media (max-width: 767px) {
+  .frame .header [data-vocabulary-nav] { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); min-width: 0; }
+  .frame .header [data-vocabulary-nav] > button { min-width: 0; padding-inline: 2px; }
+  .frame .header [data-vocabulary-label-full] { display: none; }
+  .frame .header [data-vocabulary-label-compact] { display: inline; }
 }

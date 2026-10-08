@@ -1,0 +1,1079 @@
+{
+  "slug": "cet4-2025-06-set2-full",
+  "version": 1,
+  "title": "2025年6月 · 第2套整卷模拟真题",
+  "level": "CET4",
+  "kind": "FULL",
+  "originType": "PAST_EXAM",
+  "sourceName": "用户提供的本地四六级资料",
+  "sourceUrl": "/study/resources/71d831b5b27bf3e8701fb772.pdf",
+  "rightsHolder": "原试卷及解析作者",
+  "rightsEvidence": "用户提供本地资源并要求接入本地学习系统；原文件及校验值见 content/cet-local/index.json。未授权公开再分发或生产部署。",
+  "content": {
+    "WRITING": {
+      "instructions": "原卷写作要求",
+      "prompt": "Directions: Suppose your university is conducting a                    survey to collect students’         opinions  on  the  appropriate  use  of  A        I technology in assisting learning. You are now to write an essay to express your view. You will have 30 minutes to write the essay. You should write at least 120 words but no more than 180 w                   ords.",
+      "questions": [],
+      "audio": [],
+      "passages": [],
+      "minimumWords": 120,
+      "maximumWords": 180,
+      "sourceFileUrl": "/study/resources/71d831b5b27bf3e8701fb772.pdf"
+    },
+    "LISTENING": {
+      "instructions": "原卷听力选择题",
+      "questions": [
+        {
+          "id": "cet4-2025-06-set2-q1",
+          "type": "NEWS",
+          "prompt": "第 1 题(题干在原始录音中)",
+          "choices": [
+            "They are young teenagers from Atlanta.",
+            "They won this year ’s 7 Mile Bridge Run.",
+            "They completed the race in less than 40 minutes.",
+            "They are both students at Marathon High School."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "audioId": "cet4-2025-06-set2-audio"
+        },
+        {
+          "id": "cet4-2025-06-set2-q2",
+          "type": "NEWS",
+          "prompt": "第 2 题(题干在原始录音中)",
+          "choices": [
+            "It drew competitors from more than 40 countries.",
+            "It is watched live online by fans all over the world.",
+            "It closed the city of Big Pine Key to traffic for three hours.",
+            "It is one of the most popular running events in the southeastern U.S."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "audioId": "cet4-2025-06-set2-audio"
+        },
+        {
+          "id": "cet4-2025-06-set2-q3",
+          "type": "NEWS",
+          "prompt": "第 3 题(题干在原始录音中)",
+          "choices": [
+            "He was once a full-time ambassador.",
+            "He was soon to retire from the army.",
+            "He became an astronaut in 2015.",
+            "He used to be a helicopter pilot."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "audioId": "cet4-2025-06-set2-audio"
+        },
+        {
+          "id": "cet4-2025-06-set2-q4",
+          "type": "NEWS",
+          "prompt": "第 4 题(题干在原始录音中)",
+          "choices": [
+            "It has been unbelievably exciting and rewarding.",
+            "It has been extraordinarily tough and demanding.",
+            "It has contributed a great deal to human flights to space.",
+            "It has given him exceptional privilege as an ambassador."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "audioId": "cet4-2025-06-set2-audio"
+        },
+        {
+          "id": "cet4-2025-06-set2-q5",
+          "type": "NEWS",
+          "prompt": "第 5 题(题干在原始录音中)",
+          "choices": [
+            "They are known for their loyalty to their owners.",
+            "They are brought in by the store’s customers.",
+            "They are regular visitors to the store.",
+            "They are pets kept by the store staff."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "audioId": "cet4-2025-06-set2-audio"
+        },
+        {
+          "id": "cet4-2025-06-set2-q6",
+          "type": "NEWS",
+          "prompt": "第 6 题(题干在原始录音中)",
+          "choices": [
+            "It might be a nuisance to the loyal shoppers.",
+            "It might have been abandoned by its owner.",
+            "It might be 12 months old.",
+            "It might have got lost."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "audioId": "cet4-2025-06-set2-audio"
+        },
+        {
+          "id": "cet4-2025-06-set2-q7",
+          "type": "NEWS",
+          "prompt": "第 7 题(题干在原始录音中)",
+          "choices": [
+            "Feed the cats.",
+            "Remove any store signs.",
+            "Sit in the shop aisles.",
+            "Bring in pets with them."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "audioId": "cet4-2025-06-set2-audio"
+        },
+        {
+          "id": "cet4-2025-06-set2-q8",
+          "type": "CONVERSATION",
+          "prompt": "第 8 题(题干在原始录音中)",
+          "choices": [
+            "Sharing her room with friends.",
+            "Cutting down her living expenses.",
+            "Living off campus.",
+            "Moving to the city center."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "audioId": "cet4-2025-06-set2-audio"
+        },
+        {
+          "id": "cet4-2025-06-set2-q9",
+          "type": "CONVERSATION",
+          "prompt": "第 9 题(题干在原始录音中)",
+          "choices": [
+            "The facilities available.",
+            "Various costs involved.",
+            "Changes in living conditions.",
+            "The distance to her home."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "audioId": "cet4-2025-06-set2-audio"
+        },
+        {
+          "id": "cet4-2025-06-set2-q10",
+          "type": "CONVERSATION",
+          "prompt": "第 10 题(题干在原始录音中)",
+          "choices": [
+            "Went through much trouble.",
+            "Commuted to save money.",
+            "Studied on the bus.",
+            "Lived on campus."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "audioId": "cet4-2025-06-set2-audio"
+        },
+        {
+          "id": "cet4-2025-06-set2-q11",
+          "type": "CONVERSATION",
+          "prompt": "第 11 题(题干在原始录音中)",
+          "choices": [
+            "Discuss the matter with the woman’s mother.",
+            "Make a decision within a few days.",
+            "Try his best to persuade his wife.",
+            "Weigh the benefits against the disadvantages."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "audioId": "cet4-2025-06-set2-audio"
+        },
+        {
+          "id": "cet4-2025-06-set2-q12",
+          "type": "CONVERSATION",
+          "prompt": "第 12 题(题干在原始录音中)",
+          "choices": [
+            "Interviewing the man.",
+            "Looking for Lawrence.",
+            "Choosing a present for her nephew.",
+            "Helping the man with his shopping."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "audioId": "cet4-2025-06-set2-audio"
+        },
+        {
+          "id": "cet4-2025-06-set2-q13",
+          "type": "CONVERSATION",
+          "prompt": "第 13 题(题干在原始录音中)",
+          "choices": [
+            "Quite educational.",
+            "Incredibly popular",
+            "Driven by batteries.",
+            "Obviously childish."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "audioId": "cet4-2025-06-set2-audio"
+        },
+        {
+          "id": "cet4-2025-06-set2-q14",
+          "type": "CONVERSATION",
+          "prompt": "第 14 题(题干在原始录音中)",
+          "choices": [
+            "One he loves for helping exercise his mind.",
+            "One he can play together with his sister",
+            "One he finds interesting and challenging.",
+            "One he can play either alone or in a group."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "audioId": "cet4-2025-06-set2-audio"
+        },
+        {
+          "id": "cet4-2025-06-set2-q15",
+          "type": "CONVERSATION",
+          "prompt": "第 15 题(题干在原始录音中)",
+          "choices": [
+            "It has been enjoyed by kids for decades.",
+            "It always reminds people of times of war",
+            "It has been played both indoors and outdoors.",
+            "It distinguishes itself as one of the oldest games."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "audioId": "cet4-2025-06-set2-audio"
+        },
+        {
+          "id": "cet4-2025-06-set2-q16",
+          "type": "PASSAGE",
+          "prompt": "第 16 题(题干在原始录音中)",
+          "choices": [
+            "A display of a variety of products increases consumers’ interest.",
+            "Too many choices decrease one’s desire to buy.",
+            "Fewer choices lead to lower customer satisfaction.",
+            "Customers given more choices are more likely to get confused."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "audioId": "cet4-2025-06-set2-audio"
+        },
+        {
+          "id": "cet4-2025-06-set2-q17",
+          "type": "PASSAGE",
+          "prompt": "第 17 题(题干在原始录音中)",
+          "choices": [
+            "What kind of display results in more sales.",
+            "What kind of display creates more interest.",
+            "What kind of display attracts a greater crowd of customers.",
+            "What kind of display leads to greater customer satisfaction."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "audioId": "cet4-2025-06-set2-audio"
+        },
+        {
+          "id": "cet4-2025-06-set2-q18",
+          "type": "PASSAGE",
+          "prompt": "第 18 题(题干在原始录音中)",
+          "choices": [
+            "There are situations where customers buy nothing.",
+            "There are tricks to increase customer satisfaction.",
+            "There are ways to predict customer preferences:",
+            "There are rules that motivate customers to buy"
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "audioId": "cet4-2025-06-set2-audio"
+        },
+        {
+          "id": "cet4-2025-06-set2-q19",
+          "type": "PASSAGE",
+          "prompt": "第 19 题(题干在原始录音中)",
+          "choices": [
+            "Stressful.",
+            "Burdensome.",
+            "Worthwhile.",
+            "Energy-boosting."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "audioId": "cet4-2025-06-set2-audio"
+        },
+        {
+          "id": "cet4-2025-06-set2-q20",
+          "type": "PASSAGE",
+          "prompt": "第 20 题(题干在原始录音中)",
+          "choices": [
+            "By linking it with employees’ salary.",
+            "By taking it as the New Year resolution.",
+            "By improving work schedules.",
+            "By making it part of the job."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "audioId": "cet4-2025-06-set2-audio"
+        },
+        {
+          "id": "cet4-2025-06-set2-q21",
+          "type": "PASSAGE",
+          "prompt": "第 21 题(题干在原始录音中)",
+          "choices": [
+            "It was very important to their well-being.",
+            "It had taken little of their spare time.",
+            "It was an outlet for their personal fulfillment.",
+            "It helped improve their working environment."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "audioId": "cet4-2025-06-set2-audio"
+        },
+        {
+          "id": "cet4-2025-06-set2-q22",
+          "type": "PASSAGE",
+          "prompt": "第 22 题(题干在原始录音中)",
+          "choices": [
+            "It amounts to 2,000 tons daily.",
+            "It mostly comes from supermarkets.",
+            "It is estimated at 11% of the UK’s total food supply.",
+            "It has a lot to do with independent luxury food suppliers."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "audioId": "cet4-2025-06-set2-audio"
+        },
+        {
+          "id": "cet4-2025-06-set2-q23",
+          "type": "PASSAGE",
+          "prompt": "第 23 题(题干在原始录音中)",
+          "choices": [
+            "It rents bicycles to deliver food.",
+            "It sells sought-after coffee beans.",
+            "It delivers luxury hand-made food.",
+            "It recycles waste food from the city."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "audioId": "cet4-2025-06-set2-audio"
+        },
+        {
+          "id": "cet4-2025-06-set2-q24",
+          "type": "PASSAGE",
+          "prompt": "第 24 题(题干在原始录音中)",
+          "choices": [
+            "It pays special attention to the size and shape of its products.",
+            "It tries to escape the constraints of the current food system.",
+            "It cooperates closely with local producers.",
+            "It aims to provide high-quality products."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "audioId": "cet4-2025-06-set2-audio"
+        },
+        {
+          "id": "cet4-2025-06-set2-q25",
+          "type": "PASSAGE",
+          "prompt": "第 25 题(题干在原始录音中)",
+          "choices": [
+            "To ensure a regular supply.",
+            "To maintain a unique menu.",
+            "To make up for the waste products.",
+            "To meet customers’ urgent demand."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "audioId": "cet4-2025-06-set2-audio"
+        }
+      ],
+      "audio": [
+        {
+          "id": "cet4-2025-06-set2-audio",
+          "url": "/study/resources/b6ef913d459432822082ef97.m4a",
+          "sourceUrl": "/study/resources/b6ef913d459432822082ef97.m4a",
+          "durationSeconds": 1425.844535,
+          "transcript": "",
+          "identity": "cet4_2025_06_2.mp3 SHA256:b6ef913d459432822082ef979e49ff8e047172a9f44f775ad5238a551f9c8b9c"
+        }
+      ],
+      "passages": [],
+      "sourceFileUrl": "/study/resources/71d831b5b27bf3e8701fb772.pdf"
+    },
+    "READING": {
+      "instructions": "请依次完成选词填空、长篇匹配和仔细阅读。",
+      "questions": [
+        {
+          "id": "cet4-2025-06-set2-q26",
+          "type": "WORD_BANK",
+          "prompt": "第 26 空",
+          "choices": [
+            "caught",
+            "cinema",
+            "engaging",
+            "graphically",
+            "highly",
+            "incentive",
+            "instincts",
+            "offences",
+            "punished",
+            "referred",
+            "stood",
+            "symbolic",
+            "tuned",
+            "visually",
+            "worshipped"
+          ],
+          "answerIndex": 9,
+          "explanation": "原卷答案：J。",
+          "weight": 0.5,
+          "passageId": "cet4-2025-06-set2-bank"
+        },
+        {
+          "id": "cet4-2025-06-set2-q27",
+          "type": "WORD_BANK",
+          "prompt": "第 27 空",
+          "choices": [
+            "caught",
+            "cinema",
+            "engaging",
+            "graphically",
+            "highly",
+            "incentive",
+            "instincts",
+            "offences",
+            "punished",
+            "referred",
+            "stood",
+            "symbolic",
+            "tuned",
+            "visually",
+            "worshipped"
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 0.5,
+          "passageId": "cet4-2025-06-set2-bank"
+        },
+        {
+          "id": "cet4-2025-06-set2-q28",
+          "type": "WORD_BANK",
+          "prompt": "第 28 空",
+          "choices": [
+            "caught",
+            "cinema",
+            "engaging",
+            "graphically",
+            "highly",
+            "incentive",
+            "instincts",
+            "offences",
+            "punished",
+            "referred",
+            "stood",
+            "symbolic",
+            "tuned",
+            "visually",
+            "worshipped"
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 0.5,
+          "passageId": "cet4-2025-06-set2-bank"
+        },
+        {
+          "id": "cet4-2025-06-set2-q29",
+          "type": "WORD_BANK",
+          "prompt": "第 29 空",
+          "choices": [
+            "caught",
+            "cinema",
+            "engaging",
+            "graphically",
+            "highly",
+            "incentive",
+            "instincts",
+            "offences",
+            "punished",
+            "referred",
+            "stood",
+            "symbolic",
+            "tuned",
+            "visually",
+            "worshipped"
+          ],
+          "answerIndex": 8,
+          "explanation": "原卷答案：I。",
+          "weight": 0.5,
+          "passageId": "cet4-2025-06-set2-bank"
+        },
+        {
+          "id": "cet4-2025-06-set2-q30",
+          "type": "WORD_BANK",
+          "prompt": "第 30 空",
+          "choices": [
+            "caught",
+            "cinema",
+            "engaging",
+            "graphically",
+            "highly",
+            "incentive",
+            "instincts",
+            "offences",
+            "punished",
+            "referred",
+            "stood",
+            "symbolic",
+            "tuned",
+            "visually",
+            "worshipped"
+          ],
+          "answerIndex": 11,
+          "explanation": "原卷答案：L。",
+          "weight": 0.5,
+          "passageId": "cet4-2025-06-set2-bank"
+        },
+        {
+          "id": "cet4-2025-06-set2-q31",
+          "type": "WORD_BANK",
+          "prompt": "第 31 空",
+          "choices": [
+            "caught",
+            "cinema",
+            "engaging",
+            "graphically",
+            "highly",
+            "incentive",
+            "instincts",
+            "offences",
+            "punished",
+            "referred",
+            "stood",
+            "symbolic",
+            "tuned",
+            "visually",
+            "worshipped"
+          ],
+          "answerIndex": 7,
+          "explanation": "原卷答案：H。",
+          "weight": 0.5,
+          "passageId": "cet4-2025-06-set2-bank"
+        },
+        {
+          "id": "cet4-2025-06-set2-q32",
+          "type": "WORD_BANK",
+          "prompt": "第 32 空",
+          "choices": [
+            "caught",
+            "cinema",
+            "engaging",
+            "graphically",
+            "highly",
+            "incentive",
+            "instincts",
+            "offences",
+            "punished",
+            "referred",
+            "stood",
+            "symbolic",
+            "tuned",
+            "visually",
+            "worshipped"
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 0.5,
+          "passageId": "cet4-2025-06-set2-bank"
+        },
+        {
+          "id": "cet4-2025-06-set2-q33",
+          "type": "WORD_BANK",
+          "prompt": "第 33 空",
+          "choices": [
+            "caught",
+            "cinema",
+            "engaging",
+            "graphically",
+            "highly",
+            "incentive",
+            "instincts",
+            "offences",
+            "punished",
+            "referred",
+            "stood",
+            "symbolic",
+            "tuned",
+            "visually",
+            "worshipped"
+          ],
+          "answerIndex": 4,
+          "explanation": "原卷答案：E。",
+          "weight": 0.5,
+          "passageId": "cet4-2025-06-set2-bank"
+        },
+        {
+          "id": "cet4-2025-06-set2-q34",
+          "type": "WORD_BANK",
+          "prompt": "第 34 空",
+          "choices": [
+            "caught",
+            "cinema",
+            "engaging",
+            "graphically",
+            "highly",
+            "incentive",
+            "instincts",
+            "offences",
+            "punished",
+            "referred",
+            "stood",
+            "symbolic",
+            "tuned",
+            "visually",
+            "worshipped"
+          ],
+          "answerIndex": 10,
+          "explanation": "原卷答案：K。",
+          "weight": 0.5,
+          "passageId": "cet4-2025-06-set2-bank"
+        },
+        {
+          "id": "cet4-2025-06-set2-q35",
+          "type": "WORD_BANK",
+          "prompt": "第 35 空",
+          "choices": [
+            "caught",
+            "cinema",
+            "engaging",
+            "graphically",
+            "highly",
+            "incentive",
+            "instincts",
+            "offences",
+            "punished",
+            "referred",
+            "stood",
+            "symbolic",
+            "tuned",
+            "visually",
+            "worshipped"
+          ],
+          "answerIndex": 14,
+          "explanation": "原卷答案：O。",
+          "weight": 0.5,
+          "passageId": "cet4-2025-06-set2-bank"
+        },
+        {
+          "id": "cet4-2025-06-set2-q36",
+          "type": "MATCHING",
+          "prompt": "Fruit juice is different from whole fruit in that it contains much less fibre.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段"
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "passageId": "cet4-2025-06-set2-matching"
+        },
+        {
+          "id": "cet4-2025-06-set2-q37",
+          "type": "MATCHING",
+          "prompt": "Some people believe a juice diet helps to rid our body of harmful or poisonous substances.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段"
+          ],
+          "answerIndex": 8,
+          "explanation": "原卷答案：I。",
+          "weight": 1,
+          "passageId": "cet4-2025-06-set2-matching"
+        },
+        {
+          "id": "cet4-2025-06-set2-q38",
+          "type": "MATCHING",
+          "prompt": "A lot of research comes to the same conclusion that fruit juice does harm to the human body when it leads to surplus calories:",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段"
+          ],
+          "answerIndex": 4,
+          "explanation": "原卷答案：E。",
+          "weight": 1,
+          "passageId": "cet4-2025-06-set2-matching"
+        },
+        {
+          "id": "cet4-2025-06-set2-q39",
+          "type": "MATCHING",
+          "prompt": "The claimed health benefits of fruit and vegetable juices have rendered the industry very profitable.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段"
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "passageId": "cet4-2025-06-set2-matching"
+        },
+        {
+          "id": "cet4-2025-06-set2-q40",
+          "type": "MATCHING",
+          "prompt": "To increase the benefits of fruit juice to our health, we’d better choose ripe fruit to make juice.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段"
+          ],
+          "answerIndex": 7,
+          "explanation": "原卷答案：H。",
+          "weight": 1,
+          "passageId": "cet4-2025-06-set2-matching"
+        },
+        {
+          "id": "cet4-2025-06-set2-q41",
+          "type": "MATCHING",
+          "prompt": "Diets containing large amounts of fibre reduce the risk of heart disease, diabetes and other health hazards.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段"
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "passageId": "cet4-2025-06-set2-matching"
+        },
+        {
+          "id": "cet4-2025-06-set2-q42",
+          "type": "MATCHING",
+          "prompt": "According to a research paper, drinking fruit juice is beneficial on condition that it is consumed in reasonable amounts.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段"
+          ],
+          "answerIndex": 5,
+          "explanation": "原卷答案：F。",
+          "weight": 1,
+          "passageId": "cet4-2025-06-set2-matching"
+        },
+        {
+          "id": "cet4-2025-06-set2-q43",
+          "type": "MATCHING",
+          "prompt": "One expert claims that juicing wastes a lot of nutrients contained in fruits.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段"
+          ],
+          "answerIndex": 9,
+          "explanation": "原卷答案：J。",
+          "weight": 1,
+          "passageId": "cet4-2025-06-set2-matching"
+        },
+        {
+          "id": "cet4-2025-06-set2-q44",
+          "type": "MATCHING",
+          "prompt": "It takes some time for fruit’s cells to be digested and for fructose to be absorbed.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段"
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "passageId": "cet4-2025-06-set2-matching"
+        },
+        {
+          "id": "cet4-2025-06-set2-q45",
+          "type": "MATCHING",
+          "prompt": "A lot of research has demonstrated that drinking fruit juice does not reduce our daily consumption of other foods.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段"
+          ],
+          "answerIndex": 6,
+          "explanation": "原卷答案：G。",
+          "weight": 1,
+          "passageId": "cet4-2025-06-set2-matching"
+        },
+        {
+          "id": "cet4-2025-06-set2-q46",
+          "type": "DETAIL",
+          "prompt": "What does science suggest the right dress may do?",
+          "choices": [
+            "Add to our advantage in work and life.",
+            "Enable us to look a lot more attractive.",
+            "Help us to enjoy a fuller personal life.",
+            "Provide extra energy for what we do."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "passageId": "cet4-2025-06-set2-detail1"
+        },
+        {
+          "id": "cet4-2025-06-set2-q47",
+          "type": "DETAIL",
+          "prompt": "Why does science say the clothes one wears may affect their interaction with others?",
+          "choices": [
+            "Clothes usually represent one’s social and economic status.",
+            "Clothes largely determine one’s likability by people around.",
+            "Different types of clothing markedly reflect different personalities.",
+            "Different types of clothing convey different messages symbolically."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "passageId": "cet4-2025-06-set2-detail1"
+        },
+        {
+          "id": "cet4-2025-06-set2-q48",
+          "type": "DETAIL",
+          "prompt": "How do the clothes we wear sway our evaluation of ourselves?",
+          "choices": [
+            "By exerting an effect on our power of judgment.",
+            "By impacting how we feel about ourselves.",
+            "By affecting what we take as the basis for assessment.",
+            "By influencing our interpretation of symbolic messages."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "passageId": "cet4-2025-06-set2-detail1"
+        },
+        {
+          "id": "cet4-2025-06-set2-q49",
+          "type": "DETAIL",
+          "prompt": "Why does the author say tailored jackets are associated with being “dressed for success”?",
+          "choices": [
+            "They are necessary for formal business dealings.",
+            "They may help people concentrate on their business.",
+            "They are vital to keeping a dominant position in business transactions.",
+            "They may enable people to have the right mentality for doing business."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "passageId": "cet4-2025-06-set2-detail1"
+        },
+        {
+          "id": "cet4-2025-06-set2-q50",
+          "type": "DETAIL",
+          "prompt": "What are people advised to do when they want to socialize?",
+          "choices": [
+            "Focus on clothing.",
+            "Wear a good suit.",
+            "Dress casually.",
+            "Look unusual."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "passageId": "cet4-2025-06-set2-detail1"
+        },
+        {
+          "id": "cet4-2025-06-set2-q51",
+          "type": "DETAIL",
+          "prompt": "What does the author think of classical music and opera in today’s world?",
+          "choices": [
+            "They still make their presence felt.",
+            "They have given way to electronic music.",
+            "They will not fade away from the public eye.",
+            "They are no longer relevant to teenagers’ lives."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "passageId": "cet4-2025-06-set2-detail2"
+        },
+        {
+          "id": "cet4-2025-06-set2-q52",
+          "type": "DETAIL",
+          "prompt": "What do we learn about much of the popular music currently produced?",
+          "choices": [
+            "It can be difficult for many classical music fans to appreciate.",
+            "It can be seen as an indicator of refinement on classical music.",
+            "It caters to society’s taste in music in a more subtle way than classical music.",
+            "It contains elements similar to those in some masterpieces of classical music."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "passageId": "cet4-2025-06-set2-detail2"
+        },
+        {
+          "id": "cet4-2025-06-set2-q53",
+          "type": "DETAIL",
+          "prompt": "Why does the author mention the invention of the rock opera?",
+          "choices": [
+            "To illustrate how to tell a story using music.",
+            "To present the simplest definition of opera.",
+            "To show the relevance of opera and classical music.",
+            "To justify the necessity of using orchestras in opera."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "passageId": "cet4-2025-06-set2-detail2"
+        },
+        {
+          "id": "cet4-2025-06-set2-q54",
+          "type": "DETAIL",
+          "prompt": "Why are classical music pieces still used as background music in modern movies?",
+          "choices": [
+            "There are few types of music for movie producers to choose from.",
+            "They are considered to be the most expressive type of music.",
+            "They are well received by movie fans from all over the world.",
+            "They are essential for movies to become the world’s greatest hits."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "passageId": "cet4-2025-06-set2-detail2"
+        },
+        {
+          "id": "cet4-2025-06-set2-q55",
+          "type": "DETAIL",
+          "prompt": "What do we learn about our modern music?",
+          "choices": [
+            "It could not have come into being without classical music and opera as its foundation.",
+            "It cannot outcompete classical music and opera in its impact on our current society.",
+            "It will not enjoy as much popularity as classical music and opera among music fans.",
+            "It might not be able to rival classical music and opera in importance for centuries to come."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "passageId": "cet4-2025-06-set2-detail2"
+        }
+      ],
+      "audio": [],
+      "passages": [
+        {
+          "id": "cet4-2025-06-set2-bank",
+          "text": "Sir Alfred Hitchcock was an English movie director and               producer. Famously  __(26)__  to as “The Master of Suspense”, Hitchcock is one of the most influential filmmakers in the history of                      __(27)__ . He was an extraordinary director who entertained his audience with  __(28)__  and gripping suspense movies.       His fascination with crime began at an early age when he was  __(29)__  by his father who made him spend a few minutes inside a prison for his misconduct. Hence, his movies are  __(30)__  of the guilt and innocence of the wrongdoer and the victim. He had a gift for creating stories that consisted of deceit, robbery, murder, corruption, and other criminal                          __(31)__  with incredible plot twists in the storyl       ine. The principal characters in his movies were often ordinary people                     __(32)__  in unwanted and unavoidable situations.       He was  __(33)__  productive and his amazing body of work is considered fascinating by the critics. Most of his movies have  __(34)__  the test of time and are considered to be masterpieces. He is also remembered by other filmmakers, for he continues to inspire them to be passionate about their work. He is also                        __(35)__       by people around the world for his entertaining and exciting stories."
+        },
+        {
+          "id": "cet4-2025-06-set2-matching",
+          "text": "Is juicing actually good for you?\nA) Freshly juiced fruit has become a basic dietary item — especially for busy, health-conscious consumers who can save time    on making (and perhaps even chewing) their food without missing out on nutrients. Fruit juice also has been linked to    claims that it can help you both lose weight and stay healthy. All of wh                 ich, of course, has made it highly profitable. The    global fruit and vegetable juices market was valued at $154 billion in 2016 and is expected to grow.\nB) But is juicing really as healthy as we think? Most foods containing fructose                 —a naturally occurring sugar found in all fruits    and fruit juices — don’t seem to have harmful effects as long as they                 ’re not contributing to excess daily calories. This is    because the fibre found in whole fruits is intact, and the sugar is contained within the fruit                    ’s cells. It takes our digestive    system a while to break these cells down and for fructose to enter the bloodstream.\nC) But this is not the case with fruit juice. Unlike whole fruit, fruit juice has most of the fibre removed. This is why the    fructose in fruit juices counts as ‘free sugars’ — which also include honey and the sugars added to foods. It                     ’s recommended    by the World Health Organisation that adults have no more than 30g of added sugar, the equivalent of 150ml of fruit juice,    per day. The problem is that, with the fibre removed, fruit juice              ’s fructose is absorbed more quickly. Sudden increases in    blood sugar cause the release of insulin (胰岛素) to bring it back down to a stable level. Over time, this mechanism can\n\n\n\n   wear out increasing the risk of developing type 2 diabetes. In 2013, researchers analysed the health data of 100,000 people    collected between 1986 and 2009 and found that fruit juice consumption was linked with increased risk of type 2 diabetes.    Another study found a relationship between fruit juice and type 2 diabetes after following the diets and diabetes status of    more than 70,000 nurses over 18 years. The researchers explain that the possible reason for this may partly have been the    lack of the other components found in whole fruit, like fibre.\nD) Juices containing vegetables can provide more nutrients and less sugar than juices made up of just fruit — but they still    lack valuable fibre. Diets high in fibre have been linked to a lower risk of developing heart disease, stroke, high blood    pressure and diabetes, and it’s recommended adults consume 30g per day.\nE) Aside from the link to type 2 diabetes, many studies agree that fruit juice is harmful if it contributes to an excess in calories.    In an analysis of 155 studies, John Sievenpiper, associate professor at the University of Toronto’s Department of Nutritional    Sciences, set out to understand if the associations between sugary soft drinks and health — including risk of diabetes and    heart disease — were applicable to the food and drink we generally consume as part of a healthy diet. He compared studies    looking into the effects of fructose-containing sugars with control diets free from or lower in these sugars. His aim? To    isolate the effects of consuming too many calories from the effects of foods containing different sugars.\nF) He found negative effects on blood sugar and insulin levels when food provided excess calories from sugars, including    fruit juice. However, when the calories weren't in excess overall, there were some advantages to consuming whole fruit —    and even fruit juice. Sievenpiper concludes that the recommended 150ml of fruit juice per day, which is an average serving,    is reasonable. The paper concluded that foods containing fructose may have some small benefits for long-term blood sugar    control when they don’t lead to over-consumption of calories. But when they do lead to too many calories, they risk raising    blood sugar and insulin levels.\nG) So while we know that fruit juice can cause diabetes if it’s part of a diet that has more calories overall, it's less clear how    juice affects the long-term health of those who aren’t overweight. But we have a higher risk of consuming more than the    recommended daily number of calories (around 2,000 for women and 2,500 for men) on the days we drink juice, according    to research. Numerous studies have shown that drinking fruit juice doesn                        ’t make us consume any less of other foods    throughout the day.\nH) As it is easy to consume large amounts of fruit juice quite quickly, extra calories are taken in. And extra calories can    contribute to weight gain. One way we can improve the effects of fruit juice on our heal                         th is making sure we select ripe    fruit to retain as much of its goodness as possible, according to Roger Clemens, professor of pharmaceutical (                                 药物的)    sciences at the University of Southern California.\nI) Another reason for fruit juice      ’s recent popularity is     the argument that it can help to remove poisonous or harmful substances    from the body. However,         “the whole concept of a juice diet helping to remove poisonous or harmful substances from the    body is completely false,      ” says Clemens. “We consume compounds every day that may be poisonous and our bodies do a    wonderful job of removing and eliminating anything harmful from our bodies.”\nJ) And juice isn’t a cure-all for getting your nutrients, either. “There are a lot of nutrients contained in the parts of the fruits,    such as in apple skins, that are excluded when you juice them,” says Heather Ferris, a professor of medicine. “You end up    with sugary water with some vitamins.”\nK) Plus, she adds, it’s not an ideal way to reach the advised ‘five a day’. “People try to get five servings of fruit and vegetables    per day and don’t realise this isn’t just about getting vitamins,” she says. “It’s also about reducing the amount of grain carbs    (碳水化合物) and protein and fats in our diet, and increasing fibre.” So while fruit juice is better than no fruit at all, there    are limits. It particularly comes with risks when we consume more than 150ml of free sugars per day, or when it puts us    over our recommended calorie intake. It provides us with vitamins — but fruit juice is far from a quick fix."
+        },
+        {
+          "id": "cet4-2025-06-set2-detail1",
+          "text": "We all take a little extra effort to look nice for special occasions. But most of us have conflicting feelings about dressing up and feel guilty about taking the time to focus on clothes. Science now suggests the right dress may give ourselves the extra edge in our professional and personal lives.       We hear sayings like “dress for the job you want, not the job you have”. Most people don’t really believe in them, but research into the impact of clothes on behavior now suggests that there may actually be a grain of truth in these sayings. Science says that the clothes we wear affect our behavior, our mood and even the way we interact with others because of the symbolic meaning that we assign to different types of clothing.       We consider some clothes to be powerful some to be fun, and so on. We even evaluate people whom we have just met based on their clothes. We also evaluate ourselves based on what we are wearing because of the way they make us feel. This means that the experience of wearing something affects our attitudes and our choice of behavior.       There’s a reason tailored jackets are associated with being                 “dressed for success”. It seems that wearing formal office wear puts us in the right frame of mind to conduct business. Wearing power clothing makes us feel more confident and even increases hormones needed for displaying dominance. This in turn helps us become better negotiators and abstract thinkers.       While a good suit works wonders for our performance in the boardroom, wearing formal wear isn’t a great idea when we want to socialize. Studies have found that people tend to be less open and less able to relax when they wear formal clothes.       On the other hand, a casual dress helps us become more friendly and creative. These findings support the idea of wearing business casuals on a Friday, since colleagues are most likely to take out time to socialize on the last work day of the week. I mean, who wants to hang out with people in their suits?"
+        },
+        {
+          "id": "cet4-2025-06-set2-detail2",
+          "text": "With the rise of pop music, jazz, and electronic music, both opera and classical music started to fade away from the public eye. Some people are beginning to wonder whether opera and classical music are still relevant to the modern world of music. Granted, you will not typically see today's teenagers lending their ears to Bach anytime soon, but there are some major indicators that both opera and classical music are now still quite alive.       The most major indicator of classical music’s importance in society today is the fact that much of the popular music that is currently being produced uses similar beats, harmonies, and melodies (旋律) as those that were used in some of classical music’s best works. Even so, it c        an be difficult for those who do not study music theory to see this as an indicator, since it is subtle and just shows the impact symphonic (交响乐的) orchestras have had on society’s taste in music.       A better example for the relevance of opera and classical music can be seen in the invention of the rock opera. Opera, in its simplest definition, is telling a story using music as its form. The art of telling a story using music has not faded in the least bit. In fact, sometimes actual orchestras are used for major parts of the opera itself. Some of the world’s greatest hits have been parts of rock operas.       Fans of classical music can also tell you that there are few types of music that are more expressive. So, it should come as no surprise to anyone that classical music pieces are still used as background music in modern movies. Symphonic orchestra compositions have also been created solely for the purpose of being included in major motion pictures. These are often very well received amongst mainstream music fans.       Classical music and opera are the very foundation of what our modern music is based upon. Considering the huge impact they have had on our current society, it is without doubt that we can expect them to continue to remain important for centuries to come."
+        }
+      ],
+      "sourceFileUrl": "/study/resources/71d831b5b27bf3e8701fb772.pdf"
+    },
+    "TRANSLATION": {
+      "instructions": "请将原卷中文翻译成英语。",
+      "prompt": "Directions: For this part, you are allowed 30 minutes to translate a passage from Chinese into English. You should write your answer on Answer Sheet 2. 近年来,中国东北地区正在大力开发冰雪资源。例如,哈尔滨利用丰富的冰雪资源打造了极具地方特色的“冰雪大 世界”,让游客在欣赏冰雪之美的同时也能体验当地独特的民俗文化。如今,曾令人畏惧的冰天雪地正吸引着四面八 方的游客,成为深受欢迎的旅游胜地。冰雪旅游业正为当地的经济发展做出越来越大的贡献。",
+      "questions": [],
+      "audio": [],
+      "passages": [],
+      "sourceFileUrl": "/study/resources/71d831b5b27bf3e8701fb772.pdf"
+    }
+  }
+}

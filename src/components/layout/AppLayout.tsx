@@ -11,16 +11,16 @@ import DesktopWorkspaceHeader from './DesktopWorkspaceHeader'
 import { getWorkspaceSection } from './workspace-navigation'
 import { ReviewReminder } from '@/hooks/useReviewReminder'
 
-export default function AppLayout({ children }: { children: ReactNode }) {
+export default function AppLayout({ children, workspaceHeader }: { children: ReactNode; workspaceHeader?: ReactNode }) {
   const pathname = usePathname()
   const sharedNavigation = hasSharedNavigation(pathname)
-  const hasPageHeader = pathname === '/' || pathname === '/ai' || pathname === '/chat'
+  const hasPageHeader = pathname === '/' || pathname === '/ai' || pathname === '/chat' || pathname === '/study'
   return (
     <>
       <ReviewReminder />
       {!sharedNavigation && <><AppSidebar /><MobileNavBar /></>}
-      <div className={`${styles.page} ${workbench.frame}`} data-workspace-section={getWorkspaceSection(pathname)} data-workspace-header={!hasPageHeader}>
-        {!hasPageHeader && <DesktopWorkspaceHeader pathname={pathname} />}
+      <div className={`${styles.page} ${workbench.frame}`} data-workspace-section={getWorkspaceSection(pathname)} data-radial-menu-page={pathname === '/ai' ? 'true' : undefined} data-workspace-header={!!workspaceHeader || pathname === '/study' || !hasPageHeader}>
+        {workspaceHeader ? <header className={workbench.header}>{workspaceHeader}</header> : !hasPageHeader && <DesktopWorkspaceHeader />}
         <div className={workbench.body}>{children}</div>
       </div>
     </>

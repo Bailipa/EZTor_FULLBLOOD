@@ -1,0 +1,1089 @@
+{
+  "slug": "cet4-2024-12-set2-full",
+  "version": 1,
+  "title": "2024年12月 · 第2套整卷模拟真题",
+  "level": "CET4",
+  "kind": "FULL",
+  "originType": "PAST_EXAM",
+  "sourceName": "用户提供的本地四六级资料",
+  "sourceUrl": "/study/resources/982a486689a7dc6196fe41e7.pdf",
+  "rightsHolder": "原试卷及解析作者",
+  "rightsEvidence": "用户提供本地资源并要求接入本地学习系统；原文件及校验值见 content/cet-local/index.json。未授权公开再分发或生产部署。",
+  "content": {
+    "WRITING": {
+      "instructions": "原卷写作要求",
+      "prompt": "Directions: Suppose the university newspaper is inviting submissions from the students for its coming edition on how to enric                                            h students’ knowledge of traditional Chinese culture. You are now to write an essay for submission. You will have 30 minutes to wri te the essay. You should write at least 120 words but no more than 180 words.",
+      "questions": [],
+      "audio": [],
+      "passages": [],
+      "minimumWords": 120,
+      "maximumWords": 180,
+      "sourceFileUrl": "/study/resources/982a486689a7dc6196fe41e7.pdf"
+    },
+    "LISTENING": {
+      "instructions": "原卷听力选择题",
+      "questions": [
+        {
+          "id": "cet4-2024-12-set2-q1",
+          "type": "NEWS",
+          "prompt": "第 1 题(题干在原始录音中)",
+          "choices": [
+            "They will see a 27% higher price to buy natural gas.",
+            "They will have insufficient heating oil to keep warm.",
+            "They will have a costly bill to p ay to heat their homes.",
+            "They will experience the coldest winter in four decades."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "audioId": "cet4-2024-12-set2-audio"
+        },
+        {
+          "id": "cet4-2024-12-set2-q2",
+          "type": "NEWS",
+          "prompt": "第 2 题(题干在原始录音中)",
+          "choices": [
+            "Provided additional funding to Low Income Home Energy Assistance Program.",
+            "Assured U.S. citizens of an increase in energy supplies by the end of this year.",
+            "P redicted a 10% jump in heating bills for most U.S. households this winter.",
+            "Decided on this year ’s energy assistance package of $8 billion in total."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "audioId": "cet4-2024-12-set2-audio"
+        },
+        {
+          "id": "cet4-2024-12-set2-q3",
+          "type": "NEWS",
+          "prompt": "第 3 题(题干在原始录音中)",
+          "choices": [
+            "They care less about their d iet now than before.",
+            "They may lack adequate knowledge of healthy food.",
+            "They may hold too optimistic a view about their diet.",
+            "They pay insufficient attention to their choice of food."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "audioId": "cet4-2024-12-set2-audio"
+        },
+        {
+          "id": "cet4-2024-12-set2-q4",
+          "type": "NEWS",
+          "prompt": "第 4 题(题干在原始录音中)",
+          "choices": [
+            "Those who finished 24 -hour food questionnaires.",
+            "Those who fully understood the rating scale.",
+            "Those who cared about food quality.",
+            "Those who rated their diet as poor."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "audioId": "cet4-2024-12-set2-audio"
+        },
+        {
+          "id": "cet4-2024-12-set2-q5",
+          "type": "NEWS",
+          "prompt": "第 5 题(题干在原始录音中)",
+          "choices": [
+            "They experienced a heartbreaking moment.",
+            "They gathered together to rescue an elephant.",
+            "Th ey heard a noise from the bottom of a well.",
+            "They found an elephant wandering around a well."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "audioId": "cet4-2024-12-set2-audio"
+        },
+        {
+          "id": "cet4-2024-12-set2-q6",
+          "type": "NEWS",
+          "prompt": "第 6 题(题干在原始录音中)",
+          "choices": [
+            "To borrow their crane.",
+            "To ask them for help.",
+            "To report the strange noise.",
+            "To get food for the elephant."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "audioId": "cet4-2024-12-set2-audio"
+        },
+        {
+          "id": "cet4-2024-12-set2-q7",
+          "type": "NEWS",
+          "prompt": "第 7 题(题干在原始录音中)",
+          "choices": [
+            "The elephant was able to return to the jungle.",
+            "The army officers were examined for injuries.",
+            "The army officers were rewarded for their rescue efforts.",
+            "The elephant was gi ven medical treatment for many days."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "audioId": "cet4-2024-12-set2-audio"
+        },
+        {
+          "id": "cet4-2024-12-set2-q8",
+          "type": "CONVERSATION",
+          "prompt": "第 8 题(题干在原始录音中)",
+          "choices": [
+            "He found it had caused him much inconvenience.",
+            "It led him to spend more money than necessary.",
+            "It was much less secure than paying with cash.",
+            "He wanted to be less dependent on his phone."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "audioId": "cet4-2024-12-set2-audio"
+        },
+        {
+          "id": "cet4-2024-12-set2-q9",
+          "type": "CONVERSATION",
+          "prompt": "第 9 题(题干在原始录音中)",
+          "choices": [
+            "Living beyond her means.",
+            "Lack of budgeting strategies.",
+            "Fashion addiction.",
+            "Impulse purchasing."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "audioId": "cet4-2024-12-set2-audio"
+        },
+        {
+          "id": "cet4-2024-12-set2-q10",
+          "type": "CONVERSATION",
+          "prompt": "第 10 题(题干在原始录音中)",
+          "choices": [
+            "Eat healthier food with less money.",
+            "Order food like burgers and chips.",
+            "Avoid getting addicted to junk food.",
+            "Pay either in cash or with his phone."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "audioId": "cet4-2024-12-set2-audio"
+        },
+        {
+          "id": "cet4-2024-12-set2-q11",
+          "type": "CONVERSATION",
+          "prompt": "第 11 题(题干在原始录音中)",
+          "choices": [
+            "Making a shopping list.",
+            "Sticking to his budget.",
+            "Withdrawing cash only once a month.",
+            "Thinking twice before buying something."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "audioId": "cet4-2024-12-set2-audio"
+        },
+        {
+          "id": "cet4-2024-12-set2-q12",
+          "type": "CONVERSATION",
+          "prompt": "第 12 题(题干在原始录音中)",
+          "choices": [
+            "He does not enjoy any ball games.",
+            "He has to prepare for the future.",
+            "He has breathing problems.",
+            "He is not up to anything challenging."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "audioId": "cet4-2024-12-set2-audio"
+        },
+        {
+          "id": "cet4-2024-12-set2-q13",
+          "type": "CONVERSATION",
+          "prompt": "第 13 题(题干在原始录音中)",
+          "choices": [
+            "Soccer",
+            "Badminton.",
+            "Volleyball.",
+            "Basketball."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "audioId": "cet4-2024-12-set2-audio"
+        },
+        {
+          "id": "cet4-2024-12-set2-q14",
+          "type": "CONVERSATION",
+          "prompt": "第 14 题(题干在原始录音中)",
+          "choices": [
+            "The possibilities of joining the school sports team.",
+            "The opportunities of winning some championships.",
+            "The chances of getting an athletic scholarship later on.",
+            "The odds of becoming a professional sportsman someday."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "audioId": "cet4-2024-12-set2-audio"
+        },
+        {
+          "id": "cet4-2024-12-set2-q15",
+          "type": "CONVERSATION",
+          "prompt": "第 15 题(题干在原始录音中)",
+          "choices": [
+            "It differs entirely from indoor volleyball.",
+            "It appeals to both schoolgirls and schoolboys.",
+            "It is less popular than indoor sports in the country.",
+            "It is completely different from other outdoor games."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "audioId": "cet4-2024-12-set2-audio"
+        },
+        {
+          "id": "cet4-2024-12-set2-q16",
+          "type": "PASSAGE",
+          "prompt": "第 16 题(题干在原始录音中)",
+          "choices": [
+            "It usually requires years of preparations.",
+            "It does a lot of harm to the environment",
+            "It often burns over three hundred tonnes of refined fuel.",
+            "It proves to be the most complicated stage of space missions."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "audioId": "cet4-2024-12-set2-audio"
+        },
+        {
+          "id": "cet4-2024-12-set2-q17",
+          "type": "PASSAGE",
+          "prompt": "第 17 题(题干在原始录音中)",
+          "choices": [
+            "They are burnt up in outer space.",
+            "They are guided back to Earth.",
+            "They are reused up to 100 times.",
+            "They are treated as expendable."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "audioId": "cet4-2024-12-set2-audio"
+        },
+        {
+          "id": "cet4-2024-12-set2-q18",
+          "type": "PASSAGE",
+          "prompt": "第 18 题(题干在原始录音中)",
+          "choices": [
+            "New technologies for bringing back space vehicles for recycling.",
+            "The technology for meeting the needs of commercial space travel.",
+            "Many of the technologies to limit the impact of space travel on Earth.",
+            "The technology for effectively protecting ozone from being destroyed."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "audioId": "cet4-2024-12-set2-audio"
+        },
+        {
+          "id": "cet4-2024-12-set2-q19",
+          "type": "PASSAGE",
+          "prompt": "第 19 题(题干在原始录音中)",
+          "choices": [
+            "It can help unskilled readers feel more secure.",
+            "It can encourage reluctant readers to read aloud.",
+            "It can strengthen children’s confidence in others.",
+            "It can boost children’s interest in communication."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "audioId": "cet4-2024-12-set2-audio"
+        },
+        {
+          "id": "cet4-2024-12-set2-q20",
+          "type": "PASSAGE",
+          "prompt": "第 20 题(题干在原始录音中)",
+          "choices": [
+            "By motivating children to find out about their favourite pets.",
+            "By taking children to the library to borrow books on animals.",
+            "By allowing children to surf the internet about pets by themselves.",
+            "By showing children how to acquire knowledge about healthy pets."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "audioId": "cet4-2024-12-set2-audio"
+        },
+        {
+          "id": "cet4-2024-12-set2-q21",
+          "type": "PASSAGE",
+          "prompt": "第 21 题(题干在原始录音中)",
+          "choices": [
+            "By learning that raising pets can do much good.",
+            "By watching how healthy pets are brought up.",
+            "By hearing about their peers’ passion for pets.",
+            "By visiting friends who have household pets."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "audioId": "cet4-2024-12-set2-audio"
+        },
+        {
+          "id": "cet4-2024-12-set2-q22",
+          "type": "PASSAGE",
+          "prompt": "第 22 题(题干在原始录音中)",
+          "choices": [
+            "Send would -be students a packet of information.",
+            "Update regularly all informatio n on their websites.",
+            "Inform prospective students of their yearly enrollment.",
+            "Answer questions raised by applicants and their parents."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "audioId": "cet4-2024-12-set2-audio"
+        },
+        {
+          "id": "cet4-2024-12-set2-q23",
+          "type": "PASSAGE",
+          "prompt": "第 23 题(题干在原始录音中)",
+          "choices": [
+            "Oversee private institutions directly.",
+            "Follow other states’ example.",
+            "Supervise all schools consistently.",
+            "Regulate public institutions by law."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "audioId": "cet4-2024-12-set2-audio"
+        },
+        {
+          "id": "cet4-2024-12-set2-q24",
+          "type": "PASSAGE",
+          "prompt": "第 24 题(题干在原始录音中)",
+          "choices": [
+            "They are resourceful.",
+            "They are competitive.",
+            "They provide the best opportunity to realize one’s dream.",
+            "They appeal most to students from other states in the U.S."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "audioId": "cet4-2024-12-set2-audio"
+        },
+        {
+          "id": "cet4-2024-12-set2-q25",
+          "type": "PASSAGE",
+          "prompt": "第 25 题(题干在原始录音中)",
+          "choices": [
+            "Some students waste much time surfing the net.",
+            "Students may need to visit too many websites.",
+            "Students have to search for the information.",
+            "Some students may lack adequate access."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "audioId": "cet4-2024-12-set2-audio"
+        }
+      ],
+      "audio": [
+        {
+          "id": "cet4-2024-12-set2-audio",
+          "url": "/study/resources/43a895f49edc7c9ab81f9ef7.m4a",
+          "sourceUrl": "/study/resources/43a895f49edc7c9ab81f9ef7.m4a",
+          "durationSeconds": 1422.965261,
+          "transcript": "",
+          "identity": "cet4_2024_12_2.mp3 SHA256:43a895f49edc7c9ab81f9ef79fa08fc42df0331d5a0a7168b8be365ef9036779"
+        }
+      ],
+      "passages": [],
+      "sourceFileUrl": "/study/resources/982a486689a7dc6196fe41e7.pdf"
+    },
+    "READING": {
+      "instructions": "请依次完成选词填空、长篇匹配和仔细阅读。",
+      "questions": [
+        {
+          "id": "cet4-2024-12-set2-q26",
+          "type": "WORD_BANK",
+          "prompt": "第 26 空",
+          "choices": [
+            "adaptable",
+            "closed",
+            "distribution",
+            "interact",
+            "narration",
+            "neutral",
+            "permanently",
+            "prescribes",
+            "readily",
+            "registered",
+            "reinforces",
+            "revealed",
+            "significant",
+            "specific",
+            "speculate"
+          ],
+          "answerIndex": 11,
+          "explanation": "原卷答案：L。",
+          "weight": 0.5,
+          "passageId": "cet4-2024-12-set2-bank"
+        },
+        {
+          "id": "cet4-2024-12-set2-q27",
+          "type": "WORD_BANK",
+          "prompt": "第 27 空",
+          "choices": [
+            "adaptable",
+            "closed",
+            "distribution",
+            "interact",
+            "narration",
+            "neutral",
+            "permanently",
+            "prescribes",
+            "readily",
+            "registered",
+            "reinforces",
+            "revealed",
+            "significant",
+            "specific",
+            "speculate"
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 0.5,
+          "passageId": "cet4-2024-12-set2-bank"
+        },
+        {
+          "id": "cet4-2024-12-set2-q28",
+          "type": "WORD_BANK",
+          "prompt": "第 28 空",
+          "choices": [
+            "adaptable",
+            "closed",
+            "distribution",
+            "interact",
+            "narration",
+            "neutral",
+            "permanently",
+            "prescribes",
+            "readily",
+            "registered",
+            "reinforces",
+            "revealed",
+            "significant",
+            "specific",
+            "speculate"
+          ],
+          "answerIndex": 10,
+          "explanation": "原卷答案：K。",
+          "weight": 0.5,
+          "passageId": "cet4-2024-12-set2-bank"
+        },
+        {
+          "id": "cet4-2024-12-set2-q29",
+          "type": "WORD_BANK",
+          "prompt": "第 29 空",
+          "choices": [
+            "adaptable",
+            "closed",
+            "distribution",
+            "interact",
+            "narration",
+            "neutral",
+            "permanently",
+            "prescribes",
+            "readily",
+            "registered",
+            "reinforces",
+            "revealed",
+            "significant",
+            "specific",
+            "speculate"
+          ],
+          "answerIndex": 12,
+          "explanation": "原卷答案：M。",
+          "weight": 0.5,
+          "passageId": "cet4-2024-12-set2-bank"
+        },
+        {
+          "id": "cet4-2024-12-set2-q30",
+          "type": "WORD_BANK",
+          "prompt": "第 30 空",
+          "choices": [
+            "adaptable",
+            "closed",
+            "distribution",
+            "interact",
+            "narration",
+            "neutral",
+            "permanently",
+            "prescribes",
+            "readily",
+            "registered",
+            "reinforces",
+            "revealed",
+            "significant",
+            "specific",
+            "speculate"
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 0.5,
+          "passageId": "cet4-2024-12-set2-bank"
+        },
+        {
+          "id": "cet4-2024-12-set2-q31",
+          "type": "WORD_BANK",
+          "prompt": "第 31 空",
+          "choices": [
+            "adaptable",
+            "closed",
+            "distribution",
+            "interact",
+            "narration",
+            "neutral",
+            "permanently",
+            "prescribes",
+            "readily",
+            "registered",
+            "reinforces",
+            "revealed",
+            "significant",
+            "specific",
+            "speculate"
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 0.5,
+          "passageId": "cet4-2024-12-set2-bank"
+        },
+        {
+          "id": "cet4-2024-12-set2-q32",
+          "type": "WORD_BANK",
+          "prompt": "第 32 空",
+          "choices": [
+            "adaptable",
+            "closed",
+            "distribution",
+            "interact",
+            "narration",
+            "neutral",
+            "permanently",
+            "prescribes",
+            "readily",
+            "registered",
+            "reinforces",
+            "revealed",
+            "significant",
+            "specific",
+            "speculate"
+          ],
+          "answerIndex": 8,
+          "explanation": "原卷答案：I。",
+          "weight": 0.5,
+          "passageId": "cet4-2024-12-set2-bank"
+        },
+        {
+          "id": "cet4-2024-12-set2-q33",
+          "type": "WORD_BANK",
+          "prompt": "第 33 空",
+          "choices": [
+            "adaptable",
+            "closed",
+            "distribution",
+            "interact",
+            "narration",
+            "neutral",
+            "permanently",
+            "prescribes",
+            "readily",
+            "registered",
+            "reinforces",
+            "revealed",
+            "significant",
+            "specific",
+            "speculate"
+          ],
+          "answerIndex": 13,
+          "explanation": "原卷答案：N。",
+          "weight": 0.5,
+          "passageId": "cet4-2024-12-set2-bank"
+        },
+        {
+          "id": "cet4-2024-12-set2-q34",
+          "type": "WORD_BANK",
+          "prompt": "第 34 空",
+          "choices": [
+            "adaptable",
+            "closed",
+            "distribution",
+            "interact",
+            "narration",
+            "neutral",
+            "permanently",
+            "prescribes",
+            "readily",
+            "registered",
+            "reinforces",
+            "revealed",
+            "significant",
+            "specific",
+            "speculate"
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 0.5,
+          "passageId": "cet4-2024-12-set2-bank"
+        },
+        {
+          "id": "cet4-2024-12-set2-q35",
+          "type": "WORD_BANK",
+          "prompt": "第 35 空",
+          "choices": [
+            "adaptable",
+            "closed",
+            "distribution",
+            "interact",
+            "narration",
+            "neutral",
+            "permanently",
+            "prescribes",
+            "readily",
+            "registered",
+            "reinforces",
+            "revealed",
+            "significant",
+            "specific",
+            "speculate"
+          ],
+          "answerIndex": 14,
+          "explanation": "原卷答案：O。",
+          "weight": 0.5,
+          "passageId": "cet4-2024-12-set2-bank"
+        },
+        {
+          "id": "cet4-2024-12-set2-q36",
+          "type": "MATCHING",
+          "prompt": "Judging from the slowing rate of sales growth, there is still hope to combat bottled water.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 4,
+          "explanation": "原卷答案：E。",
+          "weight": 1,
+          "passageId": "cet4-2024-12-set2-matching"
+        },
+        {
+          "id": "cet4-2024-12-set2-q37",
+          "type": "MATCHING",
+          "prompt": "Bottled water manufacturers base their arguments against bans of plastic bottles on health concerns rather than on profits. 、",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 7,
+          "explanation": "原卷答案：H。",
+          "weight": 1,
+          "passageId": "cet4-2024-12-set2-matching"
+        },
+        {
+          "id": "cet4-2024-12-set2-q38",
+          "type": "MATCHING",
+          "prompt": "Sales of bottled water in Britain hit a record high last year even though people are increasingly aware that plastics are environmentally unfriendly.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "passageId": "cet4-2024-12-set2-matching"
+        },
+        {
+          "id": "cet4-2024-12-set2-q39",
+          "type": "MATCHING",
+          "prompt": "It often happens that people can lack reason when faced with skillful marketing.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 11,
+          "explanation": "原卷答案：L。",
+          "weight": 1,
+          "passageId": "cet4-2024-12-set2-matching"
+        },
+        {
+          "id": "cet4-2024-12-set2-q40",
+          "type": "MATCHING",
+          "prompt": "One city on the west coast of America has banned single-use bottles from its property and events.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 6,
+          "explanation": "原卷答案：G。",
+          "weight": 1,
+          "passageId": "cet4-2024-12-set2-matching"
+        },
+        {
+          "id": "cet4-2024-12-set2-q41",
+          "type": "MATCHING",
+          "prompt": "Manufacturing and shipping of plastic water bottles consume a tremendous amount of fossil fuels.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "passageId": "cet4-2024-12-set2-matching"
+        },
+        {
+          "id": "cet4-2024-12-set2-q42",
+          "type": "MATCHING",
+          "prompt": "One large beverage company has adapted its operations when confronted with challenges from health and environmental advocates.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 10,
+          "explanation": "原卷答案：K。",
+          "weight": 1,
+          "passageId": "cet4-2024-12-set2-matching"
+        },
+        {
+          "id": "cet4-2024-12-set2-q43",
+          "type": "MATCHING",
+          "prompt": "Bottled water is considerably more expensive than tap water.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "passageId": "cet4-2024-12-set2-matching"
+        },
+        {
+          "id": "cet4-2024-12-set2-q44",
+          "type": "MATCHING",
+          "prompt": "Fountains could be seen in cities before bottled water became popular",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 8,
+          "explanation": "原卷答案：I。",
+          "weight": 1,
+          "passageId": "cet4-2024-12-set2-matching"
+        },
+        {
+          "id": "cet4-2024-12-set2-q45",
+          "type": "MATCHING",
+          "prompt": "More people have taken to bottled water because of their health awareness.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 5,
+          "explanation": "原卷答案：F。",
+          "weight": 1,
+          "passageId": "cet4-2024-12-set2-matching"
+        },
+        {
+          "id": "cet4-2024-12-set2-q46",
+          "type": "DETAIL",
+          "prompt": "What has the author come to realise since entering university?",
+          "choices": [
+            "He needs a crash course on financial terms.",
+            "He is very much lacking in financial literacy.",
+            "It requires consistent education to be financially independent.",
+            "It is unrealistic to give all Australian youth a financial education."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "passageId": "cet4-2024-12-set2-detail1"
+        },
+        {
+          "id": "cet4-2024-12-set2-q47",
+          "type": "DETAIL",
+          "prompt": "How did the author feel in today’s money world?",
+          "choices": [
+            "Badly equipped to survive.",
+            "Ignorant of financial literature.",
+            "Barely capable of moving ahead.",
+            "Overwhelmed by the resources online."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "passageId": "cet4-2024-12-set2-detail1"
+        },
+        {
+          "id": "cet4-2024-12-set2-q48",
+          "type": "DETAIL",
+          "prompt": "What did the author realise after talking to his friends?",
+          "choices": [
+            "They were as keen as he was on financial matters.",
+            "The schooling system was to blame for his trouble.",
+            "High schoolers knew nothing about the modern financial world.",
+            "Financial courses were as unpopular as compulsory English classes."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "passageId": "cet4-2024-12-set2-detail1"
+        },
+        {
+          "id": "cet4-2024-12-set2-q49",
+          "type": "DETAIL",
+          "prompt": "What is the author’s idea of a financial education course?",
+          "choices": [
+            "It should foresee students’ needs after graduation.",
+            "It should provide students with some basic knowledge.",
+            "It should be taught the same way as English is taught.",
+            "It should be integrated into high school education."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "passageId": "cet4-2024-12-set2-detail1"
+        },
+        {
+          "id": "cet4-2024-12-set2-q50",
+          "type": "DETAIL",
+          "prompt": "What would financial literacy do to young people?",
+          "choices": [
+            "Allow them to enter adulthood with financial security.",
+            "Enable them to look after themselves without worrying about money.",
+            "Render them confident and secure in terms of money management.",
+            "Help them become familiar with the world of money."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "passageId": "cet4-2024-12-set2-detail1"
+        },
+        {
+          "id": "cet4-2024-12-set2-q51",
+          "type": "DETAIL",
+          "prompt": "What do people believe chocolates can do?",
+          "choices": [
+            "Cheer them up instantly.",
+            "Create happy calories.",
+            "Conceal emotional distress.",
+            "Relieve them of heart trouble."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "passageId": "cet4-2024-12-set2-detail2"
+        },
+        {
+          "id": "cet4-2024-12-set2-q52",
+          "type": "DETAIL",
+          "prompt": "What was scientists’ recent assertion about chocolates?",
+          "choices": [
+            "They could become a rare treat in the near future.",
+            "They could calm people down a bit in times of crisis.",
+            "They could prevent people from getting heartbroken.",
+            "They could become unavailable in less than 30 years."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "passageId": "cet4-2024-12-set2-detail2"
+        },
+        {
+          "id": "cet4-2024-12-set2-q53",
+          "type": "DETAIL",
+          "prompt": "What would happen if the cacao farms were shifted to cooler mountainous areas?",
+          "choices": [
+            "The natural habitat of wildlife there would be ruined.",
+            "The cacao farmers would have a tough time to adapt.",
+            "The rainforests would be shrinking dramatically.",
+            "The quality of cocoa beans would suffer greatly."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "passageId": "cet4-2024-12-set2-detail2"
+        },
+        {
+          "id": "cet4-2024-12-set2-q54",
+          "type": "DETAIL",
+          "prompt": "What do we learn about the cacao farms in the crisis of global warming?",
+          "choices": [
+            "They try to seek help from gene-editing scientists.",
+            "They decide to move to cooler mountainous areas.",
+            "They have suffered a lot due to a decrease in produce.",
+            "They have benefited by raising prices of cocoa beans."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "passageId": "cet4-2024-12-set2-detail2"
+        },
+        {
+          "id": "cet4-2024-12-set2-q55",
+          "type": "DETAIL",
+          "prompt": "What are scientists trying to do in the University of California’s new bio-sciences building?",
+          "choices": [
+            "Build rows of refrigerated greenhouses for research on cacao seedlings.",
+            "Gene-edit cacao seedlings for them to withstand a drier, warmer climate.",
+            "Produce chocolates with the latest gene-editing technology.",
+            "Transplant the genes of tougher plants to cacao seedlings."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "passageId": "cet4-2024-12-set2-detail2"
+        }
+      ],
+      "audio": [],
+      "passages": [
+        {
+          "id": "cet4-2024-12-set2-bank",
+          "text": "Scientists have known that depriving adult mice of vision can increase the sensitivity of individual neurons (                          神经元) in the part of the brain devoted to hearing. New research from biologists at the University of Maryland                                 __(26)__  that sight deprivation also changes the way brain cells  __(27)__  with one another, shifting the mice                    ’s sensitivity to different frequencies. “This study  __(28)__  what we are learning about how manipulating vision can have a  __(29)__  effect on the ability of an animal to hear long after the window for auditory (听觉的) learning was thought to have  __(30)__  said Patrick Kanold, senior author of the study. It was once thought that the sensory regions of the brain were not                 __(31)__  after a critical period in childhood. This is why children learn languages much more              __(32)__  than adults. Kanold’s earlier research disproved this idea by showing that depriving adult mice of vision for a short period increased the sensitivity of individual neurons in the auditory cortex (                        皮质), which is devoted to hearing. Young brains wire themselves according to the sounds they hear frequently, assigning areas of the auditory cortex to  __(33)__  frequencies based on what they are used to hearing. The researchers found that in adult mice, a week in the dark also changed the  __(34)__  of space to different frequencies. “We don’t know why we are           seeing these patterns,” Kanold said. “We  __(35)__  that it may have to do with what the mice are paying attention to while they are in the dark.”"
+        },
+        {
+          "id": "cet4-2024-12-set2-matching",
+          "text": "If we care about plastic waste         , why won’t we stop drinking bottled water? We have all seen the damage plastic waste i           s doing around the world, but sales of bottled water have continued to grow.\nA) For all the innovation and choice that define the food and drink industries, if you want to make money, you could do a lot\n\n\n\nworse than fill a bottle with water and sell it. A litre of tap water, the             stuff we have cleverly piped into our homes, costs less than half a penny. A litre of bottled water can cost well over a pound, especially for something fancy that has been sucked through a mountain.\nB) Yet the bottled water market is livelier than ever.                It defies our increasing awareness of the harm plastics do to the environment and a broader, growing sense that something has to change. Sales in the UK were worth a                             record £558.4 million this past year, an increase of 7%, according to the latest figures f               rom the market analyst Kantar. Separate data from other analysts show that last year the British consumed more than 2.2 billion litres of bottled water, including                      “take-home” and “on- the-go” products. That’s an annual rise in volume of 8.5%.\nC) Environmental campaigners are struggling to understand why nations blessed with clean tap water grow only fonder of the bottle. “It’s very surprising to me,      ” says Sam Chetan-Walsh, a political adviser at Greenpeace and campaigner against ocean plastic. “Public awareness has never been higher, but the message is not quite reaching all the people it needs to.” Where it is heard, the message is causing concern. Plastic water bottles require oceans of fossil fuels to make and ship. Additionally, single-use plastics of all types are polluting our cities and seas. Numerous documentaries have shown how plastic is ultimately killing wildlife.\nD) Moves against various plastics have gathered pace, from shopping bags to straws and plastic-lined coffee cups. Chetan- Walsh argues that bottled water is different because the alternatives are so obvious. “If a product that is so nakedly unnecessary can exist then the whole system is failing,” he says.\nE) Hope is not entirely out of reach. The rate of growth has begun to ease (sales were up 7% in the year, compared with 8% in the previous year).\nF) But even if large numbers of people are quitting bottled water because of care for the environment, others are taking it up. The introduction of the “sugar tax” on juices and soda drinks has pushed more people to bottled water, while health awareness has boosted its desirability. Tap water consumption is growing at roughly the same pace (UK consumers still drink almost three times as much tap water as bottled water).\nG) So the plastic tide only creeps higher. The industry is quick to point out that all its bottles are recyclable. “But collection rates are, at the most generous estimates, 56%, so the actual recycling rate will be lower than that,” Chetan-Walsh says. And while bottles may be recyclable, very few are made of recycled plastic. One water bottle company launched recycled half- litre “eco” bottles alongside its standard bottles. Another has pledged to use only recycled plastic across its range by 2025. Chetan-Walsh believes in a ban on single-use bottles. Bans do exist in some places. Organisers of a famous music festival announced that water bottles will not be sold this summer. San Francisco has banned them from city property and events. Last year, the UK government set out plans to ban single-use plastic from its estate.\nH) Water bottlers, unsurprisingly, don’t support bans. But they raise concerns about health rather than profit margins. Last month one chief executive of a water bottling company said that bans would “result in greater consumption of sugary drinks, adding to all the health dangers of obesity, diabetes and tooth decay”. Kinvara Carey, general manager of an association of the biggest bottled water manufacturers, cites a survey in which people were asked what they would do if bottled water were not available. “Forty-four per cent would buy another drink which is not great, 14% would go without, and 4.5% said they would find a fountain.” she says. “The choice is important.”\nI) What if fountains were more numerous, and tap water more clearly available in cafes, restaurants and elsewhere? Dozens of fountains are being installed in London. There are similar initiatives elsewhere. Before plastic and the marketing that made people think they needed bottled water in the first place, fountains were an urban fixture. Greenpeace, among others, is also pushing for a “deposit return” scheme. This would mean tax on bottled water would be refunded to customers who returned the plastic for recycling.\nJ) Even if bottled water sales are growing slightly more slowly, the industry is racing to adapt to changing concerns and tastes. Flavoured water is booming: sales of the sparkling variety shot up by 20%, according to the latest analyst data, Meanwhile, international water brands, as well as a range of new companies, are selling high-end reusable bottles. And if you must fill them with tap water, why not add flavouring?\nK) As the owner of multiple sugary drink brands and bottled water, PepsiCo is facing challenges on health and environmental fronts. Last year, the company bought SodaStream (a drinks company that sells machines for making tap water bubbly and then consumers add flavours) for $3.2 billion. It also launched a range of fancy bottles that work with tap water and flavour packets. The bottle is reusable. The packets? Not so much, and, yes, they are made of plastic, although the company invites\n\n\n\nusers to post them back for recycling.\nL) As is so often the case, clever marketing can beat reason; awareness is rarely enough. “There is always this kind of slip between concern, intent and changed behaviour,” says Giles Quick an analyst of bottled water. “The best example is five a day, the recommendation to have at least five portions of fruit and vegetables every day. Almost everyone is aware of this, but something like 15% of us achieve it.” Unless a far-reaching bottle ban does come into force, it will be up to consumers to not only demand change, but to act themselves."
+        },
+        {
+          "id": "cet4-2024-12-set2-detail1",
+          "text": "As a university student I've come to realise just how little I know about money.                      I’ve come to the brutal realisation that Australia’s youth are being done a great disservice by not receiving any consistent financial education.       Diving headfirst into the crash course of starting university, I’ve quickly tried to get myself up to speed with the financial terms of the modern era to help manage my personal finances.       I’ve read some financial education books, done some online learning, and have spoken to my nearest and dearest for their pearls of financial wisdom.       There are undoubtedly hundreds of great resources out there for those wishing to improve their financial literacy, but while I was researching, I still kept wishing that I didn’t have to play catch-up with the money world. I felt that L was sailing the financial seas with no skills and no life jacket!       However, after talking to my friends who felt the same, I quickly realised that it wasn’t my ignorance but the lack of financial education in our schooling system that is leaving high schoolers seriously behind in the modern world of money.       Let’s compare a theoretical financial education subject to the standard compulsory English cl                           ass. On average, English may not be the most popular subject, but it’s consistently on the schedule throughout high school, with all students graduating fluent in English.       A financial education subject should do just the same. It shouldn’t be just a one-day event but a course integrated throughout the whole of high school that would allow students to gradually expand their financial literacy, and would prevent the need for a ‘catch up’ phase once we          ’re out on our own after graduation.       In the same way that       learning a language or new skills takes time, building financial skills requires practice and years to gradually accumulate bits and pieces of knowledge.       Giving young people the opportunity to become familiar with the world of money would provide them wi                                       th a great advantage to enter adulthood with confidence and security so that they are able to manage their own money and look after themselves."
+        },
+        {
+          "id": "cet4-2024-12-set2-detail2",
+          "text": "Chocolates save us from many things, especially emotional distress. They comfort us in times of trouble, calming down a racing heart by channeling happy calories inside us. We all have faith in chocolates to delight                          us in an instant!       Recently, chocolate lovers were heartbroken as scientists claimed that they can become extinct by 2050! But hey, we have some happy news for you. Scientists can still help save chocolates from dying out! If you are not aware as to why scientists made the s     tatement about the death of this wonderful thing, let us tell you the facts. Chocolate trees, whose seeds are used to make chocolate, grow in the tropical plant world and require very specific weather conditions to prosper.       Now, fifty percent of the world         ’s cocoa (   可可) beans come from two countries in West Africa: Cote d                      ’Ivoire and Ghana. Scientists believe that both of these countries will experience a 3.8F temperature increase by 2050 due to global warming, endangering the cacao (可可树) farms in the rainforests. These farms will then have to be shifted to cooler mountainous areas, which are the natural habitat of wildlife. This will lead to some tough decisions: whether to grow chocolate or save wildlife.       Unfortunately, the crisis of global warming has already had a serious negative impact on cacao farms’ yields, leading to the prices of chocolates skyrocketing.       Scientists, however      , are trying to find a long      -term and eco     -friendly solution to this problem! They are trying to modify the species with a gene      -editing technology, which will transform the seedlings into a species that survives even in a drier and warmer climate.       According to a report by The Business Insider, in the University of California’s new bio-sciences building, tiny green cacao seedlings are lined up in refrigerated greenhouses for a new experiment by using a technology called CRISPR. By manipulating the DNA of plants, this technology is already being used across the world to make plants tougher and cheaper. Similarly, in this unconventional experiment, scientists will make tiny, precise changes to the DNA of the seedlings to make the cocoa crops survive in warmer and drier climates."
+        }
+      ],
+      "sourceFileUrl": "/study/resources/982a486689a7dc6196fe41e7.pdf"
+    },
+    "TRANSLATION": {
+      "instructions": "请将原卷中文翻译成英语。",
+      "prompt": "Directions: For this part, you are allowed 30 minutes to translate a passage from Chinese into English. You should write your answer on Answer Sheet 2.\n\n近年来,中国新能源汽车产业发展迅速。目前,中国新能源汽车年产量已高达近千万辆,占全球市场份额超过                                                                             60%,出口 量不断创出新高。中国政府通过加大资金投入和政策引导,鼓励新能源汽车企业进行技术创新,不断提高产品在市场 上的竞争力。中国新能源汽车产业的发展不仅有力推动了国内经济发展                                                       ,也为全球新能源利用和环境保护做出了积 极贡献。",
+      "questions": [],
+      "audio": [],
+      "passages": [],
+      "sourceFileUrl": "/study/resources/982a486689a7dc6196fe41e7.pdf"
+    }
+  }
+}

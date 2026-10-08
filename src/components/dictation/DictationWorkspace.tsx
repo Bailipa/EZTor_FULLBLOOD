@@ -56,7 +56,7 @@ const MistakeNotebook = dynamic(() => import('@/components/dictation/MistakeNote
   loading: () => <div className="flex min-h-24 items-center justify-center text-sm text-muted-foreground" role="status">正在载入错词本…</div>,
 })
 
-export function DictationWorkspace(props: { isMistakePractice: boolean; initialPanel?: 'practice' | 'mistakes' }) {
+export function DictationWorkspace(props: { isMistakePractice: boolean; initialPanel?: 'practice' | 'mistakes'; initialGroupId?: string }) {
   const { data: session, status } = useSession()
   const userId = session?.user?.id
   if (status === 'loading' || (status === 'authenticated' && !userId)) {
@@ -80,10 +80,12 @@ export function DictationWorkspace(props: { isMistakePractice: boolean; initialP
 function DictationWorkspaceSession({
   isMistakePractice,
   initialPanel = 'practice',
+  initialGroupId,
   accountScope,
 }: {
   isMistakePractice: boolean
   initialPanel?: 'practice' | 'mistakes'
+  initialGroupId?: string
   accountScope: string
 }) {
   usePageView(initialPanel === 'mistakes' ? 'Mistake Words' : 'Dictation')
@@ -174,7 +176,7 @@ function DictationWorkspaceSession({
   const [soundEffectsEnabled, setSoundEffectsEnabled] = useState(true)
   const [hideChinese, setHideChinese] = useState(false)
   const [reviewMode, setReviewMode] = useState<'random' | 'smart'>('smart') // 新增：复习模式
-  const [selectedGroupId, setSelectedGroupId] = useState<string>('all')
+  const [selectedGroupId, setSelectedGroupId] = useState<string>(initialGroupId ?? 'all')
   const [extraOptions, setExtraOptions] = useState<string[]>([])
   const [isTranslationExpanded, setIsTranslationExpanded] = useState(false) // 新增：翻译展开状态
   const [groups, setGroups] = useState<
@@ -184,7 +186,7 @@ function DictationWorkspaceSession({
   // Fetch groups
   const fetchGroups = async () => {
     try {
-      const res = await fetch('/api/review-groups')
+      const res = await fetch('/api/review-groups?purpose=dictation')
       const data = await res.json()
       if (data.success && data.data) {
         setGroups(data.data)
@@ -1033,10 +1035,9 @@ function DictationWorkspaceSession({
   }
 
   return (
-    <AppLayout>
-      <main data-workspace-page data-workspace-practice className="h-[calc(var(--app-visible-height,100dvh)-var(--mobile-nav-space))] md:h-screen bg-background p-4 md:p-8 transition-colors duration-300 flex flex-col">
+    <AppLayout workspaceHeader={<ReviewNavigation active={activePanel === 'mistakes' ? 'mistakes' : 'dictation'} onSelect={(panel) => setActivePanel(panel === 'mistakes' ? 'mistakes' : 'practice')} updated={recentMistake?.status === 'saved'} />}>
+      <main data-workspace-page data-workspace-practice className="h-[calc(var(--app-visible-height,100dvh)-var(--mobile-nav-space)-var(--workspace-header-height))] md:h-screen bg-transparent p-3 md:p-6 transition-colors duration-300 flex flex-col">
         <div data-review-workspace data-review-entry={initialPanel} data-review-active={activePanel} className="flex-1 min-h-0 flex flex-col">
-          <ReviewNavigation active={activePanel === 'mistakes' ? 'mistakes' : 'dictation'} onSelect={(panel) => setActivePanel(panel === 'mistakes' ? 'mistakes' : 'practice')} updated={recentMistake?.status === 'saved'} />
           <div data-review-grid className="flex-1 min-h-0">
           <section data-review-practice className="min-h-0 flex flex-col" aria-label="默写练习">
 
@@ -1050,22 +1051,22 @@ function DictationWorkspaceSession({
           </div>
         ) : !isStarted ? (
           /* 设置与启动页面 */
-          <Card data-workspace-practice-setup className="border-2 shadow-sm flex-1 flex flex-col min-h-0 overflow-y-auto">
-            <CardContent className="p-6 md:p-8 flex flex-col items-center text-center space-y-6 flex-1">
-              <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center">
-                <RefreshCw className="w-8 h-8 text-primary" />
+          <Card data-workspace-practice-setup className="border-2 shadow-sm flex-none min-h-0 max-h-full overflow-y-auto">
+            <CardContent className="p-4 sm:p-5 md:p-6 flex flex-col items-center text-center gap-4">
+              <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center">
+                <RefreshCw className="w-5 h-5 text-primary" />
               </div>
-              <div data-workspace-practice-intro className="space-y-2">
+              <div data-workspace-practice-intro className="space-y-1">
                 <h2 className="text-xl font-bold">{isMistakePractice ? '配置错词专练' : '配置本次默写'}</h2>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-sm text-muted-foreground leading-5">
                   {isMistakePractice
                     ? '按答错次数优先抽取错词，选择本次练习数量。'
                     : '根据你的时间安排，选择本次要复习的单词数量。'}
                 </p>
               </div>
 
-              <div data-workspace-practice-options className="w-full max-w-xs space-y-3 flex-1 flex flex-col">
-                {!isMistakePractice && <div className="flex justify-between items-center bg-muted/30 p-4 rounded-lg border">
+              <div data-workspace-practice-options className="w-full max-w-2xl space-y-2 flex flex-col">
+                {!isMistakePractice && <div className="flex justify-between items-center gap-3 bg-muted/30 p-3 rounded-lg border">
                   <span className="font-medium">复习范围</span>
                   <select
                     className="bg-background border rounded-md px-3 py-1.5 text-sm outline-none focus:ring-2 focus:ring-primary max-w-[150px] sm:max-w-[180px]"
@@ -1076,13 +1077,13 @@ function DictationWorkspaceSession({
                     <option value="all">全部生词本</option>
                     {groups.map((g) => (
                       <option key={g.id} value={g.id}>
-                        {g.name} ({g._count?.ReviewGroupWord || 0})
+                        {g.name === '_unknown_words' ? '陌生词本' : g.name} ({g._count?.ReviewGroupWord || 0})
                       </option>
                     ))}
                   </select>
                 </div>}
 
-                {!isMistakePractice && <div className="flex justify-between items-center bg-muted/30 p-4 rounded-lg border">
+                {!isMistakePractice && <div className="flex justify-between items-center gap-3 bg-muted/30 p-3 rounded-lg border">
                   <span className="font-medium">复习模式</span>
                   <select
                     className="bg-background border rounded-md px-3 py-1.5 text-sm outline-none focus:ring-2 focus:ring-primary"
@@ -1095,7 +1096,7 @@ function DictationWorkspaceSession({
                   </select>
                 </div>}
 
-                <div className="flex justify-between items-center bg-muted/30 p-4 rounded-lg border">
+                <div className="flex justify-between items-center gap-3 bg-muted/30 p-3 rounded-lg border">
                   <span className="font-medium">单词数量</span>
                   <select
                     className="bg-background border rounded-md px-3 py-1.5 text-sm outline-none focus:ring-2 focus:ring-primary"
@@ -1226,7 +1227,7 @@ function DictationWorkspaceSession({
 
                 <Button
                   ref={startTestButtonRef}
-                  className="w-full h-12 text-lg font-bold mt-auto shrink-0"
+                  className="w-full h-12 text-lg font-bold mt-2 shrink-0"
                   onClick={() => {
                     if (isActive && currentStep === 2) {
                       startTest(1)
@@ -1241,8 +1242,8 @@ function DictationWorkspaceSession({
             </CardContent>
           </Card>
         ) : !isFinished && words.length > 0 ? (
-          <div data-review-question className="space-y-6 flex-1 min-h-0 overflow-y-auto" style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}>
-            <div className="flex justify-between items-center mb-4">
+          <div data-review-question className="space-y-3 sm:space-y-4 flex flex-col flex-1 min-h-0 overflow-y-auto" style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}>
+            <div data-review-question-toolbar className="flex items-center gap-2">
               <Tabs
                 defaultValue="dictation"
                 value={mode}
@@ -1251,19 +1252,19 @@ function DictationWorkspaceSession({
                   // 切换模式时，不是强制 resetTurn，而是重新加载当前题目的状态
                   loadQuestionState(currentIndex)
                 }}
-                className="w-full max-w-sm"
+                className="min-w-0 flex-1"
               >
                 <TabsList className="grid w-full grid-cols-2">
-                  <TabsTrigger value="dictation">综合默写</TabsTrigger>
-                  <TabsTrigger value="sentence_blank">语境填空</TabsTrigger>
+                  <TabsTrigger className="px-1 text-xs sm:px-3 sm:text-sm" value="dictation">综合默写</TabsTrigger>
+                  <TabsTrigger className="px-1 text-xs sm:px-3 sm:text-sm" value="sentence_blank">语境填空</TabsTrigger>
                 </TabsList>
               </Tabs>
 
-              <div className="flex gap-2">
+              <div className="flex shrink-0 gap-1 sm:gap-2">
                 <Button
                   variant="outline"
                   size="icon"
-                  className="h-11 w-11"
+                  className="h-10 w-10 sm:h-11 sm:w-11"
                   aria-label={sessionMuted ? '恢复本次学习声音' : '本次学习静音'}
                   onClick={() => {
                     const next = !sessionMuted
@@ -1281,7 +1282,7 @@ function DictationWorkspaceSession({
                 <Button
                   variant="outline"
                   size="icon"
-                  className="h-11 w-11"
+                  className="h-10 w-10 sm:h-11 sm:w-11"
                   aria-label={isMuted ? '开启自动朗读' : '关闭自动朗读'}
                   onClick={() => setIsMuted(!isMuted)}
                   title={isMuted ? '开启自动朗读' : '关闭自动朗读'}
@@ -1291,6 +1292,8 @@ function DictationWorkspaceSession({
                 <Button
                   variant="outline"
                   size="icon"
+                  className="h-10 w-10 sm:h-11 sm:w-11"
+                  aria-label={hideChinese ? '显示中文释义' : '隐藏中文释义'}
                   onClick={() => setHideChinese(!hideChinese)}
                   title={hideChinese ? '显示中文' : '隐藏中文'}
                 >
@@ -1299,7 +1302,7 @@ function DictationWorkspaceSession({
               </div>
             </div>
 
-            <Card data-review-question-card ref={questionCardRef} className="border-2 shadow-sm relative overflow-hidden">
+            <Card data-review-question-card ref={questionCardRef} className="border-2 shadow-sm relative overflow-hidden flex-1">
               {/* 顶部进度条 */}
               <div className="absolute top-0 left-0 right-0">
                 <Progress
@@ -1323,7 +1326,7 @@ function DictationWorkspaceSession({
                 </div>
               )}
 
-              <CardContent className="p-8 md:p-12 space-y-8">
+              <CardContent className="p-4 sm:p-5 md:p-6 space-y-4 md:space-y-5">
                 <div className="flex justify-between text-sm text-muted-foreground">
                   <span>
                     第 {currentIndex + 1} / {words.length} 题
@@ -1332,9 +1335,9 @@ function DictationWorkspaceSession({
                 </div>
 
                 {/* 题目区域 */}
-                <div className="flex flex-col items-center justify-center text-center space-y-4">
+                <div className="flex flex-col items-center justify-center text-center space-y-3">
                   {mode === 'dictation' && (
-                    <div className="space-y-4 flex flex-col items-center w-full">
+                    <div className="space-y-3 flex flex-col items-center w-full">
                       {!hideChinese && (
                         <div className="w-full">
                           <h2 className={`text-2xl font-bold text-gray-800 dark:text-gray-100 break-words px-4 ${!isTranslationExpanded ? 'line-clamp-3' : ''}`}>
@@ -1353,19 +1356,19 @@ function DictationWorkspaceSession({
                       <Button
                         size="lg"
                         variant="secondary"
-                        className={`rounded-full w-16 h-16 shadow-inner hover:scale-105 transition-transform ${isMuted ? 'opacity-50 cursor-not-allowed' : ''}`}
+                        className={`rounded-full w-14 h-14 shadow-inner hover:scale-105 transition-transform ${isMuted ? 'opacity-50 cursor-not-allowed' : ''}`}
                         onClick={() => !sessionMuted && playAudio(currentWord.word)}
                         disabled={sessionMuted}
                       >
                         <Volume2 className="w-8 h-8 text-primary" />
                       </Button>
                       {options.length > 0 && (
-                        <div className="grid grid-cols-2 gap-3 w-full max-w-sm">
+                        <div className="grid grid-cols-2 gap-2 w-full max-w-sm">
                           {options.map((opt) => (
                             <Button
                               key={opt}
                               variant={userInput === opt ? 'default' : 'outline'}
-                              className="h-12 text-base font-medium overflow-hidden px-2"
+                              className="h-11 text-base font-medium overflow-hidden px-2"
                               onClick={() => setUserInput(opt)}
                               disabled={!!isChecked}
                             >
@@ -1406,13 +1409,13 @@ function DictationWorkspaceSession({
                 </div>
 
                 {/* 交互区域 */}
-                <div className="space-y-6 max-w-md mx-auto">
+                <div className="space-y-3 sm:space-y-4 max-w-md mx-auto">
                   <div className="flex items-center gap-2">
                     <div className="relative min-w-0 flex-1">
                     <Input
                       ref={inputRef}
                       type="text"
-                      placeholder="Type the English word here..."
+                      placeholder="Type the word..."
                       className={`text-center text-2xl h-14 tracking-wide font-mono ${
                         isChecked
                           ? isCorrect
@@ -1621,7 +1624,7 @@ function DictationWorkspaceSession({
               setActivePanel('practice')
               if (!isMistakePractice) router.push('/dictation?source=mistakes')
               else if (isFinished) restartQuiz()
-              else startTest(50)
+              else startTest()
             }} />}
           </aside>
           </div>

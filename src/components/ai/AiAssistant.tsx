@@ -15,10 +15,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { Send, Loader2, Search, FolderPlus, CheckCircle2, XCircle, Lock, ChevronDown, ChevronUp, Plus, Trash2, ArrowLeft } from 'lucide-react'
+import { Send, Loader2, Search, FolderPlus, CheckCircle2, XCircle, Lock, ChevronDown, ChevronUp, Plus } from 'lucide-react'
 import { useLoginPrompt } from '@/components/ui/login-prompt-modal'
 import { aiHistoryKey, AI_HISTORY_MAX_ITEMS } from '@/lib/aiHistoryCache'
 import { useInputDraft } from '@/hooks/useInputDraft'
+import { studyRequest } from '@/features/study/client'
 
 interface ChatMessage {
   role: 'user' | 'assistant'
@@ -104,7 +105,9 @@ export function AiAssistant({ onBack, groups: initialGroups }: { onBack?: () => 
   const { promptLogin, LoginPromptDialog } = useLoginPrompt()
 
   const [messages, setMessages] = useState<UiMessage[]>([])
-  const [input, setInput] = useInputDraft('ai-assistant')
+  const [input, setInput, inputDraftKey] = useInputDraft('ai-assistant')
+  const [studyPrompt, setStudyPrompt] = useState<string | null>(null)
+  const [studyError, setStudyError] = useState('')
   const [busy, setBusy] = useState(false)
   const [expandedSearch, setExpandedSearch] = useState<number | null>(null)
   const [expandedWord, setExpandedWord] = useState<{ cardIndex: number; word: string } | null>(null)
@@ -143,6 +146,19 @@ export function AiAssistant({ onBack, groups: initialGroups }: { onBack?: () => 
   }, [messages, busy])
 
   const userId = session?.user?.id ?? null
+
+  useEffect(() => {
+    if (!userId || !inputDraftKey) return
+    const params = new URLSearchParams(window.location.search)
+    const id = params.get('study')
+    const practice = params.get('practice')
+    if (!id || !['translation', 'writing'].includes(practice ?? '')) return
+    const controller = new AbortController()
+    void studyRequest<{ prompt: string }>(userId, `/api/study/sessions/${encodeURIComponent(id)}/context?practice=${practice}`, { signal: controller.signal })
+      .then(({ prompt }) => { if (!controller.signal.aborted) { setStudyPrompt(prompt); setInput((current) => current || prompt) } })
+      .catch((failure) => { if (!controller.signal.aborted) setStudyError(failure instanceof Error ? failure.message : '无法载入练习内容') })
+    return () => controller.abort()
+  }, [userId, inputDraftKey, setInput])
 
   // 挂载时从 localStorage 恢复对话历史（仅纯文本消息与结果行，搜索卡/提议卡不持久化）
   useEffect(() => {
@@ -184,14 +200,6 @@ export function AiAssistant({ onBack, groups: initialGroups }: { onBack?: () => 
     }, 300)
     return () => clearTimeout(timer)
   }, [messages, userId])
-
-  const clearHistory = useCallback(() => {
-    if (!userId) return
-    try {
-      localStorage.removeItem(aiHistoryKey(userId))
-    } catch { /* ignore */ }
-    setMessages([])
-  }, [userId])
 
   const pushChat = useCallback((role: 'user' | 'assistant', content: string) => {
     setMessages((prev) => [...prev, { role, content }])
@@ -820,31 +828,6 @@ export function AiAssistant({ onBack, groups: initialGroups }: { onBack?: () => 
 
   return (
     <div className="flex flex-col h-full min-h-0 min-w-0">
-      <div data-ai-assistant-header className="flex shrink-0 items-center justify-between px-4 py-3 border-b">
-        <div className="flex items-center gap-2">
-          {onBack && <Button variant="ghost" size="icon" className="size-11 shrink-0" aria-label="返回翻译" onClick={onBack}><ArrowLeft size={18} /></Button>}
-          <div className="w-8 h-8 rounded-full overflow-hidden">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/ai.jpg" alt="ego-ai助手" className="w-8 h-8 rounded-full object-cover" />
-          </div>
-          <div>
-            <span className="text-sm font-semibold">ego-ai助手</span>
-          </div>
-        </div>
-        {messages.length > 0 && (
-          <Button
-            variant="ghost"
-            size="sm"
-            className="text-muted-foreground"
-            onClick={() => {
-              if (window.confirm('清空本次对话记录？')) clearHistory()
-            }}
-          >
-            <Trash2 className="w-4 h-4" />
-          </Button>
-        )}
-      </div>
-
       <div ref={scrollRef} className="flex-1 min-h-0 min-w-0 overflow-y-auto p-4 [overflow-wrap:anywhere]">
         <div className="space-y-4">
           {messages.length === 0 && !busy && (
@@ -873,6 +856,8 @@ export function AiAssistant({ onBack, groups: initialGroups }: { onBack?: () => 
       </div>
 
       <div className="shrink-0 p-3 border-t space-y-2">
+        {studyPrompt && <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground"><span>已载入你的备考练习；确认内容后发送。</span><button className="min-h-9 text-primary" disabled={busy} onClick={() => setInput(studyPrompt)}>带入本次练习</button></div>}
+        {studyError && <p className="text-xs text-destructive" role="alert">{studyError}</p>}
         <div className="flex items-end gap-2">
           <Textarea
             ref={inputRef}

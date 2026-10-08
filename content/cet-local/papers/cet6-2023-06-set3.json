@@ -1,0 +1,725 @@
+{
+  "slug": "cet6-2023-06-set3-full",
+  "version": 1,
+  "title": "2023年6月 · 第3套整卷模拟真题",
+  "level": "CET6",
+  "kind": "FULL",
+  "originType": "PAST_EXAM",
+  "sourceName": "用户提供的本地四六级资料",
+  "sourceUrl": "/study/resources/12c74cd2a8ce94dc3efa2a17.pdf",
+  "rightsHolder": "原试卷及解析作者",
+  "rightsEvidence": "用户提供本地资源并要求接入本地学习系统；原文件及校验值见 content/cet-local/index.json。未授权公开再分发或生产部署。",
+  "content": {
+    "WRITING": {
+      "instructions": "原卷写作要求",
+      "prompt": "Directions: For this part, you are allowed 30 minutes to write an essay that begins with the sentence \"It is widely accepted that an important goal of education is to help students learn how to learn.\" You can make comments, cite examples or use your personal experiences to develop your essay. You should write at least 150 words but no more than 200 words.",
+      "questions": [],
+      "audio": [],
+      "passages": [],
+      "minimumWords": 150,
+      "maximumWords": 200,
+      "sourceFileUrl": "/study/resources/12c74cd2a8ce94dc3efa2a17.pdf"
+    },
+    "LISTENING": {
+      "instructions": "听力材料",
+      "questions": [],
+      "audio": [],
+      "passages": [],
+      "unavailableReason": "原卷未刊载本卷独立听力题文。说明:由于2023年6月六级考试全国共考了两套听力,本套真题听力与前两套内容相同,只 是选项顺序不同,因此在本套真题中不再重复出现。",
+      "sourceFileUrl": "/study/resources/12c74cd2a8ce94dc3efa2a17.pdf"
+    },
+    "READING": {
+      "instructions": "请依次完成选词填空、长篇匹配和仔细阅读。",
+      "questions": [
+        {
+          "id": "cet6-2023-06-set3-q26",
+          "type": "WORD_BANK",
+          "prompt": "第 26 空",
+          "choices": [
+            "activated",
+            "articulates",
+            "assessment",
+            "consecutive",
+            "cues",
+            "deny",
+            "discrepancy",
+            "probably",
+            "probes",
+            "random",
+            "recall",
+            "relatively",
+            "saturated",
+            "symptoms",
+            "terminate"
+          ],
+          "answerIndex": 11,
+          "explanation": "原卷答案：L。",
+          "weight": 0.5,
+          "passageId": "cet6-2023-06-set3-bank"
+        },
+        {
+          "id": "cet6-2023-06-set3-q27",
+          "type": "WORD_BANK",
+          "prompt": "第 27 空",
+          "choices": [
+            "activated",
+            "articulates",
+            "assessment",
+            "consecutive",
+            "cues",
+            "deny",
+            "discrepancy",
+            "probably",
+            "probes",
+            "random",
+            "recall",
+            "relatively",
+            "saturated",
+            "symptoms",
+            "terminate"
+          ],
+          "answerIndex": 8,
+          "explanation": "原卷答案：I。",
+          "weight": 0.5,
+          "passageId": "cet6-2023-06-set3-bank"
+        },
+        {
+          "id": "cet6-2023-06-set3-q28",
+          "type": "WORD_BANK",
+          "prompt": "第 28 空",
+          "choices": [
+            "activated",
+            "articulates",
+            "assessment",
+            "consecutive",
+            "cues",
+            "deny",
+            "discrepancy",
+            "probably",
+            "probes",
+            "random",
+            "recall",
+            "relatively",
+            "saturated",
+            "symptoms",
+            "terminate"
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 0.5,
+          "passageId": "cet6-2023-06-set3-bank"
+        },
+        {
+          "id": "cet6-2023-06-set3-q29",
+          "type": "WORD_BANK",
+          "prompt": "第 29 空",
+          "choices": [
+            "activated",
+            "articulates",
+            "assessment",
+            "consecutive",
+            "cues",
+            "deny",
+            "discrepancy",
+            "probably",
+            "probes",
+            "random",
+            "recall",
+            "relatively",
+            "saturated",
+            "symptoms",
+            "terminate"
+          ],
+          "answerIndex": 10,
+          "explanation": "原卷答案：K。",
+          "weight": 0.5,
+          "passageId": "cet6-2023-06-set3-bank"
+        },
+        {
+          "id": "cet6-2023-06-set3-q30",
+          "type": "WORD_BANK",
+          "prompt": "第 30 空",
+          "choices": [
+            "activated",
+            "articulates",
+            "assessment",
+            "consecutive",
+            "cues",
+            "deny",
+            "discrepancy",
+            "probably",
+            "probes",
+            "random",
+            "recall",
+            "relatively",
+            "saturated",
+            "symptoms",
+            "terminate"
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 0.5,
+          "passageId": "cet6-2023-06-set3-bank"
+        },
+        {
+          "id": "cet6-2023-06-set3-q31",
+          "type": "WORD_BANK",
+          "prompt": "第 31 空",
+          "choices": [
+            "activated",
+            "articulates",
+            "assessment",
+            "consecutive",
+            "cues",
+            "deny",
+            "discrepancy",
+            "probably",
+            "probes",
+            "random",
+            "recall",
+            "relatively",
+            "saturated",
+            "symptoms",
+            "terminate"
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 0.5,
+          "passageId": "cet6-2023-06-set3-bank"
+        },
+        {
+          "id": "cet6-2023-06-set3-q32",
+          "type": "WORD_BANK",
+          "prompt": "第 32 空",
+          "choices": [
+            "activated",
+            "articulates",
+            "assessment",
+            "consecutive",
+            "cues",
+            "deny",
+            "discrepancy",
+            "probably",
+            "probes",
+            "random",
+            "recall",
+            "relatively",
+            "saturated",
+            "symptoms",
+            "terminate"
+          ],
+          "answerIndex": 6,
+          "explanation": "原卷答案：G。",
+          "weight": 0.5,
+          "passageId": "cet6-2023-06-set3-bank"
+        },
+        {
+          "id": "cet6-2023-06-set3-q33",
+          "type": "WORD_BANK",
+          "prompt": "第 33 空",
+          "choices": [
+            "activated",
+            "articulates",
+            "assessment",
+            "consecutive",
+            "cues",
+            "deny",
+            "discrepancy",
+            "probably",
+            "probes",
+            "random",
+            "recall",
+            "relatively",
+            "saturated",
+            "symptoms",
+            "terminate"
+          ],
+          "answerIndex": 4,
+          "explanation": "原卷答案：E。",
+          "weight": 0.5,
+          "passageId": "cet6-2023-06-set3-bank"
+        },
+        {
+          "id": "cet6-2023-06-set3-q34",
+          "type": "WORD_BANK",
+          "prompt": "第 34 空",
+          "choices": [
+            "activated",
+            "articulates",
+            "assessment",
+            "consecutive",
+            "cues",
+            "deny",
+            "discrepancy",
+            "probably",
+            "probes",
+            "random",
+            "recall",
+            "relatively",
+            "saturated",
+            "symptoms",
+            "terminate"
+          ],
+          "answerIndex": 7,
+          "explanation": "原卷答案：H。",
+          "weight": 0.5,
+          "passageId": "cet6-2023-06-set3-bank"
+        },
+        {
+          "id": "cet6-2023-06-set3-q35",
+          "type": "WORD_BANK",
+          "prompt": "第 35 空",
+          "choices": [
+            "activated",
+            "articulates",
+            "assessment",
+            "consecutive",
+            "cues",
+            "deny",
+            "discrepancy",
+            "probably",
+            "probes",
+            "random",
+            "recall",
+            "relatively",
+            "saturated",
+            "symptoms",
+            "terminate"
+          ],
+          "answerIndex": 5,
+          "explanation": "原卷答案：F。",
+          "weight": 0.5,
+          "passageId": "cet6-2023-06-set3-bank"
+        },
+        {
+          "id": "cet6-2023-06-set3-q36",
+          "type": "MATCHING",
+          "prompt": "One tiny American college situated on a cattle farm is devoted to educating students to serve mankind throughout their lives.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段"
+          ],
+          "answerIndex": 6,
+          "explanation": "原卷答案：G。",
+          "weight": 1,
+          "passageId": "cet6-2023-06-set3-matching"
+        },
+        {
+          "id": "cet6-2023-06-set3-q37",
+          "type": "MATCHING",
+          "prompt": "Much to the author's disappointment, the three institutions of higher learning where she taught largely ignore students' growth as social beings.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段"
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "passageId": "cet6-2023-06-set3-matching"
+        },
+        {
+          "id": "cet6-2023-06-set3-q38",
+          "type": "MATCHING",
+          "prompt": "Tiny colleges must be made affordable in order to play a role in higher education.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段"
+          ],
+          "answerIndex": 9,
+          "explanation": "原卷答案：J。",
+          "weight": 1,
+          "passageId": "cet6-2023-06-set3-matching"
+        },
+        {
+          "id": "cet6-2023-06-set3-q39",
+          "type": "MATCHING",
+          "prompt": "According to a recent graduate from a tiny college, living together with faculty and fellow students is conducive to a student's growth as a person.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段"
+          ],
+          "answerIndex": 7,
+          "explanation": "原卷答案：H。",
+          "weight": 1,
+          "passageId": "cet6-2023-06-set3-matching"
+        },
+        {
+          "id": "cet6-2023-06-set3-q40",
+          "type": "MATCHING",
+          "prompt": "Rather than going small, most American universities are trying to go big.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段"
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "passageId": "cet6-2023-06-set3-matching"
+        },
+        {
+          "id": "cet6-2023-06-set3-q41",
+          "type": "MATCHING",
+          "prompt": "In a certain tiny college, rigorous academic work and traditional manual labor are integrated.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段"
+          ],
+          "answerIndex": 8,
+          "explanation": "原卷答案：I。",
+          "weight": 1,
+          "passageId": "cet6-2023-06-set3-matching"
+        },
+        {
+          "id": "cet6-2023-06-set3-q42",
+          "type": "MATCHING",
+          "prompt": "Tiny colleges focus on educating students to become well-rounded citizens instead of seeking their own expansion.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段"
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "passageId": "cet6-2023-06-set3-matching"
+        },
+        {
+          "id": "cet6-2023-06-set3-q43",
+          "type": "MATCHING",
+          "prompt": "The essence of education lies in the interaction between people.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段"
+          ],
+          "answerIndex": 11,
+          "explanation": "原卷答案：L。",
+          "weight": 1,
+          "passageId": "cet6-2023-06-set3-matching"
+        },
+        {
+          "id": "cet6-2023-06-set3-q44",
+          "type": "MATCHING",
+          "prompt": "After her retirement, the author has decided to set up a tiny college in her hometown.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段"
+          ],
+          "answerIndex": 4,
+          "explanation": "原卷答案：E。",
+          "weight": 1,
+          "passageId": "cet6-2023-06-set3-matching"
+        },
+        {
+          "id": "cet6-2023-06-set3-q45",
+          "type": "MATCHING",
+          "prompt": "Tiny colleges are justified as it is believed that our growth into full humanity comes through interaction with people near and dear to us.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段"
+          ],
+          "answerIndex": 13,
+          "explanation": "原卷答案：N。",
+          "weight": 1,
+          "passageId": "cet6-2023-06-set3-matching"
+        },
+        {
+          "id": "cet6-2023-06-set3-q46",
+          "type": "DETAIL",
+          "prompt": "In what way does Michael Moss think processed food is comparable to alcohol and cigarettes?",
+          "choices": [
+            "They are all addictive.",
+            "They are all necessary evils.",
+            "They are all engineered to be enjoyed.",
+            "They are all in increasingly great demand."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "passageId": "cet6-2023-06-set3-detail1"
+        },
+        {
+          "id": "cet6-2023-06-set3-q47",
+          "type": "DETAIL",
+          "prompt": "What does the author say plays a key role in the foods we crave?",
+          "choices": [
+            "The food environment.",
+            "Aggressive marketing.",
+            "Convenience.",
+            "Memory."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "passageId": "cet6-2023-06-set3-detail1"
+        },
+        {
+          "id": "cet6-2023-06-set3-q48",
+          "type": "DETAIL",
+          "prompt": "What do food companies do to capitalize on consumers' association with their food products?",
+          "choices": [
+            "They strive to influence how consumers remember their products.",
+            "They attempt to use consumers' long-term memories to promote addiction.",
+            "They try to exploit consumers' memories for their products as early as possible.",
+            "They endeavor to find what consumers remember about their products."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "passageId": "cet6-2023-06-set3-detail1"
+        },
+        {
+          "id": "cet6-2023-06-set3-q49",
+          "type": "DETAIL",
+          "prompt": "How does the food industry operate from manufacturing to packaging, according to Moss?",
+          "choices": [
+            "Placing the idea of fast food in an entirely new light.",
+            "Setting no limit to the number of fast food chains.",
+            "Focusing on how quickly the work is done.",
+            "Prioritizing the quality of their products."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "passageId": "cet6-2023-06-set3-detail1"
+        },
+        {
+          "id": "cet6-2023-06-set3-q50",
+          "type": "DETAIL",
+          "prompt": "Why are companies finding it difficult to satisfy consumers' demand for healthier food products?",
+          "choices": [
+            "They think speed of production outweighs consumers' health.",
+            "They believe their industry would perish without fast foods.",
+            "They have to strike a balance between taste and nutrition.",
+            "They are hooked on manufacturing convenience foods."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "passageId": "cet6-2023-06-set3-detail1"
+        },
+        {
+          "id": "cet6-2023-06-set3-q51",
+          "type": "DETAIL",
+          "prompt": "What might explain humans' having the largest population of almost all mammals?",
+          "choices": [
+            "They are equipped with raw strength for solving the most challenging problems.",
+            "They cope with the outside world more effectively than their animal relatives.",
+            "They possess the most outstanding ability to think.",
+            "They know how to survive everywhere on earth."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "passageId": "cet6-2023-06-set3-detail2"
+        },
+        {
+          "id": "cet6-2023-06-set3-q52",
+          "type": "DETAIL",
+          "prompt": "What accounts for humans' evolutionary successes according to a growing number of cognitive scientists and anthropologists?",
+          "choices": [
+            "They are better at innovating solutions.",
+            "They thrive through creative strategies.",
+            "They are naturally adaptive to ecological contexts.",
+            "They meet challenges by imitating others carefully."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "passageId": "cet6-2023-06-set3-detail2"
+        },
+        {
+          "id": "cet6-2023-06-set3-q53",
+          "type": "DETAIL",
+          "prompt": "What does the author think is odd about the findings of the study by Victoria Horner and Andrew 2023-06-CET6(7* 3 1)-6 Whiten?",
+          "choices": [
+            "Children irrationally imitated every action of the experimenters.",
+            "Chimpanzees could tell the transparent box from the opaque one.",
+            "Chimpanzees could retrieve the treat more quickly than children did.",
+            "Children omitted the step of tapping on the box with a stick to open it."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "passageId": "cet6-2023-06-set3-detail2"
+        },
+        {
+          "id": "cet6-2023-06-set3-q54",
+          "type": "DETAIL",
+          "prompt": "What is anthropologist Joseph Henrich s explanation for the human preference for copying?",
+          "choices": [
+            "It originates in the rationality of people around the world.",
+            "It stems from the way people learn complex technologies.",
+            "It results from people distrusting their own wisdom.",
+            "It derives from the desire to acquire knowledge step by step."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "passageId": "cet6-2023-06-set3-detail2"
+        },
+        {
+          "id": "cet6-2023-06-set3-q55",
+          "type": "DETAIL",
+          "prompt": "What point does the author want to emphasize when he says \"We're not chimpanzees\"?",
+          "choices": [
+            "It is arguable whether everyone should avoid imitation.",
+            "It is characteristic of human beings to copy others.",
+            "It is desirable to trust in more knowledgeable peers.",
+            "It is naive to laugh at someone embracing nonconformity."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "passageId": "cet6-2023-06-set3-detail2"
+        }
+      ],
+      "audio": [],
+      "passages": [
+        {
+          "id": "cet6-2023-06-set3-bank",
+          "text": "You might not know yourself as well as you think. According to a new study, people are __(26)__  ас- curate judges of only some of their behaviors. While most previous studies on how well people know themselves have been done on long-term personality traits, this new study __(27)__  how well people understand how they are acting from one moment to the next. Researchers asked participants to wear audio recorders that automatically __(28)__ every 9.5 minutes between 7 a. m. and 2 a. m. to record thirty seconds of audio. These participants were then emailed surveys four times a day asking them to __(29)__ how outgoing, agreeable, or conscientious they were during a particular hour of the day. The study used data from 248 participants, all of whom answered questions about their behavior for two __(30)__ weeks and wore the audio device for one of those weeks. Six laboratory assistants rated each participant's audio clips to see how their observations compared with people's __(31)__ of themselves. The six assistants were generally in agreement with one another about how the people they were observing acted. Further, participants' ratings of their own behaviors agreed with observers' for how outgoing and how conscientious they were being. But the agreement between participants and outside observers was much smaller for agreeableness. Some of this __(32)__ could be because the observers used only audio clips, and thus could not read __(33)__ like body language, but there are  __(34)__ other explanations, as people should be able to hear when a participant is being kind versus being rude. The weak agreement between how participants thought they were acting and what observers heard could be because people would rather __(35)__ rude behavior. 2023-06-CET6(7 3 1)-1"
+        },
+        {
+          "id": "cet6-2023-06-set3-matching",
+          "text": "Why we need tiny colleges\nA) We're experiencing the rebirth of smallness. Farmers markets, tiny homes, and brew pubs all exemplify our love of smallness. So do charter schools, coffee shops, and local bookstores. Small is often (but not always) more affordable, healthier, and sustainable, but its finest characteristic, the one that turns charm into love, is that going small allows us to be more fully who we are.\nB) In higher education the trend is mostly in the opposite direction: Universities with 20, 000 or 30,000 students are considered \"mid-sized\". The nation's largest university, Arizona State University, has 80,000 students on campus and aims to enroll another 100,000 students online. At the other end of the spectrum is a handful of colleges that have fewer than a hundred students on campus and no online courses: colleges such as Sterling College, Thomas More College of Liberal Arts, and Deep Springs College. These colleges are so small that they can only be called \"tiny.\"\nC) Tiny colleges focus not just on a young person's intellect, but on the young person as a whole. Equally important, tiny colleges ask, \"How can education contribute to human flourishing and the well-being of the world?\" And they shape a college experience to address that question. They replace concerns about institutional growth with attention to the growth of students as fully developed participants in their communities.\nD) I've had the privilege of teaching at three different institutions of higher learning during my career a small liberal arts college and two mid-sized public universities. I've also been profoundly disappointed in each of these institutions, and in many of my colleagues, especially when it comes to helping students and preparing them for the many responsibilities of adulthood. Administrators focus on the business of running a university, and most faculty focus on their scholarship and teaching their discipline. Little deliberate attention is given to how students mature as individuals and social beings.\nE) Having just retired from teaching at a public university, I'm now returning to my hometown of Flagstaff, Arizona, to establish a tiny college-Flagstaff College. I'm convinced there's a need for another type of education, one devoted to helping students come into their own and into this beautiful and troubled world. Young people need an education that will provide them with meaning, hope, courage, and passion, as well as information and skills. Large institutions, I believe, are particularly ill-suited to this type of education. 2023-06-CET6(7 3 1)-2\nF) There's no \"best of\" list when it comes to tiny colleges, at least not yet. But around the country people are creating new colleges that provide an alternative to small liberal arts colleges, large public universities, and online education.\nG) With only 26 students, Deep Springs is the smallest college in the country and, quite likely, the most atypical (AF # # 47). Located on a working cattle ranch on the California-Nevada border, Deep Springs is a private, residential, two-year college for men, committed to educating students for \"a life of service to humanity.\" Founded by the electricity tycoon (K F) L. L. Nunn in 1917, Deep Springs' \"curriculum\" revolves around academics, labor, and self-governance. In addition to their courses, students are charged with running the 155-acre ranch and overseeing the functioning of the college. Students chair both the admissions and the curriculum committees.\nH) \"Living in close community with one's teachers and fellow students, and being forced to take on adult responsibilities, makes for one's growth as a person,\" says William Hunt, who graduated last year. \"To exist for very long in a community like that, you have to get over the question of whether you're sufficiently talented or principled and get started worrying about how you can stretch yourself and your peers, how much you can manage to learn with them.\"\nI) Sterling College, in Craftsbury Common, Vermont, is also very small-fewer than 100 students. Unlike Deep Springs, Sterling focuses its curriculum on environmental and social justice issues, but like Deep Springs it places a high value on personal responsibility and manual labor. According to its catalog, a college education at Sterling combines \"rigorous academics, roll-up-your sleeves challenges, and good old hard work.\"\nJ) The average tuition at a small liberal-arts college is $30,000 to $40,000 a year, not including the cost of living on campus, as compared to $8,000 to $10,000 a year for tuition alone at a public university. Of the tiny colleges, only Deep Springs doesn't charge tuition or room and board; students pay only for books and the cost of traveling to and from college. If tiny schools are to become a player on the higher education scene, they will need to find a way to be truly affordable.\nK) Doing so may not be that difficult so long as they do not pattern themselves too closely on existing norms. We've come to believe that a good college should have many academic programs and excellent facilities, posh (*14j) dorms, an array of athletic programs, and a world-class student activity center. Imagine a good college without a climbing wall! We also have accepted the idea that college presidents, and their many vice-presidents, should be paid like their counterparts in the business world and that higher education requires an elaborate, up-to-date technology infrastructure. All of this drives up the cost of education.\nL) The \"trick\" to making tiny colleges affordable, if that's the right word, is simplicity. At its core, education is a human-to-human interaction. Reflecting on his own college education, President Garfield once commented that an ideal college would consist of nothing more than the legendary teacher Mark Hopkins on one end of a log and a student on the other. The economics of a tiny college, in other words, might be similar to that of a tiny house. Because it is small, a tiny house costs less to build and less to furnish, insure, and maintain. But the economic benefits of a small house don't end there. Tiny homes discourage homeowners from buying stuff that they really don't need, because there's no place to put it.\nM) I'm a late convert to the idea of tiny colleges, and I fully understand the need for many diverse types of educational institutions. Academic research and job training are important, but tiny colleges aren't suited for either. The educational needs of a complex society are themselves complex, and no single model can meet all of these needs. But I'm now convinced there's an educational need that's now 2023-06-CET6(7 3 1)-3 going almost completely unmet: namely, the need to help young people transition into adulthood. Tiny colleges can do this better than any other type of educational institution.\nN) The ultimate justification for a tiny college is the conviction that each of us comes into our full humanity by close interaction with those who know and care for us, and that one of the basic purposes of higher education is social. Although we give lip service to the idea that a college education will make us better people, when all's said and done, we think of higher education primarily in economic terms. We've come to think of higher education as a means to make a living rather than make a life. We've also come to see higher education as a private good rather than a public one. Tiny colleges are not the answer to all of our educational requirements, but they're an answer to one of our most basic educational necessities: the need to produce thoughtful, engaged, and compassionate human beings."
+        },
+        {
+          "id": "cet6-2023-06-set3-detail1",
+          "text": "If you're someone who has turned to snacking on junk food more in the pandemic (tiA), you're not alone. Investigative reporter Michael Moss says processed food is engineered to hook you, not unlike alcohol, cigarettes, or other harmful substances. His 2013 book, Salt Sugar Fat, explored food companies' aggressive marketing of those products and their impact on our health. In his new book, Hooked, Moss updates the food giants' efforts to keep us eating what they serve, and how they' re responding to complaints from consumers and health advocates. Processed food is inexpensive, it's legal, and it's everywhere. Companies' advertising is cueing us to remember those products and we want those products constantly. So the food environment is one of those key things that makes food even more problematic for so many people. Memory, nostalgia (ITIE) in 2023-06-CET6(7› 3 1)-4 particular, plays a big role in the foods we crave. Soda companies discovered that if they put a soda in the hands of a child when they're at a ball game with their parents, that soda will forever be associated with that joyous moment. Later in life, when that child wants to experience a joyous moment, they're going to think of soda. Many people seek comfort in the snacks they remember from childhood Moss examines the way companies capitalize on our memories, cravings and brain chemistry to keep us snacking. One of the reasons I came to think that some of these food products are even more powerful, more troublesome than drugs can be is memory. What we eat is all about memory. And we begin forming memories for food at a really early age. And we keep those memories for a lifetime. Knowing this, the food industry spends lots of time trying to shape the memories that we have for their products. One of the features of addiction that scientists studying drug addiction discovered back in the 1990s was that the faster a substance hits the brain, the more apt we are as a result to act impulsively. There's nothing faster than food in its ability to hit the brain. For Moss, this puts the notion of \"fast food\" in an entirely new light as this isn't limited to fast food chains almost 90% of food products in grocery stores are processed foods. Everything in the industry is about speed, from manufacturing to packaging. Overall, Moss outlines the industry's dependence on making their products inexpensive, super delicious, and incredibly convenient for consumers. Now that more and more people care about what they put in their bodies and are wanting to eat healthier, these companies are finding it really difficult to meet that new demand because of their own addiction to making these convenience foods."
+        },
+        {
+          "id": "cet6-2023-06-set3-detail2",
+          "text": "Chimpanzees (# XX₴), human beings' closest animal relatives, share up to 98% of our genes. Yet 2023-06-CET6(7 3 1)-5 humans and chimpanzees lead very different lives. Fewer than 300, 000 wild chimpanzees live in a few forested corners of Africa today, while humans have colonized every corner of the globe. At more than 7 billion, human population dwarfs that of nearly all other mammals—despite our physical weaknesses. What could account for our species' incredible evolutionary successes? One obvious answer is our big brains. It could be that our raw intelligence gave us an unprecedented ability to think outside the box, innovating solutions to thorny problems as people migrated across the globe. But a growing number of cognitive scientists and anthropologists (^*F*) are rejecting that explanation. They think that, rather than making our living as innovators, we survive and thrive precisely because we don't think for ourselves. Instead, people cope with challenging climates and ecological contexts by carefully copying others. In a famous study, psychologists Victoria Horner and Andrew Whiten showed two groups of test subjects-children and chimpanzees—a mechanical box with a treat inside. In one condition, the box was opaque, while in the other it was transparent. The experimenters demonstrated how to open the box to retrieve the treat, but they also included the irrelevant step of tapping on the box with a stick. Oddly, the children carefully copied all the steps to open the box, even when they could see that the stick had no practical effect. That is, they copied irrationally: Instead of doing only what was necessary to get their reward, children slavishly imitated every action they'd witnessed. Of course, that study only included three- and four-year olds. But additional research has shown that older children and adults are even more likely to mindlessly copy others' actions, and infants are less likely to over-imitate-that is, to precisely copy even impractical actions. By contrast, chimpanzees in the study only over imitated in the opaque condition. In the transparent condition-where they saw that the stick was mechanically useless-—they ignored that step entirely. Other research has since supported these findings. When it comes to copying, chimpanzees are more rational than human children or adults. Where does the seemingly irrational human preference for over-imitation come from? Anthropologist Joseph Henrich points out that people around the world rely on technologies that are often so complex that no one can learn them rationally. Instead, people must learn them step by step, trusting in the wisdom of more experienced elders and peers. So the next time you hear someone arguing passionately that everyone should embrace nonconformity and avoid imitating others, you might laugh a little bit. We're not chimpanzees, after all."
+        }
+      ],
+      "sourceFileUrl": "/study/resources/12c74cd2a8ce94dc3efa2a17.pdf"
+    },
+    "TRANSLATION": {
+      "instructions": "请将原卷中文翻译成英语。",
+      "prompt": "Directions: For this part, you are allowed 30 minutes to translate a passage from Chinese into English. You should write your answer on Answer Sheet 2. 近年来,中国城市加快发展,城市人居环境得到显著改善。许多城市努力探索中国特色的城市 高质量发展之路,城市功能不断完善,治理水平明显提高。中国特续开展城市生态修复和功能修补, 全面实施城镇老旧小区改造,大力推进城市园林绿化,消除污染:同时大力推进城市基础设施体系 化建设,开展房屋建筑和市政设施普查以及安全隐患排查整治,努力为市民创造高品质的生活环境, 让城市更美丽、更安全、更宜居。 2023-06-CET6(7 3 1)-7",
+      "questions": [],
+      "audio": [],
+      "passages": [],
+      "sourceFileUrl": "/study/resources/12c74cd2a8ce94dc3efa2a17.pdf"
+    }
+  }
+}

@@ -1,0 +1,725 @@
+{
+  "slug": "cet6-2024-06-set3-full",
+  "version": 1,
+  "title": "2024年6月 · 第3套整卷模拟真题",
+  "level": "CET6",
+  "kind": "FULL",
+  "originType": "PAST_EXAM",
+  "sourceName": "用户提供的本地四六级资料",
+  "sourceUrl": "/study/resources/58bdf2e4cf9ad757887bac3e.pdf",
+  "rightsHolder": "原试卷及解析作者",
+  "rightsEvidence": "用户提供本地资源并要求接入本地学习系统；原文件及校验值见 content/cet-local/index.json。未授权公开再分发或生产部署。",
+  "content": {
+    "WRITING": {
+      "instructions": "原卷写作要求",
+      "prompt": "Directions: For this part, you are allowed 30 minutes to write an essay that begins with the sentence                   “Nowadays cultivating independent learning ability is becoming increasingly crucial for personal development.” You can make comments, cite examples or use your personal experiences to develop your essay. You should write at least 150 words but no more than 200 words. You should copy the sentence given in quotes at the beginning of your essay.",
+      "questions": [],
+      "audio": [],
+      "passages": [],
+      "minimumWords": 150,
+      "maximumWords": 200,
+      "sourceFileUrl": "/study/resources/58bdf2e4cf9ad757887bac3e.pdf"
+    },
+    "LISTENING": {
+      "instructions": "听力材料",
+      "questions": [],
+      "audio": [],
+      "passages": [],
+      "unavailableReason": "原卷未刊载本卷独立听力题文。特别说明:官方第三套真题的听力试题与第一套真题的一致,只是选项顺序不同,因此本套试卷不再提供听力部分。",
+      "sourceFileUrl": "/study/resources/58bdf2e4cf9ad757887bac3e.pdf"
+    },
+    "READING": {
+      "instructions": "请依次完成选词填空、长篇匹配和仔细阅读。",
+      "questions": [
+        {
+          "id": "cet6-2024-06-set3-q26",
+          "type": "WORD_BANK",
+          "prompt": "第 26 空",
+          "choices": [
+            "bounces",
+            "completely",
+            "dispersion",
+            "eccentric",
+            "hanging",
+            "optical",
+            "originates",
+            "perceive",
+            "permeates",
+            "ponder",
+            "preceding",
+            "recklessly",
+            "relation",
+            "spectrum",
+            "stands"
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 0.5,
+          "passageId": "cet6-2024-06-set3-bank"
+        },
+        {
+          "id": "cet6-2024-06-set3-q27",
+          "type": "WORD_BANK",
+          "prompt": "第 27 空",
+          "choices": [
+            "bounces",
+            "completely",
+            "dispersion",
+            "eccentric",
+            "hanging",
+            "optical",
+            "originates",
+            "perceive",
+            "permeates",
+            "ponder",
+            "preceding",
+            "recklessly",
+            "relation",
+            "spectrum",
+            "stands"
+          ],
+          "answerIndex": 7,
+          "explanation": "原卷答案：H。",
+          "weight": 0.5,
+          "passageId": "cet6-2024-06-set3-bank"
+        },
+        {
+          "id": "cet6-2024-06-set3-q28",
+          "type": "WORD_BANK",
+          "prompt": "第 28 空",
+          "choices": [
+            "bounces",
+            "completely",
+            "dispersion",
+            "eccentric",
+            "hanging",
+            "optical",
+            "originates",
+            "perceive",
+            "permeates",
+            "ponder",
+            "preceding",
+            "recklessly",
+            "relation",
+            "spectrum",
+            "stands"
+          ],
+          "answerIndex": 12,
+          "explanation": "原卷答案：M。",
+          "weight": 0.5,
+          "passageId": "cet6-2024-06-set3-bank"
+        },
+        {
+          "id": "cet6-2024-06-set3-q29",
+          "type": "WORD_BANK",
+          "prompt": "第 29 空",
+          "choices": [
+            "bounces",
+            "completely",
+            "dispersion",
+            "eccentric",
+            "hanging",
+            "optical",
+            "originates",
+            "perceive",
+            "permeates",
+            "ponder",
+            "preceding",
+            "recklessly",
+            "relation",
+            "spectrum",
+            "stands"
+          ],
+          "answerIndex": 5,
+          "explanation": "原卷答案：F。",
+          "weight": 0.5,
+          "passageId": "cet6-2024-06-set3-bank"
+        },
+        {
+          "id": "cet6-2024-06-set3-q30",
+          "type": "WORD_BANK",
+          "prompt": "第 30 空",
+          "choices": [
+            "bounces",
+            "completely",
+            "dispersion",
+            "eccentric",
+            "hanging",
+            "optical",
+            "originates",
+            "perceive",
+            "permeates",
+            "ponder",
+            "preceding",
+            "recklessly",
+            "relation",
+            "spectrum",
+            "stands"
+          ],
+          "answerIndex": 13,
+          "explanation": "原卷答案：N。",
+          "weight": 0.5,
+          "passageId": "cet6-2024-06-set3-bank"
+        },
+        {
+          "id": "cet6-2024-06-set3-q31",
+          "type": "WORD_BANK",
+          "prompt": "第 31 空",
+          "choices": [
+            "bounces",
+            "completely",
+            "dispersion",
+            "eccentric",
+            "hanging",
+            "optical",
+            "originates",
+            "perceive",
+            "permeates",
+            "ponder",
+            "preceding",
+            "recklessly",
+            "relation",
+            "spectrum",
+            "stands"
+          ],
+          "answerIndex": 14,
+          "explanation": "原卷答案：O。",
+          "weight": 0.5,
+          "passageId": "cet6-2024-06-set3-bank"
+        },
+        {
+          "id": "cet6-2024-06-set3-q32",
+          "type": "WORD_BANK",
+          "prompt": "第 32 空",
+          "choices": [
+            "bounces",
+            "completely",
+            "dispersion",
+            "eccentric",
+            "hanging",
+            "optical",
+            "originates",
+            "perceive",
+            "permeates",
+            "ponder",
+            "preceding",
+            "recklessly",
+            "relation",
+            "spectrum",
+            "stands"
+          ],
+          "answerIndex": 4,
+          "explanation": "原卷答案：E。",
+          "weight": 0.5,
+          "passageId": "cet6-2024-06-set3-bank"
+        },
+        {
+          "id": "cet6-2024-06-set3-q33",
+          "type": "WORD_BANK",
+          "prompt": "第 33 空",
+          "choices": [
+            "bounces",
+            "completely",
+            "dispersion",
+            "eccentric",
+            "hanging",
+            "optical",
+            "originates",
+            "perceive",
+            "permeates",
+            "ponder",
+            "preceding",
+            "recklessly",
+            "relation",
+            "spectrum",
+            "stands"
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 0.5,
+          "passageId": "cet6-2024-06-set3-bank"
+        },
+        {
+          "id": "cet6-2024-06-set3-q34",
+          "type": "WORD_BANK",
+          "prompt": "第 34 空",
+          "choices": [
+            "bounces",
+            "completely",
+            "dispersion",
+            "eccentric",
+            "hanging",
+            "optical",
+            "originates",
+            "perceive",
+            "permeates",
+            "ponder",
+            "preceding",
+            "recklessly",
+            "relation",
+            "spectrum",
+            "stands"
+          ],
+          "answerIndex": 6,
+          "explanation": "原卷答案：G。",
+          "weight": 0.5,
+          "passageId": "cet6-2024-06-set3-bank"
+        },
+        {
+          "id": "cet6-2024-06-set3-q35",
+          "type": "WORD_BANK",
+          "prompt": "第 35 空",
+          "choices": [
+            "bounces",
+            "completely",
+            "dispersion",
+            "eccentric",
+            "hanging",
+            "optical",
+            "originates",
+            "perceive",
+            "permeates",
+            "ponder",
+            "preceding",
+            "recklessly",
+            "relation",
+            "spectrum",
+            "stands"
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 0.5,
+          "passageId": "cet6-2024-06-set3-bank"
+        },
+        {
+          "id": "cet6-2024-06-set3-q36",
+          "type": "MATCHING",
+          "prompt": "Although employees are said to be fatigued by meetings, the condition has not been considered worthy of further research until recently.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段"
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "passageId": "cet6-2024-06-set3-matching"
+        },
+        {
+          "id": "cet6-2024-06-set3-q37",
+          "type": "MATCHING",
+          "prompt": "Mroz and his team compiled a list of what to do and what not to do to remedy the problem of MRS.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段"
+          ],
+          "answerIndex": 7,
+          "explanation": "原卷答案：H。",
+          "weight": 1,
+          "passageId": "cet6-2024-06-set3-matching"
+        },
+        {
+          "id": "cet6-2024-06-set3-q38",
+          "type": "MATCHING",
+          "prompt": "Companies can get rid of the root cause of MRS if they give priority to workers' time.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段"
+          ],
+          "answerIndex": 13,
+          "explanation": "原卷答案：N。",
+          "weight": 1,
+          "passageId": "cet6-2024-06-set3-matching"
+        },
+        {
+          "id": "cet6-2024-06-set3-q39",
+          "type": "MATCHING",
+          "prompt": "If workers are exhausted to a dangerous degree, it is extremely hard for them to transition to the next task.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段"
+          ],
+          "answerIndex": 5,
+          "explanation": "原卷答案：F。",
+          "weight": 1,
+          "passageId": "cet6-2024-06-set3-matching"
+        },
+        {
+          "id": "cet6-2024-06-set3-q40",
+          "type": "MATCHING",
+          "prompt": "Employees in America spend a lot of time attending meetings while the number of hours managers meet is several times more.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段"
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "passageId": "cet6-2024-06-set3-matching"
+        },
+        {
+          "id": "cet6-2024-06-set3-q41",
+          "type": "MATCHING",
+          "prompt": "Phyllis Hartman has learned by herself many of the ways Mroz suggested in his study and made remarkable success in freeing herself from unnecessary meetings.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段"
+          ],
+          "answerIndex": 10,
+          "explanation": "原卷答案：K。",
+          "weight": 1,
+          "passageId": "cet6-2024-06-set3-matching"
+        },
+        {
+          "id": "cet6-2024-06-set3-q42",
+          "type": "MATCHING",
+          "prompt": "When meetings continue too long or don't engage employees, they deplete vitality.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段"
+          ],
+          "answerIndex": 4,
+          "explanation": "原卷答案：E。",
+          "weight": 1,
+          "passageId": "cet6-2024-06-set3-matching"
+        },
+        {
+          "id": "cet6-2024-06-set3-q43",
+          "type": "MATCHING",
+          "prompt": "When the time of meetings is reduced, employees will be more engaged in the meetings they do participate in.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段"
+          ],
+          "answerIndex": 8,
+          "explanation": "原卷答案：I。",
+          "weight": 1,
+          "passageId": "cet6-2024-06-set3-matching"
+        },
+        {
+          "id": "cet6-2024-06-set3-q44",
+          "type": "MATCHING",
+          "prompt": "Some employees consider meetings one of the most dispensable parts of the workday.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段"
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "passageId": "cet6-2024-06-set3-matching"
+        },
+        {
+          "id": "cet6-2024-06-set3-q45",
+          "type": "MATCHING",
+          "prompt": "According to Mroz, if all his suggestions were applied, a very obvious change would be a steep decrease in the number of meetings scheduled.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段"
+          ],
+          "answerIndex": 11,
+          "explanation": "原卷答案：L。",
+          "weight": 1,
+          "passageId": "cet6-2024-06-set3-matching"
+        },
+        {
+          "id": "cet6-2024-06-set3-q46",
+          "type": "DETAIL",
+          "prompt": "Why does the author say sarcasm and jazz have something surprisingly in common?",
+          "choices": [
+            "Both are recognized when heard.",
+            "Both have exactly the same tone.",
+            "Both mean the opposite of what they appear to.",
+            "Both have hidden in them an evident irritation"
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "passageId": "cet6-2024-06-set3-detail1"
+        },
+        {
+          "id": "cet6-2024-06-set3-q47",
+          "type": "DETAIL",
+          "prompt": "How do many people feel when they hear sarcastic comments?",
+          "choices": [
+            "They feel hostile towards the sarcastic person.",
+            "They feel belittled and disrespected.",
+            "They feel a strong urge to retaliate.",
+            "They feel incapable of disguising their irritation."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "passageId": "cet6-2024-06-set3-detail1"
+        },
+        {
+          "id": "cet6-2024-06-set3-q48",
+          "type": "DETAIL",
+          "prompt": "What happens when a person consistently acts sarcastically?",
+          "choices": [
+            "They feel their dignity greatly heightened.",
+            "They feel increasingly insecure and hostile.",
+            "They endure hostility under the disguise of humor",
+            "They taste bitterness even in pleasant interactions"
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "passageId": "cet6-2024-06-set3-detail1"
+        },
+        {
+          "id": "cet6-2024-06-set3-q49",
+          "type": "DETAIL",
+          "prompt": "What does the author say about people quitting sarcastic comments?",
+          "choices": [
+            "It makes others happier and more self-confident",
+            "It restrains them from being irritating and bullying.",
+            "It benefits not only themselves but also those around them.",
+            "It shields them from negative comments and outright hostility."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "passageId": "cet6-2024-06-set3-detail1"
+        },
+        {
+          "id": "cet6-2024-06-set3-q50",
+          "type": "DETAIL",
+          "prompt": "What is the chief difference between a Speaker’s wit and sarcasm?",
+          "choices": [
+            "Their clarity.",
+            "Their appreciation",
+            "Their emphasis.",
+            "Their intention."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "passageId": "cet6-2024-06-set3-detail1"
+        },
+        {
+          "id": "cet6-2024-06-set3-q51",
+          "type": "DETAIL",
+          "prompt": "What does the passage say about infants learning the category “dog” if they are exposed to Chihuahuas only?",
+          "choices": [
+            "They will encounter some degree of difficulty.",
+            "They will try to categorise other objects first",
+            "They will prefer Chihuahuas to other dog species.",
+            "They will imagine Chihuahuas in various conditions"
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "passageId": "cet6-2024-06-set3-detail2"
+        },
+        {
+          "id": "cet6-2024-06-set3-q52",
+          "type": "DETAIL",
+          "prompt": "What does Raviv say about the four different kinds of variability?",
+          "choices": [
+            "Which of them is most relevant to the task at hand is to be confirmed",
+            "Why they have an impact on learning is far from being understood",
+            "Why they have never been directly compared remains a mystery",
+            "Which of them is most conducive to learning is yet to be identified."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "passageId": "cet6-2024-06-set3-detail2"
+        },
+        {
+          "id": "cet6-2024-06-set3-q53",
+          "type": "DETAIL",
+          "prompt": "How does one of the theories explain the importance of variability for learning new skills?",
+          "choices": [
+            "Learners regard variable training as typical of what happens in the real world.",
+            "Learners receiving variable training are compelled to reorganise their memories.",
+            "Learners pay attention to the relevant aspects of a task and ignore those irrelevant.",
+            "Learners focus on related skills instead of wasting time and effort on unrelated ones."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "passageId": "cet6-2024-06-set3-detail2"
+        },
+        {
+          "id": "cet6-2024-06-set3-q54",
+          "type": "DETAIL",
+          "prompt": "What does the passage say about face recognition?",
+          "choices": [
+            "People growing up in a small community may find it easy to remember familiar faces.",
+            "Face recognition has a significant impact on literally every aspect of our social lives:",
+            "People growing up in a large community can readily recognise any individual faces.",
+            "The size of the community people grew up in impacts their face recognition ability."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "passageId": "cet6-2024-06-set3-detail2"
+        },
+        {
+          "id": "cet6-2024-06-set3-q55",
+          "type": "DETAIL",
+          "prompt": "What does Raviv hope to do with their research work?",
+          "choices": [
+            "Highlight which aspects of a task are relevant and which are not to learning a skill.",
+            "Use the principle of variability in teaching seemingly unrelated skills in education.",
+            "Arouse people’s interest in variability and stimulate more research on the topic.",
+            "Apply the principle of variability to such fields of study as the immune system."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "passageId": "cet6-2024-06-set3-detail2"
+        }
+      ],
+      "audio": [],
+      "passages": [
+        {
+          "id": "cet6-2024-06-set3-bank",
+          "text": "A rainbow is a multi-colored, arc-shaped phenomenon that can appear in the sky. The colors of a rainbow are produced by the reflection and  __(26)__  of light through water droplets             (小滴) present in the atmosphere        . An observer may  __(27)__  rainbow to be located either near or far away,            but this phenomenon is not actually located at any specific spot. Instead, the appearance of a rainbow depends entirely upon the position of the observer in  __(28)__  to the direction of light. ln essence, a rainbow is an  __(29)__  illusion.      Rainbows present a  __(30)__  made up of seven colors in a specific order. In fact, school children in many English- speaking countries are taught to remember the name “Roy G.Biv” as an aid for remembering the colors of a rainbow and their order. “Roy G.Biv”  __(31)__  for: red, orange, yellow, green, blue, indigo, and violet. The outer edge of the rainbow arc is red. while the inner edge is violet.      A rainbow is formed when light (generally sunlight) passes through water droplets  __(32)__  in the atmosphere. The light waves change direction as they pass through the water droplets resulting in two processes: reflection and refraction (折 射). When light reflects off a water droplet, it simply  __(33)__  back in the opposite direction from where it  __(34)__ . When light refracts, it takes a different direction. Some individuals refer to refracted light as “bent light waves”. A rainbow is formed because white light enters the water droplet where it bends in several different directions. When these bent light waves reach the other side of the water droplet, they reflect back out of the droplet instead of  __(35)__  passing through the water. Since the white light is separated inside of the water, the refracted light appears as separate colors to the human eye."
+        },
+        {
+          "id": "cet6-2024-06-set3-matching",
+          "text": "Blame your worthless workdays on meeting recovery syndrome       A) Phyllis Hartman knows what it is like to make one's way through the depths of office meeting hell. Managers at one of her former human resources jobs arranged so many meetings that attendees would fall asleep at the table or intentionally arrive late. With hours of her day blocked up with unnecessary meetings, she was often forced to make up her work during overtime. “I was actually working more hours than I probably would have needed to get the work done,” says Hartman, who is founder and president of PGHR Consulting in Pittsburgh, Pennsylvania.       B) She isn't alone in her frustration. Between 11 million and 55 million meetings are held each day in the United States, costing most organizations between 7% and 15% of their personnel budgets. Every week, employees spend about six hours in meetings, while the average manager meets for a staggering 23 hours.       C) And though experts agree that traditional meetings are essential for making certain decisions and developing strategy, some employees view them as one of the most unnecessary parts of the workday. The result is not only hundreds of billions of wasted dollars, but an annoyance of what organizational psychologists call “meeting recovery syndrome” (MRS): time spent cooling off and regaining focus after a useless meeting. If you run to the office kitchen to get some relief with colleagues after a frustrating meeting, you're likely experiencing meeting recovery syndrome.       D) Meeting recovery syndrome is a concept that should be familiar to almost anyone who has held a formal job. It isn't ground-breaking to say workers feel fatigued after a meeting, but only in recent decades have scientists deemed the condition worthy of further investigation. With its links to organizational efficiency and employee wellbeing, MRS has attracted the attention of psychologists aware of the need to understand its precise causes and cures.       E) Today, in so far as researchers can hypothesis, MRS is most easily understood as a slow renewal of finite mental and physical resources. When an employee sits through an ineffective meeting their brain power is essentially being drained away. Meetings drain vitality if they last too long, fail to engage employees or turn into one-sided lectures. The conservation of resources theory, originally proposed in 1989 by Dr Stevan Hobfoll, states that psychological stress occurs when a person's resources are threatened or lost. When resources are low, a person will shift into defence to conserve their remaining supply. In the case of office meetings, where some of employees’ most valuable resources are their focus, alertness and motivati     on, this can mean an abrupt halt in productivity as they take time to recover.       F) As humans, when we transition from one task to another on the job                  —say from sitting in a meeting to doing normal work—it takes an effortful cognitive          switch. We must detach ourselves from the previous task and expend significant mental energy to move on.         If we are already drained to dangerous levels, then making the mental switch to the next thing is extra tough. It’s common to see people cyber-loafing after a frustrating meeting, going and getting coffee interrupting a colleague and telling them about the meeting,            and so on.       G) Each person's ability to recover from horrible meetings is different. Some can bounce back quickly, while others carry their fatigue until the end of the workday. Yet while no formal MRS studies are currently underway, one can loosely speculate on the length of an average employee's lag time. Switching tasks in a non-MRS condition takes about 10 to 15 minutes. With MRS, it may take as long as 45 minutes on average. It's even worse when a worker has several meetings that are separated by 30 minutes. “Not enough time to transition in a non-MRS situation to get anything done, and in an MRS situation, not quite enough time to recover for the next meeting.” Says researcher Joseph Allen, “Then, add the compounding of back-to-back bad meetings and we may have an epidemic on our hands.”       H) In an effort to combat the side effects of MRS, Allen, along with researcher Joseph Mroz and colleagues at the University of Nebraska-Oma has published a study detailing the best ways to avoid common traps including a concise checklist of do's and don’ts applicable to any workplace. Drawing from around 200 papers to compile their comprehensive list. Mroz and his team may now hold a remedy to the largely undefined problem of MRS.       I) Mroz says a good place to start        is asking ourselves if our meetings are even necessary in the first place.                If all that’s on the agenda is a quick catch-up, or some non-urgent information sharing, it may better suit the group to send around an email instead. “The second thing I would always recommend is keep the meeting as small as possible.” says Mroz, “If they don't actually have some kind of immediate input then they can follow up later. They don’t need to be sitting in this hour- long meeting.” Less time in meetings would ultimately lead to more employee engagement in the meetings they do attend,\n\n\n\nwhich experts agree is a proven remedy for MRS.       J) Employees also feel taxed when they are invited together to meetings that don’t inspire participation, says Cliff Scott, professor of organizational science. It takes precious time for them to vent their emotions, complain and try to regain focus after a pointless meeting — one of the main traps of MRS. Over time as employees find themselves tied up in more and more unnecessary meetings — and thus dealing with increasing lag times from MRS — the waste of workday hours can feel insulting.       K) Despite the relative scarcity of research behind the subject. Hartman has taught herself many of the same tricks suggested in Mroz's study and has come a long way since her days of being stuck with unnecessary meetings. The people she invites to meetings today include not just the essential employees but also representatives from every department that might have a stake in the issue at hand. Managers like her, who seek input even from non-experts to shape their decisions, can find greater support and cooperation from their workforce, she says.       L) If an organization were to apply all 22 suggestions from Mroz and Allen                   ’s findings, the most noticeable difference would be a stark decrease in the total number of meetings on the schedule                  , Mroz says. Less time in meetings would ultimately lead to increased productivity, which is the ultimate objective of convening a meeting. While none of the counter- MRS ideas have been tested empirically yet, Allen says one trick with promise is for employees to identify things that quickly change their mood from negative to positive. As simple as it sounds, finding a personal happy place, going there and then coming straight back to work might be key to facilitating recovery       M) Leaders should see also themselves as “stewards of everyone else’s valuable time”, adds Steven Rogelberg, author of The Surprising Science of Meetings. Having the skills to foresee potential traps and treat employees’ endurance with care allows leaders to provide effective short        -term deterrents to MRS.       N) Most important, however, is for organizations to awaken to the concept of meetings being flexible, says Allen. By reshaping the way they prioritise employees' time, companies can eliminate the very sources of MRS in their tracks."
+        },
+        {
+          "id": "cet6-2024-06-set3-detail1",
+          "text": "Sarcasm and jazz have something surprisingly in common: You know them when you hear them. Sarcasm is mostly understood through tone of voice, which is used to portray the opposite of the literal words. For example, when someone says, “Well, that's exactly what I need right now,” their tone can tell you it’s not what they need at all.       Most frequently, sarcasm highlights an irritation or is, quite simply, mean.\n\n\n\n      If you want to be happier and improve your relationships, cut out sarcasm. Why? Because sarcasm is actually hostility disguised as humor.       Despite smiling outwardly, many people who receive sarcastic comments feel put down and often think the sarcastic person is rude, or contemptible. Indeed. it's not surprising that the origin of the word sarcasm derives from the Greek word “sarkazein” which literally means “to tear or strip the flesh off.” Hence, it's no wonder that sarcasm is often preceded by the word “cutting” and that it hurts.       What’s more, since actions strongly determine thoughts and feelings, when a person consistently acts sarcastically it may only serve to heighten their underlying hostility and insecurity. After all, when you come right down to it, sarcasm can be used as a subtle form of bullying — and most bullies are angry, insecure, or cowardly.       Alternatively, when a person stops voicing negative comments, especially sarcastic ones, they may soon start to feel happier and more self-confident. Also. other people in their life benefit even more because they no longer have to hear the emotionally hurtful language of sarcasm.       Now, I'm not saying all sarcasm is bad. It may just be better used sparingly—like a potent spice in cooking. Too much of the spice, and the dish will be overwhelmed by it. Similarly, an occasional dash of sarcastic wit can spice up a chat and add an element of humor to it. But a big or steady serving of sarcasm will overwhelm the emotional flavor of any conversation and can taste very bitter to its recipient.       So, tone down the sarcasm and work on clever wit instead, which is usually without any hostility and thus more appreciated by those you're communicating with. In essence, sarcasm is easy while true, harmless wit takes talent.       Thus, the main difference between wit and sarcasm is that as already stated, sarcasm is often hostility disguised as humor. It can be intended to hurt and is often bitter and biting. Witty statements are usually in response to someone's unhelpful remarks or behaviors, and the intent is to untangle and clarify the issue by emphasizing its absurdities. Sarcastic statements are expressed in a cutting manner; witty remarks are delivered with undisguised and harmless humor."
+        },
+        {
+          "id": "cet6-2024-06-set3-detail2",
+          "text": "Variability is crucially important for learning new skills. Consider learning how to serve in tennis. Should you always practise serving from the exactly same location on the court aiming at the same spot? Although practising in more variable conditions will be slower at first, it will likely make you a better tennis player in the end. This is because variability leads to better generalisation of what is learned.       This principle is found in many domains, including speech perception and learning categories. For instance, infants will struggle to learn the category “dog” if they are only exposed to Chihuahuas, instead of many different kinds of dogs.       “There are over ten different names for this basic principle,” says Limor Raviv, the senior investigator of a recent study. “Learning from less variable input is often fast, but may fail to generalise to new stimuli.”       To identify key patterns and understand the underlying principles of variability effects, Raviv and her colleagues reviewed over 150 studies on variability and generalisation across fields including computer science, linguistics, categorization, visual perception and formal education.       The researchers discovered that across studies, the term variability can refer to at least four different kinds of variability, such as set size and scheduling. “These four kinds of variability have never been directly compared — which means that we currently don’t know which is most effective for learning,” says Raviv.       The impact of variability depends on whether it is relevant to the task or not. But according to the ‘Mr. Miyagi principle’ practis   ing seemingly unrelated skills may actually             benefit lea  rning of other skills.       But why does variability impact learning and generalization? One theory is that more variable input can highlight which aspects of a task are relevant and which are not.       Another theory is that greater variability leads to broader generalisations. This is because variability will represent the real world better. including atypical (非典型的) examples.       A third reason has to do with the way memory works: when training is variable, learners are forced to actively reconstruct their memories.       “Understanding the impact of variability is important for literally every aspect of our daily life. Beyond affecting the way we learn language, motor skills, and categories, it even has an impact on our social lives,” explains Raviv. “For example, face recognition is affected by whether people grew up in a Small community or in a larger community. Exposure to fewer faces during childhood is associated with diminished face memory.”       “We hope this work will spark peoples curiosity and generate more work on the topic.” concludes Raviv. “Our paper raises a lot of open questions. Can we find similar effects of variability beyond the brain, for instance, in the immune system?”"
+        }
+      ],
+      "sourceFileUrl": "/study/resources/58bdf2e4cf9ad757887bac3e.pdf"
+    },
+    "TRANSLATION": {
+      "instructions": "请将原卷中文翻译成英语。",
+      "prompt": "Directions: For this part, you are allowed 30 minutes to translate a passage from Chinese into English. You should write your answer on Answer Sheet 2.\n\n     扇子自古以来就深受中国人喜爱,但现在已不只是消暑纳凉的工具,而更多地作为艺术品供人欣赏。许多扇 子造型优美、做工精良,并绘有山水、花鸟、人物等精美图案,具有很高的艺术价值。中国许多著名画家和书法 家喜欢在扇子上作诗绘画,展示其艺术品味。扇子常作为礼物赠予他人,表达美好的祝福和真挚的情感。如今, 扇子的实用功能已大为减弱,但作为一种文化符号和艺术形式,扇子仍然在中国传统文化中扮演着重要角色。",
+      "questions": [],
+      "audio": [],
+      "passages": [],
+      "sourceFileUrl": "/study/resources/58bdf2e4cf9ad757887bac3e.pdf"
+    }
+  }
+}

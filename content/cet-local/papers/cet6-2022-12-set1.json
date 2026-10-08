@@ -1,0 +1,1089 @@
+{
+  "slug": "cet6-2022-12-set1-full",
+  "version": 1,
+  "title": "2022年12月 · 第1套整卷模拟真题",
+  "level": "CET6",
+  "kind": "FULL",
+  "originType": "PAST_EXAM",
+  "sourceName": "用户提供的本地四六级资料",
+  "sourceUrl": "/study/resources/6c321c079ddf8aaf5ed9c353.pdf",
+  "rightsHolder": "原试卷及解析作者",
+  "rightsEvidence": "用户提供本地资源并要求接入本地学习系统；原文件及校验值见 content/cet-local/index.json。未授权公开再分发或生产部署。",
+  "content": {
+    "WRITING": {
+      "instructions": "原卷写作要求",
+      "prompt": "Directions: For this part, you are allowed 30 minutes to write an essay that begins with the sentence \"With the application of information technology in education, college students can now learn in more diverse and efficient ways.\" You can make statements, give reasons, or cite examples to develop your essay. You should write at least 150 words but no more than 200 words.",
+      "questions": [],
+      "audio": [],
+      "passages": [],
+      "minimumWords": 150,
+      "maximumWords": 200,
+      "sourceFileUrl": "/study/resources/6c321c079ddf8aaf5ed9c353.pdf"
+    },
+    "LISTENING": {
+      "instructions": "原卷听力选择题",
+      "questions": [
+        {
+          "id": "cet6-2022-12-set1-q1",
+          "type": "CONVERSATION",
+          "prompt": "第 1 题(题干在原始录音中)",
+          "choices": [
+            "She hasn't started writing it.",
+            "She hasn't decided on a topic.",
+            "She is proofreading the first draft.",
+            "She is working on the references."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "audioId": "cet6-2022-12-set1-audio"
+        },
+        {
+          "id": "cet6-2022-12-set1-q2",
+          "type": "CONVERSATION",
+          "prompt": "第 2 题(题干在原始录音中)",
+          "choices": [
+            "He lent many books to the man for reference.",
+            "He offered the man advice on resource hunting",
+            "He published a lot in a number of reputable journals.",
+            "He told the man to be selective when using e-resources."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "audioId": "cet6-2022-12-set1-audio"
+        },
+        {
+          "id": "cet6-2022-12-set1-q3",
+          "type": "CONVERSATION",
+          "prompt": "第 3 题(题干在原始录音中)",
+          "choices": [
+            "He didn't think her dissertation topic viable.",
+            "He wasn't interested in her dissertation topic.",
+            "He didn't want her to rush through her dissertation.",
+            "He wasn't specific about the length of her dissertation."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "audioId": "cet6-2022-12-set1-audio"
+        },
+        {
+          "id": "cet6-2022-12-set1-q4",
+          "type": "CONVERSATION",
+          "prompt": "第 4 题(题干在原始录音中)",
+          "choices": [
+            "Change her research methodology.",
+            "Narrow down her dissertation topic.",
+            "Consult her professor more.",
+            "Follow the man's advice."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "audioId": "cet6-2022-12-set1-audio"
+        },
+        {
+          "id": "cet6-2022-12-set1-q5",
+          "type": "CONVERSATION",
+          "prompt": "第 5 题(题干在原始录音中)",
+          "choices": [
+            "He has translated 12 books.",
+            "He is a well-known nutritionist.",
+            "His books sell well worldwide.",
+            "His latest book sold a million copies."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "audioId": "cet6-2022-12-set1-audio"
+        },
+        {
+          "id": "cet6-2022-12-set1-q6",
+          "type": "CONVERSATION",
+          "prompt": "第 6 题(题干在原始录音中)",
+          "choices": [
+            "The desire of Americans to try exotic cuisines.",
+            "The demand for information about food safety.",
+            "The fact that over half of Americans are overweight.",
+            "The fact that science books are difficult to read."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "audioId": "cet6-2022-12-set1-audio"
+        },
+        {
+          "id": "cet6-2022-12-set1-q7",
+          "type": "CONVERSATION",
+          "prompt": "第 7 题(题干在原始录音中)",
+          "choices": [
+            "The general public.",
+            "Those who are overweight.",
+            "Those who want to lose weight.",
+            "The medical community. 2022-12-CET6(7 1 1)-1"
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "audioId": "cet6-2022-12-set1-audio"
+        },
+        {
+          "id": "cet6-2022-12-set1-q8",
+          "type": "CONVERSATION",
+          "prompt": "第 8 题(题干在原始录音中)",
+          "choices": [
+            "Switch to a vegetarian diet.",
+            "Follow a personalized diet.",
+            "Adhere to doctors' advice.",
+            "Cut carbohydrate intake."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "audioId": "cet6-2022-12-set1-audio"
+        },
+        {
+          "id": "cet6-2022-12-set1-q9",
+          "type": "PASSAGE",
+          "prompt": "第 9 题(题干在原始录音中)",
+          "choices": [
+            "The rate of their growth increased dramatically.",
+            "The growth of their new brain cells doubled.",
+            "They began to show signs of depression.",
+            "They began to get irritated and restless."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "audioId": "cet6-2022-12-set1-audio"
+        },
+        {
+          "id": "cet6-2022-12-set1-q10",
+          "type": "PASSAGE",
+          "prompt": "第 10 题(题干在原始录音中)",
+          "choices": [
+            "To avoid them in the future.",
+            "To warn others against them.",
+            "To make good sense of them.",
+            "To reflect on their causes."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "audioId": "cet6-2022-12-set1-audio"
+        },
+        {
+          "id": "cet6-2022-12-set1-q11",
+          "type": "PASSAGE",
+          "prompt": "第 11 题(题干在原始录音中)",
+          "choices": [
+            "Produce a surprising healing effect.",
+            "Weaken one's immunity in the long run.",
+            "Make people more susceptible to illness.",
+            "Provide protection against mental illnesses."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "audioId": "cet6-2022-12-set1-audio"
+        },
+        {
+          "id": "cet6-2022-12-set1-q12",
+          "type": "PASSAGE",
+          "prompt": "第 12 题(题干在原始录音中)",
+          "choices": [
+            "Placing their own interests over their staff\"s.",
+            "Being overwhelmed by their daily routines.",
+            "Lacking the ability to relate to their staff.",
+            "Spending too much time handling email."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "audioId": "cet6-2022-12-set1-audio"
+        },
+        {
+          "id": "cet6-2022-12-set1-q13",
+          "type": "PASSAGE",
+          "prompt": "第 13 题(题干在原始录音中)",
+          "choices": [
+            "Their leadership may be challenged.",
+            "Their companies may go bankrupt.",
+            "Unexpected events may occur.",
+            "Major problems may result."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "audioId": "cet6-2022-12-set1-audio"
+        },
+        {
+          "id": "cet6-2022-12-set1-q14",
+          "type": "PASSAGE",
+          "prompt": "第 14 题(题干在原始录音中)",
+          "choices": [
+            "Keep an eye on their employees.",
+            "Motivate and inspire their team.",
+            "Sacrifice some of the immediate goals.",
+            "Have greater ambition in overall planning."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "audioId": "cet6-2022-12-set1-audio"
+        },
+        {
+          "id": "cet6-2022-12-set1-q15",
+          "type": "PASSAGE",
+          "prompt": "第 15 题(题干在原始录音中)",
+          "choices": [
+            "Cultivate self-control.",
+            "Filter their email boxes.",
+            "Respond only after work.",
+            "Check only when necessary"
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "audioId": "cet6-2022-12-set1-audio"
+        },
+        {
+          "id": "cet6-2022-12-set1-q16",
+          "type": "LECTURE",
+          "prompt": "第 16 题(题干在原始录音中)",
+          "choices": [
+            "The key to increasing healthy food supply.",
+            "The best way to improve marketing research.",
+            "The impact of advertisements on consumption.",
+            "The importance of the appearance of food."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "audioId": "cet6-2022-12-set1-audio"
+        },
+        {
+          "id": "cet6-2022-12-set1-q17",
+          "type": "LECTURE",
+          "prompt": "第 17 题(题干在原始录音中)",
+          "choices": [
+            "By focusing on the nutrients in different foods.",
+            "By emphasizing the diversity of food.",
+            "By stressing pleasing aesthetics of food.",
+            "By winning the support of marketing professors."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "audioId": "cet6-2022-12-set1-audio"
+        },
+        {
+          "id": "cet6-2022-12-set1-q18",
+          "type": "LECTURE",
+          "prompt": "第 18 题(题干在原始录音中)",
+          "choices": [
+            "They can attract customers with the healthy qualities of their products. 2022-12-CET6(* 1 1)-2",
+            "They can boost sales of healthy foods by making them visually appealing.",
+            "They can turn to marketing professors for advice.",
+            "They can rely on advertising for sales promotion."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "audioId": "cet6-2022-12-set1-audio"
+        },
+        {
+          "id": "cet6-2022-12-set1-q19",
+          "type": "LECTURE",
+          "prompt": "第 19 题(题干在原始录音中)",
+          "choices": [
+            "It has witnessed a spectacular surge in demand.",
+            "It has met much criticism from environmentalists.",
+            "It has seen more small businesses offering environment-friendly products.",
+            "It has experienced increasingly fierce competition among global companies."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "audioId": "cet6-2022-12-set1-audio"
+        },
+        {
+          "id": "cet6-2022-12-set1-q20",
+          "type": "LECTURE",
+          "prompt": "第 20 题(题干在原始录音中)",
+          "choices": [
+            "Consumers now know much more about technology.",
+            "Their mass production has sharply reduced the price.",
+            "Consumers tend to favor all that is novel.",
+            "Their quality has been greatly improved."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "audioId": "cet6-2022-12-set1-audio"
+        },
+        {
+          "id": "cet6-2022-12-set1-q21",
+          "type": "LECTURE",
+          "prompt": "第 21 题(题干在原始录音中)",
+          "choices": [
+            "Purchasing only this kind of products for home cleaning.",
+            "Writing positive comments about them on social media.",
+            "Demonstrating on TV how effective these products are.",
+            "Telling one another about their incomparable virtues."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "audioId": "cet6-2022-12-set1-audio"
+        },
+        {
+          "id": "cet6-2022-12-set1-q22",
+          "type": "LECTURE",
+          "prompt": "第 22 题(题干在原始录音中)",
+          "choices": [
+            "Increasing cleaners' workload.",
+            "Blocking the fountains' works.",
+            "Breaking a time-honored ritual.",
+            "Polluting the fountains' water."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "audioId": "cet6-2022-12-set1-audio"
+        },
+        {
+          "id": "cet6-2022-12-set1-q23",
+          "type": "LECTURE",
+          "prompt": "第 23 题(题干在原始录音中)",
+          "choices": [
+            "They are occasionally retrieved by curious tourists.",
+            "They are regularly donated to charity organizations.",
+            "They are mostly used for the fountains' maintenance.",
+            "They are usually used as wages for fountain cleaners."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "audioId": "cet6-2022-12-set1-audio"
+        },
+        {
+          "id": "cet6-2022-12-set1-q24",
+          "type": "LECTURE",
+          "prompt": "第 24 题(题干在原始录音中)",
+          "choices": [
+            "It is invested in a series of businesses.",
+            "It is used exclusively for its maintenance.",
+            "It is used to run a supermarket for the needy.",
+            "It is estimated to be about $40,000 a month."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "audioId": "cet6-2022-12-set1-audio"
+        },
+        {
+          "id": "cet6-2022-12-set1-q25",
+          "type": "LECTURE",
+          "prompt": "第 25 题(题干在原始录音中)",
+          "choices": [
+            "He was arrested for stealing money from four fountain cleaners.",
+            "He was sentenced to 34 years' imprisonment.",
+            "He collected rare coins from around the world.",
+            "He stole a lot of money from a fountain with a magnetic stick."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "audioId": "cet6-2022-12-set1-audio"
+        }
+      ],
+      "audio": [
+        {
+          "id": "cet6-2022-12-set1-audio",
+          "url": "/study/resources/65cc4ccd5c55a0e1d6fb43df.m4a",
+          "sourceUrl": "/study/resources/65cc4ccd5c55a0e1d6fb43df.m4a",
+          "durationSeconds": 1635.799365,
+          "transcript": "",
+          "identity": "cet6_2022_12_1.mp3 SHA256:65cc4ccd5c55a0e1d6fb43df47980597e5e7da01005d29702534c5332b652de3"
+        }
+      ],
+      "passages": [],
+      "sourceFileUrl": "/study/resources/6c321c079ddf8aaf5ed9c353.pdf"
+    },
+    "READING": {
+      "instructions": "请依次完成选词填空、长篇匹配和仔细阅读。",
+      "questions": [
+        {
+          "id": "cet6-2022-12-set1-q26",
+          "type": "WORD_BANK",
+          "prompt": "第 26 空",
+          "choices": [
+            "access",
+            "apparent",
+            "barely",
+            "dedication",
+            "escorted",
+            "froze",
+            "incredible",
+            "indignant",
+            "network",
+            "overriding",
+            "peacefully",
+            "presumably",
+            "stifled",
+            "struck",
+            "terrifying"
+          ],
+          "answerIndex": 5,
+          "explanation": "原卷答案：F。",
+          "weight": 0.5,
+          "passageId": "cet6-2022-12-set1-bank"
+        },
+        {
+          "id": "cet6-2022-12-set1-q27",
+          "type": "WORD_BANK",
+          "prompt": "第 27 空",
+          "choices": [
+            "access",
+            "apparent",
+            "barely",
+            "dedication",
+            "escorted",
+            "froze",
+            "incredible",
+            "indignant",
+            "network",
+            "overriding",
+            "peacefully",
+            "presumably",
+            "stifled",
+            "struck",
+            "terrifying"
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 0.5,
+          "passageId": "cet6-2022-12-set1-bank"
+        },
+        {
+          "id": "cet6-2022-12-set1-q28",
+          "type": "WORD_BANK",
+          "prompt": "第 28 空",
+          "choices": [
+            "access",
+            "apparent",
+            "barely",
+            "dedication",
+            "escorted",
+            "froze",
+            "incredible",
+            "indignant",
+            "network",
+            "overriding",
+            "peacefully",
+            "presumably",
+            "stifled",
+            "struck",
+            "terrifying"
+          ],
+          "answerIndex": 4,
+          "explanation": "原卷答案：E。",
+          "weight": 0.5,
+          "passageId": "cet6-2022-12-set1-bank"
+        },
+        {
+          "id": "cet6-2022-12-set1-q29",
+          "type": "WORD_BANK",
+          "prompt": "第 29 空",
+          "choices": [
+            "access",
+            "apparent",
+            "barely",
+            "dedication",
+            "escorted",
+            "froze",
+            "incredible",
+            "indignant",
+            "network",
+            "overriding",
+            "peacefully",
+            "presumably",
+            "stifled",
+            "struck",
+            "terrifying"
+          ],
+          "answerIndex": 10,
+          "explanation": "原卷答案：K。",
+          "weight": 0.5,
+          "passageId": "cet6-2022-12-set1-bank"
+        },
+        {
+          "id": "cet6-2022-12-set1-q30",
+          "type": "WORD_BANK",
+          "prompt": "第 30 空",
+          "choices": [
+            "access",
+            "apparent",
+            "barely",
+            "dedication",
+            "escorted",
+            "froze",
+            "incredible",
+            "indignant",
+            "network",
+            "overriding",
+            "peacefully",
+            "presumably",
+            "stifled",
+            "struck",
+            "terrifying"
+          ],
+          "answerIndex": 6,
+          "explanation": "原卷答案：G。",
+          "weight": 0.5,
+          "passageId": "cet6-2022-12-set1-bank"
+        },
+        {
+          "id": "cet6-2022-12-set1-q31",
+          "type": "WORD_BANK",
+          "prompt": "第 31 空",
+          "choices": [
+            "access",
+            "apparent",
+            "barely",
+            "dedication",
+            "escorted",
+            "froze",
+            "incredible",
+            "indignant",
+            "network",
+            "overriding",
+            "peacefully",
+            "presumably",
+            "stifled",
+            "struck",
+            "terrifying"
+          ],
+          "answerIndex": 13,
+          "explanation": "原卷答案：N。",
+          "weight": 0.5,
+          "passageId": "cet6-2022-12-set1-bank"
+        },
+        {
+          "id": "cet6-2022-12-set1-q32",
+          "type": "WORD_BANK",
+          "prompt": "第 32 空",
+          "choices": [
+            "access",
+            "apparent",
+            "barely",
+            "dedication",
+            "escorted",
+            "froze",
+            "incredible",
+            "indignant",
+            "network",
+            "overriding",
+            "peacefully",
+            "presumably",
+            "stifled",
+            "struck",
+            "terrifying"
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 0.5,
+          "passageId": "cet6-2022-12-set1-bank"
+        },
+        {
+          "id": "cet6-2022-12-set1-q33",
+          "type": "WORD_BANK",
+          "prompt": "第 33 空",
+          "choices": [
+            "access",
+            "apparent",
+            "barely",
+            "dedication",
+            "escorted",
+            "froze",
+            "incredible",
+            "indignant",
+            "network",
+            "overriding",
+            "peacefully",
+            "presumably",
+            "stifled",
+            "struck",
+            "terrifying"
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 0.5,
+          "passageId": "cet6-2022-12-set1-bank"
+        },
+        {
+          "id": "cet6-2022-12-set1-q34",
+          "type": "WORD_BANK",
+          "prompt": "第 34 空",
+          "choices": [
+            "access",
+            "apparent",
+            "barely",
+            "dedication",
+            "escorted",
+            "froze",
+            "incredible",
+            "indignant",
+            "network",
+            "overriding",
+            "peacefully",
+            "presumably",
+            "stifled",
+            "struck",
+            "terrifying"
+          ],
+          "answerIndex": 8,
+          "explanation": "原卷答案：I。",
+          "weight": 0.5,
+          "passageId": "cet6-2022-12-set1-bank"
+        },
+        {
+          "id": "cet6-2022-12-set1-q35",
+          "type": "WORD_BANK",
+          "prompt": "第 35 空",
+          "choices": [
+            "access",
+            "apparent",
+            "barely",
+            "dedication",
+            "escorted",
+            "froze",
+            "incredible",
+            "indignant",
+            "network",
+            "overriding",
+            "peacefully",
+            "presumably",
+            "stifled",
+            "struck",
+            "terrifying"
+          ],
+          "answerIndex": 14,
+          "explanation": "原卷答案：O。",
+          "weight": 0.5,
+          "passageId": "cet6-2022-12-set1-bank"
+        },
+        {
+          "id": "cet6-2022-12-set1-q36",
+          "type": "MATCHING",
+          "prompt": "Wardian regards the various extraordinary challenges as a test of his physical endurance.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 4,
+          "explanation": "原卷答案：E。",
+          "weight": 1,
+          "passageId": "cet6-2022-12-set1-matching"
+        },
+        {
+          "id": "cet6-2022-12-set1-q37",
+          "type": "MATCHING",
+          "prompt": "Wardian hopes his participation in the seven-day marathon series will contribute to a worthy cause.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 8,
+          "explanation": "原卷答案：I。",
+          "weight": 1,
+          "passageId": "cet6-2022-12-set1-matching"
+        },
+        {
+          "id": "cet6-2022-12-set1-q38",
+          "type": "MATCHING",
+          "prompt": "Wardian is going to join over thirty other runners in a week-long marathon series.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "passageId": "cet6-2022-12-set1-matching"
+        },
+        {
+          "id": "cet6-2022-12-set1-q39",
+          "type": "MATCHING",
+          "prompt": "Over-exertion in extreme cold can lower one's body temperature to a dangerous point.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "passageId": "cet6-2022-12-set1-matching"
+        },
+        {
+          "id": "cet6-2022-12-set1-q40",
+          "type": "MATCHING",
+          "prompt": "Wardian was very much impressed by a race director's sense of adventure.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 5,
+          "explanation": "原卷答案：F。",
+          "weight": 1,
+          "passageId": "cet6-2022-12-set1-matching"
+        },
+        {
+          "id": "cet6-2022-12-set1-q41",
+          "type": "MATCHING",
+          "prompt": "Once Wardian sets his mind on something, he is determined to make it happen.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 10,
+          "explanation": "原卷答案：K。",
+          "weight": 1,
+          "passageId": "cet6-2022-12-set1-matching"
+        },
+        {
+          "id": "cet6-2022-12-set1-q42",
+          "type": "MATCHING",
+          "prompt": "One top American marathoner quit his running career because of his physical condition.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 7,
+          "explanation": "原卷答案：H。",
+          "weight": 1,
+          "passageId": "cet6-2022-12-set1-matching"
+        },
+        {
+          "id": "cet6-2022-12-set1-q43",
+          "type": "MATCHING",
+          "prompt": "To many of the week-long marathon participants, completing the race will be a success in itself.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 8,
+          "explanation": "原卷答案：I。",
+          "weight": 1,
+          "passageId": "cet6-2022-12-set1-matching"
+        },
+        {
+          "id": "cet6-2022-12-set1-q44",
+          "type": "MATCHING",
+          "prompt": "For Wardian, the marathon in the Arctic was more about how to triumph over the extreme cold.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "passageId": "cet6-2022-12-set1-matching"
+        },
+        {
+          "id": "cet6-2022-12-set1-q45",
+          "type": "MATCHING",
+          "prompt": "To participate in the seven-day marathon series, Wardian had to raise a lot of money and have his wife's support.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 6,
+          "explanation": "原卷答案：G。",
+          "weight": 1,
+          "passageId": "cet6-2022-12-set1-matching"
+        },
+        {
+          "id": "cet6-2022-12-set1-q46",
+          "type": "DETAIL",
+          "prompt": "What does the author say about the pursuit of work-related self-esteem?",
+          "choices": [
+            "It may result in negative motivation.",
+            "It contributes to one's accomplishments.",
+            "It can increase one's vigor as one keeps trying.",
+            "It costs too much emotionally and psychologically."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "passageId": "cet6-2022-12-set1-detail1"
+        },
+        {
+          "id": "cet6-2022-12-set1-q47",
+          "type": "DETAIL",
+          "prompt": "What do employees tend to do in pursuing work-related self-esteem?",
+          "choices": [
+            "Take on tasks well beyond their actual capabilities.",
+            "Strive to succeed at the expense of their well-being.",
+            "Resort to all means regardless of the consequences.",
+            "Exaggerate their sense of shame and worthlessness."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "passageId": "cet6-2022-12-set1-detail1"
+        },
+        {
+          "id": "cet6-2022-12-set1-q48",
+          "type": "DETAIL",
+          "prompt": "What do we learn about people over-concerned with work-related self-esteem?",
+          "choices": [
+            "They may often feel inferior to their colleagues.",
+            "They cannot enjoy their personal life to the full.",
+            "They are never satisfied with their achievements. 2022-12-CET6(7 1 1)-7",
+            "They have their own view of friendship and leisure."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "passageId": "cet6-2022-12-set1-detail1"
+        },
+        {
+          "id": "cet6-2022-12-set1-q49",
+          "type": "DETAIL",
+          "prompt": "What is the good news we learn from the recent research?",
+          "choices": [
+            "The pursuit of goals may turn out to be enjoyable and pleasant.",
+            "The emotional rewards from goal pursuit are worth the pains taken.",
+            "The negative consequences of goal pursuit can mostly be avoided.",
+            "The goal of swelling self-esteem can be achieved if one keeps trying."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "passageId": "cet6-2022-12-set1-detail1"
+        },
+        {
+          "id": "cet6-2022-12-set1-q50",
+          "type": "DETAIL",
+          "prompt": "What can we infer from the last paragraph?",
+          "choices": [
+            "Workers have to make sacrifices to preserve self-esteem.",
+            "Self-esteem swells when workers are strongly motivated.",
+            "Pursuit of goals affects people's personal lives to an unhealthy extent.",
+            "People feel positive about their work as long as they are motivated."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "passageId": "cet6-2022-12-set1-detail1"
+        },
+        {
+          "id": "cet6-2022-12-set1-q51",
+          "type": "DETAIL",
+          "prompt": "What is the major finding of the UN environmental study?",
+          "choices": [
+            "Human activity has rendered Mother Earth almost uninhabitable.",
+            "Humans are doing more damage to the earth than it can cope with.",
+            "Environmental problems have considerably weakened human prosperity.",
+            "Environmental damage is more serious in developed countries these days."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "passageId": "cet6-2022-12-set1-detail2"
+        },
+        {
+          "id": "cet6-2022-12-set1-q52",
+          "type": "DETAIL",
+          "prompt": "What is said about water scarcity in some of the poorest regions?",
+          "choices": [
+            "It is getting so serious that there is little hope of solution.",
+            "It largely accounts for their slow economic development.",
+            "It can hardly be relieved if no drastic measures are taken.",
+            "It is primarily caused by the acceleration of climate change."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "passageId": "cet6-2022-12-set1-detail2"
+        },
+        {
+          "id": "cet6-2022-12-set1-q53",
+          "type": "DETAIL",
+          "prompt": "What does Achim Steiner say about the environmental condition?",
+          "choices": [
+            "It will deteriorate worldwide.",
+            "It is attracting global attention.",
+            "It is being slowly remedied globally.",
+            "It will shrink the world's population."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "passageId": "cet6-2022-12-set1-detail2"
+        },
+        {
+          "id": "cet6-2022-12-set1-q54",
+          "type": "DETAIL",
+          "prompt": "What is the dilemma developing countries face?",
+          "choices": [
+            "They cannot modernise farming without causing land degradation.",
+            "They cannot promote industrialisation without polluting waterways.",
+            "They cannot boost crop yields without causing greenhouse gas emissions.",
+            "They cannot catch up with rich countries without sacrificing the environment."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "passageId": "cet6-2022-12-set1-detail2"
+        },
+        {
+          "id": "cet6-2022-12-set1-q55",
+          "type": "DETAIL",
+          "prompt": "What should developing countries do in their future development according to the passage?",
+          "choices": [
+            "They turn to developed countries for the assistance they need.",
+            "They remedy environmental damage by slowing economic growth.",
+            "They avoid damaging interference from international institutions.",
+            "They improve people's livelihood without harming the environment."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "passageId": "cet6-2022-12-set1-detail2"
+        }
+      ],
+      "audio": [],
+      "passages": [
+        {
+          "id": "cet6-2022-12-set1-bank",
+          "text": "Questions __(26)__ to __(35)__ are based on the following passage. During the summer, when I was a visiting poet at a residency out of state, an angry, confused woman wandered into my class and said: \"I have three guns and I want to use them.\" We all 26. It was not clear if she had the guns, but we each know that, when we teach in America, we are already in danger. 2022-12-CET6(* 1 1)-3 I was dizzy with fear. The woman, who later turned out to be a Schizophrenic without __(27)__ to her medications, was, by some force, wrestled out and __(28)__  away, then put in a hospital for observation, in a step that was actually safer for everyone than any one of us pressing charges. My class went on; we talked about poems. But despite the fact that the rest of our days on campus passed __(29)__ , I was rattled. I couldn't shake the sense that in this country we always live at __(30)__ risk. A few months later, crisis __(31)__ again. While my husband was locking his bike to drop off our 3-year-old daughter for her preschool-aged day camp, a different woman approached. Swiftly and for no __(32)__ reason, she bent down, picked up our daughter, and began to carry her down the street. It was so fast and confusing that my daughter __(33)__ cried. My husband, in a burst of speed, chased the woman and reclaimed our daughter. The woman, clearly confused, retreated into the public library. A __(34)__ of homeless people who generally know the other homeless in the area said they did not recognize the woman. The woman was so clearly unwell that when she was taken into custody she was incoherent. Heartbreakingly, she called our daughter by the name of someone else's child. Each part of the episode was as haunting as it was 35"
+        },
+        {
+          "id": "cet6-2022-12-set1-matching",
+          "text": "This man is running 7 marathons on 7 continents in 7 days\nA) Michael Wardian pushed forward into the penetrating arctic (ittkif) wind, fighting the urge to speed up. Too much effort and he'd begin to sweat, which, he was told, would only increase the risk of hypothermia (1 it 14).\nB) At the 2014 North Pole Marathon, the temperature dipped to minus-22 degrees F, with a wind chill that made it feel even colder. Along the route, armed guards wandered the large sheets of floating ice to minimize the risk of polar bear attacks.\nC) \"I like to do stuff that scares me,\" Wardian said. With ice frozen to his beard, Wardian crossed the finish line that April afternoon in a winning time of 4 hours 7 minutes and 40 seconds, almost two hours slower than his personal best over 26.2 miles. The race for Wardian, however, was less about the result than overcoming his aversion to the cold.\nD) In a few days, Wardian will once again compete in an unfamiliar territory and below-freezing temperatures. He will line up Monday in Antarctica (i f&) for the first leg of the World Marathon Challenge joining 32 other adventure seekers on an unusual journey where participants travel 2022-12-CET6(* 1 1)-4 through different time zones and climates to run seven marathons on seven continents in seven days.\nE) An elite ultra-runner, Wardian has his sights on breaking the event's record average marathon time of 3:32:25set last January by U.S. Marine Corps captain Daniel Cartica. Wardian, a 42-year-old Arlington resident, is a record-breaking racer, known in the ultra running community for seeking tough courses and setting world records. Last year, he ran 1,254.65 miles in 47 races. The World Marathon Challenge, like most of Wardian's running goals, will be about pushing his limits. \"I love diverse and unique challenges,\" he said. \"I'm definitely interested in seeing what I can handle and what my body can accept. That drives me.\"\nF) Something about the way Richard Donovan carried himself appealed to Wardian. Perhaps it was the sense of adventure Donovan displayed when they first met at the 2010 50K Championships in Galway, Ireland, where Donovan was the race director. The two hit it off, and soon Wardian was participating in Donovan's events. It was at the North Pole Marathon, a race that Donovan organizes, that Wardian first heard about the Irishman's plan for the World Marathon Challenge a challenge that Donovan himself completed in 2009 and 2012. \"I knew that many people had a goal of running seven marathons on seven continents during any time period,\" Donovan, 50, said. \"I felt the natural extension to this idea would be to try to achieve it within a seven-day period.\"\nG) Wardian started saving for the trip in 2014, connecting with sponsors and getting approval from his wife, Jennifer, before committing. Registration for the event costs 36,000 euros, which covers international charter flights to each of the seven marathon locations: Union Glacier (Antarctica), Punta Arenas, Chile (South America), Miami (North America), Madrid (Europe), Marrakesh, Morocco (Africa), Dubai (Asia) and Sydney (Australia). The challenge is a test of both physical strength and mental fitness. Sleeping on a crammed plane, adjusting to different time zones and finding food to eat (Wardian is a vegetarian) would make it an exhausting trip over a month, let alone a week. \"The key to a race like this is getting comfortable being uncomfortable,\" said Becca Pizzi, last year's women's champion. \"The highs of the race are incredibly high, and the lows incredibly low.\"\nH) Since turning it into an organized event in 2015, Donovan has attracted a variety of runners. This year's challenge will feature a far more elite field, which includes Ryan Hall, America's fastest marathon runner. Despite his proven track record, Hall said he has no time goals and that he still suffers from the same fatigue issues that forced him to leave the professional ranks in 2015. Hall plans to run with his friend, Pastor Matthew Barnett of The Dream Center in Los Angeles one of the six American men who will be competing. \"I don't expect to run a step with Mike, but I will be excited to see how he does,\" said the 34-year-old Hall, who began weight-lifting after retiring. \"If I finish within an hour of him in each marathon, I'd be surprised.\"\nI) Instead, 43-year-old Petr Vabrousek, an elite Czech Ironman champion, is expected to be Wardian's closest challenger. To others on the trip, simply finishing will be its own reward. Sinead Kane of Ireland is aiming to become the first blind person to complete the challenge. And Beth Ann Telford, a 47-year-old federal government worker from Fairfax and the only American female in this year's mix, is using the event as a platform to raise money for cancer research. It's a cause with a personal connection to Telford, who was diagnosed with brain cancer in 2004. \"Doing something like this is definitely the hardest challenge that I've ever done except for the chemotherapy and brain surgery,\" she said. \"It's going to raise awareness... I just wanted to do something that is epic and this certainly is right up there.\" Wardian, too, hopes his involvement will give him a platform to promote a cause. He recently became an ambassador for the United Nations Women's HeForShe initiative to fight 2022-12-CET6(7 1 1)-5 inequalities faced by women and girls worldwide.\nJ) On a chilly December afternoon, Wardian wove through Washington's crowded sidewalks on the way home from his full-time job as an international ship broker. His elastic, 6-foot frame bounced gently and efficiently off the ground with each step of the hilly six-mile trip back to Arlington. This is a daily routine during the week for Wardian, who started racing professionally in 2003 and runs seven days a week, often multiple times a day. When he travels, he prefers to explore new places on his feet.\nK) But in some ways, Wardian still has trouble thinking of himself as a runner. For the majority of his childhood, Wardian devoted his energy to becoming a Division I lacrosse (* i tAk) player-a dream he realized when he was recruited to play at Michigan State University. \"Once he decides to do something, he just works at it until he does it,\" Michael's younger sister, Mariele, said. \"Once he decides to do it, it's usually something that's going to happen. He's always been like that. He's a very motivated individual.\"\nL) It was only a year or so ago that Wardian realized that he had been a runner longer than a lacrosse player. It was not until he ran in the 2004 U.S. Olympic Marathon Trials-the first of three for Wardian-that he felt that he was a legitimate runner. Now more than 10 years and numerous ultra-marathon national titles and world records later, he embraces that identity. Wardian wants to see how far his legs can take him, one epic challenge at a time. \"I want to always keep doing things that are exciting, adventurous, different and most importantly, probably things I'm not the best at,\" Wardian said,    \"because if you're not seeking things out that are challenging and difficult for you, then you're not growing... So I hope maybe people see what I do, and say, 'Okay, I want to do something different or try something new... I'm going to do something that scares me.' That's what I'm hoping people will take from it.\""
+        },
+        {
+          "id": "cet6-2022-12-set1-detail1",
+          "text": "Many people associate their self-worth with their work. The more successful their career, the better 2022-12-CET6(7* 1 1)-6 they feel about themselves. Work-related self-esteem is therefore a worthy ideal to pursue with vigor, right? Well, not always. According to recent research, in which psychologists interviewed 370 full-time workers over a period of three weeks, the reality is a little more complicated. And it involves negative as well as positive consequences. It's natural to be drawn towards pleasure and to step away from pain. In the workplace, if that pleasure comes from a triumph which swells our self-respect, people will try to repeat the accomplishment. But repeating that accomplishment is often not realistic, which can lead to severe negative emotional consequences when it doesn't reoccur. This form of motivation is widely regarded as a negative type of motivation. It can hinder other more positive motivation types, such as completing a task purely because it's fulfilling or enjoyable. What consumes the employee instead is a pressing need to feel mighty and sure of themselves. They then take on only tasks and objectives which serve that ego-driven need. As a result, to avoid feelings of shame and worthlessness associated with failure, they extend themselves to such a degree that there's a subsequent adverse effect on their well-being. This internal pressure to succeed at all costs demands a lot of effort. It depletes their energy, culminating in disproportionate levels of damaging sentiment. Those negative emotions mount into heightened anxiety, impacting their ability to make the most of their personal life. Their desire to avoid feeling inferior ends up making them feel inferior when it comes to their diminished capacity for friendship and leisure. They end up dissatisfied both at work and outside of it. But thankfully, for those people compelled almost entirely by this specific form of motivation, the news isn't all bad, or bad at all. The study also discovered several positive outcomes that can actually outweigh the harmful ones. Though these types of employees are motivated by the desire to avoid negative consequences, they are also motivated by the excitement of pursuing emotional rewards. This excitement makes pursuing goals enjoyable and stimulates pleasure and pride that would result from success. An effect of the positive motivation is that it neutralizes the existence of negative motivation. Sure, it affects people's personal lives to what could be deemed an unhealthy extent, because leisure activities are often seen as a part of life that must be sacrificed to manage work and family demands. However, the way people feel about their work has less to do with whether they're motivated by the preservation of self-esteem but more with the fact that they're simply motivated."
+        },
+        {
+          "id": "cet6-2022-12-set1-detail2",
+          "text": "Degradation of the world's natural resources by humans is rapidly outpacing the planet's ability to absorb the damage, a recent UN environmental study has found. The study concludes that without radical action the level of prosperity that millions of people in the developed world count on will be impossible to maintain or extend to poorer countries. Water scarcity is the curse of some of the poorest regions on Earth, leaving developing countries increasingly unable to feed themselves, and causing hardship for millions of people. There appears little prospect of this desperate situation being remedied without radical action being taken. Water resources are under increasing threat from population growth, climate change, rapid urbanization, rising levels of consumption, and the degradation of lands that previously provided a natural replenishment (# 3) of water resources. The rate of damage to the natural environment was found to increase globally, despite concerted efforts to persuade government to take measures to improve the condition. \"If current trends continue, and the world fails to improve patterns of production and consumption, then the state of the world's environment will continue to decline,\" warned UN executive director Achim Steiner. He said the tools for improving the environment for millions of people existed in developed countries, but were in danger of not being used. The study found that basic measures to tackle some of the key causes of environmental damage were still not being taken. These included measures to reduce air pollution; to control the damage to marine eco-systems, which can have a huge effect on fish stocks on which hundreds of millions of people depend; and to curb the degradation of land where modern agricultural methods were pursued without regard to the longer-term consequences. Despite the recent global agreement on cutting greenhouse gas emissions, global carbon output continues to rise. This will put a long-term strain on the ability of developing economies to feed their own people. Climate change is aggravated by the emissions of greenhouse gases from chemical and natural fertilisers used in agriculture which increased by more than a quarter between 2000 and 2010. Other problem areas identified in the report included glaciers, which provide vital water resources for millions of people, but which are shrinking as the climate warms. In rich countries, these problems have built up over decades and centuries while economic growth was pursued at the expense of the environment. Subsequent efforts to remedy the environment have met with partial success. But in developing countries, the path of future development has more potential to change, which has encouraged international institutions to devise more sustainable growth pathways that 2022-12-CET6(7 1 1)-8 are supposed both to alleviate poverty and preserve the environment."
+        }
+      ],
+      "sourceFileUrl": "/study/resources/6c321c079ddf8aaf5ed9c353.pdf"
+    },
+    "TRANSLATION": {
+      "instructions": "请将原卷中文翻译成英语。",
+      "prompt": "Directions: For this part, you are allowed 30 minutes to translate a passage from Chinese into English. You should write your answer on Answer Sheet 2. 青藏高原(the Qinghai-Tibet Plateau)位于中国西南部,面积约230万平方公里,平均海拔 4000 米以上,被称为“世界屋脊”。青藏高原自然资源丰富,风景秀丽,拥有多种珍稀野生成动物。 青藏高原气温很低,形成了大面积高山冰川。这里是亚洲许多著名河流的源头,是中国和东南 亚的主要淡水供应源。青藏高原对全球生态系统至关重要。 由于气候变化的影响,青藏高原的冰川正在加速融化。中国一直在努力保护青藏高原的生态系 统,草地覆盖率不断增加,许多濒危物种得到了有效的保护。 2022-12-CET6(* 1 1)-9",
+      "questions": [],
+      "audio": [],
+      "passages": [],
+      "sourceFileUrl": "/study/resources/6c321c079ddf8aaf5ed9c353.pdf"
+    }
+  }
+}

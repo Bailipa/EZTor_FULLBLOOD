@@ -1,0 +1,15 @@
+.page { min-height: 100vh; padding: 1rem 1rem calc(3.5rem + env(safe-area-inset-bottom, 0px)); background: var(--background); }
+.inner { max-width: 64rem; margin: 0 auto; display: grid; gap: 1rem; }
+.header { display: grid; gap: .25rem; }
+.title { font-size: 1.5rem; font-weight: 700; }
+.muted { color: var(--muted-foreground); font-size: .875rem; }
+.panel { border: 1px solid var(--border); border-radius: .75rem; padding: 1rem; background: var(--card); display: grid; gap: .75rem; }
+.row { display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; }
+.field { width: 100%; border: 1px solid var(--border); border-radius: .5rem; padding: .6rem .75rem; background: var(--background); color: inherit; }
+.preview { overflow: auto; max-height: 22rem; white-space: pre-wrap; overflow-wrap: anywhere; border-radius: .5rem; padding: .75rem; background: var(--muted); font-size: .75rem; }
+.record { border-top: 1px solid var(--border); padding-top: .9rem; display: grid; gap: .5rem; }
+.label { font-size: .75rem; color: var(--muted-foreground); }
+.hash { font-family: monospace; font-size: .75rem; overflow-wrap: anywhere; }
+.error { color: var(--destructive); font-size: .875rem; }
+.notice { color: var(--primary); font-size: .875rem; }
+@media (min-width: 768px) { .page { padding: 2rem; } .panel { padding: 1.25rem; } }

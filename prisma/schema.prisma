@@ -349,6 +349,10 @@ model User {
   ContributionLedger     ContributionLedger[]
   ContributionProfile    ContributionProfile?
   ContributionSubmission ContributionSubmission[]
+  StudyGoal              StudyGoal?
+  StudySession           StudySession[]
+  StudyEvent             StudyEvent[]
+  ExamAttempt            ExamAttempt[]
 }
 
 model UserPreference {
@@ -559,6 +563,12 @@ model ChatConfig {
   updatedAt          DateTime  @updatedAt
 }
 
+model AppFeatureConfig {
+  id                 String   @id @default("global")
+  leaderboardEnabled Boolean  @default(true)
+  updatedAt          DateTime @updatedAt
+}
+
 model AdminTodo {
   id          String   @id @default(cuid())
   title       String
@@ -646,4 +656,142 @@ model WarZone {
   UserGameProfile UserGameProfile[]
 
   @@index([isActive])
+}
+
+model StudyGoal {
+  id          String   @id @default(cuid())
+  userId      String   @unique
+  level       String
+  examDate    DateTime @db.Date
+  targetScore Int
+  revision    Int      @default(1)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  User        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  sessions    StudySession[]
+}
+
+model StudyPassage {
+  id             String   @id @default(cuid())
+  slug           String
+  version        Int      @default(1)
+  level          String
+  kind           String
+  title          String
+  sourceName     String
+  sourceUrl      String?
+  rightsHolder   String
+  rightsEvidence String
+  rightsStatus   String   @default("PENDING")
+  contentHash    String
+  content        Json
+  createdAt      DateTime @default(now())
+  sessions       StudySession[]
+
+  @@unique([slug, version])
+  @@unique([contentHash])
+  @@index([level, rightsStatus, kind])
+}
+
+model StudySession {
+  id            String       @id @default(cuid())
+  userId        String
+  goalId        String
+  goalRevision  Int
+  goalSnapshot  Json
+  passageId     String
+  startKey      String
+  status        String       @default("READING")
+  sentenceIndex Int          @default(0)
+  questionIndex Int          @default(0)
+  activeMs      Int          @default(0)
+  assisted      Boolean      @default(false)
+  answers       Json         @default("[]")
+  startedAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  completedAt   DateTime?
+  User          User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  goal          StudyGoal    @relation(fields: [goalId], references: [id], onDelete: Restrict)
+  passage       StudyPassage @relation(fields: [passageId], references: [id], onDelete: Restrict)
+  events        StudyEvent[]
+
+  @@unique([userId, startKey])
+  @@index([userId, status, updatedAt(sort: Desc)])
+  @@index([userId, startedAt(sort: Desc)])
+  @@index([passageId])
+  @@index([goalId])
+}
+
+model StudyEvent {
+  id        String        @id @default(cuid())
+  userId    String
+  sessionId String?
+  clientId  String
+  type      String
+  data      Json
+  activeMs  Int           @default(0)
+  createdAt DateTime      @default(now())
+  User      User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  session   StudySession? @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, clientId])
+  @@index([userId, createdAt(sort: Desc)])
+  @@index([sessionId, createdAt])
+  @@index([userId, type, createdAt(sort: Desc)])
+}
+
+model ExamPaper {
+  originType String @default("ORIGINAL")
+  id String @id @default(cuid())
+  slug String
+  version Int
+  title String
+  level String
+  kind String
+  sourceName String
+  sourceUrl String?
+  rightsHolder String
+  rightsEvidence String
+  rightsStatus String @default("PENDING")
+  contentHash String @unique
+  content Json
+  createdAt DateTime @default(now())
+  attempts ExamAttempt[]
+  @@unique([slug, version])
+  @@index([level, kind, rightsStatus, createdAt])
+}
+model ExamAttempt {
+  revision Int @default(0)
+  goalSnapshot Json
+  id String @id @default(cuid())
+  userId String
+  paperId String
+  startKey String
+  mode String
+  status String
+  state Json
+  stageStartedAt DateTime
+  deadlineAt DateTime?
+  assisted Boolean @default(false)
+  replayCount Int @default(0)
+  startedAt DateTime @default(now())
+  completedAt DateTime?
+  updatedAt DateTime @updatedAt
+  paper ExamPaper @relation(fields: [paperId], references: [id], onDelete: Restrict)
+  User User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  events ExamEvent[]
+  @@unique([userId, startKey])
+  @@index([userId, updatedAt(sort: Desc)])
+}
+model ExamEvent {
+  id String @id @default(cuid())
+  userId String
+  attemptId String
+  clientId String
+  input Json
+  receipt Json
+  createdAt DateTime @default(now())
+  attempt ExamAttempt @relation(fields: [attemptId], references: [id], onDelete: Cascade)
+  @@unique([userId, clientId])
+  @@index([attemptId, createdAt])
 }

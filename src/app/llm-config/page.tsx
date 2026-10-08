@@ -291,7 +291,7 @@ export default function LlmConfigPage() {
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 items-end">
                     <div>
-                      <div className="text-sm mb-1">剩余额度（请求数，留空=无限）</div>
+                      <div className="text-sm mb-1">供应商免费余量（tokens，留空=不限制）</div>
                       <Input
                         value={form.quotaRemaining}
                         onChange={(e) => setForm((p) => ({ ...p, quotaRemaining: e.target.value }))}
@@ -322,7 +322,7 @@ export default function LlmConfigPage() {
           <CardHeader>
             <CardTitle>API 列表</CardTitle>
             <CardDescription>
-              系统会按 priority 顺序选择可用 API（quotaRemaining 大于 0 或为空）
+              系统会按 priority 顺序选择可用 API（免费余量大于 0 或为空）。免费余量以供应商控制台同步值为准；“应用请求计数”仅用于本地保护和观察。
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -342,8 +342,8 @@ export default function LlmConfigPage() {
                       <th className="text-left py-2 px-2 font-medium">Base URL</th>
                       <th className="text-left py-2 px-2 font-medium">Model</th>
                       <th className="text-right py-2 px-2 font-medium">优先级</th>
-                      <th className="text-right py-2 px-2 font-medium">剩余</th>
-                      <th className="text-right py-2 px-2 font-medium">已用</th>
+                      <th className="text-right py-2 px-2 font-medium">免费余量</th>
+                      <th className="text-right py-2 px-2 font-medium">应用请求计数</th>
                       <th className="text-left py-2 px-2 font-medium">最近使用</th>
                       <th className="text-left py-2 px-2 font-medium">错误</th>
                       <th className="text-right py-2 px-2 font-medium">操作</th>

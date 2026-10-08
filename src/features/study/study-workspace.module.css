@@ -1,0 +1,36 @@
+.workspace { min-width: 0; max-width: 1100px; margin-inline: auto; padding: 14px 20px; color: var(--foreground); }
+.meta, .catalogueToolbar { display: flex; align-items: center; gap: 10px; justify-content: space-between; }
+.utility { display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 5px 8px; min-height: 36px; color: var(--muted-foreground); background: transparent; font-size: 12px; border-radius: 6px; cursor: pointer; }
+.utility:hover { color: var(--foreground); background: var(--muted); }
+.meta { justify-content: flex-start; margin-top: 8px; }
+.meta > :last-child { margin-left: auto; }
+.workspace select, .catalogueToolbar select { max-width: 100%; min-width: 0; padding: 7px 10px; font-size: 13px; color: var(--foreground); border: 1px solid var(--border); border-radius: 6px; background: var(--background); }
+.catalogueToolbar input { flex: 1; width: 0; min-width: 0; padding: 7px 10px; font-size: 16px; color: var(--foreground); border: 1px solid var(--border); border-radius: 6px; background: var(--background); }
+.modeTabs { position: sticky; top: 0; z-index: 20; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); height: 56px; padding-inline: 24px; background: var(--primary); color: var(--primary-foreground); }
+.modeTabs button { min-width: 0; min-height: 44px; padding: 6px 0; color: inherit; background: transparent; font-size: 14px; cursor: pointer; border-bottom: 3px solid transparent; opacity: .8; }
+.modeTabs button[aria-pressed='true'] { border-color: var(--primary-foreground); background: color-mix(in srgb, var(--primary-foreground) 10%, transparent); font-weight: 600; opacity: 1; }
+.modeTabs button:focus-visible { outline: 2px solid var(--primary-foreground); outline-offset: -5px; }
+.practice { min-width: 0; }
+.footer { display: flex; justify-content: center; gap: 16px; padding: 10px 0; }
+.empty { padding: 24px 10px; font-size: 14px; text-align: center; line-height: 1.7; }
+.catalogueDialog { top: calc(var(--app-visible-top, 0px) + var(--app-visible-height, 100dvh) / 2); max-width: min(600px, calc(100vw - 24px)); max-height: calc(var(--app-visible-height, 100dvh) - 32px); }
+.catalogueList { min-height: 0; overflow-y: auto; overscroll-behavior-y: contain; }
+.catalogueList article { padding: 14px 0; border-bottom: 1px solid var(--border); }
+.catalogueList h3 { margin: 0 0 6px; font-size: 15px; font-weight: 600; }
+.catalogueList p { margin: 5px 0; color: var(--muted-foreground); font-size: 12px; line-height: 1.7; overflow-wrap: anywhere; }
+.catalogueList summary, .catalogueList a { color: color-mix(in srgb, var(--foreground) 70%, var(--primary)); font-size: 12px; cursor: pointer; }
+.resourceActions { display: flex; flex-wrap: wrap; gap: 8px; margin-block: 8px; }
+.resourceActions a { display: inline-flex; align-items: center; min-height: 36px; padding: 6px 10px; border: 1px solid var(--border); border-radius: 6px; background: var(--muted); }
+.workspace :is(button, select, a):focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+@media (min-width: 768px) {
+  .meta { margin-top: 0; min-height: 34px; }
+  .meta .utility { min-height: 30px; padding-block: 4px; }
+  .workspace { max-width: none; min-height: var(--workspace-content-height, calc(100dvh - 56px)); padding: 14px 24px 28px; }
+}
+@media (max-width: 767px) { .workspace select, .catalogueToolbar select { font-size: 16px; } }
+@media (max-width: 1023px) {
+  :global(html[data-keyboard-open='true']) .workspace > .meta,
+  :global(html[data-keyboard-open='true']) .modeTabs { display: none; }
+}
+@media (max-width: 767px) { .modeTabs { height: calc(52px + env(safe-area-inset-top, 0px)); padding: env(safe-area-inset-top, 0px) 48px 0 12px; } }
+@media (max-width: 479px) { .workspace { padding: 10px 12px; } .modeTabs button { font-size: 13px; } }

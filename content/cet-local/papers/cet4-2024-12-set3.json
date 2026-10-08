@@ -1,0 +1,695 @@
+{
+  "slug": "cet4-2024-12-set3-full",
+  "version": 1,
+  "title": "2024年12月 · 第3套整卷模拟真题",
+  "level": "CET4",
+  "kind": "FULL",
+  "originType": "PAST_EXAM",
+  "sourceName": "用户提供的本地四六级资料",
+  "sourceUrl": "/study/resources/ffeabe7091f01fd2f1367ef5.pdf",
+  "rightsHolder": "原试卷及解析作者",
+  "rightsEvidence": "用户提供本地资源并要求接入本地学习系统；原文件及校验值见 content/cet-local/index.json。未授权公开再分发或生产部署。",
+  "content": {
+    "WRITING": {
+      "instructions": "原卷写作要求",
+      "prompt": "Directions: Suppose the university newspaper is inviting submissions from the students for its coming edition on how the students can contribute to a green campus. You are now to write an essay for submission. You will have 30 minutes to write the essay. You should write at least 120 words but no more than 180 words.",
+      "questions": [],
+      "audio": [],
+      "passages": [],
+      "minimumWords": 120,
+      "maximumWords": 180,
+      "sourceFileUrl": "/study/resources/ffeabe7091f01fd2f1367ef5.pdf"
+    },
+    "LISTENING": {
+      "instructions": "听力材料",
+      "questions": [],
+      "audio": [],
+      "passages": [],
+      "unavailableReason": "原卷未刊载本卷独立听力题文。由于多题多卷,官方第三套真题的听力试题与第二套真题的一致,只是选项顺序不同,因此本套试卷不再提供听力部分。",
+      "sourceFileUrl": "/study/resources/ffeabe7091f01fd2f1367ef5.pdf"
+    },
+    "READING": {
+      "instructions": "请依次完成选词填空、长篇匹配和仔细阅读。",
+      "questions": [
+        {
+          "id": "cet4-2024-12-set3-q26",
+          "type": "WORD_BANK",
+          "prompt": "第 26 空",
+          "choices": [
+            "accurate",
+            "allow",
+            "artificial",
+            "cheating",
+            "deserted",
+            "establish",
+            "extremely",
+            "immediately",
+            "incorrectly",
+            "normal",
+            "observed",
+            "passed",
+            "reminding",
+            "reparable",
+            "resolve"
+          ],
+          "answerIndex": 9,
+          "explanation": "原卷答案：J。",
+          "weight": 0.5,
+          "passageId": "cet4-2024-12-set3-bank"
+        },
+        {
+          "id": "cet4-2024-12-set3-q27",
+          "type": "WORD_BANK",
+          "prompt": "第 27 空",
+          "choices": [
+            "accurate",
+            "allow",
+            "artificial",
+            "cheating",
+            "deserted",
+            "establish",
+            "extremely",
+            "immediately",
+            "incorrectly",
+            "normal",
+            "observed",
+            "passed",
+            "reminding",
+            "reparable",
+            "resolve"
+          ],
+          "answerIndex": 10,
+          "explanation": "原卷答案：K。",
+          "weight": 0.5,
+          "passageId": "cet4-2024-12-set3-bank"
+        },
+        {
+          "id": "cet4-2024-12-set3-q28",
+          "type": "WORD_BANK",
+          "prompt": "第 28 空",
+          "choices": [
+            "accurate",
+            "allow",
+            "artificial",
+            "cheating",
+            "deserted",
+            "establish",
+            "extremely",
+            "immediately",
+            "incorrectly",
+            "normal",
+            "observed",
+            "passed",
+            "reminding",
+            "reparable",
+            "resolve"
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 0.5,
+          "passageId": "cet4-2024-12-set3-bank"
+        },
+        {
+          "id": "cet4-2024-12-set3-q29",
+          "type": "WORD_BANK",
+          "prompt": "第 29 空",
+          "choices": [
+            "accurate",
+            "allow",
+            "artificial",
+            "cheating",
+            "deserted",
+            "establish",
+            "extremely",
+            "immediately",
+            "incorrectly",
+            "normal",
+            "observed",
+            "passed",
+            "reminding",
+            "reparable",
+            "resolve"
+          ],
+          "answerIndex": 5,
+          "explanation": "原卷答案：F。",
+          "weight": 0.5,
+          "passageId": "cet4-2024-12-set3-bank"
+        },
+        {
+          "id": "cet4-2024-12-set3-q30",
+          "type": "WORD_BANK",
+          "prompt": "第 30 空",
+          "choices": [
+            "accurate",
+            "allow",
+            "artificial",
+            "cheating",
+            "deserted",
+            "establish",
+            "extremely",
+            "immediately",
+            "incorrectly",
+            "normal",
+            "observed",
+            "passed",
+            "reminding",
+            "reparable",
+            "resolve"
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 0.5,
+          "passageId": "cet4-2024-12-set3-bank"
+        },
+        {
+          "id": "cet4-2024-12-set3-q31",
+          "type": "WORD_BANK",
+          "prompt": "第 31 空",
+          "choices": [
+            "accurate",
+            "allow",
+            "artificial",
+            "cheating",
+            "deserted",
+            "establish",
+            "extremely",
+            "immediately",
+            "incorrectly",
+            "normal",
+            "observed",
+            "passed",
+            "reminding",
+            "reparable",
+            "resolve"
+          ],
+          "answerIndex": 11,
+          "explanation": "原卷答案：L。",
+          "weight": 0.5,
+          "passageId": "cet4-2024-12-set3-bank"
+        },
+        {
+          "id": "cet4-2024-12-set3-q32",
+          "type": "WORD_BANK",
+          "prompt": "第 32 空",
+          "choices": [
+            "accurate",
+            "allow",
+            "artificial",
+            "cheating",
+            "deserted",
+            "establish",
+            "extremely",
+            "immediately",
+            "incorrectly",
+            "normal",
+            "observed",
+            "passed",
+            "reminding",
+            "reparable",
+            "resolve"
+          ],
+          "answerIndex": 6,
+          "explanation": "原卷答案：G。",
+          "weight": 0.5,
+          "passageId": "cet4-2024-12-set3-bank"
+        },
+        {
+          "id": "cet4-2024-12-set3-q33",
+          "type": "WORD_BANK",
+          "prompt": "第 33 空",
+          "choices": [
+            "accurate",
+            "allow",
+            "artificial",
+            "cheating",
+            "deserted",
+            "establish",
+            "extremely",
+            "immediately",
+            "incorrectly",
+            "normal",
+            "observed",
+            "passed",
+            "reminding",
+            "reparable",
+            "resolve"
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 0.5,
+          "passageId": "cet4-2024-12-set3-bank"
+        },
+        {
+          "id": "cet4-2024-12-set3-q34",
+          "type": "WORD_BANK",
+          "prompt": "第 34 空",
+          "choices": [
+            "accurate",
+            "allow",
+            "artificial",
+            "cheating",
+            "deserted",
+            "establish",
+            "extremely",
+            "immediately",
+            "incorrectly",
+            "normal",
+            "observed",
+            "passed",
+            "reminding",
+            "reparable",
+            "resolve"
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 0.5,
+          "passageId": "cet4-2024-12-set3-bank"
+        },
+        {
+          "id": "cet4-2024-12-set3-q35",
+          "type": "WORD_BANK",
+          "prompt": "第 35 空",
+          "choices": [
+            "accurate",
+            "allow",
+            "artificial",
+            "cheating",
+            "deserted",
+            "establish",
+            "extremely",
+            "immediately",
+            "incorrectly",
+            "normal",
+            "observed",
+            "passed",
+            "reminding",
+            "reparable",
+            "resolve"
+          ],
+          "answerIndex": 8,
+          "explanation": "原卷答案：I。",
+          "weight": 0.5,
+          "passageId": "cet4-2024-12-set3-bank"
+        },
+        {
+          "id": "cet4-2024-12-set3-q36",
+          "type": "MATCHING",
+          "prompt": "Acquisition of new knowledge may not guarantee the progress that you aim to make.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段"
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "passageId": "cet4-2024-12-set3-matching"
+        },
+        {
+          "id": "cet4-2024-12-set3-q37",
+          "type": "MATCHING",
+          "prompt": "Your current situation in life is built on the beliefs and habits you have been practicing daily.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段"
+          ],
+          "answerIndex": 9,
+          "explanation": "原卷答案：J。",
+          "weight": 1,
+          "passageId": "cet4-2024-12-set3-matching"
+        },
+        {
+          "id": "cet4-2024-12-set3-q38",
+          "type": "MATCHING",
+          "prompt": "Knowing the best way to learn a foreign language will not enable you to speak it without actual practice.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段"
+          ],
+          "answerIndex": 5,
+          "explanation": "原卷答案：F。",
+          "weight": 1,
+          "passageId": "cet4-2024-12-set3-matching"
+        },
+        {
+          "id": "cet4-2024-12-set3-q39",
+          "type": "MATCHING",
+          "prompt": "People may find it demanding to create a goal which will take a long time to achieve.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段"
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "passageId": "cet4-2024-12-set3-matching"
+        },
+        {
+          "id": "cet4-2024-12-set3-q40",
+          "type": "MATCHING",
+          "prompt": "Learning and practicing seem to be very much alike, but the two processes can lead to quite different outcomes.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段"
+          ],
+          "answerIndex": 4,
+          "explanation": "原卷答案：E。",
+          "weight": 1,
+          "passageId": "cet4-2024-12-set3-matching"
+        },
+        {
+          "id": "cet4-2024-12-set3-q41",
+          "type": "MATCHING",
+          "prompt": "Absorbing new information is helpful in making better decisions prior to action.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段"
+          ],
+          "answerIndex": 10,
+          "explanation": "原卷答案：K。",
+          "weight": 1,
+          "passageId": "cet4-2024-12-set3-matching"
+        },
+        {
+          "id": "cet4-2024-12-set3-q42",
+          "type": "MATCHING",
+          "prompt": "Sometimes we may feel like we are making progress by doing some research or making preparations, but actually we are staying at the starting point.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段"
+          ],
+          "answerIndex": 6,
+          "explanation": "原卷答案：G。",
+          "weight": 1,
+          "passageId": "cet4-2024-12-set3-matching"
+        },
+        {
+          "id": "cet4-2024-12-set3-q43",
+          "type": "MATCHING",
+          "prompt": "We are inclined to think that a lack of knowledge prevents us from advancing to a better future.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段"
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "passageId": "cet4-2024-12-set3-matching"
+        },
+        {
+          "id": "cet4-2024-12-set3-q44",
+          "type": "MATCHING",
+          "prompt": "Learning can benefit you by itself but only practice can turn what you learn into meaningful contributions.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段"
+          ],
+          "answerIndex": 8,
+          "explanation": "原卷答案：I。",
+          "weight": 1,
+          "passageId": "cet4-2024-12-set3-matching"
+        },
+        {
+          "id": "cet4-2024-12-set3-q45",
+          "type": "MATCHING",
+          "prompt": "Practice involves repeating a process intentionally to attain a particular objective.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段"
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "passageId": "cet4-2024-12-set3-matching"
+        },
+        {
+          "id": "cet4-2024-12-set3-q46",
+          "type": "DETAIL",
+          "prompt": "What do we learn from research in human-vehicle interaction?",
+          "choices": [
+            "Automatic driving systems are by no means immune to errors.",
+            "Driverless vehicles are likely to be misused by some people.",
+            "Self-driving car manufacturers are not aware of the legal matters involved.",
+            "There is a long way to go before humans can interact with driverless vehicles."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "passageId": "cet4-2024-12-set3-detail1"
+        },
+        {
+          "id": "cet4-2024-12-set3-q47",
+          "type": "DETAIL",
+          "prompt": "What is the problem with requiring buyers to sign end-user license agreements?",
+          "choices": [
+            "End users, young and old alike, find the terms complex to interpret.",
+            "Most end users sign them without bothering to read the terms.",
+            "Many people are often confused by the wording of the terms.",
+            "Most end users do not understand the terms after reading them through."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "passageId": "cet4-2024-12-set3-detail1"
+        },
+        {
+          "id": "cet4-2024-12-set3-q48",
+          "type": "DETAIL",
+          "prompt": "What would drivers do when they suffer from “warning fatigue”?",
+          "choices": [
+            "Waste no time keeping the car moving.",
+            "Rest a while to avoid fatigue driving.",
+            "Take no action despite repeated warnings.",
+            "Take note of the message though fatigued."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "passageId": "cet4-2024-12-set3-detail1"
+        },
+        {
+          "id": "cet4-2024-12-set3-q49",
+          "type": "DETAIL",
+          "prompt": "What does the author think of continuing to ask buyers to sign end-user license agreements?",
+          "choices": [
+            "It will probably not guarantee the safety of drivers in case of accidents.",
+            "It likely won’t ensure that the automatic driving system functions properly.",
+            "It likely won’t fully protect automakers against accusations of deliberate cheating.",
+            "It will probably not provide manufacturers adequate protection from legal responsibilities."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "passageId": "cet4-2024-12-set3-detail1"
+        },
+        {
+          "id": "cet4-2024-12-set3-q50",
+          "type": "DETAIL",
+          "prompt": "What should be done to help drivers fully understand system capabilities and limitations?",
+          "choices": [
+            "Training them to be experts in vehicle automation.",
+            "Familiarizing them with the systems through training,",
+            "Broadening their knowledge of accident-prevention mechanisms.",
+            "Facilitating their access to the information provided by the seller."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "passageId": "cet4-2024-12-set3-detail1"
+        },
+        {
+          "id": "cet4-2024-12-set3-q51",
+          "type": "DETAIL",
+          "prompt": "What do we learn about publicity over protein in America?",
+          "choices": [
+            "It has helped to create the myth of protein deficiency.",
+            "It has helped Americans in search of protein-rich diets.",
+            "It has raised a lot of health concerns among the public.",
+            "It has been funded by food companies and health experts."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "passageId": "cet4-2024-12-set3-detail2"
+        },
+        {
+          "id": "cet4-2024-12-set3-q52",
+          "type": "DETAIL",
+          "prompt": "Why have physicians in the U.S. never actually examined a patient with protein deficiency?",
+          "choices": [
+            "Americans can purchase many kinds of protein-rich foods everywhere.",
+            "Americans can absorb the number of calories recommended by food experts.",
+            "Americans can get sufficient protein just by eating adequate foods daily.",
+            "Americans can rely on food supplements to prevent protein deficiency."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "passageId": "cet4-2024-12-set3-detail2"
+        },
+        {
+          "id": "cet4-2024-12-set3-q53",
+          "type": "DETAIL",
+          "prompt": "What should people take into consideration in deciding on the most preferable protein intake?",
+          "choices": [
+            "How healthy they are and what food they eat.",
+            "How old they are and what activities they do.",
+            "How much protein they consume and what their body weight is.",
+            "How serious their protein deficiency is and what remedies they use."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "passageId": "cet4-2024-12-set3-detail2"
+        },
+        {
+          "id": "cet4-2024-12-set3-q54",
+          "type": "DETAIL",
+          "prompt": "What foods have been largely out of favor for more than a century?",
+          "choices": [
+            "Sugar-free snacks.",
+            "Protein-rich foods.",
+            "Both red and white meats.",
+            "Sugary and fatty foods."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "passageId": "cet4-2024-12-set3-detail2"
+        },
+        {
+          "id": "cet4-2024-12-set3-q55",
+          "type": "DETAIL",
+          "prompt": "What does the author imply people in developed countries should do to keep healthy?",
+          "choices": [
+            "Enjoy natural food.",
+            "Eat vegetarian diets.",
+            "Consume enough protein daily.",
+            "Replace meals with protein bars."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "passageId": "cet4-2024-12-set3-detail2"
+        }
+      ],
+      "audio": [],
+      "passages": [
+        {
+          "id": "cet4-2024-12-set3-bank",
+          "text": "Super realistic masks are made from flexible materials such as silicone and are design               ed to imitate real human face — down to every last detail. In a study by the Universities of York and Kyoto, researchers asked participants to look at pairs of photographs and decide which showed a  __(26)__  face and which showed a person wearing a mask. Surprisingly, participants made the wrong call in one         -in-five cases. The 20% error rate  __(27)__  in the study likely underestimates the extent to which people would struggle to                   tell an  __(28)__  face from the real thing outside of the lab. The researchers collected data from participants from both the UK and Japan to  __(29)__  any differences according to race. When trial participants were asked to choose between photographs of faces of a different race from theirs, response times were slower and selections were 5% less  __(30)__ . There are now dozens of criminal cases in which offenders have  __(31)__  themselves off as people of a different age, race or gender, sending police investigations down the wrong path. In one recent case, an international gang used an  __(32)__  realistic mask to pose as a French minister,                     __(33)__  business executives out of millions of pounds. Dr. Jet Sanders, who worked on the study while a PhD student at the University of York, said: “Failure to detect synthetic faces may have important implications for security and crime prevention as super realistic masks may  __(34)__  the key characteristics of a person’s appearance to be  __(35)__  identified.”"
+        },
+        {
+          "id": "cet4-2024-12-set3-matching",
+          "text": "Stop thinking and start doing\nA) Most people have a dream in life, a vision of who or what they’d like to be in the future. At a minimum, everyone has interests and values that determine what they want out of their lives. Even so, trying to set achievable goals that you’ll work for over the course of many years can be extremely challenging. It can be hard to know where to even begin, and the things you hope to achieve may seem impossible. But if you're well prepared you may be able to set goals for your life that are just as fulfilling to work toward as to achieve.\nB) We all have goals that we want to achieve in our lives. These goals may include learning a new language, eating healthier and losing weight becoming a better parent, saving more money, and so on. It can                         be easy to assume that the gap between where you are now and where you want to be in the future is caused by a lack of knowledge. This is why we buy courses on how to start a business or how to lose weight fast or how to learn a new language in three months. We assume that if we knew about a better strategy, then we would get better results. We believe that a new result requires new knowledge.\nC) What I’m starting to realize, however, is that new knowledge does not necessarily drive new results. In fact,                                 learning something new can actually be a waste of time if your goal is to make progress and not simply gain additional knowledge.\nD) It all comes down to the difference between learning and practicing. Thomas Sterner, in his book The Practicing Mind, explains the key difference between practicing and learning. He says: “When we practice something, we are involved in the deliberate repetition of a process with the intention of reaching a specific goal.” Here the words “deliberate” and “intention” are key, because they define the difference between actively practicing something and passively learning it.\nE) Learning something new and practicing something new may seem very similar but these two methods can have profoundly different results. Here are some additional ways to think about the difference. Let’s say your goal is to get stronger and more fit. You can research the best instructions on weight lifting technique, but the only way to build strength is to practice li                        fting weights. Let’s say your goal is to grow your startup. You can learn about the best way to make a sales pitch, but the only way to actually land customers is to practice making sales calls. Let’s say your goal is to write a book. You can talk to a best- selling author about writing, but the only way to become a better writer is to practice publishing consistently.\nF) Passive learning creates knowledge. Active practice creates skill. Let’s consider a couple more reasons to prioritize active practice over passive learning. First, passive learning can be a stick that supports inaction. In many cases, learning is actually a way to avoid taking action on the goals and interests that we say are important to us. For example, let                           ’s say you want to learn a foreign language. Reading a book on how to learn a foreign language quickly allows you to feel like you are making progress (“Hey, I'm figuring out the best way to do this!”). Of course, you’re not actually practicing the action that would deliver your desired outcome (speaking the foreign language).\nG) In situations like this one, we often claim that we are preparing or researching the best method, but these rationalizations allow us to feel like we are moving forward when we are merely spinning our wheels. We make the mistake of being in motion rather than taking action. Learning is valuable until it becomes a form of procrastination (拖延).\nH) Another point to consider is that practice is learning, but learning is not practice. Passive learning is not a form of practice because although you gain new knowledge, you are not discovering how to apply that knowledge. Active practice, meanwhile, is one of the greatest forms of learning because the mistakes you make while practicing reveal important insights.\nI) Even more importantly, practice is the only way to make a meaningful contribution with your knowledge. You can watch an online course about how to build a business or read an article about a terrible disaster in a developing nation, but that knowledge is unproductive unless you actually launch your business or donate to those in need. Learning by itself can be valuable for you but if you want to be valuable to others, then you have to express your knowledge in some way.\nJ) The last important point to consider is that practice focuses your energy on the process. Thomas Sterner once said, “Progress is a natural result of staying focused on the process of doing anything.” The state of your life right now is a result of the habits and beliefs that you have been practicing each day, When you realize this and begin to direct your focus toward practicing better habits day-in and day-out, continual progress will be the logical outcome. It is not the things we learn nor the dreams we visualize that determine our results, but rather the habits that we practice each day. Fall in love with boredom and focus your energy on the process, not the product.\nK) What does this all mean? Is passive learning useless? Of course not. In many cases, learning for the sake of learning can be a beautiful thing. Not to mention that soaking up new information can help you make more informed decisions when you do decide to take action. That said, the main point of this article is that learning by itself does not lead to progress. We often\n\n\n\nhide behind information and use learning as an excuse to delay the more difficult and more important choice of actually doing something. Spend less time passively learning and more time actively practicing. Stop thinking and start doing."
+        },
+        {
+          "id": "cet4-2024-12-set3-detail1",
+          "text": "Research in human-vehicle interaction has shown even systems designed to automate driving are far from being error- proof. Recent evidence points to drivers’ limited understanding of what these systems can and cannot do as a co                                    ntributing factor to system misuse. A recent study tackles the issue of over                -trusting drivers and the resulting system misuse from a legal viewpoint. It looks at what the manufacturers of self              -driving cars should legally do to ensure that drivers understan                 d how to use the vehicles appropriately.       One solution suggested in the study involves requiring buyers to sign end                      -user license agreements (EULAs), similar to the terms and conditions that require agreement when using new software products. But this is fa                            r from ideal. The agreement may not provide enough information to the driver, leading to confusion about the nature of the requests for agreement and their implications. Further, most end users don            ’t read EULAs. A 2017 study shows 91 percent of people agre                   e to them without reading. Among young people, 97 percent agree without reviewing the terms.       The issue is that, unlike using a smartphone app, operating a car has serious safety risks, whether the driver is human or software. And human drivers need to con             sent to take responsibility for the outcomes of the software and hardware.       “Warning fatigue      ” and distracted driving are also causes for concern. For example, a driver, annoyed after receiving continuous warnings, could decide to just ignore the message. Or, if the message is presented while the vehicle is in motion, it could represent a distraction. Given these limitations and concerns, even if this mode of obtaining consent is to move forward, it likely won’t fully protect automakers from their legal liability should the system malfunction (发生故障) or an accident occur. Driver training for self-driving vehicles can help ensure that drivers fully understand system capabilities and limitations. This needs to occur beyond the vehicle purchase. Recent evidence shows even relying on the information provided by the seller is not going to answer many questions. All of this considered, the road forward for self-driving cars is not going to be a smooth ride after all."
+        },
+        {
+          "id": "cet4-2024-12-set3-detail2",
+          "text": "Do you ever blend up a protein drink for breakfast or grab a protein bar following an afternoon workout? If so, you are likely among the millions of people in search of more protein-rich diets.       Protein-enriched products are found everywhere. But contrary to all the publicity that everyone needs more protein, most Americans get twice as much as they need.       Many of us living in the most developed countries are buying into a myth of protein deficiency created by food companies and self-identified health experts. Global retail sales of protein supplement products reached an astonishing US$18.9 billion in 2020.       But are we really in need of more protein? Physicians in the U.S. have never actually examined a patient with protein deficiency because simply by eating an adequate number of daily calories we are also most likely getting enough protein.       In fact, Americans currently consume almost twice the National Academy of Medicine’s recommended daily intake of protein although the most desirable protein intake may vary depending on age and activity level.       For example, if you’re a dedicated athlete you might need to consume higher quantities of protein. Generally, though, a 140-pound person should not exceed 120 grams of protein per day, particularly because a high protein diet can strain kidney and liver function and increase risks of developing heart disease and cancer.       While fats and sugar have taken the beating in turns since over a century ago, protein has managed to remain our red-hot favorite.       In the 1970s through the 1990s, protein products remained visible but moved back somewhat with the dietary spotlight firmly fixed on low-calorie, low-fat, sugar-free snack foods and beverages following the publication of studies linking sugar and saturated (饱和的) fat consumption to heart disease.       Later research in 2003, however, suggested high-protein diets could aid in weight loss, and protein quickly regained its former nutrient-superstar status.       Now most people living in high-income nations are consuming enough protein. When we replace meals with a protein bar or drink, we also risk missing out on the rich sources of antioxidants (抗氧化剂), vitamins and many other benefits of real food."
+        }
+      ],
+      "sourceFileUrl": "/study/resources/ffeabe7091f01fd2f1367ef5.pdf"
+    },
+    "TRANSLATION": {
+      "instructions": "请将原卷中文翻译成英语。",
+      "prompt": "Directions: For this part, you are allowed 30 minutes to translate a passage from Chinese into English. You should write your answer on Answer Sheet 2.\n\n敦煌莫高窟(Mogao Grottoes)数字展示中心于                        2014  年开放启用,是莫高窟保护利用工程的重要组成部分。展示中心采 用数字技术和多媒体展示手段,使游客进入洞窟参观之前就能了解莫高窟的历史文化,鉴赏莫高窟的艺术经典。这将 减少开放洞窟的数量,缩短游客在洞窟内的逗留时间,减轻参观对莫高窟造成的影响,以使这一世界文化遗产得到妥善 保护、长久利用。",
+      "questions": [],
+      "audio": [],
+      "passages": [],
+      "sourceFileUrl": "/study/resources/ffeabe7091f01fd2f1367ef5.pdf"
+    }
+  }
+}

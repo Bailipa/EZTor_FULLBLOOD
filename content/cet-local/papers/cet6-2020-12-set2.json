@@ -1,0 +1,1079 @@
+{
+  "slug": "cet6-2020-12-set2-full",
+  "version": 1,
+  "title": "2020年12月 · 第2套整卷模拟真题",
+  "level": "CET6",
+  "kind": "FULL",
+  "originType": "PAST_EXAM",
+  "sourceName": "用户提供的本地四六级资料",
+  "sourceUrl": "/study/resources/60f42b0bb2dfd498dc32c8b4.pdf",
+  "rightsHolder": "原试卷及解析作者",
+  "rightsEvidence": "用户提供本地资源并要求接入本地学习系统；原文件及校验值见 content/cet-local/index.json。未授权公开再分发或生产部署。",
+  "content": {
+    "WRITING": {
+      "instructions": "原卷写作要求",
+      "prompt": "Directions: For this part you are allowed 30 minutes to write an essay on why students should be encouraged to develop effective communication skills. You should write at least 150 words but no more than 200 words.",
+      "questions": [],
+      "audio": [],
+      "passages": [],
+      "minimumWords": 150,
+      "maximumWords": 200,
+      "sourceFileUrl": "/study/resources/60f42b0bb2dfd498dc32c8b4.pdf"
+    },
+    "LISTENING": {
+      "instructions": "原卷听力选择题",
+      "questions": [
+        {
+          "id": "cet6-2020-12-set2-q1",
+          "type": "CONVERSATION",
+          "prompt": "第 1 题(题干在原始录音中)",
+          "choices": [
+            "A driving test.",
+            "A video game.",
+            "Traffic routes.",
+            "Cargo logistics."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "audioId": "cet6-2020-12-set2-audio"
+        },
+        {
+          "id": "cet6-2020-12-set2-q2",
+          "type": "CONVERSATION",
+          "prompt": "第 2 题(题干在原始录音中)",
+          "choices": [
+            "He found it instructive and realistic.",
+            "He bought it when touring Europe.",
+            "He was really drawn to its other versions.",
+            "He introduced it to his brother last year."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "audioId": "cet6-2020-12-set2-audio"
+        },
+        {
+          "id": "cet6-2020-12-set2-q3",
+          "type": "CONVERSATION",
+          "prompt": "第 3 题(题干在原始录音中)",
+          "choices": [
+            "Traveling all over the country.",
+            "Driving from one city ta another.",
+            "The details in the driving simulator.",
+            "The key role of the logistics industry."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "audioId": "cet6-2020-12-set2-audio"
+        },
+        {
+          "id": "cet6-2020-12-set2-q4",
+          "type": "CONVERSATION",
+          "prompt": "第 4 题(题干在原始录音中)",
+          "choices": [
+            "Clearer road signs.",
+            "More people driving safely.",
+            "Stricter traffic rules.",
+            "More self-driving trucks on the road."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "audioId": "cet6-2020-12-set2-audio"
+        },
+        {
+          "id": "cet6-2020-12-set2-q5",
+          "type": "CONVERSATION",
+          "prompt": "第 5 题(题干在原始录音中)",
+          "choices": [
+            "It isn't so enjoyable as he expected",
+            "It isn't so motivating as he believed",
+            "It doesn't enable him to earn as much money as he used to.",
+            "It doesn't seem to offer as much freedom as he anticipated"
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "audioId": "cet6-2020-12-set2-audio"
+        },
+        {
+          "id": "cet6-2020-12-set2-q6",
+          "type": "CONVERSATION",
+          "prompt": "第 6 题(题干在原始录音中)",
+          "choices": [
+            "Not all of them care about their employees' behaviors.",
+            "Few of them are aware of their employees' feelings.",
+            "Few of them offer praise and reward to their employees.",
+            "Not all of them know how to motivate their employees."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "audioId": "cet6-2020-12-set2-audio"
+        },
+        {
+          "id": "cet6-2020-12-set2-q7",
+          "type": "CONVERSATION",
+          "prompt": "第 7 题(题干在原始录音中)",
+          "choices": [
+            "Job satisfaction.",
+            "Self-awareness.",
+            "Autonomy.",
+            "Money."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "audioId": "cet6-2020-12-set2-audio"
+        },
+        {
+          "id": "cet6-2020-12-set2-q8",
+          "type": "CONVERSATION",
+          "prompt": "第 8 题(题干在原始录音中)",
+          "choices": [
+            "The importance of cultivating close relationships with clients. 2020-12-CET6(7› 2 1)-1",
+            "The need for getting recommendations from their managers.",
+            "The advantages of permanent full-time employment.",
+            "The way to explore employees' interests and talents."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "audioId": "cet6-2020-12-set2-audio"
+        },
+        {
+          "id": "cet6-2020-12-set2-q9",
+          "type": "PASSAGE",
+          "prompt": "第 9 题(题干在原始录音中)",
+          "choices": [
+            "Consumers visualize their activities in different weather.",
+            "Good weather triggers consumers' desire to go shopping.",
+            "Weather conditions influence consumers' buying behavior.",
+            "Consumers' mental states change with the prices of goods."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "audioId": "cet6-2020-12-set2-audio"
+        },
+        {
+          "id": "cet6-2020-12-set2-q10",
+          "type": "PASSAGE",
+          "prompt": "第 10 题(题干在原始录音中)",
+          "choices": [
+            "Active consumption.",
+            "Direct correlation.",
+            "Individual association.",
+            "Mental visualization."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "audioId": "cet6-2020-12-set2-audio"
+        },
+        {
+          "id": "cet6-2020-12-set2-q11",
+          "type": "PASSAGE",
+          "prompt": "第 11 题(题干在原始录音中)",
+          "choices": [
+            "Enabling them to simplify their mathematical formulas.",
+            "Helping them determine what to sell and at what price.",
+            "Enabling them to sell their products at a higher price.",
+            "Helping them advertise a greater variety of products."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "audioId": "cet6-2020-12-set2-audio"
+        },
+        {
+          "id": "cet6-2020-12-set2-q12",
+          "type": "PASSAGE",
+          "prompt": "第 12 题(题干在原始录音中)",
+          "choices": [
+            "A naturally ventilated office is more comfortable.",
+            "A cool office will boost employees' productivity.",
+            "Office air-conditioning should follow guidebooks.",
+            "Air-conditioning improves ventilation in the office."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "audioId": "cet6-2020-12-set2-audio"
+        },
+        {
+          "id": "cet6-2020-12-set2-q13",
+          "type": "PASSAGE",
+          "prompt": "第 13 题(题干在原始录音中)",
+          "choices": [
+            "People in their comfort zone of temperature are more satisfied with their productivity.",
+            "People in different countries vary in their tolerance to uncomfortable temperatures.",
+            "Twenty-two degrees is the optimal temperature for office workers.",
+            "There is a range of temperatures for people to feel comfortable."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "audioId": "cet6-2020-12-set2-audio"
+        },
+        {
+          "id": "cet6-2020-12-set2-q14",
+          "type": "PASSAGE",
+          "prompt": "第 14 题(题干在原始录音中)",
+          "choices": [
+            "It will have no negative impact on work.",
+            "It will be immediately noticeable.",
+            "It will sharply decrease work efficiency.",
+            "It will cause a lot of discomfort."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "audioId": "cet6-2020-12-set2-audio"
+        },
+        {
+          "id": "cet6-2020-12-set2-q15",
+          "type": "PASSAGE",
+          "prompt": "第 15 题(题干在原始录音中)",
+          "choices": [
+            "They tend to favor lower temperatures.",
+            "They suffer from rapid temperature changes.",
+            "They are not bothered by temperature extremes.",
+            "They become less sensitive to high temperatures."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "audioId": "cet6-2020-12-set2-audio"
+        },
+        {
+          "id": "cet6-2020-12-set2-q16",
+          "type": "LECTURE",
+          "prompt": "第 16 题(题干在原始录音中)",
+          "choices": [
+            "It overlooked the possibility that emotions may be controlled",
+            "It ignored the fact that emotions are personal and subjective.",
+            "It classified emotions simply as either positive or negative.",
+            "It measured positive and negative emotions independently."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "audioId": "cet6-2020-12-set2-audio"
+        },
+        {
+          "id": "cet6-2020-12-set2-q17",
+          "type": "LECTURE",
+          "prompt": "第 17 题(题干在原始录音中)",
+          "choices": [
+            "Sitting alone without doing anything seemed really distressing.",
+            "Solitude adversely affected the participants' mental well-being.",
+            "Sitting alone for 15 minutes made the participants restless.",
+            "Solitude had a reductive effect on high-arousal emotions."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "audioId": "cet6-2020-12-set2-audio"
+        },
+        {
+          "id": "cet6-2020-12-set2-q18",
+          "type": "LECTURE",
+          "prompt": "第 18 题(题干在原始录音中)",
+          "choices": [
+            "It proved hard to depict objectively.",
+            "It went hand in hand with sadness.",
+            "It helped increase low-arousal emotions.",
+            "It tended to intensify negative emotions."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "audioId": "cet6-2020-12-set2-audio"
+        },
+        {
+          "id": "cet6-2020-12-set2-q19",
+          "type": "LECTURE",
+          "prompt": "第 19 题(题干在原始录音中)",
+          "choices": [
+            "It uses up much less energy than it does in deep thinking.",
+            "It remains inactive without burning calories noticeably.",
+            "It continues to burn up calories to help us stay in shape.",
+            "It consumes almost a quarter of the body's total energy."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "audioId": "cet6-2020-12-set2-audio"
+        },
+        {
+          "id": "cet6-2020-12-set2-q20",
+          "type": "LECTURE",
+          "prompt": "第 20 题(题干在原始录音中)",
+          "choices": [
+            "Much of the consumption has nothing to do with conscious activities.",
+            "It has something to do with the difficulty of the activities in question.",
+            "Energy usage devoted to active learning accounts fora big part of it",
+            "A significant amount of it is for performing difficult cognitive tasks."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "audioId": "cet6-2020-12-set2-audio"
+        },
+        {
+          "id": "cet6-2020-12-set2-q21",
+          "type": "LECTURE",
+          "prompt": "第 21 题(题干在原始录音中)",
+          "choices": [
+            "It is believed to remain basically constant.",
+            "It is a prerequisite for any mental activity.",
+            "It is conducive to relieving mental exhaustion.",
+            "It is thought to be related to food consumption."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "audioId": "cet6-2020-12-set2-audio"
+        },
+        {
+          "id": "cet6-2020-12-set2-q22",
+          "type": "LECTURE",
+          "prompt": "第 22 题(题干在原始录音中)",
+          "choices": [
+            "Job candidates rarely take it seriously.",
+            "Job seekers tend to have a ready answer.",
+            "Job seekers often feel at a loss where to start in answering it.",
+            "Job candidates can respond freely due to its open- ended nature."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "audioId": "cet6-2020-12-set2-audio"
+        },
+        {
+          "id": "cet6-2020-12-set2-q23",
+          "type": "LECTURE",
+          "prompt": "第 23 题(题干在原始录音中)",
+          "choices": [
+            "Follow their career coaches' guidelines.",
+            "Strive to take control of their narrative.",
+            "Do their best to impress the interviewer.",
+            "Repeat the information on their resume."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "audioId": "cet6-2020-12-set2-audio"
+        },
+        {
+          "id": "cet6-2020-12-set2-q24",
+          "type": "LECTURE",
+          "prompt": "第 24 题(题干在原始录音中)",
+          "choices": [
+            "To reflect on their past achievements as well as failures.",
+            "To produce examples for different interview questions.",
+            "To discuss important details they are going to present.",
+            "To identify a broad general strength to elaborate on."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "audioId": "cet6-2020-12-set2-audio"
+        },
+        {
+          "id": "cet6-2020-12-set2-q25",
+          "type": "LECTURE",
+          "prompt": "第 25 题(题干在原始录音中)",
+          "choices": [
+            "Getting acquainted with the human resources personnel.",
+            "Finding out why the company provides the job opening.",
+            "Figuring out what benefits the company is able to offer them.",
+            "Tailoring their expectations to the company's long-term goal."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "audioId": "cet6-2020-12-set2-audio"
+        }
+      ],
+      "audio": [
+        {
+          "id": "cet6-2020-12-set2-audio",
+          "url": "/study/resources/cf2f30ada0c1009f1143522c.m4a",
+          "sourceUrl": "/study/resources/cf2f30ada0c1009f1143522c.m4a",
+          "durationSeconds": 1597.44,
+          "transcript": "",
+          "identity": "cet6_2020_12_2.mp3 SHA256:cf2f30ada0c1009f1143522c1f1846a7d240512f47c2f11cdcc59a3289bf2c96"
+        }
+      ],
+      "passages": [],
+      "sourceFileUrl": "/study/resources/60f42b0bb2dfd498dc32c8b4.pdf"
+    },
+    "READING": {
+      "instructions": "请依次完成选词填空、长篇匹配和仔细阅读。",
+      "questions": [
+        {
+          "id": "cet6-2020-12-set2-q26",
+          "type": "WORD_BANK",
+          "prompt": "第 26 空",
+          "choices": [
+            "credentials",
+            "credited",
+            "cumulative",
+            "disruptions",
+            "federal",
+            "foreseeable",
+            "predictions",
+            "preference",
+            "scale",
+            "strangle",
+            "subtle",
+            "summoned",
+            "survive",
+            "vacancy",
+            "wedge"
+          ],
+          "answerIndex": 13,
+          "explanation": "原卷答案：N。",
+          "weight": 0.5,
+          "passageId": "cet6-2020-12-set2-bank"
+        },
+        {
+          "id": "cet6-2020-12-set2-q27",
+          "type": "WORD_BANK",
+          "prompt": "第 27 空",
+          "choices": [
+            "credentials",
+            "credited",
+            "cumulative",
+            "disruptions",
+            "federal",
+            "foreseeable",
+            "predictions",
+            "preference",
+            "scale",
+            "strangle",
+            "subtle",
+            "summoned",
+            "survive",
+            "vacancy",
+            "wedge"
+          ],
+          "answerIndex": 8,
+          "explanation": "原卷答案：I。",
+          "weight": 0.5,
+          "passageId": "cet6-2020-12-set2-bank"
+        },
+        {
+          "id": "cet6-2020-12-set2-q28",
+          "type": "WORD_BANK",
+          "prompt": "第 28 空",
+          "choices": [
+            "credentials",
+            "credited",
+            "cumulative",
+            "disruptions",
+            "federal",
+            "foreseeable",
+            "predictions",
+            "preference",
+            "scale",
+            "strangle",
+            "subtle",
+            "summoned",
+            "survive",
+            "vacancy",
+            "wedge"
+          ],
+          "answerIndex": 5,
+          "explanation": "原卷答案：F。",
+          "weight": 0.5,
+          "passageId": "cet6-2020-12-set2-bank"
+        },
+        {
+          "id": "cet6-2020-12-set2-q29",
+          "type": "WORD_BANK",
+          "prompt": "第 29 空",
+          "choices": [
+            "credentials",
+            "credited",
+            "cumulative",
+            "disruptions",
+            "federal",
+            "foreseeable",
+            "predictions",
+            "preference",
+            "scale",
+            "strangle",
+            "subtle",
+            "summoned",
+            "survive",
+            "vacancy",
+            "wedge"
+          ],
+          "answerIndex": 9,
+          "explanation": "原卷答案：J。",
+          "weight": 0.5,
+          "passageId": "cet6-2020-12-set2-bank"
+        },
+        {
+          "id": "cet6-2020-12-set2-q30",
+          "type": "WORD_BANK",
+          "prompt": "第 30 空",
+          "choices": [
+            "credentials",
+            "credited",
+            "cumulative",
+            "disruptions",
+            "federal",
+            "foreseeable",
+            "predictions",
+            "preference",
+            "scale",
+            "strangle",
+            "subtle",
+            "summoned",
+            "survive",
+            "vacancy",
+            "wedge"
+          ],
+          "answerIndex": 6,
+          "explanation": "原卷答案：G。",
+          "weight": 0.5,
+          "passageId": "cet6-2020-12-set2-bank"
+        },
+        {
+          "id": "cet6-2020-12-set2-q31",
+          "type": "WORD_BANK",
+          "prompt": "第 31 空",
+          "choices": [
+            "credentials",
+            "credited",
+            "cumulative",
+            "disruptions",
+            "federal",
+            "foreseeable",
+            "predictions",
+            "preference",
+            "scale",
+            "strangle",
+            "subtle",
+            "summoned",
+            "survive",
+            "vacancy",
+            "wedge"
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 0.5,
+          "passageId": "cet6-2020-12-set2-bank"
+        },
+        {
+          "id": "cet6-2020-12-set2-q32",
+          "type": "WORD_BANK",
+          "prompt": "第 32 空",
+          "choices": [
+            "credentials",
+            "credited",
+            "cumulative",
+            "disruptions",
+            "federal",
+            "foreseeable",
+            "predictions",
+            "preference",
+            "scale",
+            "strangle",
+            "subtle",
+            "summoned",
+            "survive",
+            "vacancy",
+            "wedge"
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 0.5,
+          "passageId": "cet6-2020-12-set2-bank"
+        },
+        {
+          "id": "cet6-2020-12-set2-q33",
+          "type": "WORD_BANK",
+          "prompt": "第 33 空",
+          "choices": [
+            "credentials",
+            "credited",
+            "cumulative",
+            "disruptions",
+            "federal",
+            "foreseeable",
+            "predictions",
+            "preference",
+            "scale",
+            "strangle",
+            "subtle",
+            "summoned",
+            "survive",
+            "vacancy",
+            "wedge"
+          ],
+          "answerIndex": 7,
+          "explanation": "原卷答案：H。",
+          "weight": 0.5,
+          "passageId": "cet6-2020-12-set2-bank"
+        },
+        {
+          "id": "cet6-2020-12-set2-q34",
+          "type": "WORD_BANK",
+          "prompt": "第 34 空",
+          "choices": [
+            "credentials",
+            "credited",
+            "cumulative",
+            "disruptions",
+            "federal",
+            "foreseeable",
+            "predictions",
+            "preference",
+            "scale",
+            "strangle",
+            "subtle",
+            "summoned",
+            "survive",
+            "vacancy",
+            "wedge"
+          ],
+          "answerIndex": 12,
+          "explanation": "原卷答案：M。",
+          "weight": 0.5,
+          "passageId": "cet6-2020-12-set2-bank"
+        },
+        {
+          "id": "cet6-2020-12-set2-q35",
+          "type": "WORD_BANK",
+          "prompt": "第 35 空",
+          "choices": [
+            "credentials",
+            "credited",
+            "cumulative",
+            "disruptions",
+            "federal",
+            "foreseeable",
+            "predictions",
+            "preference",
+            "scale",
+            "strangle",
+            "subtle",
+            "summoned",
+            "survive",
+            "vacancy",
+            "wedge"
+          ],
+          "answerIndex": 4,
+          "explanation": "原卷答案：E。",
+          "weight": 0.5,
+          "passageId": "cet6-2020-12-set2-bank"
+        },
+        {
+          "id": "cet6-2020-12-set2-q36",
+          "type": "MATCHING",
+          "prompt": "It seems some people today dream that a cutting-edge new technology might save them from the present ecological disaster.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段"
+          ],
+          "answerIndex": 4,
+          "explanation": "原卷答案：E。",
+          "weight": 1,
+          "passageId": "cet6-2020-12-set2-matching"
+        },
+        {
+          "id": "cet6-2020-12-set2-q37",
+          "type": "MATCHING",
+          "prompt": "According to one great thinker, it is most unfortunate if we lose the ability to think differently.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段"
+          ],
+          "answerIndex": 8,
+          "explanation": "原卷答案：I。",
+          "weight": 1,
+          "passageId": "cet6-2020-12-set2-matching"
+        },
+        {
+          "id": "cet6-2020-12-set2-q38",
+          "type": "MATCHING",
+          "prompt": "Urgent attention should be paid to the ecological problems we have created in our pursuit of a 2020-12-CET6(7› 2 1)-6 comfortable life.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段"
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "passageId": "cet6-2020-12-set2-matching"
+        },
+        {
+          "id": "cet6-2020-12-set2-q39",
+          "type": "MATCHING",
+          "prompt": "Even in the fast-food nation America, the number of vegetarians is on the rise.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段"
+          ],
+          "answerIndex": 10,
+          "explanation": "原卷答案：K。",
+          "weight": 1,
+          "passageId": "cet6-2020-12-set2-matching"
+        },
+        {
+          "id": "cet6-2020-12-set2-q40",
+          "type": "MATCHING",
+          "prompt": "The deterioration of the ecological system is accelerating because of the dramatic increase of human production and consumption.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段"
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "passageId": "cet6-2020-12-set2-matching"
+        },
+        {
+          "id": "cet6-2020-12-set2-q41",
+          "type": "MATCHING",
+          "prompt": "It is obvious that solutions must be found to curb the fast-worsening environment and social acceleration.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段"
+          ],
+          "answerIndex": 6,
+          "explanation": "原卷答案：G。",
+          "weight": 1,
+          "passageId": "cet6-2020-12-set2-matching"
+        },
+        {
+          "id": "cet6-2020-12-set2-q42",
+          "type": "MATCHING",
+          "prompt": "Many people believe changing the world is possible, though it may take time and involve setbacks.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段"
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "passageId": "cet6-2020-12-set2-matching"
+        },
+        {
+          "id": "cet6-2020-12-set2-q43",
+          "type": "MATCHING",
+          "prompt": "It might be wrong to expect that our world would be saved at one stroke with some miraculous technology.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段"
+          ],
+          "answerIndex": 5,
+          "explanation": "原卷答案：F。",
+          "weight": 1,
+          "passageId": "cet6-2020-12-set2-matching"
+        },
+        {
+          "id": "cet6-2020-12-set2-q44",
+          "type": "MATCHING",
+          "prompt": "It is human nature to cherish hopes for a better world.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段"
+          ],
+          "answerIndex": 8,
+          "explanation": "原卷答案：I。",
+          "weight": 1,
+          "passageId": "cet6-2020-12-set2-matching"
+        },
+        {
+          "id": "cet6-2020-12-set2-q45",
+          "type": "MATCHING",
+          "prompt": "Technology has given us humans the power to change the natural world, but we have paid a price for the change.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段"
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "passageId": "cet6-2020-12-set2-matching"
+        },
+        {
+          "id": "cet6-2020-12-set2-q46",
+          "type": "DETAIL",
+          "prompt": "What is more visible in India than anywhere else according to the passage?",
+          "choices": [
+            "People's positive views on the proposals for a \"planetary diet.\"",
+            "People's reluctance to be compelled to eat plant-based food.",
+            "People's preferences for the kind of food they consume.",
+            "People's unwillingness to give up their eating habits."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "passageId": "cet6-2020-12-set2-detail1"
+        },
+        {
+          "id": "cet6-2020-12-set2-q47",
+          "type": "DETAIL",
+          "prompt": "What would the EAT-Lancet Commission's report do to many people in countries like India?",
+          "choices": [
+            "Radically change their dietary habits.",
+            "Keep them further away from politics.",
+            "Make them even more undernourished",
+            "Substantially reduce their food choices."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "passageId": "cet6-2020-12-set2-detail1"
+        },
+        {
+          "id": "cet6-2020-12-set2-q48",
+          "type": "DETAIL",
+          "prompt": "What do we learn from the passage about food consumption in India?",
+          "choices": [
+            "People's diet will not change due to the EAT-Lancet report.",
+            "Many people simply do not have access to foods they prefer.",
+            "There is a growing popularity of a cereal-heavy vegetarian diet.",
+            "Policymakers help remove the barriers to people's choice of food."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "passageId": "cet6-2020-12-set2-detail1"
+        },
+        {
+          "id": "cet6-2020-12-set2-q49",
+          "type": "DETAIL",
+          "prompt": "What does the passage say about a plant-based diet modeled on India?",
+          "choices": [
+            "It may benefit populations whose traditional diet is meat-based.",
+            "It may be another blow to the economy in developing countries.",
+            "It may help narrow the gap between the rich and poor countries.",
+            "It may worsen the nourishment problem in low-income countries."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "passageId": "cet6-2020-12-set2-detail1"
+        },
+        {
+          "id": "cet6-2020-12-set2-q50",
+          "type": "DETAIL",
+          "prompt": "How does the Indian government respond to the EAT-Lancet Commission's proposals?",
+          "choices": [
+            "It accepts them at the expense of the long-term interests of its people.",
+            "It intends them to spark conversations among all Indian stakeholders.",
+            "It gives them approval regardless of opposition from nutrition experts.",
+            "It welcomes them as a tool to address chronic hunger and malnutrition."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "passageId": "cet6-2020-12-set2-detail1"
+        },
+        {
+          "id": "cet6-2020-12-set2-q51",
+          "type": "DETAIL",
+          "prompt": "What is characteristic of a chronic complainer, according to psychiatrist Eric Berne?",
+          "choices": [
+            "They only feel angry about their ill treatment and resent whoever tries to help.",
+            "They are chronically unhappy and ceaselessly find fault with people around them.",
+            "They constantly dismiss others' proposals while taking no responsibility for tackling the problem.",
+            "They lack the knowledge and basic skills required for successful conversations with their interlocutors."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "passageId": "cet6-2020-12-set2-detail2"
+        },
+        {
+          "id": "cet6-2020-12-set2-q52",
+          "type": "DETAIL",
+          "prompt": "What does the author try to illustrate with the example of the newborn on one's doorstep?",
+          "choices": [
+            "People tend to think that one should not be held responsible for others' mistakes.",
+            "It is easy to become attached to the position of overlooking one's own fault.",
+            "People are often at a loss when confronted with a number of choices.",
+            "A distinction should be drawn between responsibility and fault."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "passageId": "cet6-2020-12-set2-detail2"
+        },
+        {
+          "id": "cet6-2020-12-set2-q53",
+          "type": "DETAIL",
+          "prompt": "What does the author advise people to do to chronic complainers?",
+          "choices": [
+            "Stop them from going further by agreeing with them.",
+            "Listen to their complaints ardently and sympathetically.",
+            "Ask them to validate their beliefs with further evidence.",
+            "Persuade them to clarify the confusion they have caused."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "passageId": "cet6-2020-12-set2-detail2"
+        },
+        {
+          "id": "cet6-2020-12-set2-q54",
+          "type": "DETAIL",
+          "prompt": "What happens when chronic complainers receive over-validation?",
+          "choices": [
+            "They are motivated to find ingenious ways to persuade their interlocutor.",
+            "They are prompted to come up with ideas for making possible changes.",
+            "They are stimulated to make more complaints.",
+            "They are encouraged to start arguing back."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "passageId": "cet6-2020-12-set2-detail2"
+        },
+        {
+          "id": "cet6-2020-12-set2-q55",
+          "type": "DETAIL",
+          "prompt": "How can one stop being a chronic complainer according to the author?",
+          "choices": [
+            "Analysing the so-called responsibility/ fault fallacy. 2020-12-CET6(7› 2 E)-9",
+            "Avoiding hazardous traps in everyday social life.",
+            "Assuming responsibility to free oneself.",
+            "Awaiting something magical to happen."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "passageId": "cet6-2020-12-set2-detail2"
+        }
+      ],
+      "audio": [],
+      "passages": [
+        {
+          "id": "cet6-2020-12-set2-bank",
+          "text": "Virtually every activity that entails or facilitates in-person human interaction seems to be in the midst of a total meltdown as the coronavirus (A| #) outbreak erases Americans' desire to travel. Amtrak says bookings are down 50 precent and cancelations are up 300 percent, Hotels in San Francisco are experiencing __(26)__ rates between 70 and 80 percent. Broadway goes dark on Thursday night. Universities, now emptying their campuses, have never tried online learning on this __(27)__ . White-collar companies like Amazon, Apple, and the New York Times are asking employees to work from home for the  __(28)__  future. But what happens after the coronavirus? In some ways, the answer is: All the old normal stuff. The pandemic (ift fT t) will take lives, __(29)__ economies and destroy routines, but it will pass. Americans will never stop going to basketball games. They won't stop going on vacation. They'll meet to do business. No decentralizing technology so far-not telephones, not television, and not the internet has dented that human desire to shake hands, despite technologists' __(30)__ to the contrary. Yet there are real reasons to think that things will not return to the way they were last week. Small __(31)__ create small societal shifts; big ones change things for good. The New York transit strike of 1980 is __(32)__ with prompting several long-term changes in the city, including bus and bike lanes, and women wearing sports shoes to work. The Spanish flu pandemic of 1918 prompted the development of national health care in Europe. Here and now, this might not even be a question of __(33)__ . It's not clear that the cruise industry will __(34)__ . Or that public transit won't go broke without __(35)__ assistance. The infrastructure might not even be in place to do what we were doing in 2019."
+        },
+        {
+          "id": "cet6-2020-12-set2-matching",
+          "text": "2020-12-CET6(7 2 1)-4 Slow Hope\nA) Our world is full of—mostly untold —stories of slow hope, driven by the idea that change is possible. They are 'slow' in their unfolding, and they are slow because they come with setbacks.\nB) At the beginning of time—so goes the myth-humans suffered, shivering in the cold and dark until the titan (E ^) Prometheus stole fire from the gods. Just as in the myth,' technology—first fire and stone tools, and later farming, the steam engine and industry, fossil fuels, chemicals and nuclear power-has allowed us to alter and control the natural world. The myth also reminds us that these advances have come at a price: as a punishment for Prometheus' crime, the gods created Pandora, and they gave her a box filled with evils and curses. When Pandora's box was opened, it unleashed swarms of diseases and disasters upon humankind\nC) Today we can no longer ignore the ecological curses that we have released in our search for warmth and comfort. In engineering and exploiting and transforming our habitat, we have opened tens of thousands of Pandora's boxes. In recent decades, environmental threats have expanded beyond regional boundaries to have global reach and, most hauntingly, are multiplying at a dizzying rate. On a regular basis, we are reminded that we are running out of time. Year after year, faster and faster, consumption outpaces the biological capacity of our planet. Stories of accelerated catastrophe multiply. We fear the breakdown of the electric grid, the end of non-renewable resources, the expansion of deserts, the loss of islands, and the pollution of our air and water.\nD) Acceleration is the signature of our time. Populations and economic activity grew slowly for much of human history. For thousands of years and well into early modern times, world economies saw no growth at all, but from around the mid-19th century and again, in particular, since the mid-20th, the real GDP has increased at an enormous speed, and so has human consumption. In the Middle Ages, households in Central Europe might have owned fewer than 30 objects on average; in 1900, this number had increased to 400, and in 2020 to 15,000. The acceleration of human production, consumption and travel has changed the animate and inanimate spheres. It has echoed through natural processes on which humans depend. Species extinction, deforestation, damming of rivers, occurrence of floods, the depletion of ozone, the degradation of ocean systems and many other areas are all experiencing acceleration. If represented graphically, the curve for all these changes looks rather like that well- known hockey stick: with little change over millennia (et f) and a dramatic upswing over the past decades.\nE)    Some of today's narratives about the future seem to suggest that we too, like Prometheus, will be saved by a new Hercules, a divine engineer, someone who will mastermind, manoeuvre and manipulate our planet. They suggest that geoengineering, cold fusion or faster-than-light spaceships might transcend once and for all the terrestrial constraints of rising temperatures, lack of energy, scarcity of food, lack of space, mountains of waste, polluted water- you name it.\nF) Yet, if we envisage our salvation to come from a deus ex machina (17 ) <**), from a divine engineer or a tech solutionist who will miraculously conjure up a new source of energy or another cure-all with revolutionary potency, we might be looking in the wrong place, The fact that we now imagine our planet as a whole does not mean that the 'rescue' of our planet will come with one big global stroke of genius and technology. It will more likely come by many small acts. Global heating and environmental degradation are not technological problems. They are highly political issues that are informed by powerful interests. Moreover, if history is a guide, then we can assume that any major transformations will once again be followed by a huge set of unintended consequences. So what do we do? 2020-12-CET6(7› 2 E)-5\nG) This much is clear: we need to find ways that help us flatten the hockey-stick curves that reflect our ever-faster pace of ecological destruction and social acceleration. If we acknowledge that human manipulation of the Earth has been a destructive force, we can also imagine that human endeavours can help us build a less destructive world in the centuries to come. We might keep making mistakes. But we will also keep learning from our mistakes.\nH) To counter the fears of disaster, we need to identify stories, visions and actions that work quietly towards a more hopeful future. Instead of one big narrative, a story of unexpected rescue by a larger-than-life hero, we need multiple stories: we need stories, not only of what Rob Nixon of Princeton University has called the 'slow violence' of environmental degradation (that is, the damage that is often invisible at first and develops slowly and gradually., but also stories of what I call 'slow hope'.\nI) We need an acknowledgement of our present ecological plight but also a language of positive change, visions of a better future. In The Principle of Hope (1954-1959), Ernst Bloch, one of the leading philosophers of the future, wrote that 'the most tragic form of loss... is the loss of the capacity to imagine that things could be different'. We need to identify visions and paths that will help us imagine a different, more just and more ecological world. Hope, for Bloch, has its starting point in fear, in uncertainty, and in crisis: it is a creative force that goes hand in hand with utopian (§ ft 77349) 'wishful images'. It can be found in cultural products of the past—in fairy tales, in fiction, in architecture, in music,    in the movies—in products of the human mind that contain 'the outlines of a better world'. What makes us 'authentic' as humans are visions of our' potential'. In other words: living in hope makes us human.\nJ) The power of small, grassroots movements to make changes that spread beyond their place of origin can be seen with the Slow Food movement, which began in Italy in the 1980s. The rise of fast-food restaurants after the Second World War produced a society full of cheap, industrially made foodstuffs. Under the leadership of Carlo Petrini, the Slow Food movement began in Piedmont, a region of Italy with a long history of poverty, violence and resistance to oppression. The movement transformed it into a region hospitable to traditional food cultures-based on native plants and breeds of animals. Today, Slow Food operates in more than 160 countries, poor and rich. It has given rise to thousands of projects around the globe, representing democratic politics, food sovereignty, biodiversity and sustainable agriculture.\nK) The unscrupulous (EFf PEt) commodification of food and the destruction of foodstuffs will continue to devastate soils, livelihoods and ecologies. Slow Food cannot undo the irresistible developments of the global food economy, but it can upset its theorists, it can \"speak differently', and it can allow people and their local food traditions and environments to flourish. Even in the United States—the fast-food nation-small farms and urban gardens are on the rise. The US Department of Agriculture provides an Urban Agriculture Toolkit and, according to a recent report, American millennials (F**-1) are changing their diets. In 2017, 6 per cent of US consumers claimed to be strictly vegetarian, up from 1 per cent in 2014. As more people realise that 'eating is an agricultural act', as the US poet and environmental activist Wendell Berry put it in 1989, slow hope advances."
+        },
+        {
+          "id": "cet6-2020-12-set2-detail1",
+          "text": "Vegetarians would prefer not to be compelled to eat meat. Yet the reverse compulsion (37,i2) Is hidden in the proposals for a new plant-based \"planetary diet.\" Nowhere is this more visible than in India. Earlier this year, the EAT-Lancet Commission released its global report on nutrition and called for a global shift to a more plant-based diet and for \"substantially reducing consumption of animal source foods.\" In countries like India, that call could become a tool to aggravate an already tense political situation and stress already undernourished populations. The EAT report presumes that \"traditional diets\" in countries like India include little red meat, which might be consumed only on special occasions or as minor ingredients in mixed dishes. In India, however, there is a vast difference between what people would wish to consume and what they have to consume because of innumerable barriers around class, religion, culture, cost, geography, etc. Policymakers in India have traditionally pushed for a cereal-heavy \"vegetarian diet\" on a meat-eating population as a way of providing the cheapest sources of food. Currently, under an aggressive Hindu nationalist government, Muslims, Christians, disadvantaged classes and indigenous communities are being compelled to give up their traditional foods. None of these concerns seem to have been appreciated by the EAT-Lancet Commission's representative, Brent Loken, who said \"India has got such a great example\" in sourcing protein from plants. But how much of a model for the world is India's vegetarianism? In the Global Hunger Index 2019, the country ranks 102nd out of 117. Data from the National Family Health Survey indicate that only 10 percent of infants of 6 to 23 months are adequately fed Which is why calls for a plant-based diet modeled on India risk offering another whip with which to beat already vulnerable communities in developing countries. A diet directed at the affluent West fails to recognize that in low- income countries undernourished children are known to benefit from the consumption of milk and other animal source foods, improving 2020-12-CET6(7› 2 E)-7 cognitive functions, while reducing the prevalence of nutritional deficiencies as well as mortality. EAT-Lancet claimed its intention was to \"spark conversations\" among all Indian stakeholders. Yet vocal critics of the food processing industry and food fortification strategies have been left out of the debate. But the most conspicuous omission may well be the absence of India's farmers. The government, however, seems to have given the report a thumbs-up. Rather than addressing chronic hunger and malnutrition through an improved access to wholesome and nutrient-dense foods, the government is opening the door for company-dependent solutions, ignoring the environmental and economic cost, which will destroy local food systems. It's a model full of danger for future generations."
+        },
+        {
+          "id": "cet6-2020-12-set2-detail2",
+          "text": "Back in 1964, in his book Games People Play, psychiatrist Eric Berne described a pattern of conversation he called \"Why Don't You-Yes But\", which remains one of the most irritating aspects of everyday social life. The person adopting the strategy is usually a chronic complainer. Something is terrible about their relationship, job, or other situation, and they moan about it ceaselessly, but find some excuse to dismiss any solution that's proposed. The reason, of course, is that on some level they don't want a solution; they want to be validated in their position that the world is out to get them. If they can \"win\" the game dismissing every suggestion until their interlocutor (Ria) gives up in annoyance- they get to feel pleasurably righteous (IE * kj) in their resentments and excused from any obligation to 2020-12-CET6(7› 2 1)-8 change. Part of the trouble here is the so called responsibility/fault fallacy (i, i*). When you're feeling hard done by—taken for granted by your partner, say, or obliged to work for a half-witted boss—it's easy to become attached to the position that it's not your job to address the matter, and that doing so would be an admission of fault. But there's a confusion here. For example, if I were to discover a newborn at my front door, it wouldn't be my fault, but it most certainly would be my responsibility. There would be choices to make, and no possibility of avoiding them, since trying to ignore the matter would be a choice. The point is that what goes for the baby on the doorstep is true in all cases: even if the other person is 100% in the wrong, there's nothing to be gained, long-term, from using this as a justification to evade responsibility. Should you find yourself on the receiving end of this kind of complaining, there's an ingenious way to shut it down-which is to agree with it, ardently. Psychotherapist Lori Gottlieb describes this as \"over-validation\". For one thing, you'll be spared further moaning, since the other person's motivation was to confirm: her beliefs, and now you're confirming them. But for another, as Gottlieb notes, people confronted with over-validation often hear their complaints afresh and start arguing back. The notion that they' re utterly powerless suddenly seems unrealistic—not to mention rather annoying—so they're prompted instead to generate ideas about how they might change things. \"And then, sometimes, something magical might happen,\" Gottlieb writes. The other person \"might realise she's not as trapped as you are saying she is, or as she feels.\" Which illustrates the irony of the responsibility/fault fallacy: evading responsibility feels comfortable, but turns out to be a prison; whereas assuming responsibility feels unpleasant, but ends up being freeing."
+        }
+      ],
+      "sourceFileUrl": "/study/resources/60f42b0bb2dfd498dc32c8b4.pdf"
+    },
+    "TRANSLATION": {
+      "instructions": "请将原卷中文翻译成英语。",
+      "prompt": "Directions: For this part, you are allowed 30 minutes to translate a passage from Chinese into English. You should write your answer on Answer Sheet 2. 港珠澳大桥(Hong Kong Zhuhai-Macau Bridge)全长55公里,是我国一项不同寻常的工程壮举。 大桥将三个城市连接起来,是世界上最长的跨海桥梁和隧道系统。大桥将三个城市之间的旅行时间 从3小时缩短到30分钟。这座跨度巨大的钢筋混凝土大桥充分证明中国有能力建造创纪录的巨型 建筑。它将助推区域一体化,促进经济增长。大桥是中国发展自己的大湾区总体规划的关键。中国 希望将大湾区建成在技术创新和经济繁荣上能与旧金山、纽约和东京的湾区相媲美的地区。 2020-12-CET6(7 2 1⁄2)-10",
+      "questions": [],
+      "audio": [],
+      "passages": [],
+      "sourceFileUrl": "/study/resources/60f42b0bb2dfd498dc32c8b4.pdf"
+    }
+  }
+}

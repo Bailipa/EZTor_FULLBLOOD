@@ -8,6 +8,7 @@ import {
   MessageSquare,
   Languages,
   Database,
+  BookOpen,
   ChevronRight,
   Loader2,
   Sparkles,
@@ -32,6 +33,12 @@ const items = [
     label: '翻译记录',
     description: '查看全站翻译历史',
     icon: Languages,
+  },
+  {
+    href: '/admin/study',
+    label: 'CET 内容管理',
+    description: '导入、核验与管理阅读内容包',
+    icon: BookOpen,
   },
   {
     href: '/llm-config',

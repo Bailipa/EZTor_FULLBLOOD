@@ -44,11 +44,16 @@ if (command === 'build') {
     recursive: true,
     filter: (source) => {
       const parts = path.relative(path.join(repo, name), source).split(path.sep)
-      return !parts.some(part => omitted.includes(part) || part === '.DS_Store' || part.startsWith('._') || part.startsWith('.env'))
+      return !(name === 'public' && parts[0] === 'study' && parts[1] === 'resources') &&
+        !parts.some(part => omitted.includes(part) || part === '.DS_Store' || part.startsWith('._') || part.startsWith('.env'))
     },
   })
   await copyTree('src', ['__tests__', '_deprecated'])
   await copyTree('public', ['downloads', 'updates'])
+  await mkdir(path.join(preview, 'public/study'), { recursive: true })
+  await symlink(path.join(repo, 'public/study/resources'), path.join(preview, 'public/study/resources'), 'junction')
+  await mkdir(path.join(preview, 'content/cet-local'), { recursive: true })
+  await cp(path.join(repo, 'content/cet-local/index.json'), path.join(preview, 'content/cet-local/index.json'))
   await mkdir(path.join(preview, 'prisma'))
   await cp(path.join(repo, 'prisma/schema.prisma'), path.join(preview, 'prisma/schema.prisma'))
   for (const name of ['package.json', 'postcss.config.mjs', 'components.json']) {

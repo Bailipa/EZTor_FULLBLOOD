@@ -14,14 +14,18 @@ import { useDanmakuStore } from '@/stores/danmakuStore'
 import { FEATURE_UNLOCK_THRESHOLDS } from '@/features/gamification/constants'
 import { FeatureLockedDialog } from '@/features/gamification/components/FeatureLockedDialog'
 import { playFeedbackSound, startRadialChargeSound, stopRadialChargeSound } from '@/lib/feedbackSounds'
+import dynamic from 'next/dynamic'
+
+const MenuFlashcard = dynamic(() => import('./MenuFlashcard'))
 
 const navItems = [
-  { href: '/', label: '首页', icon: Home, requiresAuth: false, x: -140, y: 48 },
-  { href: '/dictation', label: '复习', icon: PenTool, requiresAuth: true, x: -128, y: 132 },
-  { href: '/history', label: '词库', icon: BookOpen, requiresAuth: false, x: -72, y: 184 },
-  { href: '/leaderboard', label: '排行榜', icon: Trophy, requiresAuth: true, x: 72, y: 184 },
-  { href: '/ai', label: '翻译与聊天', icon: Sparkles, requiresAuth: false, x: 128, y: 132 },
-  { href: '/me', label: '设置', icon: Settings2, requiresAuth: false, x: 140, y: 48 },
+  { href: '/', label: '首页', icon: Home, requiresAuth: false },
+  { href: '/dictation', label: '复习', icon: PenTool, requiresAuth: true },
+  { href: '/history', label: '词库', icon: BookOpen, requiresAuth: false },
+  { href: '/leaderboard', label: '排行榜', icon: Trophy, requiresAuth: true },
+  { href: '/ai', label: '翻译与聊天', icon: Sparkles, requiresAuth: false },
+  { href: '/study', label: '四六级备考', icon: BookOpen, requiresAuth: false },
+  { href: '/me', label: '设置', icon: Settings2, requiresAuth: false },
 ]
 const downloadTarget = navItems.length
 const donationTarget = navItems.length + 1
@@ -30,10 +34,8 @@ const prefetchRoutes = process.env.NODE_ENV === 'production'
 const interactionTime = () => (typeof performance !== 'undefined' ? performance.now() : Date.now())
 
 function navPosition(index: number, count: number) {
-  if (count <= 1) return { x: 0, y: 148 }
-  const angle = (160 - (140 * index) / (count - 1)) * Math.PI / 180
-  const radius = count >= 5 ? 168 : 156
-  return { x: Math.round(Math.cos(angle) * radius), y: Math.round(Math.sin(angle) * radius) }
+  const angle = (count <= 1 ? 0 : -90 + (180 * index) / (count - 1)) * Math.PI / 180
+  return { x: Math.round(Math.sin(angle) * 142), y: Math.round(56 + Math.cos(angle) * 204) }
 }
 
 function dragTargetLabel(target: number) {
@@ -49,6 +51,7 @@ function matchesPage(href: string, pathname: string) {
   if (href === '/dictation') return pathname === '/dictation' || pathname === '/mistakes'
   if (href === '/history') return pathname === '/history' || pathname.startsWith('/history/') || pathname === '/public-vocabulary' || pathname.startsWith('/public-vocabulary/') || pathname === '/contributions'
   if (href === '/leaderboard') return pathname === '/leaderboard' || pathname.startsWith('/leaderboard/')
+  if (href === '/study') return pathname === '/study' || pathname.startsWith('/study/')
   if (href === '/public-vocabulary') return pathname === '/contributions' || pathname === '/public-vocabulary' || pathname.startsWith('/public-vocabulary/')
   return pathname === href
 }
@@ -71,6 +74,9 @@ export default function MobileNavBar() {
   const [dragging, setDragging] = useState(false)
   const [highlighted, setHighlighted] = useState<number | null>(null)
   const activeLinkRef = useRef<HTMLAnchorElement>(null)
+  const fanRef = useRef<HTMLDivElement>(null)
+  const navItemRefs = useRef(new Map<number, HTMLAnchorElement>())
+  const utilityActionsRef = useRef<HTMLDivElement>(null)
   const downloadActionRef = useRef<HTMLAnchorElement>(null)
   const donationActionRef = useRef<HTMLButtonElement>(null)
   const danmakuActionRef = useRef<HTMLButtonElement>(null)
@@ -78,11 +84,15 @@ export default function MobileNavBar() {
   const dragFrame = useRef(0)
   const latestPointer = useRef<{ pointerId: number; clientX: number; clientY: number } | null>(null)
   const highlightedRef = useRef<number | null>(null)
+  const dragBounds = useRef(new Map<number, DOMRect>())
   const gesture = useRef<{ id: number; x: number; y: number; startX: number; startY: number; moved: boolean; wasOpen: boolean; target: HTMLButtonElement } | null>(null)
   const suppressClickUntil = useRef(0)
   const visibleNavItems = navItems
     .map((item, originalIndex) => ({ item, originalIndex }))
     .filter(({ item }) => mainVisible(item.href))
+  const flashcardBottom = 360
+  const flashcardBottomSmall = 340
+  const focusItemIndex = visibleNavItems.find(({ item }) => matchesPage(item.href, pathname))?.originalIndex ?? visibleNavItems[0]?.originalIndex
   const activeItem = navItems.find((item) => matchesPage(item.href, pathname))
   const ActiveIcon = activeItem?.icon ?? Grid2X2
 
@@ -118,6 +128,7 @@ export default function MobileNavBar() {
   const startDrag = (event: ReactPointerEvent<HTMLButtonElement>) => {
     if (!event.isPrimary || event.button !== 0 || gesture.current) return
     event.preventDefault()
+    dragBounds.current.clear()
     const rect = event.currentTarget.getBoundingClientRect()
     gesture.current = { id: event.pointerId, x: rect.left + rect.width / 2, y: rect.top + rect.height / 2, startX: event.clientX, startY: event.clientY, moved: false, wasOpen: open, target: event.currentTarget }
     event.currentTarget.setPointerCapture(event.pointerId)
@@ -129,41 +140,25 @@ export default function MobileNavBar() {
     startRadialChargeSound()
   }
 
-  // Directional sectors are wider than the icons; returning to the hub cancels.
-  const dragTarget = (x: number, y: number, clientX: number, clientY: number) => {
-    const isInside = (element: HTMLElement | null) => {
-      const rect = element?.getBoundingClientRect()
-      return !!rect && clientX >= rect.left && clientX <= rect.right && clientY >= rect.top && clientY <= rect.bottom
+  // Targets only fade in; their hit boxes stay fixed throughout the gesture.
+  const dragTarget = (clientX: number, clientY: number) => {
+    if (!dragBounds.current.size) {
+      const targets: [number, HTMLElement | null][] = [
+        ...visibleNavItems.map(({ originalIndex }) => [originalIndex, navItemRefs.current.get(originalIndex) ?? null] as [number, HTMLElement | null]),
+        [downloadTarget, downloadActionRef.current],
+        [donationTarget, donationActionRef.current],
+        ...(showDanmaku ? [[danmakuTarget, danmakuActionRef.current] as [number, HTMLElement | null]] : []),
+      ]
+      targets.forEach(([key, element]) => {
+        if (!element) return
+        const rect = element.getBoundingClientRect()
+        if (rect.width && rect.height) dragBounds.current.set(key, rect)
+      })
     }
-    if (isInside(downloadActionRef.current)) return downloadTarget
-    if (isInside(donationActionRef.current)) return donationTarget
-    if (showDanmaku && isInside(danmakuActionRef.current)) return danmakuTarget
-    const topActionEdge = Math.min(160, Math.max(88, window.innerHeight * 0.18))
-    if (clientY <= topActionEdge) {
-      if (clientX <= window.innerWidth * 0.4) return downloadTarget
-      if (clientX >= window.innerWidth * 0.6) return donationTarget
+    for (const [key, rect] of dragBounds.current) {
+      if (clientX >= rect.left && clientX <= rect.right && clientY >= rect.top && clientY <= rect.bottom) return key
     }
-    const utilityReach = Math.max(220, window.innerHeight * 0.55)
-    if (y < -utilityReach) {
-      const sideReach = window.innerWidth * 0.12
-      if (x < -sideReach) return downloadTarget
-      if (x > sideReach) return donationTarget
-    }
-
-    const distance = Math.hypot(x, y)
-    if (distance < 38 || distance > 240 || y > -8) return null
-    if (showDanmaku && Math.abs(x) <= 38 && y <= -44 && y >= -150) return danmakuTarget
-    let best: number | null = null
-    let alignment = Math.cos(27 * Math.PI / 180)
-    visibleNavItems.forEach(({ originalIndex }, index) => {
-      const position = navPosition(index, visibleNavItems.length)
-      const scale = window.innerWidth < 360 ? 0.84 : 1
-      const itemX = position.x * scale
-      const itemY = -position.y * scale
-      const score = (x * itemX + y * itemY) / (distance * Math.hypot(itemX, itemY))
-      if (score > alignment) { alignment = score; best = originalIndex }
-    })
-    return best
+    return null
   }
 
   const moveDrag = (event: Pick<PointerEvent, 'pointerId' | 'clientX' | 'clientY'>) => {
@@ -179,7 +174,7 @@ export default function MobileNavBar() {
       if (!pointer || !active || active.id !== pointer.pointerId) return
       const dx = pointer.clientX - active.x
       const dy = pointer.clientY - active.y
-      const target = dragTarget(dx, dy, pointer.clientX, pointer.clientY)
+      const target = dragTarget(pointer.clientX, pointer.clientY)
       if (highlightedRef.current !== target) {
         highlightedRef.current = target
         setHighlighted(target)
@@ -209,7 +204,7 @@ export default function MobileNavBar() {
     setHighlighted(null)
     const moved = current.moved || Math.hypot(event.clientX - current.startX, event.clientY - current.startY) > 8
     const target = !cancelled && moved
-      ? dragTarget(event.clientX - current.x, event.clientY - current.y, event.clientX, event.clientY)
+      ? dragTarget(event.clientX, event.clientY)
       : null
     if (target !== null) {
       playFeedbackSound(target === donationTarget || target === danmakuTarget ? 'tap' : 'navigate')
@@ -237,6 +232,12 @@ export default function MobileNavBar() {
 
   useEffect(() => { changeOpen(false) }, [pathname, changeOpen])
   useEffect(() => { if (keyboardVisible) changeOpen(false) }, [keyboardVisible, changeOpen])
+  useEffect(() => {
+    if (!open) return
+    const cancelGesture = () => changeOpen(false)
+    window.addEventListener('resize', cancelGesture)
+    return () => window.removeEventListener('resize', cancelGesture)
+  }, [open, changeOpen])
   useEffect(() => () => { cancelAnimationFrame(dragFrame.current); stopRadialChargeSound() }, [])
 
   useEffect(() => { setCombatPower(null) }, [status, session?.user?.id])
@@ -273,7 +274,7 @@ export default function MobileNavBar() {
     <>
       <Dialog.Root open={open} onOpenChange={changeOpen} modal={false}>
       <Dialog.Trigger asChild>
-        <button type="button" {...dragHandlers} data-minimal-surface className={styles.launcher} data-open={open} data-feedback-sound="none" hidden={keyboardVisible} aria-label={`${activeItem?.label ?? '当前页面'}，按住滑动或点击打开页面导航`}>
+        <button type="button" {...dragHandlers} data-minimal-surface className={styles.launcher} data-open={open} data-feedback-sound="none" hidden={keyboardVisible} aria-label={open ? '收起页面导航' : `${activeItem?.label ?? '当前页面'}，按住滑动或点击打开页面导航`}>
           <span className={styles.launcherLabel} aria-hidden>
             <ActiveIcon size={20} />
             <span>{activeItem?.label ?? '导航'}</span>
@@ -285,24 +286,38 @@ export default function MobileNavBar() {
       <Dialog.Portal>
         {open && <div className={styles.overlay} data-state="open" aria-hidden onPointerDown={() => changeOpen(false)} />}
         <Dialog.Content
+          ref={fanRef}
           className={styles.fan}
+          style={{ '--flashcard-bottom': `${flashcardBottom}px`, '--flashcard-bottom-small': `${flashcardBottomSmall}px` } as CSSProperties}
           data-dragging={dragging}
           data-feedback-sound="none"
           onPointerDown={(event) => {
             if (event.target === event.currentTarget) changeOpen(false)
           }}
+          onKeyDown={(event) => {
+            if (event.key !== 'Tab') return
+            const targets = event.currentTarget.querySelectorAll<HTMLElement>('a[href], button:not([disabled])')
+            const edge = event.shiftKey ? targets[0] : targets[targets.length - 1]
+            if (event.target === edge) {
+              event.preventDefault()
+              ;(event.shiftKey ? donationActionRef.current : downloadActionRef.current)?.focus()
+            }
+          }}
+          onInteractOutside={(event) => {
+            const target = event.detail.originalEvent.target
+            if (target instanceof Node && utilityActionsRef.current?.contains(target)) event.preventDefault()
+          }}
           onOpenAutoFocus={(event) => {
             if (gesture.current) { event.preventDefault(); return }
-            if (activeLinkRef.current) {
-              event.preventDefault()
-              activeLinkRef.current.focus()
-            }
+            event.preventDefault()
+            ;(activeLinkRef.current ?? downloadActionRef.current)?.focus()
           }}
         >
           <Dialog.Title className="sr-only">页面导航</Dialog.Title>
           <Dialog.Description className="sr-only">按住底部入口滑向页面链接、弹幕复习或顶部快捷入口，松手进入或切换；滑回底部入口取消。也可点击菜单项目。按 Escape 或点击空白处收起。</Dialog.Description>
           <span className={styles.gestureHint} aria-live="polite">{dragging ? (highlighted === null ? '滑向目标，松手进入或打开' : `松手${highlighted === danmakuTarget ? '切换' : highlighted < navItems.length ? '进入' : '打开'}${dragTargetLabel(highlighted)}`) : '选择页面'}</span>
           <span ref={cursorRef} className={styles.dragCursor} aria-hidden />
+          {open && !dragging && <MenuFlashcard />}
           <nav aria-label="手机主导航">
             <ul className={styles.items}>
               {visibleNavItems.map(({ item, originalIndex }, index) => {
@@ -313,7 +328,11 @@ export default function MobileNavBar() {
                 return (
                   <li key={item.href} className={styles.item} style={{ '--x': `${position.x}px`, '--y': `${position.y}px` } as CSSProperties}>
                     <Link
-                      ref={active || (!activeItem && index === 0) ? activeLinkRef : undefined}
+                      ref={(element) => {
+                        if (element) navItemRefs.current.set(originalIndex, element)
+                        else navItemRefs.current.delete(originalIndex)
+                        if (originalIndex === focusItemIndex) activeLinkRef.current = element
+                      }}
                       href={destination(originalIndex)}
                       prefetch={false}
                       onPointerEnter={() => { if (prefetchRoutes) router.prefetch(destination(originalIndex)) }}
@@ -330,17 +349,17 @@ export default function MobileNavBar() {
                   </li>
                 )
               })}
-              {showDanmaku && <li className={styles.item} style={{ '--x': '0px', '--y': '108px' } as CSSProperties}>
+              {showDanmaku && <li className={styles.danmakuItem}>
                 <button
                   ref={danmakuActionRef}
                   type="button"
-                  data-minimal-surface className={styles.destination}
+                  data-minimal-surface className={`${styles.destination} ${styles.danmakuAction}`}
                   data-highlighted={highlighted === danmakuTarget}
                   aria-pressed={!danmakuLocked && (danmakuStatus === 'active' || danmakuStatus === 'counting')}
                   aria-label={danmakuLocked ? '弹幕复习，未解锁' : danmakuStatus === 'counting' ? `弹幕倒计时 ${countdownValue}，点击取消` : danmakuStatus === 'active' ? '关闭弹幕复习' : danmakuStatus === 'empty' ? '先添加单词吧' : '开启弹幕复习'}
                   onClick={() => { playFeedbackSound('tap'); changeOpen(false); if (danmakuLocked) setDanmakuLockedOpen(true); else void toggleDanmaku() }}
                 >
-                  {danmakuLocked ? <LockKeyhole size={22} strokeWidth={1.7} aria-hidden /> : danmakuStatus === 'counting' ? <span className={styles.countdown} aria-hidden>{countdownValue}</span> : <MonitorPlay size={22} strokeWidth={1.7} aria-hidden />}
+                  {danmakuLocked ? <LockKeyhole size={18} strokeWidth={1.7} aria-hidden /> : danmakuStatus === 'counting' ? <span className={styles.countdown} aria-hidden>{countdownValue}</span> : <MonitorPlay size={18} strokeWidth={1.7} aria-hidden />}
                   <span>{!danmakuLocked && danmakuStatus === 'empty' ? '先添加单词' : '弹幕复习'}</span>
                 </button>
               </li>}
@@ -348,8 +367,18 @@ export default function MobileNavBar() {
           </nav>
         </Dialog.Content>
       </Dialog.Portal>
-      </Dialog.Root>
-      <div className={styles.utilityActions} data-open={open} data-feedback-sound="none" aria-hidden={!open}>
+      <Dialog.Portal forceMount>
+      <div ref={utilityActionsRef} className={styles.utilityActions} data-open={open} data-feedback-sound="none" aria-hidden={!open}
+        onKeyDown={(event) => {
+          if (event.key === 'Escape') { event.preventDefault(); changeOpen(false); return }
+          if (event.key !== 'Tab') return
+          const edge = event.shiftKey ? downloadActionRef.current : donationActionRef.current
+          if (event.target !== edge) return
+          const targets = fanRef.current?.querySelectorAll<HTMLElement>('a[href], button:not([disabled])')
+          const next = event.shiftKey ? targets?.[targets.length - 1] : targets?.[0]
+          if (next) { event.preventDefault(); next.focus() }
+        }}
+      >
         <Link ref={downloadActionRef} href="/download" data-minimal-surface className={styles.utilityAction} data-highlighted={highlighted === downloadTarget} onClick={() => { playFeedbackSound('navigate'); changeOpen(false) }}>
           <MonitorDown size={17} aria-hidden="true" />
           <span>下载APP</span>
@@ -361,6 +390,8 @@ export default function MobileNavBar() {
           </button>
         </DonationDialog>
       </div>
+      </Dialog.Portal>
+      </Dialog.Root>
       <FeatureLockedDialog open={danmakuLockedOpen} onOpenChange={setDanmakuLockedOpen} featureName="弹幕复习" requiredPower={FEATURE_UNLOCK_THRESHOLDS.DANMAKU} currentPower={combatPower ?? 0} />
     </>
   )

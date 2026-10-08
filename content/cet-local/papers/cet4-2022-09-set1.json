@@ -1,0 +1,1102 @@
+{
+  "slug": "cet4-2022-09-set1-full",
+  "version": 1,
+  "title": "2022年9月 · 第1套整卷模拟真题",
+  "level": "CET4",
+  "kind": "FULL",
+  "originType": "PAST_EXAM",
+  "sourceName": "用户提供的本地四六级资料",
+  "sourceUrl": "/study/resources/38db7898e9b6cf56c9f58693.pdf",
+  "rightsHolder": "原试卷及解析作者",
+  "rightsEvidence": "用户提供本地资源并要求接入本地学习系统；原文件及校验值见 content/cet-local/index.json。未授权公开再分发或生产部署。",
+  "content": {
+    "WRITING": {
+      "instructions": "原卷写作要求",
+      "prompt": "Directions: Suppose your university is selecting some students to teach kids in remote rural areas during the coming vacation. You are now to write an application letter to the university to explain why you want to take part and what you can do for the kids. You will have 30 minutes to write the letter. You should write at least 120 words but no more than 180 words.",
+      "questions": [],
+      "audio": [],
+      "passages": [],
+      "minimumWords": 120,
+      "maximumWords": 180,
+      "sourceFileUrl": "/study/resources/38db7898e9b6cf56c9f58693.pdf"
+    },
+    "LISTENING": {
+      "instructions": "原卷听力选择题",
+      "questions": [
+        {
+          "id": "cet4-2022-09-set1-q1",
+          "type": "NEWS",
+          "prompt": "第 1 题(题干在原始录音中)",
+          "choices": [
+            "It examines the effect of cholesterol on people's health.",
+            "Its participants all had high blood cholesterol levels.",
+            "It questions the benefits of a vegetarian protein diet.",
+            "Its finding came as a surprise to the researchers."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "audioId": "cet4-2022-09-set1-audio"
+        },
+        {
+          "id": "cet4-2022-09-set1-q2",
+          "type": "NEWS",
+          "prompt": "第 2 题(题干在原始录音中)",
+          "choices": [
+            "They do not know all the effects of eating meat.",
+            "Red meat itself does not cause heart diseases.",
+            "White meat may be healthier than red meat.",
+            "Vegetarian protein may be easier to absorb."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "audioId": "cet4-2022-09-set1-audio"
+        },
+        {
+          "id": "cet4-2022-09-set1-q3",
+          "type": "NEWS",
+          "prompt": "第 3 题(题干在原始录音中)",
+          "choices": [
+            "It may have been due to the lorry driver's drunk driving",
+            "It may affect the local supply of turkeys for Christmas.",
+            "It interrupted traffic for several hours running.",
+            "It was caused by a lorry running into a trailer."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "audioId": "cet4-2022-09-set1-audio"
+        },
+        {
+          "id": "cet4-2022-09-set1-q4",
+          "type": "NEWS",
+          "prompt": "第 4 题(题干在原始录音中)",
+          "choices": [
+            "It has been the scene of several fatal accidents recently.",
+            "It is the spot that causes the local police a lot of worry.",
+            "It has witnessed several traffic accidents this year.",
+            "It is a location frequented by local traffic police."
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 1,
+          "audioId": "cet4-2022-09-set1-audio"
+        },
+        {
+          "id": "cet4-2022-09-set1-q5",
+          "type": "NEWS",
+          "prompt": "第 5 题(题干在原始录音中)",
+          "choices": [
+            "Get approval to add more routes.",
+            "Attract more international tourists.",
+            "Advertise it through a mobile app.",
+            "Make it affordable to common folk."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "audioId": "cet4-2022-09-set1-audio"
+        },
+        {
+          "id": "cet4-2022-09-set1-q6",
+          "type": "NEWS",
+          "prompt": "第 6 题(题干在原始录音中)",
+          "choices": [
+            "It costs more than twice as much as a car ride.",
+            "It is gaining popularity among ordinary Indians.",
+            "It symbolizes India's advancement in high-tech.",
+            "It can get any where in the city within 15 minutes."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "audioId": "cet4-2022-09-set1-audio"
+        },
+        {
+          "id": "cet4-2022-09-set1-q7",
+          "type": "NEWS",
+          "prompt": "第 7 题(题干在原始录音中)",
+          "choices": [
+            "International tourists.",
+            "High-class travelers.",
+            "Prominent superstars.",
+            "Customers in a hurry."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "audioId": "cet4-2022-09-set1-audio"
+        },
+        {
+          "id": "cet4-2022-09-set1-q8",
+          "type": "CONVERSATION",
+          "prompt": "第 8 题(题干在原始录音中)",
+          "choices": [
+            "Treat her friends in a bar.",
+            "Take a trip to Washington.",
+            "Make some cheese.",
+            "Throw a party."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "audioId": "cet4-2022-09-set1-audio"
+        },
+        {
+          "id": "cet4-2022-09-set1-q9",
+          "type": "CONVERSATION",
+          "prompt": "第 9 题(题干在原始录音中)",
+          "choices": [
+            "Spend no more than 30 dollars.",
+            "Buy different kinds of cheese.",
+            "Help him prepare t he barbecue.",
+            "Find out different people's tastes."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "audioId": "cet4-2022-09-set1-audio"
+        },
+        {
+          "id": "cet4-2022-09-set1-q10",
+          "type": "CONVERSATION",
+          "prompt": "第 10 题(题干在原始录音中)",
+          "choices": [
+            "It is the best kind of hard cheese.",
+            "It is the most popular in Spain.",
+            "It is more delicious than honey.",
+            "It is a good choice for children."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "audioId": "cet4-2022-09-set1-audio"
+        },
+        {
+          "id": "cet4-2022-09-set1-q11",
+          "type": "CONVERSATION",
+          "prompt": "第 11 题(题干在原始录音中)",
+          "choices": [
+            "Buy what the man recommended",
+            "Have a taste of both of the cheeses.",
+            "Choose one of the two types of cheese.",
+            "Ask the man to cut the cheese into slices."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "audioId": "cet4-2022-09-set1-audio"
+        },
+        {
+          "id": "cet4-2022-09-set1-q12",
+          "type": "CONVERSATION",
+          "prompt": "第 12 题(题干在原始录音中)",
+          "choices": [
+            "New teachers and staff have to be recruited.",
+            "It might take some time for students to adapt.",
+            "It involves buying lots of tablets and software.",
+            "The software has to be constantly upgraded."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "audioId": "cet4-2022-09-set1-audio"
+        },
+        {
+          "id": "cet4-2022-09-set1-q13",
+          "type": "CONVERSATION",
+          "prompt": "第 13 题(题干在原始录音中)",
+          "choices": [
+            "It can greatly improve their learning efficiency.",
+            "It can help them to interact more with teachers.",
+            "It can save their trouble of carrying printed books.",
+            "It can develop their skills in using electronic devices."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "audioId": "cet4-2022-09-set1-audio"
+        },
+        {
+          "id": "cet4-2022-09-set1-q14",
+          "type": "CONVERSATION",
+          "prompt": "第 14 题(题干在原始录音中)",
+          "choices": [
+            "They may have trouble comprehending texts.",
+            "They may encounter technological problems.",
+            "They may pay less respect to teachers.",
+            "The y may get distracted more easily."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "audioId": "cet4-2022-09-set1-audio"
+        },
+        {
+          "id": "cet4-2022-09-set1-q15",
+          "type": "CONVERSATION",
+          "prompt": "第 15 题(题干在原始录音中)",
+          "choices": [
+            "It generate s a great deal of electronic garbage.",
+            "It does a lot of damage to the environment.",
+            "It emits huge a mounts of harmful radiation.",
+            "It accelerates the exhaustion of rare minerals."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "audioId": "cet4-2022-09-set1-audio"
+        },
+        {
+          "id": "cet4-2022-09-set1-q16",
+          "type": "PASSAGE",
+          "prompt": "第 16 题(题干在原始录音中)",
+          "choices": [
+            "Communicate with our coworkers.",
+            "Encounter people in different places.",
+            "Judge people based on our first impressions.",
+            "Engage in a variety of psychological activities."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "audioId": "cet4-2022-09-set1-audio"
+        },
+        {
+          "id": "cet4-2022-09-set1-q17",
+          "type": "PASSAGE",
+          "prompt": "第 17 题(题干在原始录音中)",
+          "choices": [
+            "It is an objective evaluation of a person's character.",
+            "It is a mental process influenced by many factors.",
+            "It contributes to the formation of personal traits.",
+            "It varies greatly among different social groups."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "audioId": "cet4-2022-09-set1-audio"
+        },
+        {
+          "id": "cet4-2022-09-set1-q18",
+          "type": "PASSAGE",
+          "prompt": "第 18 题(题干在原始录音中)",
+          "choices": [
+            "It can lead to incorrect judgments.",
+            "It can cause mistrust among people.",
+            "It can result in instant losses.",
+            "It can give rise to gender bias."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "audioId": "cet4-2022-09-set1-audio"
+        },
+        {
+          "id": "cet4-2022-09-set1-q19",
+          "type": "PASSAGE",
+          "prompt": "第 19 题(题干在原始录音中)",
+          "choices": [
+            "Both groups spend a lot of time on mobile devices.",
+            "Both groups attach importance to social connections.",
+            "They are equally competent in using new technology.",
+            "They are similar in terms of social skills."
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 2,
+          "audioId": "cet4-2022-09-set1-audio"
+        },
+        {
+          "id": "cet4-2022-09-set1-q20",
+          "type": "PASSAGE",
+          "prompt": "第 20 题(题干在原始录音中)",
+          "choices": [
+            "Their social skills were negatively affected.",
+            "Their school performance was slightly lower.",
+            "Their emotions were much harder to regulate.",
+            "Their relations with peers were badly strained."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "audioId": "cet4-2022-09-set1-audio"
+        },
+        {
+          "id": "cet4-2022-09-set1-q21",
+          "type": "PASSAGE",
+          "prompt": "第 21 题(题干在原始录音中)",
+          "choices": [
+            "It may pose a threat to their children's safety.",
+            "It may affect society's traditional values.",
+            "It may hurt their relations with children.",
+            "It may change their children's ethical values."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "audioId": "cet4-2022-09-set1-audio"
+        },
+        {
+          "id": "cet4-2022-09-set1-q22",
+          "type": "PASSAGE",
+          "prompt": "第 22 题(题干在原始录音中)",
+          "choices": [
+            "It is motivating.",
+            "It is passive.",
+            "It is incredible.",
+            "It is impracticable."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "audioId": "cet4-2022-09-set1-audio"
+        },
+        {
+          "id": "cet4-2022-09-set1-q23",
+          "type": "PASSAGE",
+          "prompt": "第 23 题(题干在原始录音中)",
+          "choices": [
+            "It results in short-term excitement.",
+            "It helps us avoid making mistakes.",
+            "It breeds long-term passion and enthusiasm.",
+            "It is bound to help us achieve greater success."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "audioId": "cet4-2022-09-set1-audio"
+        },
+        {
+          "id": "cet4-2022-09-set1-q24",
+          "type": "PASSAGE",
+          "prompt": "第 24 题(题干在原始录音中)",
+          "choices": [
+            "Drive us forward",
+            "Bring us power.",
+            "Spur us to action.",
+            "Give us ideas."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "audioId": "cet4-2022-09-set1-audio"
+        },
+        {
+          "id": "cet4-2022-09-set1-q25",
+          "type": "PASSAGE",
+          "prompt": "第 25 题(题干在原始录音中)",
+          "choices": [
+            "Listening to success stories.",
+            "Applying ideas to one's life.",
+            "Following the advice of experts.",
+            "Consuming the world around us."
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 2,
+          "audioId": "cet4-2022-09-set1-audio"
+        }
+      ],
+      "audio": [
+        {
+          "id": "cet4-2022-09-set1-audio",
+          "url": "/study/resources/a13f65fcdfadad4db5cacd7c.m4a",
+          "sourceUrl": "/study/resources/a13f65fcdfadad4db5cacd7c.m4a",
+          "durationSeconds": 1497.547755,
+          "transcript": "",
+          "identity": "cet4_2022_09_1.mp3 SHA256:a13f65fcdfadad4db5cacd7cb779b08886bba15ae192dda217d3218ab13a6564"
+        }
+      ],
+      "passages": [],
+      "sourceFileUrl": "/study/resources/38db7898e9b6cf56c9f58693.pdf"
+    },
+    "READING": {
+      "instructions": "请依次完成选词填空、长篇匹配和仔细阅读。",
+      "questions": [
+        {
+          "id": "cet4-2022-09-set1-q26",
+          "type": "WORD_BANK",
+          "prompt": "第 26 空",
+          "choices": [
+            "accommodate",
+            "accordingly",
+            "acquiring",
+            "bothered",
+            "fortune",
+            "fulfilling",
+            "identify",
+            "literally",
+            "opposite",
+            "profession",
+            "purpose",
+            "ranked",
+            "released",
+            "similarly",
+            "wrong"
+          ],
+          "answerIndex": 4,
+          "explanation": "原卷答案：E。",
+          "weight": 0.5,
+          "passageId": "cet4-2022-09-set1-bank"
+        },
+        {
+          "id": "cet4-2022-09-set1-q27",
+          "type": "WORD_BANK",
+          "prompt": "第 27 空",
+          "choices": [
+            "accommodate",
+            "accordingly",
+            "acquiring",
+            "bothered",
+            "fortune",
+            "fulfilling",
+            "identify",
+            "literally",
+            "opposite",
+            "profession",
+            "purpose",
+            "ranked",
+            "released",
+            "similarly",
+            "wrong"
+          ],
+          "answerIndex": 12,
+          "explanation": "原卷答案：M。",
+          "weight": 0.5,
+          "passageId": "cet4-2022-09-set1-bank"
+        },
+        {
+          "id": "cet4-2022-09-set1-q28",
+          "type": "WORD_BANK",
+          "prompt": "第 28 空",
+          "choices": [
+            "accommodate",
+            "accordingly",
+            "acquiring",
+            "bothered",
+            "fortune",
+            "fulfilling",
+            "identify",
+            "literally",
+            "opposite",
+            "profession",
+            "purpose",
+            "ranked",
+            "released",
+            "similarly",
+            "wrong"
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 0.5,
+          "passageId": "cet4-2022-09-set1-bank"
+        },
+        {
+          "id": "cet4-2022-09-set1-q29",
+          "type": "WORD_BANK",
+          "prompt": "第 29 空",
+          "choices": [
+            "accommodate",
+            "accordingly",
+            "acquiring",
+            "bothered",
+            "fortune",
+            "fulfilling",
+            "identify",
+            "literally",
+            "opposite",
+            "profession",
+            "purpose",
+            "ranked",
+            "released",
+            "similarly",
+            "wrong"
+          ],
+          "answerIndex": 8,
+          "explanation": "原卷答案：I。",
+          "weight": 0.5,
+          "passageId": "cet4-2022-09-set1-bank"
+        },
+        {
+          "id": "cet4-2022-09-set1-q30",
+          "type": "WORD_BANK",
+          "prompt": "第 30 空",
+          "choices": [
+            "accommodate",
+            "accordingly",
+            "acquiring",
+            "bothered",
+            "fortune",
+            "fulfilling",
+            "identify",
+            "literally",
+            "opposite",
+            "profession",
+            "purpose",
+            "ranked",
+            "released",
+            "similarly",
+            "wrong"
+          ],
+          "answerIndex": 7,
+          "explanation": "原卷答案：H。",
+          "weight": 0.5,
+          "passageId": "cet4-2022-09-set1-bank"
+        },
+        {
+          "id": "cet4-2022-09-set1-q31",
+          "type": "WORD_BANK",
+          "prompt": "第 31 空",
+          "choices": [
+            "accommodate",
+            "accordingly",
+            "acquiring",
+            "bothered",
+            "fortune",
+            "fulfilling",
+            "identify",
+            "literally",
+            "opposite",
+            "profession",
+            "purpose",
+            "ranked",
+            "released",
+            "similarly",
+            "wrong"
+          ],
+          "answerIndex": 10,
+          "explanation": "原卷答案：K。",
+          "weight": 0.5,
+          "passageId": "cet4-2022-09-set1-bank"
+        },
+        {
+          "id": "cet4-2022-09-set1-q32",
+          "type": "WORD_BANK",
+          "prompt": "第 32 空",
+          "choices": [
+            "accommodate",
+            "accordingly",
+            "acquiring",
+            "bothered",
+            "fortune",
+            "fulfilling",
+            "identify",
+            "literally",
+            "opposite",
+            "profession",
+            "purpose",
+            "ranked",
+            "released",
+            "similarly",
+            "wrong"
+          ],
+          "answerIndex": 5,
+          "explanation": "原卷答案：F。",
+          "weight": 0.5,
+          "passageId": "cet4-2022-09-set1-bank"
+        },
+        {
+          "id": "cet4-2022-09-set1-q33",
+          "type": "WORD_BANK",
+          "prompt": "第 33 空",
+          "choices": [
+            "accommodate",
+            "accordingly",
+            "acquiring",
+            "bothered",
+            "fortune",
+            "fulfilling",
+            "identify",
+            "literally",
+            "opposite",
+            "profession",
+            "purpose",
+            "ranked",
+            "released",
+            "similarly",
+            "wrong"
+          ],
+          "answerIndex": 11,
+          "explanation": "原卷答案：L。",
+          "weight": 0.5,
+          "passageId": "cet4-2022-09-set1-bank"
+        },
+        {
+          "id": "cet4-2022-09-set1-q34",
+          "type": "WORD_BANK",
+          "prompt": "第 34 空",
+          "choices": [
+            "accommodate",
+            "accordingly",
+            "acquiring",
+            "bothered",
+            "fortune",
+            "fulfilling",
+            "identify",
+            "literally",
+            "opposite",
+            "profession",
+            "purpose",
+            "ranked",
+            "released",
+            "similarly",
+            "wrong"
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 0.5,
+          "passageId": "cet4-2022-09-set1-bank"
+        },
+        {
+          "id": "cet4-2022-09-set1-q35",
+          "type": "WORD_BANK",
+          "prompt": "第 35 空",
+          "choices": [
+            "accommodate",
+            "accordingly",
+            "acquiring",
+            "bothered",
+            "fortune",
+            "fulfilling",
+            "identify",
+            "literally",
+            "opposite",
+            "profession",
+            "purpose",
+            "ranked",
+            "released",
+            "similarly",
+            "wrong"
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 0.5,
+          "passageId": "cet4-2022-09-set1-bank"
+        },
+        {
+          "id": "cet4-2022-09-set1-q36",
+          "type": "MATCHING",
+          "prompt": "Kelli Harding also distinguishes herself by her literary talent.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段"
+          ],
+          "answerIndex": 4,
+          "explanation": "原卷答案：E。",
+          "weight": 1,
+          "passageId": "cet4-2022-09-set1-matching"
+        },
+        {
+          "id": "cet4-2022-09-set1-q37",
+          "type": "MATCHING",
+          "prompt": "Kelli Harding doesn't think America's medical model is sufficient for patients who need help most.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段"
+          ],
+          "answerIndex": 10,
+          "explanation": "原卷答案：K。",
+          "weight": 1,
+          "passageId": "cet4-2022-09-set1-matching"
+        },
+        {
+          "id": "cet4-2022-09-set1-q38",
+          "type": "MATCHING",
+          "prompt": "Kelli Harding differs from those seeking quick and simple solutions to America's medical problems.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段"
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "passageId": "cet4-2022-09-set1-matching"
+        },
+        {
+          "id": "cet4-2022-09-set1-q39",
+          "type": "MATCHING",
+          "prompt": "Kelli Harding was a participant in a summer course the author taught.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段"
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "passageId": "cet4-2022-09-set1-matching"
+        },
+        {
+          "id": "cet4-2022-09-set1-q40",
+          "type": "MATCHING",
+          "prompt": "According to Kelli Harding, scientific advances have not made Americans healthier, nor prolonged their life.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段"
+          ],
+          "answerIndex": 5,
+          "explanation": "原卷答案：F。",
+          "weight": 1,
+          "passageId": "cet4-2022-09-set1-matching"
+        },
+        {
+          "id": "cet4-2022-09-set1-q41",
+          "type": "MATCHING",
+          "prompt": "The author was deeply moved by what Kelli Harding wrote about her current life.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段"
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "passageId": "cet4-2022-09-set1-matching"
+        },
+        {
+          "id": "cet4-2022-09-set1-q42",
+          "type": "MATCHING",
+          "prompt": "George Engel, in treating his patients, not only looks into their symptoms but also into things like the emotional support they receive.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段"
+          ],
+          "answerIndex": 11,
+          "explanation": "原卷答案：L。",
+          "weight": 1,
+          "passageId": "cet4-2022-09-set1-matching"
+        },
+        {
+          "id": "cet4-2022-09-set1-q43",
+          "type": "MATCHING",
+          "prompt": "According to Kelli Harding, rabbits' health had more to do with humans' kindness to them than their diet or genetics.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段"
+          ],
+          "answerIndex": 7,
+          "explanation": "原卷答案：H。",
+          "weight": 1,
+          "passageId": "cet4-2022-09-set1-matching"
+        },
+        {
+          "id": "cet4-2022-09-set1-q44",
+          "type": "MATCHING",
+          "prompt": "What Kelli Harding went through in Washington changed her life.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段"
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "passageId": "cet4-2022-09-set1-matching"
+        },
+        {
+          "id": "cet4-2022-09-set1-q45",
+          "type": "MATCHING",
+          "prompt": "A social aspect to health has not been taken into account in trying to provide the best medical care.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段"
+          ],
+          "answerIndex": 9,
+          "explanation": "原卷答案：J。",
+          "weight": 1,
+          "passageId": "cet4-2022-09-set1-matching"
+        },
+        {
+          "id": "cet4-2022-09-set1-q46",
+          "type": "DETAIL",
+          "prompt": "What do we learn from the study by the Josephson Institute of Ethics?",
+          "choices": [
+            "Over half of the students interviewed were unaware they were cheating.",
+            "Cheating was becoming a way of life for a majority of high school teens.",
+            "More than half of the interviewees felt no sense of guilt over cheating.",
+            "Cheating was getting more and more difficult for high school students."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "passageId": "cet4-2022-09-set1-detail1"
+        },
+        {
+          "id": "cet4-2022-09-set1-q47",
+          "type": "DETAIL",
+          "prompt": "What did the Common Sense Media survey reveal?",
+          "choices": [
+            "Most parents tended to overprotect their children.",
+            "Many students committed cheating unknowingly.",
+            "Students were in urgent need of ethical education.",
+            "Parents and kids had conflicting ideas over cheating."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "passageId": "cet4-2022-09-set1-detail1"
+        },
+        {
+          "id": "cet4-2022-09-set1-q48",
+          "type": "DETAIL",
+          "prompt": "Why do students rarely get caught cheating nowadays?",
+          "choices": [
+            "They copy formulas on their palms.",
+            "They help each other to cover up their acts.",
+            "They keep changing their ways of cheating.",
+            "They make use of modern technology."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "passageId": "cet4-2022-09-set1-detail1"
+        },
+        {
+          "id": "cet4-2022-09-set1-q49",
+          "type": "DETAIL",
+          "prompt": "What does the author think schools should do to tackle cheating?",
+          "choices": [
+            "Bring policies against cheating up to date.",
+            "Reform their exam methods constantly.",
+            "Take advantage of the latest technologies.",
+            "Alert parents to their children's behaviour."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "passageId": "cet4-2022-09-set1-detail1"
+        },
+        {
+          "id": "cet4-2022-09-set1-q50",
+          "type": "DETAIL",
+          "prompt": "What does the author suggest teachers do in the classroom?",
+          "choices": [
+            "Prevent students from overusing electronic devices.",
+            "Develop more effective anti-cheating strategies.",
+            "Find more ways to curb students' unethical acts.",
+            "Guard against students misuse of technology."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "passageId": "cet4-2022-09-set1-detail1"
+        },
+        {
+          "id": "cet4-2022-09-set1-q51",
+          "type": "DETAIL",
+          "prompt": "What does the author say companies should do in the context of remote work?",
+          "choices": [
+            "Reform performance evaluation.",
+            "Rethink the organizational fundamentals.",
+            "Reexamine its effects on employees' behaviors.",
+            "Reflect on its differences from working in the office."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "passageId": "cet4-2022-09-set1-detail2"
+        },
+        {
+          "id": "cet4-2022-09-set1-q52",
+          "type": "DETAIL",
+          "prompt": "What should be prioritized in assessing employees' remote work?",
+          "choices": [
+            "The quantity of their output.",
+            "The length of their work time.",
+            "The quality of their contribution.",
+            "The flexibility of their work schedules"
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "passageId": "cet4-2022-09-set1-detail2"
+        },
+        {
+          "id": "cet4-2022-09-set1-q53",
+          "type": "DETAIL",
+          "prompt": "What quality in the employees would be of great importance in a remote work context?",
+          "choices": [
+            "The ability to produce quality work.",
+            "The ability to maximize work efficiency.",
+            "The ability to finish tasks in a timely manner.",
+            "The ability to work with the least supervision."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "passageId": "cet4-2022-09-set1-detail2"
+        },
+        {
+          "id": "cet4-2022-09-set1-q54",
+          "type": "DETAIL",
+          "prompt": "Why is it important for firms to provide timely feedback during the pandemic?",
+          "choices": [
+            "To evaluate their employees of similar rank in a consistent way.",
+            "To keep a watchful eye on those employees who perform poorly.",
+            "To help employees in need adapt to the new work environment.",
+            "To maintain connections with their employees away from office."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "passageId": "cet4-2022-09-set1-detail2"
+        },
+        {
+          "id": "cet4-2022-09-set1-q55",
+          "type": "DETAIL",
+          "prompt": "What is the author's suggestion to employers who experience the financial impact of the pandemic?",
+          "choices": [
+            "Urging their employees to adapt to the new situation.",
+            "Rewarding their employees in unconventional ways.",
+            "Identifying employees who make little contribution.",
+            "Allowing their employees to look for part-time jobs."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "passageId": "cet4-2022-09-set1-detail2"
+        }
+      ],
+      "audio": [],
+      "passages": [
+        {
+          "id": "cet4-2022-09-set1-bank",
+          "text": "Public perception of success in the U.S. might be totally misguided. While 92% of people believe others care most about fame and __(26)__ , fewer than 10% factor those qualities into their own success. This is according to the newly __(27)__ study by Harvard Graduate School of Education professor Todd Smith. Smith says he was __(28)__  by how past studies on success \"assumed what people will care about.\" In this study, his team \"went the __(29)__ direction\" by spending years carrying out individual interviews and group surveys to see what people really talk about when they talk about success. As a scientist, Smith  __(30)__  studied individuality for a living, and even he was surprised to find younger respondents cared more about having a __(31)__ in life. Those between the ages of 18 and __(34)__ prioritized it most, and that prioritization dropped off as respondents' ages went up. Perhaps this is because older people had fewer options when they were starting their careers, at a time when values focused more on stable incomes than __(32)__ personal missions. Other trends included an emphasis on the importance of parenting. Being a parent __(33)__ very high across the priorities of all study participants. Ultimately, Smith hopes institutions will take note of these insights 34 Higher education institutions tend to focus on preparing students for high-paying jobs. For such institutions, from universities to workplaces, to better __(35)__ people in the U.S., they'll need to understand \"what the American public highly prioritizes,\" Smith says."
+        },
+        {
+          "id": "cet4-2022-09-set1-matching",
+          "text": "How a rabbit study and an ex-student boost my hopes for a future of 'love and dignity'\nA) At whatever grade level teachers find themselves, from kindergarten to the final class at medical or law school, few moments stir the emotions as deeply as when former students reappear years and often decades later with an update on where their journey has taken them and what resiliencies (# *1⁄2) have been the pavement on which they've traveled\nB) So it was when a recent letter came from Kelli Harding, a student 21 years ago in my Peace Studies summer course in Washington. The weekly tuition-free class, in a roomy space that Ralph Nader and his Public Citizen nonprofit group provided, was discussion-based and required no useless homework or exams. Just come in and figure out how to increase peace and decrease violence. And do it today, tomorrow is too late. The course attracted mostly congressional interns (* ) #), with a few exceptions like Kelli who was in Washington as an AmeriCorps volunteer.\nC) Her year-long service included comforting AlDs patients at a free health clinic and delivering meals to the homebound. It was a world apart from her undergraduate days at the University of California- Berkeley majoring in political science. The Washington experience, which Kelli would later call u transformative, was the fuel that carried her into medicine to earn a master's degree in public health from Columbia University and a medical degree from the University of Rochester, and almost two decades of practice as an emergency-room psychiatrist (#n i *4 E 1⁄2) at New York-Presbyterian Hospital and a clinical professor of psychiatry at Columbia University Irving Medical Center.\nD) Kelli's letter, a literate update on both her personal and professional life, touched my heart, and especially so when saying that two decades later she still has the course text, \"Solutions to Violence,\" and that \"it remains one of my favorite possessions.\" She lives in Lower Manhattan with her husband, Padraic, whom she met on a flight to London, and their three boys.\nE) If Kelli stands out, it's because she is also a gifted writer. Last month, Atria Books published her book The Rabbit Effect: Live Longer, Happier, and Healthier with the Groundbreaking Science of Kindness.\nF) With a blending of free-flowing confessional prose and scholarly research found in 461 notes, Kelli met my expectations that her ideas and ideals would be sound and singular. \"Despite our scientific progress,\" she writes, \"Americans are remarkably unhealthy. In 2016, the United States ranked forty-third in the world for life expectancy.... It is also by far the world's most expensive place to get sick.\"\nG) Enter the rabbits-not those running around in our woodlands but ones serving in two month-long medical experiments to test the effects of eating a high-fat diet and the connections between cholesterol and heart disease. With similar diets, the expectations were that all the rabbits would have similar cloggings of their arteries (F)) Ak #* #). Yet one group had 60% fewer of them.\nH) The reason? Instead of receiving the standard care given to lab animals, the 60% group was watched over by a newcomer to the lab who, Kelli writes, \"handled the animals differently. When she fed her rabbits she talked to them and petted them. She didn't just pass out food, she gave them love.... The studies indicate something is missing in the traditional biomedical model. It wasn't diet or genetics that made a difference in which rabbits got sick and which stayed healthy. It was kindness.\"\nI) Amid the political noise about Obamacare, Medicare, Medicaid, health insurance and thieving pharmaceutical ( E 25 4j) companies, Kelli Harding stands apart from the crowd calling for quick fixes, the simpler the better. She has walked too many miles in the halls of hospitals visiting too many far-gone patients and seeing too many medical mistakes to go along with conventional thinking.\nJ) \"The rabbit effect,\" she explains, means that \"when it comes to our health, we've been missing some crucial pieces: hidden factors behind what really makes us healthy. Factors like love, friendship, and dignity. The designs of our neighborhoods, schools, and workplaces. There's a social dimension to health that we've completely overlooked in our efforts to find the best and most cutting-edge medical care.... Ultimately, what affects our health in the most meaningful ways has more to do with how we treat one another, how we live, and how we think about what it means to be human than with anything that happens in the doctor's office.\"\nK) In more than a few passages, she relates the stories of men and women who came up against assembly- line medicine where patients were treated mostly as pieces of flesh. \"Clinically,\" she writes, \"it's common to see two patients with the same condition, such as recovering from a heart attack, have two very different courses based on seemingly irrelevant factors, such as their family relationships or their educational levels. In my practice, the sickest people I see often share similar backgrounds: loneliness, abuse, poverty, or discrimination. For them, the medical model isn't enough. It's like fixing up an airplane engine and ignoring that the pilot is on his third drink at the bar and a massive storm is overhead.... To properly care for patients, we also need to care about the lives of the people getting the care.\"\nL) Kelli wastes no time taking potshots at (If E fit if) the medical establishment and its body-centered biomedicine methods. Instead, she remains positive, holding up for praise one of her medical school professors, George Engel, \"who always noticed not just a patient's physical condition but little details about her life, such as if she had family pictures up in her hospital room or flowers delivered. He was the kind of trusted doctor you'd feel relieved to see and welcome into the room with a sick family member. He'd sit down to talk with the patient not just about medical problems, but about her life and priorities. He built a large consultation service to address the holistic (1 1*ág) needs of hospitalized patients, including psychological and social factors.\"\nM) It's a guess how many George Engels in their white jackets are at work these days and another speculation on the number of Kelli Hardings the nation is blessed with. May the totals be large and getting larger."
+        },
+        {
+          "id": "cet4-2022-09-set1-detail1",
+          "text": "Academic dishonesty is nothing new. As long as there have been homework assignments and tests, there have been cheaters. The way that cheating looks has changed over time, though, particularly now that technology has made it easier than ever. A study by the Josephson Institute of Ethics interviewed 23,000 high school students and asked them a variety of questions about academic ethics. Of the teens surveyed, 51 percent said that they had knowingly cheated at some point on an exam but that they did not feel uneasy about the behaviour. A Common Sense Media survey found that 35 -percent of students had cheated via smartphone, though the parents surveyed in that particular study did not believe their kids had ever cheated. In many cases, students did not realize that strategies like looking up answers on a smartphone were actually cheating at all. In today's classrooms, students who cheat are rarely caught. There are no formulas written on the insides of hands or students looking across the aisle, or whispering answers to their classmates. Today's students use smartphones, tablets or even in-class computers to aid their cheating attempts and leave no trace of their crimes. Since cheating through technology is not listed specifically as being against the rules in many school policies, students do not view the actions unethical. The technology is being adopted so quickly that school districts cannot adequately keep up with cheating policies, or even awareness campaigns that alert students to the problem with using technology to find answers in a certain way. From a young age, students learn that answers exist conveniently at their fingertips through search engines and expert websites. Schools must develop anti-cheating policies that include technology and these policies must be updated consistently. Teachers must stay on guard when it comes to what their students are doing in classrooms and how technology could be playing a negative role in the learning process. Parents must also talk to their kids about the appropriate ways to find academic answers and alert them to unethical behaviours that may seem innocent in their own eyes."
+        },
+        {
+          "id": "cet4-2022-09-set1-detail2",
+          "text": "Remote work is about more than just working from home it means working differently. Organizations should reconsider the appropriateness of their performance evaluation procedures in light of the shift to remote work. This requires a fundamental rethinking of what organizations expect from employees and what companies would look for in a model employee in a remote work context. It is likely that the \"first to arrive and last to leave\" mentality is no longer relevant, but should be replaced by a regard for the quality of an employee's contribution to the organization. This means that work should be measured in terms of the quality of the work, not just the quality of the process. As remote work is largely unobservable to supervisors, employers need to think about how they can objectively measure the quality of work in a way that is consistent for employees of similar rank. Focusing on output alone can have unintended consequences. Employers should think instead about the values and soft skills they want to emphasize in a remote work environment. Qualities like flexibility and the ability to work under minimal supervision might become critical. Much has been written about the importance of timely feedback. In the context of a global pandemic (tif iT th), firms may want to provide additional support to employees by providing more frequent communication. This allows managers to both keep an eye on struggling employees and provide ongoing feedback on how employees are adapting to their new work environment. Compensation also needs to be revisited. The purpose of performance evaluation is ultimately to determine how to reward employees for their work. This means that pay structures need to adapt to the reality of working from home. However, organizations also need to be honest with employees about the financial impact of COVID-19. For organizations that have struggled to keep the lights on due to the pandemic, this might mean thinking of non-financial ways to reward employees, like unpaid time off or flexible work schedules. Employers can also consider how to bundle different types of compensation to help employees cope with their unique situations."
+        }
+      ],
+      "sourceFileUrl": "/study/resources/38db7898e9b6cf56c9f58693.pdf"
+    },
+    "TRANSLATION": {
+      "instructions": "请将原卷中文翻译成英语。",
+      "prompt": "Directions: For this part, you are allowed 30 minutes to translate a passage from Chinese into English. You should write your answer on Answer Sheet 2. 太极拳(Taijiquan)起源于中国古代,是中国式术 (martial art)的一个重要分支。练太极    (q) (martial a 拳最初是为了自卫,现在是促进身心健康的有效锻炼方式。大量研究表明,这种锻炼方式有 助于保持力量、灵活性和平衡力,并减少压力和焦虑。太极拳练习起来既容易又愉快,通过 轻柔、流畅的动作,促使心情干静、头脑清晰。今天,太极拳已经传播到世界各地,深受广    НТН 大健身者的喜爱。 2022年9月英语四级真题1套第10页共10页",
+      "questions": [],
+      "audio": [],
+      "passages": [],
+      "sourceFileUrl": "/study/resources/38db7898e9b6cf56c9f58693.pdf"
+    }
+  }
+}

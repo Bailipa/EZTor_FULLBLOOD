@@ -17,7 +17,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { PenTool, Plus, Upload, Bot, Lock, Loader2, X } from 'lucide-react'
+import { PenTool, Upload, Bot, Lock, Loader2, X } from 'lucide-react'
 import type { ReviewGroup } from '@/types/api'
 import { useRealtimeTranslation } from '@/hooks/useRealtimeTranslation'
 import { useImportExportVisibility } from '@/hooks/useImportExportVisibility'
@@ -44,7 +44,6 @@ interface WordTranslationPanelProps {
   autoSaveWords?: boolean
   soundEffectsEnabled?: boolean
   onGuestFeatureClick?: (feature: string) => void
-  pendingRealtimeWord?: { word: string; requestId: number } | null
   showTitle?: boolean
 }
 
@@ -59,7 +58,6 @@ export function WordTranslationPanel({
   autoSaveWords = true,
   soundEffectsEnabled = true,
   onGuestFeatureClick,
-  pendingRealtimeWord,
   showTitle = true,
 }: WordTranslationPanelProps) {
   const { show: showImportExportActions } = useImportExportVisibility()
@@ -92,22 +90,25 @@ export function WordTranslationPanel({
   const [confirmingClear, setConfirmingClear] = useState(false)
   const clearTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const lastBatchStartClickRef = useRef(0)
-  const handledRealtimeWordRef = useRef(0)
-
-  useEffect(() => {
-    if (!pendingRealtimeWord || pendingRealtimeWord.requestId === handledRealtimeWordRef.current) return
-    handledRealtimeWordRef.current = pendingRealtimeWord.requestId
-
-    const blankEntry = entries.find((entry) => !entry.word.trim())
-    const entryId = blankEntry?.id ?? addEntry()
-    if (!entryId) return
-    updateWord(entryId, pendingRealtimeWord.word, true)
-    setLastAddedId(entryId)
-  }, [pendingRealtimeWord, entries, addEntry, updateWord])
+  const autoAppendedEntryIdsRef = useRef(new Set<string>())
 
   const handleAddEntry = useCallback(() => {
     setLastAddedId(addEntry())
   }, [addEntry])
+
+  useEffect(() => {
+    const translatedEntry = entries.find((entry) =>
+      entry.word.trim().length > 0 && entry.status === 'found' && !autoAppendedEntryIdsRef.current.has(entry.id),
+    )
+    if (!translatedEntry) return
+
+    autoAppendedEntryIdsRef.current.add(translatedEntry.id)
+    const lastEntry = entries[entries.length - 1]
+    if (lastEntry && !lastEntry.word.trim()) return
+
+    const entryId = addEntry()
+    if (entryId) setLastAddedId(entryId)
+  }, [entries, addEntry])
 
   const handleRemoveEntry = useCallback(
     (id: string) => {
@@ -351,23 +352,6 @@ export function WordTranslationPanel({
           ))}
         </div>
 
-        <div data-workspace-sheet-actions className={`mt-3 flex items-center justify-between ${styles.sheetActions}`}>
-          <button
-            type="button"
-            onClick={handleAddEntry}
-            title="按回车键也能新建"
-            className="inline-flex min-h-11 items-center gap-1 rounded-md border border-dashed border-muted-foreground/30 px-3 py-2 text-sm text-muted-foreground transition-colors hover:border-primary/40 hover:text-primary"
-          >
-            <Plus className="h-3.5 w-3.5" />
-            添加单词
-          </button>
-          {wordCount > 0 && (
-            <span className="text-xs text-muted-foreground lg:hidden">
-              <AnimatedCounter value={wordCount} duration={0.35} /> 个单词
-            </span>
-          )}
-          <span className="hidden items-center gap-2 text-xs text-muted-foreground lg:inline-flex"><kbd className="rounded border bg-muted/40 px-1.5 py-0.5 font-sans">Enter</kbd>下一词</span>
-        </div>
       </CardContent>
       {showFooter && (
         <CardFooter className="flex flex-wrap justify-end items-center gap-2 lg:px-6">

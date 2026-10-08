@@ -1,0 +1,1114 @@
+{
+  "slug": "cet4-2023-06-set1-full",
+  "version": 1,
+  "title": "2023年6月 · 第1套整卷模拟真题",
+  "level": "CET4",
+  "kind": "FULL",
+  "originType": "PAST_EXAM",
+  "sourceName": "用户提供的本地四六级资料",
+  "sourceUrl": "/study/resources/9a61fb8b74a989810ce4d356.pdf",
+  "rightsHolder": "原试卷及解析作者",
+  "rightsEvidence": "用户提供本地资源并要求接入本地学习系统；原文件及校验值见 content/cet-local/index.json。未授权公开再分发或生产部署。",
+  "content": {
+    "WRITING": {
+      "instructions": "原卷写作要求",
+      "prompt": "Directions: Suppose your university is conducting a survey to collect students' opinions of online classes. You are to write a response to the survey about their advantages and disadvantages, and what improvements can be made. You will have 30 minutes for the task. You should write at least 120 words but no more than 180 words.",
+      "questions": [],
+      "audio": [],
+      "passages": [],
+      "minimumWords": 120,
+      "maximumWords": 180,
+      "sourceFileUrl": "/study/resources/9a61fb8b74a989810ce4d356.pdf"
+    },
+    "LISTENING": {
+      "instructions": "原卷听力选择题",
+      "questions": [
+        {
+          "id": "cet4-2023-06-set1-q1",
+          "type": "NEWS",
+          "prompt": "第 1 题(题干在原始录音中)",
+          "choices": [
+            "She was involved in a conflict with bird lovers.",
+            "She was charged with mistreating animals.",
+            "She was on bad terms with her neighbors.",
+            "She was accused of violating a city law."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "audioId": "cet4-2023-06-set1-audio"
+        },
+        {
+          "id": "cet4-2023-06-set1-q2",
+          "type": "NEWS",
+          "prompt": "第 2 题(题干在原始录音中)",
+          "choices": [
+            "It will take time to solve the rat problem.",
+            "All wild animals should be well protected.",
+            "The woman was not to blame for the situation.",
+            "No one should go unpunished for violating law."
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 1,
+          "audioId": "cet4-2023-06-set1-audio"
+        },
+        {
+          "id": "cet4-2023-06-set1-q3",
+          "type": "NEWS",
+          "prompt": "第 3 题(题干在原始录音中)",
+          "choices": [
+            "Communicate with astronauts in Mars Dune Alpha.",
+            "Work in an environment resembling Mars.",
+            "Build a Martian habitat in Houston.",
+            "Send in applications before Friday."
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 1,
+          "audioId": "cet4-2023-06-set1-audio"
+        },
+        {
+          "id": "cet4-2023-06-set1-q4",
+          "type": "NEWS",
+          "prompt": "第 4 题(题干在原始录音中)",
+          "choices": [
+            "Ready-made food",
+            "Food that is organic.",
+            "Food they grow.",
+            "Potatoes mostly."
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 1,
+          "audioId": "cet4-2023-06-set1-audio"
+        },
+        {
+          "id": "cet4-2023-06-set1-q5",
+          "type": "NEWS",
+          "prompt": "第 5 题(题干在原始录音中)",
+          "choices": [
+            "He apologized for scratching an athlete's gold medal.",
+            "He was asked to present a gold medal to Miu Goto.",
+            "He bit a softball player's Olympic gold medal.",
+            "He attracted public attention at a media event."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "audioId": "cet4-2023-06-set1-audio"
+        },
+        {
+          "id": "cet4-2023-06-set1-q6",
+          "type": "NEWS",
+          "prompt": "第 6 题(题干在原始录音中)",
+          "choices": [
+            "Have another picture taken with the Olympic medalist.",
+            "Apologize to the International Olympic Committee.",
+            "Get the damaged medal repaired",
+            "Pay for the cost of a new medal."
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 1,
+          "audioId": "cet4-2023-06-set1-audio"
+        },
+        {
+          "id": "cet4-2023-06-set1-q7",
+          "type": "NEWS",
+          "prompt": "第 7 题(题干在原始录音中)",
+          "choices": [
+            "Allow no one to touch them.",
+            "See them as symbols of honor.",
+            "Treat them as treasures.",
+            "Keep them in a safe place."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "audioId": "cet4-2023-06-set1-audio"
+        },
+        {
+          "id": "cet4-2023-06-set1-q8",
+          "type": "CONVERSATION",
+          "prompt": "第 8 题(题干在原始录音中)",
+          "choices": [
+            "She covered its screen with a plastic sheet.",
+            "She connected it with her smartphone.",
+            "She decorated it with colorful stickers.",
+            "She bought some new software for it."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "audioId": "cet4-2023-06-set1-audio"
+        },
+        {
+          "id": "cet4-2023-06-set1-q9",
+          "type": "CONVERSATION",
+          "prompt": "第 9 题(题干在原始录音中)",
+          "choices": [
+            "It may not be simply blue.",
+            "It includes unnatural light.",
+            "It is more harmful to young people.",
+            "It induces people to fall asleep."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "audioId": "cet4-2023-06-set1-audio"
+        },
+        {
+          "id": "cet4-2023-06-set1-q10",
+          "type": "CONVERSATION",
+          "prompt": "第 10 题(题干在原始录音中)",
+          "choices": [
+            "He has had much trouble falling asleep.",
+            "He has had some sort of health problems.",
+            "He has stayed up playing computer games.",
+            "He has been burdened with excessive work."
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 1,
+          "audioId": "cet4-2023-06-set1-audio"
+        },
+        {
+          "id": "cet4-2023-06-set1-q11",
+          "type": "CONVERSATION",
+          "prompt": "第 11 题(题干在原始录音中)",
+          "choices": [
+            "Exposure to blue light is the chief cause of obesity.",
+            "Sleep may be more important than people assumed.",
+            "Sleep may also be negatively affected by natural light.",
+            "Overuse of electronic devices may cause heart disease."
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 1,
+          "audioId": "cet4-2023-06-set1-audio"
+        },
+        {
+          "id": "cet4-2023-06-set1-q12",
+          "type": "CONVERSATION",
+          "prompt": "第 12 题(题干在原始录音中)",
+          "choices": [
+            "What they wanted to be when grown up.",
+            "What their favorite cartoon character was.",
+            "What they learned from computer games.",
+            "What they liked to do most after school."
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 1,
+          "audioId": "cet4-2023-06-set1-audio"
+        },
+        {
+          "id": "cet4-2023-06-set1-q13",
+          "type": "CONVERSATION",
+          "prompt": "第 13 题(题干在原始录音中)",
+          "choices": [
+            "A stock broker.",
+            "A pop singer.",
+            "A mechanical engineer.",
+            "A basketball player."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "audioId": "cet4-2023-06-set1-audio"
+        },
+        {
+          "id": "cet4-2023-06-set1-q14",
+          "type": "CONVERSATION",
+          "prompt": "第 14 题(题干在原始录音中)",
+          "choices": [
+            "Ambitious.",
+            "Sensible.",
+            "Imaginative.",
+            "Practical."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "audioId": "cet4-2023-06-set1-audio"
+        },
+        {
+          "id": "cet4-2023-06-set1-q15",
+          "type": "CONVERSATION",
+          "prompt": "第 15 题(题干在原始录音中)",
+          "choices": [
+            "Relax their strict control of their kids.",
+            "Help their kids understand themselves.",
+            "Impose their own dreams on their kids.",
+            "Dismiss their high expectations of their kids."
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 1,
+          "audioId": "cet4-2023-06-set1-audio"
+        },
+        {
+          "id": "cet4-2023-06-set1-q16",
+          "type": "PASSAGE",
+          "prompt": "第 16 题(题干在原始录音中)",
+          "choices": [
+            "Set up company branches.",
+            "Improve its infrastructure.",
+            "Introduce iPhones into its markets.",
+            "Promote Internet-ready phones."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "audioId": "cet4-2023-06-set1-audio"
+        },
+        {
+          "id": "cet4-2023-06-set1-q17",
+          "type": "PASSAGE",
+          "prompt": "第 17 题(题干在原始录音中)",
+          "choices": [
+            "They cater to Africans' needs.",
+            "They are more expensive models.",
+            "They are more powerful and capable.",
+            "They boast the longest battery life."
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 2,
+          "audioId": "cet4-2023-06-set1-audio"
+        },
+        {
+          "id": "cet4-2023-06-set1-q18",
+          "type": "PASSAGE",
+          "prompt": "第 18 题(题干在原始录音中)",
+          "choices": [
+            "A large touchscreen.",
+            "An old-school keypad.",
+            "A voice-response device.",
+            "A digitally-designed system."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "audioId": "cet4-2023-06-set1-audio"
+        },
+        {
+          "id": "cet4-2023-06-set1-q19",
+          "type": "PASSAGE",
+          "prompt": "第 19 题(题干在原始录音中)",
+          "choices": [
+            "It ensured sustainable economic growth.",
+            "It was strongly opposed by manufacturers.",
+            "It was cheaper than using fossil fuel plastic.",
+            "It satisfied consumer demands on the whole."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "audioId": "cet4-2023-06-set1-audio"
+        },
+        {
+          "id": "cet4-2023-06-set1-q20",
+          "type": "PASSAGE",
+          "prompt": "第 20 题(题干在原始录音中)",
+          "choices": [
+            "The capacity to mass produce it.",
+            "The U.S. federal government's regulations.",
+            "A boom in market demand for clear plastic bottles.",
+            "A rapid increase in U.S. petroleum chemical production."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "audioId": "cet4-2023-06-set1-audio"
+        },
+        {
+          "id": "cet4-2023-06-set1-q21",
+          "type": "PASSAGE",
+          "prompt": "第 21 题(题干在原始录音中)",
+          "choices": [
+            "Require companies to use 30% of new plastic.",
+            "Increase the supply of new plastic in the market.",
+            "Reduce the amount of plastic pollution in local areas.",
+            "Take measures to promote the use of recycled plastic."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "audioId": "cet4-2023-06-set1-audio"
+        },
+        {
+          "id": "cet4-2023-06-set1-q22",
+          "type": "PASSAGE",
+          "prompt": "第 22 题(题干在原始录音中)",
+          "choices": [
+            "It studies dreams.",
+            "It rents a place for nap-takers.",
+            "It is a hotel for business people.",
+            "It is a nap research institute."
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 2,
+          "audioId": "cet4-2023-06-set1-audio"
+        },
+        {
+          "id": "cet4-2023-06-set1-q23",
+          "type": "PASSAGE",
+          "prompt": "第 23 题(题干在原始录音中)",
+          "choices": [
+            "To find out creative people's work performance.",
+            "To see how many people can go without napping.",
+            "To understand the obvious importance of napping.",
+            "To feel how difficult it is to get his idea across."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "audioId": "cet4-2023-06-set1-audio"
+        },
+        {
+          "id": "cet4-2023-06-set1-q24",
+          "type": "PASSAGE",
+          "prompt": "第 24 题(题干在原始录音中)",
+          "choices": [
+            "They decline due to pointless meetings.",
+            "They depend on his ability to concentrate.",
+            "They enable him to enjoy a creative career.",
+            "They are affected by the overuse of social media."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "audioId": "cet4-2023-06-set1-audio"
+        },
+        {
+          "id": "cet4-2023-06-set1-q25",
+          "type": "PASSAGE",
+          "prompt": "第 25 题(题干在原始录音中)",
+          "choices": [
+            "Some bosses associate napping with laziness.",
+            "Many office workers nap during work hours.",
+            "Some bosses can concentrate without napping.",
+            "Many of his friends daydream in the office."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "audioId": "cet4-2023-06-set1-audio"
+        }
+      ],
+      "audio": [
+        {
+          "id": "cet4-2023-06-set1-audio",
+          "url": "/study/resources/57eff43868138a819cc6d200.m4a",
+          "sourceUrl": "/study/resources/57eff43868138a819cc6d200.m4a",
+          "durationSeconds": 1432.346122,
+          "transcript": "",
+          "identity": "cet4_2023_06_1.mp3 SHA256:57eff43868138a819cc6d200f22de45f7c9ea6494c777709c654f9ea6481feb4"
+        }
+      ],
+      "passages": [],
+      "sourceFileUrl": "/study/resources/9a61fb8b74a989810ce4d356.pdf"
+    },
+    "READING": {
+      "instructions": "请依次完成选词填空、长篇匹配和仔细阅读。",
+      "questions": [
+        {
+          "id": "cet4-2023-06-set1-q26",
+          "type": "WORD_BANK",
+          "prompt": "第 26 空",
+          "choices": [
+            "abstracts",
+            "abundant",
+            "awareness",
+            "conscience",
+            "exact",
+            "increasingly",
+            "intense",
+            "mend",
+            "nearly",
+            "reckoning",
+            "reducing",
+            "sew",
+            "shrink",
+            "statistics",
+            "textile"
+          ],
+          "answerIndex": 11,
+          "explanation": "原卷答案：L。",
+          "weight": 0.5,
+          "passageId": "cet4-2023-06-set1-bank"
+        },
+        {
+          "id": "cet4-2023-06-set1-q27",
+          "type": "WORD_BANK",
+          "prompt": "第 27 空",
+          "choices": [
+            "abstracts",
+            "abundant",
+            "awareness",
+            "conscience",
+            "exact",
+            "increasingly",
+            "intense",
+            "mend",
+            "nearly",
+            "reckoning",
+            "reducing",
+            "sew",
+            "shrink",
+            "statistics",
+            "textile"
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 0.5,
+          "passageId": "cet4-2023-06-set1-bank"
+        },
+        {
+          "id": "cet4-2023-06-set1-q28",
+          "type": "WORD_BANK",
+          "prompt": "第 28 空",
+          "choices": [
+            "abstracts",
+            "abundant",
+            "awareness",
+            "conscience",
+            "exact",
+            "increasingly",
+            "intense",
+            "mend",
+            "nearly",
+            "reckoning",
+            "reducing",
+            "sew",
+            "shrink",
+            "statistics",
+            "textile"
+          ],
+          "answerIndex": 4,
+          "explanation": "原卷答案：E。",
+          "weight": 0.5,
+          "passageId": "cet4-2023-06-set1-bank"
+        },
+        {
+          "id": "cet4-2023-06-set1-q29",
+          "type": "WORD_BANK",
+          "prompt": "第 29 空",
+          "choices": [
+            "abstracts",
+            "abundant",
+            "awareness",
+            "conscience",
+            "exact",
+            "increasingly",
+            "intense",
+            "mend",
+            "nearly",
+            "reckoning",
+            "reducing",
+            "sew",
+            "shrink",
+            "statistics",
+            "textile"
+          ],
+          "answerIndex": 13,
+          "explanation": "原卷答案：N。",
+          "weight": 0.5,
+          "passageId": "cet4-2023-06-set1-bank"
+        },
+        {
+          "id": "cet4-2023-06-set1-q30",
+          "type": "WORD_BANK",
+          "prompt": "第 30 空",
+          "choices": [
+            "abstracts",
+            "abundant",
+            "awareness",
+            "conscience",
+            "exact",
+            "increasingly",
+            "intense",
+            "mend",
+            "nearly",
+            "reckoning",
+            "reducing",
+            "sew",
+            "shrink",
+            "statistics",
+            "textile"
+          ],
+          "answerIndex": 5,
+          "explanation": "原卷答案：F。",
+          "weight": 0.5,
+          "passageId": "cet4-2023-06-set1-bank"
+        },
+        {
+          "id": "cet4-2023-06-set1-q31",
+          "type": "WORD_BANK",
+          "prompt": "第 31 空",
+          "choices": [
+            "abstracts",
+            "abundant",
+            "awareness",
+            "conscience",
+            "exact",
+            "increasingly",
+            "intense",
+            "mend",
+            "nearly",
+            "reckoning",
+            "reducing",
+            "sew",
+            "shrink",
+            "statistics",
+            "textile"
+          ],
+          "answerIndex": 14,
+          "explanation": "原卷答案：O。",
+          "weight": 0.5,
+          "passageId": "cet4-2023-06-set1-bank"
+        },
+        {
+          "id": "cet4-2023-06-set1-q32",
+          "type": "WORD_BANK",
+          "prompt": "第 32 空",
+          "choices": [
+            "abstracts",
+            "abundant",
+            "awareness",
+            "conscience",
+            "exact",
+            "increasingly",
+            "intense",
+            "mend",
+            "nearly",
+            "reckoning",
+            "reducing",
+            "sew",
+            "shrink",
+            "statistics",
+            "textile"
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 0.5,
+          "passageId": "cet4-2023-06-set1-bank"
+        },
+        {
+          "id": "cet4-2023-06-set1-q33",
+          "type": "WORD_BANK",
+          "prompt": "第 33 空",
+          "choices": [
+            "abstracts",
+            "abundant",
+            "awareness",
+            "conscience",
+            "exact",
+            "increasingly",
+            "intense",
+            "mend",
+            "nearly",
+            "reckoning",
+            "reducing",
+            "sew",
+            "shrink",
+            "statistics",
+            "textile"
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 0.5,
+          "passageId": "cet4-2023-06-set1-bank"
+        },
+        {
+          "id": "cet4-2023-06-set1-q34",
+          "type": "WORD_BANK",
+          "prompt": "第 34 空",
+          "choices": [
+            "abstracts",
+            "abundant",
+            "awareness",
+            "conscience",
+            "exact",
+            "increasingly",
+            "intense",
+            "mend",
+            "nearly",
+            "reckoning",
+            "reducing",
+            "sew",
+            "shrink",
+            "statistics",
+            "textile"
+          ],
+          "answerIndex": 10,
+          "explanation": "原卷答案：K。",
+          "weight": 0.5,
+          "passageId": "cet4-2023-06-set1-bank"
+        },
+        {
+          "id": "cet4-2023-06-set1-q35",
+          "type": "WORD_BANK",
+          "prompt": "第 35 空",
+          "choices": [
+            "abstracts",
+            "abundant",
+            "awareness",
+            "conscience",
+            "exact",
+            "increasingly",
+            "intense",
+            "mend",
+            "nearly",
+            "reckoning",
+            "reducing",
+            "sew",
+            "shrink",
+            "statistics",
+            "textile"
+          ],
+          "answerIndex": 12,
+          "explanation": "原卷答案：M。",
+          "weight": 0.5,
+          "passageId": "cet4-2023-06-set1-bank"
+        },
+        {
+          "id": "cet4-2023-06-set1-q36",
+          "type": "MATCHING",
+          "prompt": "According to Francis Dittoh, their speech-based weather information service was meant to be inexpensive and easy to use.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段"
+          ],
+          "answerIndex": 5,
+          "explanation": "原卷答案：F。",
+          "weight": 1,
+          "passageId": "cet4-2023-06-set1-matching"
+        },
+        {
+          "id": "cet4-2023-06-set1-q37",
+          "type": "MATCHING",
+          "prompt": "Using voice instead of typing enables doctors to spend more time taking care of patients.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段"
+          ],
+          "answerIndex": 10,
+          "explanation": "原卷答案：K。",
+          "weight": 1,
+          "passageId": "cet4-2023-06-set1-matching"
+        },
+        {
+          "id": "cet4-2023-06-set1-q38",
+          "type": "MATCHING",
+          "prompt": "It is extremely difficult to convert voice into text because of different pronunciations.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段"
+          ],
+          "answerIndex": 7,
+          "explanation": "原卷答案：H。",
+          "weight": 1,
+          "passageId": "cet4-2023-06-set1-matching"
+        },
+        {
+          "id": "cet4-2023-06-set1-q39",
+          "type": "MATCHING",
+          "prompt": "African farmers unable to read often don't have access to important information conveyed online.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段"
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "passageId": "cet4-2023-06-set1-matching"
+        },
+        {
+          "id": "cet4-2023-06-set1-q40",
+          "type": "MATCHING",
+          "prompt": "Some phone users worry advertisers will take advantage of voice assistants to send ads directly to them.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段"
+          ],
+          "answerIndex": 9,
+          "explanation": "原卷答案：J。",
+          "weight": 1,
+          "passageId": "cet4-2023-06-set1-matching"
+        },
+        {
+          "id": "cet4-2023-06-set1-q41",
+          "type": "MATCHING",
+          "prompt": "The spoken web is helpful when one's hands are occupied.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段"
+          ],
+          "answerIndex": 12,
+          "explanation": "原卷答案：M。",
+          "weight": 1,
+          "passageId": "cet4-2023-06-set1-matching"
+        },
+        {
+          "id": "cet4-2023-06-set1-q42",
+          "type": "MATCHING",
+          "prompt": "Some people believe online interaction would soon depend mainly on voice.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段"
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "passageId": "cet4-2023-06-set1-matching"
+        },
+        {
+          "id": "cet4-2023-06-set1-q43",
+          "type": "MATCHING",
+          "prompt": "Setting up a spoken web is by no means an easy task.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段"
+          ],
+          "answerIndex": 6,
+          "explanation": "原卷答案：G。",
+          "weight": 1,
+          "passageId": "cet4-2023-06-set1-matching"
+        },
+        {
+          "id": "cet4-2023-06-set1-q44",
+          "type": "MATCHING",
+          "prompt": "Weather information is extremely important to farmers.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段"
+          ],
+          "answerIndex": 4,
+          "explanation": "原卷答案：E。",
+          "weight": 1,
+          "passageId": "cet4-2023-06-set1-matching"
+        },
+        {
+          "id": "cet4-2023-06-set1-q45",
+          "type": "MATCHING",
+          "prompt": "Some people are concerned about privacy because their phones are constantly collecting their personal information.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段"
+          ],
+          "answerIndex": 9,
+          "explanation": "原卷答案：J。",
+          "weight": 1,
+          "passageId": "cet4-2023-06-set1-matching"
+        },
+        {
+          "id": "cet4-2023-06-set1-q46",
+          "type": "DETAIL",
+          "prompt": "What are big houses promoted to be in the United States?",
+          "choices": [
+            "A luxury for the homeless.",
+            "A reward for industriousness.",
+            "An abundant source of comforts.",
+            "An absolute necessity for happiness."
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 2,
+          "passageId": "cet4-2023-06-set1-detail1"
+        },
+        {
+          "id": "cet4-2023-06-set1-q47",
+          "type": "DETAIL",
+          "prompt": "What is one of the consequences of living big?",
+          "choices": [
+            "Many Americans' quality of life has become lower.",
+            "People from diverse backgrounds no longer socialize.",
+            "People no longer have access to public swimming pools.",
+            "Many Americans' private life has been negatively affected"
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 2,
+          "passageId": "cet4-2023-06-set1-detail1"
+        },
+        {
+          "id": "cet4-2023-06-set1-q48",
+          "type": "DETAIL",
+          "prompt": "What questions arise from living big?",
+          "choices": [
+            "Questions related to moral principles.",
+            "Questions having to do with labor cost.",
+            "Questions about what lifestyle to promote.",
+            "Questions concerning housing development."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "passageId": "cet4-2023-06-set1-detail1"
+        },
+        {
+          "id": "cet4-2023-06-set1-q49",
+          "type": "DETAIL",
+          "prompt": "What kind of social system does the author think is unacceptable?",
+          "choices": [
+            "One in which the wealthy exploit the low-wage laborers building their houses.",
+            "One in which the rich purchase amenities at an increasingly unjustifiable price.",
+            "One in which the upper classes deprive the lower classes of affordable housing.",
+            "One in which the affluent enjoy a more comfortable life at the expense of the poor."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "passageId": "cet4-2023-06-set1-detail1"
+        },
+        {
+          "id": "cet4-2023-06-set1-q50",
+          "type": "DETAIL",
+          "prompt": "What does the author advocate for people to live well?",
+          "choices": [
+            "Finding ways to turn private spaces into public ones.",
+            "Building more houses affordable to those less affluent.",
+            "More public spaces created for everyone to enjoy.",
+            "All amenities made accessible to the rich and the poor alike."
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 2,
+          "passageId": "cet4-2023-06-set1-detail1"
+        },
+        {
+          "id": "cet4-2023-06-set1-q51",
+          "type": "DETAIL",
+          "prompt": "What does the author think of most entrepreneurs?",
+          "choices": [
+            "They are more willing to risk their own lives.",
+            "They are more ambitious than ordinary people.",
+            "They achieve greater nonconventional success.",
+            "They have more positive qualities than most of us."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "passageId": "cet4-2023-06-set1-detail2"
+        },
+        {
+          "id": "cet4-2023-06-set1-q52",
+          "type": "DETAIL",
+          "prompt": "What does the author imply by saying \"this isn't always the case\" (Line 1, Para. 3)?",
+          "choices": [
+            "Ambitious people may not have a greater chance of success.",
+            "Ambitious people may not have more positive qualities.",
+            "Entrepreneurs' ambition does as much good as harm.",
+            "Entrepreneurs are more naturally driven to success."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "passageId": "cet4-2023-06-set1-detail2"
+        },
+        {
+          "id": "cet4-2023-06-set1-q53",
+          "type": "DETAIL",
+          "prompt": "What does the author say is of extreme importance for one to become a successful entrepreneur?",
+          "choices": [
+            "Holding on to one's original vision.",
+            "Being able to adapt to new situations.",
+            "Focusing determinedly on one particular goal.",
+            "Avoiding radical change in one's career direction."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "passageId": "cet4-2023-06-set1-detail2"
+        },
+        {
+          "id": "cet4-2023-06-set1-q54",
+          "type": "DETAIL",
+          "prompt": "How do the most ambitious entrepreneurs regard failure in their endeavor?",
+          "choices": [
+            "It will awaken them to reality.",
+            "It is a lesson they have to learn.",
+            "It means the end of their career.",
+            "It will result in a slow recovery."
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 2,
+          "passageId": "cet4-2023-06-set1-detail2"
+        },
+        {
+          "id": "cet4-2023-06-set1-q55",
+          "type": "DETAIL",
+          "prompt": "What does the author advise us to do concerning ambition?",
+          "choices": [
+            "Distinguish between conventional success and our life goal.",
+            "Follow the example of the most ambitious entrepreneurs.",
+            "Avoid taking unnecessary risks when starting a business.",
+            "Prioritize health and happiness over material success."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "passageId": "cet4-2023-06-set1-detail2"
+        }
+      ],
+      "audio": [],
+      "passages": [
+        {
+          "id": "cet4-2023-06-set1-bank",
+          "text": "You probably haven't taken the time to think of all the work that went into creating the shirt on your back. I mean, how hard it could be to create fabric and __(26)__     _ it into a shirt shape. Don't machines do all that? Well, creating fabric from cotton, which is the most __(27)__  clothing material, is actually a process that involves a lot of water, 2,700 liters per shirt to be __(28)__ Take a look at the video below from National Geographic for some more mind-blowing __(29)__ about cotton clothing production. Clean water is __(30)__ becoming one of the most sought-after resources in the world. Given how large the __(31)__ and cotton industries are, they take up a lot of our fresh water demands across the world, according to The Huffington Post. The video from National Geographic was created to spread __(32)__  of how environmentally harmful cotton is. But the situation can be made better. Through better water management and farming practices, water usage in cotton production can be cut down by __(33)__  40 percent. Called \"Better Cotton\", this environmentally conscious product will save millions of liters of water a year simply from __(34)__ the demands of cotton production. Cotton doesn't have to go, since it is, after all, one of the most useful cash crops across the globe. However, as water supplies __(35)__ farmers and consumers need to be more conscious of the effect that these products have on the environment as a whole."
+        },
+        {
+          "id": "cet4-2023-06-set1-matching",
+          "text": "The spoken web\nA) We're growing more used to chatting to our computers, phones and smart speakers through voice assistants like Amazon's Alexa, Apple's Siri and Microsoft's Cortana. Blind and partially sighted people have been using text-to-speech converters for decades.\nB) Out of these assistants, Siri is the most well-known. The assistant uses voice inquiries and a natural-language user interface (SY I) to answer questions. The software adapts to users' individual language usages, searches, and preferences, with continuing use.\nC) Some think voice could soon take over from typing and clicking as the main way to interact online. But what are the challenges of moving to \"the spoken web\"?\nD) What use is written online content if you can't read? That is the situation facing illiterate (Tin 7-#J) African farmers. They are often denied crucial information the web offers many others. With a literacy rate in some parts of Africa at only 22.6%, farmers are often \"underpaid for their produce because they might be unaware of the prevailing prices,\" says Francis Dittoh, a researcher behind Mr Meteo, a speech-based weather information service.\nE) \"The most frequently heard complaint is about rainfall predictions,\" says Mr Dittoh, who lives in Tamale, northern Ghana. \"They tell us the methods their forefathers used to predict the weather don't seem to work as well these days.\" This is down to climate change, he believes. Yet knowing when it's going to rain is vital for farmers wanting to sow seeds, irrigate crops or take their animals out to the fields to feed on grass.\nF) Mr Dittoh says the idea of converting online weather reports into speech came from the farmers themselves, after a workshop in the village of Guabuligah. \"They came up with this,\" he says. Mr Meteo takes the online weather forecast, converts it to a short recording in the appropriate language and makes it available on a basic phone. Farmers ring up to receive the information. The local language Dagbani is spoken by 1.2 million people but is not served by any online translation applications. The service was designed to be cheap and easy to run, says Mr Dittoh. He plans to begin field tests this month, working with Tamale's Savanna Agricultural Research Institute.\nG) The spoken web could also help the one-in-five adults in Europe and the U.S. with poor reading skills. But building the spoken web web-to-voice and voice-to-web-isn't straightforward. For software to understand pizza is served at Italian restaurants is easy. To cover multiple domains and to be able to have a conversation with users on every single topic is still a long way off.\nH) So although many computer assistants can answer simple questions about the weather and play music for us, anything resembling a wide-ranging human conversation is decades away. Artificial intelligence just isn't smart enough yet. Even turning your voice into text-automatic speech recognition-is one of the hardest problems to solve, as there are as many ways to pronounce things as there are people on the planet.\nI) Siri has often been praised for its ability to interpret our casual language and deliver very specific and accurate results, sometimes even providing additional information. But it is still somewhat restricted, particularly when the language moves away from stiffer commands into more human interactions. In one example, the phrase \"Send a text to Jason, Clint, Sam, and Lee saying we're having dinner at Silver Cloud restaurant\" was interpreted as sending a message to Jason only, containing the text \"Clint Sam and Lee saying we're having dinner at Silver Cloud restaurant\". It has also been noted that Siri lacks a proper editing function, as saying \"Edit message to say: we're at Silver Cloud restaurant and you should come find us\" generates \"Clint Sam and Lee saying we're having dinner at Silver Cloud restaurant to say we're at Silver Cloud restaurant and you should come find us\".\nJ) Using voice interaction feels far more intimate than surfing the net the old-fashioned way. This is intentional as the informal tone of the assistant helps create an emotional attachment. But if something speaks, it must also listen. Our phones are always near us and they are collecting data about us all the time. This has already raised privacy concerns. The American Civil Liberties Union has stated that digital assistants create    a threat to privacy from hackers. Some people have other concerns. They worry assistants will one day be used to deliver advertising directly to us.\nK) But digital voices need more personality to make them popular. Robots are not yet witty, Siri is boring. The benefits of using voice instead of tapping fingers obviously depend on the context. Doctors completing online forms about their patients by speech, for example, can dictate 150 words a minute, three times faster than typing on a keyboard. This enables them to spend less time on administration and more time with patients.\nL) Last year, speech recognition company Nuance helped a doctors' surgery in Dukinfield, near Manchester, set up a speech system for the practice's six doctors. Now they can dictate notes on a patient's health condition and treatment and a smart assistant automatically enters the information into the right fields on a web form. Previously, the doctors made voice recordings that were then transcribed by secretaries a process that was costly and likely to cause delays. The new system means letters to patients now have more detail.\nM) Using voice also makes sense when you're doing other things with your hands. Think about when you're cooking, and you just want to know what the next step in the recipe is. Your hands are covered with oil; you're not going to get on the iPad, so it's a lot more natural to talk. And speech obviously makes sense when you're driving. In the U.S., 29% of drivers admit they surf behind the wheel, according to insurance firm State Farm. This is up from 13% in 2009. No wonder using mobile phones while driving causes more crashes a year than drink driving, says the U.S. National Safety Council."
+        },
+        {
+          "id": "cet4-2023-06-set1-detail1",
+          "text": "The United States is facing a housing crisis: Affordable housing is inadequate, while luxury homes abound (3 14), and homelessness remains a persistent problem. Despite this, popular culture and the housing industry market happiness as living with both more space and more amenities (I *| it it). Big houses are advertized as a reward for hard work and diligence, turning housing from a basic necessity into a luxury. This is reflected in our homes. The average single-family home built in the United States before 1970was less than 1,500 square feet in size. By 2016, the average size of a new, single-family home was 2,422 square feet. What's more, homes built in the 2000s were more likely than earlier models to have more of all types of spaces; bedrooms, bathrooms, living rooms, dining rooms, recreation rooms and garages. There are consequences of living big. As middle-class houses have grown larger, two things have happened. First, large houses take time to maintain, so cleaners and other low-wage service workers are required to keep these houses in order. Second, once-public spaces, where people from diverse backgrounds used to come together, have increasingly become privatized, leading to a reduction in the number of public facilities available to all, and a reduced quality of life for many. Take swimming pools. While in 1950, only 2,500 U.S. families owned pools, by 1999 this number was 4 million. At the same time, public municipal pools were often closed, leaving low-income people nowhere to swim. The trend for bigger housing thus poses ethical questions. Should Americans accept a system in which the middle and upper classes enjoy a luxurious lifestyle, using the low-wage labor of others? Are we willing to accept a system in which an increase in amenities purchased by the affluent means a reduction in amenities for the poor? I believe neither is acceptable. We must change the way we think: living well does not need to mean having more private spaces; instead, it could mean having more public spaces. A better goal than building bigger houses for some is to create more publicly accessible spaces and amenities for all."
+        },
+        {
+          "id": "cet4-2023-06-set1-detail2",
+          "text": "Most of us in the entrepreneurial community are blessed or cursed-with higher-than-average ambition. Ambitious people strongly desire accomplishments and are willing to take more risks and spend more effort to get them. Overall, this is a positive quality, especially for people trying to build their own businesses. Apparently, if you're more naturally driven to set goals, you are more likely to succeed Actually, this isn't always the case. In fact, in some cases, extreme ambition may end up doing more harm than good One major side effect of excessive ambition is the tendency to focus too determinedly on one particular vision or end goal. This is problematic because it hinders your ability to adapt to new circumstances, which is vital if you want to be a successful entrepreneur. If a new competitor emerges to threaten your business, you may need to change direction, even if that means straying from your original vision. If you have too much ambition, you'll find this hard, if not impossible. Few people are successful when they try to build their first brand. Unfortunately, for the most ambitious entrepreneurs, a failure is seen as disastrous, and impossible to recover from. It's a clear departure from the intended plan toward the intended goal. For people with limited ambition, however, failure is viewed as something closer to reality. Remember, failure is inevitable, and every failure you survive is a learning experience. Ambitious people tend to be more materialistically successful than their non-ambitious counterparts. However, they're only slightly happier than their less-ambitious counterparts, and tend to live significantly shorter lives. This implies that even though ambitious people are more likely to achieve conventional \"success,\" such success means nothing for their health and happiness-and if you don't have health and happiness, what else could possibly matter? Clearly, some amount of ambition is good for your motivation. Without any ambition, you wouldn't start your own business, set or achieve goals and get far in life. But an excess of ambition can also be dangerous, putting you at risk of burnout, stubbornness and even a shorter life."
+        }
+      ],
+      "sourceFileUrl": "/study/resources/9a61fb8b74a989810ce4d356.pdf"
+    },
+    "TRANSLATION": {
+      "instructions": "请将原卷中文翻译成英语。",
+      "prompt": "Directions: For this part, you are allowed 30 minutes to translate a passage from Chinese into English. You should write your answer on Answer Sheet 2. 中国越来越重视终身教育,发展继续教育是构建终身教育体系的有效途径。高校作为人才培养的    ДВАлА 基地,拥有先进的教学理念和优越的教学资源,理应成为继续教育的办学主体。因此,近年来许多高校    ЛАДФКДРНДЖ УЖхАКоЕВ В Дтж 适应社会需求,加强与用人单位沟通,努力探索一条符合中国国情的继续教育发展新路,以使继续教育 在国家发展战略中发挥更大的作用。",
+      "questions": [],
+      "audio": [],
+      "passages": [],
+      "sourceFileUrl": "/study/resources/9a61fb8b74a989810ce4d356.pdf"
+    }
+  }
+}

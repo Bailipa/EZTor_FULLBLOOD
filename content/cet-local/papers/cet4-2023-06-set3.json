@@ -1,0 +1,706 @@
+{
+  "slug": "cet4-2023-06-set3-full",
+  "version": 1,
+  "title": "2023年6月 · 第3套整卷模拟真题",
+  "level": "CET4",
+  "kind": "FULL",
+  "originType": "PAST_EXAM",
+  "sourceName": "用户提供的本地四六级资料",
+  "sourceUrl": "/study/resources/0025fc03ecad69fc75ad4d16.pdf",
+  "rightsHolder": "原试卷及解析作者",
+  "rightsEvidence": "用户提供本地资源并要求接入本地学习系统；原文件及校验值见 content/cet-local/index.json。未授权公开再分发或生产部署。",
+  "content": {
+    "WRITING": {
+      "instructions": "原卷写作要求",
+      "prompt": "Directions: Suppose the student union of your university is organizing an online discussion on college students doing community service. You are to write an essay on its benefits and the service you can provide to the community. You will have 30 minutes for the task. You should write at least 120 words but no more than 180 words.",
+      "questions": [],
+      "audio": [],
+      "passages": [],
+      "minimumWords": 120,
+      "maximumWords": 180,
+      "sourceFileUrl": "/study/resources/0025fc03ecad69fc75ad4d16.pdf"
+    },
+    "LISTENING": {
+      "instructions": "听力材料",
+      "questions": [],
+      "audio": [],
+      "passages": [],
+      "unavailableReason": "原卷未刊载本卷独立听力题文。温馨提示:2023年6月四级考试全国共考了2套听力,本套真题听力与前2套内容相同,只是 顺序不同,故听力部分不再重复列出",
+      "sourceFileUrl": "/study/resources/0025fc03ecad69fc75ad4d16.pdf"
+    },
+    "READING": {
+      "instructions": "请依次完成选词填空、长篇匹配和仔细阅读。",
+      "questions": [
+        {
+          "id": "cet4-2023-06-set3-q26",
+          "type": "WORD_BANK",
+          "prompt": "第 26 空",
+          "choices": [
+            "accompany",
+            "approved",
+            "bond",
+            "classified",
+            "clearing",
+            "come",
+            "daily",
+            "definitely",
+            "distractions",
+            "exclusively",
+            "inactive",
+            "occurrences",
+            "reaping",
+            "symptoms",
+            "typical"
+          ],
+          "answerIndex": 6,
+          "explanation": "原卷答案：G。",
+          "weight": 0.5,
+          "passageId": "cet4-2023-06-set3-bank"
+        },
+        {
+          "id": "cet4-2023-06-set3-q27",
+          "type": "WORD_BANK",
+          "prompt": "第 27 空",
+          "choices": [
+            "accompany",
+            "approved",
+            "bond",
+            "classified",
+            "clearing",
+            "come",
+            "daily",
+            "definitely",
+            "distractions",
+            "exclusively",
+            "inactive",
+            "occurrences",
+            "reaping",
+            "symptoms",
+            "typical"
+          ],
+          "answerIndex": 13,
+          "explanation": "原卷答案：N。",
+          "weight": 0.5,
+          "passageId": "cet4-2023-06-set3-bank"
+        },
+        {
+          "id": "cet4-2023-06-set3-q28",
+          "type": "WORD_BANK",
+          "prompt": "第 28 空",
+          "choices": [
+            "accompany",
+            "approved",
+            "bond",
+            "classified",
+            "clearing",
+            "come",
+            "daily",
+            "definitely",
+            "distractions",
+            "exclusively",
+            "inactive",
+            "occurrences",
+            "reaping",
+            "symptoms",
+            "typical"
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 0.5,
+          "passageId": "cet4-2023-06-set3-bank"
+        },
+        {
+          "id": "cet4-2023-06-set3-q29",
+          "type": "WORD_BANK",
+          "prompt": "第 29 空",
+          "choices": [
+            "accompany",
+            "approved",
+            "bond",
+            "classified",
+            "clearing",
+            "come",
+            "daily",
+            "definitely",
+            "distractions",
+            "exclusively",
+            "inactive",
+            "occurrences",
+            "reaping",
+            "symptoms",
+            "typical"
+          ],
+          "answerIndex": 5,
+          "explanation": "原卷答案：F。",
+          "weight": 0.5,
+          "passageId": "cet4-2023-06-set3-bank"
+        },
+        {
+          "id": "cet4-2023-06-set3-q30",
+          "type": "WORD_BANK",
+          "prompt": "第 30 空",
+          "choices": [
+            "accompany",
+            "approved",
+            "bond",
+            "classified",
+            "clearing",
+            "come",
+            "daily",
+            "definitely",
+            "distractions",
+            "exclusively",
+            "inactive",
+            "occurrences",
+            "reaping",
+            "symptoms",
+            "typical"
+          ],
+          "answerIndex": 7,
+          "explanation": "原卷答案：H。",
+          "weight": 0.5,
+          "passageId": "cet4-2023-06-set3-bank"
+        },
+        {
+          "id": "cet4-2023-06-set3-q31",
+          "type": "WORD_BANK",
+          "prompt": "第 31 空",
+          "choices": [
+            "accompany",
+            "approved",
+            "bond",
+            "classified",
+            "clearing",
+            "come",
+            "daily",
+            "definitely",
+            "distractions",
+            "exclusively",
+            "inactive",
+            "occurrences",
+            "reaping",
+            "symptoms",
+            "typical"
+          ],
+          "answerIndex": 10,
+          "explanation": "原卷答案：K。",
+          "weight": 0.5,
+          "passageId": "cet4-2023-06-set3-bank"
+        },
+        {
+          "id": "cet4-2023-06-set3-q32",
+          "type": "WORD_BANK",
+          "prompt": "第 32 空",
+          "choices": [
+            "accompany",
+            "approved",
+            "bond",
+            "classified",
+            "clearing",
+            "come",
+            "daily",
+            "definitely",
+            "distractions",
+            "exclusively",
+            "inactive",
+            "occurrences",
+            "reaping",
+            "symptoms",
+            "typical"
+          ],
+          "answerIndex": 4,
+          "explanation": "原卷答案：E。",
+          "weight": 0.5,
+          "passageId": "cet4-2023-06-set3-bank"
+        },
+        {
+          "id": "cet4-2023-06-set3-q33",
+          "type": "WORD_BANK",
+          "prompt": "第 33 空",
+          "choices": [
+            "accompany",
+            "approved",
+            "bond",
+            "classified",
+            "clearing",
+            "come",
+            "daily",
+            "definitely",
+            "distractions",
+            "exclusively",
+            "inactive",
+            "occurrences",
+            "reaping",
+            "symptoms",
+            "typical"
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 0.5,
+          "passageId": "cet4-2023-06-set3-bank"
+        },
+        {
+          "id": "cet4-2023-06-set3-q34",
+          "type": "WORD_BANK",
+          "prompt": "第 34 空",
+          "choices": [
+            "accompany",
+            "approved",
+            "bond",
+            "classified",
+            "clearing",
+            "come",
+            "daily",
+            "definitely",
+            "distractions",
+            "exclusively",
+            "inactive",
+            "occurrences",
+            "reaping",
+            "symptoms",
+            "typical"
+          ],
+          "answerIndex": 8,
+          "explanation": "原卷答案：I。",
+          "weight": 0.5,
+          "passageId": "cet4-2023-06-set3-bank"
+        },
+        {
+          "id": "cet4-2023-06-set3-q35",
+          "type": "WORD_BANK",
+          "prompt": "第 35 空",
+          "choices": [
+            "accompany",
+            "approved",
+            "bond",
+            "classified",
+            "clearing",
+            "come",
+            "daily",
+            "definitely",
+            "distractions",
+            "exclusively",
+            "inactive",
+            "occurrences",
+            "reaping",
+            "symptoms",
+            "typical"
+          ],
+          "answerIndex": 12,
+          "explanation": "原卷答案：M。",
+          "weight": 0.5,
+          "passageId": "cet4-2023-06-set3-bank"
+        },
+        {
+          "id": "cet4-2023-06-set3-q36",
+          "type": "MATCHING",
+          "prompt": "The lion dancers perform from door to door to bring New Year wishes to business people.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 5,
+          "explanation": "原卷答案：F。",
+          "weight": 1,
+          "passageId": "cet4-2023-06-set3-matching"
+        },
+        {
+          "id": "cet4-2023-06-set3-q37",
+          "type": "MATCHING",
+          "prompt": "The New York dance club also serves as a place for entertainment where youngsters can enjoy themselves safely.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "passageId": "cet4-2023-06-set3-matching"
+        },
+        {
+          "id": "cet4-2023-06-set3-q38",
+          "type": "MATCHING",
+          "prompt": "Lion dancers need to have a little imagination to perform well.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 9,
+          "explanation": "原卷答案：J。",
+          "weight": 1,
+          "passageId": "cet4-2023-06-set3-matching"
+        },
+        {
+          "id": "cet4-2023-06-set3-q39",
+          "type": "MATCHING",
+          "prompt": "There are a number of different versions about the origin of the lion dance.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 4,
+          "explanation": "原卷答案：E。",
+          "weight": 1,
+          "passageId": "cet4-2023-06-set3-matching"
+        },
+        {
+          "id": "cet4-2023-06-set3-q40",
+          "type": "MATCHING",
+          "prompt": "Some 50% of the members of a New York lion dance club are teenagers.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "passageId": "cet4-2023-06-set3-matching"
+        },
+        {
+          "id": "cet4-2023-06-set3-q41",
+          "type": "MATCHING",
+          "prompt": "One club member says he feels proud of his cultural tradition.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 11,
+          "explanation": "原卷答案：L。",
+          "weight": 1,
+          "passageId": "cet4-2023-06-set3-matching"
+        },
+        {
+          "id": "cet4-2023-06-set3-q42",
+          "type": "MATCHING",
+          "prompt": "Two dancers coordinate their movements, one manipulating the lion's head and the other its body.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 6,
+          "explanation": "原卷答案：G。",
+          "weight": 1,
+          "passageId": "cet4-2023-06-set3-matching"
+        },
+        {
+          "id": "cet4-2023-06-set3-q43",
+          "type": "MATCHING",
+          "prompt": "One lion dancer compares their New York dance club to a family.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "passageId": "cet4-2023-06-set3-matching"
+        },
+        {
+          "id": "cet4-2023-06-set3-q44",
+          "type": "MATCHING",
+          "prompt": "Lion dance should be handed down to future generations as part of Chinese culture.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 8,
+          "explanation": "原卷答案：I。",
+          "weight": 1,
+          "passageId": "cet4-2023-06-set3-matching"
+        },
+        {
+          "id": "cet4-2023-06-set3-q45",
+          "type": "MATCHING",
+          "prompt": "One lion dancer learned how to perform from his elders.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 11,
+          "explanation": "原卷答案：L。",
+          "weight": 1,
+          "passageId": "cet4-2023-06-set3-matching"
+        },
+        {
+          "id": "cet4-2023-06-set3-q46",
+          "type": "DETAIL",
+          "prompt": "Why are many employees opposed to team-building exercises?",
+          "choices": [
+            "They consider such exercises annoying.",
+            "They deem these exercises counter-productive.",
+            "They see such exercises as harmful to harmony.",
+            "They find these exercises too demanding."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "passageId": "cet4-2023-06-set3-detail1"
+        },
+        {
+          "id": "cet4-2023-06-set3-q47",
+          "type": "DETAIL",
+          "prompt": "What did Dr Matous and his team do to find out whether team-building activities would improve productivity?",
+          "choices": [
+            "They relocated team leaders and their offices.",
+            "They rearranged the staff and office spaces.",
+            "They redesigned the staff's work schedules.",
+            "They reintroduced some cohesive activities."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "passageId": "cet4-2023-06-set3-detail1"
+        },
+        {
+          "id": "cet4-2023-06-set3-q48",
+          "type": "DETAIL",
+          "prompt": "What did the study by Matous' team find about some team-building exercises?",
+          "choices": [
+            "They were intended to share personal attitudes and relationships.",
+            "They implicitly added to the vulnerability of team members.",
+            "They invariably strengthened connections among colleagues.",
+            "They were regarded as an intrusion into employees' private lives."
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 2,
+          "passageId": "cet4-2023-06-set3-detail1"
+        },
+        {
+          "id": "cet4-2023-06-set3-q49",
+          "type": "DETAIL",
+          "prompt": "How can the self-disclosure approach succeed in increasing interpersonal closeness?",
+          "choices": [
+            "By allowing participants freedom to express themselves.",
+            "By applying it to employees who volunteer to participate.",
+            "By arranging in proper order the questions participants face.",
+            "By guiding employees through a series of steps in team building."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "passageId": "cet4-2023-06-set3-detail1"
+        },
+        {
+          "id": "cet4-2023-06-set3-q50",
+          "type": "DETAIL",
+          "prompt": "What does Matous think of the various psychological methods borrowed from other fields for strengthening relationships?",
+          "choices": [
+            "They must be used in combination for an entire collective.",
+            "They prioritise some psychological aspects over others.",
+            "They place too much stress on individual relationships.",
+            "They have to be applied cautiously to be effective."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "passageId": "cet4-2023-06-set3-detail1"
+        },
+        {
+          "id": "cet4-2023-06-set3-q51",
+          "type": "DETAIL",
+          "prompt": "Why did the citizens of Los Angeles vote to raise their own taxes?",
+          "choices": [
+            "To combat the county's homelessness.",
+            "To reform the county's service system.",
+            "To fund the development of local infrastructure.",
+            "To narrow the gap between the rich and the poor."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "passageId": "cet4-2023-06-set3-detail2"
+        },
+        {
+          "id": "cet4-2023-06-set3-q52",
+          "type": "DETAIL",
+          "prompt": "What do people tend to believe about the homeless?",
+          "choices": [
+            "They seldom meet the descriptions of homelessness.",
+            "They are the victims of fast economic development.",
+            "They are responsible for their own condition.",
+            "They account for the majority of drug addicts."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "passageId": "cet4-2023-06-set3-detail2"
+        },
+        {
+          "id": "cet4-2023-06-set3-q53",
+          "type": "DETAIL",
+          "prompt": "What is one of the causes for more and more people in Los Angeles to become homeless?",
+          "choices": [
+            "They find it increasingly difficult to afford a place to live.",
+            "The divorce rate in the county has been on a steady rise.",
+            "They have been compelled to take low-paying jobs.",
+            "The society fails to forgive them for their mistakes."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "passageId": "cet4-2023-06-set3-detail2"
+        },
+        {
+          "id": "cet4-2023-06-set3-q54",
+          "type": "DETAIL",
+          "prompt": "What do we learn from the new Los Angeles Homeless Services Authority report?",
+          "choices": [
+            "Supplying enough job opportunities for the homeless remains a challenge.",
+            "Everyone is pulling in the same direction to solve the homelessness problem.",
+            "The increase in new housing falls short of the demand of the growing homeless population.",
+            "Los Angeles' homeless condition is deteriorating faster than many people predict."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "passageId": "cet4-2023-06-set3-detail2"
+        },
+        {
+          "id": "cet4-2023-06-set3-q55",
+          "type": "DETAIL",
+          "prompt": "How do most Los Angeles residents now feel about homelessness?",
+          "choices": [
+            "They are increasingly ashamed about its scale.",
+            "They find it no more scaring than it appears.",
+            "They are less and less indifferent to it.",
+            "They no longer find it shocking."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "passageId": "cet4-2023-06-set3-detail2"
+        }
+      ],
+      "audio": [],
+      "passages": [
+        {
+          "id": "cet4-2023-06-set3-bank",
+          "text": "Whether you're just having a down day or a down period, taking a walk can instantly lift your mood, especially when you go outdoors. Not only can walking make you less depressed, but according to a new study, depression sufferers who took a __(26)__  walk showed just as much improvement in their __(27)__ as people taking medicine. In fact, 60-70 percent of the participants in the study could no longer even be __(28)__ as depressed Bone density may not be one of the most exciting health benefits of walking, but it's an important one. People with stronger bones avoid osteoporosis (# Mi Fitz JE) and all the problems that     __(29)__ with it, like breaks and other disabilities. And the best way to get strong, healthy bones is by doing weight-bearing exercises like running, dancing and walking, according to a large study. But as regards bones, it's __(30)__ use it or lose it: To keep your bones strong you have to keep exercising. The researchers found that adults who walked regularly had better bone density throughout their lives than their __(31)__ friends. Taking a walk can be great for _     __(32)__  your head or blowing off some steam. It also provides a great opportunity to  __(33)__  with friends and family, far away from electronics and other  __(34)__  at home. Even better, you set a powerful example because when they see you  __(35)__ the benefits of walking, they'll be encouraged to walk more, too."
+        },
+        {
+          "id": "cet4-2023-06-set3-matching",
+          "text": "A Club Where Lions Dance and Traditions Take Root\nA) The first thing you notice in the staircase to the fourth-floor studio on Canal Street in Manhattan, New York, is the measured thumping (T f*) coming from behind a metal door. Just beyond the entrance, large lion masks were twisting and turning to the drum-beat. On a recent Friday evening, the teenagers made their way across the studio floor as they practiced Chinese lion dancing.\nB) \"You want to play in a circle,\" Victor Fong, aged 24, told his students at the New York Chinese Freemasons Athletic Club. \"Take it slow and do it again.\" The dance group, made up of 60 members, performs throughout the year but was now preparing for its biggest events, Chinese Lunar New Year celebrations, which will begin on Saturday and conclude on February 15. Teenagers comprise about half of the group, many of whom began lion dancing at the age of 14. About 100 current and past members of the dance group-which has been performing since 1956will be among the 220 groups marching through Chinatown in Manhattan for the 18th Lunar New Year Parade on February 5.\nC) Mr. Fong has been involved in the organization since he was 15 and began teaching lion dancing three years ago. But the club also acts as a recreation center and safe haven (It J' Ff) for teenagers, with video games readily available. As many as 20 students show up after school. \"The basic requirement for hanging out here is you have to learn how to lion dance,\" Mr. Fong said. While that is not a formal requirement for being a member, everyone finds a way to participate in the Lunar New Year Parade, whether it's by dancing, carrying a flag or beating a drum.\nD) Alvin Chau, aged 26, is an environmental consultant by day and a lion dancer on weekends. He has been a club member for 10 years and joined because of an interest in lion dance. \"We're a big family,\" he said, shaking hands with other members as they walked through the door. \"You know everyone.\"\nE) It is believed that the lion dance began in the third century. Stories vary about how lion dancing came to be, but most of them include a monster named Nian who would terrorize a village. The villagers finally banded together and scared the beast away with firecrackers (//T) and drums. While lions are not native to China, some versions of the story include the villagers creating a monster of their own in the shape of a lion to fight off the beast.\nF) Today, the dancers travel across Chinatown going from business to business to bring good luck for the coming year. The new year-according to the Chinese lunar calendar-will begin on Saturday and marks the Year of the Rooster (XY F*), which is thought to be a symbol of positivity. \"It's almost like the dark night is ending and the sun is coming up,\" said Ya Yung Teng, the digital collections coordinator for the Museum of Chinese in America. \"It's hopeful that we're going to have a new day.\" Roosters and chickens are not particularly strong creatures, Ms. Teng said, but they are numerous. \"In a way,\" she said, the rooster \"stands for \"We the People.\"\nG) The lion head and tail are operated by two people. As one person controls the head, a second follows under a train of fabric representing the body. The dancers move in harmony as they imitate the animal's natural movements in the wild, including the aggressiveness of an attack. A lion head figure weighs under 10 pounds and sits squarely on the dancer's shoulders. Inside, the dancer manipulates strings that open and close the lion's eyes, shake its ears and open its mouth to reveal a fire-orange tongue.\nH) \"A good lion dancer will imitate a living creature,\" said Karlin Chan, aged 59, who heads the athletic club's community public relations. \"I started lion dancing when I was a kid,\" he said. \"Chinatown was much smaller then and it was a celebration with fireworks and firecrackers, which added a lot of flavor and meaning to it.\"\nI) Mr. Chan buys a new lion head each year when he travels to China. A head costs about $ 1,500. \"If you want the good stuff, the quality, you have to see it for yourself,\" he said. \"I'll inspect the product before we put it in the container and ship it over.\" Mr. Chan, who has been involved with the club for nearly 50 years, said that passing the dance from one generation to the next was vital. \"You need to pass on the traditions and the culture, and this is a part of our culture,\" he said. \"It's a great way to promote cultural understanding and exchange; we welcome that.\"\nJ) For Sara Pore, aged 17, another club member, lion dance is more than just tradition, it provides a creative outlet. \"Lion dancing started 2,000 years ago-that's incredible,\" she said. \"But what makes you a competent lion dancer is that there's a sense of imagination involved. Lion dancing teaches competence in leadership because of this. You're constantly forced to push yourself past your limit.\"\nK) Back at rehearsal (JF4f), Justin Le, aged 18, tied a red ribbon around his waist to practice jumping. The dancers use the ribbons to pull themselves up over their partners' heads. The room's ceilings are too low to wear the lion heads for jumping practice, so once up on his partner's head, Mr. Le held out his arms as if in offering.\nL) Mr. Le comes by the dance as a legacy (127K). \"I was born into it, \" Mr. Le said, noting that his uncle and father were club members. \"Growing up, I would always watch my family and see the lion dance, and I slowly grew interested in it.\" By the age of 14, he was fully enrolled in the athletic club's lion dance group. \"I value my culture and tradition, being Chinese or Asian-American. I have a lot of pride in that,\" he said. \"I want to contribute and give back to the community.\""
+        },
+        {
+          "id": "cet4-2023-06-set3-detail1",
+          "text": "Team-building exercises have become popular for managers trying to increase organisational and team harmony and productivity. Unfortunately many employees resent compulsory bonding and often regard these exercises as a nuisance. A paper published this week by University of Sydney researchers in Social Networks has reported participants' feelings about team-building interventions (F T$), revealing ethical implications in forcing employees to take part. \"Many people see team-building activities as a waste of time, so we decided to look in more depth at what's behind this,\" said the paper's lead researcher, Dr Peter Matous. \"Teams are formed, combined and restructured. Staff are relocated and office spaces redesigned. All this is done with the aim of improving workplace efficiency, collaboration and cohesion. But does any of this work?\" said Dr Matous. The study found that team-building exercises which focused on the sharing of and intervening into personal attitudes and relationships between team members were considered too heavy-handed and intrusive, although the researchers say some degree of openness and vulnerability is often necessary to make deep, effective connections with colleagues. \"Some participants were against team-building exercises because they were implicitly compulsory. They didn't welcome management's interest in their lives beyond their direct work performance,\" said Matous. \"Many people don't want to be forced into having fun or making friends, especially not on top of their busy jobs. They feel management is being too nosy or trying to control their lives too much. \" In this study the researchers recommended a self-disclosure (%) approach where participants were guided through a series of questions that allowed them to increasingly disclose personal information and values. The method is well-tested and has been shown to increase interpersonal closeness. However, to be successful it must be voluntary. The researchers said there are numerous schools of thought that propose differing psychological methods for strengthening relationships. \"With caution, many relational methods to improve teams and organisations can be borrowed from other fields. The question is how to apply them effectively to strengthen an entire collective, which is more than just the sum of individual relationships,\" said Dr Matous."
+        },
+        {
+          "id": "cet4-2023-06-set3-detail2",
+          "text": "There are close to 58,000 homeless people in Los Angeles county. That's a shocking and tragic number for a region that's home to some of the richest people in the world. At last, the problem became so acute-and so visible-that Los Angeles took extraordinary action. The citizens of this county voted in November 2016 and again in March 2017 to raise their own taxes. The purpose of such action is to fund an enormous multibillion-dollar, 10-year program of housing and social services for the homeless. As a result, Los Angeles now has its best chance in decades to combat homelessness. This is an opportunity that surely all can agree must not be wasted. It is neither desirable nor morally acceptable nor practical for this county to tolerate the signs of deprivation more commonly associated with the slums (& L a) of Rio de Janiero. How did we get here? For as long as there are homeless people, there is a tendency to blame the victims themselves for their condition-to see their failure to thrive as an issue of character, of moral weakness, of laziness. But contrary to popular belief, the homeless in Los Angeles are not mostly mentally ill or drug addicted or frightening, although a sizable minority meet some of those descriptions. Today, a greater and greater proportion of people living on the streets are there because of bad luck or a series of mistakes, or because the economy forgot them— they lost a job or were evicted (i#ll) or fled an abusive marriage just as the housing market was growing increasingly unforgiving. The challenges are enormous, even if everyone is pulling in the same direction. That reality was driven home this month by a new Los Angeles Homeless Services Authority report showing that the county's homeless population is growing faster than the supply of new housing. In the world's richest nation, homelessness on this scale should be shameful and shocking. But most Los Angeles residents are no longer either shocked or shamed. Increasingly, we are uncomfortable, annoyed, disgusted, scared or unaware. Compassion (IFf L) is being replaced by resignation."
+        }
+      ],
+      "sourceFileUrl": "/study/resources/0025fc03ecad69fc75ad4d16.pdf"
+    },
+    "TRANSLATION": {
+      "instructions": "请将原卷中文翻译成英语。",
+      "prompt": "Directions: For this part, you are allowed 30 minutes to translate a passage from Chinese into English. You should write your answer on Answer Sheet 2. 中国政府一直大力推行义务教育(compulsory education),以使每个儿童都享有受教育的机会。 自1986年《义务教育法》生效以来,经过不懈努力,实现了在全国推行义务教育的目标。如今,在中国, 儿童年满六周岁开始上小学,从小学到初中一共接受九年义务教育。从2008年秋季学期开始,义务教    20 育阶段学生无须缴纳学费。随着一系列教育改革举措的实施,中国义务教育的质量也有显著提高。",
+      "questions": [],
+      "audio": [],
+      "passages": [],
+      "sourceFileUrl": "/study/resources/0025fc03ecad69fc75ad4d16.pdf"
+    }
+  }
+}

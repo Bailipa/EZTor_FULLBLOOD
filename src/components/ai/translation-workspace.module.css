@@ -124,6 +124,41 @@
 }
 .fillPanel { height: 100%; }
 .assistantPage { display: flex; height: 100%; min-height: 0; flex-direction: column; }
+.supplementWord {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 156px;
+  align-items: start;
+  gap: 16px;
+}
+.supplementWordInfo { min-width: 0; }
+.supplementWordHeading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 12px;
+  font-size: 18px;
+  line-height: 1.5;
+}
+.supplementWordTranslation {
+  margin-top: 8px;
+  color: var(--muted-foreground);
+  font-size: 15px;
+  line-height: 1.6;
+  overflow-wrap: break-word;
+  word-break: normal;
+}
+.supplementWordFooter {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
+}
+.supplementWordActions {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+}
 .examples {
   font-size: 13px;
   line-height: 1.7;
@@ -242,6 +277,9 @@
 }
 .meHeading p {
   margin-top: 8px;
+}
+@media (max-width: 767px) {
+  .meHeading { display: none; }
 }
 .meGrid {
   display: grid;
@@ -440,19 +478,6 @@
   .examples summary {
     min-height: 32px;
   }
-  .sheetActions {
-    margin-top: 0;
-    padding: 12px 16px;
-    border-top: 1px solid var(--border);
-  }
-  .sheetActions > button {
-    border: 0;
-    background: transparent;
-    color: var(--primary);
-  }
-  .sheetActions > button:hover {
-    background: color-mix(in srgb, var(--primary) 6%, transparent);
-  }
   .sentenceSheet {
     gap: 0;
     overflow: hidden;
@@ -641,9 +666,6 @@
     padding: 16px 20px;
     border-left: 1px solid var(--border);
   }
-  :global(html[data-ui-style='studio']) .sheetActions {
-    padding: 12px 20px;
-  }
   :global(html[data-ui-style='studio']) .homeLead {
     gap: 32px;
     min-height: 280px;
@@ -746,9 +768,6 @@
     font-family: var(--font-sans);
     font-weight: 600;
   }
-  :global(html[data-ui-style='vivid']) .sheetActions {
-    border: 0;
-  }
   :global(html[data-ui-style='vivid']) .mePage {
     background: color-mix(in srgb, var(--primary) 4%, var(--background));
   }
@@ -820,7 +839,10 @@
 /* The mobile home is a learning entry, with the flashcard in the first screen. */
 @media (max-width: 47.999rem) {
   .homeCanvas {
-    overflow-y: visible;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-y: auto;
+    touch-action: pan-y;
   }
   .mePage {
     height: auto;
@@ -833,13 +855,14 @@
   .homeHeader h1 { font-size: 20px; }
   .homePage,
   :global(html[data-ui-style]) .homePage { padding: 20px 16px; }
+  .homePage { padding-block: 12px 10px; }
   .homeIntro,
   :global(html[data-ui-style]) .homeIntro {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     gap: 12px;
-    padding: 0 0 20px;
+    padding: 0 0 12px;
     margin: 0;
     background: transparent;
     border-radius: 0;
@@ -847,7 +870,7 @@
   .homeIntro .eyebrow,
   .homeDescription { display: none; }
   .homeIntro h2,
-  :global(html[data-ui-style]) .homeIntro h2 { flex: 1; margin: 0; font-size: 20px; line-height: 1.5; }
+  :global(html[data-ui-style]) .homeIntro h2 { flex: 1; margin: 0; font-size: clamp(18px, 5vw, 22px); line-height: 1.4; }
   .homeIntro > button { margin: 0; padding-inline: 12px; font-size: 13px; gap: 6px; }
   .homeIntro > button > svg:first-child { display: none; }
   .learningLinks,
@@ -879,7 +902,6 @@
 
 /* Gold fill stays luminous; small text uses the palette's readable foreground. */
 :global(html[data-brand-theme='gold']) .activeTab,
-:global(html[data-brand-theme='gold']) .sheetActions > button,
 :global(html[data-brand-theme='gold']) .sidebar a[aria-current='page'] {
   color: var(--accent-foreground);
 }
@@ -928,7 +950,6 @@
 :global(html[data-brand-theme='gold'][data-ui-style]) .settingsBlock .sectionLabel { padding-inline: 0; }
 :global(html[data-brand-theme='gold'][data-ui-style]) .sheetHeader { padding: 18px 20px; }
 :global(html[data-brand-theme='gold'][data-ui-style]) .sheetBody { padding-inline: 0; }
-:global(html[data-brand-theme='gold'][data-ui-style]) .sheetActions { padding: 14px 20px; }
 :global(html[data-brand-theme='gold'][data-ui-style]) .columnLabels { background: color-mix(in srgb, var(--card) 48%, transparent); }
 :global(html[data-brand-theme='gold'][data-ui-style]) .supplementQuery > [data-slot='card-content'],
 :global(html[data-brand-theme='gold'][data-ui-style]) .supplementResult > [data-slot='card-content'] { padding: 20px; }
@@ -962,7 +983,6 @@
 }
 @media (max-width: 47.999rem) {
   :global(html[data-brand-theme='gold'][data-ui-style]) .sheetBody { padding-inline: 12px; }
-  :global(html[data-brand-theme='gold'][data-ui-style]) .sheetActions { padding: 12px 0; }
 }
 @supports not (backdrop-filter: blur(1px)) {
   :global(html[data-brand-theme='gold'][data-ui-style]) .learningLinks > *,
@@ -1097,27 +1117,25 @@
 /* Mobile layout choices remain distinct, regardless of the material palette. */
 @media (max-width: 47.999rem) {
   :global(html[data-ui-style][data-ui-style='reading']) .learningLinks {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-    border-top: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+    border: 0;
   }
   :global(html[data-ui-style][data-ui-style='reading']) .learningLinks > * {
-    justify-content: flex-start;
-    flex-wrap: nowrap;
-    min-height: 54px;
-    padding: 12px 4px;
-    gap: 12px;
-    border: 0;
-    border-bottom: 1px solid var(--border);
-    border-radius: 0;
-    background: transparent;
+    justify-content: center;
+    flex-wrap: wrap;
+    min-height: 52px;
+    padding: 8px 4px;
+    gap: 6px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: color-mix(in srgb, var(--card) 92%, var(--primary));
     box-shadow: none;
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
   }
-  :global(html[data-ui-style][data-ui-style='reading']) .learningLinks > * > span { flex: 1; }
-  :global(html[data-ui-style][data-ui-style='reading']) .learningLinks > * > svg:last-child { display: block; width: 14px; height: 14px; }
+  :global(html[data-ui-style][data-ui-style='reading']) .learningLinks > * > span { flex: none; }
+  :global(html[data-ui-style][data-ui-style='reading']) .learningLinks strong { font-size: 13px; }
+  :global(html[data-ui-style][data-ui-style='reading']) .learningLinks > * > svg:last-child { display: none; }
   :global(html[data-ui-style][data-ui-style='reading']) .settingsBlock {
     padding: 16px 0;
     border: 0;
@@ -1174,8 +1192,28 @@
 }
 
 @media (max-width: 767px) {
-  :global(html[data-keyboard-open='true']) .assistantPage :global([data-ai-assistant-header]) { padding-block: 4px; }
-  :global(html[data-keyboard-open='true']) .assistantPage :global([data-ai-assistant-header] > div > button) { width: 32px; height: 32px; }
+  .supplementWord { grid-template-columns: minmax(0, 1fr) 136px; gap: 12px; }
+}
+
+@media (max-width: 520px) {
+  .supplementWord { grid-template-columns: minmax(0, 1fr); }
+  .supplementWordActions { grid-template-columns: minmax(0, 1fr) auto; align-items: center; }
+  .supplementWordActions > input { grid-column: 1 / -1; }
+  .supplementWordActions > button { width: auto; }
+}
+
+/* Keep the three home shortcuts compact in every mobile material theme. */
+@media (max-width: 47.999rem) {
+  :global(html[data-ui-style]) .homePage [data-home-shortcuts] > * {
+    min-height: 56px;
+    padding: 8px 4px;
+    gap: 4px;
+  }
+  :global(html[data-ui-style='vivid']) .homePage [data-home-shortcuts] > * {
+    min-height: 56px;
+    padding: 8px 4px;
+    border-radius: 12px;
+  }
 }
 
 /* Each function keeps its draft when the desktop workspace changes size. */
@@ -1186,4 +1224,23 @@
 @media (max-width: 63.999rem) {
   .canvas { overflow-x: clip; }
   .taskPanel { animation: none; }
+}
+
+/* Local function tabs replace repeated page titles across every palette. */
+:global(html[data-brand-theme][data-ui-style]) .translationHeader {
+  background: var(--primary); color: var(--primary-foreground);
+}
+:global(html[data-brand-theme][data-ui-style]) .translationHeader .translationHeading { padding-top: 0; }
+:global(html[data-brand-theme][data-ui-style]) .translationHeader .navigationLine { display: none; }
+:global(html[data-brand-theme][data-ui-style]) .translationHeader .taskTabs { min-height: 56px; border: 0; }
+:global(html[data-brand-theme][data-ui-style]) .translationHeader .taskTab { padding-block: 0; color: var(--primary-foreground); opacity: .8; }
+:global(html[data-brand-theme][data-ui-style]) .translationHeader .activeTab { opacity: 1; font-weight: 600; }
+:global(html[data-brand-theme][data-ui-style]) .translationHeader .tabIndicator { bottom: 0; background: var(--primary-foreground); }
+:global(html[data-brand-theme][data-ui-style]) .translationHeader > div > a { color: var(--primary-foreground); }
+:global(html[data-brand-theme][data-ui-style]) .homeHeader { background: var(--primary); color: var(--primary-foreground); }
+:global(html[data-brand-theme][data-ui-style]) .homeHeader > div:first-child :is(h1, a, button) { color: inherit; }
+@media (max-width: 767px) {
+  :global(html[data-brand-theme][data-ui-style]) .translationHeader .translationHeading { padding: env(safe-area-inset-top, 0px) 48px 0 12px; }
+  :global(html[data-brand-theme][data-ui-style]) .translationHeader .taskTabs { min-height: 52px; gap: 16px; }
+  :global(html[data-brand-theme][data-ui-style]) .translationHeader .taskTab { font-size: 13px; }
 }

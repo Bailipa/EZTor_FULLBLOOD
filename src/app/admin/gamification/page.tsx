@@ -8,10 +8,11 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Badge } from '@/components/ui/badge'
 import { Checkbox } from '@/components/ui/checkbox'
-import { Switch } from '@/components/ui/switch'
 import { Loader2, Search, Users, Shield, Pencil, Zap, Flame, Trophy, ChevronLeft, ChevronRight, UserPlus, X } from 'lucide-react'
+import { Switch } from '@/components/ui/switch'
 import { toast } from 'sonner'
 import Link from 'next/link'
+import { useInterfaceStyle } from '@/components/interface-style-provider'
 import {
   Dialog,
   DialogContent,
@@ -94,7 +95,7 @@ interface AssignResult {
 
 export default function GamificationAdminPage() {
   const { isLoading: authLoading, isAdmin, status } = useAdminCheck()
-  const [tab, setTab] = useState<'users' | 'zones'>('users')
+  const [tab, setTab] = useState<'users' | 'zones' | 'leaderboard'>('users')
   const isAuthenticated = status === 'authenticated'
 
   if (authLoading) {
@@ -144,12 +145,90 @@ export default function GamificationAdminPage() {
               <Shield className="w-4 h-4" />
               学区管理
             </Button>
+            <Button
+              variant={tab === 'leaderboard' ? 'default' : 'outline'}
+              onClick={() => setTab('leaderboard')}
+              className="gap-2"
+            >
+              <Trophy className="w-4 h-4" />
+              排行榜入口
+            </Button>
           </div>
 
-          {tab === 'users' ? <UsersTab /> : <ZonesTab />}
+          {tab === 'users' ? <UsersTab /> : tab === 'zones' ? <ZonesTab /> : <LeaderboardAccessTab />}
         </div>
       </div>
     </AdminLayout>
+  )
+}
+
+function LeaderboardAccessTab() {
+  const { updateLeaderboardEnabled } = useInterfaceStyle()
+  const [enabled, setEnabled] = useState(true)
+  const [loading, setLoading] = useState(true)
+  const [saving, setSaving] = useState(false)
+
+  useEffect(() => {
+    const controller = new AbortController()
+    fetch('/api/admin/leaderboard', { signal: controller.signal })
+      .then((response) => response.json())
+      .then((result) => {
+        if (!result.success || typeof result.data?.leaderboardEnabled !== 'boolean') {
+          throw new Error('config load failed')
+        }
+        setEnabled(result.data.leaderboardEnabled)
+      })
+      .catch(() => {
+        if (!controller.signal.aborted) toast.error('排行榜开关读取失败')
+      })
+      .finally(() => {
+        if (!controller.signal.aborted) setLoading(false)
+      })
+    return () => controller.abort()
+  }, [])
+
+  const updateEnabled = async (next: boolean) => {
+    setSaving(true)
+    try {
+      const response = await fetch('/api/admin/leaderboard', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ leaderboardEnabled: next }),
+      })
+      const result = await response.json()
+      if (!response.ok || !result.success || result.data?.leaderboardEnabled !== next) {
+        throw new Error('config update failed')
+      }
+      setEnabled(next)
+      updateLeaderboardEnabled(next)
+      toast.success(next ? '排行榜入口已开放' : '排行榜入口已关闭')
+    } catch {
+      toast.error('排行榜开关保存失败，请重试')
+    } finally {
+      setSaving(false)
+    }
+  }
+
+  return (
+    <Card>
+      <CardContent className="flex items-center justify-between gap-4 p-4">
+        <div className="min-w-0 space-y-1">
+          <div className="font-medium">排行榜入口</div>
+          <p className="text-sm text-muted-foreground">
+            {enabled ? '已开放，用户可从菜单或 URL 进入。' : '已关闭，菜单入口隐藏，直接访问也会返回首页。'}
+          </p>
+        </div>
+        <div className="flex shrink-0 items-center gap-3">
+          <span className="text-sm text-muted-foreground">{enabled ? '开放' : '关闭'}</span>
+          <Switch
+            checked={enabled}
+            onCheckedChange={(checked) => void updateEnabled(checked)}
+            disabled={loading || saving}
+            aria-label="开放排行榜入口"
+          />
+        </div>
+      </CardContent>
+    </Card>
   )
 }
 

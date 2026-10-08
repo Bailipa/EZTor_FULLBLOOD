@@ -1,0 +1,1137 @@
+{
+  "slug": "cet4-2020-12-set2-full",
+  "version": 1,
+  "title": "2020年12月 · 第2套整卷模拟真题",
+  "level": "CET4",
+  "kind": "FULL",
+  "originType": "PAST_EXAM",
+  "sourceName": "用户提供的本地四六级资料",
+  "sourceUrl": "/study/resources/eaa4db0b4a0261ee13e4e37f.pdf",
+  "rightsHolder": "原试卷及解析作者",
+  "rightsEvidence": "用户提供本地资源并要求接入本地学习系统；原文件及校验值见 content/cet-local/index.json。未授权公开再分发或生产部署。",
+  "content": {
+    "WRITING": {
+      "instructions": "原卷写作要求",
+      "prompt": "Directions; For this part, you are allowed 30 minutes to write on the topic Changes in the Way of Transportation. You should write at least 120 words but no more than 180 words.",
+      "questions": [],
+      "audio": [],
+      "passages": [],
+      "minimumWords": 120,
+      "maximumWords": 180,
+      "sourceFileUrl": "/study/resources/eaa4db0b4a0261ee13e4e37f.pdf"
+    },
+    "LISTENING": {
+      "instructions": "原卷听力选择题",
+      "questions": [
+        {
+          "id": "cet4-2020-12-set2-q1",
+          "type": "NEWS",
+          "prompt": "第 1 题(题干在原始录音中)",
+          "choices": [
+            "He wanted to buy a home.",
+            "He suffered from a shock.",
+            "He lost a huge sum of money.",
+            "He did an unusual good deed."
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 1,
+          "audioId": "cet4-2020-12-set2-audio"
+        },
+        {
+          "id": "cet4-2020-12-set2-q2",
+          "type": "NEWS",
+          "prompt": "第 2 题(题干在原始录音中)",
+          "choices": [
+            "Invite the waiter to a fancy dinner.",
+            "Tell her story to the Daily News.",
+            "Give some money to the waiter.",
+            "Pay the waiter's school tuition."
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 1,
+          "audioId": "cet4-2020-12-set2-audio"
+        },
+        {
+          "id": "cet4-2020-12-set2-q3",
+          "type": "NEWS",
+          "prompt": "第 3 题(题干在原始录音中)",
+          "choices": [
+            "Whether or not to move to the state's mainland.",
+            "How to keep the village from sinking into the sea.",
+            "Where to get the funds for rebuilding their village.",
+            "What to do about the rising level of the seawater."
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 1,
+          "audioId": "cet4-2020-12-set2-audio"
+        },
+        {
+          "id": "cet4-2020-12-set2-q4",
+          "type": "NEWS",
+          "prompt": "第 4 题(题干在原始录音中)",
+          "choices": [
+            "It takes too long a time.",
+            "It costs too much money.",
+            "It has to wait for the state's final approval.",
+            "It faces strong opposition from many villagers."
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 1,
+          "audioId": "cet4-2020-12-set2-audio"
+        },
+        {
+          "id": "cet4-2020-12-set2-q5",
+          "type": "NEWS",
+          "prompt": "第 5 题(题干在原始录音中)",
+          "choices": [
+            "To investigate whether people are grateful for help.",
+            "To see whether people hold doors open for strangers.",
+            "To explore ways of inducing gratitude in people.",
+            "To find out how people express gratitude."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "audioId": "cet4-2020-12-set2-audio"
+        },
+        {
+          "id": "cet4-2020-12-set2-q6",
+          "type": "NEWS",
+          "prompt": "第 6 题(题干在原始录音中)",
+          "choices": [
+            "They induced strangers to talk with them.",
+            "They helped 15 to 20 people in a bad mood.",
+            "They held doors open for people at various places.",
+            "They interviewed people who didn't say thank you."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "audioId": "cet4-2020-12-set2-audio"
+        },
+        {
+          "id": "cet4-2020-12-set2-q7",
+          "type": "NEWS",
+          "prompt": "第 7 题(题干在原始录音中)",
+          "choices": [
+            "People can be educated to be grateful.",
+            "Most people express gratitude for help.",
+            "Most people have bad days now and then.",
+            "People are ungrateful when in a bad mood."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "audioId": "cet4-2020-12-set2-audio"
+        },
+        {
+          "id": "cet4-2020-12-set2-q8",
+          "type": "CONVERSATION",
+          "prompt": "第 8 题(题干在原始录音中)",
+          "choices": [
+            "To order a solar panel installation.",
+            "To report a serious leak in his roof.",
+            "To enquire about solar panel installations.",
+            "To complain about the faulty solar panels."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "audioId": "cet4-2020-12-set2-audio"
+        },
+        {
+          "id": "cet4-2020-12-set2-q9",
+          "type": "CONVERSATION",
+          "prompt": "第 9 题(题干在原始录音中)",
+          "choices": [
+            "He plans to install solar panels.",
+            "He owns a four-bedroom house.",
+            "He saves $ 300 a year.",
+            "He has a large family."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "audioId": "cet4-2020-12-set2-audio"
+        },
+        {
+          "id": "cet4-2020-12-set2-q10",
+          "type": "CONVERSATION",
+          "prompt": "第 10 题(题干在原始录音中)",
+          "choices": [
+            "The service of the solar panel company.",
+            "The cost of a solar panel installation.",
+            "The maintenance of the solar panels.",
+            "The quality of the solar panels."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "audioId": "cet4-2020-12-set2-audio"
+        },
+        {
+          "id": "cet4-2020-12-set2-q11",
+          "type": "CONVERSATION",
+          "prompt": "第 11 题(题干在原始录音中)",
+          "choices": [
+            "One year and a half.",
+            "Less than four years.",
+            "Roughly six years.",
+            "About five years."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "audioId": "cet4-2020-12-set2-audio"
+        },
+        {
+          "id": "cet4-2020-12-set2-q12",
+          "type": "CONVERSATION",
+          "prompt": "第 12 题(题干在原始录音中)",
+          "choices": [
+            "At a travel agency.",
+            "At an Australian airport.",
+            "At an airline transfer service.",
+            "At a local transportation authority."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "audioId": "cet4-2020-12-set2-audio"
+        },
+        {
+          "id": "cet4-2020-12-set2-q13",
+          "type": "CONVERSATION",
+          "prompt": "第 13 题(题干在原始录音中)",
+          "choices": [
+            "She would be able to visit more scenic spots.",
+            "She wanted to save as much money as possible.",
+            "She would like to have everything taken care of.",
+            "She wanted to spend more time with her family."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "audioId": "cet4-2020-12-set2-audio"
+        },
+        {
+          "id": "cet4-2020-12-set2-q14",
+          "type": "CONVERSATION",
+          "prompt": "第 14 题(题干在原始录音中)",
+          "choices": [
+            "Four days.",
+            "Five days.",
+            "One week.",
+            "Two weeks."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "audioId": "cet4-2020-12-set2-audio"
+        },
+        {
+          "id": "cet4-2020-12-set2-q15",
+          "type": "CONVERSATION",
+          "prompt": "第 15 题(题干在原始录音中)",
+          "choices": [
+            "Choosing some activities herself.",
+            "Spending Christmas with Australians.",
+            "Driving along the Great Ocean Road.",
+            "Learning more about wine making."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "audioId": "cet4-2020-12-set2-audio"
+        },
+        {
+          "id": "cet4-2020-12-set2-q16",
+          "type": "PASSAGE",
+          "prompt": "第 16 题(题干在原始录音中)",
+          "choices": [
+            "Bring their own bags when shopping.",
+            "Use public transport when traveling.",
+            "Dispose of their trash properly.",
+            "Pay a green tax upon arrival."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "audioId": "cet4-2020-12-set2-audio"
+        },
+        {
+          "id": "cet4-2020-12-set2-q17",
+          "type": "PASSAGE",
+          "prompt": "第 17 题(题干在原始录音中)",
+          "choices": [
+            "It has not been doing a good job in recycling.",
+            "It has witnessed a rise in accidental drowning.",
+            "It has not attracted many tourists in recent years.",
+            "It has experienced an overall decline in air quality."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "audioId": "cet4-2020-12-set2-audio"
+        },
+        {
+          "id": "cet4-2020-12-set2-q18",
+          "type": "PASSAGE",
+          "prompt": "第 18 题(题干在原始录音中)",
+          "choices": [
+            "To charge a small fee on plastic products in supermarkets.",
+            "To ban single-use plastic bags and straws on Bali Island.",
+            "To promote the use of paper bags for shopping.",
+            "To impose a penalty on anyone caught littering."
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 2,
+          "audioId": "cet4-2020-12-set2-audio"
+        },
+        {
+          "id": "cet4-2020-12-set2-q19",
+          "type": "PASSAGE",
+          "prompt": "第 19 题(题干在原始录音中)",
+          "choices": [
+            "It gives birth to several babies at a time.",
+            "It is the least protected mammal species.",
+            "Its breeding grounds are now better preserved.",
+            "Its population is now showing signs of increase."
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 2,
+          "audioId": "cet4-2020-12-set2-audio"
+        },
+        {
+          "id": "cet4-2020-12-set2-q20",
+          "type": "PASSAGE",
+          "prompt": "第 20 题(题干在原始录音中)",
+          "choices": [
+            "Global warming.",
+            "Polluted seawaters.",
+            "Commercial hunting.",
+            "Decreasing birthrates."
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 2,
+          "audioId": "cet4-2020-12-set2-audio"
+        },
+        {
+          "id": "cet4-2020-12-set2-q21",
+          "type": "PASSAGE",
+          "prompt": "第 21 题(题干在原始录音中)",
+          "choices": [
+            "To mate.",
+            "To look for food.",
+            "To escape hunters.",
+            "To seek breeding grounds."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "audioId": "cet4-2020-12-set2-audio"
+        },
+        {
+          "id": "cet4-2020-12-set2-q22",
+          "type": "PASSAGE",
+          "prompt": "第 22 题(题干在原始录音中)",
+          "choices": [
+            "They prefer to drink low-fat milk.",
+            "They think milk is good for health.",
+            "They consume less milk these days.",
+            "They buy more milk than the British."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "audioId": "cet4-2020-12-set2-audio"
+        },
+        {
+          "id": "cet4-2020-12-set2-q23",
+          "type": "PASSAGE",
+          "prompt": "第 23 题(题干在原始录音中)",
+          "choices": [
+            "It is not as healthy as once thought.",
+            "It is not easy to stay fresh for long.",
+            "It benefits the elderly more.",
+            "It tends to make people fat."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "audioId": "cet4-2020-12-set2-audio"
+        },
+        {
+          "id": "cet4-2020-12-set2-q24",
+          "type": "PASSAGE",
+          "prompt": "第 24 题(题干在原始录音中)",
+          "choices": [
+            "They drink too many pints every day.",
+            "They are sensitive to certain minerals.",
+            "They lack the necessary proteins to digest it.",
+            "They have eaten food incompatible with milk."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "audioId": "cet4-2020-12-set2-audio"
+        },
+        {
+          "id": "cet4-2020-12-set2-q25",
+          "type": "PASSAGE",
+          "prompt": "第 25 题(题干在原始录音中)",
+          "choices": [
+            "It is easier for sick people to digest.",
+            "It provides some necessary nutrients.",
+            "It is healthier than other animal products.",
+            "It supplies the body with enough calories."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "audioId": "cet4-2020-12-set2-audio"
+        }
+      ],
+      "audio": [
+        {
+          "id": "cet4-2020-12-set2-audio",
+          "url": "/study/resources/73c5d36abe113eeb7bb2c73b.m4a",
+          "sourceUrl": "/study/resources/73c5d36abe113eeb7bb2c73b.m4a",
+          "durationSeconds": 1378.429388,
+          "transcript": "",
+          "identity": "cet4_2020_12_2.mp3 SHA256:73c5d36abe113eeb7bb2c73b3307fe2d64c1bf10adb056b907d9ef21a29a30f0"
+        }
+      ],
+      "passages": [],
+      "sourceFileUrl": "/study/resources/eaa4db0b4a0261ee13e4e37f.pdf"
+    },
+    "READING": {
+      "instructions": "请依次完成选词填空、长篇匹配和仔细阅读。",
+      "questions": [
+        {
+          "id": "cet4-2020-12-set2-q26",
+          "type": "WORD_BANK",
+          "prompt": "第 26 空",
+          "choices": [
+            "choose",
+            "constant",
+            "disappointing",
+            "distinguish",
+            "exhausting",
+            "experienced",
+            "negative",
+            "outcome",
+            "pattern",
+            "plural",
+            "repeatedly",
+            "rewarded",
+            "separately",
+            "simply",
+            "undertaken"
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 0.5,
+          "passageId": "cet4-2020-12-set2-bank"
+        },
+        {
+          "id": "cet4-2020-12-set2-q27",
+          "type": "WORD_BANK",
+          "prompt": "第 27 空",
+          "choices": [
+            "choose",
+            "constant",
+            "disappointing",
+            "distinguish",
+            "exhausting",
+            "experienced",
+            "negative",
+            "outcome",
+            "pattern",
+            "plural",
+            "repeatedly",
+            "rewarded",
+            "separately",
+            "simply",
+            "undertaken"
+          ],
+          "answerIndex": 6,
+          "explanation": "原卷答案：G。",
+          "weight": 0.5,
+          "passageId": "cet4-2020-12-set2-bank"
+        },
+        {
+          "id": "cet4-2020-12-set2-q28",
+          "type": "WORD_BANK",
+          "prompt": "第 28 空",
+          "choices": [
+            "choose",
+            "constant",
+            "disappointing",
+            "distinguish",
+            "exhausting",
+            "experienced",
+            "negative",
+            "outcome",
+            "pattern",
+            "plural",
+            "repeatedly",
+            "rewarded",
+            "separately",
+            "simply",
+            "undertaken"
+          ],
+          "answerIndex": 10,
+          "explanation": "原卷答案：K。",
+          "weight": 0.5,
+          "passageId": "cet4-2020-12-set2-bank"
+        },
+        {
+          "id": "cet4-2020-12-set2-q29",
+          "type": "WORD_BANK",
+          "prompt": "第 29 空",
+          "choices": [
+            "choose",
+            "constant",
+            "disappointing",
+            "distinguish",
+            "exhausting",
+            "experienced",
+            "negative",
+            "outcome",
+            "pattern",
+            "plural",
+            "repeatedly",
+            "rewarded",
+            "separately",
+            "simply",
+            "undertaken"
+          ],
+          "answerIndex": 11,
+          "explanation": "原卷答案：L。",
+          "weight": 0.5,
+          "passageId": "cet4-2020-12-set2-bank"
+        },
+        {
+          "id": "cet4-2020-12-set2-q30",
+          "type": "WORD_BANK",
+          "prompt": "第 30 空",
+          "choices": [
+            "choose",
+            "constant",
+            "disappointing",
+            "distinguish",
+            "exhausting",
+            "experienced",
+            "negative",
+            "outcome",
+            "pattern",
+            "plural",
+            "repeatedly",
+            "rewarded",
+            "separately",
+            "simply",
+            "undertaken"
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 0.5,
+          "passageId": "cet4-2020-12-set2-bank"
+        },
+        {
+          "id": "cet4-2020-12-set2-q31",
+          "type": "WORD_BANK",
+          "prompt": "第 31 空",
+          "choices": [
+            "choose",
+            "constant",
+            "disappointing",
+            "distinguish",
+            "exhausting",
+            "experienced",
+            "negative",
+            "outcome",
+            "pattern",
+            "plural",
+            "repeatedly",
+            "rewarded",
+            "separately",
+            "simply",
+            "undertaken"
+          ],
+          "answerIndex": 7,
+          "explanation": "原卷答案：H。",
+          "weight": 0.5,
+          "passageId": "cet4-2020-12-set2-bank"
+        },
+        {
+          "id": "cet4-2020-12-set2-q32",
+          "type": "WORD_BANK",
+          "prompt": "第 32 空",
+          "choices": [
+            "choose",
+            "constant",
+            "disappointing",
+            "distinguish",
+            "exhausting",
+            "experienced",
+            "negative",
+            "outcome",
+            "pattern",
+            "plural",
+            "repeatedly",
+            "rewarded",
+            "separately",
+            "simply",
+            "undertaken"
+          ],
+          "answerIndex": 8,
+          "explanation": "原卷答案：I。",
+          "weight": 0.5,
+          "passageId": "cet4-2020-12-set2-bank"
+        },
+        {
+          "id": "cet4-2020-12-set2-q33",
+          "type": "WORD_BANK",
+          "prompt": "第 33 空",
+          "choices": [
+            "choose",
+            "constant",
+            "disappointing",
+            "distinguish",
+            "exhausting",
+            "experienced",
+            "negative",
+            "outcome",
+            "pattern",
+            "plural",
+            "repeatedly",
+            "rewarded",
+            "separately",
+            "simply",
+            "undertaken"
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 0.5,
+          "passageId": "cet4-2020-12-set2-bank"
+        },
+        {
+          "id": "cet4-2020-12-set2-q34",
+          "type": "WORD_BANK",
+          "prompt": "第 34 空",
+          "choices": [
+            "choose",
+            "constant",
+            "disappointing",
+            "distinguish",
+            "exhausting",
+            "experienced",
+            "negative",
+            "outcome",
+            "pattern",
+            "plural",
+            "repeatedly",
+            "rewarded",
+            "separately",
+            "simply",
+            "undertaken"
+          ],
+          "answerIndex": 13,
+          "explanation": "原卷答案：N。",
+          "weight": 0.5,
+          "passageId": "cet4-2020-12-set2-bank"
+        },
+        {
+          "id": "cet4-2020-12-set2-q35",
+          "type": "WORD_BANK",
+          "prompt": "第 35 空",
+          "choices": [
+            "choose",
+            "constant",
+            "disappointing",
+            "distinguish",
+            "exhausting",
+            "experienced",
+            "negative",
+            "outcome",
+            "pattern",
+            "plural",
+            "repeatedly",
+            "rewarded",
+            "separately",
+            "simply",
+            "undertaken"
+          ],
+          "answerIndex": 14,
+          "explanation": "原卷答案：O。",
+          "weight": 0.5,
+          "passageId": "cet4-2020-12-set2-bank"
+        },
+        {
+          "id": "cet4-2020-12-set2-q36",
+          "type": "MATCHING",
+          "prompt": "One legislative staffer assumed that a woman of color who advocated affordable childcare must be a single mother.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段",
+            "O 段",
+            "P 段"
+          ],
+          "answerIndex": 4,
+          "explanation": "原卷答案：E。",
+          "weight": 1,
+          "passageId": "cet4-2020-12-set2-matching"
+        },
+        {
+          "id": "cet4-2020-12-set2-q37",
+          "type": "MATCHING",
+          "prompt": "People from different races, genders, and regions all suffer from a lack of financial security.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段",
+            "O 段",
+            "P 段"
+          ],
+          "answerIndex": 7,
+          "explanation": "原卷答案：H。",
+          "weight": 1,
+          "passageId": "cet4-2020-12-set2-matching"
+        },
+        {
+          "id": "cet4-2020-12-set2-q38",
+          "type": "MATCHING",
+          "prompt": "According to a survey, while the majority believe too little assistance is given to the poor, more than a third believe too much is spent on welfare.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段",
+            "O 段",
+            "P 段"
+          ],
+          "answerIndex": 12,
+          "explanation": "原卷答案：M。",
+          "weight": 1,
+          "passageId": "cet4-2020-12-set2-matching"
+        },
+        {
+          "id": "cet4-2020-12-set2-q39",
+          "type": "MATCHING",
+          "prompt": "A research group has found that Americans who are struggling are thought to be lazy and to have made the wrong decisions.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段",
+            "O 段",
+            "P 段"
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 1,
+          "passageId": "cet4-2020-12-set2-matching"
+        },
+        {
+          "id": "cet4-2020-12-set2-q40",
+          "type": "MATCHING",
+          "prompt": "Under the old system in America, a mother was supposed to stay home and take care of her children.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段",
+            "O 段",
+            "P 段"
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "passageId": "cet4-2020-12-set2-matching"
+        },
+        {
+          "id": "cet4-2020-12-set2-q41",
+          "type": "MATCHING",
+          "prompt": "It was found that nearly 50% of Americans are poor or receive low pay.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段",
+            "O 段",
+            "P 段"
+          ],
+          "answerIndex": 5,
+          "explanation": "原卷答案：F。",
+          "weight": 1,
+          "passageId": "cet4-2020-12-set2-matching"
+        },
+        {
+          "id": "cet4-2020-12-set2-q42",
+          "type": "MATCHING",
+          "prompt": "Americans usually overestimate the number of blacks receiving welfare benefits.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段",
+            "O 段",
+            "P 段"
+          ],
+          "answerIndex": 13,
+          "explanation": "原卷答案：N。",
+          "weight": 1,
+          "passageId": "cet4-2020-12-set2-matching"
+        },
+        {
+          "id": "cet4-2020-12-set2-q43",
+          "type": "MATCHING",
+          "prompt": "It is impossible for Americans to lift themselves out of poverty entirely on their own.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段",
+            "O 段",
+            "P 段"
+          ],
+          "answerIndex": 8,
+          "explanation": "原卷答案：I。",
+          "weight": 1,
+          "passageId": "cet4-2020-12-set2-matching"
+        },
+        {
+          "id": "cet4-2020-12-set2-q44",
+          "type": "MATCHING",
+          "prompt": "Nowadays, it seems none of us can get away from income inequality.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段",
+            "O 段",
+            "P 段"
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "passageId": "cet4-2020-12-set2-matching"
+        },
+        {
+          "id": "cet4-2020-12-set2-q45",
+          "type": "MATCHING",
+          "prompt": "Assumptions about poor people become even more negative when they live on welfare.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段",
+            "O 段",
+            "P 段"
+          ],
+          "answerIndex": 11,
+          "explanation": "原卷答案：L。",
+          "weight": 1,
+          "passageId": "cet4-2020-12-set2-matching"
+        },
+        {
+          "id": "cet4-2020-12-set2-q46",
+          "type": "DETAIL",
+          "prompt": "When are people likely to experience boredom, according to an accepted psychological definition?",
+          "choices": [
+            "When they don't have the chance to do what they want.",
+            "When they don't enjoy the materials they are studying.",
+            "When they experience something unpleasant..",
+            "When they engage in some routine activities."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "passageId": "cet4-2020-12-set2-detail1"
+        },
+        {
+          "id": "cet4-2020-12-set2-q47",
+          "type": "DETAIL",
+          "prompt": "What does the author say boredom can lead to?",
+          "choices": [
+            "Determination.",
+            "Concentration.",
+            "Mental deterioration.",
+            "Harmful conduct."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "passageId": "cet4-2020-12-set2-detail1"
+        },
+        {
+          "id": "cet4-2020-12-set2-q48",
+          "type": "DETAIL",
+          "prompt": "What is the finding of one team of psychologists in their experiment?",
+          "choices": [
+            "Volunteers prefer watching a boring movie to sitting alone deliberating.",
+            "Many volunteers choose to hurt themselves rather than endure boredom.",
+            "Male volunteers are more immune to the effects of boredom than females.",
+            "Many volunteers are unable to resist boredom longer than fifteen minutes."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "passageId": "cet4-2020-12-set2-detail1"
+        },
+        {
+          "id": "cet4-2020-12-set2-q49",
+          "type": "DETAIL",
+          "prompt": "Why does the author say boredom isn't all bad?",
+          "choices": [
+            "It stimulates memorization.",
+            "It allows time for relaxation.",
+            "It may promote creative thinking.",
+            "It may facilitate independent learning."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "passageId": "cet4-2020-12-set2-detail1"
+        },
+        {
+          "id": "cet4-2020-12-set2-q50",
+          "type": "DETAIL",
+          "prompt": "What does the author suggest one do when faced with a challenging problem?",
+          "choices": [
+            "Stop idling and think big.",
+            "Unlock one's smartphone.",
+            "Look around oneself for stimulation.",
+            "Allow oneself some time to be bored."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "passageId": "cet4-2020-12-set2-detail1"
+        },
+        {
+          "id": "cet4-2020-12-set2-q51",
+          "type": "DETAIL",
+          "prompt": "What is catching environmentalists' attention nowadays?",
+          "choices": [
+            "Rich countries are stripping poor ones of their resources.",
+            "Forests are fast shrinking in many developing countries.",
+            "Forests are eating away the fertile farmland worldwide.",
+            "Rich countries are doing little to address deforestation."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "passageId": "cet4-2020-12-set2-detail2"
+        },
+        {
+          "id": "cet4-2020-12-set2-q52",
+          "type": "DETAIL",
+          "prompt": "Which countries have the fastest forest growth?",
+          "choices": [
+            "Those that have newly achieved independence.",
+            "Those that have the greatest demand for timber.",
+            "Those that used to have the lowest forest coverage.",
+            "Those that provide enormous government subsidies."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "passageId": "cet4-2020-12-set2-detail2"
+        },
+        {
+          "id": "cet4-2020-12-set2-q53",
+          "type": "DETAIL",
+          "prompt": "What has encouraged forest growth historically?",
+          "choices": [
+            "The government's advocacy.",
+            "The use of wood for fuel.",
+            "The favourable climate.",
+            "The green movement."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "passageId": "cet4-2020-12-set2-detail2"
+        },
+        {
+          "id": "cet4-2020-12-set2-q54",
+          "type": "DETAIL",
+          "prompt": "What accounts for our increasing desire for forests?",
+          "choices": [
+            "Their unique scenic beauty.",
+            "Their use as fruit plantations.",
+            "Their capability of improving air quality.",
+            "Their stable supply of building materials."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "passageId": "cet4-2020-12-set2-detail2"
+        },
+        {
+          "id": "cet4-2020-12-set2-q55",
+          "type": "DETAIL",
+          "prompt": "What does the author conclude about the prospects of forestation?",
+          "choices": [
+            "Deserts in sub-Saharan Africa will diminish gradually.",
+            "It will play a more and more important role in people's lives.",
+            "Forest destruction in the developing world will quickly slow down.",
+            "Developed and developing countries are moving in opposite directions."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "passageId": "cet4-2020-12-set2-detail2"
+        }
+      ],
+      "audio": [],
+      "passages": [
+        {
+          "id": "cet4-2020-12-set2-bank",
+          "text": "When my son completes a task, I can't help but praise him. It's only natural to give praise where praise is due, right? But is there such a thing as too much praise? According to psychologist Katherine Phillip, children don't benefit from __(26)__  praise as much as we'd like to think. \"Parents often praise, believing they are building their child's self-confidence. However, over-praising can have a  __(27)__  effect,\" says Phillip. \"When we use the same praise __(28)__ , it may become empty and no longer valued by the child. It can also become an expectation that anything they do must be __(29)__  with praise. This may lead to the child avoiding taking risks due to fear of     __(30)__ their parents.\" Does this mean we should do away with all the praise? Phillip says no. \"The key to healthy praise is to focus on the process rather than the __(31)__ . It is the recognition of a child's attempt, or the process in which they achieved something, that is essential,\" she says. \"Parents should encourage their child to take the risks needed to learn and grow.\" So how do we break the __(32)__  of praise we're all so accustomed to? Phillip says it's important to __(33)__ between \"person praise\" and \"process praise\". \"Person praise is __(34)__  saying how great someone is. It's a form of personal approval. Process praise is acknowledgement of the efforts the person 四袋2020年12月26 has just __(35)__ . Children who receive person praise are more likely to feel shame after losing,\" says Phillip."
+        },
+        {
+          "id": "cet4-2020-12-set2-matching",
+          "text": "Poverty is a story about us, not them\nA) Too often still, we think we know what poverty looks like. It's the way we've been taught, the images we've been force-fed for decades. The chronically homeless. The undocumented immigrant. The urban poor, usually personified as a woman of color, the \"welfare queen\" politicians still too often reference.\nB) But as income inequality rises to record levels in the United States, even in the midst of a record economic expansion, those familiar images are outdated, hurtful, and counterproductive to focusing attention on solutions and building ladders of opportunity.\nC) Today's faces of income inequality and lack of opportunity look like all of us. It's Anna Landre, a disabled Georgetown University student fighting to keep health benefits that allow her the freedom to live her life. It's Tiffanie Standard, a counselor för young women of color in Philadelphia who want to be tech entrepreneurs— but who must work multiple jobs to stay afloat. It's Ken Outlaw, a welder in rural North Carolina whose dream of going back to school at a local community college was dashed by Hurricane Florence— just one of the extreme weather events that have tipped the balance for struggling Americans across the nation.\nD) If these are the central characters of our story about poverty, what layers of perceptions, myths, and realities must we unearth to find meaningful solutions and support? In pursuit of revealing this complicated reality, Mothering Justice, led by women of color, went last year to the state capital in Lansing, Michigan, to lobby on issues that affect working mothers. One of the Mothering Justice organizers went to the office of a state representative to talk about the lack of affordable childcare— the vestiges (Mit) of a system that expected mothers to stay home with their children while their husbands worked. A legislative staffer dismissed the activist's concerns, telling her \"my husband took care of that—I stayed home. \"\nE) That comment, says Mothering Justice director Danielle Atkinson, \"was meant to shame\" and relied on the familiar notion that a woman of color concerned about income inequality and programs that promote mobility must by definition be a single mom, probably with multiple kids. In this case, the Mothering Justice activist happened to be married. And in most cases in the America of 2019, the images that come to mind when we hear the words poverty or income inequality fail miserably in reflecting a complicated reality: poverty touches virtually all of us. The face of income inequality, for all but a very few of us, is the one we each see in the mirror.\nF) How many of us are poor in the U.S.? It depends on who you ask. According to the Census Bureau, 38 million people in the U.S. are living below the official poverty thresholds. Taking into account economic need beyond that absolute measure, the Institute for Policy Studies found that 140 million people are poor or low-income. That's almost half the U.S. population.\nG) Whatever the measure, within that massive group, poverty is extremely diverse. We know that some people are more affected than others, like children, the elderly, people with disabilities, and people of color.\nH) But the fact that 4 in 10 Americans can't come up with $400 in an emergency is a commonly cited statistic for good reason; economic instability stretches across race, gender, and geography. It even reaches into the middle classes, as real wages have stagnated (7**) for all but the very wealthy and temporary spells of financial instability are not uncommon.\nI) Negative images remain of who is living in poverty as well as what is needed to move out of it. The big American myth is that you can pull yourself up by your own efforts and change a bad situation into a good one. The reality is that finding opportunity without help from families, friends, schools, and community is virtually impossible. And the playing field is nothing close to level.\nJ) The FrameWorks Institute, a research group that focuses on public framing of issues, has studied what sustains stereotypes and narratives of poverty in the United Kingdom. \"People view economic success and wellbeing in life as a product of choice, willpower, and drive,\" says Nat Kendall-Taylor, CEO of FrameWorks. \"When we see people who are struggling,\" he says, those assumptions \"lead us to the perception that people in poverty are lazy, they don't care, and they haven't made the right decisions. \"\nK) Does this sound familiar? Similar ideas surround poverty in the U.S. And these assumptions give a false picture of reality. \"When people enter into that pattern of thinking,\" says Kendall-Taylor, \"it's cognitively comfortable to make sense of issues of poverty in that way. It creates a kind of cognitive blindness—all of the factors external to a person's drive and choices that they've made become invisible and fade from view.\"\nL) Those external factors include the difficulties accompanying low-wage work or structural discrimination based on race, gender, or ability. Assumptions get worse when people who are poor use government benefits to help them survive. There is a great tension between \"the poor\" and those who are receiving what has become a dirty word, \"welfare.\"\nM) According to the General Social Survey, 71 percent of respondents believe the country is spending too little on \"assistance to the poor.\" On the other hand, 22 percent think we are spending too little on \"welfare\": 37 percent believe we are spending too much.\nN) \"Poverty has been interchangeable with people of color specifically black women and black mothers,\" says Atkinson of Mothering Justice. It's true that black mothers are more affected by poverty than many other groups, yet they are disproportionately the face of poverty. For example, Americans routinely overestimate the share of black recipients of public assistance programs.\nO) In reality, most people will experience some form of financial hardship at some point in their lives. Indeed, people tend to dip in and out of poverty, perhaps due to unexpected obstacles like losing a job, or when hours of a low-wage job fluctuate.\nP) Something each of us can do is to treat each other with the dignity and sympathy that is deserved and to understand deeply that the issue of poverty touches all of us."
+        },
+        {
+          "id": "cet4-2020-12-set2-detail1",
+          "text": "Boredom has, paradoxically, become quite interesting to academics lately. In early May, London's Boring Conference celebrated seven years of delighting in dullness. At this event, people flocked to talks about weather, traffic jams, and vending-machine sounds, among other sleep-inducing topics. What, exactly, is everybody studying? One widely accepted psychological definition of boredom is \"the distasteful experience of wanting, but being unable, to engage in satisfying activity.\" But how can you quantify a person's boredom level and compare it with someone else's? In 1986, psychologists introduced the Boredom Proneness Scale, designed to measure an individual's overall tendency to feel bored. By contrast, the Multidimensional State Boredom Scale, developed in 2008, measures a person's feelings of boredom in a given situation. Boredom has been linked to behavior issues including inattentive driving, mindless snacking, excessive drinking, and addictive gambling. In fact, many of us would choose pain over boredom. One team of psychologists discovered that two-thirds of men and a quarter of women would rather self-administer electric shocks than sit alone with their thoughts for 15 minutes. Researching this phenomenon, another team asked volunteers to watch boring, sad, or neutral films, during which they could self-administer electric shocks. The bored volunteers shocked themselves more and harder than the sad or neutral ones did. But boredom isn't all bad. By encouraging self-reflection and daydreaming, it can spur creativity. An early study gave participants abundant time to complete problem-solving and word-association exercises. Once all the obvious answers were exhausted, participants gave more and more inventive answers to combat boredom. A British study took these findings one step further, asking subjects to complete a creative challenge (coming up with a list of alternative uses for a household item. One group of subjects did a boring activity first, while the others went straight to the creative task. Those whose boredom pumps had been primed were more productive. In our always-connected world, boredom may be a hard-to-define state, but it is a fertile one. Watch paint dry or water boil, or at least put away your smartphone for a while, and you might unlock your next big idea."
+        },
+        {
+          "id": "cet4-2020-12-set2-detail2",
+          "text": "Forests in countries like Brazil and the Congo get a lot of attention from environmentalists, and it is easy to see why. South America and sub-Saharan Africa are experiencing deforestation on an enormous scale; every year almost 5 million hectares are lost. But forests are also changing in rich Western countries. They are growing larger, both in the sense that they occupy more land and that the trees in them are bigger. What is going on? Forests are spreading in almost all Western countries, with the fastest growth in places that historically had rather few trees. In 1990 28% of Spain was forested; now the proportion is 37%. In both Greece and Italy, the growth was from 26% to 32% over the same period. Forests are gradually taking more land in America and Australia. Perhaps most astonishing is the trend in Ireland. Roughly 1% of that country was forested when it became independent in 1922. Now forests cover 11% of the land, and the government wants to push the proportion to 18% by the 2040s. Two things are fertilising this growth. The first is the abandonment of farmland, especially in high, dry places where nothing grows terribly well. When farmers give up trying to earn a living from farming or herding, trees simply move in: The second is government policy and subsidy. Throughout history, governments have protected and promoted forests for diverse reasons, ranging from the need for wooden warships to a desire to promote suburban house-building. Nowadays forests are increasingly welcome because they suck in carbon pollution from the air. The justifications change; the desire for more trees remains constant. The greening of the West does not delight everyone. Farmers complain that land is being taken out of use by generously subsidised tree plantations. Parts of Spain and Portugal suffer from terrible forest fires. Others simply dislike the appearance of forests planted in neat rows. They will have to get used to the trees, however. The growth of Western forests seems almost as unstoppable as deforestation elsewhere."
+        }
+      ],
+      "sourceFileUrl": "/study/resources/eaa4db0b4a0261ee13e4e37f.pdf"
+    },
+    "TRANSLATION": {
+      "instructions": "请将原卷中文翻译成英语。",
+      "prompt": "Directions: For this part, you are allowed 30 minutes to translate a passage from Chinese into English. You should write your answer on Answer Sheet 2. 春节前夕吃团圆饭是中国人的传统。团固饭是一年中最重要的晚餐,也是家庭团聚的最佳时机,家人 生活在不同地方的家庭尤其如此。团圆饭上的菜肴丰富多样,其中有些菜看有特珠含义。例如,鱼是不可 缺少的一道菜,因为汉语中的“鱼”字和“余”字听上去一样。在中国的许多地方,饺子也是一道重要的佳 肴,因为饺子象征着財富和好运。 四级2020年12月 31",
+      "questions": [],
+      "audio": [],
+      "passages": [],
+      "sourceFileUrl": "/study/resources/eaa4db0b4a0261ee13e4e37f.pdf"
+    }
+  }
+}

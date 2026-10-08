@@ -1,0 +1,209 @@
+{
+  "slug": "cet6-2021-12-set3-full",
+  "version": 1,
+  "title": "2021年12月 · 第3套整卷模拟真题",
+  "level": "CET6",
+  "kind": "FULL",
+  "originType": "PAST_EXAM",
+  "sourceName": "用户提供的本地四六级资料",
+  "sourceUrl": "/study/resources/1dc1101d53587b25de25360b.pdf",
+  "rightsHolder": "原试卷及解析作者",
+  "rightsEvidence": "用户提供本地资源并要求接入本地学习系统；原文件及校验值见 content/cet-local/index.json。未授权公开再分发或生产部署。",
+  "content": {
+    "WRITING": {
+      "instructions": "原卷写作要求",
+      "prompt": "Directions: For this part, you are allowed 30 minutes to write an essay related to the short passage given below. In your essay, you are to comment on the phenomenon described in the passage and suggest measures to address the issue. You should write at least 150 words but no more than 200 words. Some parents in China are overprotective of their children. They plan everything for their children, make all the decisions for them, and do not allow them to explore on their own in case they make mistakes or get hurt.",
+      "questions": [],
+      "audio": [],
+      "passages": [],
+      "minimumWords": 150,
+      "maximumWords": 200,
+      "sourceFileUrl": "/study/resources/1dc1101d53587b25de25360b.pdf"
+    },
+    "LISTENING": {
+      "instructions": "听力材料",
+      "questions": [],
+      "audio": [],
+      "passages": [],
+      "unavailableReason": "原卷未刊载本卷独立听力题文。说明:由于2021年12月六级考试全国共考了两套听力,本套真题听力与前两套内容相同,只 是选项顺序不同,因此在本套真题中不再重复出现。",
+      "sourceFileUrl": "/study/resources/1dc1101d53587b25de25360b.pdf"
+    },
+    "READING": {
+      "instructions": "请依次完成选词填空、长篇匹配和仔细阅读。",
+      "questions": [
+        {
+          "id": "cet6-2021-12-set3-q46",
+          "type": "DETAIL",
+          "prompt": "What can we observe from the author's description of our communities?",
+          "choices": [
+            "The growing passion for automation.",
+            "The shift from manual jobs to IT ones.",
+            "Their changing views on employment.",
+            "Their fading employment opportunities."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "passageId": "cet6-2021-12-set3-detail1"
+        },
+        {
+          "id": "cet6-2021-12-set3-q47",
+          "type": "DETAIL",
+          "prompt": "What do we learn from a recent report?",
+          "choices": [
+            "The manufacturing sector is declining at a fast rate.",
+            "The concerns about the effect of trade are exaggerated.",
+            "The fears about trade have been spreading far and wide. 2021-12-CET6(7› 3 1)-4",
+            "The impact of trade on employment has been staggering."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "passageId": "cet6-2021-12-set3-detail1"
+        },
+        {
+          "id": "cet6-2021-12-set3-q48",
+          "type": "DETAIL",
+          "prompt": "What does the passage tell us about American workers in an era of transformation?",
+          "choices": [
+            "They feel ignored by politicians.",
+            "They feel increasingly vulnerable.",
+            "They keep adapting to the changes.",
+            "They keep complaining but to no avail."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "passageId": "cet6-2021-12-set3-detail1"
+        },
+        {
+          "id": "cet6-2021-12-set3-q49",
+          "type": "DETAIL",
+          "prompt": "What does the author think of automation?",
+          "choices": [
+            "It will have the same impact as industrialization.",
+            "It provides sensible companies with alternatives.",
+            "Its alleged positive effects are doubtful.",
+            "Its detrimental effects are unavoidable."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "passageId": "cet6-2021-12-set3-detail1"
+        },
+        {
+          "id": "cet6-2021-12-set3-q50",
+          "type": "DETAIL",
+          "prompt": "What should we attach importance to when dealing with automation?",
+          "choices": [
+            "College graduates' job prospects.",
+            "Women's access to employment.",
+            "People's economic security.",
+            "People's social mobility."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "passageId": "cet6-2021-12-set3-detail1"
+        },
+        {
+          "id": "cet6-2021-12-set3-q51",
+          "type": "DETAIL",
+          "prompt": "What error do experts often make when describing people from other places?",
+          "choices": [
+            "They tend to overly rely on nationality.",
+            "They often exaggerate their differences.",
+            "They often misunderstand their cultures.",
+            "They end to dwell on national averages."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "passageId": "cet6-2021-12-set3-detail2"
+        },
+        {
+          "id": "cet6-2021-12-set3-q52",
+          "type": "DETAIL",
+          "prompt": "What do we learn about Hofstede's cultural dimensions?",
+          "choices": [
+            "They are useful in comparing cultural values across time and space.",
+            "They have brought unusual benefits to people of different cultures.",
+            "They are widely used to identify people's individual traits.",
+            "They provide valuable questions for researchers to study."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "passageId": "cet6-2021-12-set3-detail2"
+        },
+        {
+          "id": "cet6-2021-12-set3-q53",
+          "type": "DETAIL",
+          "prompt": "What did researchers find about previous studies on factors determining people's value?",
+          "choices": [
+            "Environmental factors were prioritized over other factors.",
+            "An individual's financial status was often underestimated.",
+            "Too much emphasis had been placed on one's occupation.",
+            "The impact of social progress on one's values was ignored."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "passageId": "cet6-2021-12-set3-detail2"
+        },
+        {
+          "id": "cet6-2021-12-set3-q54",
+          "type": "DETAIL",
+          "prompt": "What is the impact on employees when cultures are identified with countries?",
+          "choices": [
+            "They may fail to see the cultural biases of their business partners.",
+            "They may fail to attach sufficient importance to cultural diversity.",
+            "They may not be taught how to properly interact with overseas partners.",
+            "They may not be able to learn the legal procedures for business transactions."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "passageId": "cet6-2021-12-set3-detail2"
+        },
+        {
+          "id": "cet6-2021-12-set3-q55",
+          "type": "DETAIL",
+          "prompt": "What does the author suggest at the end of the passage?",
+          "choices": [
+            "There is sufficient reason to generalize about a country's population.",
+            "The majority of people are still constrained by their national identity.",
+            "It is arguable that the country should be regarded as the unit of authority.",
+            "Nationality is less useful than socio-economic status as an indicator of one's values."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "passageId": "cet6-2021-12-set3-detail2"
+        }
+      ],
+      "audio": [],
+      "passages": [
+        {
+          "id": "cet6-2021-12-set3-detail1",
+          "text": "The subject of automation and its role in our economy has taken hold in American public discourse. Technology broadly and automation specifically are dramatically reshaping the way we work. And we need to have a plan for what's still to come. We don't have to look further than our own communities to see the devastating impact of automation. From automated warehouses to cashierless grocery stores to neighborhood libraries that offer self- checkout lanes instead of employing real people automation is increasingly replacing jobs and leaving too few good new jobs behind. The statistics in manufacturing are staggering. Despite the widespread fears about trade, a recent report showed that just 13 percent of jobs lost in manufacturing are due to trade— the rest of the losses have been due to advances in technology. That is why more people are criticizing the ever-increasing role of technology in our economy. Our country is manufacturing more than ever before, but we are doing it with fewer workers. However, it's not just factories that are seeing losses-software and information technology are also having a dramatic impact on jobs most people think are secure from the forces of a rapidly-changing economy. Something transformative is happening in America that is having an adverse effect on American families. Whether policymakers and politicians admit it or not, workers have made clear their feelings. about their economic insecurity and desire to keep good jobs in America. So why are people so insistent on ignoring the perils of automation? They are failing to look ahead at a time when planning for the future is more important than ever. Resisting automation is futile: it is as inevitable as industrialization was before it. I sincerely hope that those who assert that automation will make us more effective and pave the way for new occupations are right, but the reality of automation's detrimental effects on workers makes me skeptical. No one can currently say where the new jobs are coming from or when, and any sensible company or country should prepare for all alternatives. I'm not overstating the danger: look at what's happened to the labor force. According to economic research, one in six working-age men, 25-54, doesn't have a job. Fifty years ago, nearly 100 percent of men that age were working. Women's labor force participation, meanwhile, has slipped back to the level it was at in the late 1980s. American families and prominent business leaders are aware that there's a big problem with automation. The value of a college degree is diminishing, and our upward mobility is declining. If we want an economy that allows everyone to be economically secure, we need to start thinking about how we can rightfully address automation."
+        },
+        {
+          "id": "cet6-2021-12-set3-detail2",
+          "text": "Look at the people around you. Some are passive, others more aggressive. Some work best alone, others crave companionship. We easily recognize that there is great variation among the individuals who live near us. Yet, when we speak of people from elsewhere, we seem to inevitably characterize them based on their country of origin. Statistics specialists, when they speak of national averages, often make the same mistake. Newly published research shows how erroneous such overviews are. Three researchers analyzed decades of values-based surveys and found that only between 16% and 21% of the variation in cultural values could be explained by differences between countries. In other words, the vast majority of what makes us culturally distinct from one another has nothing to do with our homeland. To determine what factors really are associated with culture, the authors combined data from 558 prior surveys that each measured one more of Hofstede's cultural dimensions. These are traits, such as individualism and masculinity, that describe work-related cultural values. (They are not a measure of visible cultural traits, such as food or dress.) Though the validity of Hofstede's dimensions has been questioned, they have the singular benefit of having been in use for decades, which allows for historical and international comparisons. The researchers found that both demographic factors, such as age, and environmental factors, such as long-term unemployment rates, were more correlated with cultural values than nationality. Occupation and social economic status were the most strongly correlated, suggesting that our values are more economically driven than we usually give them credit for. The evidence implies that people with similar jobs and incomes are more culturally alike, regardless of where they live. Vas Taras, the lead author of the study, puts it this way: \"Tell me how much you make and I will make a pretty accurate prediction about your cultural values. Tell me what your nationality is and I probably will make a wrong prediction.\" Taras says our erroneous belief that countries are cultures has caused businesses to teach their employees useless or even harmful ways of interacting with their international peers. Chinese and American lawyers might be trained to interact based on the assumption that the Chinese person is less individualistic, even though their similar social economic situations make it probable they are actually quite alike in that regard. The country, as the unit of authority, is often a convenient way of generalizing about a population. However, our focus on countries can mask broad variations within them. In the majority of cases we 2021-12-CET6(7› 3 1)-5 would be better off identifying people by the factors that constrain their lives, like income, rather than by the lines surrounding them on a map."
+        }
+      ],
+      "wordBankUnavailableReason": "原卷说明本套选词填空未重复刊载。",
+      "matchingUnavailableReason": "本地原卷 PDF 缺少标页第 2 页，长篇匹配 D–L 段未刊载；已保留仔细阅读。",
+      "sourceFileUrl": "/study/resources/1dc1101d53587b25de25360b.pdf"
+    },
+    "TRANSLATION": {
+      "instructions": "请将原卷中文翻译成英语。",
+      "prompt": "Directions: For this part, you are allowed 30 minutes to translate a passage from Chinese into English. You should write your answer on Answer Sheet 2. 井冈山地处湖南、江西两省交界处,因其辉煌的革命历史被誉为“中国革命红色摇篮”。1927    1927 年10月,毛泽东、朱德等老一辈革命家率领中国工农红军来到这里,开展了艰苦卓绝的斗争,创 建了第一个农村革命根据地,点燃了中国革命的星星之火,开辟了“农村包围(besiege)城市,武    (besiege) trT, it 装夺取政权”这一具有中国特色的革命道路,中国革命从这里迈向胜利。井冈山现有100多处革 命旧址,成为一个“没有围墙的革命历史博物馆”,是爱国主义和革命传统教育的重要基地。 2021-12-CET6(7› 3 1)-6",
+      "questions": [],
+      "audio": [],
+      "passages": [],
+      "sourceFileUrl": "/study/resources/1dc1101d53587b25de25360b.pdf"
+    }
+  }
+}

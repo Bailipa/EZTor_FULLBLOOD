@@ -16,6 +16,7 @@ import styles from './vocabulary-workspace.module.css'
 const HistoryWorkspacePanel = dynamic(() => import('@/components/vocabulary/HistoryWorkspacePanel').then((module) => module.HistoryWorkspacePanel), {
   loading: () => <PanelLoading />,
 })
+const ReadingMarksPanel = dynamic(() => import('@/components/vocabulary/ReadingMarksPanel'), { loading: () => <PanelLoading /> })
 const PublicVocabularyWorkspacePanel = dynamic(() => import('@/components/vocabulary/PublicVocabularyWorkspacePanel').then((module) => module.PublicVocabularyWorkspacePanel), {
   loading: () => <PanelLoading />,
 })
@@ -23,9 +24,10 @@ const ContributionWorkspacePanel = dynamic(() => import('@/components/vocabulary
   loading: () => <PanelLoading />,
 })
 
-type VocabularyPanel = 'history' | 'public' | 'contributions'
+type VocabularyPanel = 'history' | 'marks' | 'public' | 'contributions'
 const panels: { id: VocabularyPanel; label: string; icon: typeof BookOpen }[] = [
   { id: 'history', label: '生词本', icon: BookOpen },
+  { id: 'marks', label: '标记查询', icon: BookOpen },
   { id: 'public', label: '公共词库', icon: Database },
   { id: 'contributions', label: '单词贡献榜', icon: Award },
 ]
@@ -37,7 +39,7 @@ function PanelLoading() {
 
 export default function VocabularyWorkspace({ initialPanel }: { initialPanel: VocabularyPanel }) {
   const { minimal, ready, visible } = useMinimalFeatures()
-  const visiblePanels = panels.filter(({ id }) => visible('vocabulary', id))
+  const visiblePanels = panels.filter(({ id }) => visible('vocabulary', id === 'marks' ? 'history' : id))
   const panelIds = visiblePanels.map(({ id }) => id)
   const [selectedPanel, setActivePanel] = useState(initialPanel)
   const activePanel = panelIds.includes(selectedPanel) ? selectedPanel : panelIds[0]
@@ -66,9 +68,9 @@ export default function VocabularyWorkspace({ initialPanel }: { initialPanel: Vo
   useEffect(() => {
     if (!activePanel || !ready) return
     let visiblePanels: VocabularyPanel[] = [activePanel]
-    if (!minimal && layoutTier === 'wide') {
+    if (activePanel !== 'marks' && !minimal && layoutTier === 'wide') {
       visiblePanels = ['history', 'public', 'contributions']
-    } else if (!minimal && layoutTier === 'paired') {
+    } else if (activePanel !== 'marks' && !minimal && layoutTier === 'paired') {
       visiblePanels = activePanel === 'contributions'
         ? ['public', 'contributions']
         : ['history', 'public']
@@ -91,23 +93,25 @@ export default function VocabularyWorkspace({ initialPanel }: { initialPanel: Vo
     return true
   }, !!activePanel && ready && (minimal || layoutTier === 'single'))
 
-  const historyVisible = (!minimal && (layoutTier === 'wide' || (layoutTier === 'paired' && activePanel !== 'contributions'))) || activePanel === 'history'
+  const historyVisible = activePanel !== 'marks' && ((!minimal && (layoutTier === 'wide' || (layoutTier === 'paired' && activePanel !== 'contributions'))) || activePanel === 'history')
 
   return (
-    <AppLayout>
-      <main data-workspace-page data-vocabulary-workspace data-vocabulary-active={activePanel} data-vocabulary-entry={initialPanel} className="flex min-h-0 flex-col gap-3 bg-background p-4 pb-6 md:p-6 xl:pb-6">
+    <AppLayout workspaceHeader={
         <nav data-vocabulary-nav aria-label="词库栏目">
           {visiblePanels.map(({ id, label, icon: Icon }) => (
-            <button key={id} type="button" aria-pressed={activePanel === id} onClick={() => setActivePanel(id)}>
-              <Icon aria-hidden="true" />{label}
+            <button key={id} type="button" aria-label={label} aria-pressed={activePanel === id} onClick={() => setActivePanel(id)}>
+              <Icon aria-hidden="true" />{id === 'contributions' ? <><span data-vocabulary-label-full>{label}</span><span data-vocabulary-label-compact>贡献榜</span></> : label}
             </button>
           ))}
         </nav>
+    }>
+      <main data-workspace-page data-vocabulary-workspace data-vocabulary-active={activePanel} data-vocabulary-entry={initialPanel} className="flex min-h-0 flex-col gap-3 bg-background p-4 pb-6 md:p-6 xl:pb-6">
         {minimal && <Link href="/me#minimal-features" className="text-sm text-muted-foreground underline">显示功能设置</Link>}
         {!ready && <p role="status" className="p-6 text-sm text-muted-foreground">正在恢复词库设置…</p>}
         {ready && !activePanel && <p role="status" className="p-6 text-sm text-muted-foreground">词库栏目已隐藏，可在设置中恢复。</p>}
         <div ref={gridRef} data-vocabulary-grid className={styles.swipeViewport}>
           {ready && visible('vocabulary', 'history') && (!minimal || activePanel === 'history') && <section data-vocabulary-panel="history" data-panel-swipe-active={activePanel === 'history'} aria-label="生词本">{mountedPanels.has('history') && <HistoryWorkspacePanel key={accountScope} embedded active={historyVisible} />}</section>}
+          {ready && visible('vocabulary', 'history') && <section data-vocabulary-panel="marks" data-panel-swipe-active={activePanel === 'marks'} aria-label="标记查询">{mountedPanels.has('marks') && (session?.user?.id ? <ReadingMarksPanel key={accountScope} accountId={session.user.id} active={activePanel === 'marks'} /> : <div data-vocabulary-login className="flex flex-col items-center justify-center gap-3 p-6"><p>登录后查询题目标记</p><Link href="/auth/signin?callbackUrl=%2Fhistory%3Fview%3Dmarks">登录</Link></div>)}</section>}
           {ready && visible('vocabulary', 'public') && (!minimal || activePanel === 'public') && <section data-vocabulary-panel="public" data-panel-swipe-active={activePanel === 'public'} aria-label="公共词库">{mountedPanels.has('public') && <PublicVocabularyWorkspacePanel key={accountScope} embedded />}</section>}
           {ready && visible('vocabulary', 'contributions') && (!minimal || activePanel === 'contributions') && <section data-vocabulary-panel="contributions" data-panel-swipe-active={activePanel === 'contributions'} aria-label="单词贡献榜">
             {!mountedPanels.has('contributions') ? null : status === 'authenticated' ? <ContributionWorkspacePanel key={accountScope} embedded /> : (

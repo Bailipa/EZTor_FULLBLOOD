@@ -1,0 +1,432 @@
+{
+  "cet4-2020-07-set1": {
+    "status": "parsed",
+    "sourceId": "8ab16f0523ad7c3ac690d2de",
+    "mode": "en"
+  },
+  "cet4-2020-09-set1": {
+    "status": "parsed",
+    "sourceId": "76238505bbeb339e881616bd",
+    "mode": "en"
+  },
+  "cet4-2020-09-set2": {
+    "status": "parsed",
+    "sourceId": "0e42abec89ed747fad90ebe4",
+    "mode": "en"
+  },
+  "cet4-2020-09-set3": {
+    "status": "parsed",
+    "sourceId": "0e770aec09b6fb7adda8cb70",
+    "mode": "en"
+  },
+  "cet4-2020-12-set1": {
+    "status": "parsed",
+    "sourceId": "2dfca4d45e090492d65806ab",
+    "mode": "en"
+  },
+  "cet4-2020-12-set2": {
+    "status": "parsed",
+    "sourceId": "eaa4db0b4a0261ee13e4e37f",
+    "mode": "en"
+  },
+  "cet4-2020-12-set3": {
+    "status": "parsed",
+    "sourceId": "4abfbaaeb473487667161988",
+    "mode": "en"
+  },
+  "cet4-2021-06-set1": {
+    "status": "parsed",
+    "sourceId": "a398a171743e9402576ec35f",
+    "mode": "en"
+  },
+  "cet4-2021-06-set2": {
+    "status": "parsed",
+    "sourceId": "8d5d51042b01b12574f6bbc1",
+    "mode": "en"
+  },
+  "cet4-2021-06-set3": {
+    "status": "parsed",
+    "sourceId": "a0d57af51bce87f7193cf3e2",
+    "mode": "en"
+  },
+  "cet4-2021-12-set1": {
+    "status": "parsed",
+    "sourceId": "9bf9deb13cf23f1e4f589012",
+    "mode": "en"
+  },
+  "cet4-2021-12-set2": {
+    "status": "parsed",
+    "sourceId": "ad5c97c19a000bbb21ba1a19",
+    "mode": "en"
+  },
+  "cet4-2021-12-set3": {
+    "status": "parsed",
+    "sourceId": "20f7d6e833e1f7fd88f17639",
+    "mode": "en"
+  },
+  "cet4-2022-06-set1": {
+    "status": "parsed",
+    "sourceId": "98a4aaecf332f9874f8940a8",
+    "mode": "en"
+  },
+  "cet4-2022-06-set2": {
+    "status": "parsed",
+    "sourceId": "315b1fcd4ebcdcada822b8ba",
+    "mode": "en"
+  },
+  "cet4-2022-06-set3": {
+    "status": "parsed",
+    "sourceId": "97f136a584793e94f4f0dc95",
+    "mode": "en"
+  },
+  "cet4-2022-09-set1": {
+    "status": "parsed",
+    "sourceId": "38db7898e9b6cf56c9f58693",
+    "mode": "en"
+  },
+  "cet4-2022-09-set2": {
+    "status": "parsed",
+    "sourceId": "bc05bf8999d7b68f1a7f1489",
+    "mode": "en"
+  },
+  "cet4-2022-09-set3": {
+    "status": "parsed",
+    "sourceId": "bc05bf8999d7b68f1a7f1489",
+    "mode": "en"
+  },
+  "cet4-2022-12-set1": {
+    "status": "parsed",
+    "sourceId": "c29d9111253133135fe2fe40",
+    "mode": "en"
+  },
+  "cet4-2022-12-set2": {
+    "status": "parsed",
+    "sourceId": "5218c0206fda282bba0c3a56",
+    "mode": "en"
+  },
+  "cet4-2022-12-set3": {
+    "status": "parsed",
+    "sourceId": "277d8ea6e799069bf9b0367c",
+    "mode": "en"
+  },
+  "cet4-2023-03-set1": {
+    "status": "parsed",
+    "sourceId": "40a0aaad9c96828069ac2161",
+    "mode": "en"
+  },
+  "cet4-2023-03-set2": {
+    "status": "parsed",
+    "sourceId": "0d695e4d6d568aadcaf9420f",
+    "mode": "en"
+  },
+  "cet4-2023-03-set3": {
+    "status": "parsed",
+    "sourceId": "0d695e4d6d568aadcaf9420f",
+    "mode": "en"
+  },
+  "cet4-2023-06-set1": {
+    "status": "parsed",
+    "sourceId": "9a61fb8b74a989810ce4d356",
+    "mode": "en"
+  },
+  "cet4-2023-06-set2": {
+    "status": "parsed",
+    "sourceId": "fe37a99b9f09dd848ca00df7",
+    "mode": "hybrid"
+  },
+  "cet4-2023-06-set3": {
+    "status": "parsed",
+    "sourceId": "0025fc03ecad69fc75ad4d16",
+    "mode": "en"
+  },
+  "cet4-2023-12-set1": {
+    "status": "parsed",
+    "sourceId": "0c033a2fe168d4783fc80ab4",
+    "mode": "hybrid"
+  },
+  "cet4-2023-12-set2": {
+    "status": "parsed",
+    "sourceId": "9dc516c8db6b9f1ffd459e6c",
+    "mode": "en"
+  },
+  "cet4-2023-12-set3": {
+    "status": "parsed",
+    "sourceId": "9b95b2e4cbf4fd7763ada5f6",
+    "mode": "en"
+  },
+  "cet4-2024-06-set1": {
+    "status": "parsed",
+    "sourceId": "be050a97398dfd72ef0f349e",
+    "mode": "en"
+  },
+  "cet4-2024-06-set2": {
+    "status": "parsed",
+    "sourceId": "aada101cc537bcfc69d54a77",
+    "mode": "en"
+  },
+  "cet4-2024-06-set3": {
+    "status": "parsed",
+    "sourceId": "ec1c750fc530c5ca9b5db11c",
+    "mode": "hybrid"
+  },
+  "cet4-2024-12-set1": {
+    "status": "parsed",
+    "sourceId": "451a0a9470c043cd6e5449d3",
+    "mode": "hybrid"
+  },
+  "cet4-2024-12-set2": {
+    "status": "parsed",
+    "sourceId": "982a486689a7dc6196fe41e7",
+    "mode": "hybrid"
+  },
+  "cet4-2024-12-set3": {
+    "status": "parsed",
+    "sourceId": "ffeabe7091f01fd2f1367ef5",
+    "mode": "hybrid"
+  },
+  "cet4-2025-06-set1": {
+    "status": "parsed",
+    "sourceId": "2880977bc0a8b730800d3104",
+    "mode": "hybrid"
+  },
+  "cet4-2025-06-set2": {
+    "status": "parsed",
+    "sourceId": "71d831b5b27bf3e8701fb772",
+    "mode": "hybrid"
+  },
+  "cet4-2025-06-set3": {
+    "status": "parsed",
+    "sourceId": "815c185ee43391d1e504b42d",
+    "mode": "hybrid"
+  },
+  "cet4-2025-12-set1": {
+    "status": "parsed",
+    "sourceId": "39b7c6d0ce4851f25944a9dd",
+    "mode": "en"
+  },
+  "cet4-2025-12-set2": {
+    "status": "parsed",
+    "sourceId": "29da4a4a079809d02aa56078",
+    "mode": "hybrid"
+  },
+  "cet4-2025-12-set3": {
+    "status": "parsed",
+    "sourceId": "8b29c1b4b871def55ade9a16",
+    "mode": "hybrid"
+  },
+  "cet6-2020-07-set1": {
+    "status": "parsed",
+    "sourceId": "33747f90861882a440cd761d",
+    "mode": "hybrid"
+  },
+  "cet6-2020-09-set1": {
+    "status": "parsed",
+    "sourceId": "9b0e9995398fff2fbdd4da3e",
+    "mode": "en"
+  },
+  "cet6-2020-09-set2": {
+    "status": "parsed",
+    "sourceId": "53695a81d184bf81fd972430",
+    "mode": "native"
+  },
+  "cet6-2020-09-set3": {
+    "status": "parsed",
+    "sourceId": "f00458ac98ad86255558872b",
+    "mode": "en"
+  },
+  "cet6-2020-12-set1": {
+    "status": "parsed",
+    "sourceId": "99ef52d7d94e95676768d265",
+    "mode": "en"
+  },
+  "cet6-2020-12-set2": {
+    "status": "parsed",
+    "sourceId": "60f42b0bb2dfd498dc32c8b4",
+    "mode": "en"
+  },
+  "cet6-2020-12-set3": {
+    "status": "parsed",
+    "sourceId": "f00fbbd4f10a2dab79deeb8e",
+    "mode": "en"
+  },
+  "cet6-2021-06-set1": {
+    "status": "parsed",
+    "sourceId": "28ee0371724573166ed299ae",
+    "mode": "en"
+  },
+  "cet6-2021-06-set2": {
+    "status": "parsed",
+    "sourceId": "175f3c61257e97dbbbde948f",
+    "mode": "en"
+  },
+  "cet6-2021-06-set3": {
+    "status": "parsed",
+    "sourceId": "1bb51699ea16bd7abf5ebc12",
+    "mode": "en"
+  },
+  "cet6-2021-12-set1": {
+    "status": "parsed",
+    "sourceId": "a872dc6edf1b370c15269e7e",
+    "mode": "en"
+  },
+  "cet6-2021-12-set2": {
+    "status": "parsed",
+    "sourceId": "a9649e317c6505e1caaf062d",
+    "mode": "en"
+  },
+  "cet6-2021-12-set3": {
+    "status": "parsed",
+    "sourceId": "1dc1101d53587b25de25360b",
+    "mode": "en"
+  },
+  "cet6-2022-06-set1": {
+    "status": "parsed",
+    "sourceId": "6e102097e911b394171304b8",
+    "mode": "en"
+  },
+  "cet6-2022-06-set2": {
+    "status": "parsed",
+    "sourceId": "adc7cae0dfb982a3dae2281e",
+    "mode": "en"
+  },
+  "cet6-2022-06-set3": {
+    "status": "parsed",
+    "sourceId": "adc7cae0dfb982a3dae2281e",
+    "mode": "en"
+  },
+  "cet6-2022-09-set1": {
+    "status": "parsed",
+    "sourceId": "84803728ee7739994faaeeaa",
+    "mode": "en"
+  },
+  "cet6-2022-09-set2": {
+    "status": "parsed",
+    "sourceId": "1d7f456011fadb345feb1a75",
+    "mode": "en"
+  },
+  "cet6-2022-09-set3": {
+    "status": "parsed",
+    "sourceId": "1d7f456011fadb345feb1a75",
+    "mode": "en"
+  },
+  "cet6-2022-12-set1": {
+    "status": "parsed",
+    "sourceId": "6c321c079ddf8aaf5ed9c353",
+    "mode": "en"
+  },
+  "cet6-2022-12-set2": {
+    "status": "parsed",
+    "sourceId": "52a935ceb2113e22e4b3f519",
+    "mode": "en"
+  },
+  "cet6-2022-12-set3": {
+    "status": "parsed",
+    "sourceId": "ea7339fb589c0f9c82a74c83",
+    "mode": "en"
+  },
+  "cet6-2023-03-set1": {
+    "status": "parsed",
+    "sourceId": "6fb1fd005a0677e2cf800900",
+    "mode": "en"
+  },
+  "cet6-2023-03-set2": {
+    "status": "parsed",
+    "sourceId": "2570952cd5781945f79b1e98",
+    "mode": "en"
+  },
+  "cet6-2023-03-set3": {
+    "status": "parsed",
+    "sourceId": "2570952cd5781945f79b1e98",
+    "mode": "en"
+  },
+  "cet6-2023-06-set1": {
+    "status": "parsed",
+    "sourceId": "a64db8e40f453ed492ca11b8",
+    "mode": "en"
+  },
+  "cet6-2023-06-set2": {
+    "status": "parsed",
+    "sourceId": "2eef014b50171097056d0f0f",
+    "mode": "hybrid"
+  },
+  "cet6-2023-06-set3": {
+    "status": "parsed",
+    "sourceId": "12c74cd2a8ce94dc3efa2a17",
+    "mode": "en"
+  },
+  "cet6-2023-12-set1": {
+    "status": "parsed",
+    "sourceId": "942e09a84d31a40ffd1bc77f",
+    "mode": "en"
+  },
+  "cet6-2023-12-set2": {
+    "status": "parsed",
+    "sourceId": "35f400af8df9a622f257dd9e",
+    "mode": "hybrid"
+  },
+  "cet6-2023-12-set3": {
+    "status": "parsed",
+    "sourceId": "863dce5f60d8f4dad1b0920e",
+    "mode": "en"
+  },
+  "cet6-2024-06-set1": {
+    "status": "parsed",
+    "sourceId": "ef879d945d233082b357ac48",
+    "mode": "en"
+  },
+  "cet6-2024-06-set2": {
+    "status": "parsed",
+    "sourceId": "3df3ad48a9094dac4cc62aee",
+    "mode": "en"
+  },
+  "cet6-2024-06-set3": {
+    "status": "parsed",
+    "sourceId": "58bdf2e4cf9ad757887bac3e",
+    "mode": "hybrid"
+  },
+  "cet6-2024-12-set1": {
+    "status": "parsed",
+    "sourceId": "5d71737190c7a6951d25c9ec",
+    "mode": "en"
+  },
+  "cet6-2024-12-set2": {
+    "status": "parsed",
+    "sourceId": "de0f410d0edaa896970727b7",
+    "mode": "hybrid"
+  },
+  "cet6-2024-12-set3": {
+    "status": "parsed",
+    "sourceId": "4eff618e3b7b6ab54f2c9c25",
+    "mode": "en"
+  },
+  "cet6-2025-06-set1": {
+    "status": "parsed",
+    "sourceId": "15ac17ef0cf3089ca11c833e",
+    "mode": "hybrid"
+  },
+  "cet6-2025-06-set2": {
+    "status": "parsed",
+    "sourceId": "7b6186d254a6910a18e17de0",
+    "mode": "en"
+  },
+  "cet6-2025-06-set3": {
+    "status": "parsed",
+    "sourceId": "0b517826acf7326d7528bf0f",
+    "mode": "en"
+  },
+  "cet6-2025-12-set1": {
+    "status": "parsed",
+    "sourceId": "4fac338c84e06f95f341947d",
+    "mode": "hybrid"
+  },
+  "cet6-2025-12-set2": {
+    "status": "parsed",
+    "sourceId": "ad6b856ce3aa9647344d7ad1",
+    "mode": "en"
+  },
+  "cet6-2025-12-set3": {
+    "status": "parsed",
+    "sourceId": "9151ec800264de84ecee25f0",
+    "mode": "en"
+  }
+}

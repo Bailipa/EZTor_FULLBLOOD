@@ -90,9 +90,8 @@ export default function LeaderboardPage() {
     <div className="relative h-screen bg-background transition-colors duration-300 flex flex-col">
       <AppLayout>
         <div data-workspace-page data-workspace-ranking className="flex flex-col h-full overflow-y-auto p-4 md:p-6 lg:p-8 space-y-4">
-          <div data-workspace-ranking-summary className="flex flex-col gap-4">
-            <div data-workspace-toolbar className="indigo-page-header flex items-center justify-between">
-              <h1 className="text-2xl font-bold">排行榜</h1>
+          <div data-workspace-ranking-summary className="flex flex-col gap-2 sm:gap-4">
+            <div data-workspace-toolbar className="indigo-page-header flex items-center justify-start gap-2">
               <div className="flex items-center gap-2">
                 <Button
                   variant="outline"
@@ -100,25 +99,26 @@ export default function LeaderboardPage() {
                     setAutoCloseSeconds(0)
                     setShareOpen(true)
                   }}
-                  className="gap-1.5"
+                  className="size-8 p-0 sm:h-8 sm:w-auto sm:px-2.5"
                   aria-label="分享成果"
                 >
                   <Share2 className="w-4 h-4" />
-                  分享成果
+                  <span className="hidden sm:inline">分享成果</span>
                 </Button>
-                <CombatPowerBadge refreshKey={refreshKey} />
+                <CombatPowerBadge refreshKey={refreshKey} hideStreak compact />
               </div>
             </div>
 
             {profile && (
-              <div data-workspace-ranking-profile className="flex items-center gap-4 flex-wrap">
+              <div data-workspace-ranking-profile className="flex flex-wrap items-center gap-x-3 gap-y-2 sm:gap-4">
                 {profile.nickname && (
-                  <span className="text-sm text-muted-foreground flex items-center gap-1">
-                    昵称：<span className="font-medium text-foreground">{profile.nickname}</span>
+                  <span className="flex min-w-0 max-w-[55vw] items-center gap-1 text-sm text-foreground sm:max-w-none">
+                    <span className="truncate font-medium">{profile.nickname}</span>
                     <button
                       onClick={() => setNicknameOpen(true)}
-                      className="text-muted-foreground hover:text-foreground transition-colors"
+                      className="grid size-7 shrink-0 place-items-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
                       title="修改昵称"
+                      aria-label="修改昵称"
                     >
                       <Pencil className="w-3.5 h-3.5" />
                     </button>

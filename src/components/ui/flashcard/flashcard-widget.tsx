@@ -16,6 +16,7 @@ import { useSession } from 'next-auth/react'
 import { toast } from 'sonner'
 import { speakText } from '@/lib/ttsBrowser'
 import { IgnoredWords } from './ignored-words'
+import WordMeaningQuestionButton from '@/components/flashcard/WordMeaningQuestionButton'
 
 interface FlashcardWord {
   word: string
@@ -387,6 +388,7 @@ export function FlashcardWidget({ onInteraction, openRequest = 0 }: { onInteract
                     >
                       <Volume2 className="w-5 h-5 text-primary" />
                     </Button>
+                    <WordMeaningQuestionButton word={currentWord.word} translation={currentWord.translation} />
                   </div>
 
                   {currentWord.phonetic && (

@@ -11,6 +11,8 @@ const CACHE_KEY = 'eztor-interface-style'
 
 type StyleContext = {
   minimalFeatures: MinimalFeatures
+  leaderboardEnabled: boolean
+  updateLeaderboardEnabled: (enabled: boolean) => void
   selectMinimalFeatures: (features: MinimalFeatures) => Promise<void>
   style: InterfaceStyle
   ready: boolean
@@ -44,6 +46,7 @@ export function InterfaceStyleProvider({ children }: { children: React.ReactNode
   const { data: session, status } = useSession()
   const userId = session?.user?.id
   const [minimalFeatures, setMinimalFeatures] = useState<MinimalFeatures>(DEFAULT_MINIMAL_FEATURES)
+  const [leaderboardEnabled, setLeaderboardEnabled] = useState(false)
   const [style, setStyle] = useState<InterfaceStyle>('reading')
   const [ready, setReady] = useState(false)
   const [saving, setSaving] = useState(false)
@@ -51,6 +54,22 @@ export function InterfaceStyleProvider({ children }: { children: React.ReactNode
   const [attempt, setAttempt] = useState(0)
   const activeRequest = useRef<AbortController | null>(null)
   const scope = useRef('')
+
+  useEffect(() => {
+    const controller = new AbortController()
+    fetch('/api/leaderboard/status', { cache: 'no-store', signal: controller.signal })
+      .then((response) => {
+        if (!response.ok) throw new Error('Failed to load leaderboard status')
+        return response.json()
+      })
+      .then((result) => {
+        if (result.success && typeof result.data?.enabled === 'boolean') {
+          setLeaderboardEnabled(result.data.enabled)
+        }
+      })
+      .catch(() => {})
+    return () => controller.abort()
+  }, [])
 
   useEffect(() => {
     if (status === 'loading') return
@@ -191,6 +210,8 @@ export function InterfaceStyleProvider({ children }: { children: React.ReactNode
       value={{
         style,
         minimalFeatures,
+        leaderboardEnabled,
+        updateLeaderboardEnabled: setLeaderboardEnabled,
         selectMinimalFeatures,
         ready: ready && status !== 'loading' && scope.current === `${CACHE_KEY}:${userId ?? 'guest'}`,
         saving,
@@ -211,11 +232,13 @@ export function useInterfaceStyle() {
 }
 
 export function useMinimalFeatures() {
-  const { style, minimalFeatures, ready } = useInterfaceStyle()
+  const { style, minimalFeatures, ready, leaderboardEnabled } = useInterfaceStyle()
   const minimal = style === 'minimal'
   return {
     minimal, ready,
     visible: (group: keyof MinimalFeatures, id: string) => !minimal || minimalFeatures[group].includes(id),
-    mainVisible: (href: string) => !minimal || !minimalMainFeature(href) || minimalFeatures.main.includes(minimalMainFeature(href)!),
+    mainVisible: (href: string) =>
+      (href !== '/leaderboard' || leaderboardEnabled) &&
+      (!minimal || !minimalMainFeature(href) || minimalFeatures.main.includes(minimalMainFeature(href)!)),
   }
 }

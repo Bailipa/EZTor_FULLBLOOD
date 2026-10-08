@@ -1,0 +1,1076 @@
+{
+  "slug": "cet4-2021-06-set1-full",
+  "version": 1,
+  "title": "2021年6月 · 第1套整卷模拟真题",
+  "level": "CET4",
+  "kind": "FULL",
+  "originType": "PAST_EXAM",
+  "sourceName": "用户提供的本地四六级资料",
+  "sourceUrl": "/study/resources/a398a171743e9402576ec35f.pdf",
+  "rightsHolder": "原试卷及解析作者",
+  "rightsEvidence": "用户提供本地资源并要求接入本地学习系统；原文件及校验值见 content/cet-local/index.json。未授权公开再分发或生产部署。",
+  "content": {
+    "WRITING": {
+      "instructions": "原卷写作要求",
+      "prompt": "Directions: For this part, you are allowed 30 minutes to write an essay titled \"Are people becoming addicted to technology?\". The statement given below is for your reference. You should write at least 120 words but no more than 180 words. Numerous studies claim that addiction to technology is real and it has the same effect on the brain as drug addiction.",
+      "questions": [],
+      "audio": [],
+      "passages": [],
+      "minimumWords": 120,
+      "maximumWords": 180,
+      "sourceFileUrl": "/study/resources/a398a171743e9402576ec35f.pdf"
+    },
+    "LISTENING": {
+      "instructions": "原卷听力选择题",
+      "questions": [
+        {
+          "id": "cet4-2021-06-set1-q1",
+          "type": "NEWS",
+          "prompt": "第 1 题(题干在原始录音中)",
+          "choices": [
+            "Enrol him in a Newcastle football club.",
+            "Send him to an after-school art class.",
+            "Forbid him to draw in his workbook.",
+            "Help him post his drawings online."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "audioId": "cet4-2021-06-set1-audio"
+        },
+        {
+          "id": "cet4-2021-06-set1-q2",
+          "type": "NEWS",
+          "prompt": "第 2 题(题干在原始录音中)",
+          "choices": [
+            "Contacted Joe to decorate its dining-room.",
+            "Hired Joe to paint all the walls of its buildings.",
+            "Renovated its kitchen and all the dining-rooms.",
+            "Asked Joe for permission to use his online drawings."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "audioId": "cet4-2021-06-set1-audio"
+        },
+        {
+          "id": "cet4-2021-06-set1-q3",
+          "type": "NEWS",
+          "prompt": "第 3 题(题干在原始录音中)",
+          "choices": [
+            "Get her pet dog back.",
+            "Beg for help from the police.",
+            "Identify the suspect on the security video.",
+            "Post pictures of her pet dog on social media."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "audioId": "cet4-2021-06-set1-audio"
+        },
+        {
+          "id": "cet4-2021-06-set1-q4",
+          "type": "NEWS",
+          "prompt": "第 4 题(题干在原始录音中)",
+          "choices": [
+            "It is suffering a great deal from the incident.",
+            "It is helping the police with the investigation.",
+            "It is bringing the case to the local district court.",
+            "It is offering a big reward to anyone who helps."
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 1,
+          "audioId": "cet4-2021-06-set1-audio"
+        },
+        {
+          "id": "cet4-2021-06-set1-q5",
+          "type": "NEWS",
+          "prompt": "第 5 题(题干在原始录音中)",
+          "choices": [
+            "Provide free meals to the local poor.",
+            "Help people connect with each other.",
+            "Help eliminate class difference in his area.",
+            "Provide customers with first-class service."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "audioId": "cet4-2021-06-set1-audio"
+        },
+        {
+          "id": "cet4-2021-06-set1-q6",
+          "type": "NEWS",
+          "prompt": "第 6 题(题干在原始录音中)",
+          "choices": [
+            "It does not supervise its employees.",
+            "It donates regularly to a local charity.",
+            "It does not use volunteers.",
+            "It is open round the clock."
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 1,
+          "audioId": "cet4-2021-06-set1-audio"
+        },
+        {
+          "id": "cet4-2021-06-set1-q7",
+          "type": "NEWS",
+          "prompt": "第 7 题(题干在原始录音中)",
+          "choices": [
+            "They will realise the importance of communication.",
+            "They will come to the café even more frequently.",
+            "They will care less about their own background.",
+            "They will find they have something in common."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "audioId": "cet4-2021-06-set1-audio"
+        },
+        {
+          "id": "cet4-2021-06-set1-q8",
+          "type": "CONVERSATION",
+          "prompt": "第 8 题(题干在原始录音中)",
+          "choices": [
+            "A surprise party for Paul's birthday.",
+            "Travel plans for the coming weekend.",
+            "Preparations for Saturday's get-together.",
+            "The new market on the other side of town."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "audioId": "cet4-2021-06-set1-audio"
+        },
+        {
+          "id": "cet4-2021-06-set1-q9",
+          "type": "CONVERSATION",
+          "prompt": "第 9 题(题干在原始录音中)",
+          "choices": [
+            "It makes the hostess's job a whole lot easier.",
+            "It enables guests to walk around and chat freely.",
+            "It saves considerable time and labor.",
+            "It requires fewer tables and chairs."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "audioId": "cet4-2021-06-set1-audio"
+        },
+        {
+          "id": "cet4-2021-06-set1-q10",
+          "type": "CONVERSATION",
+          "prompt": "第 10 题(题干在原始录音中)",
+          "choices": [
+            "It offers some big discounts.",
+            "It is quite close to her house.",
+            "It is more spacious and less crowded.",
+            "It sells local wines and soft drinks."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "audioId": "cet4-2021-06-set1-audio"
+        },
+        {
+          "id": "cet4-2021-06-set1-q11",
+          "type": "CONVERSATION",
+          "prompt": "第 11 题(题干在原始录音中)",
+          "choices": [
+            "Cook a dish for the party.",
+            "Arrive 10 minutes earlier.",
+            "Prepare a few opening remarks.",
+            "Bring his computer and speakers."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "audioId": "cet4-2021-06-set1-audio"
+        },
+        {
+          "id": "cet4-2021-06-set1-q12",
+          "type": "CONVERSATION",
+          "prompt": "第 12 题(题干在原始录音中)",
+          "choices": [
+            "For commuting to work.",
+            "For long-distance travel.",
+            "For getting around in Miami.",
+            "For convenience at weekends."
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 1,
+          "audioId": "cet4-2021-06-set1-audio"
+        },
+        {
+          "id": "cet4-2021-06-set1-q13",
+          "type": "CONVERSATION",
+          "prompt": "第 13 题(题干在原始录音中)",
+          "choices": [
+            "They are reliable.",
+            "They are compact.",
+            "They are spacious.",
+            "They are easy to drive."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "audioId": "cet4-2021-06-set1-audio"
+        },
+        {
+          "id": "cet4-2021-06-set1-q14",
+          "type": "CONVERSATION",
+          "prompt": "第 14 题(题干在原始录音中)",
+          "choices": [
+            "Buy a second-hand car.",
+            "Trust her own judgment.",
+            "Seek advice from his friend.",
+            "Look around before deciding."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "audioId": "cet4-2021-06-set1-audio"
+        },
+        {
+          "id": "cet4-2021-06-set1-q15",
+          "type": "CONVERSATION",
+          "prompt": "第 15 题(题干在原始录音中)",
+          "choices": [
+            "He sells new cars.",
+            "He can be trusted.",
+            "He is starting a business.",
+            "He is a successful car dealer."
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 1,
+          "audioId": "cet4-2021-06-set1-audio"
+        },
+        {
+          "id": "cet4-2021-06-set1-q16",
+          "type": "PASSAGE",
+          "prompt": "第 16 题(题干在原始录音中)",
+          "choices": [
+            "Many escaped from farms and became wild.",
+            "They were actually native to North America.",
+            "Many got killed in the wild when searching for food.",
+            "They were hunted by Spanish and Russian explorers."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "audioId": "cet4-2021-06-set1-audio"
+        },
+        {
+          "id": "cet4-2021-06-set1-q17",
+          "type": "PASSAGE",
+          "prompt": "第 17 题(题干在原始录音中)",
+          "choices": [
+            "They often make sudden attacks on people.",
+            "They break up nature's food supply chain.",
+            "They cause much environmental pollution.",
+            "They carry a great many diseases."
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 2,
+          "audioId": "cet4-2021-06-set1-audio"
+        },
+        {
+          "id": "cet4-2021-06-set1-q18",
+          "type": "PASSAGE",
+          "prompt": "第 18 题(题干在原始录音中)",
+          "choices": [
+            "They lived peacefully with wild pigs.",
+            "They ran out of food completely.",
+            "They fell victim to eagles.",
+            "They reproduced quickly."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "audioId": "cet4-2021-06-set1-audio"
+        },
+        {
+          "id": "cet4-2021-06-set1-q19",
+          "type": "PASSAGE",
+          "prompt": "第 19 题(题干在原始录音中)",
+          "choices": [
+            "Taste coffee while in outer space.",
+            "Roast coffee beans in outer space.",
+            "Develop a new strain of coffee bean.",
+            "Use a pressurised tank to brew coffee."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "audioId": "cet4-2021-06-set1-audio"
+        },
+        {
+          "id": "cet4-2021-06-set1-q20",
+          "type": "PASSAGE",
+          "prompt": "第 20 题(题干在原始录音中)",
+          "choices": [
+            "They can easily get burned.",
+            "They float around in the oven.",
+            "They have to be heated to 360C.",
+            "They receive evenly distributed heat."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "audioId": "cet4-2021-06-set1-audio"
+        },
+        {
+          "id": "cet4-2021-06-set1-q21",
+          "type": "PASSAGE",
+          "prompt": "第 21 题(题干在原始录音中)",
+          "choices": [
+            "They charged a high price for their space-roasted coffee beans.",
+            "They set up a branch in Dubai to manufacture coffee roasters.",
+            "They collaborated on building the first space coffee machine.",
+            "They abandoned the attempt to roast coffee beans in space."
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 2,
+          "audioId": "cet4-2021-06-set1-audio"
+        },
+        {
+          "id": "cet4-2021-06-set1-q22",
+          "type": "PASSAGE",
+          "prompt": "第 22 题(题干在原始录音中)",
+          "choices": [
+            "It is the best time for sightseeing.",
+            "A race passes through it annually.",
+            "They come to clean the Iditarod Trail.",
+            "It is when the villagers choose a queen."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "audioId": "cet4-2021-06-set1-audio"
+        },
+        {
+          "id": "cet4-2021-06-set1-q23",
+          "type": "PASSAGE",
+          "prompt": "第 23 题(题干在原始录音中)",
+          "choices": [
+            "Its children's baking skills.",
+            "Its unique winter scenery.",
+            "Its tasty fruit pies.",
+            "Its great food variety."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "audioId": "cet4-2021-06-set1-audio"
+        },
+        {
+          "id": "cet4-2021-06-set1-q24",
+          "type": "PASSAGE",
+          "prompt": "第 24 题(题干在原始录音中)",
+          "choices": [
+            "The contestants.",
+            "The entire village.",
+            "Jan Newton and her friends.",
+            "People from the state of Idaho."
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 2,
+          "audioId": "cet4-2021-06-set1-audio"
+        },
+        {
+          "id": "cet4-2021-06-set1-q25",
+          "type": "PASSAGE",
+          "prompt": "第 25 题(题干在原始录音中)",
+          "choices": [
+            "She owned a restaurant in Idaho.",
+            "She married her husband in 1972.",
+            "She went to Alaska to compete in a race.",
+            "She helped the village to become famous."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "audioId": "cet4-2021-06-set1-audio"
+        }
+      ],
+      "audio": [
+        {
+          "id": "cet4-2021-06-set1-audio",
+          "url": "/study/resources/04168266c74ea1a2dac797a5.m4a",
+          "sourceUrl": "/study/resources/04168266c74ea1a2dac797a5.m4a",
+          "durationSeconds": 1381.865941,
+          "transcript": "",
+          "identity": "cet4_2021_06_1.mp3 SHA256:04168266c74ea1a2dac797a58f929b0482e41b4b34e0f6fa64fa023384992174"
+        }
+      ],
+      "passages": [],
+      "sourceFileUrl": "/study/resources/a398a171743e9402576ec35f.pdf"
+    },
+    "READING": {
+      "instructions": "请依次完成选词填空、长篇匹配和仔细阅读。",
+      "questions": [
+        {
+          "id": "cet4-2021-06-set1-q26",
+          "type": "WORD_BANK",
+          "prompt": "第 26 空",
+          "choices": [
+            "adapting",
+            "consciously",
+            "crawling",
+            "crowded",
+            "extreme",
+            "hunt",
+            "literally",
+            "moderate",
+            "remote",
+            "removed",
+            "species",
+            "specimens",
+            "thick",
+            "tiny",
+            "unique"
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 0.5,
+          "passageId": "cet4-2021-06-set1-bank"
+        },
+        {
+          "id": "cet4-2021-06-set1-q27",
+          "type": "WORD_BANK",
+          "prompt": "第 27 空",
+          "choices": [
+            "adapting",
+            "consciously",
+            "crawling",
+            "crowded",
+            "extreme",
+            "hunt",
+            "literally",
+            "moderate",
+            "remote",
+            "removed",
+            "species",
+            "specimens",
+            "thick",
+            "tiny",
+            "unique"
+          ],
+          "answerIndex": 5,
+          "explanation": "原卷答案：F。",
+          "weight": 0.5,
+          "passageId": "cet4-2021-06-set1-bank"
+        },
+        {
+          "id": "cet4-2021-06-set1-q28",
+          "type": "WORD_BANK",
+          "prompt": "第 28 空",
+          "choices": [
+            "adapting",
+            "consciously",
+            "crawling",
+            "crowded",
+            "extreme",
+            "hunt",
+            "literally",
+            "moderate",
+            "remote",
+            "removed",
+            "species",
+            "specimens",
+            "thick",
+            "tiny",
+            "unique"
+          ],
+          "answerIndex": 4,
+          "explanation": "原卷答案：E。",
+          "weight": 0.5,
+          "passageId": "cet4-2021-06-set1-bank"
+        },
+        {
+          "id": "cet4-2021-06-set1-q29",
+          "type": "WORD_BANK",
+          "prompt": "第 29 空",
+          "choices": [
+            "adapting",
+            "consciously",
+            "crawling",
+            "crowded",
+            "extreme",
+            "hunt",
+            "literally",
+            "moderate",
+            "remote",
+            "removed",
+            "species",
+            "specimens",
+            "thick",
+            "tiny",
+            "unique"
+          ],
+          "answerIndex": 10,
+          "explanation": "原卷答案：K。",
+          "weight": 0.5,
+          "passageId": "cet4-2021-06-set1-bank"
+        },
+        {
+          "id": "cet4-2021-06-set1-q30",
+          "type": "WORD_BANK",
+          "prompt": "第 30 空",
+          "choices": [
+            "adapting",
+            "consciously",
+            "crawling",
+            "crowded",
+            "extreme",
+            "hunt",
+            "literally",
+            "moderate",
+            "remote",
+            "removed",
+            "species",
+            "specimens",
+            "thick",
+            "tiny",
+            "unique"
+          ],
+          "answerIndex": 6,
+          "explanation": "原卷答案：G。",
+          "weight": 0.5,
+          "passageId": "cet4-2021-06-set1-bank"
+        },
+        {
+          "id": "cet4-2021-06-set1-q31",
+          "type": "WORD_BANK",
+          "prompt": "第 31 空",
+          "choices": [
+            "adapting",
+            "consciously",
+            "crawling",
+            "crowded",
+            "extreme",
+            "hunt",
+            "literally",
+            "moderate",
+            "remote",
+            "removed",
+            "species",
+            "specimens",
+            "thick",
+            "tiny",
+            "unique"
+          ],
+          "answerIndex": 12,
+          "explanation": "原卷答案：M。",
+          "weight": 0.5,
+          "passageId": "cet4-2021-06-set1-bank"
+        },
+        {
+          "id": "cet4-2021-06-set1-q32",
+          "type": "WORD_BANK",
+          "prompt": "第 32 空",
+          "choices": [
+            "adapting",
+            "consciously",
+            "crawling",
+            "crowded",
+            "extreme",
+            "hunt",
+            "literally",
+            "moderate",
+            "remote",
+            "removed",
+            "species",
+            "specimens",
+            "thick",
+            "tiny",
+            "unique"
+          ],
+          "answerIndex": 9,
+          "explanation": "原卷答案：J。",
+          "weight": 0.5,
+          "passageId": "cet4-2021-06-set1-bank"
+        },
+        {
+          "id": "cet4-2021-06-set1-q33",
+          "type": "WORD_BANK",
+          "prompt": "第 33 空",
+          "choices": [
+            "adapting",
+            "consciously",
+            "crawling",
+            "crowded",
+            "extreme",
+            "hunt",
+            "literally",
+            "moderate",
+            "remote",
+            "removed",
+            "species",
+            "specimens",
+            "thick",
+            "tiny",
+            "unique"
+          ],
+          "answerIndex": 13,
+          "explanation": "原卷答案：N。",
+          "weight": 0.5,
+          "passageId": "cet4-2021-06-set1-bank"
+        },
+        {
+          "id": "cet4-2021-06-set1-q34",
+          "type": "WORD_BANK",
+          "prompt": "第 34 空",
+          "choices": [
+            "adapting",
+            "consciously",
+            "crawling",
+            "crowded",
+            "extreme",
+            "hunt",
+            "literally",
+            "moderate",
+            "remote",
+            "removed",
+            "species",
+            "specimens",
+            "thick",
+            "tiny",
+            "unique"
+          ],
+          "answerIndex": 14,
+          "explanation": "原卷答案：O。",
+          "weight": 0.5,
+          "passageId": "cet4-2021-06-set1-bank"
+        },
+        {
+          "id": "cet4-2021-06-set1-q35",
+          "type": "WORD_BANK",
+          "prompt": "第 35 空",
+          "choices": [
+            "adapting",
+            "consciously",
+            "crawling",
+            "crowded",
+            "extreme",
+            "hunt",
+            "literally",
+            "moderate",
+            "remote",
+            "removed",
+            "species",
+            "specimens",
+            "thick",
+            "tiny",
+            "unique"
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 0.5,
+          "passageId": "cet4-2021-06-set1-bank"
+        },
+        {
+          "id": "cet4-2021-06-set1-q36",
+          "type": "MATCHING",
+          "prompt": "The number of people experiencing depression shows a sharp increase in the first year of high school.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段"
+          ],
+          "answerIndex": 4,
+          "explanation": "原卷答案：E。",
+          "weight": 1,
+          "passageId": "cet4-2021-06-set1-matching"
+        },
+        {
+          "id": "cet4-2021-06-set1-q37",
+          "type": "MATCHING",
+          "prompt": "According to one study, students' academic performance is not the only decisive factor of their stress responses.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段"
+          ],
+          "answerIndex": 6,
+          "explanation": "原卷答案：G。",
+          "weight": 1,
+          "passageId": "cet4-2021-06-set1-matching"
+        },
+        {
+          "id": "cet4-2021-06-set1-q38",
+          "type": "MATCHING",
+          "prompt": "Researchers would like to explore further how parents and schools can help ninth graders by changing their mindset.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段"
+          ],
+          "answerIndex": 9,
+          "explanation": "原卷答案：J。",
+          "weight": 1,
+          "passageId": "cet4-2021-06-set1-matching"
+        },
+        {
+          "id": "cet4-2021-06-set1-q39",
+          "type": "MATCHING",
+          "prompt": "According to one study, each high school graduate contributes at least 500,000 dollars to the local economy.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段"
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "passageId": "cet4-2021-06-set1-matching"
+        },
+        {
+          "id": "cet4-2021-06-set1-q40",
+          "type": "MATCHING",
+          "prompt": "In one study, students were told their social position in school is not unchangeable.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段"
+          ],
+          "answerIndex": 7,
+          "explanation": "原卷答案：H。",
+          "weight": 1,
+          "passageId": "cet4-2021-06-set1-matching"
+        },
+        {
+          "id": "cet4-2021-06-set1-q41",
+          "type": "MATCHING",
+          "prompt": "It is reported that depression results in enormous economic losses worldwide.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段"
+          ],
+          "answerIndex": 4,
+          "explanation": "原卷答案：E。",
+          "weight": 1,
+          "passageId": "cet4-2021-06-set1-matching"
+        },
+        {
+          "id": "cet4-2021-06-set1-q42",
+          "type": "MATCHING",
+          "prompt": "One study showed that friendships among ninth graders were far from stable.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段"
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "passageId": "cet4-2021-06-set1-matching"
+        },
+        {
+          "id": "cet4-2021-06-set1-q43",
+          "type": "MATCHING",
+          "prompt": "More than half of students will find their academic performance declining sharply when they enter the ninth grade.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段"
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "passageId": "cet4-2021-06-set1-matching"
+        },
+        {
+          "id": "cet4-2021-06-set1-q44",
+          "type": "MATCHING",
+          "prompt": "Researchers found through experiments that students could be taught to respond to stress in a more positive way.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段"
+          ],
+          "answerIndex": 8,
+          "explanation": "原卷答案：I。",
+          "weight": 1,
+          "passageId": "cet4-2021-06-set1-matching"
+        },
+        {
+          "id": "cet4-2021-06-set1-q45",
+          "type": "MATCHING",
+          "prompt": "It is beneficial to explore ways to cope with the challenges facing students entering high school.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段"
+          ],
+          "answerIndex": 5,
+          "explanation": "原卷答案：F。",
+          "weight": 1,
+          "passageId": "cet4-2021-06-set1-matching"
+        },
+        {
+          "id": "cet4-2021-06-set1-q46",
+          "type": "DETAIL",
+          "prompt": "What does the author say about educators?",
+          "choices": [
+            "They seek advice from technology companies to achieve teaching goals.",
+            "They have been successful in preparing the workforce for companies.",
+            "They help students acquire the skills needed for their future success.",
+            "They partner with technology companies to enhance teaching efficiency."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "passageId": "cet4-2021-06-set1-detail1"
+        },
+        {
+          "id": "cet4-2021-06-set1-q47",
+          "type": "DETAIL",
+          "prompt": "How can educators better develop students' STEM skills, according to the author?",
+          "choices": [
+            "By blending them with traditional, stimulating activities.",
+            "By inviting business leaders to help design curriculums.",
+            "By enhancing students' ability to think in a critical way.",
+            "By showing students the best way to learn is through play."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "passageId": "cet4-2021-06-set1-detail1"
+        },
+        {
+          "id": "cet4-2021-06-set1-q48",
+          "type": "DETAIL",
+          "prompt": "How do children acquire the skills needed for the 21st century?",
+          "choices": [
+            "By engaging in activities involving specific technologies.",
+            "By playing with things to solve problems on their own.",
+            "By familiarizing themselves with high-tech gadgets.",
+            "By mastering basic principles through teamwork."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "passageId": "cet4-2021-06-set1-detail1"
+        },
+        {
+          "id": "cet4-2021-06-set1-q49",
+          "type": "DETAIL",
+          "prompt": "What can we do to help children learn the basics of math and geometry?",
+          "choices": [
+            "Stimulate their interest as early as possible.",
+            "Spend more time playing games with them.",
+            "Encourage them to make things with hands.",
+            "Allow them to tinker freely with calculators."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "passageId": "cet4-2021-06-set1-detail1"
+        },
+        {
+          "id": "cet4-2021-06-set1-q50",
+          "type": "DETAIL",
+          "prompt": "What does the author advise disadvantaged schools and communities to do?",
+          "choices": [
+            "Train students to be makers to meet future market demands.",
+            "Develop students' creative skills with the resources available.",
+            "Engage students with challenging tasks to foster their creativity.",
+            "Work together with companies to improve their teaching facilities."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "passageId": "cet4-2021-06-set1-detail1"
+        },
+        {
+          "id": "cet4-2021-06-set1-q51",
+          "type": "DETAIL",
+          "prompt": "What does the author say about working in IT?",
+          "choices": [
+            "It is envied by many.",
+            "It does not appeal to him.",
+            "It is financially rewarding.",
+            "It does not match his abilities."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "passageId": "cet4-2021-06-set1-detail2"
+        },
+        {
+          "id": "cet4-2021-06-set1-q52",
+          "type": "DETAIL",
+          "prompt": "What is the finding of a recent survey on employees who have a job reliant on IT support?",
+          "choices": [
+            "IT helps boost productivity.",
+            "IT helps improve quality control.",
+            "Many employees are deeply frustrated by IT.",
+            "Most employees rely heavily on IT in their work."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "passageId": "cet4-2021-06-set1-detail2"
+        },
+        {
+          "id": "cet4-2021-06-set1-q53",
+          "type": "DETAIL",
+          "prompt": "What is said to happen when IT is functioning properly?",
+          "choices": [
+            "There is a big boost in employees' work efficiency.",
+            "Employees become more dependent on machines.",
+            "There are no longer any boring or repetitive tasks.",
+            "Employees become more confident in their work."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "passageId": "cet4-2021-06-set1-detail2"
+        },
+        {
+          "id": "cet4-2021-06-set1-q54",
+          "type": "DETAIL",
+          "prompt": "What should business leaders do before implementing new IT initiatives?",
+          "choices": [
+            "Consider the various expectations of their customers.",
+            "Draw up a list of the efficiencies to be promised.",
+            "Assess the swollen cost of training the employees.",
+            "Think about the possible effects on their employees."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "passageId": "cet4-2021-06-set1-detail2"
+        },
+        {
+          "id": "cet4-2021-06-set1-q55",
+          "type": "DETAIL",
+          "prompt": "How can a business help improve its employees' experience in using IT?",
+          "choices": [
+            "By designing systems that suit their needs.",
+            "By ensuring that their mental health is sound.",
+            "By adjusting their work to suit the IT system.",
+            "By offering them regular in-service training."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "passageId": "cet4-2021-06-set1-detail2"
+        }
+      ],
+      "audio": [],
+      "passages": [
+        {
+          "id": "cet4-2021-06-set1-bank",
+          "text": "Most animals seek shade when temperatures in the Sahara Desert soar to 120 degrees Fahrenheit. But for the Saharan silver ant, __(26)__ from their underground nests into the sun's brutal rays to __(27)__  for food, this is the perfect time to seek lunch. In 2015 these ants were joined in the desert by scientists from two Belgian universities, who spent a month in the __(28)__ heat tracking the ants and digging out their nests. The goal was simple, to discover how the __(29)__ adapted to the kind of heat that can __(30)__ melt the bottom of shoes. Back in Belgium, the scientists looked at the ants under an electronic microscope and found that their __(31)__ , triangular hair reflects light like a prism (tat), giving them a metallic reflection and protecting them from the sun's awful heat. When Ph.D. student Quentin Willot __(32)__ the hair from an ant with a __(33)__ knife and put it under a heat lamp, its temperature jumped. The ants' method of staying cool is __(34)__ among animals. Could this reflective type of hair protect people? Willot says companies are interested in __(35)__  these ants' method of heat protection for human use, including everything from helping to protect the lives of firefighters to keeping homes cool in summer."
+        },
+        {
+          "id": "cet4-2021-06-set1-matching",
+          "text": "The start of high school doesn't have to be stressful\nA) This month, more than 4 million students across the nation will begin high school. Many will do well. But many will not. Consider that nearly two-thirds of students will experience the \"ninth-grade shock,\" which refers to a dramatic drop in a student's academic performance. Some students cope with this shock by avoiding challenges. For instance, they may drop difficult coursework. Others may experience a hopelessness that results in failing their core classes, such as English, science and math.\nB) This should matter a great deal to parents, teachers and policymakers. Ultimately it should matter to the students themselves and society at large, because students' experience of transitioning (it ist) to the ninth grade can have long-term consequences not only for the students themselves but for their home communities. We make these observations as research psychologists who have studied how schools and families can help young people thrive.\nC) In the new global economy, students who fail to finish the ninth grade with passing grades in college preparatory coursework are very unlikely to graduate on time and go on to get jobs. One study has calculated that the lifetime benefit to the local economy for a single additional student who completes high school is half a million dollars or more. This is based on higher earnings and avoided costs in health care, crime, welfare dependence and other things.\nD) The consequences of doing poorly in the ninth grade can impact more than students'    ability to find a good job. It can also impact the extent to which they enjoy life. Students lose many of the friends they turned to for support when they move from the eighth to the ninth grade. One study of ninth-grade students found that 50 percent of friendships among ninth graders changed from one month to the next, signaling striking instability in friendships.\nE) In addition, studies find the first year of high school typically shows one of the greatest increases in depression of any year over the lifespan. Researchers think that one explanation is that ties to friends are broken while academic demands are rising. Furthermore, most adult cases of clinical depression first emerge in adolescence (7 * #). The World Health Organization reports that depression has the greatest burden of disease worldwide, in terms of the total cost of treatment and the loss of productivity.\nF) Given all that's riding on having a successful ninth grade experience, it pays to explore what can be done to meet the academic, social and emotional challenges of the transition to high school. So far, our studies have yielded one main insight: Students' beliefs about change their beliefs about whether people are stuck one way forever, or whether people can change their personalities and abilities are related to their ability to cope, succeed academically and maintain good mental health. Past research has called these beliefs \"mindsets (B##*),\" with a \"fixed mindset\" referring to the belief that people cannot change and a \"growth mindset\" referring to the belief that people can change.\nG) In one recent study, we examined 360 adolescents' beliefs about the nature of \"smartness\" —that is, their fixed mindsets about intelligence. We then assessed biological stress responses for students whose grades were dropping by examining their stress hormones (1 15 %). Students who believed that intelligence is fixed that you are stuck being \"not smart\" if you struggle in school-showed higher levels of stress hormones when their grades were declining at the beginning of the ninth grade. If students believed that intelligence could improve that is to say, when they held more of a growth mindset of intelligence they showed lower levels of stress hormones when their grades were declining. This was an exciting result because it showed that the body's stress responses are not determined solely by one's grades. Instead, declining grades only predicted worse stress hormones among students who believed that worsening grades were a permanent and hopeless state of affairs.\nH) We also investigated the social side of the high school transition. In this study, instead of teaching students that their smartness can change, we taught them that their social standing that is, whether they are bullied or excluded or left out — can change over time. We then looked at high school students' stress responses to daily social difficulties. That is, we taught them a growth mindset about their social lives. In this study, students came into the laboratory and were asked to give a public speech in front of upper-year students. The topic of the speech was what makes one popular in high school. Following this, students had to complete a difficult mental math task in front of the same upper-year students.\nI) Experiment results showed that students who were not taught that people can change showed poor stress responses. When these students gave the speech, their blood vessels contracted and their hearts pumped less blood through the body both responses that the body shows when it is preparing for damage or defeat after a physical threat. Then they gave worse speeches and made more mistakes in math. But when students were taught that people can change, they had better responses to stress, in part because they felt like they had the resources to deal with the demanding situation. Students who got the growth mindset intervention (F f) showed less-contracted blood vessels and their hearts pumped more blood- both of which contributed to more oxygen getting to the brain, and, ultimately, better performance on the speech and mental math tasks.\nJ) These findings lead to several possibilities that we are investigating further. First, we are working to replicate (SH)) these findings in more diverse school communities. We want to know in which types of schools and for which kinds of students these growth mindset ideas help young people adapt to the challenges of high school. We also hope to learn how teachers, parents or school counselors can help students keep their ongoing academic or social difficulties in perspective. We wonder what would happen if schools helped to make beliefs about the potential for change and improvement a larger feature of the overall school culture, especially for students starting the ninth grade."
+        },
+        {
+          "id": "cet4-2021-06-set1-detail1",
+          "text": "Educators and business leaders have more in common than it may seem. Teachers want to prepare students for a successful future. Technology companies have an interest in developing a workforce with the STEM (science, technology, engineering and math) skills needed to grow the company and advance the industry. How can they work together to achieve these goals? Play may be the answer. Focusing on STEM skills is important, but the reality is that STEM skills are enhanced and more relevant when combined with traditional, hands-on creative activities. This combination is proving to be the best way to prepare today's children to be the makers and builders of tomorrow. That is why technology companies are partnering with educators to bring back good, old-fashioned play. In fact many experts argue that the most important 21st-century skills aren't related to specific technologies or subject matter, but to creativity; skills like imagination, problem-finding and problem- solving, teamwork, optimism, patience and the ability to experiment and take risks. These are skills acquired when kids tinker (#t J-5tt). High-tech industries such as NASA's Jet Propulsion Laboratory have found that their best overall problem solvers were master tinkerers in their youth. There are cognitive (il if) benefits of doing things the way we did as children- building something, tearing it down, then building it up again. Research shows that given 15 minutes of free play, four- and five-year-olds will spend a third of this time engaged in spatial, mathematical, and architectural activities. This type of play- especially with building blocks-helps children discover and develop key principles in math and geometry. If play and building are critical to 21st-century skill development, that's really good news for two reasons: Children are born builders, makers, and creators, so fostering (J)f) 21st-century skills may be as simple as giving kids room to play, tinker and try things out, even as they grow older. Secondly, it doesn't take 21st-century technology to foster 21st-century skills. This is especially important for under- resourced schools and communities. Taking whatever materials are handy and tinkering with them is a simple way to engage those important \"maker\" skills. And anyone, anywhere, can do it."
+        },
+        {
+          "id": "cet4-2021-06-set1-detail2",
+          "text": "Being an information technology, or IT, worker is not a job I envy. They are the ones who, right in the middle of a critical meeting, are expected to instantly fix the projector that's no longer working. They have to tolerate the bad tempers of colleagues frustrated at the number of times they've had to call the help desk for the same issue. They are also the ones who know there are systems that are more powerful, reliable and faster, but their employer simply will not put up the funds to buy them. According to a recent survey, employees who have a job reliant on IT support consider IT a major source of job dissatisfaction. Through no fault of their own, they can suddenly find their productivity deteriorating or quality control non-existent. And there's little they can do about it. The experience of using IT penetrates almost the entire work field. It has become a crucial part of employees' overall work experience. When IT is operating as it should, employee self-confidence swells. Their job satisfaction, too, can surge when well-functioning machines relieve them of dull tasks or repetitive processes. But if there's one thing that triggers widespread employee frustration, it's an IT transformation project gone wrong, where swollen expectations have been popped and a long list of promised efficiencies have been reversed. This occurs when business leaders implement IT initiatives with little consideration of how those changes will impact the end user. Which is why managers should appreciate just how influential the IT user experience is to their employees, and exert substantial effort in ensuring their IT team eliminates programming errors and application crashes. Adequate and timely IT support should also be available to enable users to cope with technological issues at work. More importantly, IT practitioners need to understand what employees experience mentally when they use IT. Therefore, businesses need to set up their IT infrastructure so that it is designed to fit in with their employees' work, rather than adjust their work to fit in with the company's IT limitations."
+        }
+      ],
+      "sourceFileUrl": "/study/resources/a398a171743e9402576ec35f.pdf"
+    },
+    "TRANSLATION": {
+      "instructions": "请将原卷中文翻译成英语。",
+      "prompt": "Directions: For this part, you are allowed 30 minutes to translate a passage from Chinese into English. You should write your answer on Answer Sheet 2. 铁观音(Tieguanyin)是中国最受欢迎的茶之一,原产于福建省安溪县西坪镇,如今安溪全县普遍种植, 但该县不同地区生产的铁观音又各具风味。铁观音一年四季均可采摘,尤以春秋两季采摘的茶叶品质最 佳。铁观音的加工非常复杂,需要专门的技术和丰富的经验。铁观音含有多种维生素,喝起来口感独特。 常饮铁观音有助于预防心脏病、降低血压、增强记忆力。 四级 2021年6月 8",
+      "questions": [],
+      "audio": [],
+      "passages": [],
+      "sourceFileUrl": "/study/resources/a398a171743e9402576ec35f.pdf"
+    }
+  }
+}

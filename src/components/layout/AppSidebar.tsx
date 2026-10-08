@@ -53,6 +53,7 @@ const DEFAULT_NAV_ITEMS: SidebarNavItem[] = [
   { href: '/', label: '工作台', icon: Home, requiresAuth: false },
   { href: '/ai', label: '翻译与聊天', icon: Sparkles, requiresAuth: false },
   { href: '/dictation', label: '默写复习', icon: PenTool, requiresAuth: true },
+  { href: '/study', label: '四六级备考', icon: BookOpen, requiresAuth: false },
   { href: '/history', label: '词库', icon: BookOpen, requiresAuth: false },
   { href: '/leaderboard', label: '排行榜', icon: Trophy, requiresAuth: true },
 ]

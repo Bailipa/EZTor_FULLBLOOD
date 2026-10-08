@@ -1,0 +1,1106 @@
+{
+  "slug": "cet4-2025-06-set1-full",
+  "version": 1,
+  "title": "2025年6月 · 第1套整卷模拟真题",
+  "level": "CET4",
+  "kind": "FULL",
+  "originType": "PAST_EXAM",
+  "sourceName": "用户提供的本地四六级资料",
+  "sourceUrl": "/study/resources/2880977bc0a8b730800d3104.pdf",
+  "rightsHolder": "原试卷及解析作者",
+  "rightsEvidence": "用户提供本地资源并要求接入本地学习系统；原文件及校验值见 content/cet-local/index.json。未授权公开再分发或生产部署。",
+  "content": {
+    "WRITING": {
+      "instructions": "原卷写作要求",
+      "prompt": "Directions: Suppose your university is seeking students’ opinions on the necessity of making College Chinese a compulsory course. You are now to write            an essay to express your view. You will have 30 minutes to write the essay. You should write at least 120 words but no more than              180 words.",
+      "questions": [],
+      "audio": [],
+      "passages": [],
+      "minimumWords": 120,
+      "maximumWords": 180,
+      "sourceFileUrl": "/study/resources/2880977bc0a8b730800d3104.pdf"
+    },
+    "LISTENING": {
+      "instructions": "原卷听力选择题",
+      "questions": [
+        {
+          "id": "cet4-2025-06-set1-q1",
+          "type": "NEWS",
+          "prompt": "第 1 题(题干在原始录音中)",
+          "choices": [
+            "By slapping some butter on it.",
+            "By enhancing its nourishment.",
+            "B y growing it in South Dakota.",
+            "By cooking it in vegetable oil."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "audioId": "cet4-2025-06-set1-audio"
+        },
+        {
+          "id": "cet4-2025-06-set1-q2",
+          "type": "NEWS",
+          "prompt": "第 2 题(题干在原始录音中)",
+          "choices": [
+            "To introduce their corn to tourists.",
+            "To attend an honorary ceremony.",
+            "To share experience with other corn growers.",
+            "To exhibit thei r corn at the state ’s Corn Palace."
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 1,
+          "audioId": "cet4-2025-06-set1-audio"
+        },
+        {
+          "id": "cet4-2025-06-set1-q3",
+          "type": "NEWS",
+          "prompt": "第 3 题(题干在原始录音中)",
+          "choices": [
+            "Stole mail several times.",
+            "Forged postal keys illegally.",
+            "Attacked postmen on multiple occasions.",
+            "Broke a number of postal colle ction boxes."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "audioId": "cet4-2025-06-set1-audio"
+        },
+        {
+          "id": "cet4-2025-06-set1-q4",
+          "type": "NEWS",
+          "prompt": "第 4 题(题干在原始录音中)",
+          "choices": [
+            "A sentence for life.",
+            "Loss of all their possessions.",
+            "Twenty -three years ’ hard labor.",
+            "Up to fifteen years in prison."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "audioId": "cet4-2025-06-set1-audio"
+        },
+        {
+          "id": "cet4-2025-06-set1-q5",
+          "type": "NEWS",
+          "prompt": "第 5 题(题干在原始录音中)",
+          "choices": [
+            "It escapes regulation and misleads consumers.",
+            "It ignores economically feasible recycling options.",
+            "It creates waste and severely impacts the environment.",
+            "It produces cloth es affordable only to a tiny minority."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "audioId": "cet4-2025-06-set1-audio"
+        },
+        {
+          "id": "cet4-2025-06-set1-q6",
+          "type": "NEWS",
+          "prompt": "第 6 题(题干在原始录音中)",
+          "choices": [
+            "To cut consumers ’ expenses in buying quality clothes.",
+            "To enable the whole fast -fashion industry to be sustainable.",
+            "To incentivize manufacturers to be more consumer -friendly.",
+            "To urge manufacturers an d consumers to reduce waste."
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 1,
+          "audioId": "cet4-2025-06-set1-audio"
+        },
+        {
+          "id": "cet4-2025-06-set1-q7",
+          "type": "NEWS",
+          "prompt": "第 7 题(题干在原始录音中)",
+          "choices": [
+            "Recognizing the impact on consumers.",
+            "Identifying the source of the problem.",
+            "Abandoning the current business model.",
+            "Establishing powerful regulatory bodies."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "audioId": "cet4-2025-06-set1-audio"
+        },
+        {
+          "id": "cet4-2025-06-set1-q8",
+          "type": "CONVERSATION",
+          "prompt": "第 8 题(题干在原始录音中)",
+          "choices": [
+            "The city ’s rush -hour traffic is intolerable.",
+            "She cannot avoid rush -hour traffic.",
+            "The local government is in efficient.",
+            "The city is too big to move around easily."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "audioId": "cet4-2025-06-set1-audio"
+        },
+        {
+          "id": "cet4-2025-06-set1-q9",
+          "type": "CONVERSATION",
+          "prompt": "第 9 题(题干在原始录音中)",
+          "choices": [
+            "Upgrading subway carriages.",
+            "Increasing the number of bus routes.",
+            "Air conditioning the city ’s subway.",
+            "Learning from other big cities ."
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 1,
+          "audioId": "cet4-2025-06-set1-audio"
+        },
+        {
+          "id": "cet4-2025-06-set1-q10",
+          "type": "CONVERSATION",
+          "prompt": "第 10 题(题干在原始录音中)",
+          "choices": [
+            "He suffers from rush -hour crowding too.",
+            "He is fortunate to live very near to work.",
+            "He takes a half -hour bus ride to work.",
+            "He is going to move closer to his office."
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 1,
+          "audioId": "cet4-2025-06-set1-audio"
+        },
+        {
+          "id": "cet4-2025-06-set1-q11",
+          "type": "CONVERSATION",
+          "prompt": "第 11 题(题干在原始录音中)",
+          "choices": [
+            "Recommend to her a good house near his office.",
+            "Send her his housing agent’s telephone number.",
+            "Tell her exactly what kind of property to look for.",
+            "Make sure the agent finds something good for her."
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 1,
+          "audioId": "cet4-2025-06-set1-audio"
+        },
+        {
+          "id": "cet4-2025-06-set1-q12",
+          "type": "CONVERSATION",
+          "prompt": "第 12 题(题干在原始录音中)",
+          "choices": [
+            "He was remembered for the scar on his cheek.",
+            "He received a heart operation a few days ago.",
+            "He used to wear a sad face in school.",
+            "He had some plastic surgery done."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "audioId": "cet4-2025-06-set1-audio"
+        },
+        {
+          "id": "cet4-2025-06-set1-q13",
+          "type": "CONVERSATION",
+          "prompt": "第 13 题(题干在原始录音中)",
+          "choices": [
+            "The man’s deep sympathy for Johnny.",
+            "The man’s use of the expression ‘fixed’.",
+            "The man’s covering up of what happened.",
+            "The man’s good memory of his childhood."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "audioId": "cet4-2025-06-set1-audio"
+        },
+        {
+          "id": "cet4-2025-06-set1-q14",
+          "type": "CONVERSATION",
+          "prompt": "第 14 题(题干在原始录音中)",
+          "choices": [
+            "It gave him a noticeable smartness.",
+            "It made him appear even more manly.",
+            "It seemed to give him a certain uniqueness.",
+            "It seemed to make up for his physical defects."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "audioId": "cet4-2025-06-set1-audio"
+        },
+        {
+          "id": "cet4-2025-06-set1-q15",
+          "type": "CONVERSATION",
+          "prompt": "第 15 题(题干在原始录音中)",
+          "choices": [
+            "Liberal.",
+            "Hostile.",
+            "Indifferent.",
+            "Critical."
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 1,
+          "audioId": "cet4-2025-06-set1-audio"
+        },
+        {
+          "id": "cet4-2025-06-set1-q16",
+          "type": "PASSAGE",
+          "prompt": "第 16 题(题干在原始录音中)",
+          "choices": [
+            "Through deliberation.",
+            "Through evolution.",
+            "Through invention.",
+            "Through collaboration."
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 2,
+          "audioId": "cet4-2025-06-set1-audio"
+        },
+        {
+          "id": "cet4-2025-06-set1-q17",
+          "type": "PASSAGE",
+          "prompt": "第 17 题(题干在原始录音中)",
+          "choices": [
+            "With people imitating sounds around them.",
+            "With people interacting with animals close by.",
+            "With people showing each other things nearby.",
+            "With people trying to string sounds together."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "audioId": "cet4-2025-06-set1-audio"
+        },
+        {
+          "id": "cet4-2025-06-set1-q18",
+          "type": "PASSAGE",
+          "prompt": "第 18 题(题干在原始录音中)",
+          "choices": [
+            "Making sounds can free one’s hands for doing other things.",
+            "Making sounds proves markedly easier than sign languages.",
+            "Making sounds enables one to express their ideas more explicitly.",
+            "Making sounds helps one communicate with people they can’t see."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "audioId": "cet4-2025-06-set1-audio"
+        },
+        {
+          "id": "cet4-2025-06-set1-q19",
+          "type": "PASSAGE",
+          "prompt": "第 19 题(题干在原始录音中)",
+          "choices": [
+            "Well disciplined.",
+            "Quite confident.",
+            "Somewhat selfish.",
+            "Highly intelligent."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "audioId": "cet4-2025-06-set1-audio"
+        },
+        {
+          "id": "cet4-2025-06-set1-q20",
+          "type": "PASSAGE",
+          "prompt": "第 20 题(题干在原始录音中)",
+          "choices": [
+            "When they wanted to have a competitive team member.",
+            "When they were looking for a cooperative workmate.",
+            "When they found collaboration essential to them.",
+            "When they were seeking someone to help them."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "audioId": "cet4-2025-06-set1-audio"
+        },
+        {
+          "id": "cet4-2025-06-set1-q21",
+          "type": "PASSAGE",
+          "prompt": "第 21 题(题干在原始录音中)",
+          "choices": [
+            "Avoid frightening competitors.",
+            "Make clear their social goal.",
+            "Adopt persuasive strategies.",
+            "Consider the consequences."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "audioId": "cet4-2025-06-set1-audio"
+        },
+        {
+          "id": "cet4-2025-06-set1-q22",
+          "type": "PASSAGE",
+          "prompt": "第 22 题(题干在原始录音中)",
+          "choices": [
+            "Much evidence of humans capturing animals.",
+            "More images of animals than humans.",
+            "Fewer images of buildings than animals.",
+            "Little proof of human fascination with animals."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "audioId": "cet4-2025-06-set1-audio"
+        },
+        {
+          "id": "cet4-2025-06-set1-q23",
+          "type": "PASSAGE",
+          "prompt": "第 23 题(题干在原始录音中)",
+          "choices": [
+            "They were open to the public.",
+            "They were primarily native.",
+            "They were kept by royalty.",
+            "They were hardly injured."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "audioId": "cet4-2025-06-set1-audio"
+        },
+        {
+          "id": "cet4-2025-06-set1-q24",
+          "type": "PASSAGE",
+          "prompt": "第 24 题(题干在原始录音中)",
+          "choices": [
+            "To enable the public to watch animals close by.",
+            "To introduce to Egyptians animals from Punt.",
+            "To protect the endangered animals.",
+            "To show off her riches and power."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "audioId": "cet4-2025-06-set1-audio"
+        },
+        {
+          "id": "cet4-2025-06-set1-q25",
+          "type": "PASSAGE",
+          "prompt": "第 25 题(题干在原始录音中)",
+          "choices": [
+            "It was part of the royal estate.",
+            "It was a shelter for wild animals.",
+            "It was the kingdom’s best-equipped zoo.",
+            "It was the first public exhibit of animals."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "audioId": "cet4-2025-06-set1-audio"
+        }
+      ],
+      "audio": [
+        {
+          "id": "cet4-2025-06-set1-audio",
+          "url": "/study/resources/a23dc74f40f8b9806f52e6f8.m4a",
+          "sourceUrl": "/study/resources/a23dc74f40f8b9806f52e6f8.m4a",
+          "durationSeconds": 1416.045714,
+          "transcript": "",
+          "identity": "cet4_2025_06_1.mp3 SHA256:a23dc74f40f8b9806f52e6f8f0468423df5069afea5730c5f9ca3a8c2684864c"
+        }
+      ],
+      "passages": [],
+      "sourceFileUrl": "/study/resources/2880977bc0a8b730800d3104.pdf"
+    },
+    "READING": {
+      "instructions": "请依次完成选词填空、长篇匹配和仔细阅读。",
+      "questions": [
+        {
+          "id": "cet4-2025-06-set1-q26",
+          "type": "WORD_BANK",
+          "prompt": "第 26 空",
+          "choices": [
+            "accepted",
+            "audiences",
+            "building",
+            "complex",
+            "constitutes",
+            "deputies",
+            "previously",
+            "revolving",
+            "samples",
+            "selected",
+            "solemn",
+            "struggle",
+            "suddenly",
+            "understand",
+            "vary"
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 0.5,
+          "passageId": "cet4-2025-06-set1-bank"
+        },
+        {
+          "id": "cet4-2025-06-set1-q27",
+          "type": "WORD_BANK",
+          "prompt": "第 27 空",
+          "choices": [
+            "accepted",
+            "audiences",
+            "building",
+            "complex",
+            "constitutes",
+            "deputies",
+            "previously",
+            "revolving",
+            "samples",
+            "selected",
+            "solemn",
+            "struggle",
+            "suddenly",
+            "understand",
+            "vary"
+          ],
+          "answerIndex": 6,
+          "explanation": "原卷答案：G。",
+          "weight": 0.5,
+          "passageId": "cet4-2025-06-set1-bank"
+        },
+        {
+          "id": "cet4-2025-06-set1-q28",
+          "type": "WORD_BANK",
+          "prompt": "第 28 空",
+          "choices": [
+            "accepted",
+            "audiences",
+            "building",
+            "complex",
+            "constitutes",
+            "deputies",
+            "previously",
+            "revolving",
+            "samples",
+            "selected",
+            "solemn",
+            "struggle",
+            "suddenly",
+            "understand",
+            "vary"
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 0.5,
+          "passageId": "cet4-2025-06-set1-bank"
+        },
+        {
+          "id": "cet4-2025-06-set1-q29",
+          "type": "WORD_BANK",
+          "prompt": "第 29 空",
+          "choices": [
+            "accepted",
+            "audiences",
+            "building",
+            "complex",
+            "constitutes",
+            "deputies",
+            "previously",
+            "revolving",
+            "samples",
+            "selected",
+            "solemn",
+            "struggle",
+            "suddenly",
+            "understand",
+            "vary"
+          ],
+          "answerIndex": 4,
+          "explanation": "原卷答案：E。",
+          "weight": 0.5,
+          "passageId": "cet4-2025-06-set1-bank"
+        },
+        {
+          "id": "cet4-2025-06-set1-q30",
+          "type": "WORD_BANK",
+          "prompt": "第 30 空",
+          "choices": [
+            "accepted",
+            "audiences",
+            "building",
+            "complex",
+            "constitutes",
+            "deputies",
+            "previously",
+            "revolving",
+            "samples",
+            "selected",
+            "solemn",
+            "struggle",
+            "suddenly",
+            "understand",
+            "vary"
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 0.5,
+          "passageId": "cet4-2025-06-set1-bank"
+        },
+        {
+          "id": "cet4-2025-06-set1-q31",
+          "type": "WORD_BANK",
+          "prompt": "第 31 空",
+          "choices": [
+            "accepted",
+            "audiences",
+            "building",
+            "complex",
+            "constitutes",
+            "deputies",
+            "previously",
+            "revolving",
+            "samples",
+            "selected",
+            "solemn",
+            "struggle",
+            "suddenly",
+            "understand",
+            "vary"
+          ],
+          "answerIndex": 14,
+          "explanation": "原卷答案：O。",
+          "weight": 0.5,
+          "passageId": "cet4-2025-06-set1-bank"
+        },
+        {
+          "id": "cet4-2025-06-set1-q32",
+          "type": "WORD_BANK",
+          "prompt": "第 32 空",
+          "choices": [
+            "accepted",
+            "audiences",
+            "building",
+            "complex",
+            "constitutes",
+            "deputies",
+            "previously",
+            "revolving",
+            "samples",
+            "selected",
+            "solemn",
+            "struggle",
+            "suddenly",
+            "understand",
+            "vary"
+          ],
+          "answerIndex": 13,
+          "explanation": "原卷答案：N。",
+          "weight": 0.5,
+          "passageId": "cet4-2025-06-set1-bank"
+        },
+        {
+          "id": "cet4-2025-06-set1-q33",
+          "type": "WORD_BANK",
+          "prompt": "第 33 空",
+          "choices": [
+            "accepted",
+            "audiences",
+            "building",
+            "complex",
+            "constitutes",
+            "deputies",
+            "previously",
+            "revolving",
+            "samples",
+            "selected",
+            "solemn",
+            "struggle",
+            "suddenly",
+            "understand",
+            "vary"
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 0.5,
+          "passageId": "cet4-2025-06-set1-bank"
+        },
+        {
+          "id": "cet4-2025-06-set1-q34",
+          "type": "WORD_BANK",
+          "prompt": "第 34 空",
+          "choices": [
+            "accepted",
+            "audiences",
+            "building",
+            "complex",
+            "constitutes",
+            "deputies",
+            "previously",
+            "revolving",
+            "samples",
+            "selected",
+            "solemn",
+            "struggle",
+            "suddenly",
+            "understand",
+            "vary"
+          ],
+          "answerIndex": 11,
+          "explanation": "原卷答案：L。",
+          "weight": 0.5,
+          "passageId": "cet4-2025-06-set1-bank"
+        },
+        {
+          "id": "cet4-2025-06-set1-q35",
+          "type": "WORD_BANK",
+          "prompt": "第 35 空",
+          "choices": [
+            "accepted",
+            "audiences",
+            "building",
+            "complex",
+            "constitutes",
+            "deputies",
+            "previously",
+            "revolving",
+            "samples",
+            "selected",
+            "solemn",
+            "struggle",
+            "suddenly",
+            "understand",
+            "vary"
+          ],
+          "answerIndex": 12,
+          "explanation": "原卷答案：M。",
+          "weight": 0.5,
+          "passageId": "cet4-2025-06-set1-bank"
+        },
+        {
+          "id": "cet4-2025-06-set1-q36",
+          "type": "MATCHING",
+          "prompt": "During the course of preparing for Design Ventura, teachers receive training and support while students get tutoring from designers.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段"
+          ],
+          "answerIndex": 7,
+          "explanation": "原卷答案：H。",
+          "weight": 1,
+          "passageId": "cet4-2025-06-set1-matching"
+        },
+        {
+          "id": "cet4-2025-06-set1-q37",
+          "type": "MATCHING",
+          "prompt": "A visit to the Design Museum shop in London can reduce the designers’ fears about the future supply of talents educated in Britain.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段"
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "passageId": "cet4-2025-06-set1-matching"
+        },
+        {
+          "id": "cet4-2025-06-set1-q38",
+          "type": "MATCHING",
+          "prompt": "One of Design Ventura ’s judges says the competition adds vigour to the standard curriculum in schools.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段"
+          ],
+          "answerIndex": 11,
+          "explanation": "原卷答案：L。",
+          "weight": 1,
+          "passageId": "cet4-2025-06-set1-matching"
+        },
+        {
+          "id": "cet4-2025-06-set1-q39",
+          "type": "MATCHING",
+          "prompt": "Enrollment in Design and Technology decreased by nearly ten percent last year in the UK.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段"
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "passageId": "cet4-2025-06-set1-matching"
+        },
+        {
+          "id": "cet4-2025-06-set1-q40",
+          "type": "MATCHING",
+          "prompt": "Participation of ninth graders in Design Ventura can motivate them to choose design technology as their subject.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段"
+          ],
+          "answerIndex": 12,
+          "explanation": "原卷答案：M。",
+          "weight": 1,
+          "passageId": "cet4-2025-06-set1-matching"
+        },
+        {
+          "id": "cet4-2025-06-set1-q41",
+          "type": "MATCHING",
+          "prompt": "Design Ventura is welcomed by teachers because it helps to prove the worth of design as a school subject.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段"
+          ],
+          "answerIndex": 6,
+          "explanation": "原卷答案：G。",
+          "weight": 1,
+          "passageId": "cet4-2025-06-set1-matching"
+        },
+        {
+          "id": "cet4-2025-06-set1-q42",
+          "type": "MATCHING",
+          "prompt": "The schools don ’t have to pay anything to take part in the Design Ventura competition.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段"
+          ],
+          "answerIndex": 10,
+          "explanation": "原卷答案：K。",
+          "weight": 1,
+          "passageId": "cet4-2025-06-set1-matching"
+        },
+        {
+          "id": "cet4-2025-06-set1-q43",
+          "type": "MATCHING",
+          "prompt": "Participants in Design Ventura are challenged to create sustainable and marketable products.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段"
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "passageId": "cet4-2025-06-set1-matching"
+        },
+        {
+          "id": "cet4-2025-06-set1-q44",
+          "type": "MATCHING",
+          "prompt": "Students benefit from Design Ventura because they can learn about budgeting and mark eting in addition to game design.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段"
+          ],
+          "answerIndex": 9,
+          "explanation": "原卷答案：J。",
+          "weight": 1,
+          "passageId": "cet4-2025-06-set1-matching"
+        },
+        {
+          "id": "cet4-2025-06-set1-q45",
+          "type": "MATCHING",
+          "prompt": "According to an officer of the Creative Industries Federation, there is difficulty now in recruiting engineers in the UK.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段"
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "passageId": "cet4-2025-06-set1-matching"
+        },
+        {
+          "id": "cet4-2025-06-set1-q46",
+          "type": "DETAIL",
+          "prompt": "What do we learn from new research about pandas?",
+          "choices": [
+            "They are losing habitat due to the building of roads and houses.",
+            "They have stopped seeking new mates for reproduction.",
+            "They may not adapt to the fragmentation of their habitat.",
+            "They may cease to exist as a result of enjoying too good a life."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "passageId": "cet4-2025-06-set1-detail1"
+        },
+        {
+          "id": "cet4-2025-06-set1-q47",
+          "type": "DETAIL",
+          "prompt": "What can we conclude from the new research by scientists at Michigan State University?",
+          "choices": [
+            "Environmentalists’ long -time belief regarding panda conservation may be misleading.",
+            "Housing development near pandas’ homes may threaten their survival.",
+            "Pandas’ natural habitats are becoming less suitable for reproduction.",
+            "The increased panda population is attributed to the fragmentation of their habitat."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "passageId": "cet4-2025-06-set1-detail1"
+        },
+        {
+          "id": "cet4-2025-06-set1-q48",
+          "type": "DETAIL",
+          "prompt": "What is the experts’ conclusion regarding pandas?",
+          "choices": [
+            "It is urgent to provide an ideal habit at for them to thrive.",
+            "It is very important to preserve their genetic diversity .",
+            "Their chances of finding new mates have a lot to do with their habitat.",
+            "Their environment for survival has been continuously worsening."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "passageId": "cet4-2025-06-set1-detail1"
+        },
+        {
+          "id": "cet4-2025-06-set1-q49",
+          "type": "DETAIL",
+          "prompt": "What can we infer f rom the passage about the Goldilocks principle?",
+          "choices": [
+            "It needs to be confirmed by more studies on pandas.",
+            "It applies to the preservation of pandas too.",
+            "It has implications for future panda research.",
+            "It can be used to locate the right spot for pandas."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "passageId": "cet4-2025-06-set1-detail1"
+        },
+        {
+          "id": "cet4-2025-06-set1-q50",
+          "type": "DETAIL",
+          "prompt": "What can the new findings do according to Professor Sillero?",
+          "choices": [
+            "Help discover new ways for the conservation of pandas.",
+            "Help remove pandas from the list of endangered species.",
+            "Shed light o n the conservation of most large meat -eating animals.",
+            "Show the complexity of interactions between humans and animals."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "passageId": "cet4-2025-06-set1-detail1"
+        },
+        {
+          "id": "cet4-2025-06-set1-q51",
+          "type": "DETAIL",
+          "prompt": "What does the passage say about people born with natural talents?",
+          "choices": [
+            "They seem to outdo others without hard work.",
+            "They appear to know all the secrets to success.",
+            "They feel it only too logical to succeed.",
+            "They are bound to excel effortlessly."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "passageId": "cet4-2025-06-set1-detail2"
+        },
+        {
+          "id": "cet4-2025-06-set1-q52",
+          "type": "DETAIL",
+          "prompt": "What does Duckworth say about talent?",
+          "choices": [
+            "It is a new concept much too overrated.",
+            "It proves necessary for big achievements.",
+            "It plays a lesser role in one’s success.",
+            "It is a guarantee for real success in life."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "passageId": "cet4-2025-06-set1-detail2"
+        },
+        {
+          "id": "cet4-2025-06-set1-q53",
+          "type": "DETAIL",
+          "prompt": "What does the passage say about people thinking of attaining success?",
+          "choices": [
+            "They are puzzled how to present their best to the employer.",
+            "They are burdened by their expectation of perfection.",
+            "They will try hard to land a job that fits their skills best.",
+            "They will find themselves lacking in all the skills they need."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "passageId": "cet4-2025-06-set1-detail2"
+        },
+        {
+          "id": "cet4-2025-06-set1-q54",
+          "type": "DETAIL",
+          "prompt": "How does the author think grit can be helpful to us?",
+          "choices": [
+            "It allows us to know what we are good at.",
+            "It opens our eyes to new opportunities.",
+            "It focuses our attention on what we do.",
+            "It lets us reconsider the goals to achieve."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "passageId": "cet4-2025-06-set1-detail2"
+        },
+        {
+          "id": "cet4-2025-06-set1-q55",
+          "type": "DETAIL",
+          "prompt": "What message does Duckworth try to convey in her book Grit?",
+          "choices": [
+            "We should perfect ourselves to ensure success.",
+            "We should stay persistent even in face of failures.",
+            "We can never master a skill without constant practice.",
+            "We can never expect to reach our goals without passion."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "passageId": "cet4-2025-06-set1-detail2"
+        }
+      ],
+      "audio": [],
+      "passages": [
+        {
+          "id": "cet4-2025-06-set1-bank",
+          "text": "Psychologists have long been interested in how we construc                   t our identities and the sorts of strategies that we use to present ourselves in society. New findings suggest that the kinds of _                  __(26)__  and strategic self       -presentation behaviour we see in adults appear at a much younger age than  __(27)__  known.       Research shows that a child’s awareness of social standing comes from adults. Like grown                      -ups, kids want to be  __(28)__  by those they admire. Interactive experiences may provide opportunities for children to learn about what _                        __(29)__  a desirable reputation and the kinds of strategies that are effective for            __(30)__  a good reputation in their social environment.       Five-year-olds aren’t just aware of their reputations, they also behave strategically to alter their outward image. They will  __(31)__  their behaviour in order to appear moral or socially good in the eyes of key observers. While we know that adults use a large variety of attributes to manage and create impressions, we don                   ’t yet know whether children  __(32)__  and use the fact that different attributes are valu         able at different times to different         __(33)__ . It’s important for us to further consider where in this process children succeed in controlling their reputation and where they                       __(34)__ .       A question to think about is,       “What happens even earlier than age five?” Children don’t just show up to the first day of kindergarten and have the idea of reputation pop             __(35)__  into existence. The logical question to ask is,             “What happens even earlier?”"
+        },
+        {
+          "id": "cet4-2025-06-set1-matching",
+          "text": "Getting young minds into design\nA) Recently, a leading design federation in the UK warned that the UK could face a creative skills shortage, after the latest    figures revealed a drop of almost 10 percent in students studying Design and Technology. These figures showe                               d that the    number of pupils that sat exams in Design and Technology fell 10 percent from 204,788 to 185,279 last year.\nB) Chief executive John Kampfner of the Creative Industries Federation thinks that this drop in figures has worrying    implications for the skills pipeline in Britain’s hugely successful arts and creative industries. He said,                       “We already have    skills shortages in many jobs such as animation (动画制作) and special effects.” He added: “Engineering, which requires    a similar mix of creative and technical skills, also has recruitment problems.”\nC) Many other designers and architects have expressed concern over the future supply of home                           -grown talent for UK firms,    and industry bodies have pointed out that there has been a lack of roots                   -level support. However, if these designers had    visited the Design Museum shop in London earlier this year their fears may have been eased. With £10 to spend, they could\n\n\n\n   have bought a fascinating children’s toy called “Dazzle Racer”. An automotive cylinder(圆柱体), it included a wind-up,    elastic (有弹性的)-band-powered mechanism, minimal parts, all 100 percent recycled and lots of stickers. It was good fun,    simple, eye-catching and very original.\nD) Well you’d expect the Design Museum to commission and make some interesting items,                                  but this one was different.    Designed by a group of six Year 9 and Year 10 boys from Finchley Catholic High School, the toy was the winning entry in    the museum’s 2015 Design Ventura competition, which brings the business of design to life for students aged                             13 to 16 by    challenging them to develop a new creative, sustainable and commercially feasible product for the Design Museum shop    and attracts hundreds of entries nationwide.\nE) “We did Design Ventura in my previous school,             ” says Liam Hourican, Finchley Catholic High School’s design technology    curriculum leader. “Then when I changed schools four years ago, I introduced it here because it helps to develop so many    skills.”\nF) The theme for last year’s competition was “Move”, and Hourican began with three groups working in lunch breaks and    after school before selecting the group with the most innovative idea. Each participating school may submit just one    proposal. “It’s the taking part and doing the work which is important,               ” he says. “And I never dreamt we’d win.”\nG) Catherine Ritman Smith, head of learning at the Design Museum, is expecting around 10,000 participants aged 13 to 16    to take part this year and says that the project — funded by Deutsche Bank as part of its youth engagement programme    Born To Be — is the biggest event in the museum’s calendar. “We started Design Ventura with around 800 young people    in 2010 and it has grown steadily since,” she says. “Teachers like it because the skills are all transferable and it helps to    validate the value of design as a subject,” she explains, telling me that nearly 600 schools have taken part so far.\nH) So how does the competition work? A single-word theme is announced in the summer. This year it is “Change”. Schools    work with groups to produce imaginative design ideas for a product in simple materials that could sell for £10 in the Design    Museum Shop. Participating schools then register by November and eventually submit their design idea. Along the way    there is training and support for teachers and tutoring for students from designers. An additional bonus is when the winners    see their design on sale in the spring of the following year.\nI) Hourican and his pupils have happy memories of               spending a whole day at the museum, having been selected as one of 10    shortlisted schools to present their idea to a panel of judges, including designer Jasper Conran. Then they worked with the    Kin Design Studio in Shoreditch, met designers at their school                and attended a lunch with Deutsche Bank employees. The    students helped to make decisions and there were plenty of discussions                  — they changed the product’s name, for example.\nJ) “One of the really useful things about this competition,            ” says Hourican, “is that there’s a commercial element because the    product is going on sale for real and the boys had to learn about budgeting and marketing, as well as designing their game.”    Profits go to charity.     “The winning team chooses where it wants the profits to go,                  ” says Ritman Smith.        “The Finchley    Catholic High School product raised about £1,000 for Great Ormond Street Hospital.” Winning entries in past years have    included a make-your-own cloth kit called Dove Bunting and a threefold, wallet-sized travel game with goals at each end,    called Badoiiing.\nK) It costs the schools nothing to participate in Design Ventura; the professional designers provide their services for free.    Among them are architect Asif Khan, a Design Museum trustee who has worked as designer-in-residence at the museum,    helping emerging architects. He has recently been commissioned to design the new Museum of London building in    Smithfield.\nL) Another is television presenter and interior designer Naomi Cleaver, who is one of the compet                          ition’s judges.    “I'm very    keen to encourage young people,” she says, observing that design brings together other subjects such as literature, art,    history, geography and science. “Now that design education is limited in the curriculum, I’m all in favour of competitions    such as Design Ventura, which helps to bring the standard curriculum to life,” says Cleaver. “And the judging day is terrific    fun. Some of these students are very imaginative. One group presented their idea in the form of a puppet show and we see    some marvelous demonstration models. “I’m always impressed by the levels of confidence and the support the students get    from their teachers.”\nM) Ritman Smith adds: “Design technology has become a tricky subject to make a case for, and we’ve heard of departments    closing in some schools. We find that if pupils take part in Design Ventura in Year Nine it can be the trigger which leads    them to opt for it at General Certificate of Secondary Education, so we are helping to keep alive something which is crucial    to industry and entrepreneurship.”"
+        },
+        {
+          "id": "cet4-2025-06-set1-detail1",
+          "text": "New research suggests that pandas may be at risk of dying out because they are too comfortable. Experts say too much happiness can stop the bears from searching for new mates.       Environmentalists have long believed that building roads or homes near the bears may threaten their survival by “reducing or fragmenting their natural habitats”, The Times reported. But the new research suggests that a “modest degree of discomfort and fragmentation” may actually help preserve panda populations.       The research was conducted by scientists from Michigan State University. It concluded that pandas fail to wander off in search of new mates if they find their habitat too comfortable, resulting in a lack of vital genetic diversity.       For their study — outlined in a paper in the journal Conservation Biology — the team looked at genetic diversity and spread among a Chinese panda population. The ideal level of perfectly livable habitat was found to be only 80% of an area, with the remainder either too harsh or too affected by human activity.       The experts concluded that pandas should ideally “be happy enough to thrive, but not so content that they don’t want to move around and find new mates”.       Their conclusions about what The Guardian described as this “sweet spot”                          are in line with the so-called Goldilocks principle: that there can be just the right amount of something. The concept has been applied to a wide range of disciplines, from developmental psychology to economics and engineering.       Claudio Sillero, a professor of conservation biology at Oxford University, told the newspaper that the new findings could have implications beyond panda conservation.       “Most large animals that eat meat live in increasingly fragmented landscapes,” said Sillero, who was not involved in the research. “It may well be that the messy nature of their relationship with human efforts induces more animals to scatter or travel further, and might result in greater genetic connectivity and enhanced population persistence.”       The most recent count of pandas found that there were more than 1,800 left in the wild, putting them on the list of vulnerable, but not endangered, species."
+        },
+        {
+          "id": "cet4-2025-06-set1-detail2",
+          "text": "With those born with natural talents, it feels as if they excel                 without really trying. But what about those of us who don                   ’t have a natural talent? We       ’ve been told all our lives that if you work hard, you too can succeed. But with the release of Angela Duckworth’s Grit, we are given a new key to success.    “As much as talent counts, effort counts twice,” says Duckworth in Grit. She introduces a new concept that talent may be overrated, and if you want real success, what you need is grit the perfect combination of passion and persistence. Even if you have natural talent it’s nothing without grit.    Duckworth says grit is the difference between success and failure. A person who has grit is more likely to succeed than a person who does not. When we think about attaining success                       —    whether it’s landing that job or learning that new skill — our thoughts are immediately burdened by all the things we must first learn. If you want that new job, you have to learn the job skills, then the interview skills, then the dress part — and you must be perfect at all of them. Grit is different because it tells us that perfection isn’t the goal.    Grit lifts the unreasonable expectations off our shoulders. Grit tells us that the door is open wider than we first thought possible. Grit allows us to redefine our goals. Think about it: what’s something you’ve always wanted to do, but gave up because you “don’t have the skills for it”? What’s something you love but aren’t good at?    The real workings of grit are to have sustainable passion and continue to try. Effort means more than your natural ability. Even if you haven’t mastered a skill, grit tells you that you can still succeed if you can transform your passion into action. In a way, Duckworth is giving new hope to people who have shut the doors on their dreams. She is saying it is possible that you can accomplish anything. If at first you fail, then try one more time with grit."
+        }
+      ],
+      "sourceFileUrl": "/study/resources/2880977bc0a8b730800d3104.pdf"
+    },
+    "TRANSLATION": {
+      "instructions": "请将原卷中文翻译成英语。",
+      "prompt": "Directions: For this part, you are allowed 30 minutes to translate a passage from Chinese into English. You should write your answer on Answer Sheet 2.\n\n被誉为“杂交水稻(hybrid rice)之父”的袁隆平和他的科研团队克服重重困难,研发出了一种超级杂交水稻。这项技术获 得了举世公认的巨大成功。通过这项技术的应用,水稻抗旱抗病能力更强,能适应不同的气候和土壤条件,产量可提高 20-30%。超级杂交水稻营养丰富,口感更佳。目前,这项技术已经在许多国家得到广泛应用,为全球粮食安全做出了重 大贡献。",
+      "questions": [],
+      "audio": [],
+      "passages": [],
+      "sourceFileUrl": "/study/resources/2880977bc0a8b730800d3104.pdf"
+    }
+  }
+}

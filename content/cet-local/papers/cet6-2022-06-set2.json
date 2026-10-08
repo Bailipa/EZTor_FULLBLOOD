@@ -1,0 +1,686 @@
+{
+  "slug": "cet6-2022-06-set2-full",
+  "version": 1,
+  "title": "2022年6月 · 第2套整卷模拟真题",
+  "level": "CET6",
+  "kind": "FULL",
+  "originType": "PAST_EXAM",
+  "sourceName": "用户提供的本地四六级资料",
+  "sourceUrl": "/study/resources/adc7cae0dfb982a3dae2281e.pdf",
+  "rightsHolder": "原试卷及解析作者",
+  "rightsEvidence": "用户提供本地资源并要求接入本地学习系统；原文件及校验值见 content/cet-local/index.json。未授权公开再分发或生产部署。",
+  "content": {
+    "WRITING": {
+      "instructions": "原卷写作要求",
+      "prompt": "Directions: For this part, you are allowed 30 minutes to write an essay that begins with the sentence \"Nowadays more and more people keep learning new skills to adapt to a fast-changing world.\" You can make comments, cite examples, or use your personal experiences to develop your essay. You should write at least 150 words but no more than 200 words.",
+      "questions": [],
+      "audio": [],
+      "passages": [],
+      "minimumWords": 150,
+      "maximumWords": 200,
+      "sourceFileUrl": "/study/resources/adc7cae0dfb982a3dae2281e.pdf"
+    },
+    "LISTENING": {
+      "instructions": "听力材料",
+      "questions": [],
+      "audio": [],
+      "passages": [],
+      "unavailableReason": "原卷未刊载本卷独立听力题文。说明:由于2022年6月六级考试全国只考了一套听力,本套真题听力与第一套内容完全一 样,只是顺序不一样,因此在本套真题中不再重复出现。",
+      "sourceFileUrl": "/study/resources/adc7cae0dfb982a3dae2281e.pdf"
+    },
+    "READING": {
+      "instructions": "请依次完成选词填空、长篇匹配和仔细阅读。",
+      "questions": [
+        {
+          "id": "cet6-2022-06-set2-q26",
+          "type": "WORD_BANK",
+          "prompt": "第 26 空",
+          "choices": [
+            "adversely",
+            "amiably",
+            "boost",
+            "cognitive",
+            "compassion",
+            "connected",
+            "correlation",
+            "fascinated",
+            "indignantly",
+            "insulation",
+            "lavish",
+            "prone",
+            "recurrent",
+            "signify",
+            "surpass"
+          ],
+          "answerIndex": 6,
+          "explanation": "原卷答案：G。",
+          "weight": 0.5,
+          "passageId": "cet6-2022-06-set2-bank"
+        },
+        {
+          "id": "cet6-2022-06-set2-q27",
+          "type": "WORD_BANK",
+          "prompt": "第 27 空",
+          "choices": [
+            "adversely",
+            "amiably",
+            "boost",
+            "cognitive",
+            "compassion",
+            "connected",
+            "correlation",
+            "fascinated",
+            "indignantly",
+            "insulation",
+            "lavish",
+            "prone",
+            "recurrent",
+            "signify",
+            "surpass"
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 0.5,
+          "passageId": "cet6-2022-06-set2-bank"
+        },
+        {
+          "id": "cet6-2022-06-set2-q28",
+          "type": "WORD_BANK",
+          "prompt": "第 28 空",
+          "choices": [
+            "adversely",
+            "amiably",
+            "boost",
+            "cognitive",
+            "compassion",
+            "connected",
+            "correlation",
+            "fascinated",
+            "indignantly",
+            "insulation",
+            "lavish",
+            "prone",
+            "recurrent",
+            "signify",
+            "surpass"
+          ],
+          "answerIndex": 5,
+          "explanation": "原卷答案：F。",
+          "weight": 0.5,
+          "passageId": "cet6-2022-06-set2-bank"
+        },
+        {
+          "id": "cet6-2022-06-set2-q29",
+          "type": "WORD_BANK",
+          "prompt": "第 29 空",
+          "choices": [
+            "adversely",
+            "amiably",
+            "boost",
+            "cognitive",
+            "compassion",
+            "connected",
+            "correlation",
+            "fascinated",
+            "indignantly",
+            "insulation",
+            "lavish",
+            "prone",
+            "recurrent",
+            "signify",
+            "surpass"
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 0.5,
+          "passageId": "cet6-2022-06-set2-bank"
+        },
+        {
+          "id": "cet6-2022-06-set2-q30",
+          "type": "WORD_BANK",
+          "prompt": "第 30 空",
+          "choices": [
+            "adversely",
+            "amiably",
+            "boost",
+            "cognitive",
+            "compassion",
+            "connected",
+            "correlation",
+            "fascinated",
+            "indignantly",
+            "insulation",
+            "lavish",
+            "prone",
+            "recurrent",
+            "signify",
+            "surpass"
+          ],
+          "answerIndex": 13,
+          "explanation": "原卷答案：N。",
+          "weight": 0.5,
+          "passageId": "cet6-2022-06-set2-bank"
+        },
+        {
+          "id": "cet6-2022-06-set2-q31",
+          "type": "WORD_BANK",
+          "prompt": "第 31 空",
+          "choices": [
+            "adversely",
+            "amiably",
+            "boost",
+            "cognitive",
+            "compassion",
+            "connected",
+            "correlation",
+            "fascinated",
+            "indignantly",
+            "insulation",
+            "lavish",
+            "prone",
+            "recurrent",
+            "signify",
+            "surpass"
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 0.5,
+          "passageId": "cet6-2022-06-set2-bank"
+        },
+        {
+          "id": "cet6-2022-06-set2-q32",
+          "type": "WORD_BANK",
+          "prompt": "第 32 空",
+          "choices": [
+            "adversely",
+            "amiably",
+            "boost",
+            "cognitive",
+            "compassion",
+            "connected",
+            "correlation",
+            "fascinated",
+            "indignantly",
+            "insulation",
+            "lavish",
+            "prone",
+            "recurrent",
+            "signify",
+            "surpass"
+          ],
+          "answerIndex": 12,
+          "explanation": "原卷答案：M。",
+          "weight": 0.5,
+          "passageId": "cet6-2022-06-set2-bank"
+        },
+        {
+          "id": "cet6-2022-06-set2-q33",
+          "type": "WORD_BANK",
+          "prompt": "第 33 空",
+          "choices": [
+            "adversely",
+            "amiably",
+            "boost",
+            "cognitive",
+            "compassion",
+            "connected",
+            "correlation",
+            "fascinated",
+            "indignantly",
+            "insulation",
+            "lavish",
+            "prone",
+            "recurrent",
+            "signify",
+            "surpass"
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 0.5,
+          "passageId": "cet6-2022-06-set2-bank"
+        },
+        {
+          "id": "cet6-2022-06-set2-q34",
+          "type": "WORD_BANK",
+          "prompt": "第 34 空",
+          "choices": [
+            "adversely",
+            "amiably",
+            "boost",
+            "cognitive",
+            "compassion",
+            "connected",
+            "correlation",
+            "fascinated",
+            "indignantly",
+            "insulation",
+            "lavish",
+            "prone",
+            "recurrent",
+            "signify",
+            "surpass"
+          ],
+          "answerIndex": 11,
+          "explanation": "原卷答案：L。",
+          "weight": 0.5,
+          "passageId": "cet6-2022-06-set2-bank"
+        },
+        {
+          "id": "cet6-2022-06-set2-q35",
+          "type": "WORD_BANK",
+          "prompt": "第 35 空",
+          "choices": [
+            "adversely",
+            "amiably",
+            "boost",
+            "cognitive",
+            "compassion",
+            "connected",
+            "correlation",
+            "fascinated",
+            "indignantly",
+            "insulation",
+            "lavish",
+            "prone",
+            "recurrent",
+            "signify",
+            "surpass"
+          ],
+          "answerIndex": 4,
+          "explanation": "原卷答案：E。",
+          "weight": 0.5,
+          "passageId": "cet6-2022-06-set2-bank"
+        },
+        {
+          "id": "cet6-2022-06-set2-q36",
+          "type": "MATCHING",
+          "prompt": "Climate change has wrought havoc on the lives of tens of thousands of people.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段"
+          ],
+          "answerIndex": 5,
+          "explanation": "原卷答案：F。",
+          "weight": 1,
+          "passageId": "cet6-2022-06-set2-matching"
+        },
+        {
+          "id": "cet6-2022-06-set2-q37",
+          "type": "MATCHING",
+          "prompt": "It took scientists a long time to realise that the function of forests goes far beyond providing humans with timber.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段"
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "passageId": "cet6-2022-06-set2-matching"
+        },
+        {
+          "id": "cet6-2022-06-set2-q38",
+          "type": "MATCHING",
+          "prompt": "There is abundant evidence that we are now facing a possible ecological disaster.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段"
+          ],
+          "answerIndex": 7,
+          "explanation": "原卷答案：H。",
+          "weight": 1,
+          "passageId": "cet6-2022-06-set2-matching"
+        },
+        {
+          "id": "cet6-2022-06-set2-q39",
+          "type": "MATCHING",
+          "prompt": "Environmental science became academic disciplines only some sixty years ago.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段"
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "passageId": "cet6-2022-06-set2-matching"
+        },
+        {
+          "id": "cet6-2022-06-set2-q40",
+          "type": "MATCHING",
+          "prompt": "Things cannot change overnight, but reducing the consumption of natural resources will help solve the ecological crisis.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段"
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 1,
+          "passageId": "cet6-2022-06-set2-matching"
+        },
+        {
+          "id": "cet6-2022-06-set2-q41",
+          "type": "MATCHING",
+          "prompt": "Human perception of forests has undergone a tremendous change in the past years.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段"
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "passageId": "cet6-2022-06-set2-matching"
+        },
+        {
+          "id": "cet6-2022-06-set2-q42",
+          "type": "MATCHING",
+          "prompt": "Recent history shows reduction of pollution, once seemingly impossible, can actually be accomplished.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段"
+          ],
+          "answerIndex": 6,
+          "explanation": "原卷答案：G。",
+          "weight": 1,
+          "passageId": "cet6-2022-06-set2-matching"
+        },
+        {
+          "id": "cet6-2022-06-set2-q43",
+          "type": "MATCHING",
+          "prompt": "People began to consider preserving natural resources when they feared they would have nothing to use in the future.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段"
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "passageId": "cet6-2022-06-set2-matching"
+        },
+        {
+          "id": "cet6-2022-06-set2-q44",
+          "type": "MATCHING",
+          "prompt": "If we doubt our ability to reverse ecological deterioration, we are throwing away the chance to take action.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段"
+          ],
+          "answerIndex": 9,
+          "explanation": "原卷答案：J。",
+          "weight": 1,
+          "passageId": "cet6-2022-06-set2-matching"
+        },
+        {
+          "id": "cet6-2022-06-set2-q45",
+          "type": "MATCHING",
+          "prompt": "How to respond effectively to climate change has become the focus of international diplomacy.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段"
+          ],
+          "answerIndex": 4,
+          "explanation": "原卷答案：E。",
+          "weight": 1,
+          "passageId": "cet6-2022-06-set2-matching"
+        },
+        {
+          "id": "cet6-2022-06-set2-q46",
+          "type": "DETAIL",
+          "prompt": "How do some musicians perceive using Al in creating music?",
+          "choices": [
+            "It would help to produce more music idols.",
+            "It would be detrimental to music production.",
+            "It would hinder the understanding of authentic music.",
+            "It would be the beginning of a new era in music creation."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "passageId": "cet6-2022-06-set2-detail1"
+        },
+        {
+          "id": "cet6-2022-06-set2-q47",
+          "type": "DETAIL",
+          "prompt": "What does Taryn Southern's story illustrate?",
+          "choices": [
+            "Al technology is conducive to music composition.",
+            "Musicians will be unable to create music without high tech.",
+            "Musicians are often at their wits, end in their creative effort.",
+            "Al technology is indispensable to creating melodies and chords."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "passageId": "cet6-2022-06-set2-detail1"
+        },
+        {
+          "id": "cet6-2022-06-set2-q48",
+          "type": "DETAIL",
+          "prompt": "Why are some musicians opposed to the use of Al in creating music?",
+          "choices": [
+            "Music produced with Al technology lacks humanness.",
+            "Music created with Al technology is easily emulated.",
+            "It will depreciate humans' role in music composition.",
+            "It will deplete young musicians, creative inspiration."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "passageId": "cet6-2022-06-set2-detail1"
+        },
+        {
+          "id": "cet6-2022-06-set2-q49",
+          "type": "DETAIL",
+          "prompt": "Why do many people think music is too precious to impart to Al technology?",
+          "choices": [
+            "It cannot be created without pains.",
+            "It cannot be produced at random.",
+            "It is part of human life.",
+            "It is human specific."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "passageId": "cet6-2022-06-set2-detail1"
+        },
+        {
+          "id": "cet6-2022-06-set2-q50",
+          "type": "DETAIL",
+          "prompt": "What does the author think of the future of Al music?",
+          "choices": [
+            "It will continue to arouse the interest of music investors. 2022-06-CET6(7 2 1)-5",
+            "It has the prospect of becoming the norm in the future.",
+            "It will be gradually accepted by old school musicians.",
+            "It may eventually lose its freshness and appeal."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "passageId": "cet6-2022-06-set2-detail1"
+        },
+        {
+          "id": "cet6-2022-06-set2-q51",
+          "type": "DETAIL",
+          "prompt": "What does the author say about communicating science to the general public?",
+          "choices": [
+            "It will help them to keep abreast of the latest scientific developments.",
+            "It is a necessary means to improve their understanding of scientific issues.",
+            "It will get them more involved in academic debates on environmental problems.",
+            "It is an effective way to augment scientists' influence beyond the academic circle."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "passageId": "cet6-2022-06-set2-detail2"
+        },
+        {
+          "id": "cet6-2022-06-set2-q52",
+          "type": "DETAIL",
+          "prompt": "What does the author advise scientists do to deal with topics outside of their specialty?",
+          "choices": [
+            "Write or present on them from new angles. 2022-06-CET6(7 2 F)-6",
+            "Utilize information from diverse sources.",
+            "Turn to a specialist for professional help.",
+            "Fact-check with colleagues in their field."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "passageId": "cet6-2022-06-set2-detail2"
+        },
+        {
+          "id": "cet6-2022-06-set2-q53",
+          "type": "DETAIL",
+          "prompt": "What does the author say we can learn from social media?",
+          "choices": [
+            "A solid academic foundation is essential to understanding baffling scientific principles.",
+            "Modern technology has facilitated communication between scientists and the public.",
+            "Scientific articles have gained increasing popularity among the general public.",
+            "The public's understanding of science is much better than some have claimed."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "passageId": "cet6-2022-06-set2-detail2"
+        },
+        {
+          "id": "cet6-2022-06-set2-q54",
+          "type": "DETAIL",
+          "prompt": "What does the example of the biologist who shared an intricate analogy show?",
+          "choices": [
+            "It is helpful to use illustrations in explaining scientific phenomena.",
+            "It is imperative to have appropriate titles to explain scientific issues.",
+            "A learned scholar is not necessarily a qualified science communicator.",
+            "A nonscientific audience cannot duly understand principles of science."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "passageId": "cet6-2022-06-set2-detail2"
+        },
+        {
+          "id": "cet6-2022-06-set2-q55",
+          "type": "DETAIL",
+          "prompt": "What does the author suggest scientists do to close the gap between science and society?",
+          "choices": [
+            "Explain complex concepts scientifically.",
+            "Make appropriate use of scientific terms.",
+            "Take courses in public speaking.",
+            "Develop communication skills."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "passageId": "cet6-2022-06-set2-detail2"
+        }
+      ],
+      "audio": [],
+      "passages": [
+        {
+          "id": "cet6-2022-06-set2-bank",
+          "text": "Questions __(26)__ to __(35)__ are based on the following passage. Thinking kind thoughts about yourself and your loved ones can prove beneficial for your overall wellbeing, empirical evidence has shown. Researchers carried out an investigation to explore the between having kind thoughts and a person's psychological state. For the study, five groups of participants were presented with a different set of audio instructions, some of which encouraged the participants to think  __(27)__ about themselves and others    5 which persuaded them to think in a self-critical manner. After listening to the audio instructions, the participants were asked to answer a series of questions. These included whether they felt agitated, how likely they were to show kindness to themselves and how __(28)__ they felt to other individuals. The participants who were instructed to think kindly about themselves were more likely to exhibit a bodily response associated with being relaxed and feeling safe. Their heart rates also dropped, which is a healthy sign of a heart that can respond flexibly to situations. Yet, __(29)__ , those who listened to the critical audio clips were noted as having a higher heart rate and sweat response afterwards, both of which __(30)__ feelings of threat and distress. Having the ability to switch off the body's natural threat response can __(31)__ a person's immune system. This, in turn, gives them a greater likelihood of recovering quickly from illness. These findings help us to further understand some of our clinical trials research findings, where we show that individuals with __(32)__  depression benefit particularly from self-awareness-based  __(33)__  therapy. They 2022-06-CET6(* 2 1)-1 essentially learn to become more sympathetic to themselves. The sense is that for people  __(34)__  to depression, meeting their negative thoughts and feelings with 35    is a radically different way; that these thoughts are not facts. It introduces a different way of being and knowing that is quite transformative for many people."
+        },
+        {
+          "id": "cet6-2022-06-set2-matching",
+          "text": "Saving Our Planet\nA) In the long view, the human relationship with forests has been one of brutal destruction, but even it carries elements of slow hope. In the Middle Ages, there was no shortage of timber in most parts of the world, and few saw cutting down forests as a problem. Yet in 1548 the people of Venice estimated that an important timber supply would last only 30 years at their current rate of usage but different forest management would make it possible to meet the demand for many centuries to come. The idea of preserving resources came out of a concern for the future: a fear of using up resources faster than they could be replenished (#/ 3).\nB) Economic interests were at the core of this understanding of trees and forests. It would take more than three centuries before scientists began to understand that timber production is not the only, and possibly not the most important, function of forests. The late 19th and early 20th century saw an increasing recognition that forests serve as habitats for countless animal and plant species that all rely on each other. They take over protective functions against soil erosion and landslides (1i 7); they make a significant contribution to the water balance as they prevent surface runoff; they filter dirt particles, greenhouse gases and radioactive substances from the air; they produce oxygen; they provide spaces for recreation and they preserve historic and prehistoric remains. As a result, forests around the world have been set aside as parks or wilderness areas.\nC) Recent years have seen a big change in our view of forests. Peter Wohlleben's book The Hidden Life of Trees (2015), an international bestseller, suggests that trees can warn each other of danger through a \"wood wide web\" of roots and fungi (#ll). They support each other through sharing of nutrients and information, and they even keep ancient stumps alive by feeding them solutions of sugars. Such insights have made us aware of deep ecological relationships between humans and the more-than-human world.\nD) Awareness of ecologies is a recent phenomenon. It was not until the 1940s that the concept of the \"environment\" embracing all living and nonliving things developed. In the 1970s, the term 2022-06-CET6(7 2 1)-2 \"environment\" gained currency, becoming widely adopted in the English and Romance languages, and as \"Umwelt\" (\"surrounding world') in German. The emergence of the idea led to the rise of environmental agencies, regulations and environmental studies, and to environmental science as new, integrated academic disciplines. It was in 1956 that the very first bachelor of science in environmental studies was awarded, at the State University of New York College of Forestry at Syracuse. Since the 1970-with the rise of \"environmentalism\" - environmental studies programmes have sprung up at hundreds of universities. There is (slow) hope in the fact that scholars from many different disciplines have adopted the term \"environment\" over the past decades. They are exploring intricate connections within and between complex ecologies, as well as the impact that human environment-making (through techno-industrial, economic and other manipulative developments) has had on the biosphere.\nE) The rise of the idea of the environment and a scholarly understanding of ecological processes has influenced new technologies and also politics. We have come to ask questions about vulnerability and risk, world ecologies, and the relationship between nature and power. The search for an adequate response to climate change occupies centre stage in international diplomacy.\nF)    Social and environmental activists, scientists and indigenous groups have called the Paris Agreement of the United Nations Climate Change Conference in December 2015 insufficient, weak, or compromised. To some extent, they are right: climate change has already destroyed tens of thousands of livelihoods, and the situation will worsen in the near future for millions of mostly poorer people, who will join the ranks of those who have already been displaced by climate change and extreme weather events. But the Paris Conference nevertheless marked a historic step toward the recognition of the need for action on climate change, the cutting of carbon emissions, and world cooperation. There were 195 nations that came to the table in Paris and agreed to limits on emissions. Historically, nothing comparable had happened prior to this. Before the 20th century, a handful of scientists had been interested in the theoretical relationship between greenhouse gases and climate change, but only the empirical evidence accumulated since the late 20th century established a clear connection between the burning of fossil fuels and a vastly accelerated rise in global temperatures.\nG) The current crisis is not the first that humans have encountered, and a look at the struggles with pollution in recent history reveals transformations that once seemed unimaginable. The \"London fog\" that came to define the capital through British novels and thrillers is in reality smog or smoke, a legacy of industrialization. After a century of ignorance, London was hit by the Great Smog of December 1952—the worst air-pollution event in the history of the United Kingdom which caused the deaths ol approximately 12,000 people. Shortly thereafter, public initiatives and political campaigns led to strict regulations and new laws, including the Clean Air Act (1956). Today, London has effectively reduced traffic emissions through the introduction of a Congestion Charge Zone in 2003, and an Ultra Low Emission Zone in 2019.\nH) Scientific evidence that we are living in an era of climate change, resource exhaustion and potential ecological disaster is overwhelming. How do we motivate a public exhausted by never-ending scenarios of doom and disaster, when the challenges seem so huge and so impossible to solve? Statistics about extinction and the gloom of decline will not in themselves get us out of our often self-created ecological traps: instead, they are more likely to result in paralysis and inaction.\nI) We need stories and histories of change and transformation: ecological stories that make us confront the fact that human power is potentially destructive, and that the survival of our species on this planet depends on the preservation of soil and water, and the habitats and ecological systems. 2022-06-CET6(7 2 1)-3\nJ) It is time that we showed successes and accelerations in ecological awareness, action and restoration: stories that include past successes and future visions about the rise of urban gardening and of renaturalized riverscapes, of successful protests against polluted air and water, of the rise of regional markets and slow food, and the planting of trees around the globe, of initiatives and enterprises that work towards ecological restoration. The reality of ecological curses seems far greater than the power of the hopes left at the bottom of Pandora's box. But if we believe that nothing can be changed, then we are giving up our opportunity to act. Today's saving powers will not come from a deus ex machina (f4 F) ≤ 19). In an ever-more complex and synthetic world, our saving powers won't come from a single source, and certainly not from a too-big-to-fail approach or from those who have been drawn into the whirlpool of our age of speed Hope can work as a wakeup call. It acknowledges setbacks. The concept of slow hope suggests that we can't expect things to change overnight. If the ever-faster exhaustion of natural resources (in ecological terms) and the \"\"\"shrinking of the present\" (in social terms) are urgent problems of humans, then cutting down on exhaustive practices and working towards a \"stretching of the present\" will be ways to move forward."
+        },
+        {
+          "id": "cet6-2022-06-set2-detail1",
+          "text": "Since American idol star Taryn Southern started composing music with Al in 2017, musicians all over the world have begun wondering about the implications of Al and modern technology where music production is concerned. Using Al in the creation of music is perceived by some as a helpful tool and by others as almost \"the beginning of the end\". In Taryn's case, Al software enabled her to communicate melodies and chords that she didn't know 2022-06-CET6(* 2 1)-4 how to put together herself. The end product was therefore a collaborative effort, rather than a piece entirely produced by technology. Taryn's story has a distinctly positive feel that highlights the advantages of using Al in music production. It can serve as a source of inspiration, and BS an ideal jumping-off point should a musician be hit with writer's block (& =1t32)). Contrary to seeing Al as a tool, some musicians consider it to be hugely detrimental to the music scene. At the moment, because such technology is still so young, the music it's producing is not necessarily what we want to hear. In short, it's not of great quality. Those who have produced their own music, or even fans of authentic, artistic music, will also argue that a computer could never emulate the work (and human touch) of a true musician. Music has been an integral part of the story of humans for ages; in fact, the first known piece of music is believed to be around 3,400 years old. Songs have long been used as a means of communicating messages and folk stories, covering everything from societal ethics to world history. Since many people see music as such an inherently human expression, it is often considered as too precious to impart to technology. The thought of a computer generating a \"random\" piece of music that hasn't been painstakingly created by an artist is almost seen as sacrilegious (# i717 $ 4t). Regardless of which side of the argument you fall on, it seems likely that the use of Al in music production will only become more frequent. Our modern world is preoccupied with technological advancements. Instead of shying away from the idea of this bleak future, the best approach to take is one of optimism and curiosity. While there are always bound to be stubborn old-school musicians who refuse to use tech, music producers should consider Al as something to be embraced. Al music software is still very much in its infancy, but with more investors interested in the development and outcomes of such technology, and considering the rapid growth rate of other tech advances in recent years, it's only a matter of time before Al-produced music is seen as the new norm."
+        },
+        {
+          "id": "cet6-2022-06-set2-detail2",
+          "text": "A few weeks ago, a well-meaning professor tried to explain the physiological process behind viruses and the human body in a tweet and was immediately criticized for a mistake in his information. He then issued an apology and deleted his erroneous tweet. Communicating science beyond the academic bubble is necessary to augmenting public understanding of health and environmental issues and helping individuals make well-informed personal decisions. However, scientists who engage in science communication must acknowledge that even in their area, their expertise is deep but narrow. They need to recognize the constraints in their own knowledge. That is not to suggest that they only write or present on their own research, but rather, that they consult with an expert if the topic is outside of their discipline. Fact-checking with a scientist who works in the specialty will prevent the unintentional spread of misinformation, and the process of doing so may yield tiny pieces of interesting new information that can be incorporated. Some have argued that the public is not educated enough to understand scientific information, especially for any complex phenomena, but this is absurd. Science instruction can be found at all levels of public education with most secondary schools offering classes on biology, physics, and chemistry. If anything, social media bas shown that the public craves knowledge based on a solid scientific foundation. Even the public discourse that follows most scientific articles shows that online readers can understand even the most baffling of scientific principles. It is equally imperative to emphasize that being an expert on a topic does not automatically make a scholar qualified to communicate it to a nonscientific audience. A number of scientists recently have been offering public aimed explanations of scientific phenomena. Even though they have appropriate credentials, they often do very little in the way of explaining. One biologist shared an intricate analogy involving a library, books, paper, a recipe, ingredients, and a cake to explain the process behind vaccines. Any explanation that requires a written key to keep track of what each item represents is not a clear example for public consumption. Science communication is a science in and of itself. It requires rigorous training and instruction. A scientist should take communication courses that can teach a person bow to identify and eliminate jargon and how t develop effective analogies to explain complex concepts. One cannot assume communication expertise imagine if someone just decided that they were a physicist and started trying to contribute to the field without the necessary background. Doing a poor job communicating science to the public will only create confusion and widen the gap between science and society, a gap that scientists are trying to close."
+        }
+      ],
+      "sourceFileUrl": "/study/resources/adc7cae0dfb982a3dae2281e.pdf"
+    },
+    "TRANSLATION": {
+      "instructions": "请将原卷中文翻译成英语。",
+      "prompt": "Directions: For this part, you are allowed 30 minutes to translate a passage from Chinese into English. You should write your answer on Answer Sheet 2. 南京长江大桥是长江上首座由中国设计、采用国产材料建造的铁路、公路两用桥,上层的4 车道公路桥长 4589 米,下层的双轨道铁路桥长 6772 米。铁路桥连接原来的天津——浦口和上海一 一南京两条铁路线,使火车过江从过去一个半小时缩短为现在的2分钟。大桥是南北交通的重要枢 纽,也是南京的著名景点之一。 南京长江大桥的建成标志着中国桥梁建设的一个飞跃,大大方便了长江两岸的物资交流和人员 来往,对促进经济发展和改善人民生活起到了巨大作用。 2022-06-CET6(7 2 1)-7",
+      "questions": [],
+      "audio": [],
+      "passages": [],
+      "sourceFileUrl": "/study/resources/adc7cae0dfb982a3dae2281e.pdf"
+    }
+  }
+}

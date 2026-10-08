@@ -104,3 +104,11 @@ deploy_*.tar.gz
 
 
 /.local-preview/
+/.local-cet-import/
+/public/study/resources/
+/public/study/audio/
+/private/study-material-contributions/
+
+/四级/
+/六级/
+/*.textClipping

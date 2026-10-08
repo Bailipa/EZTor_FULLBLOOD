@@ -36,7 +36,7 @@ beforeEach(() => {
   fetchMock.mockReset()
   fetchMock.mockImplementation(() => new Promise(() => {}))
   vi.stubGlobal('fetch', fetchMock)
-  vi.stubGlobal('window', { addEventListener: vi.fn(), removeEventListener: vi.fn() })
+  vi.stubGlobal('window', { addEventListener: vi.fn(), removeEventListener: vi.fn(), location: { search: '' } })
   vi.stubGlobal('localStorage', { getItem: () => null })
 })
 afterEach(() => {
@@ -50,10 +50,11 @@ describe('AI workspace group reads', () => {
     const groups = [{ id: 'group-a', name: '生词本' }]
     render(groups)
     expect(fetchMock).not.toHaveBeenCalled()
-    expect(harness.states[6]).toEqual(groups)
+    const groupState = harness.states.findIndex(value => value === groups)
+    expect(groupState).toBeGreaterThanOrEqual(0)
     render([])
     expect(fetchMock).not.toHaveBeenCalled()
-    expect(harness.states[6]).toEqual([])
+    expect(harness.states[groupState]).toEqual([])
   })
   it('keeps a standalone read and aborts it before a stale response can update state', async () => {
     let resolveRead!: (value: unknown) => void
@@ -63,8 +64,9 @@ describe('AI workspace group reads', () => {
     const signal = fetchMock.mock.calls[0][1].signal as AbortSignal
     cleanups.forEach(cleanup => cleanup())
     expect(signal.aborted).toBe(true)
+    const statesBeforeResponse = structuredClone(harness.states)
     resolveRead({ json: async () => ({ success: true, data: [{ id: 'stale', name: '旧账户' }] }) })
     await new Promise(resolve => setTimeout(resolve, 0))
-    expect(harness.states[6]).toEqual([])
+    expect(harness.states).toEqual(statesBeforeResponse)
   })
 })

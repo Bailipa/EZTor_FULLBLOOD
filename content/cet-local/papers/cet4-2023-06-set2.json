@@ -1,0 +1,1119 @@
+{
+  "slug": "cet4-2023-06-set2-full",
+  "version": 1,
+  "title": "2023年6月 · 第2套整卷模拟真题",
+  "level": "CET4",
+  "kind": "FULL",
+  "originType": "PAST_EXAM",
+  "sourceName": "用户提供的本地四六级资料",
+  "sourceUrl": "/study/resources/fe37a99b9f09dd848ca00df7.pdf",
+  "rightsHolder": "原试卷及解析作者",
+  "rightsEvidence": "用户提供本地资源并要求接入本地学习系统；原文件及校验值见 content/cet-local/index.json。未授权公开再分发或生产部署。",
+  "content": {
+    "WRITING": {
+      "instructions": "原卷写作要求",
+      "prompt": "Directions: Suppose the student union of your university is organizing an online discussion on interpersonal relationships. You are to write an essay on ways to maintain a warm and friendly relationship with your classmates and on the benefits of such a relationship. You will have 30 minutes for the task. You should write at least 120 words but no more than 180 words.",
+      "questions": [],
+      "audio": [],
+      "passages": [],
+      "minimumWords": 120,
+      "maximumWords": 180,
+      "sourceFileUrl": "/study/resources/fe37a99b9f09dd848ca00df7.pdf"
+    },
+    "LISTENING": {
+      "instructions": "原卷听力选择题",
+      "questions": [
+        {
+          "id": "cet4-2023-06-set2-q1",
+          "type": "NEWS",
+          "prompt": "第 1 题(题干在原始录音中)",
+          "choices": [
+            "A man was bitten by a snake.",
+            "A man was taken to a hospital.",
+            "A man kept a 4-foot snake as a pet.",
+            "A man fell off his toilet seat."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "audioId": "cet4-2023-06-set2-audio"
+        },
+        {
+          "id": "cet4-2023-06-set2-q2",
+          "type": "NEWS",
+          "prompt": "第 2 题(题干在原始录音中)",
+          "choices": [
+            "Where the snake had been taken.",
+            "Whether the snake was infected.",
+            "How the snake was captured.",
+            "Who owned the snake."
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 1,
+          "audioId": "cet4-2023-06-set2-audio"
+        },
+        {
+          "id": "cet4-2023-06-set2-q3",
+          "type": "NEWS",
+          "prompt": "第 3 题(题干在原始录音中)",
+          "choices": [
+            "Taking her trash out in fancy dresses.",
+            "Amusing herself by going to ball parties.",
+            "Sharing her photos with famous movie stars.",
+            "Posting her daughter's photos on social media."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "audioId": "cet4-2023-06-set2-audio"
+        },
+        {
+          "id": "cet4-2023-06-set2-q4",
+          "type": "NEWS",
+          "prompt": "第 4 题(题干在原始录音中)",
+          "choices": [
+            "To make herself popular.",
+            "To amuse people.",
+            "To please her daughter.",
+            "To record her achievements."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "audioId": "cet4-2023-06-set2-audio"
+        },
+        {
+          "id": "cet4-2023-06-set2-q5",
+          "type": "NEWS",
+          "prompt": "第 5 题(题干在原始录音中)",
+          "choices": [
+            "Eat as much as they want for S10.",
+            "Have a chance of winning a S 100 prize.",
+            "Have a meal even if they have no money.",
+            "Get a free meal after answering some questions."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "audioId": "cet4-2023-06-set2-audio"
+        },
+        {
+          "id": "cet4-2023-06-set2-q6",
+          "type": "NEWS",
+          "prompt": "第 6 题(题干在原始录音中)",
+          "choices": [
+            "It was brought up by two staffers.",
+            "It helped to popularize her restaurant.",
+            "It originated from a donation to her staff.",
+            "It was suggested by some of her customers."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "audioId": "cet4-2023-06-set2-audio"
+        },
+        {
+          "id": "cet4-2023-06-set2-q7",
+          "type": "NEWS",
+          "prompt": "第 7 题(题干在原始录音中)",
+          "choices": [
+            "Fifty customers have offered donations.",
+            "More people have been giving than taking.",
+            "Many people have come to eat at the restaurant.",
+            "Most staffers have received messages of kindness."
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 1,
+          "audioId": "cet4-2023-06-set2-audio"
+        },
+        {
+          "id": "cet4-2023-06-set2-q8",
+          "type": "CONVERSATION",
+          "prompt": "第 8 题(题干在原始录音中)",
+          "choices": [
+            "He is a psychologist.",
+            "He is a famous writer.",
+            "He is a host for a TV program.",
+            "He is a primary school teacher."
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 1,
+          "audioId": "cet4-2023-06-set2-audio"
+        },
+        {
+          "id": "cet4-2023-06-set2-q9",
+          "type": "CONVERSATION",
+          "prompt": "第 9 题(题干在原始录音中)",
+          "choices": [
+            "Why social media accounts vanish without a trace.",
+            "Why parents raise their children in different ways.",
+            "Why people fail to respond to emails promptly.",
+            "Why friends break off contact all of a sudden."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "audioId": "cet4-2023-06-set2-audio"
+        },
+        {
+          "id": "cet4-2023-06-set2-q10",
+          "type": "CONVERSATION",
+          "prompt": "第 10 题(题干在原始录音中)",
+          "choices": [
+            "They simply shut themselves down.",
+            "They avoid showing their emotions.",
+            "They scream to get their parents back.",
+            "They attempt to ignore the whole situation."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "audioId": "cet4-2023-06-set2-audio"
+        },
+        {
+          "id": "cet4-2023-06-set2-q11",
+          "type": "CONVERSATION",
+          "prompt": "第 11 题(题干在原始录音中)",
+          "choices": [
+            "They may regard any difference as the end of a relationship.",
+            "They are on better terms with friends and romantic parters.",
+            "They try to express their feelings and thoughts effectively.",
+            "They attach more value to their relationships with others."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "audioId": "cet4-2023-06-set2-audio"
+        },
+        {
+          "id": "cet4-2023-06-set2-q12",
+          "type": "CONVERSATION",
+          "prompt": "第 12 题(题干在原始录音中)",
+          "choices": [
+            "Their price.",
+            "Their color.",
+            "Their quality.",
+            "Their design."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "audioId": "cet4-2023-06-set2-audio"
+        },
+        {
+          "id": "cet4-2023-06-set2-q13",
+          "type": "CONVERSATION",
+          "prompt": "第 13 题(题干在原始录音中)",
+          "choices": [
+            "Jeans are a typical American garment.",
+            ". America makes the best-known brands of jeans.",
+            "America has the best weaving tools in the world.",
+            "Jeans are available in a greater variety in America."
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 1,
+          "audioId": "cet4-2023-06-set2-audio"
+        },
+        {
+          "id": "cet4-2023-06-set2-q14",
+          "type": "CONVERSATION",
+          "prompt": "第 14 题(题干在原始录音中)",
+          "choices": [
+            "They are artificial.",
+            "They are natural.",
+            "They are unique.",
+            "They are special."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "audioId": "cet4-2023-06-set2-audio"
+        },
+        {
+          "id": "cet4-2023-06-set2-q15",
+          "type": "CONVERSATION",
+          "prompt": "第 15 题(题干在原始录音中)",
+          "choices": [
+            "They are for casual wearing.",
+            "They are popular with boys.",
+            "They are much too pricey.",
+            "They are worth the price."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "audioId": "cet4-2023-06-set2-audio"
+        },
+        {
+          "id": "cet4-2023-06-set2-q16",
+          "type": "PASSAGE",
+          "prompt": "第 16 题(题干在原始录音中)",
+          "choices": [
+            "He desires more in life.",
+            "He wants to see it again.",
+            "He feels as inspired as other audience members.",
+            "He longs to become a superstar himself."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "audioId": "cet4-2023-06-set2-audio"
+        },
+        {
+          "id": "cet4-2023-06-set2-q17",
+          "type": "PASSAGE",
+          "prompt": "第 17 题(题干在原始录音中)",
+          "choices": [
+            "It is rather unrealistic.",
+            "It is extremely artistic.",
+            "It is somewhat complicated.",
+            "Itis relatively predictable."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "audioId": "cet4-2023-06-set2-audio"
+        },
+        {
+          "id": "cet4-2023-06-set2-q18",
+          "type": "PASSAGE",
+          "prompt": "第 18 题(题干在原始录音中)",
+          "choices": [
+            "They are biased against women.",
+            "They are basically misleading.",
+            "They are full of shootings.",
+            "They are too simple."
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 2,
+          "audioId": "cet4-2023-06-set2-audio"
+        },
+        {
+          "id": "cet4-2023-06-set2-q19",
+          "type": "PASSAGE",
+          "prompt": "第 19 题(题干在原始录音中)",
+          "choices": [
+            "It can highlight leadership.",
+            "It can help connect people.",
+            "It is a means to inspire creative thinking.",
+            "It is an intuitive way to solidify friendship."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "audioId": "cet4-2023-06-set2-audio"
+        },
+        {
+          "id": "cet4-2023-06-set2-q20",
+          "type": "PASSAGE",
+          "prompt": "第 20 题(题干在原始录音中)",
+          "choices": [
+            "Allow them to recite data points.",
+            "Make them more open to learning.",
+            "Enable them to remember the main idea.",
+            "Stimulate them to engage in discussions."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "audioId": "cet4-2023-06-set2-audio"
+        },
+        {
+          "id": "cet4-2023-06-set2-q21",
+          "type": "PASSAGE",
+          "prompt": "第 21 题(题干在原始录音中)",
+          "choices": [
+            "Inspire listeners' imagination.",
+            "Enrich their own experience.",
+            "Convey fundamental values.",
+            "Explain insightful ideas."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "audioId": "cet4-2023-06-set2-audio"
+        },
+        {
+          "id": "cet4-2023-06-set2-q22",
+          "type": "PASSAGE",
+          "prompt": "第 22 题(题干在原始录音中)",
+          "choices": [
+            "Immigrants outnumber U.S.-born Americans.",
+            "Immigrants have been contributing to the U.S.",
+            "Another wave of immigrants is hitting the U.S.",
+            "The number of immigrants to the U.S. is declining."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "audioId": "cet4-2023-06-set2-audio"
+        },
+        {
+          "id": "cet4-2023-06-set2-q23",
+          "type": "PASSAGE",
+          "prompt": "第 23 题(题干在原始录音中)",
+          "choices": [
+            "More of them expect their children to succeed in business.",
+            "They have fewer chances to be hired by U.S. companies.",
+            "They have founded most Fortune 500 companies.",
+            "More of them are successful business people."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "audioId": "cet4-2023-06-set2-audio"
+        },
+        {
+          "id": "cet4-2023-06-set2-q24",
+          "type": "PASSAGE",
+          "prompt": "第 24 题(题干在原始录音中)",
+          "choices": [
+            "They have higher installment loan debt than native-bor Americans.",
+            "Nineteen percent of them borrow money from friends and family.",
+            "Their level of debt is lower than that of native-born Americans.",
+            "Thirty-four percent of them use credit for their daily purchases."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "audioId": "cet4-2023-06-set2-audio"
+        },
+        {
+          "id": "cet4-2023-06-set2-q25",
+          "type": "PASSAGE",
+          "prompt": "第 25 题(题干在原始录音中)",
+          "choices": [
+            "Keep their traditional values and old habits.",
+            "Find employment in competitive businesses.",
+            "Borrow money from financial institutions.",
+            "Collaborate with native-born Americans."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "audioId": "cet4-2023-06-set2-audio"
+        }
+      ],
+      "audio": [
+        {
+          "id": "cet4-2023-06-set2-audio",
+          "url": "/study/resources/4ba7455506aca4c3bed162e9.m4a",
+          "sourceUrl": "/study/resources/4ba7455506aca4c3bed162e9.m4a",
+          "durationSeconds": 1426.819773,
+          "transcript": "",
+          "identity": "cet4_2023_06_2.mp3 SHA256:4ba7455506aca4c3bed162e985507cf2d9cf1fa66deceb235ac3620dee10d4ba"
+        }
+      ],
+      "passages": [],
+      "sourceFileUrl": "/study/resources/fe37a99b9f09dd848ca00df7.pdf"
+    },
+    "READING": {
+      "instructions": "请依次完成选词填空、长篇匹配和仔细阅读。",
+      "questions": [
+        {
+          "id": "cet4-2023-06-set2-q26",
+          "type": "WORD_BANK",
+          "prompt": "第 26 空",
+          "choices": [
+            "affordable",
+            "ancestor",
+            "crucial",
+            "depend",
+            "initial",
+            "insist",
+            "just",
+            "located",
+            "mostly",
+            "operating",
+            "perhaps",
+            "pioneer",
+            "potential",
+            "rising",
+            "scheduled"
+          ],
+          "answerIndex": 7,
+          "explanation": "原卷答案：H。",
+          "weight": 0.5,
+          "passageId": "cet4-2023-06-set2-bank"
+        },
+        {
+          "id": "cet4-2023-06-set2-q27",
+          "type": "WORD_BANK",
+          "prompt": "第 27 空",
+          "choices": [
+            "affordable",
+            "ancestor",
+            "crucial",
+            "depend",
+            "initial",
+            "insist",
+            "just",
+            "located",
+            "mostly",
+            "operating",
+            "perhaps",
+            "pioneer",
+            "potential",
+            "rising",
+            "scheduled"
+          ],
+          "answerIndex": 14,
+          "explanation": "原卷答案：O。",
+          "weight": 0.5,
+          "passageId": "cet4-2023-06-set2-bank"
+        },
+        {
+          "id": "cet4-2023-06-set2-q28",
+          "type": "WORD_BANK",
+          "prompt": "第 28 空",
+          "choices": [
+            "affordable",
+            "ancestor",
+            "crucial",
+            "depend",
+            "initial",
+            "insist",
+            "just",
+            "located",
+            "mostly",
+            "operating",
+            "perhaps",
+            "pioneer",
+            "potential",
+            "rising",
+            "scheduled"
+          ],
+          "answerIndex": 8,
+          "explanation": "原卷答案：I。",
+          "weight": 0.5,
+          "passageId": "cet4-2023-06-set2-bank"
+        },
+        {
+          "id": "cet4-2023-06-set2-q29",
+          "type": "WORD_BANK",
+          "prompt": "第 29 空",
+          "choices": [
+            "affordable",
+            "ancestor",
+            "crucial",
+            "depend",
+            "initial",
+            "insist",
+            "just",
+            "located",
+            "mostly",
+            "operating",
+            "perhaps",
+            "pioneer",
+            "potential",
+            "rising",
+            "scheduled"
+          ],
+          "answerIndex": 13,
+          "explanation": "原卷答案：N。",
+          "weight": 0.5,
+          "passageId": "cet4-2023-06-set2-bank"
+        },
+        {
+          "id": "cet4-2023-06-set2-q30",
+          "type": "WORD_BANK",
+          "prompt": "第 30 空",
+          "choices": [
+            "affordable",
+            "ancestor",
+            "crucial",
+            "depend",
+            "initial",
+            "insist",
+            "just",
+            "located",
+            "mostly",
+            "operating",
+            "perhaps",
+            "pioneer",
+            "potential",
+            "rising",
+            "scheduled"
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 0.5,
+          "passageId": "cet4-2023-06-set2-bank"
+        },
+        {
+          "id": "cet4-2023-06-set2-q31",
+          "type": "WORD_BANK",
+          "prompt": "第 31 空",
+          "choices": [
+            "affordable",
+            "ancestor",
+            "crucial",
+            "depend",
+            "initial",
+            "insist",
+            "just",
+            "located",
+            "mostly",
+            "operating",
+            "perhaps",
+            "pioneer",
+            "potential",
+            "rising",
+            "scheduled"
+          ],
+          "answerIndex": 11,
+          "explanation": "原卷答案：L。",
+          "weight": 0.5,
+          "passageId": "cet4-2023-06-set2-bank"
+        },
+        {
+          "id": "cet4-2023-06-set2-q32",
+          "type": "WORD_BANK",
+          "prompt": "第 32 空",
+          "choices": [
+            "affordable",
+            "ancestor",
+            "crucial",
+            "depend",
+            "initial",
+            "insist",
+            "just",
+            "located",
+            "mostly",
+            "operating",
+            "perhaps",
+            "pioneer",
+            "potential",
+            "rising",
+            "scheduled"
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 0.5,
+          "passageId": "cet4-2023-06-set2-bank"
+        },
+        {
+          "id": "cet4-2023-06-set2-q33",
+          "type": "WORD_BANK",
+          "prompt": "第 33 空",
+          "choices": [
+            "affordable",
+            "ancestor",
+            "crucial",
+            "depend",
+            "initial",
+            "insist",
+            "just",
+            "located",
+            "mostly",
+            "operating",
+            "perhaps",
+            "pioneer",
+            "potential",
+            "rising",
+            "scheduled"
+          ],
+          "answerIndex": 12,
+          "explanation": "原卷答案：M。",
+          "weight": 0.5,
+          "passageId": "cet4-2023-06-set2-bank"
+        },
+        {
+          "id": "cet4-2023-06-set2-q34",
+          "type": "WORD_BANK",
+          "prompt": "第 34 空",
+          "choices": [
+            "affordable",
+            "ancestor",
+            "crucial",
+            "depend",
+            "initial",
+            "insist",
+            "just",
+            "located",
+            "mostly",
+            "operating",
+            "perhaps",
+            "pioneer",
+            "potential",
+            "rising",
+            "scheduled"
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 0.5,
+          "passageId": "cet4-2023-06-set2-bank"
+        },
+        {
+          "id": "cet4-2023-06-set2-q35",
+          "type": "WORD_BANK",
+          "prompt": "第 35 空",
+          "choices": [
+            "affordable",
+            "ancestor",
+            "crucial",
+            "depend",
+            "initial",
+            "insist",
+            "just",
+            "located",
+            "mostly",
+            "operating",
+            "perhaps",
+            "pioneer",
+            "potential",
+            "rising",
+            "scheduled"
+          ],
+          "answerIndex": 6,
+          "explanation": "原卷答案：G。",
+          "weight": 0.5,
+          "passageId": "cet4-2023-06-set2-bank"
+        },
+        {
+          "id": "cet4-2023-06-set2-q36",
+          "type": "MATCHING",
+          "prompt": "Chase Carey believes greater use should be made of digital technology to make Formula One more accessible to its fans.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段"
+          ],
+          "answerIndex": 6,
+          "explanation": "原卷答案：G。",
+          "weight": 1,
+          "passageId": "cet4-2023-06-set2-matching"
+        },
+        {
+          "id": "cet4-2023-06-set2-q37",
+          "type": "MATCHING",
+          "prompt": "Chase Carey was deeply impressed by the ceremony preceding last year's Monaco race.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段"
+          ],
+          "answerIndex": 11,
+          "explanation": "原卷答案：L。",
+          "weight": 1,
+          "passageId": "cet4-2023-06-set2-matching"
+        },
+        {
+          "id": "cet4-2023-06-set2-q38",
+          "type": "MATCHING",
+          "prompt": "One of Chase Carey's goals is to make Formula One more appealing to Americans.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段"
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "passageId": "cet4-2023-06-set2-matching"
+        },
+        {
+          "id": "cet4-2023-06-set2-q39",
+          "type": "MATCHING",
+          "prompt": "A former motorbike parts dealer led Formula One for the past forty years.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段"
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "passageId": "cet4-2023-06-set2-matching"
+        },
+        {
+          "id": "cet4-2023-06-set2-q40",
+          "type": "MATCHING",
+          "prompt": "Chase Carey thought the audience of Formula One could be made to share his feeling about the race.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段"
+          ],
+          "answerIndex": 12,
+          "explanation": "原卷答案：M。",
+          "weight": 1,
+          "passageId": "cet4-2023-06-set2-matching"
+        },
+        {
+          "id": "cet4-2023-06-set2-q41",
+          "type": "MATCHING",
+          "prompt": "Chase Carey used to serve as a top advisor for a major broadcasting company.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段"
+          ],
+          "answerIndex": 9,
+          "explanation": "原卷答案：J。",
+          "weight": 1,
+          "passageId": "cet4-2023-06-set2-matching"
+        },
+        {
+          "id": "cet4-2023-06-set2-q42",
+          "type": "MATCHING",
+          "prompt": "Chase Carey intends to make connections easier between the audience and the Formula One racers.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段"
+          ],
+          "answerIndex": 5,
+          "explanation": "原卷答案：F。",
+          "weight": 1,
+          "passageId": "cet4-2023-06-set2-matching"
+        },
+        {
+          "id": "cet4-2023-06-set2-q43",
+          "type": "MATCHING",
+          "prompt": "The new leader of Formula One admitted he was not super interested in car racing.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段"
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "passageId": "cet4-2023-06-set2-matching"
+        },
+        {
+          "id": "cet4-2023-06-set2-q44",
+          "type": "MATCHING",
+          "prompt": "People's opinions differ as to whether Formula One can be promoted in the U.S.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段"
+          ],
+          "answerIndex": 7,
+          "explanation": "原卷答案：H。",
+          "weight": 1,
+          "passageId": "cet4-2023-06-set2-matching"
+        },
+        {
+          "id": "cet4-2023-06-set2-q45",
+          "type": "MATCHING",
+          "prompt": "Compared with other racing series, Formula One focuses more on speed and involves more danger.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段"
+          ],
+          "answerIndex": 10,
+          "explanation": "原卷答案：K。",
+          "weight": 1,
+          "passageId": "cet4-2023-06-set2-matching"
+        },
+        {
+          "id": "cet4-2023-06-set2-q46",
+          "type": "DETAIL",
+          "prompt": "What problem have supermarkets been facing?",
+          "choices": [
+            "They are actually on the way to bankruptcy.",
+            "They have been losing customers and profits.",
+            "They are forced to use e-commerce strategies.",
+            "They have difficulty adapting to climate change."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "passageId": "cet4-2023-06-set2-detail1"
+        },
+        {
+          "id": "cet4-2023-06-set2-q47",
+          "type": "DETAIL",
+          "prompt": "What does the passage say about the idea of a self-service grocery?",
+          "choices": [
+            "It was put forward by King Kullen.",
+            "It originated in the United States.",
+            "It has been under constant debate.",
+            "It proves revolutionary even today."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "passageId": "cet4-2023-06-set2-detail1"
+        },
+        {
+          "id": "cet4-2023-06-set2-q48",
+          "type": "DETAIL",
+          "prompt": "What did supermarkets do by adopting the Fordist factory approach?",
+          "choices": [
+            "They moderized traditional groceries in many ways.",
+            "They introduced cutting-edge layout of their stores.",
+            "They improved the quality of the food they sold.",
+            "They revolutionized the distribution of goods."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "passageId": "cet4-2023-06-set2-detail1"
+        },
+        {
+          "id": "cet4-2023-06-set2-q49",
+          "type": "DETAIL",
+          "prompt": "What is the typical supermarket layout intended to do?",
+          "choices": [
+            "Arouse customers' appetite to buy flowers, fruit and vegetables.",
+            "Provide customers easy access to items they want to buy.",
+            "Induce customers to make more unplanned purchases.",
+            "Enable customers to have a more enjoyable shopping experience."
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 2,
+          "passageId": "cet4-2023-06-set2-detail1"
+        },
+        {
+          "id": "cet4-2023-06-set2-q50",
+          "type": "DETAIL",
+          "prompt": "What have people long feared about supermarkets?",
+          "choices": [
+            "They use tricky strategies to promote their business.",
+            "They are going to replace the local groceries entirely.",
+            "They apply corporate black magic to the goods on display.",
+            "They take advantage of the weaknesses of women shoppers."
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 2,
+          "passageId": "cet4-2023-06-set2-detail1"
+        },
+        {
+          "id": "cet4-2023-06-set2-q51",
+          "type": "DETAIL",
+          "prompt": "Why did America's traditional school year have a three-month summer vacation?",
+          "choices": [
+            "Students needed to help with farm work.",
+            "Students needed time to learn necessary farming skills.",
+            "The agricultural society then attached less importance to academics.",
+            "America lagged behind other countries in making a scientific school calendar."
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 2,
+          "passageId": "cet4-2023-06-set2-detail2"
+        },
+        {
+          "id": "cet4-2023-06-set2-q52",
+          "type": "DETAIL",
+          "prompt": "What benefit will year-round schooling bring students in addition to improving their learning?",
+          "choices": [
+            "It will help them get back to where their lessons started.",
+            "It will enable them to absorb what they have learned.",
+            "It will familiarize them with the school environment.",
+            "It will strengthen their relationship with teachers."
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 2,
+          "passageId": "cet4-2023-06-set2-detail2"
+        },
+        {
+          "id": "cet4-2023-06-set2-q53",
+          "type": "DETAIL",
+          "prompt": "What do some childhood development experts believe about the long summer vacation?",
+          "choices": [
+            "It meets students' need to study on their own.",
+            "It enables students to learn about the outside world.",
+            "It satisfies students' desire to stay longer at home.",
+            "It contributes to students' healthy growth."
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 2,
+          "passageId": "cet4-2023-06-set2-detail2"
+        },
+        {
+          "id": "cet4-2023-06-set2-q54",
+          "type": "DETAIL",
+          "prompt": "What is the argument against the experts' idea of a long summer vacation?",
+          "choices": [
+            "It does little good to most students.",
+            "It benefits few students playing outside.",
+            "It leads students to neglect their studies.",
+            "It makes students addicted to computer games."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "passageId": "cet4-2023-06-set2-detail2"
+        },
+        {
+          "id": "cet4-2023-06-set2-q55",
+          "type": "DETAIL",
+          "prompt": "What does the author think of the traditional school year in the U.S. today?",
+          "choices": [
+            "Well-grounded.",
+            "Culture-bound.",
+            "Outdated.",
+            "Welcomed."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "passageId": "cet4-2023-06-set2-detail2"
+        }
+      ],
+      "audio": [],
+      "passages": [
+        {
+          "id": "cet4-2023-06-set2-bank",
+          "text": "Morocco is responding to increasing energy demands by setting up one of the largest solar plants in the world. The Noor solar power station is __(26)__ in the city of Ouarzazate and, once completed, will generate 580 million watts of electricity. The World Bank estimates it will serve 1.1 million people. ft's __(27)__ to be completed soon. Morocco's current energy comes  __(28)__ from imports. The nation hopes to get 50 percent of its energy from renewable sources by 2030. With demand for energy __(29)__ at an annual rate of 7 percent, the new solar plant could be a __(30)__     _ part of that goal. \"This makes Morocco a big __(31)__ in the field of solar energy in the Arab region and the African continent. It could also be a forerunner for many other countries in the world that __(32)__ On foreign imports of energy,\" said Ali Hajji, a solar energy specialist and engineering professor. Experts believe that the Middle East and North Africa have huge __(33)__ for solar energy projects. This is partly because of adequate sunlight and partly because technology has become more __(34)__ in the region. \"The last few years have seen a realization of     __(35)__ .    how competitive solar technologies can be,\" said Michael Taylor, a senior analyst at the International Renewable Energy Agency."
+        },
+        {
+          "id": "cet4-2023-06-set2-matching",
+          "text": "New Formula One Chief Hopes to Grab Americans' Attention\nA) For the past four decades, the leader of Formula One car racing, one of the biggest annual sporting series in the world, was Bernie Ecclestone, a former motorcycle parts dealer who built it into an international presence essentially on his own.\nB) A skilled backroom operator who speaks without a filter, Ecclestone said often that in his opinion, the sport was at its best when he was allowed to act as \"'a dictator.”\nC) Yet now the dictator is gone. After an American company, Liberty Media, acquired the Formula One competition recently, Chase Carey—a former executive with Fox Broadcasting Company and DirecTV who by his own admission is not a fierce racing fan—was named to replace Ecclestone and to try to renovate the organization's management, reach and ambition.\nD) Among the goals, Carey said in an interview on Tuesday, is one that just about every global sport seems interested in chasing: increasing interest in the United States. \"People have said we're going to \"Americanize\" it,\" Carey said. \"And we're not going to do that totally. But realistically, there are some elements of Americanization that the sport could use.\"\nE) While Formula One commands enormous audiences throughout much of the world, many American sports fans know it as that other motorsport, the one that is not Nascar(纳斯卡车赛).Formula One teams race far more technologically advanced vehicles around tracks all over the world-in magnificent events in places like Malaysia, Monaco, Singapore and the United Arab Emirates, and on tradition-rich tracks like Silverstone in England and Monza in Italy too.\nF) The series has an annual race in Austin, Texas. But within \"a few years,\" Carey said, he plans to bring another to a destination American city, like New York, Los Angeles, Miami or Las Vegas. Carey's ambitious plan is two-fold: first, change the business model of Formula One, which he said was a \"'one-man show\" under Ecclestone that had a largely narrow vision when it came to negotiating partnership deals; and second, alter the way fans experience the sport, both in person and remotely, so that connections between the audience and people within the series are easier to make.\nG) Increased digital access for fans, a more behind-the-scenes experience for broadcast viewers and innovation in areas like virtual reality-what is it like to speed around a track inside a Ferrari?-are among the possibilities. \"The sport has clearly been underserved,\" Carey said. \"lt doesn't do anything digitally. There's no marketing. It doesn't tell any stories. The goal in this is to make the fans connect to the live experience as much as possible, and the tools you have to do that, we're not using at all.\"\nH) The larger question, though, is a familiar one: Is there room for Formula One in the ever-crowded sports landscape of the United States? Opinions vary, particularly because viewing habits among consumers continue to evolve. John Bloom, a professor at Shippensburg University who has studied American sports history, said the biggest challenge for any sport trying to increase its presence in the United States was framing itself in a way that had lasting appeal. \"Sports generally become popular in some way because they establish a narrative,\" Bloom said. \"When I think of motorsports in the U.S., what we all think of is Nascar, and the narrative of Nascar is sort of rural, white, working-class Americans, mostly in the South, connecting with the atmosphere of those races. That's the narrative. When I think of the narrative of Formula One, it's a very different kind of audience.\"\nI) That difference, Carey said, is significant. While some might immediately link Formula One to Nascar in terms of American growth, Carey said Formula One's brand research had indicated there was very little crossover; rather, Formula One fans generally cite other so-called elite events, like Wimbledon or the Ryder Cup, as competitions they enjoy. \"Other than they/re both cars, the Nascar fan base is a very different fan base,\" Carey said. \"It's a very regional fan base. Formula One is a global, famous brand of stars. These are machines that shock and awe you.\"\nJ) Carey's background is in deal making and innovation. At Fox Broadcasting Company, he was a top advisor for years, known for his skill in helping to lead the launch of the company into sports, as well as the start of Fox News Channel. After going to DirecTV, he positioned the satellite provider as a mainstream option in millions of households.\nK) Now, after Liberty Media paid $4.4 billion to acquire Formula One, he is charged with making the investment pay off. \"I think they can build Formula One in the U.S.,\" said Patrick Crakes, an executive at In Vivo Media Group who spent 25 years at Fox Broadcasting Company before leaving in 2016 as a senior manager at Fox Sports. \"People don't work on their cars anymore. They don't want that connection anymore. It's about technology and pushing the limits. It's about speed, danger and risk. And Formula One has that more than any other racing series.\"\nL) That is what hooked Carey, and he said he thought his experience was not unusual. He recalled attending Formula One's Monaco race last year and being overwhelmed by the ceremony leading up to the event, the way the race charmed the city for days ahead of the start. In his mind, it felt like a Super Bowl(超 级碗橄榄球赛).\nM) Then, on race day, he watched as the cars rocketed out of a tunnel and went screaming toward a tight turn with the city's harbor and the Mediterranean Sea in the background framing the scene. He was fascinated. \"You can't help but be awed,\" he said, \"and I think that feeling can be translated to the viewer.\"\nN) He added: \"The broader sport is a little too inward-looking, and we need to be more open. In some ways, I'm glad to be coming from the outside. The guys who are in the sport forever are sitting there saying: We can't do that. We can't do that because it's never been done that way.\"\""
+        },
+        {
+          "id": "cet4-2023-06-set2-detail1",
+          "text": "Supermarkets have long been suffering as one of the thinnest-margined businesses in existence and one of the least-looked-forward-to places to work or visit. For more than a decade, they have been under attack from e-commerce giants, blamed for making Americans fat, and accused of contributing to climate change. Supermarkets can technically be defined as giants housing 15,000 to 60,000 different products. The revolutionary idea of a self-service grocery, where people could hunt and gather food from aisles rather than asking a clerk to fetch items from behind a counter, first came about in America. There is some debate about which was the very first, but over the years a consensus has built around King Kullen Supermarket, founded in New York in 1930. For some 300 years, Americans had fed themselves from small stores and public markets. Shopping for food involved mud, noisy chickens, clouds of flies, nasty smells, bargaining, and getting short-changed. The supermarket imitated the Fordist factory, with its emphasis on efficiency and standardization, and reimagined it as a place to buy food. Supermarkets may not feel cutting-edge now, but they were a revolution in distribution at the time. They were such strange marvels that, on her first official state visit to the United States in 1957, Queen Elizabeth II insisted on an impromptu(即兴的)tour of a suburban-Maryland Giant Food The typical supermarket layout has barely changed over the past 90 years. Most stores open with flowers, firuit and vegetables at the front as a breath of fireshness to arouse our appetite. Meanwhile, they keep the milk, eggs, and other daily basics all the way back so you'll travel through as much of the store as possible, and be tempted along the way. In the early days, as the supermarket multiplied, so did our suspicion of it. We have long feared that this \"'revolution in distribution\" uses corporate black magic on our appetite. The book The Hidden Persuaders, published in 1957, warned that supermarkets were putting women in a \"hypnoidal trance(催眠恍惚状态),” causing them to wander aisles bumping into boxes and \"picking things off shelves at random.\""
+        },
+        {
+          "id": "cet4-2023-06-set2-detail2",
+          "text": "The traditional school year, with three months of vacation every summer, was first implemented when America was an agricultural society and the summer months were needed for farm work. Since then, we've completely changed as a nation. Students no longer spend summers farming, but they aren't in school, either. The average American student receives 13 weeks off from school each calendar year-with about 11 of those during the summer. Few other countries have more than seven weeks off in a school calendar. With the U.S. lagging behind other countries in academics, it's time to consider year-round schooling. One benefit of this change is that students will not fall victim to the \"'summer slide,\" or the well-documented phenomenon where students forget some of the knowledge they have acquired when too much time is taken off from school. Decades of research shows that it can take from 8 to 13 weeks at the beginning of every school year for students to get back to where they were before the summer holiday. But year-round schooling isn't just about academics. Teachers and students experience a closer relationship in year-round schools than they do in traditional schools and, in the absence of any long-term break, students do not feel detached from the school environment. These closer bonds and greater attachment pay off. Research shows that students in year-round schools are more self-confident and feel more positive about their schooling experience. But don't kids need time to relax? Some childhood development experts believe that time off from school is vital to healthy development as kids are not designed to spend so much of their time inside classrooms and the summer break provides a perfect opportunity to get outside. The problem with this argument is that most children aren't playing outside or even spending time with other kids. While some children visit summer camps, most stay at home, watching TV or playing games on electronic devices, which hardly benefits them. The U.S. has changed from a farming economy to a knowledge- and innovation-based economy, so it makes sense for the school year to change as well."
+        }
+      ],
+      "sourceFileUrl": "/study/resources/fe37a99b9f09dd848ca00df7.pdf"
+    },
+    "TRANSLATION": {
+      "instructions": "请将原卷中文翻译成英语。",
+      "prompt": "Directions: For this part, you are allowed 30 minutes to translate a passage from Chinese into English. You should write your answer on Answer Sheet 2. 改革开放40多年以来,中国政府对高等教育越来越重视,高等教育已经进入稳步发展阶段。 高校学生总数已接近4,700万人,位居世界第一。随着我国经济的快速发展,人民生活水平不断提 高,越来越多的人渴望接受高等教育。我国高校的数量和学科专业持续增加,招生人数逐年上升, 教学质量也在不断改进,为更多年轻人创造了接受高等教育的机会。",
+      "questions": [],
+      "audio": [],
+      "passages": [],
+      "sourceFileUrl": "/study/resources/fe37a99b9f09dd848ca00df7.pdf"
+    }
+  }
+}

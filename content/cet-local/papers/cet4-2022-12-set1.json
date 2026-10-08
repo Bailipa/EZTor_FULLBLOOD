@@ -1,0 +1,1092 @@
+{
+  "slug": "cet4-2022-12-set1-full",
+  "version": 1,
+  "title": "2022年12月 · 第1套整卷模拟真题",
+  "level": "CET4",
+  "kind": "FULL",
+  "originType": "PAST_EXAM",
+  "sourceName": "用户提供的本地四六级资料",
+  "sourceUrl": "/study/resources/c29d9111253133135fe2fe40.pdf",
+  "rightsHolder": "原试卷及解析作者",
+  "rightsEvidence": "用户提供本地资源并要求接入本地学习系统；原文件及校验值见 content/cet-local/index.json。未授权公开再分发或生产部署。",
+  "content": {
+    "WRITING": {
+      "instructions": "原卷写作要求",
+      "prompt": "Directions: In this task, you are to write an essay on the role of physical exercise in achieving success at college. You will have 30 minutes for the task. You should write at least 120 words but no more than 180 words.",
+      "questions": [],
+      "audio": [],
+      "passages": [],
+      "minimumWords": 120,
+      "maximumWords": 180,
+      "sourceFileUrl": "/study/resources/c29d9111253133135fe2fe40.pdf"
+    },
+    "LISTENING": {
+      "instructions": "原卷听力选择题",
+      "questions": [
+        {
+          "id": "cet4-2022-12-set1-q1",
+          "type": "NEWS",
+          "prompt": "第 1 题(题干在原始录音中)",
+          "choices": [
+            "Part of its dam wall collapsed.",
+            "It released a lot of harmful gases.",
+            "It was destroyed by an earthquake.",
+            "Some miners were trapped underground."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "audioId": "cet4-2022-12-set1-audio"
+        },
+        {
+          "id": "cet4-2022-12-set1-q2",
+          "type": "NEWS",
+          "prompt": "第 2 题(题干在原始录音中)",
+          "choices": [
+            "It posed a safety threat to the miners.",
+            "It caused damage too heavy to assess.",
+            "It brought the mine's operations to a halt.",
+            "It was followed by two more earthquakes."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "audioId": "cet4-2022-12-set1-audio"
+        },
+        {
+          "id": "cet4-2022-12-set1-q3",
+          "type": "NEWS",
+          "prompt": "第 3 题(题干在原始录音中)",
+          "choices": [
+            "It prepared beds for all the six new citizens.",
+            "It assigned a team of doctors for each expected baby.",
+            "It made ample preparations for various possibilities.",
+            "It brought in the most advanced instruments."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "audioId": "cet4-2022-12-set1-audio"
+        },
+        {
+          "id": "cet4-2022-12-set1-q4",
+          "type": "NEWS",
+          "prompt": "第 4 题(题干在原始录音中)",
+          "choices": [
+            "They had to undergo 2-3 physical checkups.",
+            "They were all of normal size except the sixth.",
+            "They could go home together with their mother a day later.",
+            "They needed to stay in the hospital for a couple of months."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "audioId": "cet4-2022-12-set1-audio"
+        },
+        {
+          "id": "cet4-2022-12-set1-q5",
+          "type": "NEWS",
+          "prompt": "第 5 题(题干在原始录音中)",
+          "choices": [
+            "It is owned by the local government.",
+            "It has been turned into a public park.",
+            "It has been bought by an American.",
+            "It is a perfect tourist destination."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "audioId": "cet4-2022-12-set1-audio"
+        },
+        {
+          "id": "cet4-2022-12-set1-q6",
+          "type": "NEWS",
+          "prompt": "第 6 题(题干在原始录音中)",
+          "choices": [
+            "Its seafood.",
+            "Its unusual coastline.",
+            "Its unspoiled beaches.",
+            "Its architecture."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "audioId": "cet4-2022-12-set1-audio"
+        },
+        {
+          "id": "cet4-2022-12-set1-q7",
+          "type": "NEWS",
+          "prompt": "第 7 题(题干在原始录音中)",
+          "choices": [
+            "It has an unmatched location.",
+            "It is worth over 18 million euros.",
+            "It has beautiful weather all year round.",
+            "It is an ideal place to meet famous stars."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "audioId": "cet4-2022-12-set1-audio"
+        },
+        {
+          "id": "cet4-2022-12-set1-q8",
+          "type": "CONVERSATION",
+          "prompt": "第 8 题(题干在原始录音中)",
+          "choices": [
+            "She has been attending some group classes.",
+            "She has registered for two new gym classes.",
+            "She became a member of the gym two months ago.",
+            "She is entitled to a discount on all the gym exercises."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "audioId": "cet4-2022-12-set1-audio"
+        },
+        {
+          "id": "cet4-2022-12-set1-q9",
+          "type": "CONVERSATION",
+          "prompt": "第 9 题(题干在原始录音中)",
+          "choices": [
+            "Considering the promotion of its regular classes.",
+            "Taking measures to expand its exercise programs.",
+            "Recruiting coaches for hot yoga and advanced spinning.",
+            "Offering existing members a discount off two new classes."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "audioId": "cet4-2022-12-set1-audio"
+        },
+        {
+          "id": "cet4-2022-12-set1-q10",
+          "type": "CONVERSATION",
+          "prompt": "第 10 题(题干在原始录音中)",
+          "choices": [
+            "She missed the deadline for the 10-week course.",
+            "She missed out on the gym's general discount.",
+            "She didn't sign up for membership in time.",
+            "She wasn't so much interested in hot yoga."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "audioId": "cet4-2022-12-set1-audio"
+        },
+        {
+          "id": "cet4-2022-12-set1-q11",
+          "type": "CONVERSATION",
+          "prompt": "第 11 题(题干在原始录音中)",
+          "choices": [
+            "She doesn't want to reveal her card details over the phone.",
+            "She doesn't think it wise to pay before attending any class.",
+            "She might have to cancel her registration any minute.",
+            "She prefers to have the fee added to her monthly bill."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "audioId": "cet4-2022-12-set1-audio"
+        },
+        {
+          "id": "cet4-2022-12-set1-q12",
+          "type": "CONVERSATION",
+          "prompt": "第 12 题(题干在原始录音中)",
+          "choices": [
+            "To make investments.",
+            "To sign a business contract.",
+            "To research new markets.",
+            "To open a new office."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "audioId": "cet4-2022-12-set1-audio"
+        },
+        {
+          "id": "cet4-2022-12-set1-q13",
+          "type": "CONVERSATION",
+          "prompt": "第 13 题(题干在原始录音中)",
+          "choices": [
+            "Dubai.",
+            "Beijing.",
+            "Amsterdam.",
+            "Earl's Court."
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 1,
+          "audioId": "cet4-2022-12-set1-audio"
+        },
+        {
+          "id": "cet4-2022-12-set1-q14",
+          "type": "CONVERSATION",
+          "prompt": "第 14 题(题干在原始录音中)",
+          "choices": [
+            "Rent a bike for him to get around the town.",
+            "Reserve a meeting room in the head office.",
+            "Help him prepare his presentation.",
+            "Send him a map of the hotel area."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "audioId": "cet4-2022-12-set1-audio"
+        },
+        {
+          "id": "cet4-2022-12-set1-q15",
+          "type": "CONVERSATION",
+          "prompt": "第 15 题(题干在原始录音中)",
+          "choices": [
+            "Bring his projector.",
+            "Keep all his receipts.",
+            "Submit his claims form.",
+            "Pay with his credit card."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "audioId": "cet4-2022-12-set1-audio"
+        },
+        {
+          "id": "cet4-2022-12-set1-q16",
+          "type": "PASSAGE",
+          "prompt": "第 16 题(题干在原始录音中)",
+          "choices": [
+            "Whether a country's educational level is linked to women's rights.",
+            "Whether women's rights are making good progress around the world.",
+            "Whether a country's protection of women's rights is related to its public health.",
+            "Whether women's rights are more often overlooked in less-developed countries."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "audioId": "cet4-2022-12-set1-audio"
+        },
+        {
+          "id": "cet4-2022-12-set1-q17",
+          "type": "PASSAGE",
+          "prompt": "第 17 题(题干在原始录音中)",
+          "choices": [
+            "Their people still have better health if women's rights are respected.",
+            "They must make efforts to increase women's access to health care.",
+            "Their people tend to attach importance to women's rights.",
+            "They need to invest more in hospital staff and facilities."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "audioId": "cet4-2022-12-set1-audio"
+        },
+        {
+          "id": "cet4-2022-12-set1-q18",
+          "type": "PASSAGE",
+          "prompt": "第 18 题(题干在原始录音中)",
+          "choices": [
+            "Their link with a country's public health.",
+            "Their potential impact on social progress.",
+            "Their value to a country's international image.",
+            "Their positive effect on economic development."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "audioId": "cet4-2022-12-set1-audio"
+        },
+        {
+          "id": "cet4-2022-12-set1-q19",
+          "type": "PASSAGE",
+          "prompt": "第 19 题(题干在原始录音中)",
+          "choices": [
+            "It creates a wonderful setting for dating.",
+            "It may cause strange physical reactions.",
+            "It turns parks into picnic sites.",
+            "It may result in a crowded beach."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "audioId": "cet4-2022-12-set1-audio"
+        },
+        {
+          "id": "cet4-2022-12-set1-q20",
+          "type": "PASSAGE",
+          "prompt": "第 20 题(题干在原始录音中)",
+          "choices": [
+            "Breathing difficulty.",
+            "Bad breath.",
+            "Excessive sweating.",
+            "High blood pressure."
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 2,
+          "audioId": "cet4-2022-12-set1-audio"
+        },
+        {
+          "id": "cet4-2022-12-set1-q21",
+          "type": "PASSAGE",
+          "prompt": "第 21 题(题干在原始录音中)",
+          "choices": [
+            "It protects people against bacteria.",
+            "It enables people to build up endurance.",
+            "It accelerates people's blood circulation.",
+            "It provides people with extra energy."
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 2,
+          "audioId": "cet4-2022-12-set1-audio"
+        },
+        {
+          "id": "cet4-2022-12-set1-q22",
+          "type": "PASSAGE",
+          "prompt": "第 22 题(题干在原始录音中)",
+          "choices": [
+            "They are more likely to win in combat sports.",
+            "They are in the minority among the population.",
+            "They have a higher chance of joining sports teams.",
+            "They have more disadvantages in getting ahead."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "audioId": "cet4-2022-12-set1-audio"
+        },
+        {
+          "id": "cet4-2022-12-set1-q23",
+          "type": "PASSAGE",
+          "prompt": "第 23 题(题干在原始录音中)",
+          "choices": [
+            "Their brain is more powerful than that of right-handed people.",
+            "The left side of their brain is more powerful than its right side.",
+            "They tend to be a lot more aggressive than right-handed people.",
+            "Their brain has a stronger connection between its two sides."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "audioId": "cet4-2022-12-set1-audio"
+        },
+        {
+          "id": "cet4-2022-12-set1-q24",
+          "type": "PASSAGE",
+          "prompt": "第 24 题(题干在原始录音中)",
+          "choices": [
+            "They have a larger brain.",
+            "It still remains unknown.",
+            "It is related to their genes.",
+            "They are better at reasoning."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "audioId": "cet4-2022-12-set1-audio"
+        },
+        {
+          "id": "cet4-2022-12-set1-q25",
+          "type": "PASSAGE",
+          "prompt": "第 25 题(题干在原始录音中)",
+          "choices": [
+            "Teach them how to perform tasks with their right hand.",
+            "Help them fully develop their mathematical abilities.",
+            "Encourage them to play fast-paced interactive sports.",
+            "Advise them to choose jobs that require quick reactions."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "audioId": "cet4-2022-12-set1-audio"
+        }
+      ],
+      "audio": [
+        {
+          "id": "cet4-2022-12-set1-audio",
+          "url": "/study/resources/7f57175662d0dc9e2b0f2ed8.m4a",
+          "sourceUrl": "/study/resources/7f57175662d0dc9e2b0f2ed8.m4a",
+          "durationSeconds": 1411.633923,
+          "transcript": "",
+          "identity": "cet4_2022_12_1.mp3 SHA256:7f57175662d0dc9e2b0f2ed80dbaf462adfa86be9b18d6ab6e74856bd97d45bb"
+        }
+      ],
+      "passages": [],
+      "sourceFileUrl": "/study/resources/c29d9111253133135fe2fe40.pdf"
+    },
+    "READING": {
+      "instructions": "请依次完成选词填空、长篇匹配和仔细阅读。",
+      "questions": [
+        {
+          "id": "cet4-2022-12-set1-q26",
+          "type": "WORD_BANK",
+          "prompt": "第 26 空",
+          "choices": [
+            "acknowledge",
+            "certificates",
+            "connected",
+            "demonstrates",
+            "differences",
+            "establish",
+            "formats",
+            "measured",
+            "narrow",
+            "permanent",
+            "produces",
+            "ranging",
+            "relative",
+            "submitting",
+            "targeting"
+          ],
+          "answerIndex": 11,
+          "explanation": "原卷答案：L。",
+          "weight": 0.5,
+          "passageId": "cet4-2022-12-set1-bank"
+        },
+        {
+          "id": "cet4-2022-12-set1-q27",
+          "type": "WORD_BANK",
+          "prompt": "第 27 空",
+          "choices": [
+            "acknowledge",
+            "certificates",
+            "connected",
+            "demonstrates",
+            "differences",
+            "establish",
+            "formats",
+            "measured",
+            "narrow",
+            "permanent",
+            "produces",
+            "ranging",
+            "relative",
+            "submitting",
+            "targeting"
+          ],
+          "answerIndex": 7,
+          "explanation": "原卷答案：H。",
+          "weight": 0.5,
+          "passageId": "cet4-2022-12-set1-bank"
+        },
+        {
+          "id": "cet4-2022-12-set1-q28",
+          "type": "WORD_BANK",
+          "prompt": "第 28 空",
+          "choices": [
+            "acknowledge",
+            "certificates",
+            "connected",
+            "demonstrates",
+            "differences",
+            "establish",
+            "formats",
+            "measured",
+            "narrow",
+            "permanent",
+            "produces",
+            "ranging",
+            "relative",
+            "submitting",
+            "targeting"
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 0.5,
+          "passageId": "cet4-2022-12-set1-bank"
+        },
+        {
+          "id": "cet4-2022-12-set1-q29",
+          "type": "WORD_BANK",
+          "prompt": "第 29 空",
+          "choices": [
+            "acknowledge",
+            "certificates",
+            "connected",
+            "demonstrates",
+            "differences",
+            "establish",
+            "formats",
+            "measured",
+            "narrow",
+            "permanent",
+            "produces",
+            "ranging",
+            "relative",
+            "submitting",
+            "targeting"
+          ],
+          "answerIndex": 12,
+          "explanation": "原卷答案：M。",
+          "weight": 0.5,
+          "passageId": "cet4-2022-12-set1-bank"
+        },
+        {
+          "id": "cet4-2022-12-set1-q30",
+          "type": "WORD_BANK",
+          "prompt": "第 30 空",
+          "choices": [
+            "acknowledge",
+            "certificates",
+            "connected",
+            "demonstrates",
+            "differences",
+            "establish",
+            "formats",
+            "measured",
+            "narrow",
+            "permanent",
+            "produces",
+            "ranging",
+            "relative",
+            "submitting",
+            "targeting"
+          ],
+          "answerIndex": 4,
+          "explanation": "原卷答案：E。",
+          "weight": 0.5,
+          "passageId": "cet4-2022-12-set1-bank"
+        },
+        {
+          "id": "cet4-2022-12-set1-q31",
+          "type": "WORD_BANK",
+          "prompt": "第 31 空",
+          "choices": [
+            "acknowledge",
+            "certificates",
+            "connected",
+            "demonstrates",
+            "differences",
+            "establish",
+            "formats",
+            "measured",
+            "narrow",
+            "permanent",
+            "produces",
+            "ranging",
+            "relative",
+            "submitting",
+            "targeting"
+          ],
+          "answerIndex": 14,
+          "explanation": "原卷答案：O。",
+          "weight": 0.5,
+          "passageId": "cet4-2022-12-set1-bank"
+        },
+        {
+          "id": "cet4-2022-12-set1-q32",
+          "type": "WORD_BANK",
+          "prompt": "第 32 空",
+          "choices": [
+            "acknowledge",
+            "certificates",
+            "connected",
+            "demonstrates",
+            "differences",
+            "establish",
+            "formats",
+            "measured",
+            "narrow",
+            "permanent",
+            "produces",
+            "ranging",
+            "relative",
+            "submitting",
+            "targeting"
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 0.5,
+          "passageId": "cet4-2022-12-set1-bank"
+        },
+        {
+          "id": "cet4-2022-12-set1-q33",
+          "type": "WORD_BANK",
+          "prompt": "第 33 空",
+          "choices": [
+            "acknowledge",
+            "certificates",
+            "connected",
+            "demonstrates",
+            "differences",
+            "establish",
+            "formats",
+            "measured",
+            "narrow",
+            "permanent",
+            "produces",
+            "ranging",
+            "relative",
+            "submitting",
+            "targeting"
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 0.5,
+          "passageId": "cet4-2022-12-set1-bank"
+        },
+        {
+          "id": "cet4-2022-12-set1-q34",
+          "type": "WORD_BANK",
+          "prompt": "第 34 空",
+          "choices": [
+            "acknowledge",
+            "certificates",
+            "connected",
+            "demonstrates",
+            "differences",
+            "establish",
+            "formats",
+            "measured",
+            "narrow",
+            "permanent",
+            "produces",
+            "ranging",
+            "relative",
+            "submitting",
+            "targeting"
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 0.5,
+          "passageId": "cet4-2022-12-set1-bank"
+        },
+        {
+          "id": "cet4-2022-12-set1-q35",
+          "type": "WORD_BANK",
+          "prompt": "第 35 空",
+          "choices": [
+            "acknowledge",
+            "certificates",
+            "connected",
+            "demonstrates",
+            "differences",
+            "establish",
+            "formats",
+            "measured",
+            "narrow",
+            "permanent",
+            "produces",
+            "ranging",
+            "relative",
+            "submitting",
+            "targeting"
+          ],
+          "answerIndex": 5,
+          "explanation": "原卷答案：F。",
+          "weight": 0.5,
+          "passageId": "cet4-2022-12-set1-bank"
+        },
+        {
+          "id": "cet4-2022-12-set1-q36",
+          "type": "MATCHING",
+          "prompt": "Students' financial aid remains unchanged even when tuition rises.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "passageId": "cet4-2022-12-set1-matching"
+        },
+        {
+          "id": "cet4-2022-12-set1-q37",
+          "type": "MATCHING",
+          "prompt": "Students may not be able to enjoy their state benefits when they go to college out of the state.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 6,
+          "explanation": "原卷答案：G。",
+          "weight": 1,
+          "passageId": "cet4-2022-12-set1-matching"
+        },
+        {
+          "id": "cet4-2022-12-set1-q38",
+          "type": "MATCHING",
+          "prompt": "The financial aid the author receives is supposed to cover all her college expenses.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "passageId": "cet4-2022-12-set1-matching"
+        },
+        {
+          "id": "cet4-2022-12-set1-q39",
+          "type": "MATCHING",
+          "prompt": "When the person who damages dorm facilities is not identified, students are required to share the cost.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "passageId": "cet4-2022-12-set1-matching"
+        },
+        {
+          "id": "cet4-2022-12-set1-q40",
+          "type": "MATCHING",
+          "prompt": "Though it is difficult and embarrassing, students should make inquiries about what fees they have to pay and why.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 11,
+          "explanation": "原卷答案：L。",
+          "weight": 1,
+          "passageId": "cet4-2022-12-set1-matching"
+        },
+        {
+          "id": "cet4-2022-12-set1-q41",
+          "type": "MATCHING",
+          "prompt": "Today, many Americans have to go to college on student loans.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "passageId": "cet4-2022-12-set1-matching"
+        },
+        {
+          "id": "cet4-2022-12-set1-q42",
+          "type": "MATCHING",
+          "prompt": "Receiving education in a private university in the nation's capital may change the author's future life and that of her family's.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 9,
+          "explanation": "原卷答案：J。",
+          "weight": 1,
+          "passageId": "cet4-2022-12-set1-matching"
+        },
+        {
+          "id": "cet4-2022-12-set1-q43",
+          "type": "MATCHING",
+          "prompt": "Students may no longer be qualified for financial aid if they perform poorly in school or if their family income has increased.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 8,
+          "explanation": "原卷答案：I。",
+          "weight": 1,
+          "passageId": "cet4-2022-12-set1-matching"
+        },
+        {
+          "id": "cet4-2022-12-set1-q44",
+          "type": "MATCHING",
+          "prompt": "In addition to tuition, college students have to pay extra fees for the courses they take.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "passageId": "cet4-2022-12-set1-matching"
+        },
+        {
+          "id": "cet4-2022-12-set1-q45",
+          "type": "MATCHING",
+          "prompt": "Some schools charge students a fee to their student accounts for using credit cards to pay bills.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 7,
+          "explanation": "原卷答案：H。",
+          "weight": 1,
+          "passageId": "cet4-2022-12-set1-matching"
+        },
+        {
+          "id": "cet4-2022-12-set1-q46",
+          "type": "DETAIL",
+          "prompt": "What characterizes Japanese and Chinese foods?",
+          "choices": [
+            "Variety.",
+            "Flavor.",
+            "Color.",
+            "Naturalness."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "passageId": "cet4-2022-12-set1-detail1"
+        },
+        {
+          "id": "cet4-2022-12-set1-q47",
+          "type": "DETAIL",
+          "prompt": "What is typical of Americans in the way of eating?",
+          "choices": [
+            "They emphasize nutrition.",
+            "They tend to eat quite a lot.",
+            "They prioritize convenience.",
+            "They care about flavors."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "passageId": "cet4-2022-12-set1-detail1"
+        },
+        {
+          "id": "cet4-2022-12-set1-q48",
+          "type": "DETAIL",
+          "prompt": "What features in Mediterranean, Nordic and Okinawan diets?",
+          "choices": [
+            "Fruits and vegetables.",
+            "Olive oil and red wine.",
+            "Seasonal local produce.",
+            "Unprocessed ingredients."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "passageId": "cet4-2022-12-set1-detail1"
+        },
+        {
+          "id": "cet4-2022-12-set1-q49",
+          "type": "DETAIL",
+          "prompt": "What do people in most healthy eating cultures have in common?",
+          "choices": [
+            "They get the whole family to eat at a table.",
+            "They eat their meals regularly and punctually.",
+            "They consume plenty of cereal for breakfast.",
+            "They attach great importance to their meals."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "passageId": "cet4-2022-12-set1-detail1"
+        },
+        {
+          "id": "cet4-2022-12-set1-q50",
+          "type": "DETAIL",
+          "prompt": "Compared with the average American, people in healthy societies",
+          "choices": [
+            "walk at least 4 miles a day",
+            "do considerably more walking",
+            "pay more attention to body shape",
+            "consume a lot more organic food"
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "passageId": "cet4-2022-12-set1-detail1"
+        },
+        {
+          "id": "cet4-2022-12-set1-q51",
+          "type": "DETAIL",
+          "prompt": "What is the finding of the new study?",
+          "choices": [
+            "Emotional intelligence helps people get along with others.",
+            "Emotional intelligence is generally beneficial to its bearer.",
+            "People who are aware of others' feelings may experience more stress.",
+            "People who are emotionally stressed may have trouble making friends."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "passageId": "cet4-2022-12-set1-detail2"
+        },
+        {
+          "id": "cet4-2022-12-set1-q52",
+          "type": "DETAIL",
+          "prompt": "What was the purpose of psychologist Myriam Bechtoldt's experiment?",
+          "choices": [
+            "To define different types of human feelings.",
+            "To assess the impacts of being emotionally clever.",
+            "To demonstrate how to distinguish different feelings.",
+            "To identify gender differences in emotional intelligence."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "passageId": "cet4-2022-12-set1-detail2"
+        },
+        {
+          "id": "cet4-2022-12-set1-q53",
+          "type": "DETAIL",
+          "prompt": "What does the finding of Myriam Bechtoldt's study indicate?",
+          "choices": [
+            "Greater emotional cleverness means less trouble in one's life.",
+            "Emotional intelligence helps people succeed in job interviews.",
+            "People's psychological wellbeing is related to various factors.",
+            "People may suffer from having a high emotional intelligence."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "passageId": "cet4-2022-12-set1-detail2"
+        },
+        {
+          "id": "cet4-2022-12-set1-q54",
+          "type": "DETAIL",
+          "prompt": "What do we learn about emotional intelligence from a number of studies?",
+          "choices": [
+            "People suffering from depression are emotionally immature.",
+            "People who look at the dark side of life often feel depressed.",
+            "Some people may take advantage of it and benefit themselves.",
+            "Some people may lack it and are easily manipulated by others."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "passageId": "cet4-2022-12-set1-detail2"
+        },
+        {
+          "id": "cet4-2022-12-set1-q55",
+          "type": "DETAIL",
+          "prompt": "What does the author suggest sensitive individuals do?",
+          "choices": [
+            "Avoid burdening themselves with others' feelings.",
+            "Rid themselves of worries over worldly affairs.",
+            "Learn to cope with people's negative feelings.",
+            "Held deodle to deal with their troubles in life."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "passageId": "cet4-2022-12-set1-detail2"
+        }
+      ],
+      "audio": [],
+      "passages": [
+        {
+          "id": "cet4-2022-12-set1-bank",
+          "text": "Researchers, writing in the journal Heart, pooled data from 23 studies and found that social isolation or feelings of loneliness were tied to an increased risk of coronary heart disease (rs) and strokes. The studies included data from 181,006 men and women ages 18 and over. There were 4,628 coronary events and 3,002 strokes in follow-up periods __(26)__ from three to 21 years. Three of the papers __(27)__ loneliness, 18 looked at social isolation and two included both. Social isolation and loneliness were determined with questionnaires; the researchers depended on medical records and death __(28)__ for determining coronary events and strokes. The scientists found that loneliness and social isolation increased the __(29)__ risk of having a heart attack or a death from heart disease by 29 percent, and the risk of stroke by __(32)__ percent. There were no __(30)__ between men and women. \"People have tended to focus from a policy point of view on __(31)__ lonely people to make them more _32_ ,\" said the lead author, Nicole K. Valtorta, a research fellow at the University of York in England. \"Our study __(33)__ that if this is a risk factor, then we should be trying to prevent the risk factor in the first place.\" The authors  __(34)__  that this was a review of observational studies and did not __(35)__ cause and effect."
+        },
+        {
+          "id": "cet4-2022-12-set1-matching",
+          "text": "The hidden costs colleges don't want you to know about\nA) This fall, thousands of college students from across the country will begin their undergraduate studies at colleges around the nation. They will inevitably pack too much to fit in their tiny dorm rooms. They will also carry with them a huge student loan debt, in addition to countless \"hidden\" out-of-pocket costs paid for by their bank accounts and the bank accounts of their families.\nB) At my well-respected, private, four-year university in Washington, D.C., which boasts a yearly tuition of $ 44,046 not including room and board, I receive over $ 57,000 yearly in financial aid. As a student from a family that is struggling to make ends meet, my financial aid package is a combination of federal grants and federal work study, university merit scholarships and financial aid awards, and about $8,000 yearly in federally subsidized (# # #$ #) and unsubsidized loans. On paper, my expenses and my financial aid just about even out. Off paper, they don't.\nC) Universities today are in the business of making money, and mine is no exception. They hit me right out of gate with a $ 160 fee to attend my freshman orientation, a price which does not include the cost of travel to and from the District. Almost every class has an associated fee not included in the cost of tuition, most between $ 40 and $ 100. Fees for lab science classes are the highest, and all students at my university are required to take at least one lab before they graduate. Buying a laptop proved a necessity and, thankfully, a relative bought me one as a gift. Renting a mini-fridge for my dorm room costs my roommates and me about $ 140 a vear.\nD) Schools will charge you whatever they can. The costs of any damage to the dorm, including elevators, bathrooms, and common areas, are billed to every person on a dorm floor, or even the entire building if they do not know who caused the damage. After I fell out of my bed twice during my freshman year, the university installed a railing for $20, billed to my student account. My financial aid did not anticipate any of these costs, and so it did not cover them.\nE) An Internet search of \"hidden costs\" of college turns up a host of articles on parent-centered websites on the college application process. These articles are almost always geared towards upper- and middle- class families. For students already struggling to pay tuition, these costs may be the least of their worries.\nF) So what hidden costs should low-income students really be paying attention to? My college experience offers a few examples.\nG) If you are a low-income student who will be attending school out-of-state, make sure you know if you can use your state benefits, such as the Supplemental Nutrition Assistance Program, or SNAP. It wasn't until after I had accepted admission to an out-of-state school that I learned that I could not use my Ohio Medicaid on campus for anything other than emergency care. My benefits became invalid the second I moved out of Ohio. After my freshman year, I had to opt for the school's insurance plan, which costs around $ 2,000 a year. Even if your school offers a flat-rate fee for a doctor's appointment at the student health center (mine is $20 a visit), these fees often do not include extra fees for lab tests or prescription medications (#th).\nH) If you plan on paying off bills in your student account with a credit card, be aware of any additional costs. My school charges an additional fee for the use of a credit card to settle outstanding charges, which can add upwards of 3% of the balance to your bill.\nI) There is another depressing reality hidden within even the largest financial aid packages: Colleges often offer the most generous packages during freshman year as a way to attract new students. My family was careful to ask about the chances of financial aid being taken away after my freshman year. We were assured that, except for low grades or a raise in family income, no money would be taken away. We did not know to ask and the school did not readily point out— that even if tuition rises, my financial aid package will stay the same. So when my university voted to raise tuition costs 3% at the end of my freshman year, my financial aid package remained the same and I was suddenly responsible for an additional $ 1,200 for the next year. The university administration will likely vote to raise costs at least once more before my graduation.\nJ) Yes, I chose to attend an expensive university far from my hometown. Yes, there were cheaper options. But there are promising students from struggling families across the nation who should not rule out their dream schools entirely. All things considered, I am paying significantly less than the ticket price of my university, and having an educational experience in Washington, D.C., that I would not have had anywhere else. As a low-income student from a down-and-out Rust Belt community, these educational experiences have enormous potential to brighten my future and my family's future.\nK) The key is to make sure that students and their families understand that hidden costs exist, and that they may prove problematic. Fill out a more comprehensive checklist, and be wary of listed prices that seem too low. Understand just how complicated the financial aid process is.\nL) Students and families must also understand their ability to self-advocate. They should not pay student bills or excess fees blindly. If something does not look right, ask about it. If it still doesn't look right, negotiate it. In cases where parents are working multiple jobs, are less knowledgeable about college bureaucracies, have limited English language skills, or are not contributing financially to their child's education, the burden of self-advocacy will fall on the student. I understand the difficulty, and the embarrassment. But it is necessary. MD In the grand scheme of things, however, colleges also must come to understand that the hidden fees they ask for may prove unmanageable for the very kinds of low-income or first-generation students they are trying desperately to attract."
+        },
+        {
+          "id": "cet4-2022-12-set1-detail1",
+          "text": "To write his 2010 book, The 5-Factor World Diet, nutritionist Harley Pasternak traveled to the healthiest countries around the world to learn more about what made their meals extra nourishing. He noted that Japanese people ate a wonderful variety of seaweeds, and that Chinese people tried to include at least five different colors in every meal. Pasternak also came away with some valuable observations about how different the North American way of life was, compared with many other countries. For starters, Americans eat much bigger portions than people in other countries. \"We don't prioritize eating seasonally or locally, and we also add lots of salt, sugar and thickening agents to our foods,\" explained Pasternak. Contrast that to the healthy Mediterranean, Nordic and Okinawan diets listed in Pasternak's book. They all seem to stick to the ethos (#/f*) of regional, seasonal produce. For example, a traditional Mediterranean diet includes fruits, vegetables, whole grains, nuts and olive oil as the main components of nutritional intake. Fish, chicken and red wine make moderate appearances, while red meat, salt and sugar are used much less often. The benefits of a traditional Mediterranean diet have been studied since the 1970s, and researchers have found that living that olive oil life can help people lose weight, lower their heart disease risk and reverse diabetes. Most other healthy eating cultures also make meals an event say, multiple courses around the family table, or a glass or two of red wine at a long lunch as opposed to hastily wolfing down handfuls of cereal above the kitchen sink and calling it dinner. Each of the healthy eating cultures has its own unique feature. But Pasternak did take note of one unifying factor in all of the healthy societies he observed. \"The only overlapping feature in most of these healthy countries is that they all walk way more than the average American,\" said Pasternak. \"So really, regardless of what you're eating, if someone's walking four miles more than you each day, they're going to be a lot thinner and live a lot longer than you.\""
+        },
+        {
+          "id": "cet4-2022-12-set1-detail2",
+          "text": "Recognizing when a friend or colleague feels sad, angry or surprised is key to getting along with others. But a new study suggests that being sensitive to people's feelings may sometimes come with an extra dose of stress. This and other research challenge the prevailing view that emotional intelligence is uniformly beneficial to its bearer. In a study, psychologist Myriam Bechtoldt of the Frankfurt School of Finance and Management in Germany asked 166 male university students a series of questions to measure their emotional intelligence. For example, they showed the students photographs of people's faces and asked them to what extent feelings such as happiness or disgust were being expressed. The students then had to give job talks in front of judges who displayed serious facial expressions. The scientists measured concentrations of stress hormones in the students' saliva (n**) before and after the talk. In students who were rated more emotionally intelligent, the stress measures increased more during the experiment and took longer to go back to baseline. The findings suggest that some people may be too emotionally clever for their own good, says Bechtoldt. \"Sometimes you can be so good at something that it causes trouble,\" she notes. Indeed, the study adds to previous research hinting at a dark side of emotional intelligence. A study published in 2002 in Personality and Individual Differences suggested that emotionally perceptive people might be particularly influenced by feelings of depression and hopelessness. Furthermore, several studies have implied that emotional intelligence can be used to maninulate others for personal gains. More research is needed to see how exactly the relation between emotional intelligence and stress would play out in women and in people of different ages and education levels. Nevertheless, emotional intelligence is a useful skill to have, as long as you learn to also properly cope with emotions- both others' and your own, says Bechtoldt. For example, some sensitive individuals may assume responsibility for other people's sadness or anger, which ultimately stresses them out. Remember, as Bechtoldt says, \"you are not responsible for how other people feel.\""
+        }
+      ],
+      "sourceFileUrl": "/study/resources/c29d9111253133135fe2fe40.pdf"
+    },
+    "TRANSLATION": {
+      "instructions": "请将原卷中文翻译成英语。",
+      "prompt": "Directions: For this part, you are allowed 30 minutes to translate a passage from Chinese into English. You should write your answer on Answer Sheet 2. 在中国农历中,立秋(Start of Autumn)意味着夏天的结束和秋天的开始。立秋带来的首先是天气的变 化,气温逐渐下降。人们看到树叶开始变黄飘落时,知道秋天已经来临,这就是所谓的“一叶知秋”。但此 时酷热的天气并未完全结束,高温通常还会持续一段时间,被称为“秋老虎”。立秋对农民意义重大,这时 各种秋季作物迅速生长、开始成熟,收获的季节即将到来。",
+      "questions": [],
+      "audio": [],
+      "passages": [],
+      "sourceFileUrl": "/study/resources/c29d9111253133135fe2fe40.pdf"
+    }
+  }
+}

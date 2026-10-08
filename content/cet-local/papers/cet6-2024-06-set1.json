@@ -1,0 +1,1119 @@
+{
+  "slug": "cet6-2024-06-set1-full",
+  "version": 1,
+  "title": "2024年6月 · 第1套整卷模拟真题",
+  "level": "CET6",
+  "kind": "FULL",
+  "originType": "PAST_EXAM",
+  "sourceName": "用户提供的本地四六级资料",
+  "sourceUrl": "/study/resources/ef879d945d233082b357ac48.pdf",
+  "rightsHolder": "原试卷及解析作者",
+  "rightsEvidence": "用户提供本地资源并要求接入本地学习系统；原文件及校验值见 content/cet-local/index.json。未授权公开再分发或生产部署。",
+  "content": {
+    "WRITING": {
+      "instructions": "原卷写作要求",
+      "prompt": "Directions: For this part, you are allowed 30 minutes to write an essay that begins with the sentence \"There is a growing awareness of the importance of digital literacy and skills in today's world.\" You can make comments, cite examples or use your personal experiences to develop your essay. You should write at least 150 words but no more than 200 words. You should copy the sentence given in quotes at the beginning of your essay.",
+      "questions": [],
+      "audio": [],
+      "passages": [],
+      "minimumWords": 150,
+      "maximumWords": 200,
+      "sourceFileUrl": "/study/resources/ef879d945d233082b357ac48.pdf"
+    },
+    "LISTENING": {
+      "instructions": "原卷听力选择题",
+      "questions": [
+        {
+          "id": "cet6-2024-06-set1-q1",
+          "type": "CONVERSATION",
+          "prompt": "第 1 题(题干在原始录音中)",
+          "choices": [
+            "Reply to the man's last proposal within a short time.",
+            "Sign the agreement if one small change is made to it.",
+            "Make a sponsorship deal for her client at the meeting.",
+            "Give the man some good news regarding the contract"
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "audioId": "cet6-2024-06-set1-audio"
+        },
+        {
+          "id": "cet6-2024-06-set1-q2",
+          "type": "CONVERSATION",
+          "prompt": "第 2 题(题干在原始录音中)",
+          "choices": [
+            "They are becoming impatient.",
+            "They are afraid time is running out.",
+            "They are used to making alterations.",
+            "They are concerned about the details."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "audioId": "cet6-2024-06-set1-audio"
+        },
+        {
+          "id": "cet6-2024-06-set1-q3",
+          "type": "CONVERSATION",
+          "prompt": "第 3 题(题干在原始录音中)",
+          "choices": [
+            "To prevent geographical discrimination.",
+            "To tap the food and beverage market.",
+            "To avoid any conflict of interest",
+            "To reduce unfair competition"
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "audioId": "cet6-2024-06-set1-audio"
+        },
+        {
+          "id": "cet6-2024-06-set1-q4",
+          "type": "CONVERSATION",
+          "prompt": "第 4 题(题干在原始录音中)",
+          "choices": [
+            "It is a potential market for food and beverage.",
+            "It is very attractive for real estate developers.",
+            "It is a negligible market for his company.",
+            "It is very different from other markets."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "audioId": "cet6-2024-06-set1-audio"
+        },
+        {
+          "id": "cet6-2024-06-set1-q5",
+          "type": "CONVERSATION",
+          "prompt": "第 5 题(题干在原始录音中)",
+          "choices": [
+            "They are thrilled by a rare astronomic phenomenon",
+            "They are celebrating a big event on mountain tops.",
+            "They are enthusiastic about big science-related stories.",
+            "They are joined by astronomers all across North America."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "audioId": "cet6-2024-06-set1-audio"
+        },
+        {
+          "id": "cet6-2024-06-set1-q6",
+          "type": "CONVERSATION",
+          "prompt": "第 6 题(题干在原始录音中)",
+          "choices": [
+            "It will be the most formidable of its kind in over a century",
+            "It will come closest to Earth in more than one hundred years",
+            "It will eclipse many other such events in human history",
+            "It will be seen most clearly from Denver's mountain tops."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "audioId": "cet6-2024-06-set1-audio"
+        },
+        {
+          "id": "cet6-2024-06-set1-q7",
+          "type": "CONVERSATION",
+          "prompt": "第 7 题(题干在原始录音中)",
+          "choices": [
+            "A blur.",
+            "Stars.",
+            "The edge of our galaxy.",
+            "An ordinary flying object."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "audioId": "cet6-2024-06-set1-audio"
+        },
+        {
+          "id": "cet6-2024-06-set1-q8",
+          "type": "CONVERSATION",
+          "prompt": "第 8 题(题干在原始录音中)",
+          "choices": [
+            "Use professional equipment.",
+            "Climb to the nearby heights",
+            "Fix their eyes due north",
+            "Make use of phone apps"
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "audioId": "cet6-2024-06-set1-audio"
+        },
+        {
+          "id": "cet6-2024-06-set1-q9",
+          "type": "PASSAGE",
+          "prompt": "第 9 题(题干在原始录音中)",
+          "choices": [
+            "Whether consumers should be warned against ultra-processed foods.",
+            "Whether there is sufficient scientific consensus on dietary guidelines.",
+            "Whether guidelines can form the basis for nutrition advice to consumers.",
+            "Whether food scientists will agree on the concept of ultra-processed foods."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "audioId": "cet6-2024-06-set1-audio"
+        },
+        {
+          "id": "cet6-2024-06-set1-q10",
+          "type": "PASSAGE",
+          "prompt": "第 10 题(题干在原始录音中)",
+          "choices": [
+            "By the labor cost for the final products",
+            "By the degree of industrial processing.",
+            "By the extent of chemical alteration.",
+            "By the convention of classification."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "audioId": "cet6-2024-06-set1-audio"
+        },
+        {
+          "id": "cet6-2024-06-set1-q11",
+          "type": "PASSAGE",
+          "prompt": "第 11 题(题干在原始录音中)",
+          "choices": [
+            "Increased consumers' expenses.",
+            "Greater risk of chronic diseases.",
+            "People's misunderstanding of nutrition.",
+            "Children's dislike for unprocessed foods"
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "audioId": "cet6-2024-06-set1-audio"
+        },
+        {
+          "id": "cet6-2024-06-set1-q12",
+          "type": "PASSAGE",
+          "prompt": "第 12 题(题干在原始录音中)",
+          "choices": [
+            "They begin to think of the benefits of constraints.",
+            "They try to seek solutions from creative people.",
+            "They try hard to maximize their mental energy.",
+            "They begin to see the world in a different way"
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "audioId": "cet6-2024-06-set1-audio"
+        },
+        {
+          "id": "cet6-2024-06-set1-q13",
+          "type": "PASSAGE",
+          "prompt": "第 13 题(题干在原始录音中)",
+          "choices": [
+            "It is characteristic of all creative people.",
+            "It is essential to pushing society forward",
+            "It is a creative persons response to limitation.",
+            "It is an impetus to socio-economic development"
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "audioId": "cet6-2024-06-set1-audio"
+        },
+        {
+          "id": "cet6-2024-06-set1-q14",
+          "type": "PASSAGE",
+          "prompt": "第 14 题(题干在原始录音中)",
+          "choices": [
+            "Scarcity or abundance of resources has little impact on people's creativity.",
+            "Innovative people are not constrained in connecting unrelated concepts",
+            "People have no incentive to use available resources in new ways.",
+            "Creative people tend to consume more available resources"
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "audioId": "cet6-2024-06-set1-audio"
+        },
+        {
+          "id": "cet6-2024-06-set1-q15",
+          "type": "PASSAGE",
+          "prompt": "第 15 题(题干在原始录音中)",
+          "choices": [
+            "It is key to a company's survival.",
+            "It shapes and focuses problems:",
+            "It is essential to meeting challenges",
+            "It thrives best when constrained."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "audioId": "cet6-2024-06-set1-audio"
+        },
+        {
+          "id": "cet6-2024-06-set1-q16",
+          "type": "LECTURE",
+          "prompt": "第 16 题(题干在原始录音中)",
+          "choices": [
+            "Because they are learned",
+            "Because they come naturally.",
+            "Because they have to be properly personalized",
+            "Because there can be more effective strategies"
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "audioId": "cet6-2024-06-set1-audio"
+        },
+        {
+          "id": "cet6-2024-06-set1-q17",
+          "type": "LECTURE",
+          "prompt": "第 17 题(题干在原始录音中)",
+          "choices": [
+            "The extent of difference and of similarity between the two sides.",
+            "The knowledge of the specific expectation the other side holds.",
+            "The importance of one's goals and of the relationship.",
+            "The approaches one adopts to conflict management."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "audioId": "cet6-2024-06-set1-audio"
+        },
+        {
+          "id": "cet6-2024-06-set1-q18",
+          "type": "LECTURE",
+          "prompt": "第 18 题(题干在原始录音中)",
+          "choices": [
+            "The fox.",
+            "The owl.",
+            "The shark",
+            "The turtle."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "audioId": "cet6-2024-06-set1-audio"
+        },
+        {
+          "id": "cet6-2024-06-set1-q19",
+          "type": "LECTURE",
+          "prompt": "第 19 题(题干在原始录音中)",
+          "choices": [
+            "Help save species from extinction and boost human health.",
+            "Understand how plants and animals perished over the past",
+            "Help gather information publicly available to researchers",
+            "Find out the cause of extinction of Britain's 66,000 species"
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "audioId": "cet6-2024-06-set1-audio"
+        },
+        {
+          "id": "cet6-2024-06-set1-q20",
+          "type": "LECTURE",
+          "prompt": "第 20 题(题干在原始录音中)",
+          "choices": [
+            "It was once dominated by dinosaurs",
+            "It has entered the sixth mass extinction",
+            "Its prospects depend on future human behavior",
+            "Its climate change is aggravated by humans"
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "audioId": "cet6-2024-06-set1-audio"
+        },
+        {
+          "id": "cet6-2024-06-set1-q21",
+          "type": "LECTURE",
+          "prompt": "第 21 题(题干在原始录音中)",
+          "choices": [
+            "It dwarfs all other efforts to conserve, protect and restore biodiversity on earth",
+            "It is costly to get started and requires the joint efforts of thousands of scientists",
+            "It can help to bring back the large numbers of plants and animals that have gone extinct",
+            "It is the most exciting, most relevant, most timely and most internationally inspirational"
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "audioId": "cet6-2024-06-set1-audio"
+        },
+        {
+          "id": "cet6-2024-06-set1-q22",
+          "type": "LECTURE",
+          "prompt": "第 22 题(题干在原始录音中)",
+          "choices": [
+            "Cultural identity",
+            "Social evolution.",
+            "The Copernican revolution.",
+            "Human individuality"
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "audioId": "cet6-2024-06-set1-audio"
+        },
+        {
+          "id": "cet6-2024-06-set1-q23",
+          "type": "LECTURE",
+          "prompt": "第 23 题(题干在原始录音中)",
+          "choices": [
+            "It is a delusion to be disposed of.",
+            "It is prevalent even among academics.",
+            "It is a myth spread by John Donne's poem.",
+            "It is rooted in the mindset of the 17th century"
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "audioId": "cet6-2024-06-set1-audio"
+        },
+        {
+          "id": "cet6-2024-06-set1-q24",
+          "type": "LECTURE",
+          "prompt": "第 24 题(题干在原始录音中)",
+          "choices": [
+            "He believes in Copernican philosophical doctrines about the universe.",
+            "He has gained ample scientific evidence at the University of Reading.",
+            "He has found that our inner self and material self are interconnected.",
+            "He contends most of our body cells can only live a few days or weeks."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "audioId": "cet6-2024-06-set1-audio"
+        },
+        {
+          "id": "cet6-2024-06-set1-q25",
+          "type": "LECTURE",
+          "prompt": "第 25 题(题干在原始录音中)",
+          "choices": [
+            "By coming to see how disruptive such problems have got to be.",
+            "By realising that we all can do our own bit in such endeavours.",
+            "By becoming aware that we are part of a bigger world",
+            "By making joint efforts resolutely and persistently."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "audioId": "cet6-2024-06-set1-audio"
+        }
+      ],
+      "audio": [
+        {
+          "id": "cet6-2024-06-set1-audio",
+          "url": "/study/resources/98f87cce756cf13824d13b30.m4a",
+          "sourceUrl": "/study/resources/98f87cce756cf13824d13b30.m4a",
+          "durationSeconds": 1620.474195,
+          "transcript": "",
+          "identity": "cet6_2024_06_1.mp3 SHA256:98f87cce756cf13824d13b3014b9d62294327d7d3d2784f01b8ba83483b73517"
+        }
+      ],
+      "passages": [],
+      "sourceFileUrl": "/study/resources/ef879d945d233082b357ac48.pdf"
+    },
+    "READING": {
+      "instructions": "请依次完成选词填空、长篇匹配和仔细阅读。",
+      "questions": [
+        {
+          "id": "cet6-2024-06-set1-q26",
+          "type": "WORD_BANK",
+          "prompt": "第 26 空",
+          "choices": [
+            "alleviate",
+            "clarity",
+            "cognitive",
+            "composers",
+            "hurt",
+            "inhibiting",
+            "interrogation",
+            "intrinsically",
+            "loose",
+            "majestic",
+            "mandatory",
+            "recover",
+            "significantly",
+            "soothing",
+            "wards"
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 0.5,
+          "passageId": "cet6-2024-06-set1-bank"
+        },
+        {
+          "id": "cet6-2024-06-set1-q27",
+          "type": "WORD_BANK",
+          "prompt": "第 27 空",
+          "choices": [
+            "alleviate",
+            "clarity",
+            "cognitive",
+            "composers",
+            "hurt",
+            "inhibiting",
+            "interrogation",
+            "intrinsically",
+            "loose",
+            "majestic",
+            "mandatory",
+            "recover",
+            "significantly",
+            "soothing",
+            "wards"
+          ],
+          "answerIndex": 8,
+          "explanation": "原卷答案：I。",
+          "weight": 0.5,
+          "passageId": "cet6-2024-06-set1-bank"
+        },
+        {
+          "id": "cet6-2024-06-set1-q28",
+          "type": "WORD_BANK",
+          "prompt": "第 28 空",
+          "choices": [
+            "alleviate",
+            "clarity",
+            "cognitive",
+            "composers",
+            "hurt",
+            "inhibiting",
+            "interrogation",
+            "intrinsically",
+            "loose",
+            "majestic",
+            "mandatory",
+            "recover",
+            "significantly",
+            "soothing",
+            "wards"
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 0.5,
+          "passageId": "cet6-2024-06-set1-bank"
+        },
+        {
+          "id": "cet6-2024-06-set1-q29",
+          "type": "WORD_BANK",
+          "prompt": "第 29 空",
+          "choices": [
+            "alleviate",
+            "clarity",
+            "cognitive",
+            "composers",
+            "hurt",
+            "inhibiting",
+            "interrogation",
+            "intrinsically",
+            "loose",
+            "majestic",
+            "mandatory",
+            "recover",
+            "significantly",
+            "soothing",
+            "wards"
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 0.5,
+          "passageId": "cet6-2024-06-set1-bank"
+        },
+        {
+          "id": "cet6-2024-06-set1-q30",
+          "type": "WORD_BANK",
+          "prompt": "第 30 空",
+          "choices": [
+            "alleviate",
+            "clarity",
+            "cognitive",
+            "composers",
+            "hurt",
+            "inhibiting",
+            "interrogation",
+            "intrinsically",
+            "loose",
+            "majestic",
+            "mandatory",
+            "recover",
+            "significantly",
+            "soothing",
+            "wards"
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 0.5,
+          "passageId": "cet6-2024-06-set1-bank"
+        },
+        {
+          "id": "cet6-2024-06-set1-q31",
+          "type": "WORD_BANK",
+          "prompt": "第 31 空",
+          "choices": [
+            "alleviate",
+            "clarity",
+            "cognitive",
+            "composers",
+            "hurt",
+            "inhibiting",
+            "interrogation",
+            "intrinsically",
+            "loose",
+            "majestic",
+            "mandatory",
+            "recover",
+            "significantly",
+            "soothing",
+            "wards"
+          ],
+          "answerIndex": 14,
+          "explanation": "原卷答案：O。",
+          "weight": 0.5,
+          "passageId": "cet6-2024-06-set1-bank"
+        },
+        {
+          "id": "cet6-2024-06-set1-q32",
+          "type": "WORD_BANK",
+          "prompt": "第 32 空",
+          "choices": [
+            "alleviate",
+            "clarity",
+            "cognitive",
+            "composers",
+            "hurt",
+            "inhibiting",
+            "interrogation",
+            "intrinsically",
+            "loose",
+            "majestic",
+            "mandatory",
+            "recover",
+            "significantly",
+            "soothing",
+            "wards"
+          ],
+          "answerIndex": 12,
+          "explanation": "原卷答案：M。",
+          "weight": 0.5,
+          "passageId": "cet6-2024-06-set1-bank"
+        },
+        {
+          "id": "cet6-2024-06-set1-q33",
+          "type": "WORD_BANK",
+          "prompt": "第 33 空",
+          "choices": [
+            "alleviate",
+            "clarity",
+            "cognitive",
+            "composers",
+            "hurt",
+            "inhibiting",
+            "interrogation",
+            "intrinsically",
+            "loose",
+            "majestic",
+            "mandatory",
+            "recover",
+            "significantly",
+            "soothing",
+            "wards"
+          ],
+          "answerIndex": 11,
+          "explanation": "原卷答案：L。",
+          "weight": 0.5,
+          "passageId": "cet6-2024-06-set1-bank"
+        },
+        {
+          "id": "cet6-2024-06-set1-q34",
+          "type": "WORD_BANK",
+          "prompt": "第 34 空",
+          "choices": [
+            "alleviate",
+            "clarity",
+            "cognitive",
+            "composers",
+            "hurt",
+            "inhibiting",
+            "interrogation",
+            "intrinsically",
+            "loose",
+            "majestic",
+            "mandatory",
+            "recover",
+            "significantly",
+            "soothing",
+            "wards"
+          ],
+          "answerIndex": 4,
+          "explanation": "原卷答案：E。",
+          "weight": 0.5,
+          "passageId": "cet6-2024-06-set1-bank"
+        },
+        {
+          "id": "cet6-2024-06-set1-q35",
+          "type": "WORD_BANK",
+          "prompt": "第 35 空",
+          "choices": [
+            "alleviate",
+            "clarity",
+            "cognitive",
+            "composers",
+            "hurt",
+            "inhibiting",
+            "interrogation",
+            "intrinsically",
+            "loose",
+            "majestic",
+            "mandatory",
+            "recover",
+            "significantly",
+            "soothing",
+            "wards"
+          ],
+          "answerIndex": 13,
+          "explanation": "原卷答案：N。",
+          "weight": 0.5,
+          "passageId": "cet6-2024-06-set1-bank"
+        },
+        {
+          "id": "cet6-2024-06-set1-q36",
+          "type": "MATCHING",
+          "prompt": "Jackson was said to have transferred his ownership of the oak tree to itself in order to protect it from being destroyed.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段",
+            "O 段"
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "passageId": "cet6-2024-06-set1-matching"
+        },
+        {
+          "id": "cet6-2024-06-set1-q37",
+          "type": "MATCHING",
+          "prompt": "No proof has been found from an extensive search that Jackson had ever owned the land where the oak tree grew",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段",
+            "O 段"
+          ],
+          "answerIndex": 7,
+          "explanation": "原卷答案：H。",
+          "weight": 1,
+          "passageId": "cet6-2024-06-set1-matching"
+        },
+        {
+          "id": "cet6-2024-06-set1-q38",
+          "type": "MATCHING",
+          "prompt": "When it was raining heavily, Jackson often took shelter under a big tree that is said to own itself.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段",
+            "O 段"
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "passageId": "cet6-2024-06-set1-matching"
+        },
+        {
+          "id": "cet6-2024-06-set1-q39",
+          "type": "MATCHING",
+          "prompt": "There is no evidence that Jackson had made arrangements to pay property taxes for the land on which the oak tree sat.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段",
+            "O 段"
+          ],
+          "answerIndex": 10,
+          "explanation": "原卷答案：K。",
+          "weight": 1,
+          "passageId": "cet6-2024-06-set1-matching"
+        },
+        {
+          "id": "cet6-2024-06-set1-q40",
+          "type": "MATCHING",
+          "prompt": "Professor Ward paid Jackson over one thousand dollars when purchasing a piece of land from him.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段",
+            "O 段"
+          ],
+          "answerIndex": 8,
+          "explanation": "原卷答案：I。",
+          "weight": 1,
+          "passageId": "cet6-2024-06-set1-matching"
+        },
+        {
+          "id": "cet6-2024-06-set1-q41",
+          "type": "MATCHING",
+          "prompt": "It is said the tree that owned itself fell in a heavy windstorm.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段",
+            "O 段"
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "passageId": "cet6-2024-06-set1-matching"
+        },
+        {
+          "id": "cet6-2024-06-set1-q42",
+          "type": "MATCHING",
+          "prompt": "The story of the oak tree is suspected to have been invented as a thought exercise.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段",
+            "O 段"
+          ],
+          "answerIndex": 13,
+          "explanation": "原卷答案：N。",
+          "weight": 1,
+          "passageId": "cet6-2024-06-set1-matching"
+        },
+        {
+          "id": "cet6-2024-06-set1-q43",
+          "type": "MATCHING",
+          "prompt": "Jackson's little plantation was auctioned off to settle his debt in the mid-19th century",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段",
+            "O 段"
+          ],
+          "answerIndex": 9,
+          "explanation": "原卷答案：J。",
+          "weight": 1,
+          "passageId": "cet6-2024-06-set1-matching"
+        },
+        {
+          "id": "cet6-2024-06-set1-q44",
+          "type": "MATCHING",
+          "prompt": "An official ceremony was held to celebrate the transplanting of a small tree to where its ancestor had stood.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段",
+            "O 段"
+          ],
+          "answerIndex": 4,
+          "explanation": "原卷答案：E。",
+          "weight": 1,
+          "passageId": "cet6-2024-06-set1-matching"
+        },
+        {
+          "id": "cet6-2024-06-set1-q45",
+          "type": "MATCHING",
+          "prompt": "The story of the Tree That Owns Itself appeared in the local paper several times, with slight alterations in wording.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段",
+            "O 段"
+          ],
+          "answerIndex": 14,
+          "explanation": "原卷答案：O。",
+          "weight": 1,
+          "passageId": "cet6-2024-06-set1-matching"
+        },
+        {
+          "id": "cet6-2024-06-set1-q46",
+          "type": "DETAIL",
+          "prompt": "What is one of the factors contributing to failure of intervention in face of risky behavior in the workplace?",
+          "choices": [
+            "Slack supervision style",
+            "Unfavorable workplace culture.",
+            "Unforeseeable risk.",
+            "Blocked communication."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "passageId": "cet6-2024-06-set1-detail1"
+        },
+        {
+          "id": "cet6-2024-06-set1-q47",
+          "type": "DETAIL",
+          "prompt": "What does the author mean by \"diffusion of responsibility\" (Para.3)?",
+          "choices": [
+            "The more people are around, the more they need to worry about their personal safety.",
+            "The more people who witness an event, the less likely anyone will venture to participate.",
+            "The more people idling around on the street, the more likely they need taking care of.",
+            "The more people are around, the less chance someone will step forward to intervene."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "passageId": "cet6-2024-06-set1-detail1"
+        },
+        {
+          "id": "cet6-2024-06-set1-q48",
+          "type": "DETAIL",
+          "prompt": "What happens when unsafe behavior at the workplace is not addressed by the leaders?",
+          "choices": [
+            "No one will intervene when they see similar behaviors.",
+            "Everyone will see it as the easiest way to deal with crisis.",
+            "Workers have to take extra caution executing their duties",
+            "Workers are left to take care of the emergency themselves."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "passageId": "cet6-2024-06-set1-detail1"
+        },
+        {
+          "id": "cet6-2024-06-set1-q49",
+          "type": "DETAIL",
+          "prompt": "What is the ultimate reason workers won't act when they see unsafe operations?",
+          "choices": [
+            "Preference of deferring the action to others.",
+            "Anticipation of leadership intervention.",
+            "Fear of being isolated by coworkers",
+            "Fear of having to do more work"
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "passageId": "cet6-2024-06-set1-detail1"
+        },
+        {
+          "id": "cet6-2024-06-set1-q50",
+          "type": "DETAIL",
+          "prompt": "What is critical to ensuring workplace safety?",
+          "choices": [
+            "Workers be trained to operate their equipment properly",
+            "Workers exhibiting at-risk behavior be strictly disciplined.",
+            "Supervisors create a safety environment for timely intervention.",
+            "Supervisors conduct effective communication with frontline workers."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "passageId": "cet6-2024-06-set1-detail1"
+        },
+        {
+          "id": "cet6-2024-06-set1-q51",
+          "type": "DETAIL",
+          "prompt": "What accounts for the divide within the scientific community about nuclear energy?",
+          "choices": [
+            "Attention to combating human-made climate change.",
+            "Emphasis on protecting wildlife and natural ecosystems.",
+            "Evolution of the term 'green energy' over the last century",
+            "Adherence to different interpretations of environmentalism."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "passageId": "cet6-2024-06-set1-detail2"
+        },
+        {
+          "id": "cet6-2024-06-set1-q52",
+          "type": "DETAIL",
+          "prompt": "What is the solution to energy shortage proposed by purists' opponents?",
+          "choices": [
+            "Relying on renewables firmly and exclusively.",
+            "Using fossil fuel and green energy alternately.",
+            "Opting for nuclear energy when necessary",
+            "Limiting people's non-basic consumption."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "passageId": "cet6-2024-06-set1-detail2"
+        },
+        {
+          "id": "cet6-2024-06-set1-q53",
+          "type": "DETAIL",
+          "prompt": "What point does the author want to make with cities like Burlington as an example?",
+          "choices": [
+            "It is controversial whether the goal of the whole world's exclusive dependence on renewables s attainable",
+            "It is contentious whether cities with large populations have renewable resources at their immediate disposal.",
+            "It is arguable whether cities that manage to run off renewables have sustainable hydroelectric capabilities.",
+            "It is debatable whether traditional fossil fuel energy can be done away with entirely throughout the world."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "passageId": "cet6-2024-06-set1-detail2"
+        },
+        {
+          "id": "cet6-2024-06-set1-q54",
+          "type": "DETAIL",
+          "prompt": "What do we learn about Germany regarding renewable energy?",
+          "choices": [
+            "It has increased its wind and solar power generation four times over the last two decades.",
+            "It represents a good example of a major industrialized country promoting green energy.",
+            "It relies on renewable energy to generate more than half of its electricity",
+            "It has succeeded in reaching the goal of energy transition set by Merkel."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "passageId": "cet6-2024-06-set1-detail2"
+        },
+        {
+          "id": "cet6-2024-06-set1-q55",
+          "type": "DETAIL",
+          "prompt": "What may be one of the reasons for Germany's progress having halted in recent years?",
+          "choices": [
+            "Its grid infrastructure's capacity has fallen behind its development of green energy",
+            "Its overabundance of green energy has forced power plants to suspend operation during daytime.",
+            "Its industrial south is used to running factories on conventional energy supplies",
+            "Its renewable energy supplies are unstable both at night and during the day"
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "passageId": "cet6-2024-06-set1-detail2"
+        }
+      ],
+      "audio": [],
+      "passages": [
+        {
+          "id": "cet6-2024-06-set1-bank",
+          "text": "It's quite remarkable how different genres of music can spark unique feelings, emotions, and memories. Studies have shown that music can reduce stress and anxiety before surgeries and we are all attracted toward our own unique life soundtrack. If you're looking to __(26)__ stress, you might want to give classical music a try. The sounds of classical music produce a calming effect letting __(27)__     - \"pleasure-inducing dopamine(& El) in the brain that helps control attention, learning and emotional responses. It can also turn down the body's stress response, resulting in an overall happier mood. It turns out a pleasant mood can lead to __(28)__ in a person's thinking. Although there are many great __(29)__ of classical music like Bach, Beethoven and Handel, none of these artists' music seems to have the same health effects as Mozart's does. According to researchers, listening to Mozart can increase brain wave activity and improve  __(30)__  function. Another study found that the distinctive features of Mozart's music trigger parts of the brain that are responsible for high-level mental functions. Even maternity __(31)__ use Mozart to help newborn babies adapt to life outside of the mother's belly. It has been found that listening to classical music __(32)__ reduces a person's blood pressure. Researchers believe that the calming sounds of classical music may help your heart __(33)__ from stress. Classical music can also be a great tool to help people who have trouble sleeping. One study found that students who had trouble sleeping slept better while they were listening to classical music. Whether classical music is something that you listen to on a regular basis or not, it wouldn't __(34)__ to take time out of your day to listen to music that you find  __(35)__  . You will be surprised at how good it makes you feel and the potentially positive change in your health."
+        },
+        {
+          "id": "cet6-2024-06-set1-matching",
+          "text": "The Curious Case of the Tree That Owns Itself\nA) In the city of Athens, Georgia, there exists a rather curious local landmark— a large white oak that is almost universally stated to own itself. Because of this, it is considered one of the most famous trees in the world. So how did this tree come to own itself and the land around it?\nB) Sometime in the 19th century a Georgian called Colonel William Jackson reportedly took a liking to the said tree and endeavored to protect it from any danger. As to why he loved it so, the earliest documented account of this story is an anonymously written front page article in the Athens Weekly Banner published on August 12,1890. It states, \"Col. Jackson had watched the tree grow from his childhood, and grew to love it almost as he would a human. Its luxuriant leaves and sturdy limbs had often protected him from the heavy rains, and out of its highest branches he had many a time gotten the eggs of the feathered singers. He watched its growth, and when reaching a ripe old age he saw the tree standing in its magnificent proportions, he was pained to think that after his death it would fall into the hands of those who might destroy it.\"\nC) Towards this end, Jackson transferred by means of a deed ownership of the tree and a little land around it to the tree itself. The deed read, \"W. H. Jackson for and in consideration of the great affection which he bears the said tree, and his great desire to see it protected has conveyed unto the said oak tree entire possession of itself and of all land within eight feet of it on all sides.\"\nD) In time, the tree came to be something of a tourist attraction known as The Tree That Owns Itself. However, in the early 20th century, the tree started showing signs of its slow death, with little that could be done about it. Father time comes for us all eventually, even our often long lived tall and leafy fellow custodians(Fi Ef #i) of Earth. Finally, on October 9,1942, the over 30 meter tall and 200-400 year old tree fell, rumor has it, as a result of a severe windstorm and/or via having previously died and its roots rotted.\nE) About four years later, members of the Junior Ladies Garden Club (who'd tended to the tree before its unfortunate death) tracked down a small tree grown from a nut taken from the original tree. And so it was that on October 9,1946, under the direction of Professor Roy Bowden of the College of Agriculture at the University of Georgia, this little tree was transplanted to the location of its ancestor. A couple of months later, an official ceremony was held featuring none other than the Mayor of Athens, Robert L Mc Whorter, to commemorate the occasion.\nF) This new tree became known as The Son of the Tree That Owns Itself, and it was assumed that as the original tree's heir, it naturally inherited the land it stood on. Of course, there are many dozens of other trees known to exist descending from the original as people taking a nut from it to grow elsewhere was a certainty. That said, to date, none of the original trees other children have petitioned the courts for their share of the land, so it seems all good. In any event, The Son of the Tree That Owns Itself still stands today, though often referred to simply as The Tree That Owns Itself.\nG) This all brings us around to whether Jackson ever actually gave legal ownership of the tree to itself in the first place and whether such a deed is legally binding.\nH) Well, to begin with, it turns out Jackson only spent about three years of his life in Athens, starting at the age of 43 from 1829 to 1832, sort of dismissing the idea that he loved the tree from spending time under it as a child and watching it grow, and then worrying about what would happen to it after he died. Further, an extensive search of land ownership records in Athens does not seem to indicate Jackson ever owned the land the tree sits on.\nI) He did live on a lot of land directly next to it for those three years, but whether he owned that land or not isn't clear. Whatever the case, in 1832 a four acre parcel, which included the land the tree was on and the neighboring land Jackson lived on, among others, was sold to University professor Malthus A Ward. In the transaction, Ward was required to pay Jackson a sum of $1,200 (about $31,000 today), either for the property itself or simply in compensation for improvements Jackson had made on the lot. In the end, whether he ever owned the neighboring lot or was simply allowed to use it while he allegedly worked at the University, he definitely never owned the lot the tree grew on, which is the most important bit for the topic at hand.\nJ) After Professor Ward purchased the land, Jackson and his family purchased a 655 acre parcel a few miles away and moved there. Ten years later, in 1844, Jackson seemed to have come into financial difficulties and had his little plantation seized by the Clarke County Sheriff's office and auctioned off to settle the mortgage. Thus, had he owned some land in Athens itself including the land the tree sat on, presumably he would have sold it to raise funds or otherwise had it taken as well.\nK) And whatever the case there Jackson would have known property taxes needed to be paid on the deeded land for the tree to be truly secure in its future. Yet no account or record indicates any trust or the like was set up to facilitate this.\nL) On top of all this, there is no hard evidence such a deed ever existed, despite the fact that deed records in Athens go back many decades before Jackson's death in 1876 and that it was supposed to have existed in 1890 in the archives according to the original anonymous news reporter who claims to have seen it.\nM) As you might imagine from all of this, few give credit to this side of the story. So how did all of this come about then?\nN) It is speculated to have been invented by the imagination of the said anonymous author at the Athens Weekly Banner in the aforementioned 1890 front page article titled \"Deeded to Itself\", which by the way contained several elements that are much more easily proved to be false. As to why the author would do this, it's speculated perhaps it was a 19th century version of a click-bait thought exercise on whether it would be legal for someone to deed such a non-conscious living thing to itself or not.\nO) Whatever the cases the next known instance of the Tree That Owns Itself being mentioned wasn't until 1901 in the Centennial Edition of that same paper the Athens Weekly Banner. This featured another account very clearly just copying the original article published about a decade before, only slightly reworded. The next account was in 1906, again in the Athens Weekly Banner, again very clearly copying the original account, only slightly reworded, the 19th century equivalent of re-posts when the audience has forgotten about the original."
+        },
+        {
+          "id": "cet6-2024-06-set1-detail1",
+          "text": "It is irrefutable that employees know the difference between right and wrong. So why don't more employees intervene when they see someone exhibiting at-risk behavior in the workplace? There are a number of factors that influence whether people intervene. First, they need to be able to see a risky situation beginning to unfold. Second, the company's culture needs to make them feel safe to speak up. And third, they need to have the communication skills to say something effectively. This is not strictly a workplace problem, it is a growing problem off the job too. Every day people witness things on the street and choose to stand idly by. This is known as the bystander effect the more people who witness an event, the less likely anyone in that group is to help the victim. The psychology behind this is called diffusion of responsibility. Basically the larger the crowd, the more people assume that someone else will take care of it— meaning no one effectively intervenes or acts in a moment of need. This crowd mentality is strong enough for people to evade their known responsibilities. But it's not only frontline workers who don't make safety interventions in the workplace. There are also instances where supervisors do not intervene either. When a group of employees sees unsafe behavior not being addressed at a leadership level it creates the precedent that this is how these situations should be addressed, thus defining the safety culture for everyone. Despite the fact that workers are encouraged to intervene when they observe unsafe operations, this happens less than half of the time. Fear is the ultimate factor in not intervening. There is a fear of penalty, a fear that they'll have to do more work if they intervene. Unsuccessful attempts in the past are another strong contributing factor to why people don't intervene— they tend to prefer to defer that action to someone else for all future situations. On many worksites, competent workers must be appointed. Part of their job is to intervene when workers perform a task without the proper equipment or if the conditions are unsafe. Competent workers are also required to stop work from continuing when there's a danger. Supervisors also play a critical role. Even if a competent person isn't required, supervisors need a broad set of skills to not only identify and alleviate workplace hazards but also build a safety climate within their team that supports intervening and open communication among them. Beyond competent workers and supervisors, it's important to educate everyone within the organization that they are obliged to intervene if they witness a possible unsafe act whether you're a designated competent person, a supervisor, or a frontline worker."
+        },
+        {
+          "id": "cet6-2024-06-set1-detail2",
+          "text": "The term \"environmentalist\" can mean different things. It used to refer to people trying to protect wildlife and natural ecosystems. In the 21st century, the term has evolved to capture the need to combat human-made climate change. The distinction between these two strands of environmentalism is the cause of a split within the scientific community about nuclear energy On one side are purists who believe nuclear power isn't worth the risk and the exclusive solution to the climate crisis is renewable energy. The opposing side agrees that renewables are crucial, but says society needs an amount of power available to meet consumers basic demands when the sun isn't shining and the wind isn't blowing. Nuclear energy, being far cleaner than oil, gas and coal, is a natural option, especially where hydroelectric capacity is limited. Leon Clarke, who helped author reports for the UN's Intergovernmental Panel on Climate Change, isn't an uncritical supporter of nuclear energy, but says it's a valuable option to have if we're serious about reaching carbon neutrality. \"Core to all of this is the degree to which you think we can actually meet climate goals with 100% renewables,\" he said. \"If you don't believe we can do it, and you care about the climate, you are forced to think about something like nuclear.\" The achievability of universal 100% renewability is similarly contentious. Cities such as Burlington, Vermont have been \"100% renewable\" for years. But these cities often have small populations, occasionally still rely on fossil fuel energy and have significant renewable resources at their immediate disposal. Meanwhile, countries that manage to run off renewables typically do so thanks to extraordinary hydroelectric capabilities. Germany stands as the best case study for a large, industrialized country pushing into green energy. Chancellor Angela Merkel in 2011 announced Energiewende, an energy transition that would phase out nuclear and coal while phasing in renewables. Wind and solar power generation has increased over 400% since 2010, and renewables provided 46% of the country's electricity in 2019. But progress has halted in recent years. The instability of renewables doesn't just mean energy is often not produced at night but also that solar and wind can overwhelm the grid during the day, forcing utilities to pay customers to use their electricity. Lagging grid infrastructure struggles to transport this overabundance of green energy from Germany's north to its industrial south, meaning many factories still run on coal and gas. The political limit has also been reached in some places, with citizens meeting the construction of new wind turbines with loud protests. The result is that Germany's greenhouse gas emissions have fallen by around 11.5% since 2010—slower than the EU average of 13.5%."
+        }
+      ],
+      "sourceFileUrl": "/study/resources/ef879d945d233082b357ac48.pdf"
+    },
+    "TRANSLATION": {
+      "instructions": "请将原卷中文翻译成英语。",
+      "prompt": "Directions: For this part, you are allowed 30 minutes to translate a passage from Chinese into English. You should write your answer on Answer Sheet 2. 中国的传统婚礼习俗历史悠久,从周朝开始就逐渐形成了一套完整的婚礼仪式,有些一直沿用至今。如今的中 式婚礼习俗已有很大变化,但婚礼庆典仍然十分隆重。婚礼场地经过精心装饰,以象征喜庆(jubilance)的红色为主色    bane):4 调,摆放着许多祝愿新人幸福的物件。在婚礼上,新人要拜天地(bow to Heaven and Earth),拜父母和相互对拜,然 后设宴招待宾客,并向宾客敬酒致谢。今天,许多年轻人依然钟情于传统的中式婚礼,体验独特而美好的中国式狼 漫。",
+      "questions": [],
+      "audio": [],
+      "passages": [],
+      "sourceFileUrl": "/study/resources/ef879d945d233082b357ac48.pdf"
+    }
+  }
+}

@@ -5,12 +5,12 @@ import AppSidebar from './AppSidebar'
 import MobileNavBar from './MobileNavBar'
 
 const sharedRoutes = new Set([
-  '/', '/ai', '/dictation', '/mistakes', '/history', '/leaderboard',
+  '/', '/ai', '/dictation', '/study', '/mistakes', '/history', '/leaderboard',
   '/public-vocabulary', '/contributions', '/me', '/download', '/chat',
 ])
 
 export function hasSharedNavigation(pathname: string) {
-  return sharedRoutes.has(pathname) || pathname.startsWith('/me/') || pathname.startsWith('/history/')
+  return sharedRoutes.has(pathname) || pathname.startsWith('/me/') || pathname.startsWith('/history/') || pathname.startsWith('/study/')
 }
 
 // The root layout keeps these instances mounted while only the page content changes.

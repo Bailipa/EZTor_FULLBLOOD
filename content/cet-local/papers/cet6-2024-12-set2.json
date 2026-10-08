@@ -1,0 +1,1109 @@
+{
+  "slug": "cet6-2024-12-set2-full",
+  "version": 1,
+  "title": "2024年12月 · 第2套整卷模拟真题",
+  "level": "CET6",
+  "kind": "FULL",
+  "originType": "PAST_EXAM",
+  "sourceName": "用户提供的本地四六级资料",
+  "sourceUrl": "/study/resources/de0f410d0edaa896970727b7.pdf",
+  "rightsHolder": "原试卷及解析作者",
+  "rightsEvidence": "用户提供本地资源并要求接入本地学习系统；原文件及校验值见 content/cet-local/index.json。未授权公开再分发或生产部署。",
+  "content": {
+    "WRITING": {
+      "instructions": "原卷写作要求",
+      "prompt": "Directions: For this part you are allowed 30 minutes to write an essay that begins with the sentence                     “Nowadays. more and more students have realized the importance of                self-discipline in their personal growth.          ” You can make comments, cite examples or use your personal experiences to develop your essay. You should write at least 150 words but no more than 200 words. You should copy the sentence given in quotes at the beginning of your essay.",
+      "questions": [],
+      "audio": [],
+      "passages": [],
+      "minimumWords": 150,
+      "maximumWords": 200,
+      "sourceFileUrl": "/study/resources/de0f410d0edaa896970727b7.pdf"
+    },
+    "LISTENING": {
+      "instructions": "原卷听力选择题",
+      "questions": [
+        {
+          "id": "cet6-2024-12-set2-q1",
+          "type": "CONVERSATION",
+          "prompt": "第 1 题(题干在原始录音中)",
+          "choices": [
+            "Changing his major.",
+            "His family situation.",
+            "Revising his graduation thesis.",
+            "His passion for Art History."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "audioId": "cet6-2024-12-set2-audio"
+        },
+        {
+          "id": "cet6-2024-12-set2-q2",
+          "type": "CONVERSATION",
+          "prompt": "第 2 题(题干在原始录音中)",
+          "choices": [
+            "He doesn’t think it legitimate to depend on his father.",
+            "He thinks his financial situation has now changed.",
+            "He doesn’t think it will provide him with a living.",
+            "He thinks it nourishes the financially secure only."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "audioId": "cet6-2024-12-set2-audio"
+        },
+        {
+          "id": "cet6-2024-12-set2-q3",
+          "type": "CONVERSATION",
+          "prompt": "第 3 题(题干在原始录音中)",
+          "choices": [
+            "Try his best to socialize and build a network in the art industry。",
+            "Seek financially viable employment opportunities after graduation.",
+            "Investigate all possible ways to become a celebrity in the art world.",
+            "Strike a balance between intellectual pursuits and financial security."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "audioId": "cet6-2024-12-set2-audio"
+        },
+        {
+          "id": "cet6-2024-12-set2-q4",
+          "type": "CONVERSATION",
+          "prompt": "第 4 题(题干在原始录音中)",
+          "choices": [
+            "Money.",
+            "Time.",
+            "Determination.",
+            "Optimism."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "audioId": "cet6-2024-12-set2-audio"
+        },
+        {
+          "id": "cet6-2024-12-set2-q5",
+          "type": "CONVERSATION",
+          "prompt": "第 5 题(题干在原始录音中)",
+          "choices": [
+            "Their decision on investigating beef consumption.",
+            "Their original ideas about the domestic market.",
+            "Their different approaches to a case study.",
+            "Their end-of-semester business projects."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "audioId": "cet6-2024-12-set2-audio"
+        },
+        {
+          "id": "cet6-2024-12-set2-q6",
+          "type": "CONVERSATION",
+          "prompt": "第 6 题(题干在原始录音中)",
+          "choices": [
+            "Expanding farmland out west.",
+            "Importing most of the beef.",
+            "Raising cattle domestically.",
+            "Continuing to boost economic growth."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "audioId": "cet6-2024-12-set2-audio"
+        },
+        {
+          "id": "cet6-2024-12-set2-q7",
+          "type": "CONVERSATION",
+          "prompt": "第 7 题(题干在原始录音中)",
+          "choices": [
+            "Technical equipment.",
+            "Business consultancy.",
+            "Beef.",
+            "Car washing."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "audioId": "cet6-2024-12-set2-audio"
+        },
+        {
+          "id": "cet6-2024-12-set2-q8",
+          "type": "CONVERSATION",
+          "prompt": "第 8 题(题干在原始录音中)",
+          "choices": [
+            "Car owners of all walks of life.",
+            "High-end customers in big cities.",
+            "Consumers craving for professional service.",
+            "Well-off dealers seeking a profitable markup."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "audioId": "cet6-2024-12-set2-audio"
+        },
+        {
+          "id": "cet6-2024-12-set2-q9",
+          "type": "PASSAGE",
+          "prompt": "第 9 题(题干在原始录音中)",
+          "choices": [
+            "Parents’ talking with them during TV time raises their curiosity levels.",
+            "Their daily television exposure cuts parent -child conversation time.",
+            "The more TV they watch the poorer their progress in development.",
+            "Their socioeconomic levels impa ct their academic achievement."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "audioId": "cet6-2024-12-set2-audio"
+        },
+        {
+          "id": "cet6-2024-12-set2-q10",
+          "type": "PASSAGE",
+          "prompt": "第 10 题(题干在原始录音中)",
+          "choices": [
+            "Kids ’ enhanced learning.",
+            "Kids’ curiosity levels.",
+            "Kids’ reading and math.",
+            "Kids’ behavioral development."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "audioId": "cet6-2024-12-set2-audio"
+        },
+        {
+          "id": "cet6-2024-12-set2-q11",
+          "type": "PASSAGE",
+          "prompt": "第 11 题(题干在原始录音中)",
+          "choices": [
+            "It can hinder kids from getting on with their peers.",
+            "It can cut into kids ’ time on exploratory activities.",
+            "It can arouse kids’ interest in how people interact in real life.",
+            "It can widen the gap between kids from different economic statuses."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "audioId": "cet6-2024-12-set2-audio"
+        },
+        {
+          "id": "cet6-2024-12-set2-q12",
+          "type": "PASSAGE",
+          "prompt": "第 12 题(题干在原始录音中)",
+          "choices": [
+            "Exerting ourselves too hard in order to attain our life’s goals.",
+            "Being possessed with a single thought of professional success.",
+            "Trying every means to beat others in terms of personal aspirations.",
+            "Being mindlessly driven to possess more and more material things."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "audioId": "cet6-2024-12-set2-audio"
+        },
+        {
+          "id": "cet6-2024-12-set2-q13",
+          "type": "PASSAGE",
+          "prompt": "第 13 题(题干在原始录音中)",
+          "choices": [
+            "We might isolate ourselves from our fellow beings.",
+            "We might acquire an incorrect sense of well -being.",
+            "We might end up pursuing all the wrong things.",
+            "We might make a mess of our personal lives."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "audioId": "cet6-2024-12-set2-audio"
+        },
+        {
+          "id": "cet6-2024-12-set2-q14",
+          "type": "PASSAGE",
+          "prompt": "第 14 题(题干在原始录音中)",
+          "choices": [
+            "They should be based on solid theoretical concepts:",
+            "They should take personal interests into account.",
+            "They should include goals to help other people.",
+            "They should increase our sense of worthiness."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "audioId": "cet6-2024-12-set2-audio"
+        },
+        {
+          "id": "cet6-2024-12-set2-q15",
+          "type": "PASSAGE",
+          "prompt": "第 15 题(题干在原始录音中)",
+          "choices": [
+            "Drifting through life aimlessly.",
+            "Giving up the chance to fulfill yourself.",
+            "Abandoning all that life has to offer.",
+            "Spoiling your character and integrity."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "audioId": "cet6-2024-12-set2-audio"
+        },
+        {
+          "id": "cet6-2024-12-set2-q16",
+          "type": "LECTURE",
+          "prompt": "第 16 题(题干在原始录音中)",
+          "choices": [
+            "Grade-raising ways and means.",
+            "Pressure-alleviating exercise.",
+            "Revision-conducting approaches.",
+            "Brain-boosting food and drink."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "audioId": "cet6-2024-12-set2-audio"
+        },
+        {
+          "id": "cet6-2024-12-set2-q17",
+          "type": "LECTURE",
+          "prompt": "第 17 题(题干在原始录音中)",
+          "choices": [
+            "Buying it from coffee shops.",
+            "Building up a tolerance of it.",
+            "Drinking it after 2 pm.",
+            "Consuming it with sugar."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "audioId": "cet6-2024-12-set2-audio"
+        },
+        {
+          "id": "cet6-2024-12-set2-q18",
+          "type": "LECTURE",
+          "prompt": "第 18 题(题干在原始录音中)",
+          "choices": [
+            "By taking varied vitamin supplements.",
+            "By consuming a rich variety of foods.",
+            "By eating both oranges and frozen berries.",
+            "By getting components packaged in tablets."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "audioId": "cet6-2024-12-set2-audio"
+        },
+        {
+          "id": "cet6-2024-12-set2-q19",
+          "type": "LECTURE",
+          "prompt": "第 19 题(题干在原始录音中)",
+          "choices": [
+            "Many people across advanced economies think the world is going from bad to worse.",
+            "The news focuses on reporting catastrophes that occur across the world.",
+            "A significant part of the world is experiencing another great recession.",
+            "Many people have no idea of those living under miserable conditions."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "audioId": "cet6-2024-12-set2-audio"
+        },
+        {
+          "id": "cet6-2024-12-set2-q20",
+          "type": "LECTURE",
+          "prompt": "第 20 题(题干在原始录音中)",
+          "choices": [
+            "It has experienced ups and downs like any other historical trend.",
+            "It is hailed as a miracle by both economists and ordinary people.",
+            "It is the only way for all countries to share economic prosperity.",
+            "It has given more and more countries a rare chance to thrive."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "audioId": "cet6-2024-12-set2-audio"
+        },
+        {
+          "id": "cet6-2024-12-set2-q21",
+          "type": "LECTURE",
+          "prompt": "第 21 题(题干在原始录音中)",
+          "choices": [
+            "Their fortunes may take a downturn.",
+            "They can be classified as middle class.",
+            "Their living standards have been deteriorating.",
+            "They are experiencing a radical transformation."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "audioId": "cet6-2024-12-set2-audio"
+        },
+        {
+          "id": "cet6-2024-12-set2-q22",
+          "type": "LECTURE",
+          "prompt": "第 22 题(题干在原始录音中)",
+          "choices": [
+            "Why smells can activate emotional memories.",
+            "How powerful the sense of smell can become.",
+            "How scent particles revive memories forgotten.",
+            "Why the scent of bread has a strong mental impact."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "audioId": "cet6-2024-12-set2-audio"
+        },
+        {
+          "id": "cet6-2024-12-set2-q23",
+          "type": "LECTURE",
+          "prompt": "第 23 题(题干在原始录音中)",
+          "choices": [
+            "The brain cells’ processing of memories experienced as strongly emotional.",
+            "The activation of the brain ’s emotion processing area by chemical particles:",
+            "The interaction between chemical particles and the brain cells responsible for smell.",
+            "The sensations of scents going directly to the brain ’s emotional and memory centers."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "audioId": "cet6-2024-12-set2-audio"
+        },
+        {
+          "id": "cet6-2024-12-set2-q24",
+          "type": "LECTURE",
+          "prompt": "第 24 题(题干在原始录音中)",
+          "choices": [
+            "Imagination .",
+            "Association .",
+            "Experience.",
+            "Context."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "audioId": "cet6-2024-12-set2-audio"
+        },
+        {
+          "id": "cet6-2024-12-set2-q25",
+          "type": "LECTURE",
+          "prompt": "第 25 题(题干在原始录音中)",
+          "choices": [
+            "Inaccuracy and alterability.",
+            "Susceptibility to polar int erpretations:",
+            "Being personal and individualistic.",
+            "Being dependent on relevant scenarios."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "audioId": "cet6-2024-12-set2-audio"
+        }
+      ],
+      "audio": [
+        {
+          "id": "cet6-2024-12-set2-audio",
+          "url": "/study/resources/404b8a20d3881ad478e88c62.m4a",
+          "sourceUrl": "/study/resources/404b8a20d3881ad478e88c62.m4a",
+          "durationSeconds": 1640.489796,
+          "transcript": "",
+          "identity": "cet6_2024_12_2.mp3 SHA256:404b8a20d3881ad478e88c62cd9434989182c8c3e45cc8277aab3a3f07a0431b"
+        }
+      ],
+      "passages": [],
+      "sourceFileUrl": "/study/resources/de0f410d0edaa896970727b7.pdf"
+    },
+    "READING": {
+      "instructions": "请依次完成选词填空、长篇匹配和仔细阅读。",
+      "questions": [
+        {
+          "id": "cet6-2024-12-set2-q26",
+          "type": "WORD_BANK",
+          "prompt": "第 26 空",
+          "choices": [
+            "affectionate",
+            "approximately",
+            "elapses",
+            "erode",
+            "flattered",
+            "flips",
+            "halt",
+            "overburdened",
+            "predominates",
+            "propagate",
+            "scenario",
+            "shadow",
+            "tentatively",
+            "typically",
+            "vigorous"
+          ],
+          "answerIndex": 11,
+          "explanation": "原卷答案：L。",
+          "weight": 0.5,
+          "passageId": "cet6-2024-12-set2-bank"
+        },
+        {
+          "id": "cet6-2024-12-set2-q27",
+          "type": "WORD_BANK",
+          "prompt": "第 27 空",
+          "choices": [
+            "affectionate",
+            "approximately",
+            "elapses",
+            "erode",
+            "flattered",
+            "flips",
+            "halt",
+            "overburdened",
+            "predominates",
+            "propagate",
+            "scenario",
+            "shadow",
+            "tentatively",
+            "typically",
+            "vigorous"
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 0.5,
+          "passageId": "cet6-2024-12-set2-bank"
+        },
+        {
+          "id": "cet6-2024-12-set2-q28",
+          "type": "WORD_BANK",
+          "prompt": "第 28 空",
+          "choices": [
+            "affectionate",
+            "approximately",
+            "elapses",
+            "erode",
+            "flattered",
+            "flips",
+            "halt",
+            "overburdened",
+            "predominates",
+            "propagate",
+            "scenario",
+            "shadow",
+            "tentatively",
+            "typically",
+            "vigorous"
+          ],
+          "answerIndex": 5,
+          "explanation": "原卷答案：F。",
+          "weight": 0.5,
+          "passageId": "cet6-2024-12-set2-bank"
+        },
+        {
+          "id": "cet6-2024-12-set2-q29",
+          "type": "WORD_BANK",
+          "prompt": "第 29 空",
+          "choices": [
+            "affectionate",
+            "approximately",
+            "elapses",
+            "erode",
+            "flattered",
+            "flips",
+            "halt",
+            "overburdened",
+            "predominates",
+            "propagate",
+            "scenario",
+            "shadow",
+            "tentatively",
+            "typically",
+            "vigorous"
+          ],
+          "answerIndex": 6,
+          "explanation": "原卷答案：G。",
+          "weight": 0.5,
+          "passageId": "cet6-2024-12-set2-bank"
+        },
+        {
+          "id": "cet6-2024-12-set2-q30",
+          "type": "WORD_BANK",
+          "prompt": "第 30 空",
+          "choices": [
+            "affectionate",
+            "approximately",
+            "elapses",
+            "erode",
+            "flattered",
+            "flips",
+            "halt",
+            "overburdened",
+            "predominates",
+            "propagate",
+            "scenario",
+            "shadow",
+            "tentatively",
+            "typically",
+            "vigorous"
+          ],
+          "answerIndex": 13,
+          "explanation": "原卷答案：N。",
+          "weight": 0.5,
+          "passageId": "cet6-2024-12-set2-bank"
+        },
+        {
+          "id": "cet6-2024-12-set2-q31",
+          "type": "WORD_BANK",
+          "prompt": "第 31 空",
+          "choices": [
+            "affectionate",
+            "approximately",
+            "elapses",
+            "erode",
+            "flattered",
+            "flips",
+            "halt",
+            "overburdened",
+            "predominates",
+            "propagate",
+            "scenario",
+            "shadow",
+            "tentatively",
+            "typically",
+            "vigorous"
+          ],
+          "answerIndex": 7,
+          "explanation": "原卷答案：H。",
+          "weight": 0.5,
+          "passageId": "cet6-2024-12-set2-bank"
+        },
+        {
+          "id": "cet6-2024-12-set2-q32",
+          "type": "WORD_BANK",
+          "prompt": "第 32 空",
+          "choices": [
+            "affectionate",
+            "approximately",
+            "elapses",
+            "erode",
+            "flattered",
+            "flips",
+            "halt",
+            "overburdened",
+            "predominates",
+            "propagate",
+            "scenario",
+            "shadow",
+            "tentatively",
+            "typically",
+            "vigorous"
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 0.5,
+          "passageId": "cet6-2024-12-set2-bank"
+        },
+        {
+          "id": "cet6-2024-12-set2-q33",
+          "type": "WORD_BANK",
+          "prompt": "第 33 空",
+          "choices": [
+            "affectionate",
+            "approximately",
+            "elapses",
+            "erode",
+            "flattered",
+            "flips",
+            "halt",
+            "overburdened",
+            "predominates",
+            "propagate",
+            "scenario",
+            "shadow",
+            "tentatively",
+            "typically",
+            "vigorous"
+          ],
+          "answerIndex": 14,
+          "explanation": "原卷答案：O。",
+          "weight": 0.5,
+          "passageId": "cet6-2024-12-set2-bank"
+        },
+        {
+          "id": "cet6-2024-12-set2-q34",
+          "type": "WORD_BANK",
+          "prompt": "第 34 空",
+          "choices": [
+            "affectionate",
+            "approximately",
+            "elapses",
+            "erode",
+            "flattered",
+            "flips",
+            "halt",
+            "overburdened",
+            "predominates",
+            "propagate",
+            "scenario",
+            "shadow",
+            "tentatively",
+            "typically",
+            "vigorous"
+          ],
+          "answerIndex": 12,
+          "explanation": "原卷答案：M。",
+          "weight": 0.5,
+          "passageId": "cet6-2024-12-set2-bank"
+        },
+        {
+          "id": "cet6-2024-12-set2-q35",
+          "type": "WORD_BANK",
+          "prompt": "第 35 空",
+          "choices": [
+            "affectionate",
+            "approximately",
+            "elapses",
+            "erode",
+            "flattered",
+            "flips",
+            "halt",
+            "overburdened",
+            "predominates",
+            "propagate",
+            "scenario",
+            "shadow",
+            "tentatively",
+            "typically",
+            "vigorous"
+          ],
+          "answerIndex": 8,
+          "explanation": "原卷答案：I。",
+          "weight": 0.5,
+          "passageId": "cet6-2024-12-set2-bank"
+        },
+        {
+          "id": "cet6-2024-12-set2-q36",
+          "type": "MATCHING",
+          "prompt": "We cannot see the moon at times when it is positioned right between the earth and the sun.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段"
+          ],
+          "answerIndex": 4,
+          "explanation": "原卷答案：E。",
+          "weight": 1,
+          "passageId": "cet6-2024-12-set2-matching"
+        },
+        {
+          "id": "cet6-2024-12-set2-q37",
+          "type": "MATCHING",
+          "prompt": "Volcanic eruptions may cause the moon to assume a moody blue color.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段"
+          ],
+          "answerIndex": 10,
+          "explanation": "原卷答案：K。",
+          "weight": 1,
+          "passageId": "cet6-2024-12-set2-matching"
+        },
+        {
+          "id": "cet6-2024-12-set2-q38",
+          "type": "MATCHING",
+          "prompt": "The moon will be closest to the earth when the supermoon occurs in February.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段"
+          ],
+          "answerIndex": 6,
+          "explanation": "原卷答案：G。",
+          "weight": 1,
+          "passageId": "cet6-2024-12-set2-matching"
+        },
+        {
+          "id": "cet6-2024-12-set2-q39",
+          "type": "MATCHING",
+          "prompt": "There is nothing unusual about the super blood wolf moon, which will bear no resemblance to a bloody wolf head.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段"
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "passageId": "cet6-2024-12-set2-matching"
+        },
+        {
+          "id": "cet6-2024-12-set2-q40",
+          "type": "MATCHING",
+          "prompt": "The moon will appear orange when the light reflecting from it travels through an atmosphere thicker than usual.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段"
+          ],
+          "answerIndex": 7,
+          "explanation": "原卷答案：H。",
+          "weight": 1,
+          "passageId": "cet6-2024-12-set2-matching"
+        },
+        {
+          "id": "cet6-2024-12-set2-q41",
+          "type": "MATCHING",
+          "prompt": "It is contrary to logic to claim the name of wolf moon originates from the cultures of American Indians。",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段"
+          ],
+          "answerIndex": 12,
+          "explanation": "原卷答案：M。",
+          "weight": 1,
+          "passageId": "cet6-2024-12-set2-matching"
+        },
+        {
+          "id": "cet6-2024-12-set2-q42",
+          "type": "MATCHING",
+          "prompt": "As the moon’s orbit is not a hundred-percent circle, its distance from the earth changes.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段"
+          ],
+          "answerIndex": 5,
+          "explanation": "原卷答案：F。",
+          "weight": 1,
+          "passageId": "cet6-2024-12-set2-matching"
+        },
+        {
+          "id": "cet6-2024-12-set2-q43",
+          "type": "MATCHING",
+          "prompt": "A full moon in a given month or season gets a specific name in different cultures.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段"
+          ],
+          "answerIndex": 13,
+          "explanation": "原卷答案：N。",
+          "weight": 1,
+          "passageId": "cet6-2024-12-set2-matching"
+        },
+        {
+          "id": "cet6-2024-12-set2-q44",
+          "type": "MATCHING",
+          "prompt": "There are likely lots of people who know absolutely nothing about why the moon appears to change its size regularly but act like they know.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段"
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "passageId": "cet6-2024-12-set2-matching"
+        },
+        {
+          "id": "cet6-2024-12-set2-q45",
+          "type": "MATCHING",
+          "prompt": "When a full moon appears twice in the same month, it is nicknamed a blue moon.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段"
+          ],
+          "answerIndex": 9,
+          "explanation": "原卷答案：J。",
+          "weight": 1,
+          "passageId": "cet6-2024-12-set2-matching"
+        },
+        {
+          "id": "cet6-2024-12-set2-q46",
+          "type": "DETAIL",
+          "prompt": "What has become of the rural areas nowadays?",
+          "choices": [
+            "They are becoming somewhat deserted.",
+            "They are being increasingly urbanised.",
+            "They are closely-knit communities.",
+            "They are haunted by conservatism."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "passageId": "cet6-2024-12-set2-detail1"
+        },
+        {
+          "id": "cet6-2024-12-set2-q47",
+          "type": "DETAIL",
+          "prompt": "What does the author think of the rural lifestyle",
+          "choices": [
+            "It is unlikely to survive given the on-going changes.",
+            "It is less energy-efficient compared to that in cities.",
+            "It is highly dependent upon heavy automobiles.",
+            "It is a choice more affluent people will endorse."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "passageId": "cet6-2024-12-set2-detail1"
+        },
+        {
+          "id": "cet6-2024-12-set2-q48",
+          "type": "DETAIL",
+          "prompt": "What does the author think of rich urban residents buying a second home in the countryside?",
+          "choices": [
+            "It is bound to mar the traditional rural life.",
+            "It adversely impacts rural social stability.",
+            "It hinders rural economies’ revitalisation.",
+            "It is detrimental to rural preservation."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "passageId": "cet6-2024-12-set2-detail1"
+        },
+        {
+          "id": "cet6-2024-12-set2-q49",
+          "type": "DETAIL",
+          "prompt": "What do we learn about the countryside with industrialisation and technological advances?",
+          "choices": [
+            "It is destined to change gradually.",
+            "It will present an idealised way of life.",
+            "It is likely to embrace foreign cultures.",
+            "It will become increasi ngly diversified."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "passageId": "cet6-2024-12-set2-detail1"
+        },
+        {
+          "id": "cet6-2024-12-set2-q50",
+          "type": "DETAIL",
+          "prompt": "What does the author think of the future of the countryside compared with cities?",
+          "choices": [
+            "It is going to be harder for the locals.",
+            "It is going to resemble that of citi es.",
+            "It is less likely to stay static.",
+            "It is less e asy to envisage."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "passageId": "cet6-2024-12-set2-detail1"
+        },
+        {
+          "id": "cet6-2024-12-set2-q51",
+          "type": "DETAIL",
+          "prompt": "What does the passage say about the statement “beauty is in the eye of the beholder”?",
+          "choices": [
+            "It has hardly ever been disputed.",
+            "It can be interpreted aesthetically.",
+            "Many people have found it absurd.",
+            "People have long been misled by it."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "passageId": "cet6-2024-12-set2-detail2"
+        },
+        {
+          "id": "cet6-2024-12-set2-q52",
+          "type": "DETAIL",
+          "prompt": "What does a recent study exploring aesthetic taste show?",
+          "choices": [
+            "Aesthetic tastes tend to differ from person to person.",
+            "Natural beauty is rarely surpassed by artificial beauty.",
+            "There is less consensus on objects shaped by human craft.",
+            "There is general agreement on what is pleasing to the eye."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "passageId": "cet6-2024-12-set2-detail2"
+        },
+        {
+          "id": "cet6-2024-12-set2-q53",
+          "type": "DETAIL",
+          "prompt": "Why do people differ in their aesthetic appraisal of artifacts?",
+          "choices": [
+            "They come out in a great variety of designs.",
+            "They lead to varying behavioral consequences.",
+            "They take up much less natural space than landscapes.",
+            "They come into people’s view less often than natural spaces."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "passageId": "cet6-2024-12-set2-detail2"
+        },
+        {
+          "id": "cet6-2024-12-set2-q54",
+          "type": "DETAIL",
+          "prompt": "What does the example of sunset tell about nature?",
+          "choices": [
+            "It creates a powerful appeal through its brilliant radiance.",
+            "It displays aesthetic traits in a similar way the world over.",
+            "It embodies beauty with a wide array of aesthetic features.",
+            "It establishes the principles of beauty in a number of ways."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "passageId": "cet6-2024-12-set2-detail2"
+        },
+        {
+          "id": "cet6-2024-12-set2-q55",
+          "type": "DETAIL",
+          "prompt": "Why do artifacts not always hold universal appeal?",
+          "choices": [
+            "The appreciation of their beauty is not subject to objective standards.",
+            "The universal principle of beauty prevents a wide array of embodiments.",
+            "The way their creators apply the principle of beauty may not be pleasing to everybody.",
+            "Their creators interpret the universal principle of beauty each in their preferred way."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "passageId": "cet6-2024-12-set2-detail2"
+        }
+      ],
+      "audio": [],
+      "passages": [
+        {
+          "id": "cet6-2024-12-set2-bank",
+          "text": "Ever been talking about something important with someone you care about and found the discussion frustrating instead of fruitful? Negative energy can then cast a  __(26)__  over your efforts to build a shared understanding.       In fact, collaborative problem-solving conversations require skills. Strong listening skills are essential. Sprinkling in positivity via appreciation,  __(27)__  smiles, and warm comments helps. So does the essential ability to keep your emotional tone in the calm zone. If the tone of a dialogue heats up and anger erupts, the dialogue  __(28)__  from collaborative to adversarial, and progress is likely to come to an immediate  __(29)__ .       In addition, effective dialogue generally has another important characteristic: symm                      etry.       Symmetry in dialogue refers to the balance of how much each partner talks. Are you each getting equal airtime? When one participant does most of the talking,           this asymmetry or lack of balance tends to become annoying to one or both of you. The silent partner  __(30)__  tires of only listening, while the talker can feel                  __(31)__ . Usually, both would prefer more equal give and take.       Different rates of speech and l       evels of voice volume can           __(32)__  symmetry as well. The faster or louder partner can easily begin taking up more airtime. The slower             -talking or softer-voiced one can have trouble getting the floor.       Conversations also lose balance when one partner               ’s opinions count more than the other          ’s. One person’s input may carry more sway because their style of expression is more                 __(33)__ . One viewpoint may tend to get lost because it is expressed more  __(34)__ .       If either partner fairly consistently        __(35)__  or evaporates, modifying the pattern will be helpful. The dialogue will feel more productive, and at the same time, the relationship overall is likely to f                 eel more positive."
+        },
+        {
+          "id": "cet6-2024-12-set2-matching",
+          "text": "What Is a Super Blood Wolf Moon?\nA) Blue moons, rose moons, supermoons. For some reason all the websites seem to think you really want to know all about these moons.      “Catch This Weekend’s AMAZING SUPERMOON\",                             one headline will announce.           “The Supermoon Isn’t Actually A Big Deal And You’re All Ruining Astronomy”, another will complain.\nB) The latest example is the super blood wolf moon eclipse which sounds like the name of an emotional song I would have performed a modern dance routine to in 9th grade, but is, in fact, an astronomical event set to occur on January 20. As we'll explain below, there is nothing truly mysterious or otherwise special about this moon, and it will not look like a bloody wolf head in the sky or anything wild like that. We get these super lunar                    events by smashing together all the qualifiers we've historically used to keep track of full moons throughout the year,                    and in the age of the internet we can get a little too enthusiastic.\nC) Consider this your go-to resource for all moon-gazing news. Here’s what you need to know about the latest lunar event.\nD) Look, it’s okay if you don’t know. There are probably loads of folks who walk around pretending they totally know why that thing in the sky seems to get bigger and smaller at regular intervals but                who totally do not.\nE) The moon orbits Earth, and it’s tidally locked --- that means it always shows us the same face, instead of spinning around like our planet does. That’s why you can always see the man on the moon (or the moon                            rabbit, depending on your cultural preferences) even as it spins around us. But while the moon is big and bright in the sky when it                      ’s full, that’s only because it’s reflecting light from the sun. But the moon is always moving. so it               ’s getting hit with sunlight at different angles. It       ’s invisible to us during the new moon, because our satellite is parked right between us and the sun; the so                      -called dark side of the moon is lit up like Las Vegas,        but the side we can see is in shadow. A full moon happens when the earth is right between the sun and the moon, so sunlight hits the part we can see. And all the other phases are just the transition from one of those extremes to the other.\nF) The moon isn’t always exactly the same distance from Earth,                   because its orbit isn    ’t perfectly circular. We call the closest point perigee (近地点), and the most distant point is apogee (                   远地点). 2018's closest perigee and most distant apogee bo                    th happened in January, and the difference was about 30,000 miles.\nG) The reason you care about this ordinary change in distance is that it turns a moon super. When a full moon happens close to perigee. it's going to look a bit bigger. Honestly, the diffe         rence is not that profound, but if you’re in a position to photograph the supermoon next to something that shows the slight increase in scale,                    it can look pretty cool,     January’s super blood wolf moon eclipse is super because the date lines up with the clos              est the moon will get to us during January,but the moon won't actually be at its closest for the year until February         ’s supermoon, which you can expect plenty of undue excitement over.\nH) Blood moons only occur during total lunar eclipses (which can happe                      n a few times a year in any given location). When the moon slips through our shadow, we give it a reddish coloring. The moon can also look orange whenever it's rising or setting, or if it hangs low in the horizon all night           --- the light bouncing off of it       has to travel through a thicker atmosphere there, which scatters more blue light away. But you'll probably only see that deep,                    sinister red during an eclipse.\nI) A lot of headlines about moons are just ridiculous (you do not need to be particularly excite                        d about a blue moon. it just looks like a regular full moon),       but you should definitely roll out of bed to look at a blood moon if one is going to be visible in your region, even though they’re just lunar eclipses and not evidence of bloody battles between                         the sky gods.\nJ) In March of 2018, we had our second             “blue moon” of the year, to much acclaim. And while that’s not necessarily special in an oh-gosh-get-out-and-look-at-it way, it’s certainly special: a blue moon is a nickname for when two full moons fall in the same calendar month, and we hadn’t previously had two in one year since 1999. We won’t have it happen again until 2037. Astronomer David Chapman explained that this is merely a peculiarity of our calendar; once we stopped doing things based on the moon and started trying to follow the sun and the seasons, we stopped having one reliable full moon per month. The moon cycle is 29.53 days long on average, so in most months we still end up with a single new moon and a single full one. But every once in a while, one month steals a full moon from another. In 2018 (and in 1999, and again in 2037) both January and March stacked full moons on the first and last nights of the month. leaving February in the dark.\n\n\n\nK) Getting two blue moons a year is rare, but we have individual blue moons every few years. Also, fun fact: not actually blue. A moon can indeed take on a moody blue color, but this only happens when particles of just the right size disperse through the sky --- and it has nothing to do with the moon’s status as “blue”. Big clouds of ash from volcanic eruptions or fires can do the trick, but it doesn’t happen often, and the stars would certainly have to align for two such rare instances to occur at once.\nL) You may have heard that the super special second blue moon of 2018 was also a Paschal moon. This is true! That just means it was the first full moon of spring, which is often used to determine the date of Easter Sunday. All of this is just calendar nonsense and we refuse to go into it further.\nM) Sometimes you'll see a headline that promises a moon with so many qualifiers it makes your head spin. A super blue blood worm moon, perhaps? Or a super blood wolf moon? Lots of websites will tell you that “wolf moon” is the traditional name of the first full moon of the year in “Native American” cultures, which is kind of a weird thing to claim given that there are 573 registered Tribal Nations in the US alone today, not to mention historically. The idea that hungry, howling wolves were such a universal constant in January that all of North America with its different cultures, geographies, and languages spontaneously came up with the same nickname is illogical.\nN) Many cultures have traditional names for the full moon in a given month or season, so there’s quite a list to draw from if you’re trying to really juice up a story on a slightly-bigger-than-average view of the moon. But these are all based on human calendars and activities and folklore; you will not go outside and see a pink moon in April, though I wish it were so."
+        },
+        {
+          "id": "cet6-2024-12-set2-detail1",
+          "text": "With population increases and global urbanisation ever accelerating, much attention is focused on the sustainability of our cities and scarce attention is paid to the countryside.       Rural life is associated with closely-knit communities, sense of belonging, and a simple. tranquil life. Yet whilst some or all of these elements exist in the countryside, so do conservatism and a lack of employment opportunities. And it is mostly due to the latter that rural communities are suffering. Attracted by the improved economics of urban areas, country-dwellers across the world are moving out, contributing to the excessive crowdedness of densely populated cities, and leaving the countryside in desolation.       So how can the countryside ensure its survival among these changes; or should it at all? Due to both the distance between residences and facilities and often intermittent public transport, those living in the countryside are heavier automobile users. Rural dwellers also use more energy maintaining their mostly detached buildings. We may be piled up like boxes in the city, but this brings energy efficiency that the countryside cannot match. Rural energy requirements result in higher carbon emissions per person than in the city, so it is actually irresponsible to endorse such a lifestyle choice.       Protecting the countryside is a hot topic. Those who have made their fortunes in the city often buy second homes in the\n\n\n\ncountryside, visiting intermittently for a sample of a supposedly simple life. The side-effect of this is that house prices are pushed up due to increased demand, leaving them unaffordable for local people. A solution has yet to be found for this challenge, for market forces are further forcing residents out of the countryside. For those who believe in rural preservation, this is deplorable.       Whilst an idealised view of the countryside is common,                            the reality  is that rural life has continuously evolved. Industrialisation brought an increase in divisions of labour, changing social links between rural people. The internet has introduced once foreign cultures into the countryside. Improved travel connections and affordability have made the world more accessible, creating a “global village”. Considering these changes, surely an evolving countryside is inevitable.       Perhaps the countryside should also prepare itself for massive population increases in the future. With cities across the world growing rapidly, how will the current urban generation respond to the inevitable social changes of mass urbanization? Will the longing for a simpler life become stronger, fueling a rural renaissance?       As the world continues to urbanise,                the voices calling for        rural preservation may well grow louder. But change is inevitable, we know that the world is going to see new cities emerging from the dust and current cities growing into megacities, but the future of the countryside is less clear."
+        },
+        {
+          "id": "cet6-2024-12-set2-detail2",
+          "text": "Statements, like      “beauty is in the eye of the beholder (          观看者       )”, are rarely questioned. They         ’ve become so embedded in our consciousness that people think it            ’s absurd to    think otherwise. It might be useful, however, to at least push back on this assumption because people evaluate environment, situations, and p                        eople aesthetically. We may find that we still believe it is correct,   but we may also find that there is a lot more              to the situation than you suppose.       A recent study exploring aesthetic taste was published in Cognition. The results from this study show that people agree very much in their aesthetic evaluation of natural obj               ects,  but they disagree more about artifacts,             or human    -made objects.       The study found that shared taste            was most common for faces and natural landscapes,                      but least common among works of architecture and art. The hypothesis is the commonly pleasing features,                        like proportion or      symmetry, are at work.       Preferences for natural scenes might be learned through life experiences. Factors like habitability                              , safety, and openness might be preferred as people develop. Some of the details of landscapes change,                           but the basics are more common,             e.g., water, open spaces, and signs of care.       Art and architecture, unlike natural spaces, do not have the same level of exposure. So, people do not have the same level of shared taste.\n\n\n\n     It’s possible that the lower amount of agreement in the shared taste             of artifacts has to do more with elements of style, rather than “behavioral consequences”.      All of the consequences seem        reasonable (or at least possible)     , but I think there might be an interesting       philosophical conclusion that they did not draw. It seems       that there is an objective ground to our a      esthetic preferences or evaluations. I am not saying this would mean beauty is completely objective            , just that there could possibly be general objective principles at work, i.e., beauty is not simply in the eye     of the beholder.      Nature exhibits some of the universal a        esthetic features such as radiance in a common way throughout the world. It               ’s not exactly the same everywhere, but it is common. For example, a sunset is similar enough in different places to warrant almost universal appeal.      Possible universal principles of beauty --- such as proportion, fittingness, radiance, and others --- are general categories, which allow for a wide array of embodiments. When people get involved in making artifacts in architectur                   e or art, they apply these very general concepts in unique ways. But the way they applied the principle may not have universal appeal.      This is why it’s important to experience diverse cultures and their artifacts because it opens us up to different ways o                   f approaching or constructing beauty. And it is always good to question our assumptions."
+        }
+      ],
+      "sourceFileUrl": "/study/resources/de0f410d0edaa896970727b7.pdf"
+    },
+    "TRANSLATION": {
+      "instructions": "请将原卷中文翻译成英语。",
+      "prompt": "Directions: For this part, you are allowed 30 minutes to translate a passage from Chinese into English. You should write your answer on Answer Sheet 2.\n\n洋山港(Yangshan Port)         是上海航运中心的重要组成部分                           ,是中国第一个深水港                 ,也是世界上规模最大的深水港之一。经 过近    20  年的发展,洋山港已实现高度自动化。数字技术和人工                                            智能的使用大大减少了用工成本和碳排放。自主研发 的码头管理系统可以在百公里之外对大型设备进行远程操控。洋山港看上去一片繁忙                                                                       ,现场却见不到人工操作,而且 能够    24  小时不间断运作。洋山港将不断发展,为把上海建成一个全球航运中心做出更大贡献。",
+      "questions": [],
+      "audio": [],
+      "passages": [],
+      "sourceFileUrl": "/study/resources/de0f410d0edaa896970727b7.pdf"
+    }
+  }
+}

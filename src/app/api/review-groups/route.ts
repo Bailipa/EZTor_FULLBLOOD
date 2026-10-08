@@ -4,15 +4,21 @@ import { getServerSession } from 'next-auth/next'
 import { authOptions } from '@/lib/authOptions'
 import { handleApiError, createErrorResponse, createSuccessResponse } from '@/lib/apiErrorHandler'
 
-export async function GET(_req: Request) {
+export async function GET(req: Request) {
   try {
     const session = await getServerSession(authOptions)
     if (!session?.user?.id) {
       return createErrorResponse('未授权访问', 401)
     }
 
+    const includeStudyUnknown = new URL(req.url).searchParams.get('purpose') === 'dictation'
     const groups = await prisma.reviewGroup.findMany({
-      where: { userId: session.user.id, isSystem: false },
+      where: {
+        userId: session.user.id,
+        ...(includeStudyUnknown
+          ? { OR: [{ isSystem: false }, { isSystem: true, name: '_unknown_words' }] }
+          : { isSystem: false }),
+      },
       include: {
         _count: {
           select: { ReviewGroupWord: true },

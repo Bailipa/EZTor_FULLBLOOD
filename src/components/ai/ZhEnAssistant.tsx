@@ -23,7 +23,6 @@ import {
   Loader2,
   Search,
   Copy,
-  ArrowRight,
 } from 'lucide-react'
 import { useLoginPrompt } from '@/components/ui/login-prompt-modal'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -52,11 +51,10 @@ interface ZhEnResult {
 interface ZhEnAssistantProps {
   view: 'zh-en' | 'text' | 'ai'
   onViewChange?: (view: 'zh-en' | 'text' | 'ai') => void
-  onCarryToRealtime?: (word: string) => void
   groups?: { id: string; name: string }[]
 }
 
-export function ZhEnAssistant({ view, onViewChange, onCarryToRealtime, groups: initialGroups = [] }: ZhEnAssistantProps) {
+export function ZhEnAssistant({ view, onViewChange, groups: initialGroups = [] }: ZhEnAssistantProps) {
   const { data: session } = useSession()
   const isAuthenticated = !!session?.user
   const { promptLogin, LoginPromptDialog } = useLoginPrompt()
@@ -70,9 +68,8 @@ export function ZhEnAssistant({ view, onViewChange, onCarryToRealtime, groups: i
   const [error, setError] = useState('')
 
   const [expanded, setExpanded] = useState<Record<number, boolean>>({})
-  const [expandedWord, setExpandedWord] = useState<Record<string, boolean>>({})
-  const [targetGroup, setTargetGroup] = useState('none')
-  const [newGroupName, setNewGroupName] = useState('')
+  const [targetGroups, setTargetGroups] = useState<Record<string, string>>({})
+  const [newGroupNames, setNewGroupNames] = useState<Record<string, string>>({})
   const [addingWord, setAddingWord] = useState<string | null>(null)
   const [addedNotice, setAddedNotice] = useState('')
   const [textInput, setTextInput] = useState('')
@@ -158,11 +155,12 @@ export function ZhEnAssistant({ view, onViewChange, onCarryToRealtime, groups: i
     }
   }
 
-  const handleAddWord = async (word: string) => {
+  const handleAddWord = async (word: string, wordKey: string) => {
     if (!isAuthenticated) {
       promptLogin('加入词库')
       return
     }
+    const targetGroup = targetGroups[wordKey] ?? 'none'
     if (!targetGroup || targetGroup === 'none') return
     setAddingWord(word)
     setAddedNotice('')
@@ -170,7 +168,7 @@ export function ZhEnAssistant({ view, onViewChange, onCarryToRealtime, groups: i
       let targetGroupId = targetGroup
       let groupLabel = groups.find((g) => g.id === targetGroup)?.name ?? ''
       if (targetGroup === 'NEW') {
-        const name = newGroupName.trim()
+        const name = (newGroupNames[wordKey] ?? '').trim()
         if (!name) {
           setAddedNotice('请输入新词库名称')
           return
@@ -187,6 +185,7 @@ export function ZhEnAssistant({ view, onViewChange, onCarryToRealtime, groups: i
         targetGroupId = created.data.id
         groupLabel = created.data.name
         setGroups((prev) => [...prev, { id: created.data.id, name: created.data.name }])
+        setTargetGroups((prev) => ({ ...prev, [wordKey]: created.data.id }))
       }
       const res = await fetch(`/api/review-groups/${targetGroupId}/words`, {
         method: 'POST',
@@ -196,8 +195,8 @@ export function ZhEnAssistant({ view, onViewChange, onCarryToRealtime, groups: i
       if (res.success) {
         const added = res.addedCount ?? 0
         setAddedNotice(added > 0 ? `✅ 已将 "${word}" 加入词库"${groupLabel}"` : `"${word}" 已在词库"${groupLabel}"中`)
-        setTargetGroup('none')
-        setNewGroupName('')
+        setTargetGroups((prev) => ({ ...prev, [wordKey]: 'none' }))
+        setNewGroupNames((prev) => ({ ...prev, [wordKey]: '' }))
       } else {
         setAddedNotice(`⚠️ ${res.error ?? '加入失败'}`)
       }
@@ -290,23 +289,6 @@ export function ZhEnAssistant({ view, onViewChange, onCarryToRealtime, groups: i
       <div className={`space-y-4 ${styles.lookupContent}`}>
         <Card data-desk-lookup className={`py-0 shadow-sm ${styles.supplementQuery}`}>
           <CardContent className="p-4 space-y-3">
-            {isAuthenticated && (
-              <div className="flex flex-wrap items-center gap-2">
-                <Select value={targetGroup} onValueChange={setTargetGroup}>
-                  <SelectTrigger className="min-h-11 w-full sm:w-56" aria-label="选择保存到的词库">
-                    <SelectValue placeholder="选择词库" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="none">选择词库…</SelectItem>
-                    {groups.map((group) => <SelectItem key={group.id} value={group.id}>{group.name}</SelectItem>)}
-                    <SelectItem value="NEW">＋ 新建词库</SelectItem>
-                  </SelectContent>
-                </Select>
-                {targetGroup === 'NEW' && (
-                  <Input value={newGroupName} onChange={(event) => setNewGroupName(event.target.value)} placeholder="新词库名称" className="min-h-11 min-w-48 flex-1 text-base" />
-                )}
-              </div>
-            )}
             <div>
               <div className="flex items-center justify-between"><label htmlFor="zh-en-lookup-input" className="text-sm font-medium">输入中文词或词组</label></div>
               <p className="text-xs text-muted-foreground mb-2">每行一个，最多 20 行</p>
@@ -378,56 +360,50 @@ export function ZhEnAssistant({ view, onViewChange, onCarryToRealtime, groups: i
                     {(expanded[idx] !== false) && (
                       <div className="space-y-1.5">
                         {result.words.map((w) => {
-                          const wKey = `${idx}-${w.word}`
-                          const isOpen = expandedWord[wKey]
+                          const wKey = `${result.query}-${idx}-${w.word}`
+                          const targetGroup = targetGroups[wKey] ?? 'none'
                           return (
-                            <div key={w.word} className="rounded-lg border border-border/60 p-2">
-                              <div className="flex items-start gap-2">
-                                <button
-                                  className="flex min-h-11 min-w-0 flex-1 flex-wrap items-start gap-x-2 gap-y-1 py-1 text-left text-sm transition-colors hover:text-primary"
-                                  onClick={() => setExpandedWord((prev) => ({ ...prev, [wKey]: !prev[wKey] }))}
-                                  aria-expanded={!!isOpen}
-                                >
-                                  <span className="font-medium shrink-0">{w.word}</span>
-                                  {w.phonetic && <span className="text-xs text-muted-foreground shrink-0">{w.phonetic}</span>}
-                                  {w.pos && <span className="text-xs text-muted-foreground shrink-0">{w.pos}</span>}
-                                  <span className="basis-full break-words text-xs text-muted-foreground sm:flex-1">{w.translation}</span>
-                                  {w.matchType && <span className="rounded bg-muted px-1.5 py-0.5 text-[10px] text-muted-foreground">{w.matchType === 'exact' ? '完整匹配' : '包含匹配'}</span>}
-                                  {isOpen ? <ChevronUp className="w-3.5 h-3.5 text-muted-foreground shrink-0" /> : <ChevronDown className="w-3.5 h-3.5 text-muted-foreground shrink-0" />}
-                                </button>
-                                {isAuthenticated && (
+                            <div key={w.word} className={`rounded-lg border border-border/60 p-3 ${styles.supplementWord}`}>
+                              <div className={styles.supplementWordInfo}>
+                                <div className={styles.supplementWordHeading}>
+                                  <span className="font-medium">{w.word}</span>
+                                  {w.phonetic && <span className="text-sm text-muted-foreground">{w.phonetic}</span>}
+                                  {w.pos && <span className="text-sm text-muted-foreground">{w.pos}</span>}
+                                </div>
+                                <p className={styles.supplementWordTranslation}>{w.translation}</p>
+                                <div className={styles.supplementWordFooter}>
+                                  {w.matchType && <span className="rounded bg-muted px-1.5 py-0.5 text-xs text-muted-foreground">{w.matchType === 'exact' ? '完整匹配' : '包含匹配'}</span>}
+                                </div>
+                              </div>
+                              {isAuthenticated && (
+                                <div className={styles.supplementWordActions} data-supplement-word-actions>
+                                  <Select value={targetGroup} onValueChange={(value) => setTargetGroups((prev) => ({ ...prev, [wKey]: value }))}>
+                                    <SelectTrigger className="min-h-11 w-full" aria-label={`选择保存 ${w.word} 的词库`}>
+                                      <SelectValue placeholder="选择词库…" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                      <SelectItem value="none">选择词库…</SelectItem>
+                                      {groups.map((group) => <SelectItem key={group.id} value={group.id}>{group.name}</SelectItem>)}
+                                      <SelectItem value="NEW">＋ 新建词库</SelectItem>
+                                    </SelectContent>
+                                  </Select>
+                                  {targetGroup === 'NEW' && (
+                                    <Input
+                                      value={newGroupNames[wKey] ?? ''}
+                                      onChange={(event) => setNewGroupNames((prev) => ({ ...prev, [wKey]: event.target.value }))}
+                                      placeholder="新词库名称"
+                                      className="min-h-11 w-full text-base"
+                                    />
+                                  )}
                                   <Button
                                     variant="outline"
-                                    className="min-h-11 shrink-0 px-3"
-                                    onClick={() => handleAddWord(w.word)}
+                                    className="min-h-11 w-full px-3"
+                                    onClick={() => handleAddWord(w.word, wKey)}
                                     disabled={!targetGroup || targetGroup === 'none' || addingWord !== null}
                                   >
                                     {addingWord === w.word ? <Loader2 className="mr-1 size-4 animate-spin" /> : <Plus className="mr-1 size-4" />}
                                     加入
                                   </Button>
-                                )}
-                              </div>
-                              {isOpen && (
-                                <div className="px-3 pb-3 pt-2 space-y-2 border-t border-border/60">
-                                  <div className="space-y-0.5 text-sm">
-                                    <div className="flex items-baseline gap-2">
-                                      <span className="font-medium">{w.word}</span>
-                                      {w.phonetic && (
-                                        <span className="text-xs text-muted-foreground">{w.phonetic}</span>
-                                      )}
-                                    </div>
-                                    {w.pos && <div className="text-xs text-muted-foreground">{w.pos}</div>}
-                                    <div className="text-sm text-foreground">{w.translation}</div>
-                                  </div>
-                                  {onCarryToRealtime && (
-                                    <Button
-                                      variant="ghost"
-                                      className="min-h-11"
-                                      onClick={() => onCarryToRealtime(w.word)}
-                                    >
-                                      <ArrowRight className="mr-2 h-4 w-4" />去实时翻译
-                                    </Button>
-                                  )}
                                 </div>
                               )}
                             </div>

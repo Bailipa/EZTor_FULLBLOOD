@@ -1,0 +1,1100 @@
+{
+  "slug": "cet4-2021-12-set2-full",
+  "version": 1,
+  "title": "2021年12月 · 第2套整卷模拟真题",
+  "level": "CET4",
+  "kind": "FULL",
+  "originType": "PAST_EXAM",
+  "sourceName": "用户提供的本地四六级资料",
+  "sourceUrl": "/study/resources/ad5c97c19a000bbb21ba1a19.pdf",
+  "rightsHolder": "原试卷及解析作者",
+  "rightsEvidence": "用户提供本地资源并要求接入本地学习系统；原文件及校验值见 content/cet-local/index.json。未授权公开再分发或生产部署。",
+  "content": {
+    "WRITING": {
+      "instructions": "原卷写作要求",
+      "prompt": "Directions: Suppose your university student union is planning to hold a speech contest. You are now to write a proposal for organizing the contest. The proposal may include the topic, aim, procedure and selection of contestants. You will have 30 minutes to write the proposal. You should write at least 120 words but no more than 180 words.",
+      "questions": [],
+      "audio": [],
+      "passages": [],
+      "minimumWords": 120,
+      "maximumWords": 180,
+      "sourceFileUrl": "/study/resources/ad5c97c19a000bbb21ba1a19.pdf"
+    },
+    "LISTENING": {
+      "instructions": "原卷听力选择题",
+      "questions": [
+        {
+          "id": "cet4-2021-12-set2-q1",
+          "type": "NEWS",
+          "prompt": "第 1 题(题干在原始录音中)",
+          "choices": [
+            "She was pierced by a chicken bone.",
+            "She was coughing all the time.",
+            "She suffered from lung cancer.",
+            "She suffered from shock."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "audioId": "cet4-2021-12-set2-audio"
+        },
+        {
+          "id": "cet4-2021-12-set2-q2",
+          "type": "NEWS",
+          "prompt": "第 2 题(题干在原始录音中)",
+          "choices": [
+            "By eating chicken soup daily.",
+            "Through regular exercising.",
+            "Through a surgical operation.",
+            "By using traditional Chinese medicine."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "audioId": "cet4-2021-12-set2-audio"
+        },
+        {
+          "id": "cet4-2021-12-set2-q3",
+          "type": "NEWS",
+          "prompt": "第 3 题(题干在原始录音中)",
+          "choices": [
+            "It was born 13 years ago.",
+            "It was Alice Gray's lovely pet.",
+            "It got injured in a big bushfire.",
+            "It ran away into a nearby forest."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "audioId": "cet4-2021-12-set2-audio"
+        },
+        {
+          "id": "cet4-2021-12-set2-q4",
+          "type": "NEWS",
+          "prompt": "第 4 题(题干在原始录音中)",
+          "choices": [
+            "They rebuilt the fencing around their farm.",
+            "They spent seven years replanting their farm.",
+            "They claimed damages for their heavy losses.",
+            "They installed a camera to monitor sheep activity."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "audioId": "cet4-2021-12-set2-audio"
+        },
+        {
+          "id": "cet4-2021-12-set2-q5",
+          "type": "NEWS",
+          "prompt": "第 5 题(题干在原始录音中)",
+          "choices": [
+            "The disappearance of some gold and diamonds.",
+            "The transfer of tons of precious metal by air.",
+            "The crash of a Russian cargo airplane.",
+            "The loss of gold from an airplane."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "audioId": "cet4-2021-12-set2-audio"
+        },
+        {
+          "id": "cet4-2021-12-set2-q6",
+          "type": "NEWS",
+          "prompt": "第 6 题(题干在原始录音中)",
+          "choices": [
+            "It made an emergency landing.",
+            "It informed the local police at once.",
+            "It contacted the goldmine company.",
+            "It had a crew member fix the problem."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "audioId": "cet4-2021-12-set2-audio"
+        },
+        {
+          "id": "cet4-2021-12-set2-q7",
+          "type": "NEWS",
+          "prompt": "第 7 题(题干在原始录音中)",
+          "choices": [
+            "They will cooperate with the police.",
+            "They had checked the plane carefully.",
+            "They will be questioned by the police.",
+            "They took some gold bars and diamonds."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "audioId": "cet4-2021-12-set2-audio"
+        },
+        {
+          "id": "cet4-2021-12-set2-q8",
+          "type": "CONVERSATION",
+          "prompt": "第 8 题(题干在原始录音中)",
+          "choices": [
+            "For the company's records.",
+            "For future training purposes.",
+            "To follow the company's rule.",
+            "To ensure information security."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "audioId": "cet4-2021-12-set2-audio"
+        },
+        {
+          "id": "cet4-2021-12-set2-q9",
+          "type": "CONVERSATION",
+          "prompt": "第 9 题(题干在原始录音中)",
+          "choices": [
+            "To check her customer reference number.",
+            "To inquire about the price of office chairs.",
+            "To get her money back for the returned chair.",
+            "To make complaints about its customer service."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "audioId": "cet4-2021-12-set2-audio"
+        },
+        {
+          "id": "cet4-2021-12-set2-q10",
+          "type": "CONVERSATION",
+          "prompt": "第 10 题(题干在原始录音中)",
+          "choices": [
+            "She had to update its information.",
+            "She forgot where she had left it.",
+            "She lost it about three days ago.",
+            "She was issued a new card."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "audioId": "cet4-2021-12-set2-audio"
+        },
+        {
+          "id": "cet4-2021-12-set2-q11",
+          "type": "CONVERSATION",
+          "prompt": "第 11 题(题干在原始录音中)",
+          "choices": [
+            "Reconsider her options for payment methods.",
+            "Make a specific note on the company's system.",
+            "Update her bank card details on the company's website.",
+            "Upload her personal information to the company's website."
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 1,
+          "audioId": "cet4-2021-12-set2-audio"
+        },
+        {
+          "id": "cet4-2021-12-set2-q12",
+          "type": "CONVERSATION",
+          "prompt": "第 12 题(题干在原始录音中)",
+          "choices": [
+            "He is feeling exhausted.",
+            "He is tired of cooking.",
+            "He has to work late.",
+            "He wants to try Asian foods."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "audioId": "cet4-2021-12-set2-audio"
+        },
+        {
+          "id": "cet4-2021-12-set2-q13",
+          "type": "CONVERSATION",
+          "prompt": "第 13 题(题干在原始录音中)",
+          "choices": [
+            "Book a table.",
+            "Order a delivery.",
+            "Download a menu.",
+            "Locate a restaurant."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "audioId": "cet4-2021-12-set2-audio"
+        },
+        {
+          "id": "cet4-2021-12-set2-q14",
+          "type": "CONVERSATION",
+          "prompt": "第 14 题(题干在原始录音中)",
+          "choices": [
+            "It is not tasty.",
+            "It is not healthy.",
+            "It is too oily.",
+            "It is too spicy."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "audioId": "cet4-2021-12-set2-audio"
+        },
+        {
+          "id": "cet4-2021-12-set2-q15",
+          "type": "CONVERSATION",
+          "prompt": "第 15 题(题干在原始录音中)",
+          "choices": [
+            "She is too concerned about money.",
+            "She is too weight-conscious.",
+            "She is too picky about food.",
+            "She is too eager to please."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "audioId": "cet4-2021-12-set2-audio"
+        },
+        {
+          "id": "cet4-2021-12-set2-q16",
+          "type": "PASSAGE",
+          "prompt": "第 16 题(题干在原始录音中)",
+          "choices": [
+            "Owners' personalities affect their cats' behaviour and wellbeing.",
+            "Parents' personalities can affect the personalities of their children.",
+            "Parents and cat owners alike experience high levels of anxiety.",
+            "More and more people are treating pet cats like their children."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "audioId": "cet4-2021-12-set2-audio"
+        },
+        {
+          "id": "cet4-2021-12-set2-q17",
+          "type": "PASSAGE",
+          "prompt": "第 17 题(题干在原始录音中)",
+          "choices": [
+            "Give their pets behavioural training.",
+            "Provide their pets with the best care.",
+            "Know their pets' feelings and desires.",
+            "Interact with their pets in novel ways."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "audioId": "cet4-2021-12-set2-audio"
+        },
+        {
+          "id": "cet4-2021-12-set2-q18",
+          "type": "PASSAGE",
+          "prompt": "第 18 题(题干在原始录音中)",
+          "choices": [
+            "More convincing explanation.",
+            "More extensive sampling",
+            "Collection of more data.",
+            "Further investigation."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "audioId": "cet4-2021-12-set2-audio"
+        },
+        {
+          "id": "cet4-2021-12-set2-q19",
+          "type": "PASSAGE",
+          "prompt": "第 19 题(题干在原始录音中)",
+          "choices": [
+            "People should do more running than mere walking.",
+            "Running is the best exercise for extending one's life. 2021-12-CET4(7, 2 17)-2",
+            "People should exercise at least 60 minutes every day.",
+            "Running is the easiest form of exercise for most people."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "audioId": "cet4-2021-12-set2-audio"
+        },
+        {
+          "id": "cet4-2021-12-set2-q20",
+          "type": "PASSAGE",
+          "prompt": "第 20 题(题干在原始录音中)",
+          "choices": [
+            "Improving their brain function.",
+            "Regulating their breathing rate.",
+            "Slowing down their ageing process.",
+            "Accelerating their blood circulation."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "audioId": "cet4-2021-12-set2-audio"
+        },
+        {
+          "id": "cet4-2021-12-set2-q21",
+          "type": "PASSAGE",
+          "prompt": "第 21 题(题干在原始录音中)",
+          "choices": [
+            "They found it easy to control their emotions.",
+            "They struggled to handle negative emotions.",
+            "They were more eager to enjoy a movie.",
+            "They were less affected by sad movies."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "audioId": "cet4-2021-12-set2-audio"
+        },
+        {
+          "id": "cet4-2021-12-set2-q22",
+          "type": "PASSAGE",
+          "prompt": "第 22 题(题干在原始录音中)",
+          "choices": [
+            "He is a tour guide.",
+            "He is a famous architect.",
+            "He is a local entrepreneur.",
+            "He is the owner of the Hill House."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "audioId": "cet4-2021-12-set2-audio"
+        },
+        {
+          "id": "cet4-2021-12-set2-q23",
+          "type": "PASSAGE",
+          "prompt": "第 23 题(题干在原始录音中)",
+          "choices": [
+            "He studied the blueprints of other famous buildings.",
+            "He inquired about his client's family background",
+            "He observed his client's life and habits.",
+            "He took a tour of his client's old home."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "audioId": "cet4-2021-12-set2-audio"
+        },
+        {
+          "id": "cet4-2021-12-set2-q24",
+          "type": "PASSAGE",
+          "prompt": "第 24 题(题干在原始录音中)",
+          "choices": [
+            "A house made of timber and brick.",
+            "A house with a lot of free space.",
+            "A house of the current fashion.",
+            "A house of a unique design."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "audioId": "cet4-2021-12-set2-audio"
+        },
+        {
+          "id": "cet4-2021-12-set2-q25",
+          "type": "PASSAGE",
+          "prompt": "第 25 题(题干在原始录音中)",
+          "choices": [
+            "They are well preserved and in pretty good shape.",
+            "They are copies built to the architect's designs.",
+            "They were designed by another architect.",
+            "They were badly damaged but restored."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "audioId": "cet4-2021-12-set2-audio"
+        }
+      ],
+      "audio": [
+        {
+          "id": "cet4-2021-12-set2-audio",
+          "url": "/study/resources/d5dc664b7f166914661a3150.m4a",
+          "sourceUrl": "/study/resources/d5dc664b7f166914661a3150.m4a",
+          "durationSeconds": 1417.206712,
+          "transcript": "",
+          "identity": "cet4_2021_12_2.mp3 SHA256:d5dc664b7f166914661a31505fd57f80764e3d081665a1c6ad8af753468f3386"
+        }
+      ],
+      "passages": [],
+      "sourceFileUrl": "/study/resources/ad5c97c19a000bbb21ba1a19.pdf"
+    },
+    "READING": {
+      "instructions": "请依次完成选词填空、长篇匹配和仔细阅读。",
+      "questions": [
+        {
+          "id": "cet4-2021-12-set2-q26",
+          "type": "WORD_BANK",
+          "prompt": "第 26 空",
+          "choices": [
+            "captured",
+            "classical",
+            "conclusively",
+            "emergence",
+            "exact",
+            "generated",
+            "particular",
+            "position",
+            "precision",
+            "probably",
+            "quality",
+            "scarcity",
+            "senior",
+            "separated",
+            "systematically"
+          ],
+          "answerIndex": 4,
+          "explanation": "原卷答案：E。",
+          "weight": 0.5,
+          "passageId": "cet4-2021-12-set2-bank"
+        },
+        {
+          "id": "cet4-2021-12-set2-q27",
+          "type": "WORD_BANK",
+          "prompt": "第 27 空",
+          "choices": [
+            "captured",
+            "classical",
+            "conclusively",
+            "emergence",
+            "exact",
+            "generated",
+            "particular",
+            "position",
+            "precision",
+            "probably",
+            "quality",
+            "scarcity",
+            "senior",
+            "separated",
+            "systematically"
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 0.5,
+          "passageId": "cet4-2021-12-set2-bank"
+        },
+        {
+          "id": "cet4-2021-12-set2-q28",
+          "type": "WORD_BANK",
+          "prompt": "第 28 空",
+          "choices": [
+            "captured",
+            "classical",
+            "conclusively",
+            "emergence",
+            "exact",
+            "generated",
+            "particular",
+            "position",
+            "precision",
+            "probably",
+            "quality",
+            "scarcity",
+            "senior",
+            "separated",
+            "systematically"
+          ],
+          "answerIndex": 11,
+          "explanation": "原卷答案：L。",
+          "weight": 0.5,
+          "passageId": "cet4-2021-12-set2-bank"
+        },
+        {
+          "id": "cet4-2021-12-set2-q29",
+          "type": "WORD_BANK",
+          "prompt": "第 29 空",
+          "choices": [
+            "captured",
+            "classical",
+            "conclusively",
+            "emergence",
+            "exact",
+            "generated",
+            "particular",
+            "position",
+            "precision",
+            "probably",
+            "quality",
+            "scarcity",
+            "senior",
+            "separated",
+            "systematically"
+          ],
+          "answerIndex": 7,
+          "explanation": "原卷答案：H。",
+          "weight": 0.5,
+          "passageId": "cet4-2021-12-set2-bank"
+        },
+        {
+          "id": "cet4-2021-12-set2-q30",
+          "type": "WORD_BANK",
+          "prompt": "第 30 空",
+          "choices": [
+            "captured",
+            "classical",
+            "conclusively",
+            "emergence",
+            "exact",
+            "generated",
+            "particular",
+            "position",
+            "precision",
+            "probably",
+            "quality",
+            "scarcity",
+            "senior",
+            "separated",
+            "systematically"
+          ],
+          "answerIndex": 9,
+          "explanation": "原卷答案：J。",
+          "weight": 0.5,
+          "passageId": "cet4-2021-12-set2-bank"
+        },
+        {
+          "id": "cet4-2021-12-set2-q31",
+          "type": "WORD_BANK",
+          "prompt": "第 31 空",
+          "choices": [
+            "captured",
+            "classical",
+            "conclusively",
+            "emergence",
+            "exact",
+            "generated",
+            "particular",
+            "position",
+            "precision",
+            "probably",
+            "quality",
+            "scarcity",
+            "senior",
+            "separated",
+            "systematically"
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 0.5,
+          "passageId": "cet4-2021-12-set2-bank"
+        },
+        {
+          "id": "cet4-2021-12-set2-q32",
+          "type": "WORD_BANK",
+          "prompt": "第 32 空",
+          "choices": [
+            "captured",
+            "classical",
+            "conclusively",
+            "emergence",
+            "exact",
+            "generated",
+            "particular",
+            "position",
+            "precision",
+            "probably",
+            "quality",
+            "scarcity",
+            "senior",
+            "separated",
+            "systematically"
+          ],
+          "answerIndex": 12,
+          "explanation": "原卷答案：M。",
+          "weight": 0.5,
+          "passageId": "cet4-2021-12-set2-bank"
+        },
+        {
+          "id": "cet4-2021-12-set2-q33",
+          "type": "WORD_BANK",
+          "prompt": "第 33 空",
+          "choices": [
+            "captured",
+            "classical",
+            "conclusively",
+            "emergence",
+            "exact",
+            "generated",
+            "particular",
+            "position",
+            "precision",
+            "probably",
+            "quality",
+            "scarcity",
+            "senior",
+            "separated",
+            "systematically"
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 0.5,
+          "passageId": "cet4-2021-12-set2-bank"
+        },
+        {
+          "id": "cet4-2021-12-set2-q34",
+          "type": "WORD_BANK",
+          "prompt": "第 34 空",
+          "choices": [
+            "captured",
+            "classical",
+            "conclusively",
+            "emergence",
+            "exact",
+            "generated",
+            "particular",
+            "position",
+            "precision",
+            "probably",
+            "quality",
+            "scarcity",
+            "senior",
+            "separated",
+            "systematically"
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 0.5,
+          "passageId": "cet4-2021-12-set2-bank"
+        },
+        {
+          "id": "cet4-2021-12-set2-q35",
+          "type": "WORD_BANK",
+          "prompt": "第 35 空",
+          "choices": [
+            "captured",
+            "classical",
+            "conclusively",
+            "emergence",
+            "exact",
+            "generated",
+            "particular",
+            "position",
+            "precision",
+            "probably",
+            "quality",
+            "scarcity",
+            "senior",
+            "separated",
+            "systematically"
+          ],
+          "answerIndex": 8,
+          "explanation": "原卷答案：I。",
+          "weight": 0.5,
+          "passageId": "cet4-2021-12-set2-bank"
+        },
+        {
+          "id": "cet4-2021-12-set2-q36",
+          "type": "MATCHING",
+          "prompt": "Pirson claims that some ordinary things may often prove to be miraculously interesting.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段"
+          ],
+          "answerIndex": 5,
+          "explanation": "原卷答案：F。",
+          "weight": 1,
+          "passageId": "cet4-2021-12-set2-matching"
+        },
+        {
+          "id": "cet4-2021-12-set2-q37",
+          "type": "MATCHING",
+          "prompt": "To make a conversation interesting, it is important that you listen to the other party attentively.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段"
+          ],
+          "answerIndex": 9,
+          "explanation": "原卷答案：J。",
+          "weight": 1,
+          "passageId": "cet4-2021-12-set2-matching"
+        },
+        {
+          "id": "cet4-2021-12-set2-q38",
+          "type": "MATCHING",
+          "prompt": "A person who is unable to stimulate others' curiosity or make their life enjoyable may appear somewhat boring.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段"
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "passageId": "cet4-2021-12-set2-matching"
+        },
+        {
+          "id": "cet4-2021-12-set2-q39",
+          "type": "MATCHING",
+          "prompt": "Interesting people usually possess certain unique qualities, according to a TV program producer.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段"
+          ],
+          "answerIndex": 8,
+          "explanation": "原卷答案：I。",
+          "weight": 1,
+          "passageId": "cet4-2021-12-set2-matching"
+        },
+        {
+          "id": "cet4-2021-12-set2-q40",
+          "type": "MATCHING",
+          "prompt": "Be interested in others and they are sure to be interested in you.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段"
+          ],
+          "answerIndex": 12,
+          "explanation": "原卷答案：M。",
+          "weight": 1,
+          "passageId": "cet4-2021-12-set2-matching"
+        },
+        {
+          "id": "cet4-2021-12-set2-q41",
+          "type": "MATCHING",
+          "prompt": "The author considers himself usually good at conducting conversations.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段"
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "passageId": "cet4-2021-12-set2-matching"
+        },
+        {
+          "id": "cet4-2021-12-set2-q42",
+          "type": "MATCHING",
+          "prompt": "Interesting people are always full of curiosity.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段"
+          ],
+          "answerIndex": 6,
+          "explanation": "原卷答案：G。",
+          "weight": 1,
+          "passageId": "cet4-2021-12-set2-matching"
+        },
+        {
+          "id": "cet4-2021-12-set2-q43",
+          "type": "MATCHING",
+          "prompt": "Falling into a routine can ttml a person into an utter bore.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段"
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "passageId": "cet4-2021-12-set2-matching"
+        },
+        {
+          "id": "cet4-2021-12-set2-q44",
+          "type": "MATCHING",
+          "prompt": "One strategy to be a good conversationalist is to motivate your partner to tell their own stories.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段"
+          ],
+          "answerIndex": 10,
+          "explanation": "原卷答案：K。",
+          "weight": 1,
+          "passageId": "cet4-2021-12-set2-matching"
+        },
+        {
+          "id": "cet4-2021-12-set2-q45",
+          "type": "MATCHING",
+          "prompt": "Interesting as it might appear, a made-up conversation will probably turn out to be dull.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段"
+          ],
+          "answerIndex": 4,
+          "explanation": "原卷答案：E。",
+          "weight": 1,
+          "passageId": "cet4-2021-12-set2-matching"
+        },
+        {
+          "id": "cet4-2021-12-set2-q46",
+          "type": "DETAIL",
+          "prompt": "What does Professor John Wilding argue about obesity?",
+          "choices": [
+            "Its impact on society is expected to rise. 2021-12-CET4(7) 2 4)-6",
+            "It is now too widespread to be neglected.",
+            "It should be regarded as a genetic disease.",
+            "Its dictionary definition should be updated."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "passageId": "cet4-2021-12-set2-detail1"
+        },
+        {
+          "id": "cet4-2021-12-set2-q47",
+          "type": "DETAIL",
+          "prompt": "What is the popular view of obesity?",
+          "choices": [
+            "It is difficult to define.",
+            "It is a modern disease.",
+            "It has much to do with one's genes.",
+            "It results from a lack of self-control."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "passageId": "cet4-2021-12-set2-detail1"
+        },
+        {
+          "id": "cet4-2021-12-set2-q48",
+          "type": "DETAIL",
+          "prompt": "Why are some people opposed to labelling obesity as a disease?",
+          "choices": [
+            "Obese people would not feel responsible to take any action.",
+            "Obese people would not be able to afford the medical costs.",
+            "Obese people would be overwhelmed with anxiety.",
+            "Obese people would be discriminated against."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "passageId": "cet4-2021-12-set2-detail1"
+        },
+        {
+          "id": "cet4-2021-12-set2-q49",
+          "type": "DETAIL",
+          "prompt": "What does Dr. Richard Pile think of the dictionary definition of disease?",
+          "choices": [
+            "It is of no use in understanding obesity.",
+            "It is too inclusive and thus lacks clarity.",
+            "It helps little to solve patients' problems.",
+            "It matters little to the debate over obesity."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "passageId": "cet4-2021-12-set2-detail1"
+        },
+        {
+          "id": "cet4-2021-12-set2-q50",
+          "type": "DETAIL",
+          "prompt": "What is Dr. Richard Pile's concern about classifying obesity as a disease?",
+          "choices": [
+            "It may affect obese people's quality of life.",
+            "It may accelerate the spread of obesity.",
+            "It may cause a shortage of doctors.",
+            "It may do little good to patients."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "passageId": "cet4-2021-12-set2-detail1"
+        },
+        {
+          "id": "cet4-2021-12-set2-q51",
+          "type": "DETAIL",
+          "prompt": "What do we learn from the first paragraph about early childhood education in the U. S.?",
+          "choices": [
+            "It helps raise children's awareness of gender roles.",
+            "It exposes children to different ways of interaction.",
+            "It is negatively impacted by a lack of male teachers.",
+            "It clearly aims to form children's identity through play."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "passageId": "cet4-2021-12-set2-detail2"
+        },
+        {
+          "id": "cet4-2021-12-set2-q52",
+          "type": "DETAIL",
+          "prompt": "What does Mindi Reich-Shapiro emphasize in her comment on childhood education?",
+          "choices": [
+            "The importance of broadening children's horizons.",
+            "The responsibilities of fathers for children's growth.",
+            "The urgency of creating teacher education programs.",
+            "The role of teachers in motivating children to learn."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "passageId": "cet4-2021-12-set2-detail2"
+        },
+        {
+          "id": "cet4-2021-12-set2-q53",
+          "type": "DETAIL",
+          "prompt": "What do we learn about male teachers from their responses in the study?",
+          "choices": [
+            "Some of them find it awkward when hugging children.",
+            "They feel pressured to keep up with female colleagues.",
+            "They find it hard to meet the expectations of kids' parents.",
+            "Many of them feel prejudiced against socially and culturally."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "passageId": "cet4-2021-12-set2-detail2"
+        },
+        {
+          "id": "cet4-2021-12-set2-q54",
+          "type": "DETAIL",
+          "prompt": "What is needed for men to commit to early childhood education?",
+          "choices": [
+            "Higher pay.",
+            "Job security.",
+            "Social recognition.",
+            "Better working conditions."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "passageId": "cet4-2021-12-set2-detail2"
+        },
+        {
+          "id": "cet4-2021-12-set2-q55",
+          "type": "DETAIL",
+          "prompt": "What do the authors of the study recommend to bridge the gender gap in early childhood education?",
+          "choices": [
+            "Recruiting young men who have a passion for education young children.",
+            "Taking measures to attract prospective male teachers to work in the field",
+            "Persuading prospective fathers to consider a change in their career.",
+            "Providing male teachers with more opportunities for advancement."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "passageId": "cet4-2021-12-set2-detail2"
+        }
+      ],
+      "audio": [],
+      "passages": [
+        {
+          "id": "cet4-2021-12-set2-bank",
+          "text": "Questions __(26)__ to __(35)__ are based on the following passage. It is commonly believed that the great English dramatist and poet William Shakespeare was born in Stratford-on-Avon on April 23, 1564. But it is impossible to know the _    26 day on which he was born. Church records show he's baptized (it#iL) on April 26, and 3 days was a customary amount of time to wait before baptizing a newly born baby. Shakespeare's date of death is __(27)__ known, however: it was April 23, 1616. He was 52 and had retired to Stratford three years before. Although few plays have been performed or analyzed as extensively as the 38 plays Shakespeare wrote, there are few surviving details about his life. This __(28)__ of biographical information is due primarily to his social __(29)__ : he was not a noble, but the son of a leather trader. Shakespeare __(30)__ attended the grammar school in Stratford, where he would have studied Latin and read __(31)__ literature. He did not go to university and at age 18 married Anne Hathaway, who was eight years his __(32)__ . They had four children, including the twins, Hamnet and Judith. Nothing is known of the period between the birth of the twins and Shakespeare's __(33)__ as a dramatist in London 2021-12-CET4(7 2 1⁄2)-3 in the early 1590s. In a million words written over 20 years, he __(34)__ the full range of human emotions and conflicts with a 35 that remains sharp today. As his great contemporary the poet and dramatist Ben Jonson said, \"He was not of an age, but for all time."
+        },
+        {
+          "id": "cet4-2021-12-set2-matching",
+          "text": "How to not be boring\nA) Humans are creatures of habit. We love to establish a routine and stick with it. Then we often put ourselves on auto-pilot. Routines can be incredibly useful in helping you get things done. However, too much of a routine can also make you incredibly boring. Nevertheless, many people live lives that are boringly predictable, or live a life where everything is outlined or planned.\nB) To tell the truth, interesting people are more popular among their friends. If you don't arouse someone's curiosity or brighten someone's day, you probably come across as being a little bit dull. But that doesn't mean your life has ended and you can't do anything to change it. If you find yourself searching for something to say beyond small talk, try these tactics to find more interesting approaches to conversation.\nC) Recently, I was at a gathering of colleagues when someone turned to me and asked, \"So, what's new with you?\" Ordinarily, I think I'm a good conversationalist. After all, it's literally my job to talk to people and tell their stories or share their advice. And that's not exactly an unexpected question. Still, the only \"new-to-me\" topics that came to mind were my daughter's basketball tournament (* T *-) and my feelings about that morning's political headlines neither amusing nor appropriate topics at that moment.\nD)    Oh, no, I thought. Have I become boring? But sharing our experiences in an authentic way to connect with other people is what makes us interesting, says associate professor Michael Pirson. The hesitation I felt in not sharing the ordinary things that were happening in my life, and the wild mental search for something more interesting, may have backfired and made me seem less interesting\nE) \"If someone is making up some conversation that might be interesting, it's probably not going to land well,\" says Pirson, whose expertise includes trust and well-being, mindfulness, and humanistic management. \"It's going to feel like a made-up conversation that people don't necessarily want to tune in to.\" 2021-12-CET4(7 2 1⁄2)-4\nF) The most interesting people aren't those who've gone on some Eat, Pray, Love journey to find themselves. Instead, Pirson says, they're those who examine the ordinary. \"Often, the 'boring things' may not be boring at all. Maybe they are actually little miracles,\" he says. Share your observations about the world around you-interesting stories you heard or things you noticed—and you may be surprised by the universal connection they inspire.\nG) This is essentially how Jessica Hagy starts her day. The author of How to Be Interesting: An Instruction Manual, Hagy spends a lot of time thinking about what's interesting to her. People who are interesting are persistently curious, she says.\nH) Think about the everyday things around you and ask questions about them. What is that roadside monument I see on my way to work every day? Who built that interesting building in my city? What nearby attractions haven't I visited? Why do people do things that way? Use what you find to ask more questions and learn more about the world around you. \"Having that sort of curiosity is almost like a protective gear from getting into boredom,\" she says. And when you find things that are truly interesting to you, share them.\nI) Television veteran Audrey Morrissey, executive producer of NBC's The Voice, is always looking for what will make a person or story interesting to viewers: It's usually a matter of individuality. \"Having a strong point of view, signature style, or being a super-enthusiast in a particular field makes someone interesting,\" she says. That means embracing what is truly interesting or unique about yourself. \"Many people are \"not boring' in the way that they can carry a conversation or can be good at a social gathering, etc. To be interesting means that you have lived life, taken risks, traveled, sought out experience to learn for yourself and share with others,\" she says.\nJ) Of course, it's possible to be a fountain of knowledge and a boring person, says public relations consultant Andrea Pass. Paying attention to the listener is an important part of having a conversation that's interesting to both parties. Talking on and on about what's interesting to you isn't going to make you an interesting person, she says.\nK) \"If the listener is not paying attention, it's your sign to shorten the story or change direction. Make sure to bring the audience into the conversation so that it is not one-sided,\" Pass says. Be a better listener yourself, and give others opportunities to participate in the conversation by inviting them with questions or requests to share their own experiences or thoughts. (e.g., \"Now, tell me about your favorite book,\" or \"Have you ever been to that attraction?\") Questions are a powerful tool, especially when they encourage others to disclose information about themselves. A 2012 study from the University of California, Santa Barbara, fomid that roughly 40% of the time we are talking, we're disclosing subjective information about our experience.Ao d when we're doing so, our brains are more engaged. So one strategy to leave others with the impression that you're a sparkling conversation partner is to get others to talk about themselves.\nL) Being relatable is also essential, Morrissey says. \"The best entertainment and storytelling comes from people who are relatable- those who don't shy away from opening up but freely share who they are and what they care about. These are the people viewers most relate to and find interesting. Being authentic, honest, and vulnerable is always interesting.\"\nM) I have now come to realize that being boring, in actuality, is not only about who you are as a person, but also how you present yourself. No matter what, make sure you are having fun in life. Because when you are enjoying, people around you will begin to enjoy as well. Show some interest in them and they will definitely show some in you. If you are a very reserved person, this could be a little difficult at first. But with a little effort, you can definitely improve. 2021-12-CET4(7 2 12)-5"
+        },
+        {
+          "id": "cet4-2021-12-set2-detail1",
+          "text": "Questions 46 and 50 are based on the following passage. With obesity now affecting 29% of the population in England, and expected to rise to 35% by 2030, should we now recognise it as a disease? Obesity, in which excess body fat has accumulated to such an extent that health may be adversely affected, meets the dictionary definition of disease, argues Professor John Wilding. He points out that more than 200 genes influence weight. \"Thus body weight is strongly influenced by biology- it is not an individual's fault if they develop obesity.\" Yet the widespread view is that obesity is self-induced and that it is entirely the individual's responsibility to do something about it. Recognising obesity as a chronic disease with severe complications rather than a lifestyle choice \"should help reduce the stigma (It S) and discrimination experienced by many people with obesity,\" he adds. Professor Wilding disagrees that labelling a high proportion of the population as having a disease removes personal responsibility or may overwhelm health services, pointing out that other common diseases, such as high blood pressure and diabetes, require people to take action to manage their condition. He suggests that most people with obesity will eventually develop complications. \"But unless we accept that obesity is a disease, we are not going to be able to tackle it,\" he concludes. But Dr. Richard Pile, a physician with a special interest in diabetes, argues that adopting this approach \"could actually result in worse outcomes for individuals and society.\" He believes that the dictionary definition of disease \"is so vague that we can classify almost anything as a disease\" and says the question is not whether we can, but whether we should, and to what end. If labelling obesity as a disease was harmless then it wouldn't really matter, he writes. But labelling obesity as a disease \"risks reducing autonomy, disempowering and robbing people of the intrinsic (P] t ád) motivation that is such an important enabler of change.\" What's more, making obesity a disease \"may not benefit patients, but it will benefit healthcare providers and the pharmaceutical (#| 25 áý) industry when health insurance and clinical guidelines promote treatment with drugs and surgery,\" he warns."
+        },
+        {
+          "id": "cet4-2021-12-set2-detail2",
+          "text": "Nationwide, only about three percent of early childhood teachers are male in the U. S. Experts say this can have an impact on young children whose understanding of gender roles and identity are rapidly forming. Research has found that having access to diverse teachers is beneficial for children. For the youngest learners, it means they are more likely to get exposed to different varieties of play and communication. It also helps them develop healthy ideas around gender. \"In our world and our society, we have very specific stereotypes (1* *1K#, *-) of gender roles,\" said Mindi Reich-Shapiro, an assistant professor in the teacher education department of the Borough of Manhattan Community College, and one of the authors of a recent study. \"It's important for children to see other possibilities and other paths they can take.\" Despite mostly feeling supported by colleagues and family members, many of the male educators surveyed in the study reported facing social or cultural resistance in their careers as early education teachers. Some also reported that there were parents surprised or concerned that their child had a male teacher. And they had been advised by colleagues or other staff not to hug children. Reich-Shapiro and fellow researchers made several recommendations to increase male representation in the field. Low pay has long been acknowledged as a major issue in the early childhood field. Over 70% of male educators who said they intended to stay in the early education workforce noted an increased salary was a major motivating factor for them to commit to the career long-term. The report suggests paying all early childhood educators the way elementary school teachers are paid Cities and programs should establish support groups for male early childhood educators and provide mentoring and professional development advice for male educators and their program leaders. The authors also suggest that traditional recruitment approaches for early childhood educators \"do not address the gender gap in the field.\" They recommend providing young men opportunities to work with children through training and volunteer programs, targeting groups of men who are considering a career change, such as fathers. 2021-12-CET4(7› 2 1)-7"
+        }
+      ],
+      "sourceFileUrl": "/study/resources/ad5c97c19a000bbb21ba1a19.pdf"
+    },
+    "TRANSLATION": {
+      "instructions": "请将原卷中文翻译成英语。",
+      "prompt": "Directions: For this part, you are allowed 30 minutes to translate a passage from Chinese into English. You should write your answer on Answer Sheet 2. 坎儿井(Karez)是新疆干旱地区的一种水利系统,由地下渠道将水井连接而成。该系统将春夏 季节渗入(seep into)地下的大量雨水及积雪融水收集起来,通过山体的自然坡度引到地面,用于灌    into)# ТАхЖРАС***, НАЖил», Пт 溉农田和满足人们的日常用水需求。坎儿井减少了水在地面的蒸发(evaporation),对地表破坏很小, 因而有效地保护了自然资源与生态环境。坎儿井体现了我国人民与自然和谐共存的智慧,是对人 类文明的一大贡献。 2021-12-CET4(7› 2 1)-8",
+      "questions": [],
+      "audio": [],
+      "passages": [],
+      "sourceFileUrl": "/study/resources/ad5c97c19a000bbb21ba1a19.pdf"
+    }
+  }
+}

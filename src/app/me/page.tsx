@@ -238,18 +238,14 @@ export default function MePage() {
   }
 
   return (
-    <AppLayout>
+    <AppLayout workspaceHeader={isAuthenticated ? (
+      <p className="truncate text-sm text-current">已登录:{session?.user?.name ?? session?.user?.email ?? ''}</p>
+    ) : undefined}>
       <div data-workspace-page className={`${styles.mePage} ${scrollStyles.page}`}>
         <div data-workspace-content className={`${styles.meContent} ${scrollStyles.content}`}>
           <header data-workspace-settings-heading className={styles.meHeading}>
             <h1>设置</h1>
-            {isAuthenticated && (
-              <p className="text-sm text-muted-foreground">
-                已登录:{session?.user?.name ?? session?.user?.email ?? ''}
-              </p>
-            )}
           </header>
-
           <div data-workspace-settings-grid className={`${styles.meGrid} ${scrollStyles.grid}`}>
             <section className={`min-w-0 space-y-8 ${scrollStyles.column}`} aria-label="个人偏好">
               <Card data-workspace-settings="appearance" className={styles.settingsBlock}>

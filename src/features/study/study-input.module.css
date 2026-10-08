@@ -1,0 +1,6 @@
+.goalDialog { top: calc(var(--app-visible-top, 0px) + var(--app-visible-height, 100dvh) / 2); max-height: calc(var(--app-visible-height, 100dvh) - 24px); overflow-y: auto; overscroll-behavior-y: contain; }
+.editor textarea { scroll-margin-block: 80px; }
+@media (max-width: 767px) {
+  :global(html[data-keyboard-open='true']) .editor textarea { min-height: 80px; height: clamp(80px, calc(var(--app-visible-height, 100dvh) * .36), 160px); max-height: 160px; }
+  :global(html[data-keyboard-open='true']) .editor .inputActions { position: sticky; bottom: 0; z-index: 11; padding-block: 8px; background: var(--card); }
+}

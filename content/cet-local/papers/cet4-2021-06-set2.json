@@ -1,0 +1,1087 @@
+{
+  "slug": "cet4-2021-06-set2-full",
+  "version": 1,
+  "title": "2021年6月 · 第2套整卷模拟真题",
+  "level": "CET4",
+  "kind": "FULL",
+  "originType": "PAST_EXAM",
+  "sourceName": "用户提供的本地四六级资料",
+  "sourceUrl": "/study/resources/8d5d51042b01b12574f6bbc1.pdf",
+  "rightsHolder": "原试卷及解析作者",
+  "rightsEvidence": "用户提供本地资源并要求接入本地学习系统；原文件及校验值见 content/cet-local/index.json。未授权公开再分发或生产部署。",
+  "content": {
+    "WRITING": {
+      "instructions": "原卷写作要求",
+      "prompt": "Directions: For this part, you are allowed 30 minutes to write an essay titled \"Is technology making people lazy?\". The statement given below is for your reference. You should write at least 120 words but no more than 180 words. Many studies claim that computers distract people, make them lazy thinkers and even lower their work efficiency.",
+      "questions": [],
+      "audio": [],
+      "passages": [],
+      "minimumWords": 120,
+      "maximumWords": 180,
+      "sourceFileUrl": "/study/resources/8d5d51042b01b12574f6bbc1.pdf"
+    },
+    "LISTENING": {
+      "instructions": "原卷听力选择题",
+      "questions": [
+        {
+          "id": "cet4-2021-06-set2-q1",
+          "type": "NEWS",
+          "prompt": "第 1 题(题干在原始录音中)",
+          "choices": [
+            "See the Pope.",
+            "Go to Newcastle.",
+            "Travel to Germany.",
+            "Tour an Italian city."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "audioId": "cet4-2021-06-set2-audio"
+        },
+        {
+          "id": "cet4-2021-06-set2-q2",
+          "type": "NEWS",
+          "prompt": "第 2 题(题干在原始录音中)",
+          "choices": [
+            "He was taken to hospital in an ambulance.",
+            "His car hit a sign and was badly damaged.",
+            "His GPS system-went out of order.-",
+            "He ended up in the wrong place."
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 1,
+          "audioId": "cet4-2021-06-set2-audio"
+        },
+        {
+          "id": "cet4-2021-06-set2-q3",
+          "type": "NEWS",
+          "prompt": "第 3 题(题干在原始录音中)",
+          "choices": [
+            "Scotland will reach the national target in carbon emissions reduction ahead of schedule.",
+            "Glasgow City Council has made a deal with ScottishPower on carbon emissions.",
+            "Glasgow has pledged to take the lead in reducing carbon emissions in the UK.",
+            "First Minister Nicola Sturgeon urged ScottishPower to reduce carbon emissions."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "audioId": "cet4-2021-06-set2-audio"
+        },
+        {
+          "id": "cet4-2021-06-set2-q4",
+          "type": "NEWS",
+          "prompt": "第 4 题(题干在原始录音中)",
+          "choices": [
+            "Glasgow needs to invest in new technologies to reach its goal.",
+            "Glasgow is going to explore new sources of renewable energy.",
+            "Stricter regulation is needed in transforming Glasgow's economy.",
+            "It's necessary to create more low-emission zones as soon as possible."
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 1,
+          "audioId": "cet4-2021-06-set2-audio"
+        },
+        {
+          "id": "cet4-2021-06-set2-q5",
+          "type": "NEWS",
+          "prompt": "第 5 题(题干在原始录音中)",
+          "choices": [
+            "It donates money to overpopulated animal shelters.",
+            "It permits employees to bring cats into their office.",
+            "It gives 5,000 yen to employees who keep pet cats.",
+            "It allows workers to do whatever their hearts desire."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "audioId": "cet4-2021-06-set2-audio"
+        },
+        {
+          "id": "cet4-2021-06-set2-q6",
+          "type": "NEWS",
+          "prompt": "第 6 题(题干在原始录音中)",
+          "choices": [
+            "Keep cats off the street.",
+            "Rescue homeless cats.",
+            "Volunteer to help in animal shelters.",
+            "Contribute to a fund for cat protection."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "audioId": "cet4-2021-06-set2-audio"
+        },
+        {
+          "id": "cet4-2021-06-set2-q7",
+          "type": "NEWS",
+          "prompt": "第 7 题(题干在原始录音中)",
+          "choices": [
+            "It has contributed tremendously to the firm's fame.",
+            "It has helped a lot to improve animals' well-being.",
+            "It has led some other companies to follow suit.",
+            "It has resulted in damage to office equipment."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "audioId": "cet4-2021-06-set2-audio"
+        },
+        {
+          "id": "cet4-2021-06-set2-q8",
+          "type": "CONVERSATION",
+          "prompt": "第 8 题(题干在原始录音中)",
+          "choices": [
+            "Find out where Jimmy is.",
+            "Borrow money from Jimmy.",
+            "Make friends with Jimmy.",
+            "Ask Jimmy what is to be done."
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 1,
+          "audioId": "cet4-2021-06-set2-audio"
+        },
+        {
+          "id": "cet4-2021-06-set2-q9",
+          "type": "CONVERSATION",
+          "prompt": "第 9 题(题干在原始录音中)",
+          "choices": [
+            "He was unsure what kind of fellow Jimmy was.",
+            "He was working on a study project with Jimmy.",
+            "He wanted to make a sincere apology to Jimmy.",
+            "He wanted to invite her to join in a study project."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "audioId": "cet4-2021-06-set2-audio"
+        },
+        {
+          "id": "cet4-2021-06-set2-q10",
+          "type": "CONVERSATION",
+          "prompt": "第 10 题(题干在原始录音中)",
+          "choices": [
+            "He got a ticket for speeding.",
+            "He got his car badly damaged.",
+            "He was involved in a traffic accident.",
+            "He had an operation for his injury."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "audioId": "cet4-2021-06-set2-audio"
+        },
+        {
+          "id": "cet4-2021-06-set2-q11",
+          "type": "CONVERSATION",
+          "prompt": "第 11 题(题干在原始录音中)",
+          "choices": [
+            "He needed to make some donation to charity.",
+            "He found the 60 pounds in his pocket missing.",
+            "He wanted to buy a gift for his mother's birthday.",
+            "He wanted to conceal something from his parents."
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 1,
+          "audioId": "cet4-2021-06-set2-audio"
+        },
+        {
+          "id": "cet4-2021-06-set2-q12",
+          "type": "CONVERSATION",
+          "prompt": "第 12 题(题干在原始录音中)",
+          "choices": [
+            "Shopping delivery.",
+            "Shopping online.",
+            "Where he goes shopping.",
+            "How often he does shopping."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "audioId": "cet4-2021-06-set2-audio"
+        },
+        {
+          "id": "cet4-2021-06-set2-q13",
+          "type": "CONVERSATION",
+          "prompt": "第 13 题(题干在原始录音中)",
+          "choices": [
+            "Searching in the aisles.",
+            "Dealing with the traffic.",
+            "Driving too long a distance.",
+            "Getting one's car parked."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "audioId": "cet4-2021-06-set2-audio"
+        },
+        {
+          "id": "cet4-2021-06-set2-q14",
+          "type": "CONVERSATION",
+          "prompt": "第 14 题(题干在原始录音中)",
+          "choices": [
+            "The after-sales service.",
+            "The replacement policy.",
+            "The quality of food products.",
+            "The damage to the packaging."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "audioId": "cet4-2021-06-set2-audio"
+        },
+        {
+          "id": "cet4-2021-06-set2-q15",
+          "type": "CONVERSATION",
+          "prompt": "第 15 题(题干在原始录音中)",
+          "choices": [
+            "It saves money.",
+            "It offers more choice.",
+            "It increases the joy of shopping.",
+            "It is less time-consuming."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "audioId": "cet4-2021-06-set2-audio"
+        },
+        {
+          "id": "cet4-2021-06-set2-q16",
+          "type": "PASSAGE",
+          "prompt": "第 16 题(题干在原始录音中)",
+          "choices": [
+            "They have little talent for learning math.",
+            "They need medical help for math anxiety.",
+            "They need extra help to catch up in the math class.",
+            "They have strong negative emotions towards math."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "audioId": "cet4-2021-06-set2-audio"
+        },
+        {
+          "id": "cet4-2021-06-set2-q17",
+          "type": "PASSAGE",
+          "prompt": "第 17 题(题干在原始录音中)",
+          "choices": [
+            "It will gradually pass away without teachers' help.",
+            "It affects low performing children only.",
+            "It is related to a child's low intelligence.",
+            "It exists mostly among children from poor families."
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 2,
+          "audioId": "cet4-2021-06-set2-audio"
+        },
+        {
+          "id": "cet4-2021-06-set2-q18",
+          "type": "PASSAGE",
+          "prompt": "第 18 题(题干在原始录音中)",
+          "choices": [
+            "Most of them have average to strong math ability.",
+            "Most of them get timely help from their teachers.",
+            "They will regain confidence with counselling.",
+            "They are mostly secondary school students."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "audioId": "cet4-2021-06-set2-audio"
+        },
+        {
+          "id": "cet4-2021-06-set2-q19",
+          "type": "PASSAGE",
+          "prompt": "第 19 题(题干在原始录音中)",
+          "choices": [
+            "Social media addiction is a threat to our health.",
+            "Too many people are addicted to smartphones.",
+            "Addiction to computer games is a disease.",
+            "Computer games can be rather addictive."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "audioId": "cet4-2021-06-set2-audio"
+        },
+        {
+          "id": "cet4-2021-06-set2-q20",
+          "type": "PASSAGE",
+          "prompt": "第 20 题(题干在原始录音中)",
+          "choices": [
+            "They prioritize their favored activity over what they should do.",
+            "They do their favored activity whenever and wherever possible.",
+            "They are unaware of the damage their behavior is doing to them.",
+            "They are unable to get rid of their addiction without professional help."
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 2,
+          "audioId": "cet4-2021-06-set2-audio"
+        },
+        {
+          "id": "cet4-2021-06-set2-q21",
+          "type": "PASSAGE",
+          "prompt": "第 21 题(题干在原始录音中)",
+          "choices": [
+            "It may be less damaging than previously believed.",
+            "There will never be agreement on its harm to people.",
+            "It may prove to be beneficial to developing creativity.",
+            "There is not enough evidence to classify it as a disease."
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 2,
+          "audioId": "cet4-2021-06-set2-audio"
+        },
+        {
+          "id": "cet4-2021-06-set2-q22",
+          "type": "PASSAGE",
+          "prompt": "第 22 题(题干在原始录音中)",
+          "choices": [
+            "They are relatively uniform in color and design.",
+            "They appear more formal than other passports.",
+            "They are a shade of red bordering on brown.",
+            "They vary in color from country to country."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "audioId": "cet4-2021-06-set2-audio"
+        },
+        {
+          "id": "cet4-2021-06-set2-q23",
+          "type": "PASSAGE",
+          "prompt": "第 23 题(题干在原始录音中)",
+          "choices": [
+            "They must endure wear and tear.",
+            "They must be of the same size.",
+            "They must be made from a rare material.",
+            "They must. follow some common standards."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "audioId": "cet4-2021-06-set2-audio"
+        },
+        {
+          "id": "cet4-2021-06-set2-q24",
+          "type": "PASSAGE",
+          "prompt": "第 24 题(题干在原始录音中)",
+          "choices": [
+            "-They look more traditional. -",
+            "They look more official.",
+            "They are favored by airlines.",
+            "They are easily identifiable."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "audioId": "cet4-2021-06-set2-audio"
+        },
+        {
+          "id": "cet4-2021-06-set2-q25",
+          "type": "PASSAGE",
+          "prompt": "第 25 题(题干在原始录音中)",
+          "choices": [
+            "For beauty.",
+            "For variety.",
+            "For visibility.",
+            "For security."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "audioId": "cet4-2021-06-set2-audio"
+        }
+      ],
+      "audio": [
+        {
+          "id": "cet4-2021-06-set2-audio",
+          "url": "/study/resources/6f2866eefe8dd030f2416cf2.m4a",
+          "sourceUrl": "/study/resources/6f2866eefe8dd030f2416cf2.m4a",
+          "durationSeconds": 1424.358458,
+          "transcript": "",
+          "identity": "cet4_2021_06_2.mp3 SHA256:6f2866eefe8dd030f2416cf2e8535f7d2360f70d3c54ee7c04cb1d2b1963f8df"
+        }
+      ],
+      "passages": [],
+      "sourceFileUrl": "/study/resources/8d5d51042b01b12574f6bbc1.pdf"
+    },
+    "READING": {
+      "instructions": "请依次完成选词填空、长篇匹配和仔细阅读。",
+      "questions": [
+        {
+          "id": "cet4-2021-06-set2-q26",
+          "type": "WORD_BANK",
+          "prompt": "第 26 空",
+          "choices": [
+            "abruptly",
+            "appointments",
+            "consequences",
+            "debating",
+            "dimensions",
+            "friendly",
+            "hindered",
+            "idiom",
+            "implication",
+            "pushing",
+            "severely",
+            "sparked",
+            "splitting",
+            "survey",
+            "touches"
+          ],
+          "answerIndex": 8,
+          "explanation": "原卷答案：I。",
+          "weight": 0.5,
+          "passageId": "cet4-2021-06-set2-bank"
+        },
+        {
+          "id": "cet4-2021-06-set2-q27",
+          "type": "WORD_BANK",
+          "prompt": "第 27 空",
+          "choices": [
+            "abruptly",
+            "appointments",
+            "consequences",
+            "debating",
+            "dimensions",
+            "friendly",
+            "hindered",
+            "idiom",
+            "implication",
+            "pushing",
+            "severely",
+            "sparked",
+            "splitting",
+            "survey",
+            "touches"
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 0.5,
+          "passageId": "cet4-2021-06-set2-bank"
+        },
+        {
+          "id": "cet4-2021-06-set2-q28",
+          "type": "WORD_BANK",
+          "prompt": "第 28 空",
+          "choices": [
+            "abruptly",
+            "appointments",
+            "consequences",
+            "debating",
+            "dimensions",
+            "friendly",
+            "hindered",
+            "idiom",
+            "implication",
+            "pushing",
+            "severely",
+            "sparked",
+            "splitting",
+            "survey",
+            "touches"
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 0.5,
+          "passageId": "cet4-2021-06-set2-bank"
+        },
+        {
+          "id": "cet4-2021-06-set2-q29",
+          "type": "WORD_BANK",
+          "prompt": "第 29 空",
+          "choices": [
+            "abruptly",
+            "appointments",
+            "consequences",
+            "debating",
+            "dimensions",
+            "friendly",
+            "hindered",
+            "idiom",
+            "implication",
+            "pushing",
+            "severely",
+            "sparked",
+            "splitting",
+            "survey",
+            "touches"
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 0.5,
+          "passageId": "cet4-2021-06-set2-bank"
+        },
+        {
+          "id": "cet4-2021-06-set2-q30",
+          "type": "WORD_BANK",
+          "prompt": "第 30 空",
+          "choices": [
+            "abruptly",
+            "appointments",
+            "consequences",
+            "debating",
+            "dimensions",
+            "friendly",
+            "hindered",
+            "idiom",
+            "implication",
+            "pushing",
+            "severely",
+            "sparked",
+            "splitting",
+            "survey",
+            "touches"
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 0.5,
+          "passageId": "cet4-2021-06-set2-bank"
+        },
+        {
+          "id": "cet4-2021-06-set2-q31",
+          "type": "WORD_BANK",
+          "prompt": "第 31 空",
+          "choices": [
+            "abruptly",
+            "appointments",
+            "consequences",
+            "debating",
+            "dimensions",
+            "friendly",
+            "hindered",
+            "idiom",
+            "implication",
+            "pushing",
+            "severely",
+            "sparked",
+            "splitting",
+            "survey",
+            "touches"
+          ],
+          "answerIndex": 11,
+          "explanation": "原卷答案：L。",
+          "weight": 0.5,
+          "passageId": "cet4-2021-06-set2-bank"
+        },
+        {
+          "id": "cet4-2021-06-set2-q32",
+          "type": "WORD_BANK",
+          "prompt": "第 32 空",
+          "choices": [
+            "abruptly",
+            "appointments",
+            "consequences",
+            "debating",
+            "dimensions",
+            "friendly",
+            "hindered",
+            "idiom",
+            "implication",
+            "pushing",
+            "severely",
+            "sparked",
+            "splitting",
+            "survey",
+            "touches"
+          ],
+          "answerIndex": 5,
+          "explanation": "原卷答案：F。",
+          "weight": 0.5,
+          "passageId": "cet4-2021-06-set2-bank"
+        },
+        {
+          "id": "cet4-2021-06-set2-q33",
+          "type": "WORD_BANK",
+          "prompt": "第 33 空",
+          "choices": [
+            "abruptly",
+            "appointments",
+            "consequences",
+            "debating",
+            "dimensions",
+            "friendly",
+            "hindered",
+            "idiom",
+            "implication",
+            "pushing",
+            "severely",
+            "sparked",
+            "splitting",
+            "survey",
+            "touches"
+          ],
+          "answerIndex": 9,
+          "explanation": "原卷答案：J。",
+          "weight": 0.5,
+          "passageId": "cet4-2021-06-set2-bank"
+        },
+        {
+          "id": "cet4-2021-06-set2-q34",
+          "type": "WORD_BANK",
+          "prompt": "第 34 空",
+          "choices": [
+            "abruptly",
+            "appointments",
+            "consequences",
+            "debating",
+            "dimensions",
+            "friendly",
+            "hindered",
+            "idiom",
+            "implication",
+            "pushing",
+            "severely",
+            "sparked",
+            "splitting",
+            "survey",
+            "touches"
+          ],
+          "answerIndex": 13,
+          "explanation": "原卷答案：N。",
+          "weight": 0.5,
+          "passageId": "cet4-2021-06-set2-bank"
+        },
+        {
+          "id": "cet4-2021-06-set2-q35",
+          "type": "WORD_BANK",
+          "prompt": "第 35 空",
+          "choices": [
+            "abruptly",
+            "appointments",
+            "consequences",
+            "debating",
+            "dimensions",
+            "friendly",
+            "hindered",
+            "idiom",
+            "implication",
+            "pushing",
+            "severely",
+            "sparked",
+            "splitting",
+            "survey",
+            "touches"
+          ],
+          "answerIndex": 10,
+          "explanation": "原卷答案：K。",
+          "weight": 0.5,
+          "passageId": "cet4-2021-06-set2-bank"
+        },
+        {
+          "id": "cet4-2021-06-set2-q36",
+          "type": "MATCHING",
+          "prompt": "It is difficult for anumeric people to keep track of the change in numbers even when the total is very small.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段"
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "passageId": "cet4-2021-06-set2-matching"
+        },
+        {
+          "id": "cet4-2021-06-set2-q37",
+          "type": "MATCHING",
+          "prompt": "Human numerical instincts are not so superior to those of other mammals as is generally believed.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段"
+          ],
+          "answerIndex": 4,
+          "explanation": "原卷答案：E。",
+          "weight": 1,
+          "passageId": "cet4-2021-06-set2-matching"
+        },
+        {
+          "id": "cet4-2021-06-set2-q38",
+          "type": "MATCHING",
+          "prompt": "The author emphasizes being anumeric does not affect one's cognitive ability.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段"
+          ],
+          "answerIndex": 4,
+          "explanation": "原卷答案：E。",
+          "weight": 1,
+          "passageId": "cet4-2021-06-set2-matching"
+        },
+        {
+          "id": "cet4-2021-06-set2-q39",
+          "type": "MATCHING",
+          "prompt": "In the long history of mankind, humans who use numbers are a very small minority.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段"
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "passageId": "cet4-2021-06-set2-matching"
+        },
+        {
+          "id": "cet4-2021-06-set2-q40",
+          "type": "MATCHING",
+          "prompt": "An in-depth study of differences between human languages contributes to a true understanding of cognitive differences between cultures.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段"
+          ],
+          "answerIndex": 10,
+          "explanation": "原卷答案：K。",
+          "weight": 1,
+          "passageId": "cet4-2021-06-set2-matching"
+        },
+        {
+          "id": "cet4-2021-06-set2-q41",
+          "type": "MATCHING",
+          "prompt": "A conclusion has been drawn from many experiments that anumeric people have a hard time distinguishing quantities.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段"
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "passageId": "cet4-2021-06-set2-matching"
+        },
+        {
+          "id": "cet4-2021-06-set2-q42",
+          "type": "MATCHING",
+          "prompt": "Making quantitative distinctions is not an inborn skill.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段"
+          ],
+          "answerIndex": 6,
+          "explanation": "原卷答案：G。",
+          "weight": 1,
+          "passageId": "cet4-2021-06-set2-matching"
+        },
+        {
+          "id": "cet4-2021-06-set2-q43",
+          "type": "MATCHING",
+          "prompt": "Every aspect of our lives is affected by numbers.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段"
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "passageId": "cet4-2021-06-set2-matching"
+        },
+        {
+          "id": "cet4-2021-06-set2-q44",
+          "type": "MATCHING",
+          "prompt": "Larger numbers are said to be built upon smaller numbers.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段"
+          ],
+          "answerIndex": 8,
+          "explanation": "原卷答案：I。",
+          "weight": 1,
+          "passageId": "cet4-2021-06-set2-matching"
+        },
+        {
+          "id": "cet4-2021-06-set2-q45",
+          "type": "MATCHING",
+          "prompt": "It takes great efforts for children to grasp the concept of number words.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段"
+          ],
+          "answerIndex": 5,
+          "explanation": "原卷答案：F。",
+          "weight": 1,
+          "passageId": "cet4-2021-06-set2-matching"
+        },
+        {
+          "id": "cet4-2021-06-set2-q46",
+          "type": "DETAIL",
+          "prompt": "What did Harvard scientists do 50 years ago?",
+          "choices": [
+            "They raised public awareness of the possible causes of heart disease.",
+            "They turned public attention away from the health risks of sugar to fat.",
+            "They placed the sugar industry in the spotlight with their new findings.",
+            "They conducted large-scale research on the role of sugar in people's health."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "passageId": "cet4-2021-06-set2-detail1"
+        },
+        {
+          "id": "cet4-2021-06-set2-q47",
+          "type": "DETAIL",
+          "prompt": "What does Marion Nestle say about present-day nutrition studies?",
+          "choices": [
+            "They took her a full year to track and analyze.",
+            "Most of them are based on systematic reviews.",
+            "They depend on funding from the food industries.",
+            "Nearly all of them serve the purpose of the funders."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "passageId": "cet4-2021-06-set2-detail1"
+        },
+        {
+          "id": "cet4-2021-06-set2-q48",
+          "type": "DETAIL",
+          "prompt": "What did Coca-Cola-funded studies claim?",
+          "choices": [
+            "Exercise is more important to good health than diet.",
+            "Choosing what to eat and drink is key to weight control.",
+            "Drinking Coca-Cola does not contribute to weight gain.",
+            "The food industry plays a major role in fighting obesity."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "passageId": "cet4-2021-06-set2-detail1"
+        },
+        {
+          "id": "cet4-2021-06-set2-q49",
+          "type": "DETAIL",
+          "prompt": "What does Liebman say about industry-funded research?",
+          "choices": [
+            "It simply focuses on nutrition and health.",
+            "It causes confusion among consumers.",
+            "It rarely results in objective findings.",
+            "It runs counter to the public interest."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "passageId": "cet4-2021-06-set2-detail1"
+        },
+        {
+          "id": "cet4-2021-06-set2-q50",
+          "type": "DETAIL",
+          "prompt": "What is the author's advice to consumers?",
+          "choices": [
+            "Follow their intuition in deciding what to eat.",
+            "Be doubtful of diet experts' recommendations.",
+            "Ignore irrelevant information on their news feed.",
+            "Think twice about new nutrition research findings."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "passageId": "cet4-2021-06-set2-detail1"
+        },
+        {
+          "id": "cet4-2021-06-set2-q51",
+          "type": "DETAIL",
+          "prompt": "What does the author use the example of his father to illustrate?",
+          "choices": [
+            "How long people took to reach the top of their career.",
+            "How people accumulated wealth in his father's time.",
+            "How people viewed success in his father's time.",
+            "How long people usually stayed in a company."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "passageId": "cet4-2021-06-set2-detail2"
+        },
+        {
+          "id": "cet4-2021-06-set2-q52",
+          "type": "DETAIL",
+          "prompt": "Why did people often change jobs when the author started his career?",
+          "choices": [
+            "It was considered a fashion at that time.",
+            "It was a way to advance in their career.",
+            "It was a response to the changing job market.",
+            "It was difficult to keep a job for long."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "passageId": "cet4-2021-06-set2-detail2"
+        },
+        {
+          "id": "cet4-2021-06-set2-q53",
+          "type": "DETAIL",
+          "prompt": "What does the author say about people now working for several businesses at the same time?",
+          "choices": [
+            "They aré often regarded as most treasured talents.",
+            "They are able to bring their potential into fuller play.",
+            "They have control over their life and work schedules.",
+            "They feel proud of being outstanding problem solver."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "passageId": "cet4-2021-06-set2-detail2"
+        },
+        {
+          "id": "cet4-2021-06-set2-q54",
+          "type": "DETAIL",
+          "prompt": "What have businesses come to recognize now?",
+          "choices": [
+            "Who is capable of solving problems with ease.",
+            "How people can be more focused and productive.",
+            "What kind of people can contribute more to them.",
+            "Why some people are more passionate about work."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "passageId": "cet4-2021-06-set2-detail2"
+        },
+        {
+          "id": "cet4-2021-06-set2-q55",
+          "type": "DETAIL",
+          "prompt": "What does the author say about the gig economy?",
+          "choices": [
+            "It may force companies to reform their business practice.",
+            "It may soon replace the traditional economic model.",
+            "It will drive technological progress on a global scale.",
+            "It will bring about radical economic and social changes."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "passageId": "cet4-2021-06-set2-detail2"
+        }
+      ],
+      "audio": [],
+      "passages": [
+        {
+          "id": "cet4-2021-06-set2-bank",
+          "text": "Social isolation poses more health risks than obesity or smoking 15 cigarettes a day, according to research published by Brigham Young University. The __(26)__ is that loneliness is a huge, if silent, risk factor. Loneliness affects physical health in two ways. First, it produces stress hormones that can lead to many health problems. Second, people who live alone are less likely to go to the doctor __(27)__ , to exercise or to eat a healthy diet. Public health experts in many countries are __(28)__ how to address widespread loneliness in our society. Last year Britain even appointed a minister for loneliness. \"Loneliness __(29)__  almost every one of us at some point,\" its minister for loneliness Baroness Barran said. \"It can lead to very serious health __(30)__ for individuals who become isolated and disconnected.\" Barran started a \"Let's Talk Loneliness\" campaign that __(31)__  difficult conversations across Britain. He is now supporting \" __(32)__ benches,\" which are public seating areas where people are encouraged to go and chat with one another. The minister is also __(33)__ to stop public transportation from being cut in ways that leave people isolated. More than one-fifth of adults in both the United States and Britain said in a 2018  __(34)__  that they often or always feel lonely. More than half of American adults are unmarried, and researchers have found that even among those who are married, 30% of relationships are __(35)__ strained. A quarter of Americans now live alone, and as the song says, one is the loneliest number."
+        },
+        {
+          "id": "cet4-2021-06-set2-matching",
+          "text": "What happens when a language has no words for numbers?\nA) Numbers do not exist in all cultures. There are numberless hunter-gatherers in Amazonia, living along branches of the world's largest river tree. Instead of using words for precise quantities, these people rely exclusively on terms similar to \"a few\" or \"some.\" In contrast, our own lives are governed by numbers. As you read this, you are likely aware of what time it is, how old you are, your checking account balance, your weight and so on. The exact numbers we think with impact everything in our lives.\nB) But, in a historical sense, number-conscious people like us are the unusual ones. For the bulk of our species' approximately 200, 000-year lifespan, we had no means of precisely representing quantities. What's more, the 7,000 or so languages that exist today vary dramatically in how they utilize numbers.\nC) Speakers of anumeric, or numberless, languages offer a window into how the invention of numbers reshaped the human experience. Cultures without numbers, or with only one or two precise numbers, include the Munduruku and Pirahã in Amazonia. Researchers have also studied some adults in Nicaragua who were never taught number words. Without numbers, healthy human adults struggle to precisely distinguish and recall quantities as low as four. In an experiment, a researcher will place nuts into a can one at a time and then remove them one by one. The person watching is asked to signal when all the nuts have been removed. Responses suggest that anumeric people have some trouble keeping track of how many nuts remain in the can, even if there are only four or five in total.\nD) This and many other experiments have led to a simple conclusion: When people do not have number words, they struggle to make quantitative distinctions that probably seem natural to someone like you or me. While only a small portion of the world's languages are anumeric or nearly anumeric, they demonstrate that number words are not a human universal.\nE) It is worth stressing that these anumeric people are cognitively (#i) I) normal, well-adapted to the surroundings they have dominated for centuries. As a child, I spent some time living with anumeric people, the Pirah who live along the banks of the black Maici River. Like other outsiders, I was continually impressed by their superior understanding of the ecology we shared. Yet numberless people struggle with tasks that require precise discrimination between quantities. Perhaps this should be unsurprising. After all, without counting, how can someone tell whether there are, say, seven or eight coconuts (#-F) in a tree? Such seemingly straightforward distinctions become blurry through numberless eyes.\nF) This conclusion is echoed by work with anumeric children in industrialized societies. Prior to being spoon-fed number words, children can only approximately discriminate quantities beyond three. We must be handed the cognitive tools of numbers before we can consistently and easily recognize higher quantities. In fact, acquiring the exact meaning of number words is a painstaking process that takes children years. Initially, kids learn numbers much like they learn letters. They recognize that numbers are organized sequentially, but have little awareness of what each individual number means. With time, they start to understand that a given number represents a quantity greater by one than the number coming before it. This \"successor principle\" is part of the foundation of our numerical (SC tra) cognition, but requires extensive practice to understand.\nG) None of us, then, is really a \"numbers person.\" We are not born to handle quantitative distinctions skillfully. In the absence of the cultural traditions that fill our lives with numbers from infancy, we would all struggle with even basic quantitative distinctions. Number words and their written forms transform our quantitative reasoning as they are introduced into our cognitive experience by our parents, peers and school teachers. The process seems so normal that we sometimes think of it as a natural part of growing up, but it is not. Human brains come equipped with certain quantitative instincts that are refined with age, but these instincts are very limited.\nH) Compared with other mammals, our numerical instincts are not as remarkable as many assume. We even share some basic instinctual quantitative reasoning with distant non-mammalian relatives like birds. Indeed, work with some other species suggests they too can refine their quantitative thought if they are introduced to the cognitive power tools we call numbers.\nI) So, how did we ever invent \"unnatural\" numbers in the first place? The answer is, literally, at your fingertips. The bulk of the world's languages use base-10, base-20 or base-5 number systems. That is, these smaller numbers are the basis of larger numbers. English is a base-10 or decimal († i #) t) language, as evidenced by words like 14 (\"four\" + \"10\") and 31 (\"three\" × \"10\" + \"one\"). We speak a decimal language because an ancestral tongue, proto-Indo-European, was decimally based. Proto-Indo- European was decimally oriented because, as in so many cultures, our ancestors' hands served as the gateway to the realization that \"five fingers on one hand is the same as five fingers on the other. \" Such momentary thoughts were represented in words and passed down across generations. This is why the word \"five\" in many languages is derived from the word for \"hand.\" Most number systems, then, are the by-product of two key factors: the human capacity for language and our inclination for focusing on our hands and fingers. This manual fixation— an indirect by-product of walking upright on two legs— has helped yield numbers in most cultures, but not all.\nJ) Cultures without numbers also offer insight into the cognitive influence of particular numeric traditions. Consider what time it is. Your day is ruled by minutes and seconds, but these concepts are not real in any physical sense and are nonexistent to numberless people. Minutes and seconds are the verbal and written representations of an uncommon base-60 number system used in ancient Mesopotamia. They reside in our minds, numerical artifacts (^ If fe) that not all humans inherit conceptually.\nK) Research on the language of numbers shows, more and more, that one of our species' key characteristics is tremendous linguistic (i# & #) and cognitive diversity. If we are to truly understand how much our cognitive lives differ cross-culturally, we must continually explore the depths of our species' linguistic diversity."
+        },
+        {
+          "id": "cet4-2021-06-set2-detail1",
+          "text": "Sugar shocked. That describes the reaction of many Americans this week following revelations that, 50 years ago, the sugar industry paid Harvard scientists for research that shifted the focus away from sugar's role in heart disease and put the spotlight (it ty .) squarely on dietary fat. What might surprise consumers is just how many present-day nutrition studies are still funded by the food industry. Nutrition scholar Marion Nestle of New York University spent a year informally tracking industry-funded studies on food. \"Roughly 90% of nearly 170 studies favored the sponsor's interest,\" Nestle tells us. Other systematic reviews support her conclusions. For instance, studies funded by Welch Foods—the brand behind Welch's 100% Grape Juice-found that drinking Concord grape juice daily may boost brain function. Another, funded by Quaker Oats, concluded, as a Daily Mail story put it, that \"hot oatmeal (# # 33) breakfast keeps you full for longer.\" Last year, The New York Times revealed how Coca-Cola was funding well-known scientists and organizations promoting a message that, in the battle against weight gain, people should pay more attention to exercise and less to what they eat and drink. Coca-Cola also released data detailing its funding of several medical institutions and associations between 2010 and 2015. \"It's certainly a problem that so much research in nutrition and health is funded by industry,\" says Bonnie Liebman, director of nutrition at the Center for Science in the Public Interest. \"When the food industry pays for research, it often gets what it pays for.\" And what it pays for is often a pro-industry finding. Given thisenv ironment, consumers should be skeptical (##i) whenreading the latest finding in- nutrition science and ignore the latest study that pops up on your news feed. \"Rely on health experts who've reviewed all the evidence,\" Liebman says, pointing to the official government Dietary Guidelines, which are based on reviews of hundreds of studies. \"And that expert advice remains pretty simple,\" says Nestle. \"We know what healthy diets are -lots of vegetables, not too much junk food, balanced calories. Everything else is really difficult to do experimentally. \""
+        },
+        {
+          "id": "cet4-2021-06-set2-detail2",
+          "text": "Success was once defined as being able to stay at a company for a long time and move up the corporate ladder. The goal was to reach the top, accumulate wealth and retire to a life of ease. My father is a successful senior executive. In 35 years, he worked for only three companies. When I started my career, things were already different. If you weren't changing companies every three or four years, you simply weren't getting ahead in your career. But back then, if you were a consultant or freelancer (E i fik A), people would wonder what was wrong with you. They would assume you had problems getting a job. Today, consulting or freelancing for five businesses at the same time is a badge of honor. It shows how valuable an individual is. Many companies now look to these \"ultimate professionals\" to solve problems their full-time teams can't. Or they save money by hiring \"top-tier (I # ff) experts\" only for particular projects. Working at home or in cafes, starting businesses of their own, and even launching business ventures that eventually may fail, all indicate \"initiative,\" \"creativity,\" and \"adaptability,\" which are desirable qualities in today's workplace. Most important, there is a growing recognition that people who balance work and play, and who work at what they are passionate about, are more focused and productive, delivering greater value to their clients. Who are these people? They are artists, writers, programmers, providers of office services and career advice. What's needed now is a marketplace platform specifically designed to bring freelancers and clients together. Such platforms then become a place to feature the most experienced, professional, and creative talent. This is where they conduct business, where a sense of community reinforces the culture and values of the gig economy (# I% #), and where success is rewarded with good reviews that encourage more business. Slowly but surely, these platforms create a bridge between traditional enterprises and this emerging economy. Perhaps more important, as the global economy continues to be disrupted by technology and other massive change, the gig economy will itself become an engine of economic and social transformation."
+        }
+      ],
+      "sourceFileUrl": "/study/resources/8d5d51042b01b12574f6bbc1.pdf"
+    },
+    "TRANSLATION": {
+      "instructions": "请将原卷中文翻译成英语。",
+      "prompt": "Directions: For this part, you are allowed 30 minutes to translate a passage from Chinese into English. You should write your answer on Answer Sheet 2. 普洱(Pu'er)茶深受中国人喜爱。最好的普洱茶产自云南的西双版纳(Xishuangbanna),那里的气候    hElPS THE F1 和环境为普洱茶树的生长提供了最佳条件。普洱茶颜色较深,味道与其他许多茶截然不同。普洱 茶泡(brew)的时间越长越有味道。许多爱喝茶的人尤其喜欢其独特的香味和口感。普洱茶含有多种有 益健康的元素,常饮普洱茶有助于保护心脏和血管,还有减肥、消除疲劳和促进消化的功效。 四级 2021年6月 31",
+      "questions": [],
+      "audio": [],
+      "passages": [],
+      "sourceFileUrl": "/study/resources/8d5d51042b01b12574f6bbc1.pdf"
+    }
+  }
+}

@@ -41,7 +41,6 @@ export function ChatRoom({ active = true }: { active?: boolean }) {
   const [isLoading, setIsLoading] = useState(true)
   const [loadError, setLoadError] = useState<string | null>(null)
   const [isSending, setIsSending] = useState(false)
-  const [onlineCount, setOnlineCount] = useState(0)
   const [hasMore, setHasMore] = useState(false)
   const [isLoadingMore, setIsLoadingMore] = useState(false)
   const [isShadowBanned, setIsShadowBanned] = useState(false)
@@ -102,28 +101,12 @@ export function ChatRoom({ active = true }: { active?: boolean }) {
     }
   }, [])
 
-  const fetchOnlineCount = useCallback(async () => {
-    const signal = activityController.current?.signal
-    try {
-      const res = await fetch('/api/chat/online', { signal })
-      const data = await res.json()
-      if (signal?.aborted) return
-      if (data.success) {
-        setOnlineCount(data.count)
-      }
-    } catch (error) {
-      if (signal?.aborted) return
-      console.error('Failed to fetch online count:', error)
-    }
-  }, [])
-
   useEffect(() => {
     if (!active) return
     const controller = new AbortController()
     activityController.current = controller
     setIsLoadingMore(false)
     fetchMessages(false, true)
-    fetchOnlineCount()
 
     const eventSource = new EventSource('/api/chat/stream')
 
@@ -154,15 +137,12 @@ export function ChatRoom({ active = true }: { active?: boolean }) {
       }
     }
 
-    const interval = setInterval(fetchOnlineCount, 30000)
-
     return () => {
       controller.abort()
       if (activityController.current === controller) activityController.current = null
       eventSource.close()
-      clearInterval(interval)
     }
-  }, [active, admin, fetchMessages, fetchOnlineCount])
+  }, [active, admin, fetchMessages])
 
   useEffect(() => {
     if (!active) return
@@ -301,11 +281,6 @@ export function ChatRoom({ active = true }: { active?: boolean }) {
 
   return (
     <div className="flex flex-col h-full">
-      <div className="flex items-center justify-between p-4 border-b shrink-0">
-        <h2 className="text-lg font-semibold">💬 聊天室</h2>
-        <span className="text-sm text-muted-foreground">在线: {onlineCount} 人</span>
-      </div>
-
       <div
         ref={messagesContainerRef}
         className="flex-1 overflow-y-auto p-4 space-y-4"

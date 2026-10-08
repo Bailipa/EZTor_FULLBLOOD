@@ -2,9 +2,26 @@
   --mobile-nav-space: calc(80px + env(safe-area-inset-bottom, 0px));
   padding-bottom: var(--mobile-nav-space);
 }
+.page[data-workspace-section='review'] {
+  --mobile-nav-space: 0px;
+  padding-bottom: 0;
+}
 :global(html[data-keyboard-open='true']) .page {
   --mobile-nav-space: 0px;
   padding-bottom: 0;
+}
+@media (max-width: 767px) {
+  .page[data-radial-menu-page='true'] {
+    --mobile-nav-space: 0px;
+    --radial-menu-space: calc(80px + env(safe-area-inset-bottom, 0px));
+    padding-bottom: 0;
+  }
+  .page[data-radial-menu-page='true'] :global(main[data-translation-desk]) {
+    padding-bottom: var(--radial-menu-space);
+  }
+  :global(html[data-keyboard-open='true']) .page[data-radial-menu-page='true'] :global(main[data-translation-desk]) {
+    padding-bottom: 0;
+  }
 }
 .launcher {
   position: fixed;
@@ -66,13 +83,11 @@
   pointer-events: none;
   opacity: 0;
   visibility: hidden;
-  transform: translateY(-6px);
-  transition: opacity 140ms ease, transform 140ms ease, visibility 0s linear 140ms;
+  transition: opacity 140ms ease, visibility 0s linear 140ms;
 }
 .utilityActions[data-open='true'] {
   opacity: 1;
   visibility: visible;
-  transform: translateY(0);
   transition-delay: 0s;
 }
 .utilityAction {
@@ -95,7 +110,6 @@
   transition: transform 100ms ease-out, background-color 100ms ease-out, color 100ms ease-out;
 }
 .utilityAction[data-highlighted='true'] {
-  transform: scale(1.04);
   outline: 2px solid var(--ring);
   outline-offset: 3px;
   background: var(--primary);
@@ -110,18 +124,55 @@
   left: 50%;
   bottom: calc(12px + env(safe-area-inset-bottom, 0px));
   transform: translateX(-50%);
-  width: min(336px, calc(100vw - 24px));
-  height: 280px;
+  width: min(352px, calc(100vw - 16px));
+  height: calc(480px * var(--nav-scale));
   pointer-events: none;
   outline: none;
 }
 .items { list-style: none; margin: 0; padding: 0; }
+.menuFlashcard {
+  position: absolute;
+  z-index: 1;
+  bottom: clamp(360px, 50vh, 460px);
+  left: 50%;
+  width: min(460px, calc(100vw - 72px));
+  min-height: clamp(200px, 30vh, 320px);
+  max-height: min(340px, calc(100dvh - 220px));
+  padding: clamp(14px, 2.5vw, 24px);
+  overflow: auto;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  border: 1px solid color-mix(in srgb, var(--border) 70%, transparent);
+  border-radius: clamp(18px, 4vw, 28px);
+  background: var(--card);
+  color: var(--foreground);
+  box-shadow: 0 4px 14px rgb(0 0 0 / 12%);
+  font-size: clamp(13px, 2vw, 16px);
+  text-align: center;
+  pointer-events: auto;
+  touch-action: manipulation;
+}
+.menuFlashcardWordRow { display: flex; align-items: center; gap: 12px; width: 100%; min-height: clamp(64px, 10vh, 100px); }
+.menuFlashcardWordCopy { display: flex; flex-direction: column; align-items: center; flex: 1; min-width: 0; gap: 2px; text-align: center; line-height: 1.2; }
+.menuFlashcardWord { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: clamp(28px, 8vw, 52px); font-weight: 650; }
+.menuFlashcardActions { display: flex; align-items: center; width: 100%; gap: 4px; }
+.menuFlashcardActions > button:not(.menuFlashcardMeaning) { display: grid; place-items: center; width: 44px; height: 44px; flex: 0 0 auto; border-radius: 50%; color: var(--foreground); touch-action: manipulation; }
+.menuFlashcardPhonetic { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--muted-foreground); font-size: clamp(11px, 2.5vw, 14px); }
+.menuFlashcardMeaning { flex: 1; min-width: 0; min-height: 44px; max-height: 64px; overflow: auto; color: var(--foreground); font-size: clamp(13px, 3vw, 18px); line-height: 1.45; touch-action: manipulation; }
+.menuFlashcardChoices { display: flex; width: 100%; gap: 8px; font-size: clamp(13px, 2.8vw, 16px); color: var(--foreground); }
+.menuFlashcardChoices button { flex: 1; min-height: 44px; min-width: 0; border-radius: 12px; background: var(--muted); touch-action: manipulation; }
+.menuFlashcardChoices button:disabled { opacity: .5; }
+.menuFlashcard button:focus-visible { outline: 2px solid var(--ring); outline-offset: 2px; }
 .item {
   position: absolute;
   left: calc(50% + var(--x) * var(--nav-scale));
   bottom: calc(26px + var(--y) * var(--nav-scale));
   transform: translate(-50%, 50%);
-  animation: radial-in 220ms cubic-bezier(.2,.8,.2,1) both;
+  animation: veil-in 160ms ease-out both;
 }
 .destination {
   pointer-events: auto;
@@ -129,21 +180,23 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 6px;
-  width: 68px;
-  height: 68px;
+  gap: 4px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
   border: 1px solid var(--border);
   background: var(--card);
   color: var(--foreground);
-  box-shadow: 0 5px 18px rgb(0 0 0 / 12%);
+  box-shadow: 0 3px 12px rgb(0 0 0 / 10%);
   transition: transform 100ms ease-out, background-color 100ms ease-out, color 100ms ease-out;
   touch-action: manipulation;
 }
-.destination > span { display: flex; align-items: center; gap: 3px; font-size: 11px; white-space: nowrap; }
-.destination > .countdown { font-size: 22px; line-height: 22px; font-variant-numeric: tabular-nums; }
+.destination > span { display: flex; align-items: center; gap: 2px; font-size: 10px; white-space: nowrap; }
+.danmakuItem { position: absolute; left: 50%; bottom: 78px; transform: translate(-50%, 50%); animation: veil-in 160ms ease-out both; }
+.danmakuAction { flex-direction: row; width: auto; min-width: 116px; height: 44px; padding: 0 14px; gap: 8px; border-radius: 999px; }
+.danmakuAction > span { font-size: 12px; }
+.danmakuAction > .countdown { min-width: 18px; font-size: 18px; line-height: 18px; font-variant-numeric: tabular-nums; }
 .destination[data-highlighted='true'] {
-  transform: translateY(-4px) scale(1.06);
   outline: 2px solid var(--ring);
   outline-offset: 4px;
   background: var(--primary);
@@ -151,7 +204,7 @@
 }
 .gestureHint {
   position: absolute;
-  bottom: 284px;
+  bottom: calc(26px + 424px * var(--nav-scale));
   width: 100%;
   text-align: center;
   color: var(--foreground);
@@ -191,27 +244,43 @@
 :global(html[data-brand-theme='gold']) .destination[aria-current='page'],
 :global(html[data-brand-theme='gold']) .launcher { box-shadow: 0 4px 18px color-mix(in srgb, var(--primary) 35%, transparent); }
 .fan[data-state='closed'] { animation: veil-out 140ms ease-in both; }
-@keyframes radial-in {
-  from { opacity: 0; transform: translate(-50%, 50%) translate(calc(-1 * var(--x) * var(--nav-scale)), calc(var(--y) * var(--nav-scale))) scale(.65); }
-  to { opacity: 1; transform: translate(-50%, 50%); }
-}
 @keyframes veil-in { from { opacity: 0; } to { opacity: 1; } }
 @keyframes veil-out { from { opacity: 1; } to { opacity: 0; } }
 @media (max-width: 359px) {
-  .fan { --nav-scale: .84; }
-  .destination { width: 58px; height: 58px; }
+  .fan { --nav-scale: .883; }
+  .item { bottom: calc(50px + var(--y) * var(--nav-scale)); }
+  .gestureHint { bottom: calc(50px + 424px * var(--nav-scale)); }
+  .menuFlashcard { width: calc(100vw - 32px); bottom: clamp(340px, 48vh, 460px); min-height: clamp(180px, 28vh, 280px); }
+  .destination:not(.danmakuAction) { width: 52px; height: 52px; }
+  .destination:not(.danmakuAction) > svg { width: 20px; height: 20px; }
+  .destination:not(.danmakuAction) > span { font-size: 9px; }
+}
+@media (max-height: 500px) {
+  .fan { --nav-scale: .76; }
+  .destination:not(.danmakuAction) { width: 44px; height: 44px; gap: 2px; }
+  .destination:not(.danmakuAction) > svg { width: 18px; height: 18px; }
+  .destination:not(.danmakuAction) > span { font-size: 9px; }
+  .danmakuItem { bottom: 70px; }
+  .menuFlashcard { bottom: clamp(220px, 42vh, 360px); min-height: clamp(150px, 30vh, 240px); max-height: calc(100dvh - 140px); padding-inline: 10px; }
+}
+@media (max-height: 400px) {
+  .fan { height: 280px; }
+  .item { bottom: calc(26px + var(--y) * .52); }
+  .gestureHint { bottom: calc(26px + 424px * .52); }
+  .menuFlashcard { display: none; }
 }
 @media (min-width: 768px) {
   .launcher, .overlay, .fan, .utilityActions { display: none; }
   .page { --mobile-nav-space: 0px; padding-bottom: 0; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .launcher, .launcherLabel, .hubIcon, .item, .destination, .overlay, .fan, .utilityActions { animation: none; transition: none; }
+  .launcher, .launcherLabel, .hubIcon, .item, .danmakuItem, .destination, .overlay, .fan, .utilityActions { animation: none; transition: none; }
 }
 :global(html[data-motion='reduce']) .launcher,
 :global(html[data-motion='reduce']) .launcherLabel,
 :global(html[data-motion='reduce']) .hubIcon,
 :global(html[data-motion='reduce']) .item,
+:global(html[data-motion='reduce']) .danmakuItem,
 :global(html[data-motion='reduce']) .destination,
 :global(html[data-motion='reduce']) .overlay,
 :global(html[data-motion='reduce']) .fan,
@@ -224,8 +293,8 @@
   border-color: var(--gold-glass-border);
   color: var(--foreground);
   box-shadow: var(--gold-glass-shadow);
-  -webkit-backdrop-filter: blur(12px);
-  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
 }
 :global(html[data-brand-theme='gold']) .destination[aria-current='page'],
 :global(html[data-brand-theme='gold']) .destination[aria-pressed='true'] {

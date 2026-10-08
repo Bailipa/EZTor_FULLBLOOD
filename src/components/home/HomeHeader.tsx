@@ -4,13 +4,15 @@ import { Button } from '@/components/ui/button'
 import { FlashcardWidget } from '@/components/ui/flashcard/flashcard-widget'
 import dynamic from 'next/dynamic'
 import { useState } from 'react'
-import { ChevronDown, ChevronUp, Home, Lock } from 'lucide-react'
+import { ChevronDown, ChevronUp, Lock } from 'lucide-react'
+import Link from 'next/link'
 import { DonationButton } from './DonationModal'
 import { DanmakuToggleButton } from './DanmakuToggleButton'
 import { DanmakuSettingsDialog } from '@/components/me/DanmakuSettings'
 import { FEATURE_UNLOCK_THRESHOLDS } from '@/features/gamification/constants'
 import { FeatureLockedDialog } from '@/features/gamification/components/FeatureLockedDialog'
 import styles from '@/components/ai/translation-workspace.module.css'
+import studyStyles from '@/features/study/study.module.css'
 import { useSession } from 'next-auth/react'
 import { useMinimalFeatures } from '@/components/interface-style-provider'
 
@@ -41,21 +43,23 @@ export function HomeHeader({
 
   return (
     <>
-      <header data-home-header className={`${styles.homeHeader} flex flex-col bg-white dark:bg-card md:bg-sidebar md:dark:bg-sidebar p-4 sm:p-6 md:h-14 md:p-0 md:shrink-0 rounded-xl md:rounded-none shadow-sm md:shadow-none border border-border md:border-x-0 md:border-t-0 md:border-b md:border-sidebar-border transition-colors duration-300`}>
-        <button
-          type="button"
-          onClick={() => setCardExpanded((v) => !v)}
-          className="flex items-center justify-between w-full text-left md:hidden"
-          aria-expanded={cardExpanded}
-        >
-          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-foreground">EZTor</h1>
-          <span className="sm:hidden flex items-center gap-1 text-sm text-muted-foreground">
-            <span>{cardExpanded ? '收起' : '展开'}</span>
-            {cardExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-          </span>
-        </button>
-        <div className={`${cardExpanded ? 'block' : 'hidden sm:block'} md:mx-auto md:flex md:h-full md:w-full md:max-w-7xl md:items-center md:justify-between md:gap-4 md:px-6 xl:px-8`}>
-          <h1 className="hidden shrink-0 items-center gap-2 text-lg font-semibold text-sidebar-foreground md:flex"><Home className="size-5 text-primary" />工作台</h1>
+      <header data-home-header className={`${styles.homeHeader} ${studyStyles.compactHomeHeader} flex flex-col bg-white dark:bg-card md:bg-sidebar md:dark:bg-sidebar p-3 sm:p-3 md:h-14 md:p-0 md:shrink-0 rounded-xl md:rounded-none shadow-sm md:shadow-none border border-border md:border-x-0 md:border-t-0 md:border-b md:border-sidebar-border transition-colors duration-300`}>
+        <div className="flex min-h-11 items-center justify-between gap-2 md:hidden">
+          <div className="flex min-w-0 items-center gap-2">
+            <h1 className="m-0 shrink-0 text-lg font-bold text-gray-900 dark:text-foreground">EZTor</h1>
+            <button
+              type="button"
+              onClick={() => setCardExpanded((v) => !v)}
+              className="flex size-11 shrink-0 items-center justify-center text-current opacity-70"
+              aria-label={cardExpanded ? '收起首页介绍' : '查看首页介绍'}
+              aria-expanded={cardExpanded}
+            >
+              {cardExpanded ? <ChevronUp className="size-4" /> : <ChevronDown className="size-4" />}
+            </button>
+          </div>
+          <Link href="/study" className="flex min-h-11 shrink-0 items-center text-xs text-current opacity-70">练习与试卷</Link>
+        </div>
+        <div className={`${cardExpanded ? 'block' : 'hidden'} md:mx-auto md:flex md:h-full md:w-full md:max-w-7xl md:items-center md:justify-between md:gap-4 md:px-6 xl:px-8`}>
           <div className="space-y-1.5 mt-2 md:hidden">
             <p className="text-sm sm:text-base text-gray-500 dark:text-muted-foreground">
               An Easier Translator.

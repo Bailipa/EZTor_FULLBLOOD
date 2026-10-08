@@ -1,0 +1,1090 @@
+{
+  "slug": "cet4-2025-12-set2-full",
+  "version": 1,
+  "title": "2025年12月 · 第2套整卷模拟真题",
+  "level": "CET4",
+  "kind": "FULL",
+  "originType": "PAST_EXAM",
+  "sourceName": "用户提供的本地四六级资料",
+  "sourceUrl": "/study/resources/29da4a4a079809d02aa56078.pdf",
+  "rightsHolder": "原试卷及解析作者",
+  "rightsEvidence": "用户提供本地资源并要求接入本地学习系统；原文件及校验值见 content/cet-local/index.json。未授权公开再分发或生产部署。",
+  "content": {
+    "WRITING": {
+      "instructions": "原卷写作要求",
+      "prompt": "Directions: Suppose it is proposed that all university students should be required to learn academic writing. You are                            now to write a response by stating what you think of           the proposal. You will have 30 minutes to write the essay. You should write at least 120 words but no more than 180 words.",
+      "questions": [],
+      "audio": [],
+      "passages": [],
+      "minimumWords": 120,
+      "maximumWords": 180,
+      "sourceFileUrl": "/study/resources/29da4a4a079809d02aa56078.pdf"
+    },
+    "LISTENING": {
+      "instructions": "原卷听力选择题",
+      "questions": [
+        {
+          "id": "cet4-2025-12-set2-q1",
+          "type": "NEWS",
+          "prompt": "第 1 题(题干在原始录音中)",
+          "choices": [
+            "It has gone up sharply.",
+            "It has been fluctuating.",
+            "It has risen because of bird flu.",
+            "It has been consumers’ concern."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "audioId": "cet4-2025-12-set2-audio"
+        },
+        {
+          "id": "cet4-2025-12-set2-q2",
+          "type": "NEWS",
+          "prompt": "第 2 题(题干在原始录音中)",
+          "choices": [
+            "They don’t want to abandon their eggs.",
+            "They don’t know they will be heavily fined.",
+            "They don’t know they are forbidden to bring eggs.",
+            "They don’t declare their eggs during the inspection."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "audioId": "cet4-2025-12-set2-audio"
+        },
+        {
+          "id": "cet4-2025-12-set2-q3",
+          "type": "NEWS",
+          "prompt": "第 3 题(题干在原始录音中)",
+          "choices": [
+            "It is no longer critical of younger customers.",
+            "It has banned kids under 10 from dining there.",
+            "It is no longer as noisy and crowded as before.",
+            "It has implemented a decision to expand business."
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 1,
+          "audioId": "cet4-2025-12-set2-audio"
+        },
+        {
+          "id": "cet4-2025-12-set2-q4",
+          "type": "NEWS",
+          "prompt": "第 4 题(题干在原始录音中)",
+          "choices": [
+            "It is fully aware of frequent customers' feelings.",
+            "It caters to the tastes of different customers.",
+            "It is entitled to adopt any rules it wants.",
+            "It should announce its decisions online."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "audioId": "cet4-2025-12-set2-audio"
+        },
+        {
+          "id": "cet4-2025-12-set2-q5",
+          "type": "NEWS",
+          "prompt": "第 5 题(题干在原始录音中)",
+          "choices": [
+            "A missing pet.",
+            "A grown-up snake.",
+            "A huge animal skin.",
+            "A snake specialist."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "audioId": "cet4-2025-12-set2-audio"
+        },
+        {
+          "id": "cet4-2025-12-set2-q6",
+          "type": "NEWS",
+          "prompt": "第 6 题(题干在原始录音中)",
+          "choices": [
+            "In a government office.",
+            "In a deserted house.",
+            "At a local zoo.",
+            "At a construction site."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "audioId": "cet4-2025-12-set2-audio"
+        },
+        {
+          "id": "cet4-2025-12-set2-q7",
+          "type": "NEWS",
+          "prompt": "第 7 题(题干在原始录音中)",
+          "choices": [
+            "Figuring out where it came from.",
+            "Curing it of any possible diseases.",
+            "Protecting its babies against harm.",
+            "Determining how to catch it safely."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "audioId": "cet4-2025-12-set2-audio"
+        },
+        {
+          "id": "cet4-2025-12-set2-q8",
+          "type": "CONVERSATION",
+          "prompt": "第 8 题(题干在原始录音中)",
+          "choices": [
+            "The man doesn't agree Hannah is poor.",
+            "The man doesn't believe what she says.",
+            "The man doesn't think she can be a millionaire.",
+            "The man doesn't consider her to be trustworthy."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "audioId": "cet4-2025-12-set2-audio"
+        },
+        {
+          "id": "cet4-2025-12-set2-q9",
+          "type": "CONVERSATION",
+          "prompt": "第 9 题(题干在原始录音中)",
+          "choices": [
+            "She no longer has any money left.",
+            "She has been betrayed by her family.",
+            "She can no longer hold on to her job.",
+            "She has been robbed of 5 million Euros."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "audioId": "cet4-2025-12-set2-audio"
+        },
+        {
+          "id": "cet4-2025-12-set2-q10",
+          "type": "CONVERSATION",
+          "prompt": "第 10 题(题干在原始录音中)",
+          "choices": [
+            "Fortune.",
+            "Family.",
+            "Harmony.",
+            "Happiness."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "audioId": "cet4-2025-12-set2-audio"
+        },
+        {
+          "id": "cet4-2025-12-set2-q11",
+          "type": "CONVERSATION",
+          "prompt": "第 11 题(题干在原始录音中)",
+          "choices": [
+            "Divorce her.",
+            "Leave home.",
+            "Buy her a more expensive model.",
+            "Let the best thing happen to them."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "audioId": "cet4-2025-12-set2-audio"
+        },
+        {
+          "id": "cet4-2025-12-set2-q12",
+          "type": "CONVERSATION",
+          "prompt": "第 12 题(题干在原始录音中)",
+          "choices": [
+            "He is not outstanding in Science and Math.",
+            "He does not have a strong academic record.",
+            "He is not yet mature enough to live on his own.",
+            "He does not like Westwood Elementary School."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "audioId": "cet4-2025-12-set2-audio"
+        },
+        {
+          "id": "cet4-2025-12-set2-q13",
+          "type": "CONVERSATION",
+          "prompt": "第 13 题(题干在原始录音中)",
+          "choices": [
+            "It is too far away.",
+            "It is newly opened.",
+            "It lacks outdoor sports facilities.",
+            "It has too few first-class teachers."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "audioId": "cet4-2025-12-set2-audio"
+        },
+        {
+          "id": "cet4-2025-12-set2-q14",
+          "type": "CONVERSATION",
+          "prompt": "第 14 题(题干在原始录音中)",
+          "choices": [
+            "It has a beautiful campus.",
+            "It is within walking distance.",
+            "It has a wonderful arts program.",
+            "It is helpful to Jake’s breathing problems."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "audioId": "cet4-2025-12-set2-audio"
+        },
+        {
+          "id": "cet4-2025-12-set2-q15",
+          "type": "CONVERSATION",
+          "prompt": "第 15 题(题干在原始录音中)",
+          "choices": [
+            "Asking Jake which school he himself prefers to enroll in.",
+            "Thinking twice about what is best for Jake’s education next year.",
+            "Consulting her mother about which school Jake is to attend.",
+            "Sending Jake to the school near the biome of the man's mother."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "audioId": "cet4-2025-12-set2-audio"
+        },
+        {
+          "id": "cet4-2025-12-set2-q16",
+          "type": "PASSAGE",
+          "prompt": "第 16 题(题干在原始录音中)",
+          "choices": [
+            "It is time consuming.",
+            "It is unfit for crucial issues.",
+            "It relies too much on solid data.",
+            "It dulls a leader's sense of urgency."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "audioId": "cet4-2025-12-set2-audio"
+        },
+        {
+          "id": "cet4-2025-12-set2-q17",
+          "type": "PASSAGE",
+          "prompt": "第 17 题(题干在原始录音中)",
+          "choices": [
+            "Depend on digital technology.",
+            "Make assumptions and guesses.",
+            "Ignore others’ thoughts and ideas.",
+            "Lay emphasis on thinking flexibly."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "audioId": "cet4-2025-12-set2-audio"
+        },
+        {
+          "id": "cet4-2025-12-set2-q18",
+          "type": "PASSAGE",
+          "prompt": "第 18 题(题干在原始录音中)",
+          "choices": [
+            "Maximiz ing the advantage of available resources.",
+            "Minimizing the possibility of a wrong decision.",
+            "Discovering new potential markets.",
+            "Perfecting promotional strategies."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "audioId": "cet4-2025-12-set2-audio"
+        },
+        {
+          "id": "cet4-2025-12-set2-q19",
+          "type": "PASSAGE",
+          "prompt": "第 19 题(题干在原始录音中)",
+          "choices": [
+            "She is one of the world's best -known pianists.",
+            "She celebrated her 110th birthday this April.",
+            "She moved to the U.S. at a young age.",
+            "She is the world ’s oldest individual."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "audioId": "cet4-2025-12-set2-audio"
+        },
+        {
+          "id": "cet4-2025-12-set2-q20",
+          "type": "PASSAGE",
+          "prompt": "第 20 题(题干在原始录音中)",
+          "choices": [
+            "Being always active on social media.",
+            "Doing regular and vigorous exercise.",
+            "Playing the piano from a young age.",
+            "Following a specific diet every day."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "audioId": "cet4-2025-12-set2-audio"
+        },
+        {
+          "id": "cet4-2025-12-set2-q21",
+          "type": "PASSAGE",
+          "prompt": "第 21 题(题干在原始录音中)",
+          "choices": [
+            "Eating as little as one can possibly manage.",
+            "Having the ability to forget things selectively.",
+            "Figuring out the positive properties of each food item.",
+            "Knowing how to remember major events in one's life."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "audioId": "cet4-2025-12-set2-audio"
+        },
+        {
+          "id": "cet4-2025-12-set2-q22",
+          "type": "PASSAGE",
+          "prompt": "第 22 题(题干在原始录音中)",
+          "choices": [
+            "The ability to learn.",
+            "The first day of school.",
+            "How teachers perceive them.",
+            "Where they sit in the classroom."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "audioId": "cet4-2025-12-set2-audio"
+        },
+        {
+          "id": "cet4-2025-12-set2-q23",
+          "type": "PASSAGE",
+          "prompt": "第 23 题(题干在原始录音中)",
+          "choices": [
+            "They often received close attention from the instructors.",
+            "They obtained the highest grade average in their class.",
+            "They actually wanted a clear vision of the blackboard.",
+            "They scored higher than students sitting behind them."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "audioId": "cet4-2025-12-set2-audio"
+        },
+        {
+          "id": "cet4-2025-12-set2-q24",
+          "type": "PASSAGE",
+          "prompt": "第 24 题(题干在原始录音中)",
+          "choices": [
+            "A higher grade average among all students of a class.",
+            "A better connection between instructors and students.",
+            "A stronger support for a student -centered teaching approach.",
+            "A more favorable atmosphere for effective classroom learning."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "audioId": "cet4-2025-12-set2-audio"
+        },
+        {
+          "id": "cet4-2025-12-set2-q25",
+          "type": "PASSAGE",
+          "prompt": "第 25 题(题干在原始录音中)",
+          "choices": [
+            "They may experience some unwanted stress.",
+            "They may try hard to show their preparedness.",
+            "They may receive extra attention from the instructor.",
+            "They may feel helpless when called on by the instructor."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "audioId": "cet4-2025-12-set2-audio"
+        }
+      ],
+      "audio": [
+        {
+          "id": "cet4-2025-12-set2-audio",
+          "url": "/study/resources/93c82d3cb2da5ac5c0b0db0f.m4a",
+          "sourceUrl": "/study/resources/93c82d3cb2da5ac5c0b0db0f.m4a",
+          "durationSeconds": 1406.200454,
+          "transcript": "",
+          "identity": "cet4_2025_12_2.mp3 SHA256:93c82d3cb2da5ac5c0b0db0fce6b9a4efc63fac3deb8641187244dd27ec4e9b6"
+        }
+      ],
+      "passages": [],
+      "sourceFileUrl": "/study/resources/29da4a4a079809d02aa56078.pdf"
+    },
+    "READING": {
+      "instructions": "请依次完成选词填空、长篇匹配和仔细阅读。",
+      "questions": [
+        {
+          "id": "cet4-2025-12-set2-q26",
+          "type": "WORD_BANK",
+          "prompt": "第 26 空",
+          "choices": [
+            "actually",
+            "consequently",
+            "contributing",
+            "fair",
+            "feels",
+            "manageable",
+            "mends",
+            "observed",
+            "phase",
+            "plotting",
+            "quality",
+            "recently",
+            "taxing",
+            "tends",
+            "yielded"
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 0.5,
+          "passageId": "cet4-2025-12-set2-bank"
+        },
+        {
+          "id": "cet4-2025-12-set2-q27",
+          "type": "WORD_BANK",
+          "prompt": "第 27 空",
+          "choices": [
+            "actually",
+            "consequently",
+            "contributing",
+            "fair",
+            "feels",
+            "manageable",
+            "mends",
+            "observed",
+            "phase",
+            "plotting",
+            "quality",
+            "recently",
+            "taxing",
+            "tends",
+            "yielded"
+          ],
+          "answerIndex": 4,
+          "explanation": "原卷答案：E。",
+          "weight": 0.5,
+          "passageId": "cet4-2025-12-set2-bank"
+        },
+        {
+          "id": "cet4-2025-12-set2-q28",
+          "type": "WORD_BANK",
+          "prompt": "第 28 空",
+          "choices": [
+            "actually",
+            "consequently",
+            "contributing",
+            "fair",
+            "feels",
+            "manageable",
+            "mends",
+            "observed",
+            "phase",
+            "plotting",
+            "quality",
+            "recently",
+            "taxing",
+            "tends",
+            "yielded"
+          ],
+          "answerIndex": 11,
+          "explanation": "原卷答案：L。",
+          "weight": 0.5,
+          "passageId": "cet4-2025-12-set2-bank"
+        },
+        {
+          "id": "cet4-2025-12-set2-q29",
+          "type": "WORD_BANK",
+          "prompt": "第 29 空",
+          "choices": [
+            "actually",
+            "consequently",
+            "contributing",
+            "fair",
+            "feels",
+            "manageable",
+            "mends",
+            "observed",
+            "phase",
+            "plotting",
+            "quality",
+            "recently",
+            "taxing",
+            "tends",
+            "yielded"
+          ],
+          "answerIndex": 13,
+          "explanation": "原卷答案：N。",
+          "weight": 0.5,
+          "passageId": "cet4-2025-12-set2-bank"
+        },
+        {
+          "id": "cet4-2025-12-set2-q30",
+          "type": "WORD_BANK",
+          "prompt": "第 30 空",
+          "choices": [
+            "actually",
+            "consequently",
+            "contributing",
+            "fair",
+            "feels",
+            "manageable",
+            "mends",
+            "observed",
+            "phase",
+            "plotting",
+            "quality",
+            "recently",
+            "taxing",
+            "tends",
+            "yielded"
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 0.5,
+          "passageId": "cet4-2025-12-set2-bank"
+        },
+        {
+          "id": "cet4-2025-12-set2-q31",
+          "type": "WORD_BANK",
+          "prompt": "第 31 空",
+          "choices": [
+            "actually",
+            "consequently",
+            "contributing",
+            "fair",
+            "feels",
+            "manageable",
+            "mends",
+            "observed",
+            "phase",
+            "plotting",
+            "quality",
+            "recently",
+            "taxing",
+            "tends",
+            "yielded"
+          ],
+          "answerIndex": 7,
+          "explanation": "原卷答案：H。",
+          "weight": 0.5,
+          "passageId": "cet4-2025-12-set2-bank"
+        },
+        {
+          "id": "cet4-2025-12-set2-q32",
+          "type": "WORD_BANK",
+          "prompt": "第 32 空",
+          "choices": [
+            "actually",
+            "consequently",
+            "contributing",
+            "fair",
+            "feels",
+            "manageable",
+            "mends",
+            "observed",
+            "phase",
+            "plotting",
+            "quality",
+            "recently",
+            "taxing",
+            "tends",
+            "yielded"
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 0.5,
+          "passageId": "cet4-2025-12-set2-bank"
+        },
+        {
+          "id": "cet4-2025-12-set2-q33",
+          "type": "WORD_BANK",
+          "prompt": "第 33 空",
+          "choices": [
+            "actually",
+            "consequently",
+            "contributing",
+            "fair",
+            "feels",
+            "manageable",
+            "mends",
+            "observed",
+            "phase",
+            "plotting",
+            "quality",
+            "recently",
+            "taxing",
+            "tends",
+            "yielded"
+          ],
+          "answerIndex": 12,
+          "explanation": "原卷答案：M。",
+          "weight": 0.5,
+          "passageId": "cet4-2025-12-set2-bank"
+        },
+        {
+          "id": "cet4-2025-12-set2-q34",
+          "type": "WORD_BANK",
+          "prompt": "第 34 空",
+          "choices": [
+            "actually",
+            "consequently",
+            "contributing",
+            "fair",
+            "feels",
+            "manageable",
+            "mends",
+            "observed",
+            "phase",
+            "plotting",
+            "quality",
+            "recently",
+            "taxing",
+            "tends",
+            "yielded"
+          ],
+          "answerIndex": 5,
+          "explanation": "原卷答案：F。",
+          "weight": 0.5,
+          "passageId": "cet4-2025-12-set2-bank"
+        },
+        {
+          "id": "cet4-2025-12-set2-q35",
+          "type": "WORD_BANK",
+          "prompt": "第 35 空",
+          "choices": [
+            "actually",
+            "consequently",
+            "contributing",
+            "fair",
+            "feels",
+            "manageable",
+            "mends",
+            "observed",
+            "phase",
+            "plotting",
+            "quality",
+            "recently",
+            "taxing",
+            "tends",
+            "yielded"
+          ],
+          "answerIndex": 10,
+          "explanation": "原卷答案：K。",
+          "weight": 0.5,
+          "passageId": "cet4-2025-12-set2-bank"
+        },
+        {
+          "id": "cet4-2025-12-set2-q36",
+          "type": "MATCHING",
+          "prompt": "Certain gaming skills meet the requirements of the armed forces in Britain.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "passageId": "cet4-2025-12-set2-matching"
+        },
+        {
+          "id": "cet4-2025-12-set2-q37",
+          "type": "MATCHING",
+          "prompt": "One veteran player has applied his gaming skills to his real-world business and owes his success partly to a game company.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 8,
+          "explanation": "原卷答案：I。",
+          "weight": 1,
+          "passageId": "cet4-2025-12-set2-matching"
+        },
+        {
+          "id": "cet4-2025-12-set2-q38",
+          "type": "MATCHING",
+          "prompt": "According to a researcher, bad reputation about games will probably limit a gamer’s chances of landing a job.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 5,
+          "explanation": "原卷答案：F。",
+          "weight": 1,
+          "passageId": "cet4-2025-12-set2-matching"
+        },
+        {
+          "id": "cet4-2025-12-set2-q39",
+          "type": "MATCHING",
+          "prompt": "Businesses are beginning to realise gaining skills are applicable to their employees’ work.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "passageId": "cet4-2025-12-set2-matching"
+        },
+        {
+          "id": "cet4-2025-12-set2-q40",
+          "type": "MATCHING",
+          "prompt": "A physicist admits gaming has contributed to his computer knowledge and skills of solving problems.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 10,
+          "explanation": "原卷答案：K。",
+          "weight": 1,
+          "passageId": "cet4-2025-12-set2-matching"
+        },
+        {
+          "id": "cet4-2025-12-set2-q41",
+          "type": "MATCHING",
+          "prompt": "Game Academy proposes to help gamers develop their skills using critical thinking.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 6,
+          "explanation": "原卷答案：G。",
+          "weight": 1,
+          "passageId": "cet4-2025-12-set2-matching"
+        },
+        {
+          "id": "cet4-2025-12-set2-q42",
+          "type": "MATCHING",
+          "prompt": "One who enjoys playing games that require management skills to win might possess more qualities of a manager.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "passageId": "cet4-2025-12-set2-matching"
+        },
+        {
+          "id": "cet4-2025-12-set2-q43",
+          "type": "MATCHING",
+          "prompt": "In more conventional views, gaming is a time-wasting activity pursued by young boys.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 9,
+          "explanation": "原卷答案：J。",
+          "weight": 1,
+          "passageId": "cet4-2025-12-set2-matching"
+        },
+        {
+          "id": "cet4-2025-12-set2-q44",
+          "type": "MATCHING",
+          "prompt": "It is suggested that gaming skills be included in a resume if they enhance a job applicant’s appeal.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 4,
+          "explanation": "原卷答案：E。",
+          "weight": 1,
+          "passageId": "cet4-2025-12-set2-matching"
+        },
+        {
+          "id": "cet4-2025-12-set2-q45",
+          "type": "MATCHING",
+          "prompt": "Many gamers know their passion for playing games has shaped their identity.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 7,
+          "explanation": "原卷答案：H。",
+          "weight": 1,
+          "passageId": "cet4-2025-12-set2-matching"
+        },
+        {
+          "id": "cet4-2025-12-set2-q46",
+          "type": "DETAIL",
+          "prompt": "What do we learn about advertising campaigns from the snack food companies?",
+          "choices": [
+            "They convey the idea that their products are ok if consumers exercise more.",
+            "They send the message that bad diets are responsible for Americans’ obesity.",
+            "They usually feature sports stars to emphasize the benefits of their snack foods.",
+            "They claim that lack of exercise is to blame for the increasing obesity rates."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "passageId": "cet4-2025-12-set2-detail1"
+        },
+        {
+          "id": "cet4-2025-12-set2-q47",
+          "type": "DETAIL",
+          "prompt": "What does the passage say about health education?",
+          "choices": [
+            "It has shed light on teens’ instinct f or rebellion and autonomy.",
+            "It has placed much more emphasis on cure than on prevention.",
+            "It has contributed little to the campaigns against obesity.",
+            "It has largely failed to t urn teens away from junk food."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "passageId": "cet4-2025-12-set2-detail1"
+        },
+        {
+          "id": "cet4-2025-12-set2-q48",
+          "type": "DETAIL",
+          "prompt": "What is a major flaw in previous interventions to help reduce junk food consumption?",
+          "choices": [
+            "They motivated teens to stay away from junk food only temporarily.",
+            "They focused on the benefits young people would reap in the future.",
+            "They were based on the assumption that motivation was the only key.",
+            "They were incapable of appealing to teens’ instinct f or rebelliousness."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "passageId": "cet4-2025-12-set2-detail1"
+        },
+        {
+          "id": "cet4-2025-12-set2-q49",
+          "type": "DETAIL",
+          "prompt": "In what way is the new intervention innovative?",
+          "choices": [
+            "It emphasizes people ’s sense of social responsibi lity.",
+            "It cleverly exploits teenagers ’ personal weaknesses.",
+            "It takes advantage of teenagers ’ natural inclination.",
+            "It promises immediate rather than future benefit"
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "passageId": "cet4-2025-12-set2-detail1"
+        },
+        {
+          "id": "cet4-2025-12-set2-q50",
+          "type": "DETAIL",
+          "prompt": "What conclusion can be drawn from the new research?",
+          "choices": [
+            "A totally different approa ch could be adopted to combat advertising campaigns for snack food.",
+            "An effective intervention has to be found to persuade teenagers to switch to a healthier lifestyle.",
+            "Obesity can be hopefully prevented by building links between teenagers ’ values and healthy eating.",
+            "An innovative way to beat obesity is to expose food companies ’ manipulative and deceptive practices"
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "passageId": "cet4-2025-12-set2-detail1"
+        },
+        {
+          "id": "cet4-2025-12-set2-q51",
+          "type": "DETAIL",
+          "prompt": "What do scientists think of REM?",
+          "choices": [
+            "It is a sign of dreaming in adults and infants alike.",
+            "It is essential to human beings ’ language learning.",
+            "It determines the formation of connections in the brain.",
+            "It performs a different function in babies than in adults."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "passageId": "cet4-2025-12-set2-detail2"
+        },
+        {
+          "id": "cet4-2025-12-set2-q52",
+          "type": "DETAIL",
+          "prompt": "What can we infer about nightmares from the passage?",
+          "choices": [
+            "They occur often in people with an active imagination.",
+            "They occur in people suffering from emotional stress.",
+            "They vary in different stages of brain develop ment.",
+            "They appear in the sleep of both adults and infants."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "passageId": "cet4-2025-12-set2-detail2"
+        },
+        {
+          "id": "cet4-2025-12-set2-q53",
+          "type": "DETAIL",
+          "prompt": "What is the aim of psychologist David Foulkes’ study?",
+          "choices": [
+            "To reveal the secrets of children's dreams.",
+            "To see if children start dreaming at age two.",
+            "To solve the mystery of dreaming and brain growth.",
+            "To confirm the general consensus on when kids dream."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "passageId": "cet4-2025-12-set2-detail2"
+        },
+        {
+          "id": "cet4-2025-12-set2-q54",
+          "type": "DETAIL",
+          "prompt": "What are Foulkes ’ findings about kids ’ dreams?",
+          "choices": [
+            "They feature strange animals.",
+            "They are unsurprising to adults.",
+            "They grow and evolve with age.",
+            "They r eflect kids ’ waking life."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "passageId": "cet4-2025-12-set2-detail2"
+        },
+        {
+          "id": "cet4-2025-12-set2-q55",
+          "type": "DETAIL",
+          "prompt": "What can we assume about babies who appear upset upon waking?",
+          "choices": [
+            "They have been roused against their will.",
+            "They have been disturbed by a nightmare.",
+            "They have trouble recollecting the images of their dreams.",
+            "They have been affected by something other than dreaming ."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "passageId": "cet4-2025-12-set2-detail2"
+        }
+      ],
+      "audio": [],
+      "passages": [
+        {
+          "id": "cet4-2025-12-set2-bank",
+          "text": "Some music inspires you to move your feet, some inspires you to get out there and change the world. In any                             case, it’s  __(26)__  to say that music moves people in special ways.       If you're especially into a piece of music, your brain does something called Autonomous Sensory Meridian Response (ASMR), which  __(27)__  to you like a sting in your brain.       It turns out that ASMR is pretty special. According to a  __(28)__  published study in The Journal of Prevention of Alzheimer’s Disease, the part of your brain responsible for ASMR doesn’t get lost to Alzheimer’s. Alzheimer’s  __(29)__  to put people into layers of confusion, and the study confirms that music can sometimes                            __(30)__  lift      people out of the Alzheimer’s haze and bring them back to (at least a likeness of) normality... if only for a short while. ASMR is powerful stuff!       This phenomenon has been  __(31)__  several times but rarely studied properly. One of the most famous examples of this is the story of 92-year-old Henry Dryer, who comes out of dementia (痴呆) while listening to songs from his youth.       Jeff Anderson, associate professor in Radiology at the University of Utah and                     __(32)__  author on the study, says “In our society, the diagnoses of dementia are  __(33)__  resources to the maximum. No on                      e says playing music will be a cure for Alzheimer’s disease, but it might make the symptoms more                    __(34)__  , decrease the cost of care           and improve a patient’s  __(35)__  of life.”"
+        },
+        {
+          "id": "cet4-2025-12-set2-matching",
+          "text": "Can playing video games help you get a better job?\nA) The gaming industry is larger than films and music combined, yet few of us are likely to list our achievements                           in playing    computer games as work experience in our resume. But why not? Businesses are waking up to the skills gamers can bring    to the workplace.\nB) One start-up is convinced that the skills learned by playing games               — hard-won through years of training and battle — can    be applied to real-life work situations. And Game Academy reckons its belief is backe                       d up by hard data. Do you enjoy    unusual puzzle games like Portal, or tower defence games like Defense Grid?                       The team has found that IT workers play    those more than average. But if you prefer Civilization, Total War,                or X-Com, where strategy and resource management    are key, then you might have more in common with managers.\nC) Game Academy's idea is simple: analyse gamers                ’ habits from their online gaming profile, and offer courses              in valuable    skills that reflect their aptitudes — skills they can practise and refine in-game. And there is already a growing acceptance    that gaming skills are transferable.\n\n\n\nD) Even the military is hiring gamers. “The ability to absorb information, react swiftly and coordinate actions whilst remaining    calm under pressure are often attributes of people that are good at gaming,” according to a Royal Air Force spokesperson.    Those skills are part of what the Royal Air Force is looking for “in a variety of roles”. “Skills acquired through gaming can    be very relevant to certain areas.”\nE) “There are plenty of soft skills that gamers can utilise in a professional setting, such as teamwork, problem solving and    strategic planning,” says Ryan Gardner, a regional director with Hays recruitment. But does                        that really mean your top 100    ranking in Overwatch should go down in your resume?                     “It’s about how you       either make it relevant to the job you are    applying for, or how it makes you more interesting as a potential                employee,” Mr. Gardner says.\nF) Two years ago, a Glasgow University study made h                eadlines for suggesting gaming could make students                 more successful.    But  “the research hasn’t really changed minds, at least not yet,              ” says one of the authors of        the study, Dr. Matthew Barr.    He’s now writing a book on the topic. “For now, I think the negative reputation around games means that telling someone    you’re a determined gamer is more likely to harm your chances of getting a job. But if someone can explain how they’ve    led a team in an online game, for example, they may be able to persuade an employer that this is useful,” says Dr Barr.\nG) Playing games casually is unlikely to help your career prospects. But part of Game Academy’s suggestion is to transform    casual gamers into “conscious” ones, applying critical thinking to developing their skills. “We see gameplay as a resource    of talent, ” says co  -founder David Barrie.        “Why can     ’t we put in our resume our        gaming victories and achievements?            ” he    asks. “If they say they want leadersh        ip — why can’t I point to my years of leading World of Warcraft raids?”\nH) There are already plenty of gamers out there who know that their hobby has made them who they are. Earlier                                  this year,    Matthew Ricci told gaming site Kotaku:            “If you're playing EVE Online you basically already               have an MBA.” Often made    fun of in gaming circles as a        “spreadsheet simulator (       电子表格模拟器)”, the economy of the fictional EVE universe is    driven by real market principles. If you want to build a new spaceship, the raw material has to be mined by another player.    Manufacturing costs come into effect, and commodities fluctuate in price based on demand and the distance to haul the    commodity.\nI) Mr. Ricci, who had always dreamed of being the boss of his own company, ran an in-game corporation comprising hundreds    of players. Eventually, he realised he could transfer his skills to real-life business                     —   instead of doing it for free. He    restructured Zentech, once a taxation vehicle for his father’s business, and it is now in its fourth year helping international    brands enter the Canadian market. EVE teaches skills like creativity, leadership, organisation, and conflict resolution, he    maintains. He credits his success to his family, his strong desire to run his own business- and “a damn good company in    Iceland that made a damn good game”.\nJ) Digital entrepreneur and business consultant Mia Bennett says: “In more traditional settings, gaming is still imagined to be    the pursuit of teenage boys — a waste of time.” But there are some links to skills like “decision-making, the ability to    anticipate and future planning,” she says. “It also helps with meta-skills — learning how to learn, experimentation, and    creative thinking.”\nK) Twelve years into his career, Mark Long, a radiotherapy physicist with the NHS in Surrey, doesn’t get as much gaming    time as he used to. “I would love to say that my gaming skills allow me to destroy cancer                          using linear accelerators like    photon (光子) blasters, but that’s not quite the reality.”               Instead, he credits old-school games like Palace of Magic with    exposing him to       computers. Every new gaming upgrade improved his knowledge of how they worked. Gaming also    encouraged a competitive spirit — and that, he believes, translates. “When creating treatment plans, the aim is to optimise    the radiation dose to the tumour and restrict it as much as possible to healthy surrounding tissues and organs,” he says. It’s    about “repeating the process, but each time doing something slightly different to improve the result”. Not unlike achieving    a high score or a perfect run. “Most videogames are essentially puzzles to solve,” he says. “And problem-solving is a big    part of my job.”\nL) Over at Game Academy, Mr. Barrie is aware they still have a mountain to climb.                       “The employer community will need the    science,” he says, but confesses he only became a true believer when he started asking players about their biggest in-game    achievements. “The scale and scope of their answers were amazing,                    ” he says. “But ask them the same about their work,    and they don’t know.” “The engagement and powerful skills that people get playing a game — why can’t work be like    that?” he asks."
+        },
+        {
+          "id": "cet4-2025-12-set2-detail1",
+          "text": "Junk food is now a staple of many Americans’ diets. Advertising campaigns from the snack food companies, often featuring sports stars, send the message that we can              neutralize any negative effects of consuming their products simply by getting more physical exercise. But recent studies show a lack of exercise is not to blame for rising obesity rates. Bad diet                             s are.       Interventions (    干预) to help reduce junk food consumption are especially important for children and                                    teenagers. Prevention is better than cure because obesity is so difficult to treat. Unfortunately, while health education has shown some success among young children, teens have been harder to reach.       Now a large-scale study has tried an innovative approach to change teenagers’ attitudes towards healthy eating, and the results are promising. The researchers argued that previous interventions have probably been unsuccessful because of a major flaw: they focused on a future, healthier you and assumed that this would be enough motivation for teenagers. In contrast, the new intervention cleverly exploits teenagers’ instinct for               rebelliousness and autonomy, and the value they place on social justice.       To do this, research    ers had students read an article on the food industry. It revealed a secret about the                   manipulative and deceptive strategies used to make junk food more addictive and characterize the products as                       healthy. The article also explained how  advertising  campaigns         specifically  target  very  young  and  poor  people,           causing  harm  for  these  vulnerable  groups. Afterwards, the participants read a fictional survey of teens who                wanted to    “fight back against the companies by buying and eating less processed food      ”.       After the intervention, participants associated healthy eating with autonomy and social justice. The teenagers also rated healthy eating as being more appealing. Importantly, there were also some promising effects of the new intervention on actual behavior. A day later the students were offered a choice of snacks and drinks in a seemingly unrelated context. The teens chose healthy snacks and drinks (such as fruit or water) more often over unhealthy options (like biscuits and soda). Apparently associating a healthy diet with teenagers’ own values seems to be a promising avenue to prevent obesity."
+        },
+        {
+          "id": "cet4-2025-12-set2-detail2",
+          "text": "Adults dream during REM (rapid eye movement) sleep and                          infants have loads of REM. So, it might be fair                to assume that babies have tons of dreams.       But scientists believe REM serves a completely different purpose for newborns and infants than dreaming.                                    When babies are in REM, it allows their brain to develop pat             hways, connections, and eventually, learn languages.       Since your baby doesn         ’t dream at this stage of brain development, i              t’s safe to assume babies do not have              nightmares, either. Nightmares stem from exposure to trauma (                创伤),an overactive           imagination, and the no        rmal stresses of everyday life.       Are you wondering, what do babies dream about? Good question, but the answer is nothing!       So, when do babies start dreaming? The general consensus is that they start dreaming around the age of two. Psychologist David Foulkes studies children (from very small kids to teens) to bring the secrets of their dreams to the light of day. In his lab, he lets kids fall asleep and then wakes them 3 times a night and asks them to describe what they recall.       Foulkes’ findings are unsurprising. Basically, little kids have little dreams. But exactly what kids see while dreaming depends on their age. As children develop and grow, their dreams do too.       Dreams of very small kids are usually just snapshots (快照), looking much more like a slideshow than a movie, when compared to the dreams of adults. They heavily feature animals and other familiar sights, like images of people eating. According to Foulkes, “Children’s dream life...seems to be similar to their waking imagination and narration.” Kids ages 5 — 9 begin seeing moving images and characters in action. Dreams now include multiple events strung together, one after the other. They also start developing greater ability to remember dreams. Still, that’s not always the case: When roused during REM sleep, 25% of the kids in Foulkes’ studies had no recollection of dreaming, a trend that continues through age 9.       So, if your baby seems to be in a stressful state while sleeping or is upset upon waking, there may be other                                    factors at play ."
+        }
+      ],
+      "sourceFileUrl": "/study/resources/29da4a4a079809d02aa56078.pdf"
+    },
+    "TRANSLATION": {
+      "instructions": "请将原卷中文翻译成英语。",
+      "prompt": "Directions: For this part, you are allowed 30 minutes to translate a passage from Chinese into English. You should write your answer on Answer Sheet 2.\n\n     近年来,“城市漫步              (city walk) ”在中国的年轻人中悄然兴起                     ,已成为一种旅游新潮流                   。与传统       旅游不同       ,城市漫 步不追求在短时间内游览尽可能多的景点,而是随意行走或按照主题路线漫步在城市的大街小巷。漫步者品尝地道 小吃,欣赏特色建筑,了解当地生活方式。他们还用相机或手机记录城市的风景和人物。这种旅游方式能让城市漫 步者更深入了解城市的历史与文化。",
+      "questions": [],
+      "audio": [],
+      "passages": [],
+      "sourceFileUrl": "/study/resources/29da4a4a079809d02aa56078.pdf"
+    }
+  }
+}

@@ -2,8 +2,13 @@ import { NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth/next'
 import { authOptions } from '@/lib/authOptions'
 import { gameService } from '@/features/gamification/services/GameService'
+import { isLeaderboardEnabled } from '@/lib/leaderboardAccess'
 
 export async function POST(req: Request) {
+  if (!(await isLeaderboardEnabled())) {
+    return NextResponse.json({ success: false, error: '排行榜暂未开放' }, { status: 404 })
+  }
+
   const session = await getServerSession(authOptions)
   if (!session?.user?.id) {
     return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 })

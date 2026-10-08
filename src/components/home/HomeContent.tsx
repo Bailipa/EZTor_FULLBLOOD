@@ -1,7 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
-import dynamic from 'next/dynamic'
+import { lazy, Suspense, useEffect, useRef, useState } from 'react'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
@@ -15,15 +14,13 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { GraduationCap, BookOpen, AlertCircle, PenLine, Languages, ArrowUpRight, ArrowRight } from 'lucide-react'
 import styles from '@/components/ai/translation-workspace.module.css'
-import { DailyTaskCard } from '@/features/gamification/components/DailyTaskCard'
+import studyStyles from '@/features/study/study.module.css'
 import { CombatPowerBadge, type CombatPowerSummary } from '@/features/gamification/components/CombatPowerBadge'
 import { FeatureUnlockNotification } from '@/features/gamification/components/FeatureUnlockNotification'
 import type { FeatureKey } from '@/features/gamification/constants'
 
-const DailyFlashcard = dynamic(
-  () => import('@/components/flashcard/FullscreenFlashcard').then((module) => module.FullscreenFlashcard),
-  { ssr: false, loading: () => <div className="flex min-h-80 items-center justify-center text-sm text-muted-foreground">载入单词卡…</div> },
-)
+const StudyHome = lazy(() => import('@/features/study/StudyHome'))
+const DailyTaskCard = lazy(() => import('@/features/gamification/components/DailyTaskCard').then((module) => ({ default: module.DailyTaskCard })))
 
 export default function HomeContent() {
   const { minimal, mainVisible } = useMinimalFeatures()
@@ -114,12 +111,12 @@ export default function HomeContent() {
           />
 
           <main className={`min-h-0 flex-1 overflow-y-auto ${styles.canvas} ${styles.homeCanvas}`}>
-            <div data-workspace-home className={styles.homePage}>
+            <div data-workspace-home className={`${styles.homePage} ${studyStyles.homePage}`}>
               <section data-home-lead className={styles.homeLead} aria-label="学习与查词">
                 <div data-home-intro className={styles.homeIntro}>
-                  <p className={styles.eyebrow}>我的学习</p>
-                  <h2>温故，知新</h2>
-                  <p className={styles.homeDescription}>从熟悉的单词出发，每次记牢一点。</p>
+                  <p className={styles.eyebrow}>今日计划</p>
+                  <h2>今天学什么？</h2>
+                  <p className={styles.homeDescription}>从一篇文章或一道练习开始，稳步推进今天的学习。</p>
                   {mainVisible('/dictation') && <Button className="mt-6 min-h-11 gap-3 rounded-lg px-5 shadow-none" onPointerEnter={() => { if (isAuthenticated) router.prefetch('/dictation') }} onFocus={() => { if (isAuthenticated) router.prefetch('/dictation') }} onClick={() => { track('CTA_CLICK', { placement: 'home', action: 'start_dictation' }); if (isAuthenticated) router.push('/dictation'); else promptLogin('默写复习') }}>
                     <PenLine className="size-4" />开始默写<ArrowRight className="size-4" />
                   </Button>}
@@ -146,11 +143,12 @@ export default function HomeContent() {
               </section>
 
               <div data-home-grid>
-                <section data-home-words className={styles.mobileFlashcard} aria-label="每日单词">
-                  <DailyFlashcard embedded
-                    onInteraction={() => { if (isAuthenticated) setHasInteractedWithFlashcard(true) }}
-                    onSaved={() => { if (isAuthenticated) setTaskRefreshKey((key) => key + 1) }}
-                  />
+                <section data-home-study className="mt-5 min-w-0 md:mt-0" aria-label="四六级备考">
+                  <Suspense fallback={<div className="flex min-h-60 items-center justify-center text-sm text-muted-foreground">载入阅读工作台…</div>}>
+                    <StudyHome
+                      onInteraction={() => { if (isAuthenticated) setHasInteractedWithFlashcard(true) }}
+                    />
+                  </Suspense>
                 </section>
 
                 {isAuthenticated && (
@@ -161,20 +159,22 @@ export default function HomeContent() {
                         <CombatPowerBadge data={profile} />
                       </CardContent>
                     </Card>
-                    <DailyTaskCard
-                      refreshKey={taskRefreshKey}
-                      defaultCollapsed
-                      forceExpanded={!isMobileViewport}
-                      onTaskClick={(task) => {
-                        if (task.taskType === 'FLASHCARD_INTERACT') {
-                          setFlashcardOpenRequest((request) => request + 1)
-                        } else if (task.taskType === 'COMPLETE_REVIEWS' || task.taskType === 'REACH_ACCURACY') {
-                          router.push('/dictation')
-                        } else {
-                          router.push('/me')
-                        }
-                      }}
-                    />
+                    <Suspense fallback={<div className="min-h-11 rounded-lg border border-border px-3 py-3 text-xs text-muted-foreground">载入每日任务…</div>}>
+                      <DailyTaskCard
+                        refreshKey={taskRefreshKey}
+                        defaultCollapsed
+                        forceExpanded={false}
+                        onTaskClick={(task) => {
+                          if (task.taskType === 'FLASHCARD_INTERACT') {
+                            setFlashcardOpenRequest((request) => request + 1)
+                          } else if (task.taskType === 'COMPLETE_REVIEWS' || task.taskType === 'REACH_ACCURACY') {
+                            router.push('/dictation')
+                          } else {
+                            router.push('/me')
+                          }
+                        }}
+                      />
+                    </Suspense>
                   </section>
                 )}
                 {status === 'unauthenticated' && (
@@ -196,7 +196,7 @@ export default function HomeContent() {
       </AppLayout>
 
       {/* 新手引导入口悬浮按钮（仅登录用户） */}
-      {isAuthenticated && !isActive && !hasInteractedWithFlashcard && (
+      {isAuthenticated && !isMobileViewport && !isActive && !hasInteractedWithFlashcard && (
         <button
           onClick={startOnboarding}
           className="fixed right-4 z-50 flex items-center gap-2 px-4 py-2.5 rounded-full bg-primary text-primary-foreground shadow-lg hover:shadow-xl transition-all hover:scale-105 active:scale-95"

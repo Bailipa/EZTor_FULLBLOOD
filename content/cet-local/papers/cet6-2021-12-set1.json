@@ -1,0 +1,1089 @@
+{
+  "slug": "cet6-2021-12-set1-full",
+  "version": 1,
+  "title": "2021年12月 · 第1套整卷模拟真题",
+  "level": "CET6",
+  "kind": "FULL",
+  "originType": "PAST_EXAM",
+  "sourceName": "用户提供的本地四六级资料",
+  "sourceUrl": "/study/resources/a872dc6edf1b370c15269e7e.pdf",
+  "rightsHolder": "原试卷及解析作者",
+  "rightsEvidence": "用户提供本地资源并要求接入本地学习系统；原文件及校验值见 content/cet-local/index.json。未授权公开再分发或生产部署。",
+  "content": {
+    "WRITING": {
+      "instructions": "原卷写作要求",
+      "prompt": "Directions: For this part, you are allowed 30 minutes to write an essay related to the short passage given below. In your essay, you are to comment on the phenomenon described in the passage and suggest measures to address the issue. You should write at least 150 words but no more than 200 words. Young people spend a lot of time on the Internet. However, they are sometimes unable to recognize false information on the Internet, judge the reliability of online information sources, or tell real news stories from fake ones.",
+      "questions": [],
+      "audio": [],
+      "passages": [],
+      "minimumWords": 150,
+      "maximumWords": 200,
+      "sourceFileUrl": "/study/resources/a872dc6edf1b370c15269e7e.pdf"
+    },
+    "LISTENING": {
+      "instructions": "原卷听力选择题",
+      "questions": [
+        {
+          "id": "cet6-2021-12-set1-q1",
+          "type": "CONVERSATION",
+          "prompt": "第 1 题(题干在原始录音中)",
+          "choices": [
+            "He was enjoying his holiday.",
+            "He was recovering in hospital.",
+            "He was busy writing his essays.",
+            "He was fighting a throat infection."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "audioId": "cet6-2021-12-set1-audio"
+        },
+        {
+          "id": "cet6-2021-12-set1-q2",
+          "type": "CONVERSATION",
+          "prompt": "第 2 题(题干在原始录音中)",
+          "choices": [
+            "He broke his wrist.",
+            "He lost his antibiotics.",
+            "He slipped on ice and fell.",
+            "He was laughed at by some girls."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "audioId": "cet6-2021-12-set1-audio"
+        },
+        {
+          "id": "cet6-2021-12-set1-q3",
+          "type": "CONVERSATION",
+          "prompt": "第 3 题(题干在原始录音中)",
+          "choices": [
+            "Turn to her father for help.",
+            "Call the repair shop to fix it.",
+            "Ask the manufacturer for repairs.",
+            "Replace it with a brand-new one."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "audioId": "cet6-2021-12-set1-audio"
+        },
+        {
+          "id": "cet6-2021-12-set1-q4",
+          "type": "CONVERSATION",
+          "prompt": "第 4 题(题干在原始录音中)",
+          "choices": [
+            "Help David retrieve his essays.",
+            "Introduce David to her parents.",
+            "Offer David some refreshments.",
+            "Accompany David to his home."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "audioId": "cet6-2021-12-set1-audio"
+        },
+        {
+          "id": "cet6-2021-12-set1-q5",
+          "type": "CONVERSATION",
+          "prompt": "第 5 题(题干在原始录音中)",
+          "choices": [
+            "She is a critic of works on military affairs.",
+            "She is an acclaimed hostess of Book Talk.",
+            "She is a researcher of literary genres.",
+            "She is a historian of military history."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "audioId": "cet6-2021-12-set1-audio"
+        },
+        {
+          "id": "cet6-2021-12-set1-q6",
+          "type": "CONVERSATION",
+          "prompt": "第 6 题(题干在原始录音中)",
+          "choices": [
+            "It is about the military history of Europe.",
+            "It is set in the 18th and 19th centuries.",
+            "It is her fifth book of military history.",
+            "It is a war novel set in the future. 2021-12-CET6(* 1 1)-1"
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "audioId": "cet6-2021-12-set1-audio"
+        },
+        {
+          "id": "cet6-2021-12-set1-q7",
+          "type": "CONVERSATION",
+          "prompt": "第 7 题(题干在原始录音中)",
+          "choices": [
+            "She visited soldiers' wives and mothers.",
+            "She conducted surveys of many soldiers.",
+            "She met a large number of soldiers in person.",
+            "She looked into the personal lives of soldiers."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "audioId": "cet6-2021-12-set1-audio"
+        },
+        {
+          "id": "cet6-2021-12-set1-q8",
+          "type": "CONVERSATION",
+          "prompt": "第 8 题(题干在原始录音中)",
+          "choices": [
+            "She doesn't have much freedom for imagination.",
+            "It is not easy to make her readers believe in her.",
+            "It is difficult to attract young readers.",
+            "She has to combine fact with fiction."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "audioId": "cet6-2021-12-set1-audio"
+        },
+        {
+          "id": "cet6-2021-12-set1-q9",
+          "type": "PASSAGE",
+          "prompt": "第 9 题(题干在原始录音中)",
+          "choices": [
+            "Santa Claus.",
+            "A polar bear.",
+            "Cocoa seeds.",
+            "A glass bottle."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "audioId": "cet6-2021-12-set1-audio"
+        },
+        {
+          "id": "cet6-2021-12-set1-q10",
+          "type": "PASSAGE",
+          "prompt": "第 10 题(题干在原始录音中)",
+          "choices": [
+            "To attract customer attention.",
+            "To keep up with the times.",
+            "To combat counterfeits.",
+            "To promote its sales."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "audioId": "cet6-2021-12-set1-audio"
+        },
+        {
+          "id": "cet6-2021-12-set1-q11",
+          "type": "PASSAGE",
+          "prompt": "第 11 题(题干在原始录音中)",
+          "choices": [
+            "It resembles a picture in the encyclopedia.",
+            "It appears in the shape of a cocoa seed.",
+            "It has the drink's logo in the middle.",
+            "It displays the image of Santa Claus."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "audioId": "cet6-2021-12-set1-audio"
+        },
+        {
+          "id": "cet6-2021-12-set1-q12",
+          "type": "PASSAGE",
+          "prompt": "第 12 题(题干在原始录音中)",
+          "choices": [
+            "It often occurs among commuters.",
+            "It promotes mutual understanding.",
+            "It improves their mood considerably.",
+            "It takes a great deal of effort to sustain."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "audioId": "cet6-2021-12-set1-audio"
+        },
+        {
+          "id": "cet6-2021-12-set1-q13",
+          "type": "PASSAGE",
+          "prompt": "第 13 题(题干在原始录音中)",
+          "choices": [
+            "Social anxiety.",
+            "Excessive caution.",
+            "Lack of social skills.",
+            "Preference for solitude."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "audioId": "cet6-2021-12-set1-audio"
+        },
+        {
+          "id": "cet6-2021-12-set1-q14",
+          "type": "PASSAGE",
+          "prompt": "第 14 题(题干在原始录音中)",
+          "choices": [
+            "People usually regard it as an unforgettable lesson.",
+            "Human brains tend to dwell on negative events.",
+            "Negative events often hurt people deeply.",
+            "People generally resent being rejected."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "audioId": "cet6-2021-12-set1-audio"
+        },
+        {
+          "id": "cet6-2021-12-set1-q15",
+          "type": "PASSAGE",
+          "prompt": "第 15 题(题干在原始录音中)",
+          "choices": [
+            "Contagious.",
+            "Temporary.",
+            "Unpredictable.",
+            "Measurable."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "audioId": "cet6-2021-12-set1-audio"
+        },
+        {
+          "id": "cet6-2021-12-set1-q16",
+          "type": "LECTURE",
+          "prompt": "第 16 题(题干在原始录音中)",
+          "choices": [
+            "It depends heavily on tourism.",
+            "It is flourishing in foreign trade.",
+            "It is mainly based on agriculture.",
+            "It relies chiefly on mineral export."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "audioId": "cet6-2021-12-set1-audio"
+        },
+        {
+          "id": "cet6-2021-12-set1-q17",
+          "type": "LECTURE",
+          "prompt": "第 17 题(题干在原始录音中)",
+          "choices": [
+            "Tobacco.",
+            "Bananas.",
+            "Coffee.",
+            "Sugar."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "audioId": "cet6-2021-12-set1-audio"
+        },
+        {
+          "id": "cet6-2021-12-set1-q18",
+          "type": "LECTURE",
+          "prompt": "第 18 题(题干在原始录音中)",
+          "choices": [
+            "They toil on farms.",
+            "They live a poor life.",
+            "They live in Spanish-style houses.",
+            "They hire people to do housework. 2021-12-CET6(7› 1 1)-2"
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "audioId": "cet6-2021-12-set1-audio"
+        },
+        {
+          "id": "cet6-2021-12-set1-q19",
+          "type": "LECTURE",
+          "prompt": "第 19 题(题干在原始录音中)",
+          "choices": [
+            "They will be more demanding of their next generation.",
+            "They will end up lonely, dependent and dissatisfied.",
+            "They will experience more setbacks than successes.",
+            "They will find it difficult to get along with others."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "audioId": "cet6-2021-12-set1-audio"
+        },
+        {
+          "id": "cet6-2021-12-set1-q20",
+          "type": "LECTURE",
+          "prompt": "第 20 题(题干在原始录音中)",
+          "choices": [
+            "Failure to pay due attention to their behavior.",
+            "Unwillingness to allow them to play with toys.",
+            "Unwillingness to satisfy their wishes immediately.",
+            "Failure to spend sufficient quality time with them."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "audioId": "cet6-2021-12-set1-audio"
+        },
+        {
+          "id": "cet6-2021-12-set1-q21",
+          "type": "LECTURE",
+          "prompt": "第 21 题(题干在原始录音中)",
+          "choices": [
+            "It will enable them to learn from mistakes.",
+            "It will help them to handle disappointment.",
+            "It will do much good to their mental health.",
+            "It will build their ability to endure hardships."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "audioId": "cet6-2021-12-set1-audio"
+        },
+        {
+          "id": "cet6-2021-12-set1-q22",
+          "type": "LECTURE",
+          "prompt": "第 22 题(题干在原始录音中)",
+          "choices": [
+            "Failing to make sufficient preparations.",
+            "Looking away from the hiring manager.",
+            "Saying the wrong thing at the wrong time.",
+            "Making a wrong judgment of the interview."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "audioId": "cet6-2021-12-set1-audio"
+        },
+        {
+          "id": "cet6-2021-12-set1-q23",
+          "type": "LECTURE",
+          "prompt": "第 23 题(题干在原始录音中)",
+          "choices": [
+            "Complaining about their previous job.",
+            "Inquiring about their salary to be paid.",
+            "Exaggerating their academic background.",
+            "Understating their previous achievements."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "audioId": "cet6-2021-12-set1-audio"
+        },
+        {
+          "id": "cet6-2021-12-set1-q24",
+          "type": "LECTURE",
+          "prompt": "第 24 题(题干在原始录音中)",
+          "choices": [
+            "Those who have both skill and experience.",
+            "Those who get along well with colleagues.",
+            "Those who take initiative in their work.",
+            "Those who are loyal to their managers."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "audioId": "cet6-2021-12-set1-audio"
+        },
+        {
+          "id": "cet6-2021-12-set1-q25",
+          "type": "LECTURE",
+          "prompt": "第 25 题(题干在原始录音中)",
+          "choices": [
+            "Ability to shoulder new responsibilities.",
+            "Experience of performing multiple roles.",
+            "Readiness to work to flexible schedules.",
+            "Skills to communicate with colleagues."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "audioId": "cet6-2021-12-set1-audio"
+        }
+      ],
+      "audio": [
+        {
+          "id": "cet6-2021-12-set1-audio",
+          "url": "/study/resources/f317a352374c42fd2c00a4ad.m4a",
+          "sourceUrl": "/study/resources/f317a352374c42fd2c00a4ad.m4a",
+          "durationSeconds": 1573.848526,
+          "transcript": "",
+          "identity": "cet6_2021_12_1.mp3 SHA256:f317a352374c42fd2c00a4ad84562f0f8290d612838ebd8187d363f0746726cb"
+        }
+      ],
+      "passages": [],
+      "sourceFileUrl": "/study/resources/a872dc6edf1b370c15269e7e.pdf"
+    },
+    "READING": {
+      "instructions": "请依次完成选词填空、长篇匹配和仔细阅读。",
+      "questions": [
+        {
+          "id": "cet6-2021-12-set1-q26",
+          "type": "WORD_BANK",
+          "prompt": "第 26 空",
+          "choices": [
+            "affect",
+            "beyond",
+            "conceded",
+            "correlation",
+            "foster",
+            "henceforth",
+            "lofty",
+            "noteworthy",
+            "plausibly",
+            "premature",
+            "reconciled",
+            "span",
+            "specifically",
+            "spiral",
+            "trait"
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 0.5,
+          "passageId": "cet6-2021-12-set1-bank"
+        },
+        {
+          "id": "cet6-2021-12-set1-q27",
+          "type": "WORD_BANK",
+          "prompt": "第 27 空",
+          "choices": [
+            "affect",
+            "beyond",
+            "conceded",
+            "correlation",
+            "foster",
+            "henceforth",
+            "lofty",
+            "noteworthy",
+            "plausibly",
+            "premature",
+            "reconciled",
+            "span",
+            "specifically",
+            "spiral",
+            "trait"
+          ],
+          "answerIndex": 7,
+          "explanation": "原卷答案：H。",
+          "weight": 0.5,
+          "passageId": "cet6-2021-12-set1-bank"
+        },
+        {
+          "id": "cet6-2021-12-set1-q28",
+          "type": "WORD_BANK",
+          "prompt": "第 28 空",
+          "choices": [
+            "affect",
+            "beyond",
+            "conceded",
+            "correlation",
+            "foster",
+            "henceforth",
+            "lofty",
+            "noteworthy",
+            "plausibly",
+            "premature",
+            "reconciled",
+            "span",
+            "specifically",
+            "spiral",
+            "trait"
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 0.5,
+          "passageId": "cet6-2021-12-set1-bank"
+        },
+        {
+          "id": "cet6-2021-12-set1-q29",
+          "type": "WORD_BANK",
+          "prompt": "第 29 空",
+          "choices": [
+            "affect",
+            "beyond",
+            "conceded",
+            "correlation",
+            "foster",
+            "henceforth",
+            "lofty",
+            "noteworthy",
+            "plausibly",
+            "premature",
+            "reconciled",
+            "span",
+            "specifically",
+            "spiral",
+            "trait"
+          ],
+          "answerIndex": 11,
+          "explanation": "原卷答案：L。",
+          "weight": 0.5,
+          "passageId": "cet6-2021-12-set1-bank"
+        },
+        {
+          "id": "cet6-2021-12-set1-q30",
+          "type": "WORD_BANK",
+          "prompt": "第 30 空",
+          "choices": [
+            "affect",
+            "beyond",
+            "conceded",
+            "correlation",
+            "foster",
+            "henceforth",
+            "lofty",
+            "noteworthy",
+            "plausibly",
+            "premature",
+            "reconciled",
+            "span",
+            "specifically",
+            "spiral",
+            "trait"
+          ],
+          "answerIndex": 9,
+          "explanation": "原卷答案：J。",
+          "weight": 0.5,
+          "passageId": "cet6-2021-12-set1-bank"
+        },
+        {
+          "id": "cet6-2021-12-set1-q31",
+          "type": "WORD_BANK",
+          "prompt": "第 31 空",
+          "choices": [
+            "affect",
+            "beyond",
+            "conceded",
+            "correlation",
+            "foster",
+            "henceforth",
+            "lofty",
+            "noteworthy",
+            "plausibly",
+            "premature",
+            "reconciled",
+            "span",
+            "specifically",
+            "spiral",
+            "trait"
+          ],
+          "answerIndex": 12,
+          "explanation": "原卷答案：M。",
+          "weight": 0.5,
+          "passageId": "cet6-2021-12-set1-bank"
+        },
+        {
+          "id": "cet6-2021-12-set1-q32",
+          "type": "WORD_BANK",
+          "prompt": "第 32 空",
+          "choices": [
+            "affect",
+            "beyond",
+            "conceded",
+            "correlation",
+            "foster",
+            "henceforth",
+            "lofty",
+            "noteworthy",
+            "plausibly",
+            "premature",
+            "reconciled",
+            "span",
+            "specifically",
+            "spiral",
+            "trait"
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 0.5,
+          "passageId": "cet6-2021-12-set1-bank"
+        },
+        {
+          "id": "cet6-2021-12-set1-q33",
+          "type": "WORD_BANK",
+          "prompt": "第 33 空",
+          "choices": [
+            "affect",
+            "beyond",
+            "conceded",
+            "correlation",
+            "foster",
+            "henceforth",
+            "lofty",
+            "noteworthy",
+            "plausibly",
+            "premature",
+            "reconciled",
+            "span",
+            "specifically",
+            "spiral",
+            "trait"
+          ],
+          "answerIndex": 4,
+          "explanation": "原卷答案：E。",
+          "weight": 0.5,
+          "passageId": "cet6-2021-12-set1-bank"
+        },
+        {
+          "id": "cet6-2021-12-set1-q34",
+          "type": "WORD_BANK",
+          "prompt": "第 34 空",
+          "choices": [
+            "affect",
+            "beyond",
+            "conceded",
+            "correlation",
+            "foster",
+            "henceforth",
+            "lofty",
+            "noteworthy",
+            "plausibly",
+            "premature",
+            "reconciled",
+            "span",
+            "specifically",
+            "spiral",
+            "trait"
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 0.5,
+          "passageId": "cet6-2021-12-set1-bank"
+        },
+        {
+          "id": "cet6-2021-12-set1-q35",
+          "type": "WORD_BANK",
+          "prompt": "第 35 空",
+          "choices": [
+            "affect",
+            "beyond",
+            "conceded",
+            "correlation",
+            "foster",
+            "henceforth",
+            "lofty",
+            "noteworthy",
+            "plausibly",
+            "premature",
+            "reconciled",
+            "span",
+            "specifically",
+            "spiral",
+            "trait"
+          ],
+          "answerIndex": 14,
+          "explanation": "原卷答案：O。",
+          "weight": 0.5,
+          "passageId": "cet6-2021-12-set1-bank"
+        },
+        {
+          "id": "cet6-2021-12-set1-q36",
+          "type": "MATCHING",
+          "prompt": "Burberry's executives are trying hard to attribute their practice of destroying old products to miscalculated production.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 6,
+          "explanation": "原卷答案：G。",
+          "weight": 1,
+          "passageId": "cet6-2021-12-set1-matching"
+        },
+        {
+          "id": "cet6-2021-12-set1-q37",
+          "type": "MATCHING",
+          "prompt": "Selling products at a discount will do greater harm to luxury brands than destroying them.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "passageId": "cet6-2021-12-set1-matching"
+        },
+        {
+          "id": "cet6-2021-12-set1-q38",
+          "type": "MATCHING",
+          "prompt": "Imitated Burberry products discouraged luxury consumers from buying its genuine products.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 10,
+          "explanation": "原卷答案：K。",
+          "weight": 1,
+          "passageId": "cet6-2021-12-set1-matching"
+        },
+        {
+          "id": "cet6-2021-12-set1-q39",
+          "type": "MATCHING",
+          "prompt": "Staff members of a luxury brand may buy its old stock at cheaper prices, but they are not allowed to resell them.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 4,
+          "explanation": "原卷答案：E。",
+          "weight": 1,
+          "passageId": "cet6-2021-12-set1-matching"
+        },
+        {
+          "id": "cet6-2021-12-set1-q40",
+          "type": "MATCHING",
+          "prompt": "In future traditional luxury brands will have to adapt their business strategies to the changing concepts of luxury.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 11,
+          "explanation": "原卷答案：L。",
+          "weight": 1,
+          "passageId": "cet6-2021-12-set1-matching"
+        },
+        {
+          "id": "cet6-2021-12-set1-q41",
+          "type": "MATCHING",
+          "prompt": "One luxury brand employee quit her job because she simply couldn't bear to see the destruction of unsold products.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "passageId": "cet6-2021-12-set1-matching"
+        },
+        {
+          "id": "cet6-2021-12-set1-q42",
+          "type": "MATCHING",
+          "prompt": "Destroying old stock is a practice not just of luxury brands but of less prestigious fashion brands.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 5,
+          "explanation": "原卷答案：F。",
+          "weight": 1,
+          "passageId": "cet6-2021-12-set1-matching"
+        },
+        {
+          "id": "cet6-2021-12-set1-q43",
+          "type": "MATCHING",
+          "prompt": "Burberry is working with a partner to make full use of leather materials to reduce waste.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 9,
+          "explanation": "原卷答案：J。",
+          "weight": 1,
+          "passageId": "cet6-2021-12-set1-matching"
+        },
+        {
+          "id": "cet6-2021-12-set1-q44",
+          "type": "MATCHING",
+          "prompt": "Burberry 's plan to destroy its unsold products worth millions of dollars aroused public indignation.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "passageId": "cet6-2021-12-set1-matching"
+        },
+        {
+          "id": "cet6-2021-12-set1-q45",
+          "type": "MATCHING",
+          "prompt": "Burberry's change of marketing strategy to make a product available as soon as consumers see it on the fashion show did not tum out to be as effective as expected.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 7,
+          "explanation": "原卷答案：H。",
+          "weight": 1,
+          "passageId": "cet6-2021-12-set1-matching"
+        },
+        {
+          "id": "cet6-2021-12-set1-q46",
+          "type": "DETAIL",
+          "prompt": "What does the author mainly discuss in the passage?",
+          "choices": [
+            "The advantage of using social media in screening job candidates.",
+            "The potentially invasive nature of social media in everyday life.",
+            "Whether the benefits of social media outweigh the drawbacks.",
+            "Whether social media should be used to screen job candidates."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "passageId": "cet6-2021-12-set1-detail1"
+        },
+        {
+          "id": "cet6-2021-12-set1-q47",
+          "type": "DETAIL",
+          "prompt": "What might happen when social media is used to screen job candidates?",
+          "choices": [
+            "Moral or legal issues might arise.",
+            "Company reputation might suffer.",
+            "Sensational information might surface.",
+            "Hiring decisions might be complicated."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "passageId": "cet6-2021-12-set1-detail1"
+        },
+        {
+          "id": "cet6-2021-12-set1-q48",
+          "type": "DETAIL",
+          "prompt": "When could online personal information be detrimental to candidates?",
+          "choices": [
+            "When it is separated from context.",
+            "When it is scrutinised by an employer.",
+            "When it is magnified to a ruinous degree.",
+            "When it is revealed to the human resources."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "passageId": "cet6-2021-12-set1-detail1"
+        },
+        {
+          "id": "cet6-2021-12-set1-q49",
+          "type": "DETAIL",
+          "prompt": "How can employers use social media information to their advantage while avoiding unnecessary 2021-12-CET6(7› 1 E)-7 risks?",
+          "choices": [
+            "By tipping the delicate balance.",
+            "By using it in a legitimate way.",
+            "By keeping personal information on record.",
+            "By separating relevant from irrelevant data."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "passageId": "cet6-2021-12-set1-detail1"
+        },
+        {
+          "id": "cet6-2021-12-set1-q50",
+          "type": "DETAIL",
+          "prompt": "What does the author suggest doing before screening job candidates on social media?",
+          "choices": [
+            "Hiring professionals to navigate the whole process.",
+            "Anticipating potential risks involved in the process.",
+            "Seeking advice from management and legal experts.",
+            "Stipulating a set of rules for asking specific questions."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "passageId": "cet6-2021-12-set1-detail1"
+        },
+        {
+          "id": "cet6-2021-12-set1-q51",
+          "type": "DETAIL",
+          "prompt": "What trend has been observed in a report? 2021-12-CET6(7 1 1)-8",
+          "choices": [
+            "Food manufacturers, rising awareness of product safety.",
+            "Food manufacturers, changing strategies to bolster profits.",
+            "Consumers, growing demand for eye-catching food labels.",
+            "Consumers, increasing desire for clear product information."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "passageId": "cet6-2021-12-set1-detail2"
+        },
+        {
+          "id": "cet6-2021-12-set1-q52",
+          "type": "DETAIL",
+          "prompt": "What does the author say is manufacturers new marketing strategy?",
+          "choices": [
+            "Stressing the absence of certain elements in their products.",
+            "Articulating the unique nutritional value of their products.",
+            "Supplying detailed information of their products.",
+            "Designing transparent labels for their products."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "passageId": "cet6-2021-12-set1-detail2"
+        },
+        {
+          "id": "cet6-2021-12-set1-q53",
+          "type": "DETAIL",
+          "prompt": "What point does the author make about non-GMO labels?",
+          "choices": [
+            "They are increasingly attracting customers' attention.",
+            "They create lots of trouble for GMO food producers.",
+            "They should be used more for vegetables and milk.",
+            "They cause anxiety about food among consumers."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "passageId": "cet6-2021-12-set1-detail2"
+        },
+        {
+          "id": "cet6-2021-12-set1-q54",
+          "type": "DETAIL",
+          "prompt": "What does the author say absence claims labels will do to food manufacturers?",
+          "choices": [
+            "Cause changes in their marketing strategies.",
+            "Help remove stigma around their products.",
+            "Erode consumer trust and reduce sales.",
+            "Decrease support from food scientists."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "passageId": "cet6-2021-12-set1-detail2"
+        },
+        {
+          "id": "cet6-2021-12-set1-q55",
+          "type": "DETAIL",
+          "prompt": "What does the author suggest food manufacturers do?",
+          "choices": [
+            "Take measures to lower the cost of food products.",
+            "Exercise caution about the use of absence claims.",
+            "Welcome new innovations in food processing.",
+            "Promote efficiency and increase food variety."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "passageId": "cet6-2021-12-set1-detail2"
+        }
+      ],
+      "audio": [],
+      "passages": [
+        {
+          "id": "cet6-2021-12-set1-bank",
+          "text": "Questions __(26)__ to __(35)__ are based on the following passage. If you think life is wonderful and expect it to stay that way, then you may have a good chance of living to a ripe old age, at least that is what the findings of a new study suggest. That study found that participants who reported the highest levels of optimism were far more likely to live to age 85 or 26 This was compared to those participants who reported the lowest levels of optimism. It is __(27)__ that 2021-12-CET6(7 1 1)-3 the findings held even after the researchers considered factors that could __(28)__ the link, including whether participants had health conditions such as heart disease or cancer, or whether they experienced depression. The results add to a growing body of evidence that certain psychological factors may predict a longer life __(29)__ For example, previous studies have found that more optimistic people have a lower risk of developing chronic diseases, and a lower risk of __(30)__ death. However, the new study appears to be the firstto __(31)__ look at the relationship between optimism and longevity. The researchers __(32)__ that the link found in the new study was not as strong when they factored in the effects of certain health behaviors, including exercise levels, sleep habits and diet. This suggests that these behaviors may, at least in part, explain the link. In other words, optimism may __(33)__ good habits that bolster health. It is also important to note that the study found only a  __(34)__ , as researchers did not prove for certain that optimism leads to a longer life. However, if the findings are true, they suggest that optimism could serve as a psychological 35 that promotes health and a longer life."
+        },
+        {
+          "id": "cet6-2021-12-set1-matching",
+          "text": "No one in fashion is surprised that Burberry burnt £28 million of stock\nA) Last week, Burberry's annual report revealed that £28.6 million worth of stock was burnt last year. The news has left investors and consumers outraged but comes as little surprise to those in the fashion industry\nB)    The practice of destroying unsold stock, and even rolls of unused fabric, is commonplace for luxury labels. Becoming too widely available at a cheaper price through discount stores discourages full- price sales. Sending products for recycling leaves them vulnerable to being stolen and sold on the black market. Jasmine Bina, CEO of brand strategy agency Concept Bureau explains, \"Typically, luxury brands rally around exclusivity to protect their business interests, namely intellectual property and preservation of brand equity (it,*).\" She stated she had heard rumors of stock burning but not specific cases until this week.\nC) Another reason for the commonplace practice is a financial incentive for brands exporting goods to America. United States Customs states that if imported merchandise is unused and destroyed under their supervision, 99% of the duties, taxes or fees paid on the merchandise may be recovered. It is incredibly difficult to calculate how much dead stock currently goes to waste. While there are incentives to do it, there's no legal obligation to report it. 2021-12-CET6(7› 1 E)-4\nD) A source, who chose to remain anonymous, shared her experience working in a Burberry store in New York in October 2016. \"My job was to toss items in boxes so they could be sent to be burned It was killing me inside because all that leather and fur went to waste and animals had died for nothing. I couldn't stay there any longer, their business practices threw me off the roof.\" In May this year, Burberry announced it was taking fur out of its catwalk shows and reviewing its use elsewhere in the business. \"Even though we asked the management, they refused to give us detailed answers as to why they would do this with their collection,\" continued the source, who left her role within two weeks. She has since worked with another high-profile, luxury label.\nE)    In an online forum post, which asked if it's true that Louis Vuitton burned its bags, Ahmed Bouchfaa, who claimed to work for Louis Vuitton, responded that the brand holds sales of old stock for staff members twice a year. Items which have still not sold after several sales are destroyed. \"Louis Vuitton doesn't have public sales. They either sell a product at a given price or discontinue it. This is to make sure that everybody pays the same price for an item,\" he says. He goes on to disclose the strict guidelines around the employee sales: \"You may buy gifts for someone, but they track each item, and if your gift ends up online they know who to ask.\" One investor commenting on the Burberry figures was reportedly outraged that the unsold goods were not even offered to investors before they were destroyed\nF)    Richemont, who owns several luxury brands, hit the headlines in May for taking back £437 million of watches for destruction in the last two years to avoid marked-down prices. It's not just luxury brands either. In October last year, a Danish TV show exposed H&M for burning 12 tonnes of unsold clothing since 2013. In a statement, the high street retailer defended itself by saying that the burnt clothing had failed safety tests: \"The products to which the media are referring have been tested in external laboratories. The test results show that one of the products is mold infested and the other product contains levels of lead that are too high. Those products have rightly been stopped in accordance with our safety routines.\" In March, a report revealed that H&M was struggling with $4.3 billion worth of unsoldstock. The brand told The New York Times that the plan was to reduce prices to move the stock, arguably encouraging consumers to buy and throw away with little thought.\nG) Over-production is perhaps the biggest concern for Burberry. While there has been much outrage at the elitist connotation of burning goods rather than making them affordable, executives at the British fashion house are no doubt struggling to defend how they miscalculated production. The waste has been put down to burning old cosmetic stock to make way for their new beauty range. However, while the value of destroyed stock is up from £26.9 million last year, it's an even more significant increase from 2016's figure of £18.8 million, highlighting that this is an ongoing issue.\nH) In September 2016, Burberry switched to a \"see now, buy now\" catwalk show format. The move was a switch to leverage on the coverage of their fashion week show to make stock available immediately to consumers. This is opposed to the traditional format of presenting to the industry, taking orders for production and becoming available in six months' time. While Burberry announced \"record-breaking\" online reach and engagement, there has been little evidence to suggest that the strategy has had a significant effect on sales, particularly as the hype (X) 17) slows across the season. In February they made adjustments to the format, dropping some catwalk items immediately and promising that others would launch in the coming months.\nI) In a statement, Burberry denied that switching to \"see now, buy now\" has had an impact on waste. A Burberry spokesperson further said, \"On the occasions when disposal of products is necessary, we do so in a responsible manner. We are always seeking ways to reduce and revalue our waste. This 2021-12-CET6(7 1 E)-5 is a core part of our strategy and we have forged partnerships and committed support to innovative organizations to help reach this goal.\"\nJ) One such partnership is with Elvis & Kresse, an accessories brand working with reclaimed materials. Co-founder Kresse Wesling said, \"Late last year we launched an ambitious five-year partnership with the Burberry Foundation. The main aim of this is to scale our leather rescue project, starting with off-cuts from the production of Burberry leather goods. We are working tirelessly to expand our solutions and would love to welcome anyone to our workshop to come and see what we are doing.\" At the moment, the partnership only addresses waste at the production stage and not unsold goods.\nK) While these are honorable schemes, it makes it harder for Burberry to defend these latest figures. Fifteen years ago, Burberry was at crisis point as their signature check pattern was widely imitated by cheap, imitation brands. It deterred luxury consumers who found their expensive clothing more closely associated with working-class youth culture than a prestigious heritage fashion house. In the year 2004, at the height of over-exposure of the Burberry check, the brand's turnover was £715.5 million. Under Christopher Bailey as creative director they turned the brand around and this past year revenue hit £2.73 billion.\nL)    Bina believes that brands need to readdress their exclusivity tactic. \"Exclusivity is starting to be challenged, \" she says, \"I think that goes hand in hand with how luxury itself is being challenged. Access to fashion, and the brands who police it, are becoming less and less relevant. Things like health, enlightenment, and social and environmental responsibility are the new luxuries. These all come from within, not without. That's the challenge that traditional luxury brands will have to contend with in the mid-to long-term future.\""
+        },
+        {
+          "id": "cet6-2021-12-set1-detail1",
+          "text": "2021-12-CET6(7› 1 I)-6 Questions 46 to 50 are based on the following passage. Social media is absolutely everywhere. Billions of people use social media on a daily basis to create, share, and exchange ideas, messages, and information. Both individuals and businesses post regularly to engage and interact with people from around the world. It is a powerful communication medium that simultaneously provides immediate, frequent, permanent, and wide-reaching information across the globe. People post their lives on social media for the world to see. Facebook, Twitter, Linkedln, and countless other social channels provide a quick and simple way to glimpse into a job candidate's personal life-both the positive and negative sides of it. Social media screening is tempting to use as part of the hiring process, but should employers make use of it when researching a potential candidate's background? Incorporating the use of social media to screen job candidates is not an uncommon practice. A 2018 survey found that almost 70% of employers use social media to screen candidates before hiring them. But there are consequences and potential legal risks involved too. When done inappropriately, social media screening can be considered unethical or even illegal. Social media screening is essentially scrutinizing a job candidate's private life. It can reveal information about protected characteristics like age, race, nationality, disability, gender, religion, etc., and that could bias a hiring decision. Pictures or comments on a private page that are taken out of context could ruin a perfectly good candidate's chances of getting hired. This process could potentially give an unfair advantage to one candidate over another. It creates an unequal playing field and potentially provides hiring managers with information that can impact their hiring decision in a negative way. It's hard to ignore social media as a screening tool. While there are things that you shouldn't see, there are some things that can be lawfully considered-making it a valuable source of relevant information too. Using social media screening appropriately can help ensure that you don't hire a toxic employee who will cost you money or stain your company's reputation. Consider the lawful side of this process and you may be able to hire the best employee ever. There is a delicate balance. Screening job candidates on social media must be done professionally and responsibly. Companies should stipulate that they will never ask for passwords, be consistent, document decisions, consider the source used and be aware that other laws may apply. In light of this it is probably best to look later in the process and ask human resources for help in navigating it. Social media is here to stay. But before using social media to screen job candidates, consulting with management and legal teams beforehand is essential in order to comply with all laws."
+        },
+        {
+          "id": "cet6-2021-12-set1-detail2",
+          "text": "In recent years, the food industry has increased its use of labels. Whether the labels say 'non-GMO (###E45)' or 'no sugar,' or \"zero carbohydrates', consumers are increasingly demanding more information about what's in their food. One report found that 39 percent of consumers would switch from the brands they currently buy to others that provide clearer, more accurate product information. Food manufacturers are responding to the report with new labels to meet that demand, and they're doing so with an eye towards giving their products an advantage over the competition, and bolstering profits. This strategy makes intuitive sense. If consumers say they want transparency, tell them exactly what is in your product. That is simply supplying a certain demand. But the marketing strategy in response to this consumer demand has gone beyond articulating what is in a product, to labeling what is NOT in the food. These labels are known as \"absence claims\" labels, and they represent an emerging labeling trend that is detrimental both to the consumers who purchase the products and the industry that supplies them. For example, Hunt's put a \"non-GM\" label on its canned crushed tomatoes a few years ago-despite the fact that at the time there was no such thing as a GMO tomato on the market. Some dairy companies are using the \"non-GM\" label on their milk, despite the fact that all milk is naturally GMO-free, another label that creates unnecessary fear around food. While creating labels that play on consumer fears and misconceptions about their food may give a company a temporary marketing advantage over competing products on the grocery aisle, in the long term this strategy will have just the opposite effect: by injecting fear into the discourse about our food, we run the risk of eroding consumer trust in not just a single product, but the entire food business. Eventually, it becomes a question in consumers, minds: Were these foods ever safe? By purchasing and consuming these types of products, have I already done some kind of harm to my family or the planet? For food manufacturers, it will mean damaged consumer trust and lower sales for everyone. And this isn't just supposition. A recent study found that absence claims labels can create a stigma around foods even when there is no scientific evidence that they cause harm. It's clear that food manufacturers must tread carefully when it comes to using absence claims. In addition to the likely negative long-term impact on sales, this verbal trick sends a message that innovations in farming and food processing are unwelcome, eventually leading to less efficiency, fewer choices for consumers, and ultimately, more costly food products. If we allow this kind of labeling to continue, we will all lose."
+        }
+      ],
+      "sourceFileUrl": "/study/resources/a872dc6edf1b370c15269e7e.pdf"
+    },
+    "TRANSLATION": {
+      "instructions": "请将原卷中文翻译成英语。",
+      "prompt": "Directions: For this part, you are allowed 30 minutes to translate a passage from Chinese into English. You should write your answer on Answer Sheet 2. 中国共产党第一次全国代表大会会址位于上海兴业路 76号,是一栋典型的上海式住宅,建于 1920年秋。1921年7月23日,中国共产党第一次全国代表大会在此召开,大会通过了中国共产党 的第一个纲领和第一个决议,选举产生了中央领导机构,宣告了中国共产党的诞生。1952年9月,    1952 中共一大会址修复,建立纪念馆并对外开放。纪念馆除了介绍参加一大的代表之外,还介绍党的历 史发展进程,现已成为了解党史,缅怀革命先烈的爱国主义教育基地。 2021-12-CET6(* 1 1)-9",
+      "questions": [],
+      "audio": [],
+      "passages": [],
+      "sourceFileUrl": "/study/resources/a872dc6edf1b370c15269e7e.pdf"
+    }
+  }
+}

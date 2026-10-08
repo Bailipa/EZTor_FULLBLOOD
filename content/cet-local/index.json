@@ -1,0 +1,3928 @@
+{
+  "sourceName": "用户提供的本地四六级资料",
+  "minimumYear": 2020,
+  "archives": [
+    {
+      "path": "四级/2022.zip",
+      "bytes": 282817232,
+      "sha256": "8c70b0deb4c882872881d4ababba01555f32ece7b5a3006a0c13b8f96944b6bd"
+    },
+    {
+      "path": "六级/cet六级.zip",
+      "bytes": 339128061,
+      "sha256": "bbefeb86fe591770c92076f39b1f7d3f937cb3b4cff5a0106994e62a3d9b9580"
+    }
+  ],
+  "resourceCount": 209,
+  "periodCount": 30,
+  "totalBytes": 602681199,
+  "items": [
+    {
+      "key": "cet4-2020-07-set1",
+      "level": "CET4",
+      "title": "2020年7月 · 第1套",
+      "resources": [
+        {
+          "id": "9786aaad4ade492959caffec",
+          "level": "CET4",
+          "period": "2020.07",
+          "sets": [
+            1
+          ],
+          "category": "audio",
+          "name": "cet4_2020_07_1.mp3",
+          "path": "四级/2022.zip!/2020/cet4_2020_07_1.mp3",
+          "url": "/study/resources/9786aaad4ade492959caffec.m4a",
+          "sourceUrl": null,
+          "bytes": 4243085,
+          "sha256": "9786aaad4ade492959caffec66281656ac58941d2b308665af4c005152503fcc"
+        },
+        {
+          "id": "8ab16f0523ad7c3ac690d2de",
+          "level": "CET4",
+          "period": "2020.07",
+          "sets": [
+            1
+          ],
+          "category": "paper",
+          "name": "cet4_2020_07_1.pdf",
+          "path": "四级/2022.zip!/2020/cet4_2020_07_1.pdf",
+          "url": "/study/resources/8ab16f0523ad7c3ac690d2de.pdf",
+          "sourceUrl": null,
+          "bytes": 2038975,
+          "sha256": "8ab16f0523ad7c3ac690d2de1665e1c9b6efd65512a5a9e0efaf99e457b8e1a7"
+        },
+        {
+          "id": "36458b6e22b3f7bccc8aed5e",
+          "level": "CET4",
+          "period": "2020.07",
+          "sets": [
+            1
+          ],
+          "category": "answer",
+          "name": "cet4_2020_07_1_ans.pdf",
+          "path": "四级/2022.zip!/2020/cet4_2020_07_1_ans.pdf",
+          "url": "/study/resources/36458b6e22b3f7bccc8aed5e.pdf",
+          "sourceUrl": null,
+          "bytes": 2515829,
+          "sha256": "36458b6e22b3f7bccc8aed5e4ec1d4fd7117c6053cdfc516b8e13efb443d908a"
+        }
+      ]
+    },
+    {
+      "key": "cet4-2020-09-set1",
+      "level": "CET4",
+      "title": "2020年9月 · 第1套",
+      "resources": [
+        {
+          "id": "1ae847fa2225867c0ead259a",
+          "level": "CET4",
+          "period": "2020.09",
+          "sets": [
+            1
+          ],
+          "category": "audio",
+          "name": "cet4_2020_09_1.mp3",
+          "path": "四级/2022.zip!/2020/cet4_2020_09_1.mp3",
+          "url": "/study/resources/1ae847fa2225867c0ead259a.m4a",
+          "sourceUrl": null,
+          "bytes": 4202320,
+          "sha256": "1ae847fa2225867c0ead259aba817cbc2739002e1a682f2f79b61d792268924c"
+        },
+        {
+          "id": "76238505bbeb339e881616bd",
+          "level": "CET4",
+          "period": "2020.09",
+          "sets": [
+            1
+          ],
+          "category": "paper",
+          "name": "cet4_2020_09_1.pdf",
+          "path": "四级/2022.zip!/2020/cet4_2020_09_1.pdf",
+          "url": "/study/resources/76238505bbeb339e881616bd.pdf",
+          "sourceUrl": null,
+          "bytes": 1519997,
+          "sha256": "76238505bbeb339e881616bd392949355052af8858dbaeb1280e3530ac97114b"
+        },
+        {
+          "id": "2a67bf2ae70f094596e06807",
+          "level": "CET4",
+          "period": "2020.09",
+          "sets": [
+            1
+          ],
+          "category": "answer",
+          "name": "cet4_2020_09_1_ans.pdf",
+          "path": "四级/2022.zip!/2020/cet4_2020_09_1_ans.pdf",
+          "url": "/study/resources/2a67bf2ae70f094596e06807.pdf",
+          "sourceUrl": null,
+          "bytes": 3385193,
+          "sha256": "2a67bf2ae70f094596e0680770fa66b733cdb76c85e5843ffc569b6068467324"
+        }
+      ]
+    },
+    {
+      "key": "cet4-2020-09-set2",
+      "level": "CET4",
+      "title": "2020年9月 · 第2套",
+      "resources": [
+        {
+          "id": "0e42abec89ed747fad90ebe4",
+          "level": "CET4",
+          "period": "2020.09",
+          "sets": [
+            2
+          ],
+          "category": "paper",
+          "name": "cet4_2020_09_2.pdf",
+          "path": "四级/2022.zip!/2020/cet4_2020_09_2.pdf",
+          "url": "/study/resources/0e42abec89ed747fad90ebe4.pdf",
+          "sourceUrl": null,
+          "bytes": 1165692,
+          "sha256": "0e42abec89ed747fad90ebe48da85859d92116eae513bd81175f1f4a00eb3cbc"
+        },
+        {
+          "id": "273530c4ab88ffe81821ac1d",
+          "level": "CET4",
+          "period": "2020.09",
+          "sets": [
+            2
+          ],
+          "category": "answer",
+          "name": "cet4_2020_09_2_ans.pdf",
+          "path": "四级/2022.zip!/2020/cet4_2020_09_2_ans.pdf",
+          "url": "/study/resources/273530c4ab88ffe81821ac1d.pdf",
+          "sourceUrl": null,
+          "bytes": 2476934,
+          "sha256": "273530c4ab88ffe81821ac1dfb8ff6695ddb867f2079209985032af87e2fef54"
+        }
+      ]
+    },
+    {
+      "key": "cet4-2020-09-set3",
+      "level": "CET4",
+      "title": "2020年9月 · 第3套",
+      "resources": [
+        {
+          "id": "0e770aec09b6fb7adda8cb70",
+          "level": "CET4",
+          "period": "2020.09",
+          "sets": [
+            3
+          ],
+          "category": "paper",
+          "name": "cet4_2020_09_3.pdf",
+          "path": "四级/2022.zip!/2020/cet4_2020_09_3.pdf",
+          "url": "/study/resources/0e770aec09b6fb7adda8cb70.pdf",
+          "sourceUrl": null,
+          "bytes": 466925,
+          "sha256": "0e770aec09b6fb7adda8cb709e20b8e3bda20da83b6f0ea6f4e188b221ed06f6"
+        }
+      ]
+    },
+    {
+      "key": "cet4-2020-12-set1",
+      "level": "CET4",
+      "title": "2020年12月 · 第1套",
+      "resources": [
+        {
+          "id": "1453297d2f9291238657d84b",
+          "level": "CET4",
+          "period": "2020.12",
+          "sets": [
+            1
+          ],
+          "category": "audio",
+          "name": "cet4_2020_12_1.mp3",
+          "path": "四级/2022.zip!/2020/cet4_2020_12_1.mp3",
+          "url": "/study/resources/1453297d2f9291238657d84b.m4a",
+          "sourceUrl": null,
+          "bytes": 4099371,
+          "sha256": "1453297d2f9291238657d84b60a3c198a2e9007d5f9e86c1a54e0556bc55a443"
+        },
+        {
+          "id": "2dfca4d45e090492d65806ab",
+          "level": "CET4",
+          "period": "2020.12",
+          "sets": [
+            1
+          ],
+          "category": "paper",
+          "name": "cet4_2020_12_1.pdf",
+          "path": "四级/2022.zip!/2020/cet4_2020_12_1.pdf",
+          "url": "/study/resources/2dfca4d45e090492d65806ab.pdf",
+          "sourceUrl": null,
+          "bytes": 2784224,
+          "sha256": "2dfca4d45e090492d65806ab533f3ed86d6532e338977195d7ec758a79904087"
+        },
+        {
+          "id": "6e676e3d919d9b9a46d601da",
+          "level": "CET4",
+          "period": "2020.12",
+          "sets": [
+            1
+          ],
+          "category": "answer",
+          "name": "cet4_2020_12_1_ans.pdf",
+          "path": "四级/2022.zip!/2020/cet4_2020_12_1_ans.pdf",
+          "url": "/study/resources/6e676e3d919d9b9a46d601da.pdf",
+          "sourceUrl": null,
+          "bytes": 5310285,
+          "sha256": "6e676e3d919d9b9a46d601da5405a31f81f7f724ebb4bb5645bdbd93dd2c8b65"
+        }
+      ]
+    },
+    {
+      "key": "cet4-2020-12-set2",
+      "level": "CET4",
+      "title": "2020年12月 · 第2套",
+      "resources": [
+        {
+          "id": "73c5d36abe113eeb7bb2c73b",
+          "level": "CET4",
+          "period": "2020.12",
+          "sets": [
+            2
+          ],
+          "category": "audio",
+          "name": "cet4_2020_12_2.mp3",
+          "path": "四级/2022.zip!/2020/cet4_2020_12_2.mp3",
+          "url": "/study/resources/73c5d36abe113eeb7bb2c73b.m4a",
+          "sourceUrl": null,
+          "bytes": 4058979,
+          "sha256": "73c5d36abe113eeb7bb2c73b3307fe2d64c1bf10adb056b907d9ef21a29a30f0"
+        },
+        {
+          "id": "eaa4db0b4a0261ee13e4e37f",
+          "level": "CET4",
+          "period": "2020.12",
+          "sets": [
+            2
+          ],
+          "category": "paper",
+          "name": "cet4_2020_12_2.pdf",
+          "path": "四级/2022.zip!/2020/cet4_2020_12_2.pdf",
+          "url": "/study/resources/eaa4db0b4a0261ee13e4e37f.pdf",
+          "sourceUrl": null,
+          "bytes": 2877932,
+          "sha256": "eaa4db0b4a0261ee13e4e37fed27d5acf9ffe63bc57b7e2d5346496b7b1b0246"
+        },
+        {
+          "id": "490cd2d1c9d4b583a73b531c",
+          "level": "CET4",
+          "period": "2020.12",
+          "sets": [
+            2
+          ],
+          "category": "answer",
+          "name": "cet4_2020_12_2_ans.pdf",
+          "path": "四级/2022.zip!/2020/cet4_2020_12_2_ans.pdf",
+          "url": "/study/resources/490cd2d1c9d4b583a73b531c.pdf",
+          "sourceUrl": null,
+          "bytes": 5094189,
+          "sha256": "490cd2d1c9d4b583a73b531c5ada39aeb1f6e90c3eaa4531d2d33eb0a160413d"
+        }
+      ]
+    },
+    {
+      "key": "cet4-2020-12-set3",
+      "level": "CET4",
+      "title": "2020年12月 · 第3套",
+      "resources": [
+        {
+          "id": "4abfbaaeb473487667161988",
+          "level": "CET4",
+          "period": "2020.12",
+          "sets": [
+            3
+          ],
+          "category": "paper",
+          "name": "cet4_2020_12_3.pdf",
+          "path": "四级/2022.zip!/2020/cet4_2020_12_3.pdf",
+          "url": "/study/resources/4abfbaaeb473487667161988.pdf",
+          "sourceUrl": null,
+          "bytes": 2116394,
+          "sha256": "4abfbaaeb4734876671619881597bc784ae9a67b1c39b321156c2ac9e5b50061"
+        },
+        {
+          "id": "4c2e3047800b9067b184d85f",
+          "level": "CET4",
+          "period": "2020.12",
+          "sets": [
+            3
+          ],
+          "category": "answer",
+          "name": "cet4_2020_12_3_ans.pdf",
+          "path": "四级/2022.zip!/2020/cet4_2020_12_3_ans.pdf",
+          "url": "/study/resources/4c2e3047800b9067b184d85f.pdf",
+          "sourceUrl": null,
+          "bytes": 3677432,
+          "sha256": "4c2e3047800b9067b184d85fa791224ce4309be59d373fe82292a490df285316"
+        }
+      ]
+    },
+    {
+      "key": "cet4-2021-06-set1",
+      "level": "CET4",
+      "title": "2021年6月 · 第1套",
+      "resources": [
+        {
+          "id": "04168266c74ea1a2dac797a5",
+          "level": "CET4",
+          "period": "2021.06",
+          "sets": [
+            1
+          ],
+          "category": "audio",
+          "name": "cet4_2021_06_1.mp3",
+          "path": "四级/2022.zip!/2021/cet4_2021_06_1.mp3",
+          "url": "/study/resources/04168266c74ea1a2dac797a5.m4a",
+          "sourceUrl": null,
+          "bytes": 4069020,
+          "sha256": "04168266c74ea1a2dac797a58f929b0482e41b4b34e0f6fa64fa023384992174"
+        },
+        {
+          "id": "a398a171743e9402576ec35f",
+          "level": "CET4",
+          "period": "2021.06",
+          "sets": [
+            1
+          ],
+          "category": "paper",
+          "name": "cet4_2021_06_1.pdf",
+          "path": "四级/2022.zip!/2021/cet4_2021_06_1.pdf",
+          "url": "/study/resources/a398a171743e9402576ec35f.pdf",
+          "sourceUrl": null,
+          "bytes": 704512,
+          "sha256": "a398a171743e9402576ec35fe488f5daeeaa2456b40eee2dc4d8b9af3c2ddcb5"
+        },
+        {
+          "id": "97ed5bc4add7ec5fc4cc4ed8",
+          "level": "CET4",
+          "period": "2021.06",
+          "sets": [
+            1
+          ],
+          "category": "answer",
+          "name": "cet4_2021_06_1_ans.pdf",
+          "path": "四级/2022.zip!/2021/cet4_2021_06_1_ans.pdf",
+          "url": "/study/resources/97ed5bc4add7ec5fc4cc4ed8.pdf",
+          "sourceUrl": null,
+          "bytes": 2762566,
+          "sha256": "97ed5bc4add7ec5fc4cc4ed80f3cb48dbb15058fce29bf50f84f3e809fb4c9cd"
+        }
+      ]
+    },
+    {
+      "key": "cet4-2021-06-set2",
+      "level": "CET4",
+      "title": "2021年6月 · 第2套",
+      "resources": [
+        {
+          "id": "6f2866eefe8dd030f2416cf2",
+          "level": "CET4",
+          "period": "2021.06",
+          "sets": [
+            2
+          ],
+          "category": "audio",
+          "name": "cet4_2021_06_2.mp3",
+          "path": "四级/2022.zip!/2021/cet4_2021_06_2.mp3",
+          "url": "/study/resources/6f2866eefe8dd030f2416cf2.m4a",
+          "sourceUrl": null,
+          "bytes": 4194117,
+          "sha256": "6f2866eefe8dd030f2416cf2e8535f7d2360f70d3c54ee7c04cb1d2b1963f8df"
+        },
+        {
+          "id": "8d5d51042b01b12574f6bbc1",
+          "level": "CET4",
+          "period": "2021.06",
+          "sets": [
+            2
+          ],
+          "category": "paper",
+          "name": "cet4_2021_06_2.pdf",
+          "path": "四级/2022.zip!/2021/cet4_2021_06_2.pdf",
+          "url": "/study/resources/8d5d51042b01b12574f6bbc1.pdf",
+          "sourceUrl": null,
+          "bytes": 849021,
+          "sha256": "8d5d51042b01b12574f6bbc1880b16c74b45a3ffd3b205db06630ecf0a3195be"
+        },
+        {
+          "id": "81d74542cafcd18e5b5349d6",
+          "level": "CET4",
+          "period": "2021.06",
+          "sets": [
+            2
+          ],
+          "category": "answer",
+          "name": "cet4_2021_06_2_ans.pdf",
+          "path": "四级/2022.zip!/2021/cet4_2021_06_2_ans.pdf",
+          "url": "/study/resources/81d74542cafcd18e5b5349d6.pdf",
+          "sourceUrl": null,
+          "bytes": 2857811,
+          "sha256": "81d74542cafcd18e5b5349d65a28d9415d25d6b347410a97ebcb24018fc64ce4"
+        }
+      ]
+    },
+    {
+      "key": "cet4-2021-06-set3",
+      "level": "CET4",
+      "title": "2021年6月 · 第3套",
+      "resources": [
+        {
+          "id": "a0d57af51bce87f7193cf3e2",
+          "level": "CET4",
+          "period": "2021.06",
+          "sets": [
+            3
+          ],
+          "category": "paper",
+          "name": "cet4_2021_06_3.pdf",
+          "path": "四级/2022.zip!/2021/cet4_2021_06_3.pdf",
+          "url": "/study/resources/a0d57af51bce87f7193cf3e2.pdf",
+          "sourceUrl": null,
+          "bytes": 865922,
+          "sha256": "a0d57af51bce87f7193cf3e2e4c34a01ff2d76eed7f603ccb3f3635ae2122fc7"
+        },
+        {
+          "id": "b99eb54739de06a48d5fb55c",
+          "level": "CET4",
+          "period": "2021.06",
+          "sets": [
+            3
+          ],
+          "category": "answer",
+          "name": "cet4_2021_06_3_ans.pdf",
+          "path": "四级/2022.zip!/2021/cet4_2021_06_3_ans.pdf",
+          "url": "/study/resources/b99eb54739de06a48d5fb55c.pdf",
+          "sourceUrl": null,
+          "bytes": 1918667,
+          "sha256": "b99eb54739de06a48d5fb55c7189b7e0f0341f3a62f31c1bb44517ca582508cd"
+        }
+      ]
+    },
+    {
+      "key": "cet4-2021-12-set1",
+      "level": "CET4",
+      "title": "2021年12月 · 第1套",
+      "resources": [
+        {
+          "id": "56fffe7a60fd96d3b43fff9e",
+          "level": "CET4",
+          "period": "2021.12",
+          "sets": [
+            1
+          ],
+          "category": "audio",
+          "name": "cet4_2021_12_1.mp3",
+          "path": "四级/2022.zip!/2021/cet4_2021_12_1.mp3",
+          "url": "/study/resources/56fffe7a60fd96d3b43fff9e.m4a",
+          "sourceUrl": null,
+          "bytes": 4170915,
+          "sha256": "56fffe7a60fd96d3b43fff9e2c0c6156dc48090ce77a96cc2d79a249ee1ab197"
+        },
+        {
+          "id": "9bf9deb13cf23f1e4f589012",
+          "level": "CET4",
+          "period": "2021.12",
+          "sets": [
+            1
+          ],
+          "category": "paper",
+          "name": "cet4_2021_12_1.pdf",
+          "path": "四级/2022.zip!/2021/cet4_2021_12_1.pdf",
+          "url": "/study/resources/9bf9deb13cf23f1e4f589012.pdf",
+          "sourceUrl": null,
+          "bytes": 1875047,
+          "sha256": "9bf9deb13cf23f1e4f589012ee4eceeb0dc88beada93c97102e23093d0196163"
+        },
+        {
+          "id": "4ace0dc07e0881c7aefd87de",
+          "level": "CET4",
+          "period": "2021.12",
+          "sets": [
+            1
+          ],
+          "category": "answer",
+          "name": "cet4_2021_12_1_ans.pdf",
+          "path": "四级/2022.zip!/2021/cet4_2021_12_1_ans.pdf",
+          "url": "/study/resources/4ace0dc07e0881c7aefd87de.pdf",
+          "sourceUrl": null,
+          "bytes": 12333740,
+          "sha256": "4ace0dc07e0881c7aefd87dee6b44e84349d40b64d76451eca8f5999881f20b7"
+        }
+      ]
+    },
+    {
+      "key": "cet4-2021-12-set2",
+      "level": "CET4",
+      "title": "2021年12月 · 第2套",
+      "resources": [
+        {
+          "id": "d5dc664b7f166914661a3150",
+          "level": "CET4",
+          "period": "2021.12",
+          "sets": [
+            2
+          ],
+          "category": "audio",
+          "name": "cet4_2021_12_2.mp3",
+          "path": "四级/2022.zip!/2021/cet4_2021_12_2.mp3",
+          "url": "/study/resources/d5dc664b7f166914661a3150.m4a",
+          "sourceUrl": null,
+          "bytes": 4173100,
+          "sha256": "d5dc664b7f166914661a31505fd57f80764e3d081665a1c6ad8af753468f3386"
+        },
+        {
+          "id": "ad5c97c19a000bbb21ba1a19",
+          "level": "CET4",
+          "period": "2021.12",
+          "sets": [
+            2
+          ],
+          "category": "paper",
+          "name": "cet4_2021_12_2.pdf",
+          "path": "四级/2022.zip!/2021/cet4_2021_12_2.pdf",
+          "url": "/study/resources/ad5c97c19a000bbb21ba1a19.pdf",
+          "sourceUrl": null,
+          "bytes": 1867991,
+          "sha256": "ad5c97c19a000bbb21ba1a19c80daa4b53bd8c4429146e028a90b8ba8462572e"
+        },
+        {
+          "id": "8e8daf5ae69358d4b3cab737",
+          "level": "CET4",
+          "period": "2021.12",
+          "sets": [
+            2
+          ],
+          "category": "answer",
+          "name": "cet4_2021_12_2_ans.pdf",
+          "path": "四级/2022.zip!/2021/cet4_2021_12_2_ans.pdf",
+          "url": "/study/resources/8e8daf5ae69358d4b3cab737.pdf",
+          "sourceUrl": null,
+          "bytes": 13268868,
+          "sha256": "8e8daf5ae69358d4b3cab7376ef21ee5c7be10a2c4499d96b3d0cc69176a5a8f"
+        }
+      ]
+    },
+    {
+      "key": "cet4-2021-12-set3",
+      "level": "CET4",
+      "title": "2021年12月 · 第3套",
+      "resources": [
+        {
+          "id": "20f7d6e833e1f7fd88f17639",
+          "level": "CET4",
+          "period": "2021.12",
+          "sets": [
+            3
+          ],
+          "category": "paper",
+          "name": "cet4_2021_12_3.pdf",
+          "path": "四级/2022.zip!/2021/cet4_2021_12_3.pdf",
+          "url": "/study/resources/20f7d6e833e1f7fd88f17639.pdf",
+          "sourceUrl": null,
+          "bytes": 1470274,
+          "sha256": "20f7d6e833e1f7fd88f176394ba00ca806bb99f4a2f8cdecd5a9741e016b7ded"
+        },
+        {
+          "id": "4f03c54dfda1a837452e30d2",
+          "level": "CET4",
+          "period": "2021.12",
+          "sets": [
+            3
+          ],
+          "category": "answer",
+          "name": "cet4_2021_12_3_ans.pdf",
+          "path": "四级/2022.zip!/2021/cet4_2021_12_3_ans.pdf",
+          "url": "/study/resources/4f03c54dfda1a837452e30d2.pdf",
+          "sourceUrl": null,
+          "bytes": 10073380,
+          "sha256": "4f03c54dfda1a837452e30d2990db59c6681402451c327c7c8ef6c332ddebd05"
+        }
+      ]
+    },
+    {
+      "key": "cet4-2022-06-set1",
+      "level": "CET4",
+      "title": "2022年6月 · 第1套",
+      "resources": [
+        {
+          "id": "c1481f0a77c37f601e57ea1c",
+          "level": "CET4",
+          "period": "2022.06",
+          "sets": [
+            1
+          ],
+          "category": "audio",
+          "name": "cet4_2022_06_1.mp3",
+          "path": "四级/2022.zip!/2022/cet4_2022_06_1.mp3",
+          "url": "/study/resources/c1481f0a77c37f601e57ea1c.m4a",
+          "sourceUrl": null,
+          "bytes": 4534826,
+          "sha256": "c1481f0a77c37f601e57ea1c46c5149d7111ad7b54c339322d3557de9a6ef303"
+        },
+        {
+          "id": "98a4aaecf332f9874f8940a8",
+          "level": "CET4",
+          "period": "2022.06",
+          "sets": [
+            1
+          ],
+          "category": "paper",
+          "name": "cet4_2022_06_1.pdf",
+          "path": "四级/2022.zip!/2022/cet4_2022_06_1.pdf",
+          "url": "/study/resources/98a4aaecf332f9874f8940a8.pdf",
+          "sourceUrl": null,
+          "bytes": 1661396,
+          "sha256": "98a4aaecf332f9874f8940a802593eb66b2cb44dfaabfaadade4eb4c97b9c585"
+        },
+        {
+          "id": "8ee468ef7d12fe2950441aa8",
+          "level": "CET4",
+          "period": "2022.06",
+          "sets": [
+            1
+          ],
+          "category": "answer",
+          "name": "cet4_2022_06_1_ans.pdf",
+          "path": "四级/2022.zip!/2022/cet4_2022_06_1_ans.pdf",
+          "url": "/study/resources/8ee468ef7d12fe2950441aa8.pdf",
+          "sourceUrl": null,
+          "bytes": 3692216,
+          "sha256": "8ee468ef7d12fe2950441aa8e2414c7550b8ae9dc8b9bcbf4a0d7dc09071ac3f"
+        }
+      ]
+    },
+    {
+      "key": "cet4-2022-06-set2",
+      "level": "CET4",
+      "title": "2022年6月 · 第2套",
+      "resources": [
+        {
+          "id": "315b1fcd4ebcdcada822b8ba",
+          "level": "CET4",
+          "period": "2022.06",
+          "sets": [
+            2
+          ],
+          "category": "paper",
+          "name": "cet4_2022_06_2.pdf",
+          "path": "四级/2022.zip!/2022/cet4_2022_06_2.pdf",
+          "url": "/study/resources/315b1fcd4ebcdcada822b8ba.pdf",
+          "sourceUrl": null,
+          "bytes": 1272497,
+          "sha256": "315b1fcd4ebcdcada822b8ba32896aa55c3dca890a5493ff3d55e6a09dbe0d3b"
+        },
+        {
+          "id": "5babad090dc67db1d648bce2",
+          "level": "CET4",
+          "period": "2022.06",
+          "sets": [
+            2
+          ],
+          "category": "answer",
+          "name": "cet4_2022_06_2_ans.pdf",
+          "path": "四级/2022.zip!/2022/cet4_2022_06_2_ans.pdf",
+          "url": "/study/resources/5babad090dc67db1d648bce2.pdf",
+          "sourceUrl": null,
+          "bytes": 2629698,
+          "sha256": "5babad090dc67db1d648bce2d13abc1c064a08aed57b0e45ee421190e279bad1"
+        }
+      ]
+    },
+    {
+      "key": "cet4-2022-06-set3",
+      "level": "CET4",
+      "title": "2022年6月 · 第3套",
+      "resources": [
+        {
+          "id": "97f136a584793e94f4f0dc95",
+          "level": "CET4",
+          "period": "2022.06",
+          "sets": [
+            3
+          ],
+          "category": "paper",
+          "name": "cet4_2022_06_3.pdf",
+          "path": "四级/2022.zip!/2022/cet4_2022_06_3.pdf",
+          "url": "/study/resources/97f136a584793e94f4f0dc95.pdf",
+          "sourceUrl": null,
+          "bytes": 238114,
+          "sha256": "97f136a584793e94f4f0dc950b1bbaea52eb1bee60daef8bbf72d45617b88789"
+        },
+        {
+          "id": "e819e47f2bcfb3d2e95e1490",
+          "level": "CET4",
+          "period": "2022.06",
+          "sets": [
+            3
+          ],
+          "category": "answer",
+          "name": "cet4_2022_06_3_ans.pdf",
+          "path": "四级/2022.zip!/2022/cet4_2022_06_3_ans.pdf",
+          "url": "/study/resources/e819e47f2bcfb3d2e95e1490.pdf",
+          "sourceUrl": null,
+          "bytes": 381793,
+          "sha256": "e819e47f2bcfb3d2e95e14904ed21c7356eaa677354dbbcf2be1b4a0ee33e2c3"
+        }
+      ]
+    },
+    {
+      "key": "cet4-2022-09-set1",
+      "level": "CET4",
+      "title": "2022年9月 · 第1套",
+      "resources": [
+        {
+          "id": "a13f65fcdfadad4db5cacd7c",
+          "level": "CET4",
+          "period": "2022.09",
+          "sets": [
+            1
+          ],
+          "category": "audio",
+          "name": "cet4_2022_09_1.mp3",
+          "path": "四级/2022.zip!/2022/cet4_2022_09_1.mp3",
+          "url": "/study/resources/a13f65fcdfadad4db5cacd7c.m4a",
+          "sourceUrl": null,
+          "bytes": 4409698,
+          "sha256": "a13f65fcdfadad4db5cacd7cb779b08886bba15ae192dda217d3218ab13a6564"
+        },
+        {
+          "id": "38db7898e9b6cf56c9f58693",
+          "level": "CET4",
+          "period": "2022.09",
+          "sets": [
+            1
+          ],
+          "category": "paper",
+          "name": "cet4_2022_09_1.pdf",
+          "path": "四级/2022.zip!/2022/cet4_2022_09_1.pdf",
+          "url": "/study/resources/38db7898e9b6cf56c9f58693.pdf",
+          "sourceUrl": null,
+          "bytes": 2335748,
+          "sha256": "38db7898e9b6cf56c9f58693ae055a9fb0f3162836d6f6a8b82be394508393b3"
+        },
+        {
+          "id": "f9b34d1819b4bc802438d49e",
+          "level": "CET4",
+          "period": "2022.09",
+          "sets": [
+            1
+          ],
+          "category": "answer",
+          "name": "cet4_2022_09_1_ans.pdf",
+          "path": "四级/2022.zip!/2022/cet4_2022_09_1_ans.pdf",
+          "url": "/study/resources/f9b34d1819b4bc802438d49e.pdf",
+          "sourceUrl": null,
+          "bytes": 3321580,
+          "sha256": "f9b34d1819b4bc802438d49e569ed5403710e8c17e71e5c200d7552eb3fb1192"
+        }
+      ]
+    },
+    {
+      "key": "cet4-2022-09-set2",
+      "level": "CET4",
+      "title": "2022年9月 · 第2套",
+      "resources": [
+        {
+          "id": "bc05bf8999d7b68f1a7f1489",
+          "level": "CET4",
+          "period": "2022.09",
+          "sets": [
+            2,
+            3
+          ],
+          "category": "paper",
+          "name": "cet4_2022_09_2-3.pdf",
+          "path": "四级/2022.zip!/2022/cet4_2022_09_2-3.pdf",
+          "url": "/study/resources/bc05bf8999d7b68f1a7f1489.pdf",
+          "sourceUrl": null,
+          "bytes": 542719,
+          "sha256": "bc05bf8999d7b68f1a7f148934e1a9ed6c4e0bd8b45a6ba26e14b2d7e8ecea74"
+        },
+        {
+          "id": "f3e6b74b5c6aa0e56c9da7d8",
+          "level": "CET4",
+          "period": "2022.09",
+          "sets": [
+            2,
+            3
+          ],
+          "category": "answer",
+          "name": "cet4_2022_09_2-3_ans.pdf",
+          "path": "四级/2022.zip!/2022/cet4_2022_09_2-3_ans.pdf",
+          "url": "/study/resources/f3e6b74b5c6aa0e56c9da7d8.pdf",
+          "sourceUrl": null,
+          "bytes": 556687,
+          "sha256": "f3e6b74b5c6aa0e56c9da7d8d740bdf987a2f5234111e5eda43a8dc7db8e5d0d"
+        }
+      ]
+    },
+    {
+      "key": "cet4-2022-09-set3",
+      "level": "CET4",
+      "title": "2022年9月 · 第3套",
+      "resources": [
+        {
+          "id": "bc05bf8999d7b68f1a7f1489",
+          "level": "CET4",
+          "period": "2022.09",
+          "sets": [
+            2,
+            3
+          ],
+          "category": "paper",
+          "name": "cet4_2022_09_2-3.pdf",
+          "path": "四级/2022.zip!/2022/cet4_2022_09_2-3.pdf",
+          "url": "/study/resources/bc05bf8999d7b68f1a7f1489.pdf",
+          "sourceUrl": null,
+          "bytes": 542719,
+          "sha256": "bc05bf8999d7b68f1a7f148934e1a9ed6c4e0bd8b45a6ba26e14b2d7e8ecea74"
+        },
+        {
+          "id": "f3e6b74b5c6aa0e56c9da7d8",
+          "level": "CET4",
+          "period": "2022.09",
+          "sets": [
+            2,
+            3
+          ],
+          "category": "answer",
+          "name": "cet4_2022_09_2-3_ans.pdf",
+          "path": "四级/2022.zip!/2022/cet4_2022_09_2-3_ans.pdf",
+          "url": "/study/resources/f3e6b74b5c6aa0e56c9da7d8.pdf",
+          "sourceUrl": null,
+          "bytes": 556687,
+          "sha256": "f3e6b74b5c6aa0e56c9da7d8d740bdf987a2f5234111e5eda43a8dc7db8e5d0d"
+        }
+      ]
+    },
+    {
+      "key": "cet4-2022-12-set1",
+      "level": "CET4",
+      "title": "2022年12月 · 第1套",
+      "resources": [
+        {
+          "id": "7f57175662d0dc9e2b0f2ed8",
+          "level": "CET4",
+          "period": "2022.12",
+          "sets": [
+            1
+          ],
+          "category": "audio",
+          "name": "cet4_2022_12_1.mp3",
+          "path": "四级/2022.zip!/2022/cet4_2022_12_1.mp3",
+          "url": "/study/resources/7f57175662d0dc9e2b0f2ed8.m4a",
+          "sourceUrl": null,
+          "bytes": 4156734,
+          "sha256": "7f57175662d0dc9e2b0f2ed80dbaf462adfa86be9b18d6ab6e74856bd97d45bb"
+        },
+        {
+          "id": "c29d9111253133135fe2fe40",
+          "level": "CET4",
+          "period": "2022.12",
+          "sets": [
+            1
+          ],
+          "category": "paper",
+          "name": "cet4_2022_12_1.pdf",
+          "path": "四级/2022.zip!/2022/cet4_2022_12_1.pdf",
+          "url": "/study/resources/c29d9111253133135fe2fe40.pdf",
+          "sourceUrl": null,
+          "bytes": 1616535,
+          "sha256": "c29d9111253133135fe2fe40cdc6e0b18667f2251d05c48ebcae6ae528e88c17"
+        },
+        {
+          "id": "50823f391b353322c5cb0a5e",
+          "level": "CET4",
+          "period": "2022.12",
+          "sets": [
+            1
+          ],
+          "category": "answer",
+          "name": "cet4_2022_12_1_ans.pdf",
+          "path": "四级/2022.zip!/2022/cet4_2022_12_1_ans.pdf",
+          "url": "/study/resources/50823f391b353322c5cb0a5e.pdf",
+          "sourceUrl": null,
+          "bytes": 3467422,
+          "sha256": "50823f391b353322c5cb0a5e1c2fa9a52322168e521953bf1a23cefd747be553"
+        }
+      ]
+    },
+    {
+      "key": "cet4-2022-12-set2",
+      "level": "CET4",
+      "title": "2022年12月 · 第2套",
+      "resources": [
+        {
+          "id": "d97e1e85d9a9cdc19b4da979",
+          "level": "CET4",
+          "period": "2022.12",
+          "sets": [
+            2
+          ],
+          "category": "audio",
+          "name": "cet4_2022_12_2.mp3",
+          "path": "四级/2022.zip!/2022/cet4_2022_12_2.mp3",
+          "url": "/study/resources/d97e1e85d9a9cdc19b4da979.m4a",
+          "sourceUrl": null,
+          "bytes": 4018434,
+          "sha256": "d97e1e85d9a9cdc19b4da9795c1535d9d17cf34d079ec106db4cda5db496f7f0"
+        },
+        {
+          "id": "5218c0206fda282bba0c3a56",
+          "level": "CET4",
+          "period": "2022.12",
+          "sets": [
+            2
+          ],
+          "category": "paper",
+          "name": "cet4_2022_12_2.pdf",
+          "path": "四级/2022.zip!/2022/cet4_2022_12_2.pdf",
+          "url": "/study/resources/5218c0206fda282bba0c3a56.pdf",
+          "sourceUrl": null,
+          "bytes": 1560469,
+          "sha256": "5218c0206fda282bba0c3a56b99c2c7a2187fc63da2b871c2e436728757bbcc7"
+        },
+        {
+          "id": "b6cfc2bfab7380c699db00c6",
+          "level": "CET4",
+          "period": "2022.12",
+          "sets": [
+            2
+          ],
+          "category": "answer",
+          "name": "cet4_2022_12_2_ans.pdf",
+          "path": "四级/2022.zip!/2022/cet4_2022_12_2_ans.pdf",
+          "url": "/study/resources/b6cfc2bfab7380c699db00c6.pdf",
+          "sourceUrl": null,
+          "bytes": 3402816,
+          "sha256": "b6cfc2bfab7380c699db00c6d6774500c95417f303f29d8aaa97d6e7a7b5bea2"
+        }
+      ]
+    },
+    {
+      "key": "cet4-2022-12-set3",
+      "level": "CET4",
+      "title": "2022年12月 · 第3套",
+      "resources": [
+        {
+          "id": "277d8ea6e799069bf9b0367c",
+          "level": "CET4",
+          "period": "2022.12",
+          "sets": [
+            3
+          ],
+          "category": "paper",
+          "name": "cet4_2022_12_3.pdf",
+          "path": "四级/2022.zip!/2022/cet4_2022_12_3.pdf",
+          "url": "/study/resources/277d8ea6e799069bf9b0367c.pdf",
+          "sourceUrl": null,
+          "bytes": 1252496,
+          "sha256": "277d8ea6e799069bf9b0367cf069166358f44af559293d5037f9faacc105cdcd"
+        },
+        {
+          "id": "e3b7e0f036be624888d6bbc7",
+          "level": "CET4",
+          "period": "2022.12",
+          "sets": [
+            3
+          ],
+          "category": "answer",
+          "name": "cet4_2022_12_3_ans.pdf",
+          "path": "四级/2022.zip!/2022/cet4_2022_12_3_ans.pdf",
+          "url": "/study/resources/e3b7e0f036be624888d6bbc7.pdf",
+          "sourceUrl": null,
+          "bytes": 2610477,
+          "sha256": "e3b7e0f036be624888d6bbc7e44453006bcd498153416aeec369045a870c79ec"
+        }
+      ]
+    },
+    {
+      "key": "cet4-2023-03-set1",
+      "level": "CET4",
+      "title": "2023年3月 · 第1套",
+      "resources": [
+        {
+          "id": "1d6a0e841aa7d37954b64d93",
+          "level": "CET4",
+          "period": "2023.03",
+          "sets": [
+            1
+          ],
+          "category": "audio",
+          "name": "cet4_2023_03_1.mp3",
+          "path": "四级/2022.zip!/2023/cet4_2023_03_1.mp3",
+          "url": "/study/resources/1d6a0e841aa7d37954b64d93.m4a",
+          "sourceUrl": null,
+          "bytes": 4090623,
+          "sha256": "1d6a0e841aa7d37954b64d93e0a07518e476817dae3ddee15095a30ba5840585"
+        },
+        {
+          "id": "40a0aaad9c96828069ac2161",
+          "level": "CET4",
+          "period": "2023.03",
+          "sets": [
+            1
+          ],
+          "category": "paper",
+          "name": "cet4_2023_03_1.pdf",
+          "path": "四级/2022.zip!/2023/cet4_2023_03_1.pdf",
+          "url": "/study/resources/40a0aaad9c96828069ac2161.pdf",
+          "sourceUrl": null,
+          "bytes": 1806114,
+          "sha256": "40a0aaad9c96828069ac2161603fd133b69fbe1b0a2bd52484a60da94b2b0178"
+        },
+        {
+          "id": "718331b486783211eedd360f",
+          "level": "CET4",
+          "period": "2023.03",
+          "sets": [
+            1
+          ],
+          "category": "answer",
+          "name": "cet4_2023_03_1_ans.pdf",
+          "path": "四级/2022.zip!/2023/cet4_2023_03_1_ans.pdf",
+          "url": "/study/resources/718331b486783211eedd360f.pdf",
+          "sourceUrl": null,
+          "bytes": 3183811,
+          "sha256": "718331b486783211eedd360f4d40ef23e08282ab80f0a53b5d41481b51ac714b"
+        }
+      ]
+    },
+    {
+      "key": "cet4-2023-03-set2",
+      "level": "CET4",
+      "title": "2023年3月 · 第2套",
+      "resources": [
+        {
+          "id": "0d695e4d6d568aadcaf9420f",
+          "level": "CET4",
+          "period": "2023.03",
+          "sets": [
+            2,
+            3
+          ],
+          "category": "paper",
+          "name": "cet4_2023_03_2-3.pdf",
+          "path": "四级/2022.zip!/2023/cet4_2023_03_2-3.pdf",
+          "url": "/study/resources/0d695e4d6d568aadcaf9420f.pdf",
+          "sourceUrl": null,
+          "bytes": 483546,
+          "sha256": "0d695e4d6d568aadcaf9420fd1396107bf4fd05041b12423609dc37d3581a1d9"
+        },
+        {
+          "id": "e45928bfa29792f57a09370d",
+          "level": "CET4",
+          "period": "2023.03",
+          "sets": [
+            2,
+            3
+          ],
+          "category": "answer",
+          "name": "cet4_2023_03_2-3_ans.pdf",
+          "path": "四级/2022.zip!/2023/cet4_2023_03_2-3_ans.pdf",
+          "url": "/study/resources/e45928bfa29792f57a09370d.pdf",
+          "sourceUrl": null,
+          "bytes": 801950,
+          "sha256": "e45928bfa29792f57a09370dcbec30da3293b4aabfd545905b84a70e2a2378e6"
+        }
+      ]
+    },
+    {
+      "key": "cet4-2023-03-set3",
+      "level": "CET4",
+      "title": "2023年3月 · 第3套",
+      "resources": [
+        {
+          "id": "0d695e4d6d568aadcaf9420f",
+          "level": "CET4",
+          "period": "2023.03",
+          "sets": [
+            2,
+            3
+          ],
+          "category": "paper",
+          "name": "cet4_2023_03_2-3.pdf",
+          "path": "四级/2022.zip!/2023/cet4_2023_03_2-3.pdf",
+          "url": "/study/resources/0d695e4d6d568aadcaf9420f.pdf",
+          "sourceUrl": null,
+          "bytes": 483546,
+          "sha256": "0d695e4d6d568aadcaf9420fd1396107bf4fd05041b12423609dc37d3581a1d9"
+        },
+        {
+          "id": "e45928bfa29792f57a09370d",
+          "level": "CET4",
+          "period": "2023.03",
+          "sets": [
+            2,
+            3
+          ],
+          "category": "answer",
+          "name": "cet4_2023_03_2-3_ans.pdf",
+          "path": "四级/2022.zip!/2023/cet4_2023_03_2-3_ans.pdf",
+          "url": "/study/resources/e45928bfa29792f57a09370d.pdf",
+          "sourceUrl": null,
+          "bytes": 801950,
+          "sha256": "e45928bfa29792f57a09370dcbec30da3293b4aabfd545905b84a70e2a2378e6"
+        }
+      ]
+    },
+    {
+      "key": "cet4-2023-06-set1",
+      "level": "CET4",
+      "title": "2023年6月 · 第1套",
+      "resources": [
+        {
+          "id": "57eff43868138a819cc6d200",
+          "level": "CET4",
+          "period": "2023.06",
+          "sets": [
+            1
+          ],
+          "category": "audio",
+          "name": "cet4_2023_06_1.mp3",
+          "path": "四级/2022.zip!/2023/cet4_2023_06_1.mp3",
+          "url": "/study/resources/57eff43868138a819cc6d200.m4a",
+          "sourceUrl": null,
+          "bytes": 4217697,
+          "sha256": "57eff43868138a819cc6d200f22de45f7c9ea6494c777709c654f9ea6481feb4"
+        },
+        {
+          "id": "9a61fb8b74a989810ce4d356",
+          "level": "CET4",
+          "period": "2023.06",
+          "sets": [
+            1
+          ],
+          "category": "paper",
+          "name": "cet4_2023_06_1.pdf",
+          "path": "四级/2022.zip!/2023/cet4_2023_06_1.pdf",
+          "url": "/study/resources/9a61fb8b74a989810ce4d356.pdf",
+          "sourceUrl": null,
+          "bytes": 1557361,
+          "sha256": "9a61fb8b74a989810ce4d3561a4c3d8fc80510c1bde79afbf574b132e0fd9f4f"
+        },
+        {
+          "id": "937d1b450b5d26b8f5c56362",
+          "level": "CET4",
+          "period": "2023.06",
+          "sets": [
+            1
+          ],
+          "category": "answer",
+          "name": "cet4_2023_06_1_ans.pdf",
+          "path": "四级/2022.zip!/2023/cet4_2023_06_1_ans.pdf",
+          "url": "/study/resources/937d1b450b5d26b8f5c56362.pdf",
+          "sourceUrl": null,
+          "bytes": 3478846,
+          "sha256": "937d1b450b5d26b8f5c563624ae5c18b030b2315949eef65d70dfbbc0c03e3e7"
+        }
+      ]
+    },
+    {
+      "key": "cet4-2023-06-set2",
+      "level": "CET4",
+      "title": "2023年6月 · 第2套",
+      "resources": [
+        {
+          "id": "4ba7455506aca4c3bed162e9",
+          "level": "CET4",
+          "period": "2023.06",
+          "sets": [
+            2
+          ],
+          "category": "audio",
+          "name": "cet4_2023_06_2.mp3",
+          "path": "四级/2022.zip!/2023/cet4_2023_06_2.mp3",
+          "url": "/study/resources/4ba7455506aca4c3bed162e9.m4a",
+          "sourceUrl": null,
+          "bytes": 4201366,
+          "sha256": "4ba7455506aca4c3bed162e985507cf2d9cf1fa66deceb235ac3620dee10d4ba"
+        },
+        {
+          "id": "fe37a99b9f09dd848ca00df7",
+          "level": "CET4",
+          "period": "2023.06",
+          "sets": [
+            2
+          ],
+          "category": "paper",
+          "name": "cet4_2023_06_2.pdf",
+          "path": "四级/2022.zip!/2023/cet4_2023_06_2.pdf",
+          "url": "/study/resources/fe37a99b9f09dd848ca00df7.pdf",
+          "sourceUrl": null,
+          "bytes": 1545271,
+          "sha256": "fe37a99b9f09dd848ca00df780ee4d187140e9ed2e1ac81f197a798457ed0668"
+        },
+        {
+          "id": "b9bf0d70815d828a282f18e4",
+          "level": "CET4",
+          "period": "2023.06",
+          "sets": [
+            2
+          ],
+          "category": "answer",
+          "name": "cet4_2023_06_2_ans.pdf",
+          "path": "四级/2022.zip!/2023/cet4_2023_06_2_ans.pdf",
+          "url": "/study/resources/b9bf0d70815d828a282f18e4.pdf",
+          "sourceUrl": null,
+          "bytes": 3609535,
+          "sha256": "b9bf0d70815d828a282f18e424400bed1e13d8fc69a6adc3ec6f567d44908480"
+        }
+      ]
+    },
+    {
+      "key": "cet4-2023-06-set3",
+      "level": "CET4",
+      "title": "2023年6月 · 第3套",
+      "resources": [
+        {
+          "id": "0025fc03ecad69fc75ad4d16",
+          "level": "CET4",
+          "period": "2023.06",
+          "sets": [
+            3
+          ],
+          "category": "paper",
+          "name": "cet4_2023_06_3.pdf",
+          "path": "四级/2022.zip!/2023/cet4_2023_06_3.pdf",
+          "url": "/study/resources/0025fc03ecad69fc75ad4d16.pdf",
+          "sourceUrl": null,
+          "bytes": 1193766,
+          "sha256": "0025fc03ecad69fc75ad4d16a74eb98c99a3660b38818ba9b892eef15484b8ea"
+        },
+        {
+          "id": "c8ef963c9eb6096e3393c197",
+          "level": "CET4",
+          "period": "2023.06",
+          "sets": [
+            3
+          ],
+          "category": "answer",
+          "name": "cet4_2023_06_3_ans.pdf",
+          "path": "四级/2022.zip!/2023/cet4_2023_06_3_ans.pdf",
+          "url": "/study/resources/c8ef963c9eb6096e3393c197.pdf",
+          "sourceUrl": null,
+          "bytes": 2268493,
+          "sha256": "c8ef963c9eb6096e3393c197a661d17accd83e4e0d368fbde23b519727decc70"
+        }
+      ]
+    },
+    {
+      "key": "cet4-2023-12-set1",
+      "level": "CET4",
+      "title": "2023年12月 · 第1套",
+      "resources": [
+        {
+          "id": "a9a68e6857a3814d0ac583a1",
+          "level": "CET4",
+          "period": "2023.12",
+          "sets": [
+            1
+          ],
+          "category": "audio",
+          "name": "cet4_2023_12_1.mp3",
+          "path": "四级/2022.zip!/2023/cet4_2023_12_1.mp3",
+          "url": "/study/resources/a9a68e6857a3814d0ac583a1.m4a",
+          "sourceUrl": null,
+          "bytes": 4161717,
+          "sha256": "a9a68e6857a3814d0ac583a123c6774fa9a028ea996607de4db690208738b453"
+        },
+        {
+          "id": "0c033a2fe168d4783fc80ab4",
+          "level": "CET4",
+          "period": "2023.12",
+          "sets": [
+            1
+          ],
+          "category": "paper",
+          "name": "cet4_2023_12_1.pdf",
+          "path": "四级/2022.zip!/2023/cet4_2023_12_1.pdf",
+          "url": "/study/resources/0c033a2fe168d4783fc80ab4.pdf",
+          "sourceUrl": null,
+          "bytes": 1530495,
+          "sha256": "0c033a2fe168d4783fc80ab4e6ef60d6246130fa41e897ec0db71601fb020410"
+        },
+        {
+          "id": "fc3f8ef70ff883b8fecc665c",
+          "level": "CET4",
+          "period": "2023.12",
+          "sets": [
+            1
+          ],
+          "category": "answer",
+          "name": "cet4_2023_12_1_ans.pdf",
+          "path": "四级/2022.zip!/2023/cet4_2023_12_1_ans.pdf",
+          "url": "/study/resources/fc3f8ef70ff883b8fecc665c.pdf",
+          "sourceUrl": null,
+          "bytes": 4121808,
+          "sha256": "fc3f8ef70ff883b8fecc665c1616738e0689657cb1ad200e22c836b397cc00c3"
+        }
+      ]
+    },
+    {
+      "key": "cet4-2023-12-set2",
+      "level": "CET4",
+      "title": "2023年12月 · 第2套",
+      "resources": [
+        {
+          "id": "ae7d6da51a3b8bcda74e3f22",
+          "level": "CET4",
+          "period": "2023.12",
+          "sets": [
+            2
+          ],
+          "category": "audio",
+          "name": "cet4_2023_12_2.mp3",
+          "path": "四级/2022.zip!/2023/cet4_2023_12_2.mp3",
+          "url": "/study/resources/ae7d6da51a3b8bcda74e3f22.m4a",
+          "sourceUrl": null,
+          "bytes": 4173342,
+          "sha256": "ae7d6da51a3b8bcda74e3f22cccf20c0342a7baf52a56c5df3f9927a75c5061b"
+        },
+        {
+          "id": "9dc516c8db6b9f1ffd459e6c",
+          "level": "CET4",
+          "period": "2023.12",
+          "sets": [
+            2
+          ],
+          "category": "paper",
+          "name": "cet4_2023_12_2.pdf",
+          "path": "四级/2022.zip!/2023/cet4_2023_12_2.pdf",
+          "url": "/study/resources/9dc516c8db6b9f1ffd459e6c.pdf",
+          "sourceUrl": null,
+          "bytes": 1473673,
+          "sha256": "9dc516c8db6b9f1ffd459e6c7a8dce11b4325dfe4e52e28668776d2e544652e5"
+        },
+        {
+          "id": "51d6b097ca28cbf09aeca9c1",
+          "level": "CET4",
+          "period": "2023.12",
+          "sets": [
+            2
+          ],
+          "category": "answer",
+          "name": "cet4_2023_12_2_ans.pdf",
+          "path": "四级/2022.zip!/2023/cet4_2023_12_2_ans.pdf",
+          "url": "/study/resources/51d6b097ca28cbf09aeca9c1.pdf",
+          "sourceUrl": null,
+          "bytes": 4020950,
+          "sha256": "51d6b097ca28cbf09aeca9c18913bd4ab44d4abab979b42be07974950022bb32"
+        }
+      ]
+    },
+    {
+      "key": "cet4-2023-12-set3",
+      "level": "CET4",
+      "title": "2023年12月 · 第3套",
+      "resources": [
+        {
+          "id": "9b95b2e4cbf4fd7763ada5f6",
+          "level": "CET4",
+          "period": "2023.12",
+          "sets": [
+            3
+          ],
+          "category": "paper",
+          "name": "cet4_2023_12_3.pdf",
+          "path": "四级/2022.zip!/2023/cet4_2023_12_3.pdf",
+          "url": "/study/resources/9b95b2e4cbf4fd7763ada5f6.pdf",
+          "sourceUrl": null,
+          "bytes": 1128404,
+          "sha256": "9b95b2e4cbf4fd7763ada5f69d38ac659c18dbcb5386239f5f7bb1b72a7059a2"
+        },
+        {
+          "id": "ef53a867d57ca03656c32e67",
+          "level": "CET4",
+          "period": "2023.12",
+          "sets": [
+            3
+          ],
+          "category": "answer",
+          "name": "cet4_2023_12_3_ans.pdf",
+          "path": "四级/2022.zip!/2023/cet4_2023_12_3_ans.pdf",
+          "url": "/study/resources/ef53a867d57ca03656c32e67.pdf",
+          "sourceUrl": null,
+          "bytes": 2391544,
+          "sha256": "ef53a867d57ca03656c32e67bd1bd0f04226edd372be4c576bf7dedc74be0642"
+        }
+      ]
+    },
+    {
+      "key": "cet4-2024-06-set1",
+      "level": "CET4",
+      "title": "2024年6月 · 第1套",
+      "resources": [
+        {
+          "id": "ff058173825e2b713e0601c9",
+          "level": "CET4",
+          "period": "2024.06",
+          "sets": [
+            1
+          ],
+          "category": "audio",
+          "name": "cet4_2024_06_1.mp3",
+          "path": "四级/2022.zip!/2024/cet4_2024_06_1.mp3",
+          "url": "/study/resources/ff058173825e2b713e0601c9.m4a",
+          "sourceUrl": null,
+          "bytes": 4152010,
+          "sha256": "ff058173825e2b713e0601c9a352c8157a0146dec7f95e6c27329750734126e0"
+        },
+        {
+          "id": "be050a97398dfd72ef0f349e",
+          "level": "CET4",
+          "period": "2024.06",
+          "sets": [
+            1
+          ],
+          "category": "paper",
+          "name": "cet4_2024_06_1.pdf",
+          "path": "四级/2022.zip!/2024/cet4_2024_06_1.pdf",
+          "url": "/study/resources/be050a97398dfd72ef0f349e.pdf",
+          "sourceUrl": null,
+          "bytes": 347606,
+          "sha256": "be050a97398dfd72ef0f349e0f2036bbb82f71434a5186eec4bfd63f6babf183"
+        },
+        {
+          "id": "f0013c91edf1a2e2280601a3",
+          "level": "CET4",
+          "period": "2024.06",
+          "sets": [
+            1
+          ],
+          "category": "answer",
+          "name": "cet4_2024_06_1_ans.pdf",
+          "path": "四级/2022.zip!/2024/cet4_2024_06_1_ans.pdf",
+          "url": "/study/resources/f0013c91edf1a2e2280601a3.pdf",
+          "sourceUrl": null,
+          "bytes": 3213851,
+          "sha256": "f0013c91edf1a2e2280601a3fc944b51e17259802ae7d4394c3d2fcb45357117"
+        }
+      ]
+    },
+    {
+      "key": "cet4-2024-06-set2",
+      "level": "CET4",
+      "title": "2024年6月 · 第2套",
+      "resources": [
+        {
+          "id": "9329cce82e3149c74f35c75e",
+          "level": "CET4",
+          "period": "2024.06",
+          "sets": [
+            2
+          ],
+          "category": "audio",
+          "name": "cet4_2024_06_2.mp3",
+          "path": "四级/2022.zip!/2024/cet4_2024_06_2.mp3",
+          "url": "/study/resources/9329cce82e3149c74f35c75e.m4a",
+          "sourceUrl": null,
+          "bytes": 4118785,
+          "sha256": "9329cce82e3149c74f35c75e65f6628f398796cd6c388a6a9b1e2a8432ea7e1b"
+        },
+        {
+          "id": "aada101cc537bcfc69d54a77",
+          "level": "CET4",
+          "period": "2024.06",
+          "sets": [
+            2
+          ],
+          "category": "paper",
+          "name": "cet4_2024_06_2.pdf",
+          "path": "四级/2022.zip!/2024/cet4_2024_06_2.pdf",
+          "url": "/study/resources/aada101cc537bcfc69d54a77.pdf",
+          "sourceUrl": null,
+          "bytes": 346840,
+          "sha256": "aada101cc537bcfc69d54a77acdaefa52bf340779bead0f2a1e29ee40683d358"
+        },
+        {
+          "id": "8e1ab6ee16f90d47e624d45a",
+          "level": "CET4",
+          "period": "2024.06",
+          "sets": [
+            2
+          ],
+          "category": "answer",
+          "name": "cet4_2024_06_2_ans.pdf",
+          "path": "四级/2022.zip!/2024/cet4_2024_06_2_ans.pdf",
+          "url": "/study/resources/8e1ab6ee16f90d47e624d45a.pdf",
+          "sourceUrl": null,
+          "bytes": 3042257,
+          "sha256": "8e1ab6ee16f90d47e624d45ac5fc233feeaa415244c2263e39b54f4cb54165f4"
+        }
+      ]
+    },
+    {
+      "key": "cet4-2024-06-set3",
+      "level": "CET4",
+      "title": "2024年6月 · 第3套",
+      "resources": [
+        {
+          "id": "ec1c750fc530c5ca9b5db11c",
+          "level": "CET4",
+          "period": "2024.06",
+          "sets": [
+            3
+          ],
+          "category": "paper",
+          "name": "cet4_2024_06_3.pdf",
+          "path": "四级/2022.zip!/2024/cet4_2024_06_3.pdf",
+          "url": "/study/resources/ec1c750fc530c5ca9b5db11c.pdf",
+          "sourceUrl": null,
+          "bytes": 314753,
+          "sha256": "ec1c750fc530c5ca9b5db11c9d0bcccb90f0ac9220c0a1c5ae840f4f43c171c0"
+        },
+        {
+          "id": "bd043efd7477d716d1731a19",
+          "level": "CET4",
+          "period": "2024.06",
+          "sets": [
+            3
+          ],
+          "category": "answer",
+          "name": "cet4_2024_06_3_ans.pdf",
+          "path": "四级/2022.zip!/2024/cet4_2024_06_3_ans.pdf",
+          "url": "/study/resources/bd043efd7477d716d1731a19.pdf",
+          "sourceUrl": null,
+          "bytes": 2041911,
+          "sha256": "bd043efd7477d716d1731a19d71970ab32d4bcc2a2e83f371faeb51bf6fb94ea"
+        }
+      ]
+    },
+    {
+      "key": "cet4-2024-12-set1",
+      "level": "CET4",
+      "title": "2024年12月 · 第1套",
+      "resources": [
+        {
+          "id": "5a7ea2c48b082f61c1b248c4",
+          "level": "CET4",
+          "period": "2024.12",
+          "sets": [
+            1
+          ],
+          "category": "audio",
+          "name": "cet4_2024_12_1.mp3",
+          "path": "四级/2022.zip!/2024/cet4_2024_12_1.mp3",
+          "url": "/study/resources/5a7ea2c48b082f61c1b248c4.m4a",
+          "sourceUrl": null,
+          "bytes": 4199862,
+          "sha256": "5a7ea2c48b082f61c1b248c4b9462694eb931a7f8fba784f64b331888bcfe9a1"
+        },
+        {
+          "id": "451a0a9470c043cd6e5449d3",
+          "level": "CET4",
+          "period": "2024.12",
+          "sets": [
+            1
+          ],
+          "category": "paper",
+          "name": "cet4_2024_12_1.pdf",
+          "path": "四级/2022.zip!/2024/cet4_2024_12_1.pdf",
+          "url": "/study/resources/451a0a9470c043cd6e5449d3.pdf",
+          "sourceUrl": null,
+          "bytes": 368437,
+          "sha256": "451a0a9470c043cd6e5449d3fc265877283e31153aaa2647167f1bde4a706216"
+        },
+        {
+          "id": "f7bb689ec7f373f756a0ff86",
+          "level": "CET4",
+          "period": "2024.12",
+          "sets": [
+            1
+          ],
+          "category": "answer",
+          "name": "cet4_2024_12_1_ans.pdf",
+          "path": "四级/2022.zip!/2024/cet4_2024_12_1_ans.pdf",
+          "url": "/study/resources/f7bb689ec7f373f756a0ff86.pdf",
+          "sourceUrl": null,
+          "bytes": 4333246,
+          "sha256": "f7bb689ec7f373f756a0ff86eea577bf427ee755794c7d0fa9a86a10b3e990e9"
+        }
+      ]
+    },
+    {
+      "key": "cet4-2024-12-set2",
+      "level": "CET4",
+      "title": "2024年12月 · 第2套",
+      "resources": [
+        {
+          "id": "43a895f49edc7c9ab81f9ef7",
+          "level": "CET4",
+          "period": "2024.12",
+          "sets": [
+            2
+          ],
+          "category": "audio",
+          "name": "cet4_2024_12_2.mp3",
+          "path": "四级/2022.zip!/2024/cet4_2024_12_2.mp3",
+          "url": "/study/resources/43a895f49edc7c9ab81f9ef7.m4a",
+          "sourceUrl": null,
+          "bytes": 4190015,
+          "sha256": "43a895f49edc7c9ab81f9ef79fa08fc42df0331d5a0a7168b8be365ef9036779"
+        },
+        {
+          "id": "982a486689a7dc6196fe41e7",
+          "level": "CET4",
+          "period": "2024.12",
+          "sets": [
+            2
+          ],
+          "category": "paper",
+          "name": "cet4_2024_12_2.pdf",
+          "path": "四级/2022.zip!/2024/cet4_2024_12_2.pdf",
+          "url": "/study/resources/982a486689a7dc6196fe41e7.pdf",
+          "sourceUrl": null,
+          "bytes": 342476,
+          "sha256": "982a486689a7dc6196fe41e7e687ab6b28846523f14f53cdd5e64e3172cdc603"
+        },
+        {
+          "id": "de0abe924fc05550bb925939",
+          "level": "CET4",
+          "period": "2024.12",
+          "sets": [
+            2
+          ],
+          "category": "answer",
+          "name": "cet4_2024_12_2_ans.pdf",
+          "path": "四级/2022.zip!/2024/cet4_2024_12_2_ans.pdf",
+          "url": "/study/resources/de0abe924fc05550bb925939.pdf",
+          "sourceUrl": null,
+          "bytes": 4598420,
+          "sha256": "de0abe924fc05550bb9259391abaf0a122621380951f28f3a6e46e816a3c672e"
+        }
+      ]
+    },
+    {
+      "key": "cet4-2024-12-set3",
+      "level": "CET4",
+      "title": "2024年12月 · 第3套",
+      "resources": [
+        {
+          "id": "ffeabe7091f01fd2f1367ef5",
+          "level": "CET4",
+          "period": "2024.12",
+          "sets": [
+            3
+          ],
+          "category": "paper",
+          "name": "cet4_2024_12_3.pdf",
+          "path": "四级/2022.zip!/2024/cet4_2024_12_3.pdf",
+          "url": "/study/resources/ffeabe7091f01fd2f1367ef5.pdf",
+          "sourceUrl": null,
+          "bytes": 310643,
+          "sha256": "ffeabe7091f01fd2f1367ef5b401cebeaac6cf3c0af0dbeb855dabb08c8024bd"
+        },
+        {
+          "id": "3743e6c4052aeb1cf797578d",
+          "level": "CET4",
+          "period": "2024.12",
+          "sets": [
+            3
+          ],
+          "category": "answer",
+          "name": "cet4_2024_12_3_ans.pdf",
+          "path": "四级/2022.zip!/2024/cet4_2024_12_3_ans.pdf",
+          "url": "/study/resources/3743e6c4052aeb1cf797578d.pdf",
+          "sourceUrl": null,
+          "bytes": 2634305,
+          "sha256": "3743e6c4052aeb1cf797578d2cebff7b51c6582c73f18d48dd7faa387dfdc6b4"
+        }
+      ]
+    },
+    {
+      "key": "cet4-2025-06-set1",
+      "level": "CET4",
+      "title": "2025年6月 · 第1套",
+      "resources": [
+        {
+          "id": "a23dc74f40f8b9806f52e6f8",
+          "level": "CET4",
+          "period": "2025.06",
+          "sets": [
+            1
+          ],
+          "category": "audio",
+          "name": "cet4_2025_06_1.mp3",
+          "path": "四级/2022.zip!/2025/cet4_2025_06_1.mp3",
+          "url": "/study/resources/a23dc74f40f8b9806f52e6f8.m4a",
+          "sourceUrl": null,
+          "bytes": 4169648,
+          "sha256": "a23dc74f40f8b9806f52e6f8f0468423df5069afea5730c5f9ca3a8c2684864c"
+        },
+        {
+          "id": "2880977bc0a8b730800d3104",
+          "level": "CET4",
+          "period": "2025.06",
+          "sets": [
+            1
+          ],
+          "category": "paper",
+          "name": "cet4_2025_06_1.pdf",
+          "path": "四级/2022.zip!/2025/cet4_2025_06_1.pdf",
+          "url": "/study/resources/2880977bc0a8b730800d3104.pdf",
+          "sourceUrl": null,
+          "bytes": 366427,
+          "sha256": "2880977bc0a8b730800d310471a3120eb45e4a51d964dc97cb71c32ddf09ac08"
+        },
+        {
+          "id": "1021d97c5326909346907c13",
+          "level": "CET4",
+          "period": "2025.06",
+          "sets": [
+            1
+          ],
+          "category": "answer",
+          "name": "cet4_2025_06_1_ans.pdf",
+          "path": "四级/2022.zip!/2025/cet4_2025_06_1_ans.pdf",
+          "url": "/study/resources/1021d97c5326909346907c13.pdf",
+          "sourceUrl": null,
+          "bytes": 4459701,
+          "sha256": "1021d97c5326909346907c137e98d9a3ed7538b614117bcfb03c8b2d0db232f4"
+        }
+      ]
+    },
+    {
+      "key": "cet4-2025-06-set2",
+      "level": "CET4",
+      "title": "2025年6月 · 第2套",
+      "resources": [
+        {
+          "id": "b6ef913d459432822082ef97",
+          "level": "CET4",
+          "period": "2025.06",
+          "sets": [
+            2
+          ],
+          "category": "audio",
+          "name": "cet4_2025_06_2.mp3",
+          "path": "四级/2022.zip!/2025/cet4_2025_06_2.mp3",
+          "url": "/study/resources/b6ef913d459432822082ef97.m4a",
+          "sourceUrl": null,
+          "bytes": 4198495,
+          "sha256": "b6ef913d459432822082ef979e49ff8e047172a9f44f775ad5238a551f9c8b9c"
+        },
+        {
+          "id": "71d831b5b27bf3e8701fb772",
+          "level": "CET4",
+          "period": "2025.06",
+          "sets": [
+            2
+          ],
+          "category": "paper",
+          "name": "cet4_2025_06_2.pdf",
+          "path": "四级/2022.zip!/2025/cet4_2025_06_2.pdf",
+          "url": "/study/resources/71d831b5b27bf3e8701fb772.pdf",
+          "sourceUrl": null,
+          "bytes": 347511,
+          "sha256": "71d831b5b27bf3e8701fb772855b593bfe48a269143bc997191dd31b6e9e18cd"
+        },
+        {
+          "id": "d86be3691514de7808d5fd65",
+          "level": "CET4",
+          "period": "2025.06",
+          "sets": [
+            2
+          ],
+          "category": "answer",
+          "name": "cet4_2025_06_2_ans.pdf",
+          "path": "四级/2022.zip!/2025/cet4_2025_06_2_ans.pdf",
+          "url": "/study/resources/d86be3691514de7808d5fd65.pdf",
+          "sourceUrl": null,
+          "bytes": 3800243,
+          "sha256": "d86be3691514de7808d5fd65dfef0b4866e281d777c9ee47fedb82a02751210b"
+        }
+      ]
+    },
+    {
+      "key": "cet4-2025-06-set3",
+      "level": "CET4",
+      "title": "2025年6月 · 第3套",
+      "resources": [
+        {
+          "id": "815c185ee43391d1e504b42d",
+          "level": "CET4",
+          "period": "2025.06",
+          "sets": [
+            3
+          ],
+          "category": "paper",
+          "name": "cet4_2025_06_3.pdf",
+          "path": "四级/2022.zip!/2025/cet4_2025_06_3.pdf",
+          "url": "/study/resources/815c185ee43391d1e504b42d.pdf",
+          "sourceUrl": null,
+          "bytes": 322504,
+          "sha256": "815c185ee43391d1e504b42d552ba2b4ea4c2765bed6386ddf2674c7b13826de"
+        },
+        {
+          "id": "2f297907b9cf88738954bd80",
+          "level": "CET4",
+          "period": "2025.06",
+          "sets": [
+            3
+          ],
+          "category": "answer",
+          "name": "cet4_2025_06_3_ans.pdf",
+          "path": "四级/2022.zip!/2025/cet4_2025_06_3_ans.pdf",
+          "url": "/study/resources/2f297907b9cf88738954bd80.pdf",
+          "sourceUrl": null,
+          "bytes": 2364225,
+          "sha256": "2f297907b9cf88738954bd80390f9512978efe8e7e89e80f7fdb16f879c4197b"
+        }
+      ]
+    },
+    {
+      "key": "cet4-2025-12-set1",
+      "level": "CET4",
+      "title": "2025年12月 · 第1套",
+      "resources": [
+        {
+          "id": "a0a932f333cfde810843ff74",
+          "level": "CET4",
+          "period": "2025.12",
+          "sets": [
+            1
+          ],
+          "category": "audio",
+          "name": "cet4_2025_12_1.mp3",
+          "path": "四级/2022.zip!/2025/cet4_2025_12_1.mp3",
+          "url": "/study/resources/a0a932f333cfde810843ff74.m4a",
+          "sourceUrl": null,
+          "bytes": 4037575,
+          "sha256": "a0a932f333cfde810843ff74ffd762f1b7331704a168c4f8e4f8ec4f5ac497ac"
+        },
+        {
+          "id": "39b7c6d0ce4851f25944a9dd",
+          "level": "CET4",
+          "period": "2025.12",
+          "sets": [
+            1
+          ],
+          "category": "paper",
+          "name": "cet4_2025_12_1.pdf",
+          "path": "四级/2022.zip!/2025/cet4_2025_12_1.pdf",
+          "url": "/study/resources/39b7c6d0ce4851f25944a9dd.pdf",
+          "sourceUrl": null,
+          "bytes": 312757,
+          "sha256": "39b7c6d0ce4851f25944a9dd82d9b050e3ea1121aa3f67b8467c3c3db786abbf"
+        },
+        {
+          "id": "1cb2a30c8101296622a31939",
+          "level": "CET4",
+          "period": "2025.12",
+          "sets": [
+            1
+          ],
+          "category": "answer",
+          "name": "cet4_2025_12_1_ans.pdf",
+          "path": "四级/2022.zip!/2025/cet4_2025_12_1_ans.pdf",
+          "url": "/study/resources/1cb2a30c8101296622a31939.pdf",
+          "sourceUrl": null,
+          "bytes": 4391938,
+          "sha256": "1cb2a30c8101296622a31939e9f124cfdfb6141f8edcb66372689cfc2acee9b0"
+        }
+      ]
+    },
+    {
+      "key": "cet4-2025-12-set2",
+      "level": "CET4",
+      "title": "2025年12月 · 第2套",
+      "resources": [
+        {
+          "id": "93c82d3cb2da5ac5c0b0db0f",
+          "level": "CET4",
+          "period": "2025.12",
+          "sets": [
+            2
+          ],
+          "category": "audio",
+          "name": "cet4_2025_12_2.mp3",
+          "path": "四级/2022.zip!/2025/cet4_2025_12_2.mp3",
+          "url": "/study/resources/93c82d3cb2da5ac5c0b0db0f.m4a",
+          "sourceUrl": null,
+          "bytes": 4140660,
+          "sha256": "93c82d3cb2da5ac5c0b0db0fce6b9a4efc63fac3deb8641187244dd27ec4e9b6"
+        },
+        {
+          "id": "29da4a4a079809d02aa56078",
+          "level": "CET4",
+          "period": "2025.12",
+          "sets": [
+            2
+          ],
+          "category": "paper",
+          "name": "cet4_2025_12_2.pdf",
+          "path": "四级/2022.zip!/2025/cet4_2025_12_2.pdf",
+          "url": "/study/resources/29da4a4a079809d02aa56078.pdf",
+          "sourceUrl": null,
+          "bytes": 317605,
+          "sha256": "29da4a4a079809d02aa560782938552f7b85237d047e8a9763e003d767995cfd"
+        },
+        {
+          "id": "4ad3428466d59bea69e2412f",
+          "level": "CET4",
+          "period": "2025.12",
+          "sets": [
+            2
+          ],
+          "category": "answer",
+          "name": "cet4_2025_12_2_ans.pdf",
+          "path": "四级/2022.zip!/2025/cet4_2025_12_2_ans.pdf",
+          "url": "/study/resources/4ad3428466d59bea69e2412f.pdf",
+          "sourceUrl": null,
+          "bytes": 4428826,
+          "sha256": "4ad3428466d59bea69e2412fa0fc0ad62c28a907d2b4b593d3f2e7f23de9aaa7"
+        }
+      ]
+    },
+    {
+      "key": "cet4-2025-12-set3",
+      "level": "CET4",
+      "title": "2025年12月 · 第3套",
+      "resources": [
+        {
+          "id": "8b29c1b4b871def55ade9a16",
+          "level": "CET4",
+          "period": "2025.12",
+          "sets": [
+            3
+          ],
+          "category": "paper",
+          "name": "cet4_2025_12_3.pdf",
+          "path": "四级/2022.zip!/2025/cet4_2025_12_3.pdf",
+          "url": "/study/resources/8b29c1b4b871def55ade9a16.pdf",
+          "sourceUrl": null,
+          "bytes": 291007,
+          "sha256": "8b29c1b4b871def55ade9a164bfd6aceb921a6cbde7fa9654e9d8a97798d56a8"
+        },
+        {
+          "id": "b39d9eb289d7ef5ea1a82fb4",
+          "level": "CET4",
+          "period": "2025.12",
+          "sets": [
+            3
+          ],
+          "category": "answer",
+          "name": "cet4_2025_12_3_ans.pdf",
+          "path": "四级/2022.zip!/2025/cet4_2025_12_3_ans.pdf",
+          "url": "/study/resources/b39d9eb289d7ef5ea1a82fb4.pdf",
+          "sourceUrl": null,
+          "bytes": 2745027,
+          "sha256": "b39d9eb289d7ef5ea1a82fb478b8190425b03a52eec73e71dd6b4413c70fe788"
+        }
+      ]
+    },
+    {
+      "key": "cet6-2020-07-set1",
+      "level": "CET6",
+      "title": "2020年7月 · 第1套",
+      "resources": [
+        {
+          "id": "096f8208b863c9d237cf6102",
+          "level": "CET6",
+          "period": "2020.07",
+          "sets": [
+            1
+          ],
+          "category": "audio",
+          "name": "cet6_2020_07_1.mp3",
+          "path": "六级/cet六级.zip!/cet六级/2020/cet6_2020_07_1.mp3",
+          "url": "/study/resources/096f8208b863c9d237cf6102.m4a",
+          "sourceUrl": null,
+          "bytes": 4743873,
+          "sha256": "096f8208b863c9d237cf61022d7eff8ae4e685662e68fe88cf4dd72458417c75"
+        },
+        {
+          "id": "33747f90861882a440cd761d",
+          "level": "CET6",
+          "period": "2020.07",
+          "sets": [
+            1
+          ],
+          "category": "paper",
+          "name": "cet6_2020_07_1.pdf",
+          "path": "六级/cet六级.zip!/cet六级/2020/cet6_2020_07_1.pdf",
+          "url": "/study/resources/33747f90861882a440cd761d.pdf",
+          "sourceUrl": null,
+          "bytes": 271237,
+          "sha256": "33747f90861882a440cd761db7f6dc4b4801a4f5fc96d052c8bb63fbcbe3b75a"
+        }
+      ]
+    },
+    {
+      "key": "cet6-2020-09-set1",
+      "level": "CET6",
+      "title": "2020年9月 · 第1套",
+      "resources": [
+        {
+          "id": "13cbeaaae9aa77d4679f56a2",
+          "level": "CET6",
+          "period": "2020.09",
+          "sets": [
+            1
+          ],
+          "category": "audio",
+          "name": "cet6_2020_09_1.mp3",
+          "path": "六级/cet六级.zip!/cet六级/2020/cet6_2020_09_1.mp3",
+          "url": "/study/resources/13cbeaaae9aa77d4679f56a2.m4a",
+          "sourceUrl": null,
+          "bytes": 4635324,
+          "sha256": "13cbeaaae9aa77d4679f56a22ea6357d72de91cdd1948909f54e09f59984f161"
+        },
+        {
+          "id": "9b0e9995398fff2fbdd4da3e",
+          "level": "CET6",
+          "period": "2020.09",
+          "sets": [
+            1
+          ],
+          "category": "paper",
+          "name": "cet6_2020_09_1.pdf",
+          "path": "六级/cet六级.zip!/cet六级/2020/cet6_2020_09_1.pdf",
+          "url": "/study/resources/9b0e9995398fff2fbdd4da3e.pdf",
+          "sourceUrl": null,
+          "bytes": 441981,
+          "sha256": "9b0e9995398fff2fbdd4da3e43af2677208f9e3c268d6bf0bc5d4a45b209868e"
+        },
+        {
+          "id": "8f294956a163f3c7574e2eca",
+          "level": "CET6",
+          "period": "2020.09",
+          "sets": [
+            1
+          ],
+          "category": "answer",
+          "name": "cet6_2020_09_1_ans.pdf",
+          "path": "六级/cet六级.zip!/cet六级/2020/cet6_2020_09_1_ans.pdf",
+          "url": "/study/resources/8f294956a163f3c7574e2eca.pdf",
+          "sourceUrl": null,
+          "bytes": 2818275,
+          "sha256": "8f294956a163f3c7574e2ecaa9345b796e383e60b0e97d2585ccbafc97c89e60"
+        }
+      ]
+    },
+    {
+      "key": "cet6-2020-09-set2",
+      "level": "CET6",
+      "title": "2020年9月 · 第2套",
+      "resources": [
+        {
+          "id": "53695a81d184bf81fd972430",
+          "level": "CET6",
+          "period": "2020.09",
+          "sets": [
+            2
+          ],
+          "category": "paper",
+          "name": "cet6_2020_09_2.pdf",
+          "path": "六级/cet六级.zip!/cet六级/2020/cet6_2020_09_2.pdf",
+          "url": "/study/resources/53695a81d184bf81fd972430.pdf",
+          "sourceUrl": null,
+          "bytes": 479408,
+          "sha256": "53695a81d184bf81fd9724300c59b98d1f787f09ce3eb86a5d0e792305ede82a"
+        },
+        {
+          "id": "122363aee09a07f3aaeb23f8",
+          "level": "CET6",
+          "period": "2020.09",
+          "sets": [
+            2
+          ],
+          "category": "answer",
+          "name": "cet6_2020_09_2_ans.pdf",
+          "path": "六级/cet六级.zip!/cet六级/2020/cet6_2020_09_2_ans.pdf",
+          "url": "/study/resources/122363aee09a07f3aaeb23f8.pdf",
+          "sourceUrl": null,
+          "bytes": 2146908,
+          "sha256": "122363aee09a07f3aaeb23f8d85b48d34ba3f6cff28d833baf99036417893f75"
+        }
+      ]
+    },
+    {
+      "key": "cet6-2020-09-set3",
+      "level": "CET6",
+      "title": "2020年9月 · 第3套",
+      "resources": [
+        {
+          "id": "f00458ac98ad86255558872b",
+          "level": "CET6",
+          "period": "2020.09",
+          "sets": [
+            3
+          ],
+          "category": "paper",
+          "name": "cet6_2020_09_3.pdf",
+          "path": "六级/cet六级.zip!/cet六级/2020/cet6_2020_09_3.pdf",
+          "url": "/study/resources/f00458ac98ad86255558872b.pdf",
+          "sourceUrl": null,
+          "bytes": 458971,
+          "sha256": "f00458ac98ad86255558872bd6ef71b31b862528ab7912193174c685ea33721f"
+        }
+      ]
+    },
+    {
+      "key": "cet6-2020-12-set1",
+      "level": "CET6",
+      "title": "2020年12月 · 第1套",
+      "resources": [
+        {
+          "id": "a85a14f81cec04910d0efa46",
+          "level": "CET6",
+          "period": "2020.12",
+          "sets": [
+            1
+          ],
+          "category": "audio",
+          "name": "cet6_2020_12_1.mp3",
+          "path": "六级/cet六级.zip!/cet六级/2020/cet6_2020_12_1.mp3",
+          "url": "/study/resources/a85a14f81cec04910d0efa46.m4a",
+          "sourceUrl": null,
+          "bytes": 4541798,
+          "sha256": "a85a14f81cec04910d0efa46f13a3a48f679429588b11fb7bdfa05abbfbb9027"
+        },
+        {
+          "id": "99ef52d7d94e95676768d265",
+          "level": "CET6",
+          "period": "2020.12",
+          "sets": [
+            1
+          ],
+          "category": "paper",
+          "name": "cet6_2020_12_1.pdf",
+          "path": "六级/cet六级.zip!/cet六级/2020/cet6_2020_12_1.pdf",
+          "url": "/study/resources/99ef52d7d94e95676768d265.pdf",
+          "sourceUrl": null,
+          "bytes": 2154706,
+          "sha256": "99ef52d7d94e95676768d265654e055bcaf33767fe92bcd0f05701f6b5939c85"
+        },
+        {
+          "id": "7b6603b90f820fbb90ce20b8",
+          "level": "CET6",
+          "period": "2020.12",
+          "sets": [
+            1
+          ],
+          "category": "answer",
+          "name": "cet6_2020_12_1_ans.pdf",
+          "path": "六级/cet六级.zip!/cet六级/2020/cet6_2020_12_1_ans.pdf",
+          "url": "/study/resources/7b6603b90f820fbb90ce20b8.pdf",
+          "sourceUrl": null,
+          "bytes": 4051857,
+          "sha256": "7b6603b90f820fbb90ce20b8d7f5edd8f16cec0eb8d2ccc767a0d62f5d72895f"
+        }
+      ]
+    },
+    {
+      "key": "cet6-2020-12-set2",
+      "level": "CET6",
+      "title": "2020年12月 · 第2套",
+      "resources": [
+        {
+          "id": "cf2f30ada0c1009f1143522c",
+          "level": "CET6",
+          "period": "2020.12",
+          "sets": [
+            2
+          ],
+          "category": "audio",
+          "name": "cet6_2020_12_2.mp3",
+          "path": "六级/cet六级.zip!/cet六级/2020/cet6_2020_12_2.mp3",
+          "url": "/study/resources/cf2f30ada0c1009f1143522c.m4a",
+          "sourceUrl": null,
+          "bytes": 4703863,
+          "sha256": "cf2f30ada0c1009f1143522c1f1846a7d240512f47c2f11cdcc59a3289bf2c96"
+        },
+        {
+          "id": "60f42b0bb2dfd498dc32c8b4",
+          "level": "CET6",
+          "period": "2020.12",
+          "sets": [
+            2
+          ],
+          "category": "paper",
+          "name": "cet6_2020_12_2.pdf",
+          "path": "六级/cet六级.zip!/cet六级/2020/cet6_2020_12_2.pdf",
+          "url": "/study/resources/60f42b0bb2dfd498dc32c8b4.pdf",
+          "sourceUrl": null,
+          "bytes": 2199476,
+          "sha256": "60f42b0bb2dfd498dc32c8b409b8e7b4f686543825b48a8142f9f9674507b118"
+        },
+        {
+          "id": "c0e68b7ceb6d1d910fc57fa2",
+          "level": "CET6",
+          "period": "2020.12",
+          "sets": [
+            2
+          ],
+          "category": "answer",
+          "name": "cet6_2020_12_2_ans.pdf",
+          "path": "六级/cet六级.zip!/cet六级/2020/cet6_2020_12_2_ans.pdf",
+          "url": "/study/resources/c0e68b7ceb6d1d910fc57fa2.pdf",
+          "sourceUrl": null,
+          "bytes": 4124016,
+          "sha256": "c0e68b7ceb6d1d910fc57fa241e457b1eda03787483dcf5fb161ca2206332660"
+        }
+      ]
+    },
+    {
+      "key": "cet6-2020-12-set3",
+      "level": "CET6",
+      "title": "2020年12月 · 第3套",
+      "resources": [
+        {
+          "id": "f00fbbd4f10a2dab79deeb8e",
+          "level": "CET6",
+          "period": "2020.12",
+          "sets": [
+            3
+          ],
+          "category": "paper",
+          "name": "cet6_2020_12_3.pdf",
+          "path": "六级/cet六级.zip!/cet六级/2020/cet6_2020_12_3.pdf",
+          "url": "/study/resources/f00fbbd4f10a2dab79deeb8e.pdf",
+          "sourceUrl": null,
+          "bytes": 1701480,
+          "sha256": "f00fbbd4f10a2dab79deeb8ec64cda8f04f350ff0a9865ae2ac6b09cbeb2b0d7"
+        },
+        {
+          "id": "fb1658fb2fd03aa0c2688c86",
+          "level": "CET6",
+          "period": "2020.12",
+          "sets": [
+            3
+          ],
+          "category": "answer",
+          "name": "cet6_2020_12_3_ans.pdf",
+          "path": "六级/cet六级.zip!/cet六级/2020/cet6_2020_12_3_ans.pdf",
+          "url": "/study/resources/fb1658fb2fd03aa0c2688c86.pdf",
+          "sourceUrl": null,
+          "bytes": 2940996,
+          "sha256": "fb1658fb2fd03aa0c2688c8696c185a0b981a0ffd2c323b0d2d01f2601773091"
+        }
+      ]
+    },
+    {
+      "key": "cet6-2021-06-set1",
+      "level": "CET6",
+      "title": "2021年6月 · 第1套",
+      "resources": [
+        {
+          "id": "bc5a89f888d2e79397492a4d",
+          "level": "CET6",
+          "period": "2021.06",
+          "sets": [
+            1
+          ],
+          "category": "audio",
+          "name": "cet6_2021_06_1.mp3",
+          "path": "六级/cet六级.zip!/cet六级/2021/cet6_2021_06_1.mp3",
+          "url": "/study/resources/bc5a89f888d2e79397492a4d.m4a",
+          "sourceUrl": null,
+          "bytes": 4968899,
+          "sha256": "bc5a89f888d2e79397492a4d000733011d97a0f3373e859666c764bb3d459025"
+        },
+        {
+          "id": "28ee0371724573166ed299ae",
+          "level": "CET6",
+          "period": "2021.06",
+          "sets": [
+            1
+          ],
+          "category": "paper",
+          "name": "cet6_2021_06_1.pdf",
+          "path": "六级/cet六级.zip!/cet六级/2021/cet6_2021_06_1.pdf",
+          "url": "/study/resources/28ee0371724573166ed299ae.pdf",
+          "sourceUrl": null,
+          "bytes": 2014236,
+          "sha256": "28ee0371724573166ed299ae7033a8ac31aece1dbecf613c369e77f7796a9f6c"
+        },
+        {
+          "id": "f9d69e746f0ee5e876fe9cd8",
+          "level": "CET6",
+          "period": "2021.06",
+          "sets": [
+            1
+          ],
+          "category": "answer",
+          "name": "cet6_2021_06_1_ans.pdf",
+          "path": "六级/cet六级.zip!/cet六级/2021/cet6_2021_06_1_ans.pdf",
+          "url": "/study/resources/f9d69e746f0ee5e876fe9cd8.pdf",
+          "sourceUrl": null,
+          "bytes": 4191039,
+          "sha256": "f9d69e746f0ee5e876fe9cd84c469abf7eb9df5dd8d437eeccc2696b73158e93"
+        }
+      ]
+    },
+    {
+      "key": "cet6-2021-06-set2",
+      "level": "CET6",
+      "title": "2021年6月 · 第2套",
+      "resources": [
+        {
+          "id": "ce1871be7c0745b7210967d1",
+          "level": "CET6",
+          "period": "2021.06",
+          "sets": [
+            2
+          ],
+          "category": "audio",
+          "name": "cet6_2021_06_2.mp3",
+          "path": "六级/cet六级.zip!/cet六级/2021/cet6_2021_06_2.mp3",
+          "url": "/study/resources/ce1871be7c0745b7210967d1.m4a",
+          "sourceUrl": null,
+          "bytes": 5015802,
+          "sha256": "ce1871be7c0745b7210967d130bd1cfaeee903638f12e7f4798ab74887f76180"
+        },
+        {
+          "id": "175f3c61257e97dbbbde948f",
+          "level": "CET6",
+          "period": "2021.06",
+          "sets": [
+            2
+          ],
+          "category": "paper",
+          "name": "cet6_2021_06_2.pdf",
+          "path": "六级/cet六级.zip!/cet六级/2021/cet6_2021_06_2.pdf",
+          "url": "/study/resources/175f3c61257e97dbbbde948f.pdf",
+          "sourceUrl": null,
+          "bytes": 2006390,
+          "sha256": "175f3c61257e97dbbbde948fff6ef352b590576350c4cf7cd8aef8edaa11ea51"
+        },
+        {
+          "id": "4c7c6732f171756bb7abfc0a",
+          "level": "CET6",
+          "period": "2021.06",
+          "sets": [
+            2
+          ],
+          "category": "answer",
+          "name": "cet6_2021_06_2_ans.pdf",
+          "path": "六级/cet六级.zip!/cet六级/2021/cet6_2021_06_2_ans.pdf",
+          "url": "/study/resources/4c7c6732f171756bb7abfc0a.pdf",
+          "sourceUrl": null,
+          "bytes": 4181713,
+          "sha256": "4c7c6732f171756bb7abfc0a18876a774e1cb507e0fd5de540956c5bcaf7e90e"
+        }
+      ]
+    },
+    {
+      "key": "cet6-2021-06-set3",
+      "level": "CET6",
+      "title": "2021年6月 · 第3套",
+      "resources": [
+        {
+          "id": "1bb51699ea16bd7abf5ebc12",
+          "level": "CET6",
+          "period": "2021.06",
+          "sets": [
+            3
+          ],
+          "category": "paper",
+          "name": "cet6_2021_06_3.pdf",
+          "path": "六级/cet六级.zip!/cet六级/2021/cet6_2021_06_3.pdf",
+          "url": "/study/resources/1bb51699ea16bd7abf5ebc12.pdf",
+          "sourceUrl": null,
+          "bytes": 1535157,
+          "sha256": "1bb51699ea16bd7abf5ebc1210d1308f86b21a0846e234d8364e6641c15acebf"
+        },
+        {
+          "id": "b511acd6ce485fea97a21b75",
+          "level": "CET6",
+          "period": "2021.06",
+          "sets": [
+            3
+          ],
+          "category": "answer",
+          "name": "cet6_2021_06_3_ans.pdf",
+          "path": "六级/cet六级.zip!/cet六级/2021/cet6_2021_06_3_ans.pdf",
+          "url": "/study/resources/b511acd6ce485fea97a21b75.pdf",
+          "sourceUrl": null,
+          "bytes": 2689142,
+          "sha256": "b511acd6ce485fea97a21b754930c39f621c42d3b0b5b925b03f0cf47e4dde9d"
+        }
+      ]
+    },
+    {
+      "key": "cet6-2021-12-set1",
+      "level": "CET6",
+      "title": "2021年12月 · 第1套",
+      "resources": [
+        {
+          "id": "f317a352374c42fd2c00a4ad",
+          "level": "CET6",
+          "period": "2021.12",
+          "sets": [
+            1
+          ],
+          "category": "audio",
+          "name": "cet6_2021_12_1.mp3",
+          "path": "六级/cet六级.zip!/cet六级/2021/cet6_2021_12_1.mp3",
+          "url": "/study/resources/f317a352374c42fd2c00a4ad.m4a",
+          "sourceUrl": null,
+          "bytes": 4634218,
+          "sha256": "f317a352374c42fd2c00a4ad84562f0f8290d612838ebd8187d363f0746726cb"
+        },
+        {
+          "id": "a872dc6edf1b370c15269e7e",
+          "level": "CET6",
+          "period": "2021.12",
+          "sets": [
+            1
+          ],
+          "category": "paper",
+          "name": "cet6_2021_12_1.pdf",
+          "path": "六级/cet六级.zip!/cet六级/2021/cet6_2021_12_1.pdf",
+          "url": "/study/resources/a872dc6edf1b370c15269e7e.pdf",
+          "sourceUrl": null,
+          "bytes": 2075887,
+          "sha256": "a872dc6edf1b370c15269e7ebe450d85892d59bca9c6c118f81fc177c9490b08"
+        },
+        {
+          "id": "1c3fc46c15de690ae2332371",
+          "level": "CET6",
+          "period": "2021.12",
+          "sets": [
+            1
+          ],
+          "category": "answer",
+          "name": "cet6_2021_12_1_ans.pdf",
+          "path": "六级/cet六级.zip!/cet六级/2021/cet6_2021_12_1_ans.pdf",
+          "url": "/study/resources/1c3fc46c15de690ae2332371.pdf",
+          "sourceUrl": null,
+          "bytes": 4571770,
+          "sha256": "1c3fc46c15de690ae23323711a18332e25bf1fff1266a2b3989b08728649d728"
+        }
+      ]
+    },
+    {
+      "key": "cet6-2021-12-set2",
+      "level": "CET6",
+      "title": "2021年12月 · 第2套",
+      "resources": [
+        {
+          "id": "8e2bc2032336acd339e916fa",
+          "level": "CET6",
+          "period": "2021.12",
+          "sets": [
+            2
+          ],
+          "category": "audio",
+          "name": "cet6_2021_12_2.mp3",
+          "path": "六级/cet六级.zip!/cet六级/2021/cet6_2021_12_2.mp3",
+          "url": "/study/resources/8e2bc2032336acd339e916fa.m4a",
+          "sourceUrl": null,
+          "bytes": 4758224,
+          "sha256": "8e2bc2032336acd339e916fa862836721f776c6f4d68688c513dde02139789ab"
+        },
+        {
+          "id": "a9649e317c6505e1caaf062d",
+          "level": "CET6",
+          "period": "2021.12",
+          "sets": [
+            2
+          ],
+          "category": "paper",
+          "name": "cet6_2021_12_2.pdf",
+          "path": "六级/cet六级.zip!/cet六级/2021/cet6_2021_12_2.pdf",
+          "url": "/study/resources/a9649e317c6505e1caaf062d.pdf",
+          "sourceUrl": null,
+          "bytes": 2211760,
+          "sha256": "a9649e317c6505e1caaf062de081ae35399fc63e551824a4e32a413648b05766"
+        },
+        {
+          "id": "226d22fc9df10f701d513c98",
+          "level": "CET6",
+          "period": "2021.12",
+          "sets": [
+            2
+          ],
+          "category": "answer",
+          "name": "cet6_2021_12_2_ans.pdf",
+          "path": "六级/cet六级.zip!/cet六级/2021/cet6_2021_12_2_ans.pdf",
+          "url": "/study/resources/226d22fc9df10f701d513c98.pdf",
+          "sourceUrl": null,
+          "bytes": 4380187,
+          "sha256": "226d22fc9df10f701d513c98123ff1c34fbfca06b5f3548572ce376f6f4b0aa5"
+        }
+      ]
+    },
+    {
+      "key": "cet6-2021-12-set3",
+      "level": "CET6",
+      "title": "2021年12月 · 第3套",
+      "resources": [
+        {
+          "id": "1dc1101d53587b25de25360b",
+          "level": "CET6",
+          "period": "2021.12",
+          "sets": [
+            3
+          ],
+          "category": "paper",
+          "name": "cet6_2021_12_3.pdf",
+          "path": "六级/cet六级.zip!/cet六级/2021/cet6_2021_12_3.pdf",
+          "url": "/study/resources/1dc1101d53587b25de25360b.pdf",
+          "sourceUrl": null,
+          "bytes": 1251791,
+          "sha256": "1dc1101d53587b25de25360b0d632af72d625dadfce769c93ade03a2915d860a"
+        },
+        {
+          "id": "208db6b0ac539472bc8907f5",
+          "level": "CET6",
+          "period": "2021.12",
+          "sets": [
+            3
+          ],
+          "category": "answer",
+          "name": "cet6_2021_12_3_ans.pdf",
+          "path": "六级/cet六级.zip!/cet六级/2021/cet6_2021_12_3_ans.pdf",
+          "url": "/study/resources/208db6b0ac539472bc8907f5.pdf",
+          "sourceUrl": null,
+          "bytes": 2352055,
+          "sha256": "208db6b0ac539472bc8907f5fc108044627bdd672feb6799d456253c576e4267"
+        }
+      ]
+    },
+    {
+      "key": "cet6-2022-06-set1",
+      "level": "CET6",
+      "title": "2022年6月 · 第1套",
+      "resources": [
+        {
+          "id": "ea480c968b83583b9832eafa",
+          "level": "CET6",
+          "period": "2022.06",
+          "sets": [
+            1
+          ],
+          "category": "audio",
+          "name": "cet6_2022_06_1.mp3",
+          "path": "六级/cet六级.zip!/cet六级/2022/cet6_2022_06_1.mp3",
+          "url": "/study/resources/ea480c968b83583b9832eafa.m4a",
+          "sourceUrl": null,
+          "bytes": 5032072,
+          "sha256": "ea480c968b83583b9832eafa06ad5f607fdac6f11ccdff9746a77832d5eec4dd"
+        },
+        {
+          "id": "6e102097e911b394171304b8",
+          "level": "CET6",
+          "period": "2022.06",
+          "sets": [
+            1
+          ],
+          "category": "paper",
+          "name": "cet6_2022_06_1.pdf",
+          "path": "六级/cet六级.zip!/cet六级/2022/cet6_2022_06_1.pdf",
+          "url": "/study/resources/6e102097e911b394171304b8.pdf",
+          "sourceUrl": null,
+          "bytes": 2100383,
+          "sha256": "6e102097e911b394171304b8aebf66792fb3cf774c875576b4ecdb1b387def71"
+        },
+        {
+          "id": "2818b589a4d403654e5c9d9e",
+          "level": "CET6",
+          "period": "2022.06",
+          "sets": [
+            1
+          ],
+          "category": "answer",
+          "name": "cet6_2022_06_1_ans.pdf",
+          "path": "六级/cet六级.zip!/cet六级/2022/cet6_2022_06_1_ans.pdf",
+          "url": "/study/resources/2818b589a4d403654e5c9d9e.pdf",
+          "sourceUrl": null,
+          "bytes": 4292503,
+          "sha256": "2818b589a4d403654e5c9d9eab784fc5755a521b3c8a40e56c712b4dc5a38d1e"
+        }
+      ]
+    },
+    {
+      "key": "cet6-2022-06-set2",
+      "level": "CET6",
+      "title": "2022年6月 · 第2套",
+      "resources": [
+        {
+          "id": "adc7cae0dfb982a3dae2281e",
+          "level": "CET6",
+          "period": "2022.06",
+          "sets": [
+            2,
+            3
+          ],
+          "category": "paper",
+          "name": "cet6_2022_06_2-3.pdf",
+          "path": "六级/cet六级.zip!/cet六级/2022/cet6_2022_06_2-3.pdf",
+          "url": "/study/resources/adc7cae0dfb982a3dae2281e.pdf",
+          "sourceUrl": null,
+          "bytes": 2020677,
+          "sha256": "adc7cae0dfb982a3dae2281e2f564f43d6e10459a35f8b8d53ee2605edf4e7ab"
+        },
+        {
+          "id": "f1fbbb704b6a3eeb958a2a97",
+          "level": "CET6",
+          "period": "2022.06",
+          "sets": [
+            2,
+            3
+          ],
+          "category": "answer",
+          "name": "cet6_2022_06_2-3_ans.pdf",
+          "path": "六级/cet六级.zip!/cet六级/2022/cet6_2022_06_2-3_ans.pdf",
+          "url": "/study/resources/f1fbbb704b6a3eeb958a2a97.pdf",
+          "sourceUrl": null,
+          "bytes": 3175781,
+          "sha256": "f1fbbb704b6a3eeb958a2a97d1ba602bc3dca2b69a7de1ccb450dd038bb0d81d"
+        }
+      ]
+    },
+    {
+      "key": "cet6-2022-06-set3",
+      "level": "CET6",
+      "title": "2022年6月 · 第3套",
+      "resources": [
+        {
+          "id": "adc7cae0dfb982a3dae2281e",
+          "level": "CET6",
+          "period": "2022.06",
+          "sets": [
+            2,
+            3
+          ],
+          "category": "paper",
+          "name": "cet6_2022_06_2-3.pdf",
+          "path": "六级/cet六级.zip!/cet六级/2022/cet6_2022_06_2-3.pdf",
+          "url": "/study/resources/adc7cae0dfb982a3dae2281e.pdf",
+          "sourceUrl": null,
+          "bytes": 2020677,
+          "sha256": "adc7cae0dfb982a3dae2281e2f564f43d6e10459a35f8b8d53ee2605edf4e7ab"
+        },
+        {
+          "id": "f1fbbb704b6a3eeb958a2a97",
+          "level": "CET6",
+          "period": "2022.06",
+          "sets": [
+            2,
+            3
+          ],
+          "category": "answer",
+          "name": "cet6_2022_06_2-3_ans.pdf",
+          "path": "六级/cet六级.zip!/cet六级/2022/cet6_2022_06_2-3_ans.pdf",
+          "url": "/study/resources/f1fbbb704b6a3eeb958a2a97.pdf",
+          "sourceUrl": null,
+          "bytes": 3175781,
+          "sha256": "f1fbbb704b6a3eeb958a2a97d1ba602bc3dca2b69a7de1ccb450dd038bb0d81d"
+        }
+      ]
+    },
+    {
+      "key": "cet6-2022-09-set1",
+      "level": "CET6",
+      "title": "2022年9月 · 第1套",
+      "resources": [
+        {
+          "id": "abeb24db02d8b325504de837",
+          "level": "CET6",
+          "period": "2022.09",
+          "sets": [
+            1
+          ],
+          "category": "audio",
+          "name": "cet6_2022_09_1.mp3",
+          "path": "六级/cet六级.zip!/cet六级/2022/cet6_2022_09_1.mp3",
+          "url": "/study/resources/abeb24db02d8b325504de837.m4a",
+          "sourceUrl": null,
+          "bytes": 4836220,
+          "sha256": "abeb24db02d8b325504de83750636b9f8775e0a27a4fc3da7e85b2710d9fe29c"
+        },
+        {
+          "id": "84803728ee7739994faaeeaa",
+          "level": "CET6",
+          "period": "2022.09",
+          "sets": [
+            1
+          ],
+          "category": "paper",
+          "name": "cet6_2022_09_1.pdf",
+          "path": "六级/cet六级.zip!/cet六级/2022/cet6_2022_09_1.pdf",
+          "url": "/study/resources/84803728ee7739994faaeeaa.pdf",
+          "sourceUrl": null,
+          "bytes": 1866299,
+          "sha256": "84803728ee7739994faaeeaa865c236cc41889ebce74d3177daaa8a95e8fdd0f"
+        },
+        {
+          "id": "b642906ad801e9cbbf54e508",
+          "level": "CET6",
+          "period": "2022.09",
+          "sets": [
+            1
+          ],
+          "category": "answer",
+          "name": "cet6_2022_09_1_ans.pdf",
+          "path": "六级/cet六级.zip!/cet六级/2022/cet6_2022_09_1_ans.pdf",
+          "url": "/study/resources/b642906ad801e9cbbf54e508.pdf",
+          "sourceUrl": null,
+          "bytes": 3818207,
+          "sha256": "b642906ad801e9cbbf54e50889d3aaf5d33ec8ded3dd7ad1df16aa73814333a0"
+        }
+      ]
+    },
+    {
+      "key": "cet6-2022-09-set2",
+      "level": "CET6",
+      "title": "2022年9月 · 第2套",
+      "resources": [
+        {
+          "id": "1d7f456011fadb345feb1a75",
+          "level": "CET6",
+          "period": "2022.09",
+          "sets": [
+            2,
+            3
+          ],
+          "category": "paper",
+          "name": "cet6_2022_09_2-3.pdf",
+          "path": "六级/cet六级.zip!/cet六级/2022/cet6_2022_09_2-3.pdf",
+          "url": "/study/resources/1d7f456011fadb345feb1a75.pdf",
+          "sourceUrl": null,
+          "bytes": 189786,
+          "sha256": "1d7f456011fadb345feb1a75cf427b2b448bd0355eff924326f73983f14f28d8"
+        },
+        {
+          "id": "ff0e1c8772dbfa52780377bc",
+          "level": "CET6",
+          "period": "2022.09",
+          "sets": [
+            2,
+            3
+          ],
+          "category": "answer",
+          "name": "cet6_2022_09_2-3_ans.pdf",
+          "path": "六级/cet六级.zip!/cet六级/2022/cet6_2022_09_2-3_ans.pdf",
+          "url": "/study/resources/ff0e1c8772dbfa52780377bc.pdf",
+          "sourceUrl": null,
+          "bytes": 442058,
+          "sha256": "ff0e1c8772dbfa52780377bc0f24d47194e8625a13ef965a9aa68c3bcb9d0406"
+        }
+      ]
+    },
+    {
+      "key": "cet6-2022-09-set3",
+      "level": "CET6",
+      "title": "2022年9月 · 第3套",
+      "resources": [
+        {
+          "id": "1d7f456011fadb345feb1a75",
+          "level": "CET6",
+          "period": "2022.09",
+          "sets": [
+            2,
+            3
+          ],
+          "category": "paper",
+          "name": "cet6_2022_09_2-3.pdf",
+          "path": "六级/cet六级.zip!/cet六级/2022/cet6_2022_09_2-3.pdf",
+          "url": "/study/resources/1d7f456011fadb345feb1a75.pdf",
+          "sourceUrl": null,
+          "bytes": 189786,
+          "sha256": "1d7f456011fadb345feb1a75cf427b2b448bd0355eff924326f73983f14f28d8"
+        },
+        {
+          "id": "ff0e1c8772dbfa52780377bc",
+          "level": "CET6",
+          "period": "2022.09",
+          "sets": [
+            2,
+            3
+          ],
+          "category": "answer",
+          "name": "cet6_2022_09_2-3_ans.pdf",
+          "path": "六级/cet六级.zip!/cet六级/2022/cet6_2022_09_2-3_ans.pdf",
+          "url": "/study/resources/ff0e1c8772dbfa52780377bc.pdf",
+          "sourceUrl": null,
+          "bytes": 442058,
+          "sha256": "ff0e1c8772dbfa52780377bc0f24d47194e8625a13ef965a9aa68c3bcb9d0406"
+        }
+      ]
+    },
+    {
+      "key": "cet6-2022-12-set1",
+      "level": "CET6",
+      "title": "2022年12月 · 第1套",
+      "resources": [
+        {
+          "id": "65cc4ccd5c55a0e1d6fb43df",
+          "level": "CET6",
+          "period": "2022.12",
+          "sets": [
+            1
+          ],
+          "category": "audio",
+          "name": "cet6_2022_12_1.mp3",
+          "path": "六级/cet六级.zip!/cet六级/2022/cet6_2022_12_1.mp3",
+          "url": "/study/resources/65cc4ccd5c55a0e1d6fb43df.m4a",
+          "sourceUrl": null,
+          "bytes": 4816770,
+          "sha256": "65cc4ccd5c55a0e1d6fb43df47980597e5e7da01005d29702534c5332b652de3"
+        },
+        {
+          "id": "6c321c079ddf8aaf5ed9c353",
+          "level": "CET6",
+          "period": "2022.12",
+          "sets": [
+            1
+          ],
+          "category": "paper",
+          "name": "cet6_2022_12_1.pdf",
+          "path": "六级/cet六级.zip!/cet六级/2022/cet6_2022_12_1.pdf",
+          "url": "/study/resources/6c321c079ddf8aaf5ed9c353.pdf",
+          "sourceUrl": null,
+          "bytes": 2131105,
+          "sha256": "6c321c079ddf8aaf5ed9c3531f33ffe43a1ea3c32008bed82e52b56ecbf50550"
+        },
+        {
+          "id": "a6d828b1861e8a5c4f38790f",
+          "level": "CET6",
+          "period": "2022.12",
+          "sets": [
+            1
+          ],
+          "category": "answer",
+          "name": "cet6_2022_12_1_ans.pdf",
+          "path": "六级/cet六级.zip!/cet六级/2022/cet6_2022_12_1_ans.pdf",
+          "url": "/study/resources/a6d828b1861e8a5c4f38790f.pdf",
+          "sourceUrl": null,
+          "bytes": 4311441,
+          "sha256": "a6d828b1861e8a5c4f38790fd79ceacd282a04336f35c6cf7c1592facbfba663"
+        }
+      ]
+    },
+    {
+      "key": "cet6-2022-12-set2",
+      "level": "CET6",
+      "title": "2022年12月 · 第2套",
+      "resources": [
+        {
+          "id": "b026cf64f3145d3d03ff2c4a",
+          "level": "CET6",
+          "period": "2022.12",
+          "sets": [
+            2
+          ],
+          "category": "audio",
+          "name": "cet6_2022_12_2.mp3",
+          "path": "六级/cet六级.zip!/cet六级/2022/cet6_2022_12_2.mp3",
+          "url": "/study/resources/b026cf64f3145d3d03ff2c4a.m4a",
+          "sourceUrl": null,
+          "bytes": 4670587,
+          "sha256": "b026cf64f3145d3d03ff2c4a08482cbb1c682e20bfc328bedda41e0141700e18"
+        },
+        {
+          "id": "52a935ceb2113e22e4b3f519",
+          "level": "CET6",
+          "period": "2022.12",
+          "sets": [
+            2
+          ],
+          "category": "paper",
+          "name": "cet6_2022_12_2.pdf",
+          "path": "六级/cet六级.zip!/cet六级/2022/cet6_2022_12_2.pdf",
+          "url": "/study/resources/52a935ceb2113e22e4b3f519.pdf",
+          "sourceUrl": null,
+          "bytes": 2158961,
+          "sha256": "52a935ceb2113e22e4b3f519635c30b728aedcaeeaf774ca5a0e80f3a88b7966"
+        },
+        {
+          "id": "c342f9415627b0143c951707",
+          "level": "CET6",
+          "period": "2022.12",
+          "sets": [
+            2
+          ],
+          "category": "answer",
+          "name": "cet6_2022_12_2_ans.pdf",
+          "path": "六级/cet六级.zip!/cet六级/2022/cet6_2022_12_2_ans.pdf",
+          "url": "/study/resources/c342f9415627b0143c951707.pdf",
+          "sourceUrl": null,
+          "bytes": 4326216,
+          "sha256": "c342f9415627b0143c951707055234a102354ce9ce9b97b73e2360db94683c58"
+        }
+      ]
+    },
+    {
+      "key": "cet6-2022-12-set3",
+      "level": "CET6",
+      "title": "2022年12月 · 第3套",
+      "resources": [
+        {
+          "id": "ea7339fb589c0f9c82a74c83",
+          "level": "CET6",
+          "period": "2022.12",
+          "sets": [
+            3
+          ],
+          "category": "paper",
+          "name": "cet6_2022_12_3.pdf",
+          "path": "六级/cet六级.zip!/cet六级/2022/cet6_2022_12_3.pdf",
+          "url": "/study/resources/ea7339fb589c0f9c82a74c83.pdf",
+          "sourceUrl": null,
+          "bytes": 1676136,
+          "sha256": "ea7339fb589c0f9c82a74c8325cd97b8440a979e6d42b831fc0d87b58c5c74cd"
+        },
+        {
+          "id": "b9f3285855aa6b20c915a237",
+          "level": "CET6",
+          "period": "2022.12",
+          "sets": [
+            3
+          ],
+          "category": "answer",
+          "name": "cet6_2022_12_3_ans.pdf",
+          "path": "六级/cet六级.zip!/cet六级/2022/cet6_2022_12_3_ans.pdf",
+          "url": "/study/resources/b9f3285855aa6b20c915a237.pdf",
+          "sourceUrl": null,
+          "bytes": 2856991,
+          "sha256": "b9f3285855aa6b20c915a237f7f3ad4bea35fec2579244c5331c9ea24871e79a"
+        }
+      ]
+    },
+    {
+      "key": "cet6-2023-03-set1",
+      "level": "CET6",
+      "title": "2023年3月 · 第1套",
+      "resources": [
+        {
+          "id": "62263b74538dbcaf296ce18a",
+          "level": "CET6",
+          "period": "2023.03",
+          "sets": [
+            1
+          ],
+          "category": "audio",
+          "name": "cet6_2023_03_1.mp3",
+          "path": "六级/cet六级.zip!/cet六级/2023/cet6_2023_03_1.mp3",
+          "url": "/study/resources/62263b74538dbcaf296ce18a.m4a",
+          "sourceUrl": null,
+          "bytes": 4638320,
+          "sha256": "62263b74538dbcaf296ce18a9c262d51e342f18f80324a64ace107cf1dddf6e7"
+        },
+        {
+          "id": "6fb1fd005a0677e2cf800900",
+          "level": "CET6",
+          "period": "2023.03",
+          "sets": [
+            1
+          ],
+          "category": "paper",
+          "name": "cet6_2023_03_1.pdf",
+          "path": "六级/cet六级.zip!/cet六级/2023/cet6_2023_03_1.pdf",
+          "url": "/study/resources/6fb1fd005a0677e2cf800900.pdf",
+          "sourceUrl": null,
+          "bytes": 2087220,
+          "sha256": "6fb1fd005a0677e2cf8009000562cd30f41351d93eebf5c57519b7b5ba10213a"
+        },
+        {
+          "id": "bf81c167a635f8120495d773",
+          "level": "CET6",
+          "period": "2023.03",
+          "sets": [
+            1
+          ],
+          "category": "answer",
+          "name": "cet6_2023_03_1_ans.pdf",
+          "path": "六级/cet六级.zip!/cet六级/2023/cet6_2023_03_1_ans.pdf",
+          "url": "/study/resources/bf81c167a635f8120495d773.pdf",
+          "sourceUrl": null,
+          "bytes": 3952607,
+          "sha256": "bf81c167a635f8120495d77393642b2c8c54ef040bc0239e65a6953a2979b0ec"
+        }
+      ]
+    },
+    {
+      "key": "cet6-2023-03-set2",
+      "level": "CET6",
+      "title": "2023年3月 · 第2套",
+      "resources": [
+        {
+          "id": "2570952cd5781945f79b1e98",
+          "level": "CET6",
+          "period": "2023.03",
+          "sets": [
+            2,
+            3
+          ],
+          "category": "paper",
+          "name": "cet6_2023_03_2-3.pdf",
+          "path": "六级/cet六级.zip!/cet六级/2023/cet6_2023_03_2-3.pdf",
+          "url": "/study/resources/2570952cd5781945f79b1e98.pdf",
+          "sourceUrl": null,
+          "bytes": 564588,
+          "sha256": "2570952cd5781945f79b1e98a48266fb04f8ab815226d504941c14110683b8ea"
+        },
+        {
+          "id": "67cb0dbd2001fc8c9f6d7317",
+          "level": "CET6",
+          "period": "2023.03",
+          "sets": [
+            2,
+            3
+          ],
+          "category": "answer",
+          "name": "cet6_2023_03_2-3_ans.pdf",
+          "path": "六级/cet六级.zip!/cet六级/2023/cet6_2023_03_2-3_ans.pdf",
+          "url": "/study/resources/67cb0dbd2001fc8c9f6d7317.pdf",
+          "sourceUrl": null,
+          "bytes": 788629,
+          "sha256": "67cb0dbd2001fc8c9f6d73177c8f9509aa9652b294e017e1f06280cd71aac053"
+        }
+      ]
+    },
+    {
+      "key": "cet6-2023-03-set3",
+      "level": "CET6",
+      "title": "2023年3月 · 第3套",
+      "resources": [
+        {
+          "id": "2570952cd5781945f79b1e98",
+          "level": "CET6",
+          "period": "2023.03",
+          "sets": [
+            2,
+            3
+          ],
+          "category": "paper",
+          "name": "cet6_2023_03_2-3.pdf",
+          "path": "六级/cet六级.zip!/cet六级/2023/cet6_2023_03_2-3.pdf",
+          "url": "/study/resources/2570952cd5781945f79b1e98.pdf",
+          "sourceUrl": null,
+          "bytes": 564588,
+          "sha256": "2570952cd5781945f79b1e98a48266fb04f8ab815226d504941c14110683b8ea"
+        },
+        {
+          "id": "67cb0dbd2001fc8c9f6d7317",
+          "level": "CET6",
+          "period": "2023.03",
+          "sets": [
+            2,
+            3
+          ],
+          "category": "answer",
+          "name": "cet6_2023_03_2-3_ans.pdf",
+          "path": "六级/cet六级.zip!/cet六级/2023/cet6_2023_03_2-3_ans.pdf",
+          "url": "/study/resources/67cb0dbd2001fc8c9f6d7317.pdf",
+          "sourceUrl": null,
+          "bytes": 788629,
+          "sha256": "67cb0dbd2001fc8c9f6d73177c8f9509aa9652b294e017e1f06280cd71aac053"
+        }
+      ]
+    },
+    {
+      "key": "cet6-2023-06-set1",
+      "level": "CET6",
+      "title": "2023年6月 · 第1套",
+      "resources": [
+        {
+          "id": "26b738bcfd8064454d207788",
+          "level": "CET6",
+          "period": "2023.06",
+          "sets": [
+            1
+          ],
+          "category": "audio",
+          "name": "cet6_2023_06_1.mp3",
+          "path": "六级/cet六级.zip!/cet六级/2023/cet6_2023_06_1.mp3",
+          "url": "/study/resources/26b738bcfd8064454d207788.m4a",
+          "sourceUrl": null,
+          "bytes": 4867096,
+          "sha256": "26b738bcfd8064454d207788f225cd5d9efec6007ccb7ab32997992dab1a2583"
+        },
+        {
+          "id": "a64db8e40f453ed492ca11b8",
+          "level": "CET6",
+          "period": "2023.06",
+          "sets": [
+            1
+          ],
+          "category": "paper",
+          "name": "cet6_2023_06_1.pdf",
+          "path": "六级/cet六级.zip!/cet六级/2023/cet6_2023_06_1.pdf",
+          "url": "/study/resources/a64db8e40f453ed492ca11b8.pdf",
+          "sourceUrl": null,
+          "bytes": 2166290,
+          "sha256": "a64db8e40f453ed492ca11b86a9788e760bac393210809965215082d06256859"
+        },
+        {
+          "id": "10eb0d5fabd474de7a7fa466",
+          "level": "CET6",
+          "period": "2023.06",
+          "sets": [
+            1
+          ],
+          "category": "answer",
+          "name": "cet6_2023_06_1_ans.pdf",
+          "path": "六级/cet六级.zip!/cet六级/2023/cet6_2023_06_1_ans.pdf",
+          "url": "/study/resources/10eb0d5fabd474de7a7fa466.pdf",
+          "sourceUrl": null,
+          "bytes": 3998977,
+          "sha256": "10eb0d5fabd474de7a7fa4662b652b7ed346dff955e43639f9ce35d34be12f4b"
+        }
+      ]
+    },
+    {
+      "key": "cet6-2023-06-set2",
+      "level": "CET6",
+      "title": "2023年6月 · 第2套",
+      "resources": [
+        {
+          "id": "01589e03c9d336ff2de10491",
+          "level": "CET6",
+          "period": "2023.06",
+          "sets": [
+            2
+          ],
+          "category": "audio",
+          "name": "cet6_2023_06_2.mp3",
+          "path": "六级/cet六级.zip!/cet六级/2023/cet6_2023_06_2.mp3",
+          "url": "/study/resources/01589e03c9d336ff2de10491.m4a",
+          "sourceUrl": null,
+          "bytes": 4867191,
+          "sha256": "01589e03c9d336ff2de10491d6e5c52e4cf3dc015dc4bab24bea0b1f113d932f"
+        },
+        {
+          "id": "2eef014b50171097056d0f0f",
+          "level": "CET6",
+          "period": "2023.06",
+          "sets": [
+            2
+          ],
+          "category": "paper",
+          "name": "cet6_2023_06_2.pdf",
+          "path": "六级/cet六级.zip!/cet六级/2023/cet6_2023_06_2.pdf",
+          "url": "/study/resources/2eef014b50171097056d0f0f.pdf",
+          "sourceUrl": null,
+          "bytes": 2140027,
+          "sha256": "2eef014b50171097056d0f0f0cff7e115c4202a9299d3e860b9dba15fb56efd9"
+        },
+        {
+          "id": "cad4430dd1077d4fa67ec65b",
+          "level": "CET6",
+          "period": "2023.06",
+          "sets": [
+            2
+          ],
+          "category": "answer",
+          "name": "cet6_2023_06_2_ans.pdf",
+          "path": "六级/cet六级.zip!/cet六级/2023/cet6_2023_06_2_ans.pdf",
+          "url": "/study/resources/cad4430dd1077d4fa67ec65b.pdf",
+          "sourceUrl": null,
+          "bytes": 4095971,
+          "sha256": "cad4430dd1077d4fa67ec65b82ab4fe703d16b6e0ba3931469fbb325d8cef201"
+        }
+      ]
+    },
+    {
+      "key": "cet6-2023-06-set3",
+      "level": "CET6",
+      "title": "2023年6月 · 第3套",
+      "resources": [
+        {
+          "id": "12c74cd2a8ce94dc3efa2a17",
+          "level": "CET6",
+          "period": "2023.06",
+          "sets": [
+            3
+          ],
+          "category": "paper",
+          "name": "cet6_2023_06_3.pdf",
+          "path": "六级/cet六级.zip!/cet六级/2023/cet6_2023_06_3.pdf",
+          "url": "/study/resources/12c74cd2a8ce94dc3efa2a17.pdf",
+          "sourceUrl": null,
+          "bytes": 1696021,
+          "sha256": "12c74cd2a8ce94dc3efa2a178af99c36df6d03fe1611f178c89a9392c4e26ca2"
+        },
+        {
+          "id": "ba703aec961b4fb6f32a9352",
+          "level": "CET6",
+          "period": "2023.06",
+          "sets": [
+            3
+          ],
+          "category": "answer",
+          "name": "cet6_2023_06_3_ans.pdf",
+          "path": "六级/cet六级.zip!/cet六级/2023/cet6_2023_06_3_ans.pdf",
+          "url": "/study/resources/ba703aec961b4fb6f32a9352.pdf",
+          "sourceUrl": null,
+          "bytes": 2480122,
+          "sha256": "ba703aec961b4fb6f32a9352cd446bf9161a194f73f5d7081b8f82ce1aa54e44"
+        }
+      ]
+    },
+    {
+      "key": "cet6-2023-12-set1",
+      "level": "CET6",
+      "title": "2023年12月 · 第1套",
+      "resources": [
+        {
+          "id": "e022f8e815a39bb302fd9166",
+          "level": "CET6",
+          "period": "2023.12",
+          "sets": [
+            1
+          ],
+          "category": "audio",
+          "name": "cet6_2023_12_1.mp3",
+          "path": "六级/cet六级.zip!/cet六级/2023/cet6_2023_12_1.mp3",
+          "url": "/study/resources/e022f8e815a39bb302fd9166.m4a",
+          "sourceUrl": null,
+          "bytes": 4614123,
+          "sha256": "e022f8e815a39bb302fd91669d3a79f674703da61ee0e2589a6af0db48f3eff5"
+        },
+        {
+          "id": "942e09a84d31a40ffd1bc77f",
+          "level": "CET6",
+          "period": "2023.12",
+          "sets": [
+            1
+          ],
+          "category": "paper",
+          "name": "cet6_2023_12_1.pdf",
+          "path": "六级/cet六级.zip!/cet六级/2023/cet6_2023_12_1.pdf",
+          "url": "/study/resources/942e09a84d31a40ffd1bc77f.pdf",
+          "sourceUrl": null,
+          "bytes": 2177653,
+          "sha256": "942e09a84d31a40ffd1bc77fcb5bb0611a05a1bb7408e0514ffbc4807ae40a9a"
+        },
+        {
+          "id": "ad69525f548d6cf1d331a50e",
+          "level": "CET6",
+          "period": "2023.12",
+          "sets": [
+            1
+          ],
+          "category": "answer",
+          "name": "cet6_2023_12_1_ans.pdf",
+          "path": "六级/cet六级.zip!/cet六级/2023/cet6_2023_12_1_ans.pdf",
+          "url": "/study/resources/ad69525f548d6cf1d331a50e.pdf",
+          "sourceUrl": null,
+          "bytes": 4337532,
+          "sha256": "ad69525f548d6cf1d331a50e8e6ede4ae9e7eff98e0fb264ceaba05789b408da"
+        }
+      ]
+    },
+    {
+      "key": "cet6-2023-12-set2",
+      "level": "CET6",
+      "title": "2023年12月 · 第2套",
+      "resources": [
+        {
+          "id": "39b8be4ef5e62c70ec3f56bc",
+          "level": "CET6",
+          "period": "2023.12",
+          "sets": [
+            2
+          ],
+          "category": "audio",
+          "name": "cet6_2023_12_2.mp3",
+          "path": "六级/cet六级.zip!/cet六级/2023/cet6_2023_12_2.mp3",
+          "url": "/study/resources/39b8be4ef5e62c70ec3f56bc.m4a",
+          "sourceUrl": null,
+          "bytes": 4605643,
+          "sha256": "39b8be4ef5e62c70ec3f56bc3143f93ab5de26cba35b7606f234701f87cfaa7d"
+        },
+        {
+          "id": "35f400af8df9a622f257dd9e",
+          "level": "CET6",
+          "period": "2023.12",
+          "sets": [
+            2
+          ],
+          "category": "paper",
+          "name": "cet6_2023_12_2.pdf",
+          "path": "六级/cet六级.zip!/cet六级/2023/cet6_2023_12_2.pdf",
+          "url": "/study/resources/35f400af8df9a622f257dd9e.pdf",
+          "sourceUrl": null,
+          "bytes": 2233496,
+          "sha256": "35f400af8df9a622f257dd9e460513e09d609ddd82716cbba924736cd389c3b9"
+        },
+        {
+          "id": "14fdc572b79c8e0552965365",
+          "level": "CET6",
+          "period": "2023.12",
+          "sets": [
+            2
+          ],
+          "category": "answer",
+          "name": "cet6_2023_12_2_ans.pdf",
+          "path": "六级/cet六级.zip!/cet六级/2023/cet6_2023_12_2_ans.pdf",
+          "url": "/study/resources/14fdc572b79c8e0552965365.pdf",
+          "sourceUrl": null,
+          "bytes": 4275436,
+          "sha256": "14fdc572b79c8e05529653653d03c3229c42338d95a79caf4e3f9620397d4262"
+        }
+      ]
+    },
+    {
+      "key": "cet6-2023-12-set3",
+      "level": "CET6",
+      "title": "2023年12月 · 第3套",
+      "resources": [
+        {
+          "id": "863dce5f60d8f4dad1b0920e",
+          "level": "CET6",
+          "period": "2023.12",
+          "sets": [
+            3
+          ],
+          "category": "paper",
+          "name": "cet6_2023_12_3.pdf",
+          "path": "六级/cet六级.zip!/cet六级/2023/cet6_2023_12_3.pdf",
+          "url": "/study/resources/863dce5f60d8f4dad1b0920e.pdf",
+          "sourceUrl": null,
+          "bytes": 1706154,
+          "sha256": "863dce5f60d8f4dad1b0920e70bcba80542644750f517f634be950c61f4b1fd6"
+        },
+        {
+          "id": "06d37c126560c340ae2a6572",
+          "level": "CET6",
+          "period": "2023.12",
+          "sets": [
+            3
+          ],
+          "category": "answer",
+          "name": "cet6_2023_12_3_ans.pdf",
+          "path": "六级/cet六级.zip!/cet六级/2023/cet6_2023_12_3_ans.pdf",
+          "url": "/study/resources/06d37c126560c340ae2a6572.pdf",
+          "sourceUrl": null,
+          "bytes": 2580492,
+          "sha256": "06d37c126560c340ae2a65728a5bdd8305f621a8a04fc9a52254b96dfae8c158"
+        }
+      ]
+    },
+    {
+      "key": "cet6-2024-06-set1",
+      "level": "CET6",
+      "title": "2024年6月 · 第1套",
+      "resources": [
+        {
+          "id": "98f87cce756cf13824d13b30",
+          "level": "CET6",
+          "period": "2024.06",
+          "sets": [
+            1
+          ],
+          "category": "audio",
+          "name": "cet6_2024_06_1.mp3",
+          "path": "六级/cet六级.zip!/cet六级/2024/cet6_2024_06_1.mp3",
+          "url": "/study/resources/98f87cce756cf13824d13b30.m4a",
+          "sourceUrl": null,
+          "bytes": 4771487,
+          "sha256": "98f87cce756cf13824d13b3014b9d62294327d7d3d2784f01b8ba83483b73517"
+        },
+        {
+          "id": "ef879d945d233082b357ac48",
+          "level": "CET6",
+          "period": "2024.06",
+          "sets": [
+            1
+          ],
+          "category": "paper",
+          "name": "cet6_2024_06_1.pdf",
+          "path": "六级/cet六级.zip!/cet六级/2024/cet6_2024_06_1.pdf",
+          "url": "/study/resources/ef879d945d233082b357ac48.pdf",
+          "sourceUrl": null,
+          "bytes": 377948,
+          "sha256": "ef879d945d233082b357ac48a524d9f755b4aa63deffa246c6cb86c32440431f"
+        },
+        {
+          "id": "42f6e5da3395b3dccdb2669e",
+          "level": "CET6",
+          "period": "2024.06",
+          "sets": [
+            1
+          ],
+          "category": "answer",
+          "name": "cet6_2024_06_1_ans.pdf",
+          "path": "六级/cet六级.zip!/cet六级/2024/cet6_2024_06_1_ans.pdf",
+          "url": "/study/resources/42f6e5da3395b3dccdb2669e.pdf",
+          "sourceUrl": null,
+          "bytes": 4052285,
+          "sha256": "42f6e5da3395b3dccdb2669e7bc3321f30b7d45f93d862cb3ca30569a31b0425"
+        }
+      ]
+    },
+    {
+      "key": "cet6-2024-06-set2",
+      "level": "CET6",
+      "title": "2024年6月 · 第2套",
+      "resources": [
+        {
+          "id": "fac9987f4ecb6ba750134dcb",
+          "level": "CET6",
+          "period": "2024.06",
+          "sets": [
+            2
+          ],
+          "category": "audio",
+          "name": "cet6_2024_06_2.mp3",
+          "path": "六级/cet六级.zip!/cet六级/2024/cet6_2024_06_2.mp3",
+          "url": "/study/resources/fac9987f4ecb6ba750134dcb.m4a",
+          "sourceUrl": null,
+          "bytes": 4561348,
+          "sha256": "fac9987f4ecb6ba750134dcb05e6553b8b8afb6d9da8febd3c31cdf0a435b74c"
+        },
+        {
+          "id": "3df3ad48a9094dac4cc62aee",
+          "level": "CET6",
+          "period": "2024.06",
+          "sets": [
+            2
+          ],
+          "category": "paper",
+          "name": "cet6_2024_06_2.pdf",
+          "path": "六级/cet六级.zip!/cet六级/2024/cet6_2024_06_2.pdf",
+          "url": "/study/resources/3df3ad48a9094dac4cc62aee.pdf",
+          "sourceUrl": null,
+          "bytes": 263843,
+          "sha256": "3df3ad48a9094dac4cc62aee9b80c05b6cfd3b140ff1d121986ed2edd670c48c"
+        },
+        {
+          "id": "0a21dd50e50577134303fd0e",
+          "level": "CET6",
+          "period": "2024.06",
+          "sets": [
+            2
+          ],
+          "category": "answer",
+          "name": "cet6_2024_06_2_ans.pdf",
+          "path": "六级/cet六级.zip!/cet六级/2024/cet6_2024_06_2_ans.pdf",
+          "url": "/study/resources/0a21dd50e50577134303fd0e.pdf",
+          "sourceUrl": null,
+          "bytes": 4012164,
+          "sha256": "0a21dd50e50577134303fd0e15dece6f16a2ef1d89fb57d1dcda20acc383ef83"
+        }
+      ]
+    },
+    {
+      "key": "cet6-2024-06-set3",
+      "level": "CET6",
+      "title": "2024年6月 · 第3套",
+      "resources": [
+        {
+          "id": "58bdf2e4cf9ad757887bac3e",
+          "level": "CET6",
+          "period": "2024.06",
+          "sets": [
+            3
+          ],
+          "category": "paper",
+          "name": "cet6_2024_06_3.pdf",
+          "path": "六级/cet六级.zip!/cet六级/2024/cet6_2024_06_3.pdf",
+          "url": "/study/resources/58bdf2e4cf9ad757887bac3e.pdf",
+          "sourceUrl": null,
+          "bytes": 339662,
+          "sha256": "58bdf2e4cf9ad757887bac3e3901f66e092e8e7d7d0c6b56a6c137c0b2d00d54"
+        },
+        {
+          "id": "389494605c21e439c776bace",
+          "level": "CET6",
+          "period": "2024.06",
+          "sets": [
+            3
+          ],
+          "category": "answer",
+          "name": "cet6_2024_06_3_ans.pdf",
+          "path": "六级/cet六级.zip!/cet六级/2024/cet6_2024_06_3_ans.pdf",
+          "url": "/study/resources/389494605c21e439c776bace.pdf",
+          "sourceUrl": null,
+          "bytes": 2267958,
+          "sha256": "389494605c21e439c776bace09a376274fb7ffe798909cd129ccaf7e3fbb6558"
+        }
+      ]
+    },
+    {
+      "key": "cet6-2024-12-set1",
+      "level": "CET6",
+      "title": "2024年12月 · 第1套",
+      "resources": [
+        {
+          "id": "c2b4564130553a8856aff78b",
+          "level": "CET6",
+          "period": "2024.12",
+          "sets": [
+            1
+          ],
+          "category": "audio",
+          "name": "cet6_2024_12_1.mp3",
+          "path": "六级/cet六级.zip!/cet六级/2024/cet6_2024_12_1.mp3",
+          "url": "/study/resources/c2b4564130553a8856aff78b.m4a",
+          "sourceUrl": null,
+          "bytes": 4906476,
+          "sha256": "c2b4564130553a8856aff78bef55a0a26449ce40dbdcc3638114771bccac6e36"
+        },
+        {
+          "id": "5d71737190c7a6951d25c9ec",
+          "level": "CET6",
+          "period": "2024.12",
+          "sets": [
+            1
+          ],
+          "category": "paper",
+          "name": "cet6_2024_12_1.pdf",
+          "path": "六级/cet六级.zip!/cet六级/2024/cet6_2024_12_1.pdf",
+          "url": "/study/resources/5d71737190c7a6951d25c9ec.pdf",
+          "sourceUrl": null,
+          "bytes": 371414,
+          "sha256": "5d71737190c7a6951d25c9ecd8645c0068ceb29f032f5962c94ea8d776e46672"
+        },
+        {
+          "id": "d38117a060c24d64d4155ed9",
+          "level": "CET6",
+          "period": "2024.12",
+          "sets": [
+            1
+          ],
+          "category": "answer",
+          "name": "cet6_2024_12_1_ans.pdf",
+          "path": "六级/cet六级.zip!/cet六级/2024/cet6_2024_12_1_ans.pdf",
+          "url": "/study/resources/d38117a060c24d64d4155ed9.pdf",
+          "sourceUrl": null,
+          "bytes": 4147614,
+          "sha256": "d38117a060c24d64d4155ed94d1d6d53ed359387ce4b42e3fa4c314bbe5be11e"
+        }
+      ]
+    },
+    {
+      "key": "cet6-2024-12-set2",
+      "level": "CET6",
+      "title": "2024年12月 · 第2套",
+      "resources": [
+        {
+          "id": "404b8a20d3881ad478e88c62",
+          "level": "CET6",
+          "period": "2024.12",
+          "sets": [
+            2
+          ],
+          "category": "audio",
+          "name": "cet6_2024_12_2.mp3",
+          "path": "六级/cet六级.zip!/cet六级/2024/cet6_2024_12_2.mp3",
+          "url": "/study/resources/404b8a20d3881ad478e88c62.m4a",
+          "sourceUrl": null,
+          "bytes": 4830413,
+          "sha256": "404b8a20d3881ad478e88c62cd9434989182c8c3e45cc8277aab3a3f07a0431b"
+        },
+        {
+          "id": "de0f410d0edaa896970727b7",
+          "level": "CET6",
+          "period": "2024.12",
+          "sets": [
+            2
+          ],
+          "category": "paper",
+          "name": "cet6_2024_12_2.pdf",
+          "path": "六级/cet六级.zip!/cet六级/2024/cet6_2024_12_2.pdf",
+          "url": "/study/resources/de0f410d0edaa896970727b7.pdf",
+          "sourceUrl": null,
+          "bytes": 354412,
+          "sha256": "de0f410d0edaa896970727b75cee67960b52459588ad7a7331d18f4c97d0dff4"
+        },
+        {
+          "id": "ba1adaa0c37803dd04a10541",
+          "level": "CET6",
+          "period": "2024.12",
+          "sets": [
+            2
+          ],
+          "category": "answer",
+          "name": "cet6_2024_12_2_ans.pdf",
+          "path": "六级/cet六级.zip!/cet六级/2024/cet6_2024_12_2_ans.pdf",
+          "url": "/study/resources/ba1adaa0c37803dd04a10541.pdf",
+          "sourceUrl": null,
+          "bytes": 4138091,
+          "sha256": "ba1adaa0c37803dd04a105410cd22c8ca39df1694f8022195bbe69621736b6bd"
+        }
+      ]
+    },
+    {
+      "key": "cet6-2024-12-set3",
+      "level": "CET6",
+      "title": "2024年12月 · 第3套",
+      "resources": [
+        {
+          "id": "4eff618e3b7b6ab54f2c9c25",
+          "level": "CET6",
+          "period": "2024.12",
+          "sets": [
+            3
+          ],
+          "category": "paper",
+          "name": "cet6_2024_12_3.pdf",
+          "path": "六级/cet六级.zip!/cet六级/2024/cet6_2024_12_3.pdf",
+          "url": "/study/resources/4eff618e3b7b6ab54f2c9c25.pdf",
+          "sourceUrl": null,
+          "bytes": 319338,
+          "sha256": "4eff618e3b7b6ab54f2c9c2528b6ac23039c3650af035bd3d4bb3e104a775d8f"
+        },
+        {
+          "id": "f6469f9b62d2a3e84f20abc6",
+          "level": "CET6",
+          "period": "2024.12",
+          "sets": [
+            3
+          ],
+          "category": "answer",
+          "name": "cet6_2024_12_3_ans.pdf",
+          "path": "六级/cet六级.zip!/cet六级/2024/cet6_2024_12_3_ans.pdf",
+          "url": "/study/resources/f6469f9b62d2a3e84f20abc6.pdf",
+          "sourceUrl": null,
+          "bytes": 2652407,
+          "sha256": "f6469f9b62d2a3e84f20abc697eeb40d89fd1c1a7b5584588e840a30c09036d8"
+        }
+      ]
+    },
+    {
+      "key": "cet6-2025-06-set1",
+      "level": "CET6",
+      "title": "2025年6月 · 第1套",
+      "resources": [
+        {
+          "id": "90906779576f8a32d14030d3",
+          "level": "CET6",
+          "period": "2025.06",
+          "sets": [
+            1
+          ],
+          "category": "audio",
+          "name": "cet6_2025_06_1.mp3",
+          "path": "六级/cet六级.zip!/cet六级/2025/cet6_2025_06_1.mp3",
+          "url": "/study/resources/90906779576f8a32d14030d3.m4a",
+          "sourceUrl": null,
+          "bytes": 4587324,
+          "sha256": "90906779576f8a32d14030d3d394a7bea33322c276c9701728173aff36912703"
+        },
+        {
+          "id": "15ac17ef0cf3089ca11c833e",
+          "level": "CET6",
+          "period": "2025.06",
+          "sets": [
+            1
+          ],
+          "category": "paper",
+          "name": "cet6_2025_06_1.pdf",
+          "path": "六级/cet六级.zip!/cet六级/2025/cet6_2025_06_1.pdf",
+          "url": "/study/resources/15ac17ef0cf3089ca11c833e.pdf",
+          "sourceUrl": null,
+          "bytes": 356282,
+          "sha256": "15ac17ef0cf3089ca11c833ecd20b55955b33b4043f27093280222a0d79117b8"
+        },
+        {
+          "id": "19f33693d4e9b6f0d4b709c0",
+          "level": "CET6",
+          "period": "2025.06",
+          "sets": [
+            1
+          ],
+          "category": "answer",
+          "name": "cet6_2025_06_1_ans.pdf",
+          "path": "六级/cet六级.zip!/cet六级/2025/cet6_2025_06_1_ans.pdf",
+          "url": "/study/resources/19f33693d4e9b6f0d4b709c0.pdf",
+          "sourceUrl": null,
+          "bytes": 4745121,
+          "sha256": "19f33693d4e9b6f0d4b709c035bfc37b7a9efedb1c430dd81c383330a7eaabbe"
+        }
+      ]
+    },
+    {
+      "key": "cet6-2025-06-set2",
+      "level": "CET6",
+      "title": "2025年6月 · 第2套",
+      "resources": [
+        {
+          "id": "eb99adfdf23c1b7f8ad93d7c",
+          "level": "CET6",
+          "period": "2025.06",
+          "sets": [
+            2
+          ],
+          "category": "audio",
+          "name": "cet6_2025_06_2.mp3",
+          "path": "六级/cet六级.zip!/cet六级/2025/cet6_2025_06_2.mp3",
+          "url": "/study/resources/eb99adfdf23c1b7f8ad93d7c.m4a",
+          "sourceUrl": null,
+          "bytes": 4616581,
+          "sha256": "eb99adfdf23c1b7f8ad93d7c30be8d354f104801760c318b9d352ff984fe4196"
+        },
+        {
+          "id": "7b6186d254a6910a18e17de0",
+          "level": "CET6",
+          "period": "2025.06",
+          "sets": [
+            2
+          ],
+          "category": "paper",
+          "name": "cet6_2025_06_2.pdf",
+          "path": "六级/cet六级.zip!/cet六级/2025/cet6_2025_06_2.pdf",
+          "url": "/study/resources/7b6186d254a6910a18e17de0.pdf",
+          "sourceUrl": null,
+          "bytes": 361272,
+          "sha256": "7b6186d254a6910a18e17de09e2112f37f4b4d0d6370626b9fbedbc09e73c11c"
+        },
+        {
+          "id": "572a48d26cc248013f24e8eb",
+          "level": "CET6",
+          "period": "2025.06",
+          "sets": [
+            2
+          ],
+          "category": "answer",
+          "name": "cet6_2025_06_2_ans.pdf",
+          "path": "六级/cet六级.zip!/cet六级/2025/cet6_2025_06_2_ans.pdf",
+          "url": "/study/resources/572a48d26cc248013f24e8eb.pdf",
+          "sourceUrl": null,
+          "bytes": 4586614,
+          "sha256": "572a48d26cc248013f24e8eb456f463cced743877a6f9907f4a7e51ed94a96ac"
+        }
+      ]
+    },
+    {
+      "key": "cet6-2025-06-set3",
+      "level": "CET6",
+      "title": "2025年6月 · 第3套",
+      "resources": [
+        {
+          "id": "0b517826acf7326d7528bf0f",
+          "level": "CET6",
+          "period": "2025.06",
+          "sets": [
+            3
+          ],
+          "category": "paper",
+          "name": "cet6_2025_06_3.pdf",
+          "path": "六级/cet六级.zip!/cet六级/2025/cet6_2025_06_3.pdf",
+          "url": "/study/resources/0b517826acf7326d7528bf0f.pdf",
+          "sourceUrl": null,
+          "bytes": 325142,
+          "sha256": "0b517826acf7326d7528bf0f4d92ec24a30a095ec6bf05610d6a3ce1722a1696"
+        },
+        {
+          "id": "7998dce6589556e93193d7b7",
+          "level": "CET6",
+          "period": "2025.06",
+          "sets": [
+            3
+          ],
+          "category": "answer",
+          "name": "cet6_2025_06_3_ans.pdf",
+          "path": "六级/cet六级.zip!/cet六级/2025/cet6_2025_06_3_ans.pdf",
+          "url": "/study/resources/7998dce6589556e93193d7b7.pdf",
+          "sourceUrl": null,
+          "bytes": 2879353,
+          "sha256": "7998dce6589556e93193d7b73b0c4502fb1b8da58bfb3d9daeb394934ae085fe"
+        }
+      ]
+    },
+    {
+      "key": "cet6-2025-12-set1",
+      "level": "CET6",
+      "title": "2025年12月 · 第1套",
+      "resources": [
+        {
+          "id": "71db45f76bb1ca6f037986b2",
+          "level": "CET6",
+          "period": "2025.12",
+          "sets": [
+            1
+          ],
+          "category": "audio",
+          "name": "cet6_2025_12_1.mp3",
+          "path": "六级/cet六级.zip!/cet六级/2025/cet6_2025_12_1.mp3",
+          "url": "/study/resources/71db45f76bb1ca6f037986b2.m4a",
+          "sourceUrl": null,
+          "bytes": 4546308,
+          "sha256": "71db45f76bb1ca6f037986b248f6a31341318e66d93950d52cd8fb3dcc09838c"
+        },
+        {
+          "id": "4fac338c84e06f95f341947d",
+          "level": "CET6",
+          "period": "2025.12",
+          "sets": [
+            1
+          ],
+          "category": "paper",
+          "name": "cet6_2025_12_1.pdf",
+          "path": "六级/cet六级.zip!/cet六级/2025/cet6_2025_12_1.pdf",
+          "url": "/study/resources/4fac338c84e06f95f341947d.pdf",
+          "sourceUrl": null,
+          "bytes": 307920,
+          "sha256": "4fac338c84e06f95f341947d9944b3f5434d0074705762eb0a2c8945499dc1a3"
+        },
+        {
+          "id": "62476a894db0d68e6ff94688",
+          "level": "CET6",
+          "period": "2025.12",
+          "sets": [
+            1
+          ],
+          "category": "answer",
+          "name": "cet6_2025_12_1_ans.pdf",
+          "path": "六级/cet六级.zip!/cet六级/2025/cet6_2025_12_1_ans.pdf",
+          "url": "/study/resources/62476a894db0d68e6ff94688.pdf",
+          "sourceUrl": null,
+          "bytes": 4262874,
+          "sha256": "62476a894db0d68e6ff94688a7b9fab88479992dc67d53714a17b2a6c14b9fe5"
+        }
+      ]
+    },
+    {
+      "key": "cet6-2025-12-set2",
+      "level": "CET6",
+      "title": "2025年12月 · 第2套",
+      "resources": [
+        {
+          "id": "a3b51d42450edaee5d85d6e9",
+          "level": "CET6",
+          "period": "2025.12",
+          "sets": [
+            2
+          ],
+          "category": "audio",
+          "name": "cet6_2025_12_2.mp3",
+          "path": "六级/cet六级.zip!/cet六级/2025/cet6_2025_12_2.mp3",
+          "url": "/study/resources/a3b51d42450edaee5d85d6e9.m4a",
+          "sourceUrl": null,
+          "bytes": 4579121,
+          "sha256": "a3b51d42450edaee5d85d6e997251f4c1300b645d0f71529bd103c8c1a5fc2d7"
+        },
+        {
+          "id": "ad6b856ce3aa9647344d7ad1",
+          "level": "CET6",
+          "period": "2025.12",
+          "sets": [
+            2
+          ],
+          "category": "paper",
+          "name": "cet6_2025_12_2.pdf",
+          "path": "六级/cet六级.zip!/cet六级/2025/cet6_2025_12_2.pdf",
+          "url": "/study/resources/ad6b856ce3aa9647344d7ad1.pdf",
+          "sourceUrl": null,
+          "bytes": 303543,
+          "sha256": "ad6b856ce3aa9647344d7ad1caa4bfbcbb074effa49f1ab787f7ab20859d52ed"
+        },
+        {
+          "id": "12c8f46be673a6aefc2b34ec",
+          "level": "CET6",
+          "period": "2025.12",
+          "sets": [
+            2
+          ],
+          "category": "answer",
+          "name": "cet6_2025_12_2_ans.pdf",
+          "path": "六级/cet六级.zip!/cet六级/2025/cet6_2025_12_2_ans.pdf",
+          "url": "/study/resources/12c8f46be673a6aefc2b34ec.pdf",
+          "sourceUrl": null,
+          "bytes": 4402707,
+          "sha256": "12c8f46be673a6aefc2b34ec8d093187a3b91ec8f91f65cd45bf5cec8d241b80"
+        }
+      ]
+    },
+    {
+      "key": "cet6-2025-12-set3",
+      "level": "CET6",
+      "title": "2025年12月 · 第3套",
+      "resources": [
+        {
+          "id": "9151ec800264de84ecee25f0",
+          "level": "CET6",
+          "period": "2025.12",
+          "sets": [
+            3
+          ],
+          "category": "paper",
+          "name": "cet6_2025_12_3.pdf",
+          "path": "六级/cet六级.zip!/cet六级/2025/cet6_2025_12_3.pdf",
+          "url": "/study/resources/9151ec800264de84ecee25f0.pdf",
+          "sourceUrl": null,
+          "bytes": 299050,
+          "sha256": "9151ec800264de84ecee25f07bd37bee283c411ae821259fd6055cbf9b1d7c2b"
+        },
+        {
+          "id": "0678793832a086d7949e66a6",
+          "level": "CET6",
+          "period": "2025.12",
+          "sets": [
+            3
+          ],
+          "category": "answer",
+          "name": "cet6_2025_12_3_ans.pdf",
+          "path": "六级/cet六级.zip!/cet六级/2025/cet6_2025_12_3_ans.pdf",
+          "url": "/study/resources/0678793832a086d7949e66a6.pdf",
+          "sourceUrl": null,
+          "bytes": 2465967,
+          "sha256": "0678793832a086d7949e66a6301e453f9f678bf6bd34d990d2f415e1b64b7d05"
+        }
+      ]
+    }
+  ]
+}

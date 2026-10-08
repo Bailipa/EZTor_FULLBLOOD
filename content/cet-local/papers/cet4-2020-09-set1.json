@@ -1,0 +1,1092 @@
+{
+  "slug": "cet4-2020-09-set1-full",
+  "version": 1,
+  "title": "2020年9月 · 第1套整卷模拟真题",
+  "level": "CET4",
+  "kind": "FULL",
+  "originType": "PAST_EXAM",
+  "sourceName": "用户提供的本地四六级资料",
+  "sourceUrl": "/study/resources/76238505bbeb339e881616bd.pdf",
+  "rightsHolder": "原试卷及解析作者",
+  "rightsEvidence": "用户提供本地资源并要求接入本地学习系统；原文件及校验值见 content/cet-local/index.json。未授权公开再分发或生产部署。",
+  "content": {
+    "WRITING": {
+      "instructions": "原卷写作要求",
+      "prompt": "Directions: For this part, you are allowed 30 minutes to write an essay on online libraries. You can start your essay with the sentence \"Online libraries are becoming increasingly popular\". You should write at least 120 words but no more than 180 words.",
+      "questions": [],
+      "audio": [],
+      "passages": [],
+      "minimumWords": 120,
+      "maximumWords": 180,
+      "sourceFileUrl": "/study/resources/76238505bbeb339e881616bd.pdf"
+    },
+    "LISTENING": {
+      "instructions": "原卷听力选择题",
+      "questions": [
+        {
+          "id": "cet4-2020-09-set1-q1",
+          "type": "NEWS",
+          "prompt": "第 1 题(题干在原始录音中)",
+          "choices": [
+            "Ship traffic in the Atlantic.",
+            "Warm currents in the ocean.",
+            "Exhaust from cars in Europe.",
+            "Particles emitted by power plants."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "audioId": "cet4-2020-09-set1-audio"
+        },
+        {
+          "id": "cet4-2020-09-set1-q2",
+          "type": "NEWS",
+          "prompt": "第 2 题(题干在原始录音中)",
+          "choices": [
+            "They need to be taken seriously.",
+            "They have a huge effect on fishery.",
+            "They might be causing trouble to air flights.",
+            "They may be affecting the world's climate."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "audioId": "cet4-2020-09-set1-audio"
+        },
+        {
+          "id": "cet4-2020-09-set1-q3",
+          "type": "NEWS",
+          "prompt": "第 3 题(题干在原始录音中)",
+          "choices": [
+            "To appeal for higher wages.",
+            "To demand better health care.",
+            "To call for a permanent security guard.",
+            "To dismiss the bad-tempered supervisor."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "audioId": "cet4-2020-09-set1-audio"
+        },
+        {
+          "id": "cet4-2020-09-set1-q4",
+          "type": "NEWS",
+          "prompt": "第 4 题(题干在原始录音中)",
+          "choices": [
+            "It had already taken strong action.",
+            "It would put customers' needs first.",
+            "It would take their appeal seriously.",
+            "It was seeking help from the police."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "audioId": "cet4-2020-09-set1-audio"
+        },
+        {
+          "id": "cet4-2020-09-set1-q5",
+          "type": "NEWS",
+          "prompt": "第 5 题(题干在原始录音中)",
+          "choices": [
+            "The road was flooded.",
+            "The road was blocked.",
+            "The road was frozen with snow.",
+            "The road was covered with spilled gas."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "audioId": "cet4-2020-09-set1-audio"
+        },
+        {
+          "id": "cet4-2020-09-set1-q6",
+          "type": "NEWS",
+          "prompt": "第 6 题(题干在原始录音中)",
+          "choices": [
+            "A truck plunged into a pool of liquid chocolate.",
+            "The heavy snow made driving very difficult.",
+            "The truck driver dozed off while driving.",
+            "A truck hit a barrier and overturned."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "audioId": "cet4-2020-09-set1-audio"
+        },
+        {
+          "id": "cet4-2020-09-set1-q7",
+          "type": "NEWS",
+          "prompt": "第 7 题(题干在原始录音中)",
+          "choices": [
+            "It was a long time before the cleanup was finished.",
+            "It was a hard task to remove the spilled substance.",
+            "It was fortunate that no passenger got injured.",
+            "It was difficult to contact the manufacturer."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "audioId": "cet4-2020-09-set1-audio"
+        },
+        {
+          "id": "cet4-2020-09-set1-q8",
+          "type": "CONVERSATION",
+          "prompt": "第 8 题(题干在原始录音中)",
+          "choices": [
+            "She wanted to save for a new phone.",
+            "She found it much safer to use cash.",
+            "She could enjoy discounts with cash.",
+            "She had been cheated using phone apps."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "audioId": "cet4-2020-09-set1-audio"
+        },
+        {
+          "id": "cet4-2020-09-set1-q9",
+          "type": "CONVERSATION",
+          "prompt": "第 9 题(题干在原始录音中)",
+          "choices": [
+            "They can save a lot more time and trouble.",
+            "They find it less difficult to make purchases.",
+            "They derive greater pleasure from buying things.",
+            "They are less aware of the value of their money."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "audioId": "cet4-2020-09-set1-audio"
+        },
+        {
+          "id": "cet4-2020-09-set1-q10",
+          "type": "CONVERSATION",
+          "prompt": "第 10 题(题干在原始录音中)",
+          "choices": [
+            "More valuable items.",
+            "More non-essential things.",
+            "Everyday necessities.",
+            "Electronic devices."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "audioId": "cet4-2020-09-set1-audio"
+        },
+        {
+          "id": "cet4-2020-09-set1-q11",
+          "type": "CONVERSATION",
+          "prompt": "第 11 题(题干在原始录音中)",
+          "choices": [
+            "It can improve shopping efficiency.",
+            "It is altering the way of shopping.",
+            "It may lead to excessive spending.",
+            "It appeals more to younger people."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "audioId": "cet4-2020-09-set1-audio"
+        },
+        {
+          "id": "cet4-2020-09-set1-q12",
+          "type": "CONVERSATION",
+          "prompt": "第 12 题(题干在原始录音中)",
+          "choices": [
+            "He wanted to order some wooden furniture.",
+            "He had to change the furniture delivery time.",
+            "He had a problem with the furniture delivered.",
+            "He wanted the furniture store to give him a refund."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "audioId": "cet4-2020-09-set1-audio"
+        },
+        {
+          "id": "cet4-2020-09-set1-q13",
+          "type": "CONVERSATION",
+          "prompt": "第 13 题(题干在原始录音中)",
+          "choices": [
+            "Send the furniture back to the store.",
+            "Describe the furniture he received.",
+            "Collect the furniture he ordered.",
+            "Buy another brand of furniture."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "audioId": "cet4-2020-09-set1-audio"
+        },
+        {
+          "id": "cet4-2020-09-set1-q14",
+          "type": "CONVERSATION",
+          "prompt": "第 14 题(题干在原始录音中)",
+          "choices": [
+            "Correct their mistake.",
+            "Improve their service.",
+            "Apologize to his wife.",
+            "Give the money back."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "audioId": "cet4-2020-09-set1-audio"
+        },
+        {
+          "id": "cet4-2020-09-set1-q15",
+          "type": "CONVERSATION",
+          "prompt": "第 15 题(题干在原始录音中)",
+          "choices": [
+            "She recommended a new style.",
+            "She offered some gift to the man.",
+            "She apologized to the man once more.",
+            "She checked all the items with the man."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "audioId": "cet4-2020-09-set1-audio"
+        },
+        {
+          "id": "cet4-2020-09-set1-q16",
+          "type": "PASSAGE",
+          "prompt": "第 16 题(题干在原始录音中)",
+          "choices": [
+            "Reading books of wisdom.",
+            "Tidying up one's home.",
+            "Sharing with others.",
+            "Donating to charity."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "audioId": "cet4-2020-09-set1-audio"
+        },
+        {
+          "id": "cet4-2020-09-set1-q17",
+          "type": "PASSAGE",
+          "prompt": "第 17 题(题干在原始录音中)",
+          "choices": [
+            "Things that make one happy.",
+            "Things that are becoming rare.",
+            "Things that occupy little space.",
+            "Things that cost a lot of money."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "audioId": "cet4-2020-09-set1-audio"
+        },
+        {
+          "id": "cet4-2020-09-set1-q18",
+          "type": "PASSAGE",
+          "prompt": "第 18 题(题干在原始录音中)",
+          "choices": [
+            "It joined the city's clean-up campaign.",
+            "It sold as many as fifty boxes of books.",
+            "It received an incredibly large number of donated books.",
+            "It did little business because of the unusual cold weather."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "audioId": "cet4-2020-09-set1-audio"
+        },
+        {
+          "id": "cet4-2020-09-set1-q19",
+          "type": "PASSAGE",
+          "prompt": "第 19 题(题干在原始录音中)",
+          "choices": [
+            "Give free meals to the homeless.",
+            "Provide shelter for the homeless.",
+            "Help the vulnerable to cook lunches.",
+            "Call for change in the local government."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "audioId": "cet4-2020-09-set1-audio"
+        },
+        {
+          "id": "cet4-2020-09-set1-q20",
+          "type": "PASSAGE",
+          "prompt": "第 20 题(题干在原始录音中)",
+          "choices": [
+            "Strengthen co-operation.",
+            "Promote understanding.",
+            "Win national support.",
+            "Follow his example."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "audioId": "cet4-2020-09-set1-audio"
+        },
+        {
+          "id": "cet4-2020-09-set1-q21",
+          "type": "PASSAGE",
+          "prompt": "第 21 题(题干在原始录音中)",
+          "choices": [
+            "Spreading news of his deeds.",
+            "Writing him thank-you notes.",
+            "Following the example he sets.",
+            "Sending him hand-made bags."
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 2,
+          "audioId": "cet4-2020-09-set1-audio"
+        },
+        {
+          "id": "cet4-2020-09-set1-q22",
+          "type": "PASSAGE",
+          "prompt": "第 22 题(题干在原始录音中)",
+          "choices": [
+            "To solve word search puzzles.",
+            "To send smartphone messages.",
+            "To test their eyesight using a phone app.",
+            "To install some audio equipment in a lab."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "audioId": "cet4-2020-09-set1-audio"
+        },
+        {
+          "id": "cet4-2020-09-set1-q23",
+          "type": "PASSAGE",
+          "prompt": "第 23 题(题干在原始录音中)",
+          "choices": [
+            "They could not go on until the ringing stopped.",
+            "They could no longer concentrate on their task.",
+            "They grabbed the phone and called back right away.",
+            "They asked their experimenter to hang up the phone."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "audioId": "cet4-2020-09-set1-audio"
+        },
+        {
+          "id": "cet4-2020-09-set1-q24",
+          "type": "PASSAGE",
+          "prompt": "第 24 题(题干在原始录音中)",
+          "choices": [
+            "A rise in emotional problems.",
+            "A decline in sports activities.",
+            "A reduction in the amount of sleep.",
+            "A decline in academic performance."
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 2,
+          "audioId": "cet4-2020-09-set1-audio"
+        },
+        {
+          "id": "cet4-2020-09-set1-q25",
+          "type": "PASSAGE",
+          "prompt": "第 25 题(题干在原始录音中)",
+          "choices": [
+            "Protect the eyesight of the younger generation.",
+            "Take effective measures to raise productivity.",
+            "Realize the disruptive effects of technology.",
+            "Ensure they have sufficient sleep every day."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "audioId": "cet4-2020-09-set1-audio"
+        }
+      ],
+      "audio": [
+        {
+          "id": "cet4-2020-09-set1-audio",
+          "url": "/study/resources/1ae847fa2225867c0ead259a.m4a",
+          "sourceUrl": "/study/resources/1ae847fa2225867c0ead259a.m4a",
+          "durationSeconds": 1427.144853,
+          "transcript": "",
+          "identity": "cet4_2020_09_1.mp3 SHA256:1ae847fa2225867c0ead259aba817cbc2739002e1a682f2f79b61d792268924c"
+        }
+      ],
+      "passages": [],
+      "sourceFileUrl": "/study/resources/76238505bbeb339e881616bd.pdf"
+    },
+    "READING": {
+      "instructions": "请依次完成选词填空、长篇匹配和仔细阅读。",
+      "questions": [
+        {
+          "id": "cet4-2020-09-set1-q26",
+          "type": "WORD_BANK",
+          "prompt": "第 26 空",
+          "choices": [
+            "appearance",
+            "argued",
+            "avoid",
+            "considerable",
+            "definitely",
+            "extreme",
+            "inaction",
+            "incredibly",
+            "normal",
+            "possibly",
+            "proposition",
+            "rebelled",
+            "statement",
+            "tend",
+            "traditional"
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 0.5,
+          "passageId": "cet4-2020-09-set1-bank"
+        },
+        {
+          "id": "cet4-2020-09-set1-q27",
+          "type": "WORD_BANK",
+          "prompt": "第 27 空",
+          "choices": [
+            "appearance",
+            "argued",
+            "avoid",
+            "considerable",
+            "definitely",
+            "extreme",
+            "inaction",
+            "incredibly",
+            "normal",
+            "possibly",
+            "proposition",
+            "rebelled",
+            "statement",
+            "tend",
+            "traditional"
+          ],
+          "answerIndex": 4,
+          "explanation": "原卷答案：E。",
+          "weight": 0.5,
+          "passageId": "cet4-2020-09-set1-bank"
+        },
+        {
+          "id": "cet4-2020-09-set1-q28",
+          "type": "WORD_BANK",
+          "prompt": "第 28 空",
+          "choices": [
+            "appearance",
+            "argued",
+            "avoid",
+            "considerable",
+            "definitely",
+            "extreme",
+            "inaction",
+            "incredibly",
+            "normal",
+            "possibly",
+            "proposition",
+            "rebelled",
+            "statement",
+            "tend",
+            "traditional"
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 0.5,
+          "passageId": "cet4-2020-09-set1-bank"
+        },
+        {
+          "id": "cet4-2020-09-set1-q29",
+          "type": "WORD_BANK",
+          "prompt": "第 29 空",
+          "choices": [
+            "appearance",
+            "argued",
+            "avoid",
+            "considerable",
+            "definitely",
+            "extreme",
+            "inaction",
+            "incredibly",
+            "normal",
+            "possibly",
+            "proposition",
+            "rebelled",
+            "statement",
+            "tend",
+            "traditional"
+          ],
+          "answerIndex": 9,
+          "explanation": "原卷答案：J。",
+          "weight": 0.5,
+          "passageId": "cet4-2020-09-set1-bank"
+        },
+        {
+          "id": "cet4-2020-09-set1-q30",
+          "type": "WORD_BANK",
+          "prompt": "第 30 空",
+          "choices": [
+            "appearance",
+            "argued",
+            "avoid",
+            "considerable",
+            "definitely",
+            "extreme",
+            "inaction",
+            "incredibly",
+            "normal",
+            "possibly",
+            "proposition",
+            "rebelled",
+            "statement",
+            "tend",
+            "traditional"
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 0.5,
+          "passageId": "cet4-2020-09-set1-bank"
+        },
+        {
+          "id": "cet4-2020-09-set1-q31",
+          "type": "WORD_BANK",
+          "prompt": "第 31 空",
+          "choices": [
+            "appearance",
+            "argued",
+            "avoid",
+            "considerable",
+            "definitely",
+            "extreme",
+            "inaction",
+            "incredibly",
+            "normal",
+            "possibly",
+            "proposition",
+            "rebelled",
+            "statement",
+            "tend",
+            "traditional"
+          ],
+          "answerIndex": 10,
+          "explanation": "原卷答案：K。",
+          "weight": 0.5,
+          "passageId": "cet4-2020-09-set1-bank"
+        },
+        {
+          "id": "cet4-2020-09-set1-q32",
+          "type": "WORD_BANK",
+          "prompt": "第 32 空",
+          "choices": [
+            "appearance",
+            "argued",
+            "avoid",
+            "considerable",
+            "definitely",
+            "extreme",
+            "inaction",
+            "incredibly",
+            "normal",
+            "possibly",
+            "proposition",
+            "rebelled",
+            "statement",
+            "tend",
+            "traditional"
+          ],
+          "answerIndex": 13,
+          "explanation": "原卷答案：N。",
+          "weight": 0.5,
+          "passageId": "cet4-2020-09-set1-bank"
+        },
+        {
+          "id": "cet4-2020-09-set1-q33",
+          "type": "WORD_BANK",
+          "prompt": "第 33 空",
+          "choices": [
+            "appearance",
+            "argued",
+            "avoid",
+            "considerable",
+            "definitely",
+            "extreme",
+            "inaction",
+            "incredibly",
+            "normal",
+            "possibly",
+            "proposition",
+            "rebelled",
+            "statement",
+            "tend",
+            "traditional"
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 0.5,
+          "passageId": "cet4-2020-09-set1-bank"
+        },
+        {
+          "id": "cet4-2020-09-set1-q34",
+          "type": "WORD_BANK",
+          "prompt": "第 34 空",
+          "choices": [
+            "appearance",
+            "argued",
+            "avoid",
+            "considerable",
+            "definitely",
+            "extreme",
+            "inaction",
+            "incredibly",
+            "normal",
+            "possibly",
+            "proposition",
+            "rebelled",
+            "statement",
+            "tend",
+            "traditional"
+          ],
+          "answerIndex": 5,
+          "explanation": "原卷答案：F。",
+          "weight": 0.5,
+          "passageId": "cet4-2020-09-set1-bank"
+        },
+        {
+          "id": "cet4-2020-09-set1-q35",
+          "type": "WORD_BANK",
+          "prompt": "第 35 空",
+          "choices": [
+            "appearance",
+            "argued",
+            "avoid",
+            "considerable",
+            "definitely",
+            "extreme",
+            "inaction",
+            "incredibly",
+            "normal",
+            "possibly",
+            "proposition",
+            "rebelled",
+            "statement",
+            "tend",
+            "traditional"
+          ],
+          "answerIndex": 6,
+          "explanation": "原卷答案：G。",
+          "weight": 0.5,
+          "passageId": "cet4-2020-09-set1-bank"
+        },
+        {
+          "id": "cet4-2020-09-set1-q36",
+          "type": "MATCHING",
+          "prompt": "Increased use of digital devices steals away children's playtime.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 7,
+          "explanation": "原卷答案：H。",
+          "weight": 1,
+          "passageId": "cet4-2020-09-set1-matching"
+        },
+        {
+          "id": "cet4-2020-09-set1-q37",
+          "type": "MATCHING",
+          "prompt": "Since the beginning of this century, an increasing amount of time has been shifted in public schools from recess to academic activities.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 4,
+          "explanation": "原卷答案：E。",
+          "weight": 1,
+          "passageId": "cet4-2020-09-set1-matching"
+        },
+        {
+          "id": "cet4-2020-09-set1-q38",
+          "type": "MATCHING",
+          "prompt": "It has been acknowledged that while kids may welcome pediatricians' recommendation, their parents may doubt its feasibility.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 11,
+          "explanation": "原卷答案：L。",
+          "weight": 1,
+          "passageId": "cet4-2020-09-set1-matching"
+        },
+        {
+          "id": "cet4-2020-09-set1-q39",
+          "type": "MATCHING",
+          "prompt": "According to some professionals, deprivation of young children's playtime will do harm not only to children themselves but to the country and the world.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 6,
+          "explanation": "原卷答案：G。",
+          "weight": 1,
+          "passageId": "cet4-2020-09-set1-matching"
+        },
+        {
+          "id": "cet4-2020-09-set1-q40",
+          "type": "MATCHING",
+          "prompt": "By playing with children, parents can prevent them from being harmed by stress.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "passageId": "cet4-2020-09-set1-matching"
+        },
+        {
+          "id": "cet4-2020-09-set1-q41",
+          "type": "MATCHING",
+          "prompt": "Playing with digital devices discourages kids from active discovery, according to pediatrician Dr. Michael Yogman.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 8,
+          "explanation": "原卷答案：I。",
+          "weight": 1,
+          "passageId": "cet4-2020-09-set1-matching"
+        },
+        {
+          "id": "cet4-2020-09-set1-q42",
+          "type": "MATCHING",
+          "prompt": "The suggestion of letting children simply play may sound like going backwards to parents who want to help build their children's skills.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "passageId": "cet4-2020-09-set1-matching"
+        },
+        {
+          "id": "cet4-2020-09-set1-q43",
+          "type": "MATCHING",
+          "prompt": "Dr. Michael Yogman believes the idea that parents should carefully schedule children's time may not be helpful to their growth.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 10,
+          "explanation": "原卷答案：K。",
+          "weight": 1,
+          "passageId": "cet4-2020-09-set1-matching"
+        },
+        {
+          "id": "cet4-2020-09-set1-q44",
+          "type": "MATCHING",
+          "prompt": "One quarter of teachers in an American eity said that children in kindergartens had no time for playing freely.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 5,
+          "explanation": "原卷答案：F。",
+          "weight": 1,
+          "passageId": "cet4-2020-09-set1-matching"
+        },
+        {
+          "id": "cet4-2020-09-set1-q45",
+          "type": "MATCHING",
+          "prompt": "According to a pediatrician, no matter what kind of play children engage in, they are learning how to create things.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "passageId": "cet4-2020-09-set1-matching"
+        },
+        {
+          "id": "cet4-2020-09-set1-q46",
+          "type": "DETAIL",
+          "prompt": "What does the author say may have an adverse impact on people?",
+          "choices": [
+            "Undergoing plastic surgeries in pursuit of beauty.",
+            "Imitating the lifestyles of heroes and role models.",
+            "Striving to achieve perfection regardless of financial cost.",
+            "Attempting to meet society's expectation of appearance."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "passageId": "cet4-2020-09-set1-detail1"
+        },
+        {
+          "id": "cet4-2020-09-set1-q47",
+          "type": "DETAIL",
+          "prompt": "What have researchers found out about people's earnings?",
+          "choices": [
+            "They are closely related to people's social status.",
+            "They have to do with people's body weight and shape.",
+            "They seem to matter much less to men than to women.",
+            "They may not be equal to people's contributions."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "passageId": "cet4-2020-09-set1-detail1"
+        },
+        {
+          "id": "cet4-2020-09-set1-q48",
+          "type": "DETAIL",
+          "prompt": "What does the author's recent study focus on?",
+          "choices": [
+            "Previous literature on indicators of competitiveness in the workplace.",
+            "Traits that matter most in one's pursuit of success in the labor market.",
+            "Whether self-perception of body image impacts one's workplace success.",
+            "How bosses' perception of body image impacts employees' advancement."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "passageId": "cet4-2020-09-set1-detail1"
+        },
+        {
+          "id": "cet4-2020-09-set1-q49",
+          "type": "DETAIL",
+          "prompt": "What is the finding of the author's recent research?",
+          "choices": [
+            "Being overweight actually does not do much harm to the overall well-being of employees.",
+            "People are not adversely affected in the workplace by false self-perception of body weight.",
+            "Self-esteem helps to combat gender inequality in the workplace.",
+            "Gender inequality continues to frustrate a lot of female employees."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "passageId": "cet4-2020-09-set1-detail1"
+        },
+        {
+          "id": "cet4-2020-09-set1-q50",
+          "type": "DETAIL",
+          "prompt": "What does the author think would help improve the situation in the labor market?",
+          "choices": [
+            "Banning discrimination on the basis of employees' body image.",
+            "Expanding protection of women against gender discrimination.",
+            "Helping employees change their own perception of beauty.",
+            "Excluding body shape as a category in the labor contract."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "passageId": "cet4-2020-09-set1-detail1"
+        },
+        {
+          "id": "cet4-2020-09-set1-q51",
+          "type": "DETAIL",
+          "prompt": "What does the author suggest by saying \"The work-life balance is dead\"?",
+          "choices": [
+            "The hope of achieving a thriving life is impossible to realize.",
+            "The pursuit of a fulfilling career involves personal sacrifice.",
+            "The imbalance between work and life simply doesn't exist anymore.",
+            "The concept of work-life balance contributes little to a fulfilling life."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "passageId": "cet4-2020-09-set1-detail2"
+        },
+        {
+          "id": "cet4-2020-09-set1-q52",
+          "type": "DETAIL",
+          "prompt": "What does the author say about our use of language?",
+          "choices": [
+            "It impacts how we think and behave.",
+            "It changes with the passage of time.",
+            "It reflects how we communicate.",
+            "It differs from person to person."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "passageId": "cet4-2020-09-set1-detail2"
+        },
+        {
+          "id": "cet4-2020-09-set1-q53",
+          "type": "DETAIL",
+          "prompt": "What does the author say we do in an ideal world?",
+          "choices": [
+            "We do work that betters the lives of our families and friends.",
+            "We do work that gives us bursts of joy each new day.",
+            "We do meaningful work that contributes to society.",
+            "We do demanding work that brings our capacity into full play."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "passageId": "cet4-2020-09-set1-detail2"
+        },
+        {
+          "id": "cet4-2020-09-set1-q54",
+          "type": "DETAIL",
+          "prompt": "What does the author say about life?",
+          "choices": [
+            "It is cyclical.",
+            "It is dynamic.",
+            "It is fulfilling.",
+            "It is risky."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "passageId": "cet4-2020-09-set1-detail2"
+        },
+        {
+          "id": "cet4-2020-09-set1-q55",
+          "type": "DETAIL",
+          "prompt": "What does the author advise us to do?",
+          "choices": [
+            "Make life as simple as possible.",
+            "Talk about balance in simpler terms.",
+            "Balance life and work in a new way.",
+            "Strive for a more fulfilling life."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "passageId": "cet4-2020-09-set1-detail2"
+        }
+      ],
+      "audio": [],
+      "passages": [
+        {
+          "id": "cet4-2020-09-set1-bank",
+          "text": "There're three main types of financial stress people encounter. The first type is apparent in people being stressed about the __(26)__ ups and downs of investment markets actually not so much the ups. but __(27)__ the downs. These people are usually unable or unprepared to endure the long haul. The next common type of financial stress is that caused by debt. In a __(28)__ percentage of cases of debt-induced financial stress, credit cards and loans will be a central element. Often there'll be a car loan and perhaps a mortgage, but credit cards often seem to be the gateway to debt-related financial difficulties for many. The third type of stress and __(29)__ the least known is inherited financial stress, which is the most destructive. It is experienced by those who have grown up in households where their parents regularly __(30)__ and fought about money. Money therefore becomes a stressful topic, and so the thought of sitting down and planning is an unattractive __(31)__ Those suffering inherited financial anxiety __(32)__  to follow one of two patterns. Either they put their head in the sand: they would __(33)__ examining their financial statements, budgeting, and discussing financial matters with those closest to them. Alternatively, they would go to the other __(34)__ , and micro-analyze everything, to the point of complete __(35)__  They're convinced that whatever decision they make will be the wrong one."
+        },
+        {
+          "id": "cet4-2020-09-set1-matching",
+          "text": "Doctor's orders: Let children just play\nA) Imagine a drug that could enhance a child's creativity and critical thinking. Imagine that this drug were simple to make, safe to take, and could be had for free. The nation's leading pediatricians (I# T ) say this miracle compound exists. In a new clinical report, they are urging doctors to prescribe it liberally to the children in their care.\nB) \"This may seem old-fashioned, but there are skills to be learned when kids aren't told what to do.\" said Dr. Michael Yogman, a Harvard Medical School pediatrician who led the drafting of the call to arms. Whether it's rough physical play, outdoor play or pretend play, kids derive important lessons from the chance to make things up as they go, he said.\nC) The advice, issued Monday by the American Academy of Pediatrics, may come as a shock to some parents. After spending years fretting (til) over which toys to buy, which apps to download and which skill-building programs to send their kids to after school, letting them simply play or better yet, playing with them could seem like a step backward. The pediatricians insist that it's not. The academy's guidance does not include specific recommendations for the dosing of play. Instead, it asks doctors to advise parents before their babies turn two that play is essential to healthy development.\nD) \"Play is not silly behavior,\" the academy's report declares. It fosters children's creativity, cooperation, and problem-solving skills all of which are critical for a 21st-century workforce. When parents engage in play with their children, it builds a wall against the harmful effects of all kinds of stress, including poverty, the academy says. In the pediatricians' view, essentially every life skill that's valued in adults can be built up with play. \"Collaboration, negotiation, decision-making, creativity. leadership, and increased physical activity are just some of the skills and benefits children gain through play,\" they wrote. The pediatricians' appeal comes as kids are being squeezed by increasing academic demands at school and the constant invasion of digital media.\nE) The trends have been a long time coming. Between 1981 and 1997, detailed time-use studies showed that the time children spent at play declined by 25 percent. Since the adoption of sweeping education reforms in 2001, public schools have steadily increased the amount of time devoted to preparing for standardized tests. The focus on academic \"skills and drills\" has cut deeply into recess (i* i]k,&. ) and other time for free play.\nF) By 2009, a study of Los Angeles kindergarten classrooms found that five-year-olds were so burdened with academic requirements that they were down to an average of just 19 minutes per day of \"choice time,\" when they were permitted to play freely with blocks, toys or other children. One in four Los Angeles teachers reported there was no time at all for \"free play.\" Increased academic pressures have left 30 percent of U.S. kindergarten classes without any recess. Such findings prompted the American Academy of Pediatrics to issue a policy statement in 2013 on the \"crucial role of recess in school.\"\nG) Pediatricians aren't the only ones who have noticed. In a report titled \"Crisis in the Kindergarten,\" a group of educators, health professionals and child advocates called the loss of play in early childhood \"a tragedy, both for the children themselves and for our nation and the world.\" Kids in play-based kindergartens \"end up equally good or better at reading and other intellectual skills, and they are more likely to become well-adjusted healthy people,\" the Alliance for Childhood said in 2009. Indeed, new research demonstrates why playing with blocks might have been time better spent, Yogman said. The trial assessed the effectiveness of an early mathematics intervention (Ff) aimed at preschoolers. The results showed almost no gains in math achievement.\nH) Another playtime thief: the growing proportion of kids' time spent in front of screens and digital devices, even among preschoolers. Last year, Common Sense Media reported that children up through age eight spent an average of two hours and 19 minutes in front of screens each day, including an average of 42 minutes a day for those under two. This increase of digital use comes with rising risks of obesity, sleep deprivation and cognitive (il fo ff), language and social-emotional delays, the American Academy of Pediatrics warned in 2016.\nI) \"I respect that parents have busy lives and it's easy to hand a child an iPhone,\" Yogman said. \"But there's a cost to that. For young children, it's much too passive. And kids really learn better when they're actively engaged and have to really discover things.\"\nJ) The decline of play is a special hazard for the roughly 1 in 5 children in the United States who live in poverty. These 14 million children most urgently need to develop the resilience (f 2⁄3)) that is cultivated with play. Instead, Yogman said, they are disproportionately affected by some of the trends that are making play scarce: academic pressures at schools that need to improve test scores, outside play areas that are limited or unsafe, and parents who lack the time or energy to share in playtime.\nK) Yogman also worries about the pressures that squeeze playtime for more affluent kids. \"The notion that as parents we need to schedule every minute of their time is not doing them a great service,\" he said. Even well-meaning parents may be \"robbing them of the opportunity to have that joy of discovery and curiosity-the opportunity to find things out on their own.\"\nL) Play may not be a hard sell to kids. But UCLA pediatrician Carlos Lerner acknowledged that the pediatricians' new prescription may meet with skepticism (##) from parents, who are anxious for advice on how to give their kids a leg up in the world. They should welcome the simplicity of the message, Lerner said. \"It's liberating to be able to offer them this advice: that you spending time with your child and letting him play is one of the most valuable things you can do,\" he said. \"It doesn't have to involve spending a lot of money or time, or joining a parenting group. It's something we can offer that's achievable. They just don't recognize it right now as particularly valuable.\""
+        },
+        {
+          "id": "cet4-2020-09-set1-detail1",
+          "text": "Americans spend billions of dollars each year trying to change their weight with diets, gym memberships and plastic surgery. Trying to live up to the images of \"perfect\" models and movie heroes has a dark side: anxiety. depression, as well as unhealthy strategies for weight loss or muscle gain. It also has a financial cost. Having an eating disorder boosts annual health care costs by nearly US $ 2,000 per person. Why is there both external and internal pressure to look \"perfect\"? One reason is that society rewards people who are thin and healthy-looking. Researchers have shown that body mass index is related to wages and income. Especially for women, there is a clear penalty at work for being overweight or obese. Some studies have also found an impact for men, though a less noticeable one. While the research literature is clear that labor market success is partly based on how employers and customers perceive your body image, no one had explored the other side of the question. Does a person's own perception of body image matter to earnings and other indicators of success in the workplace? Our recently published study answered this question by tracking a large national random sample of Americans over a critical time period when bodies change from teenage shape into adult form and when people build their identities. As in other research, women in our sample tend to over-perceive their weight they think they're heavier than they are while men tend to under-perceive theirs. We found no relationship between the average person's self-perception of weight and labor market outcomes, although self-perceived weight can influence self-esteem (A #), mental health and health behaviors. While the continued gender penalty in the labor market is frustrating, our finding that misperceived weight does not harm workers is more heartening. Since employers' perception of weight is what matters in the labor market, changing discrimination laws to include body type as a category would help. Michigan is the only state that prohibits discrimination on the basis of weight and height. We believe expanding such protections would make the labor market more fair and efficient."
+        },
+        {
+          "id": "cet4-2020-09-set1-detail2",
+          "text": "The work-life balance is dead. By this, I'm not advocating that you should give up your pursuit of having a fulfilling career and a thriving personal life, and I'm definitely not saying that you have to give up one to have the other. I also acknowledge that we have a work-life problem, but I'm arguing that the concept of balance has never been helpful, because it's too limiting. You see, our language makes a difference, and how we refer to things matters because it affects our thinking and therefore our actions. At the minimum, most of us work because we want to be able to support ourselves, our families, and the people around us. In the ideal world, we're all doing work that we're proud of and that provides meaning and purpose to us. But even if your job doesn't give you shivers of joy each new day, working is a part of what each of us does and the contribution we make to society. When you separate work and life, it's a little bit harder to make that connection. But when you think of work as part of a full life and a complete experience, it becomes easier to see that success in one aspect often supports another. Losing your balance and falling isn't pleasant. A goal to balance suggests that things could quickly get off balance, and that causes terrible outcomes. It's more constructive to think of solutions that continue to evolve over shifts in life and work. Rather than falling or failing, you may have good days or better days or not-so-good days. These variations are normal, and it's more useful to think of life as something that is ever evolving and changing, rather than a high-risk enterprise where things could go wrong with one misstep. How we talk to ourselves matters, and how we talk about issues makes a difference. Let's bury \"work-life balance\" and think bigger and better about work-life fulfillment to do a little less balancing and a lot more living."
+        }
+      ],
+      "sourceFileUrl": "/study/resources/76238505bbeb339e881616bd.pdf"
+    },
+    "TRANSLATION": {
+      "instructions": "请将原卷中文翻译成英语。",
+      "prompt": "Directions: For this part, you are allowed 30 minutes to translate a passage from Chinese into English. You should write your answer on Answer Sheet 2. 茅台(Moutai)是中国最有名的白酒,在新中国成立前夕,被选为国宴用酒。 据说赤水沿岸的村民四千年前就开始酿造茅台。在西汉时期,那里的人们生产出了高质量的茅台,并 把它贡给皇帝。自唐朝开始,这种地方酒通过海上丝绸之路运往海外。 茅台味道柔和,有一种特殊的香味;适量饮用可以帮助缓解疲劳,有镇静作用,因而广受国内外消费者 的喜爱。 四级 2020年 32",
+      "questions": [],
+      "audio": [],
+      "passages": [],
+      "sourceFileUrl": "/study/resources/76238505bbeb339e881616bd.pdf"
+    }
+  }
+}

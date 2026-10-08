@@ -1,0 +1,696 @@
+{
+  "slug": "cet4-2020-09-set2-full",
+  "version": 1,
+  "title": "2020年9月 · 第2套整卷模拟真题",
+  "level": "CET4",
+  "kind": "FULL",
+  "originType": "PAST_EXAM",
+  "sourceName": "用户提供的本地四六级资料",
+  "sourceUrl": "/study/resources/0e42abec89ed747fad90ebe4.pdf",
+  "rightsHolder": "原试卷及解析作者",
+  "rightsEvidence": "用户提供本地资源并要求接入本地学习系统；原文件及校验值见 content/cet-local/index.json。未授权公开再分发或生产部署。",
+  "content": {
+    "WRITING": {
+      "instructions": "原卷写作要求",
+      "prompt": "Directions: For this part, you are allowed 30 minutes to write an essay on the use of PowerPoint (PPT) in class. You can start your essay with the sentence \"The use of PowerPoint is becoming increasingly popular in class\". You should write at least 120 words but no more than 180 words.",
+      "questions": [],
+      "audio": [],
+      "passages": [],
+      "minimumWords": 120,
+      "maximumWords": 180,
+      "sourceFileUrl": "/study/resources/0e42abec89ed747fad90ebe4.pdf"
+    },
+    "LISTENING": {
+      "instructions": "听力材料",
+      "questions": [],
+      "audio": [],
+      "passages": [],
+      "unavailableReason": "原卷未刊载本卷独立听力题文。说明:由于2020年9月四级考试全国共考了一套听力,本套真题听力与第一套内容相同,只是选项顺序不同,因 此在本套真题中不再重复出现。",
+      "sourceFileUrl": "/study/resources/0e42abec89ed747fad90ebe4.pdf"
+    },
+    "READING": {
+      "instructions": "请依次完成选词填空、长篇匹配和仔细阅读。",
+      "questions": [
+        {
+          "id": "cet4-2020-09-set2-q26",
+          "type": "WORD_BANK",
+          "prompt": "第 26 空",
+          "choices": [
+            "associated",
+            "coincidence",
+            "determined",
+            "drastically",
+            "enormous",
+            "imitate",
+            "indication",
+            "integrate",
+            "maximizes",
+            "natural",
+            "principal",
+            "recognizable",
+            "simply",
+            "stressful",
+            "symbolizes"
+          ],
+          "answerIndex": 7,
+          "explanation": "原卷答案：H。",
+          "weight": 0.5,
+          "passageId": "cet4-2020-09-set2-bank"
+        },
+        {
+          "id": "cet4-2020-09-set2-q27",
+          "type": "WORD_BANK",
+          "prompt": "第 27 空",
+          "choices": [
+            "associated",
+            "coincidence",
+            "determined",
+            "drastically",
+            "enormous",
+            "imitate",
+            "indication",
+            "integrate",
+            "maximizes",
+            "natural",
+            "principal",
+            "recognizable",
+            "simply",
+            "stressful",
+            "symbolizes"
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 0.5,
+          "passageId": "cet4-2020-09-set2-bank"
+        },
+        {
+          "id": "cet4-2020-09-set2-q28",
+          "type": "WORD_BANK",
+          "prompt": "第 28 空",
+          "choices": [
+            "associated",
+            "coincidence",
+            "determined",
+            "drastically",
+            "enormous",
+            "imitate",
+            "indication",
+            "integrate",
+            "maximizes",
+            "natural",
+            "principal",
+            "recognizable",
+            "simply",
+            "stressful",
+            "symbolizes"
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 0.5,
+          "passageId": "cet4-2020-09-set2-bank"
+        },
+        {
+          "id": "cet4-2020-09-set2-q29",
+          "type": "WORD_BANK",
+          "prompt": "第 29 空",
+          "choices": [
+            "associated",
+            "coincidence",
+            "determined",
+            "drastically",
+            "enormous",
+            "imitate",
+            "indication",
+            "integrate",
+            "maximizes",
+            "natural",
+            "principal",
+            "recognizable",
+            "simply",
+            "stressful",
+            "symbolizes"
+          ],
+          "answerIndex": 11,
+          "explanation": "原卷答案：L。",
+          "weight": 0.5,
+          "passageId": "cet4-2020-09-set2-bank"
+        },
+        {
+          "id": "cet4-2020-09-set2-q30",
+          "type": "WORD_BANK",
+          "prompt": "第 30 空",
+          "choices": [
+            "associated",
+            "coincidence",
+            "determined",
+            "drastically",
+            "enormous",
+            "imitate",
+            "indication",
+            "integrate",
+            "maximizes",
+            "natural",
+            "principal",
+            "recognizable",
+            "simply",
+            "stressful",
+            "symbolizes"
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 0.5,
+          "passageId": "cet4-2020-09-set2-bank"
+        },
+        {
+          "id": "cet4-2020-09-set2-q31",
+          "type": "WORD_BANK",
+          "prompt": "第 31 空",
+          "choices": [
+            "associated",
+            "coincidence",
+            "determined",
+            "drastically",
+            "enormous",
+            "imitate",
+            "indication",
+            "integrate",
+            "maximizes",
+            "natural",
+            "principal",
+            "recognizable",
+            "simply",
+            "stressful",
+            "symbolizes"
+          ],
+          "answerIndex": 13,
+          "explanation": "原卷答案：N。",
+          "weight": 0.5,
+          "passageId": "cet4-2020-09-set2-bank"
+        },
+        {
+          "id": "cet4-2020-09-set2-q32",
+          "type": "WORD_BANK",
+          "prompt": "第 32 空",
+          "choices": [
+            "associated",
+            "coincidence",
+            "determined",
+            "drastically",
+            "enormous",
+            "imitate",
+            "indication",
+            "integrate",
+            "maximizes",
+            "natural",
+            "principal",
+            "recognizable",
+            "simply",
+            "stressful",
+            "symbolizes"
+          ],
+          "answerIndex": 10,
+          "explanation": "原卷答案：K。",
+          "weight": 0.5,
+          "passageId": "cet4-2020-09-set2-bank"
+        },
+        {
+          "id": "cet4-2020-09-set2-q33",
+          "type": "WORD_BANK",
+          "prompt": "第 33 空",
+          "choices": [
+            "associated",
+            "coincidence",
+            "determined",
+            "drastically",
+            "enormous",
+            "imitate",
+            "indication",
+            "integrate",
+            "maximizes",
+            "natural",
+            "principal",
+            "recognizable",
+            "simply",
+            "stressful",
+            "symbolizes"
+          ],
+          "answerIndex": 9,
+          "explanation": "原卷答案：J。",
+          "weight": 0.5,
+          "passageId": "cet4-2020-09-set2-bank"
+        },
+        {
+          "id": "cet4-2020-09-set2-q34",
+          "type": "WORD_BANK",
+          "prompt": "第 34 空",
+          "choices": [
+            "associated",
+            "coincidence",
+            "determined",
+            "drastically",
+            "enormous",
+            "imitate",
+            "indication",
+            "integrate",
+            "maximizes",
+            "natural",
+            "principal",
+            "recognizable",
+            "simply",
+            "stressful",
+            "symbolizes"
+          ],
+          "answerIndex": 12,
+          "explanation": "原卷答案：M。",
+          "weight": 0.5,
+          "passageId": "cet4-2020-09-set2-bank"
+        },
+        {
+          "id": "cet4-2020-09-set2-q35",
+          "type": "WORD_BANK",
+          "prompt": "第 35 空",
+          "choices": [
+            "associated",
+            "coincidence",
+            "determined",
+            "drastically",
+            "enormous",
+            "imitate",
+            "indication",
+            "integrate",
+            "maximizes",
+            "natural",
+            "principal",
+            "recognizable",
+            "simply",
+            "stressful",
+            "symbolizes"
+          ],
+          "answerIndex": 14,
+          "explanation": "原卷答案：O。",
+          "weight": 0.5,
+          "passageId": "cet4-2020-09-set2-bank"
+        },
+        {
+          "id": "cet4-2020-09-set2-q36",
+          "type": "MATCHING",
+          "prompt": "While cultural holidays are celebrated, the injustices experienced by Asian Americans are not exposed in elementary school classrooms.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段"
+          ],
+          "answerIndex": 4,
+          "explanation": "原卷答案：E。",
+          "weight": 1,
+          "passageId": "cet4-2020-09-set2-matching"
+        },
+        {
+          "id": "cet4-2020-09-set2-q37",
+          "type": "MATCHING",
+          "prompt": "Little information can be found about Chinese immigrants in the author's school library.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段"
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "passageId": "cet4-2020-09-set2-matching"
+        },
+        {
+          "id": "cet4-2020-09-set2-q38",
+          "type": "MATCHING",
+          "prompt": "A middle school teacher is making a great effort to help students learn about the contributions made by Chinese immigrants to America.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段"
+          ],
+          "answerIndex": 9,
+          "explanation": "原卷答案：J。",
+          "weight": 1,
+          "passageId": "cet4-2020-09-set2-matching"
+        },
+        {
+          "id": "cet4-2020-09-set2-q39",
+          "type": "MATCHING",
+          "prompt": "No Asian Americans were included in the list of historical figures recommended for study in K-12 classrooms.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段"
+          ],
+          "answerIndex": 5,
+          "explanation": "原卷答案：F。",
+          "weight": 1,
+          "passageId": "cet4-2020-09-set2-matching"
+        },
+        {
+          "id": "cet4-2020-09-set2-q40",
+          "type": "MATCHING",
+          "prompt": "There is an obvious lack of teachers with a multicultural perspective to meet the curriculum challenges in America.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段"
+          ],
+          "answerIndex": 7,
+          "explanation": "原卷答案：H。",
+          "weight": 1,
+          "passageId": "cet4-2020-09-set2-matching"
+        },
+        {
+          "id": "cet4-2020-09-set2-q41",
+          "type": "MATCHING",
+          "prompt": "Students of ethnic backgrounds learn better from a multicultural curriculum.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段"
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "passageId": "cet4-2020-09-set2-matching"
+        },
+        {
+          "id": "cet4-2020-09-set2-q42",
+          "type": "MATCHING",
+          "prompt": "Now more and more high schools in America are including ethnic studies in their curriculums.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段"
+          ],
+          "answerIndex": 10,
+          "explanation": "原卷答案：K。",
+          "weight": 1,
+          "passageId": "cet4-2020-09-set2-matching"
+        },
+        {
+          "id": "cet4-2020-09-set2-q43",
+          "type": "MATCHING",
+          "prompt": "A study of some K-12 textbooks and teacher manuals showed that Asian Americans were inadequately and improperly represented in them.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段"
+          ],
+          "answerIndex": 6,
+          "explanation": "原卷答案：G。",
+          "weight": 1,
+          "passageId": "cet4-2020-09-set2-matching"
+        },
+        {
+          "id": "cet4-2020-09-set2-q44",
+          "type": "MATCHING",
+          "prompt": "When taking a class in college, the author realized that a lot of information about Asian Americans was left out of the textbooks he studied.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段"
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "passageId": "cet4-2020-09-set2-matching"
+        },
+        {
+          "id": "cet4-2020-09-set2-q45",
+          "type": "MATCHING",
+          "prompt": "An Asian-American studies professor placed greater emphasis on teacher training than on teachers' background.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段"
+          ],
+          "answerIndex": 8,
+          "explanation": "原卷答案：I。",
+          "weight": 1,
+          "passageId": "cet4-2020-09-set2-matching"
+        },
+        {
+          "id": "cet4-2020-09-set2-q46",
+          "type": "DETAIL",
+          "prompt": "What do we learn from the passage about reverse graffiti?",
+          "choices": [
+            "It uses paint to create anti-pollution images.",
+            "It creates a lot of trouble for local residents.",
+            "It causes lots of distraction to drivers.",
+            "It turns dirty walls into artistic works."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "passageId": "cet4-2020-09-set2-detail1"
+        },
+        {
+          "id": "cet4-2020-09-set2-q47",
+          "type": "DETAIL",
+          "prompt": "What do reverse graffiti artists try to do?",
+          "choices": [
+            "Publicise their artistic pursuit.",
+            "Beautify the city environment.",
+            "Raise public awareness of environmental pollution.",
+            "Express their dissatisfaction with local governments."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "passageId": "cet4-2020-09-set2-detail1"
+        },
+        {
+          "id": "cet4-2020-09-set2-q48",
+          "type": "DETAIL",
+          "prompt": "What do we learn about Brazilian artist Alexandre Orion?",
+          "choices": [
+            "He was good at painting white skulls.",
+            "He chose tunnels to do his graffiti art.",
+            "He suggested banning all polluting cars.",
+            "He was fond of doing creative artworks."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "passageId": "cet4-2020-09-set2-detail1"
+        },
+        {
+          "id": "cet4-2020-09-set2-q49",
+          "type": "DETAIL",
+          "prompt": "What does the author imply about Leeds City Council's decision?",
+          "choices": [
+            "It is simply absurd.",
+            "It is well-informed.",
+            "It is rather unexpected.",
+            "It is quite sensible."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "passageId": "cet4-2020-09-set2-detail1"
+        },
+        {
+          "id": "cet4-2020-09-set2-q50",
+          "type": "DETAIL",
+          "prompt": "How did Sao Paulo city officials handle Alexandre Orion's reverse graffiti?",
+          "choices": [
+            "They made him clean all the tunnels in Sao Paulo.",
+            "They took drastic action to ban all reverse graffiti.",
+            "They charged him with polluting tunnels in the city.",
+            "They made it impossible for him to practice his art."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "passageId": "cet4-2020-09-set2-detail1"
+        },
+        {
+          "id": "cet4-2020-09-set2-q51",
+          "type": "DETAIL",
+          "prompt": "What do some experts think about paying children for doing chores?",
+          "choices": [
+            "It may benefit children in more ways than one.",
+            "It may help children learn the worth of labor.",
+            "It may not turn out to be the best thing to do.",
+            "It may not be accepted by low-income parents."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "passageId": "cet4-2020-09-set2-detail2"
+        },
+        {
+          "id": "cet4-2020-09-set2-q52",
+          "type": "DETAIL",
+          "prompt": "According to Suniya Luthar, doing chores will help children learn to",
+          "choices": [
+            "share family responsibilities",
+            "appreciate the value of work",
+            "cultivate the spirit of independence",
+            "manage domestic affairs themselves"
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "passageId": "cet4-2020-09-set2-detail2"
+        },
+        {
+          "id": "cet4-2020-09-set2-q53",
+          "type": "DETAIL",
+          "prompt": "What does Ron Lieber think should be the goal of giving children allowances?",
+          "choices": [
+            "To help to strengthen family ties.",
+            "To teach them how to manage money.",
+            "To motivate them to do more housework.",
+            "To show parents' appreciation of their help."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "passageId": "cet4-2020-09-set2-detail2"
+        },
+        {
+          "id": "cet4-2020-09-set2-q54",
+          "type": "DETAIL",
+          "prompt": "What does David Lancy say about 18-month-olds?",
+          "choices": [
+            "They have a natural instinct to help around the house.",
+            "They are too young to request money for what they do.",
+            "They should learn to understand family responsibilities.",
+            "They need a little incentive to get involved in housework."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "passageId": "cet4-2020-09-set2-detail2"
+        },
+        {
+          "id": "cet4-2020-09-set2-q55",
+          "type": "DETAIL",
+          "prompt": "What does David Lancy advise American parents to do?",
+          "choices": [
+            "Set a good example for children in doing housework.",
+            "Make children do housework without compensation.",
+            "Teach children how to do housework.",
+            "Accept children's early bids to help."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "passageId": "cet4-2020-09-set2-detail2"
+        }
+      ],
+      "audio": [],
+      "passages": [
+        {
+          "id": "cet4-2020-09-set2-bank",
+          "text": "It can be seen from the cheapest budget airlines to the world's largest carriers: Airlines across the globe __(26)__ various shades of blue in their cabin seats, and it is no __(27)__ There does appear to be some psychology behind it. Blue is __(28)__ with the positive qualities of trust, efficiency, quietness. coolness, reflection and calm. Nigel Goode is a leading aviation designer who works at a company which has been delivering aircraft interiors for airlines for __(30)__ years. \"Our job as designers is to reinforce the airline's brand and make it more __(29)__ \" he says. \"But our primary concern is to deliver an interior that    30    comfort to create a pleasant environment.\" \"It's all about making the traveling experience less __(31)__ and blue is said to induce a feeling of calm. While some of the budget airlines might use brighter, bolder shades, most others go with softened tones. The __(32)__ aim is to create a home-like relaxing feel, so airlines tend to use soft colors that feel domestic, __(33)__ and earthy for that reason.\" It's also a trend that emerged decades ago and has __(34)__ stuck. \"Blue became the color of choice because it's a conservative, agreeable, corporate shade that __(35)__ being trustworthy and safe. That's why you see it used in all of the older airlines like British Airways,\" Nigel Goode added."
+        },
+        {
+          "id": "cet4-2020-09-set2-matching",
+          "text": "Why Are Asian Americans Missing from Our Textbooks?\nA) I still remember my fourth-grade social studies project. Our class was studying the Gold Rush, something all California fourth-graders learned. I was excited because I had asked to research Chinese immigrants during that era. Growing up in the San Francisco Bay Area, I had always known that \"San Francisco\" translated to \"Gold Mountain\" in Chinese. The name had stuck ever since Chinese immigrants arrived on the shores of Northern California in the 1850s, eager to try their luck in the gold mines. Now l'd have the chance to learn about them.\nB) My excitement was short-lived. I remember heading to the library with my class and asking for help. I remember the librarian's hesitation. She finally led me past row after row of books, to a corner of the library where she pulled an oversized book off the shelf. She checked the index and turned over to a page about early Chinese immigrants in California. That was all there was in my entire school library in San Francisco, home of the nation's first Chinatown. That was it.\nC) I finally had the opportunity to learn about Asian Americans like myself, and how we became part of the fabric of the United States when I took an introductory class on Asian-American history in college. The class was a revelation. I realized how much had been missing in my textbooks as I grew up. My identity had been shaped by years of never reading, seeing, hearing, or learning about people who had a similar background as me. Why, I wondered, weren't the stories, histories, and contributions of Asian Americans taught in K-12 schools, especially in the elementary schools? Why are they still not taught?\nD) Our students Asian, Latino, African American, Native American, and, yes, white stand to gain from a multicultural curriculum. Students of color are more engaged and earn better grades when they see themselves in their studies. Research has also found that white students benefit by being challenged and exposed to new perspectives.\nE) For decades, activists have called for schools to offer anti-racism or multicultural curricula. Yet a traditional American K-12 curriculum continues to be taught from a Eurocentric point of view. Being multicultural often falls back on weaving children of color into photographs, or creating a few supporting characters that happen to be ethnic an improvement, but superficial nonetheless. Elementary school classrooms celebrate cultural holidays Lunar New Year! Red envelopes! Lion dancers! - but they're quick to gloss over (# i) the challenges and injustices that Asian Americans have faced. Most students don't, for example, learn about the laws that for years excluded Asians from immigrating to the U.S. They don't hear the narratives of how and why Southeast Asian refugees (RE) had to rebuild their lives here.\nF) Research into what students learn in school has found just how much is missing in their studies. In an analysis, Christine Sleeter, a professor in the College of Professional Studies at California State University, Monterey Bay, reviewed California's history and social studies framework, the curriculum determined by state educators that influences what is taught in K-12 classrooms. Of the nearly 100 Americans recommended to be studied, 77% were white, 18% African American, 4% Native American, and 1% Latino. None were Asian American.\nG) Worse, when Asian Americans do make an appearance in lesson books, it is often laced with problems. \"There hasn't been much progress,\" says Nicholas Hartlep, an assistant professor at Metropolitan State University. His 2016 study of K-12 social studies textbooks and teacher manuals found that Asian Americans were poorly represented at best, and subjected to racist caricatures (tie $ at t1i) at worst. The wide diversity of Asian Americans was overlooked; there was very little mention of South Asians or Pacific Islanders, for example. And chances were, in the images, Asian Americans appeared in stereotypical (f**Ki]) roles, such as engineers.\nH) Teachers with a multicultural background or training could perhaps overcome such curriculum challenges, but they're few and far between. In California, 65% of K-12 teachers are white, compared with a student population that is 75% students of color. Nationwide, the gap is even greater. It isn't a requirement that teachers share the same racial or ethnic background as their students, but the imbalance poses challenges, from the potential for unconscious bias to a lack of knowledge or comfort in discussing race and culture.\n\nI) How race and ethnicity is taught is crucial, says Allyson Tintiangco-Cubales, an Asian-American studies professor at San Francisco State University. She added that it's not so much about the teacher's background, but about training. \"You can have a great curriculum but if you don't have teachers dedicated (# i F) to teaching it well,\" she says, \"it won't work as well as you want it to.\"\nJ) Some teachers are finding ways to expose students to Asian-American issues if not during school hours, then outside of them. This summer, Wilson Wong will lead a class of rising fifth-graders at a day camp dedicated to Chinese culture and the Chinese-American community in Oakland, California. His students, for instance, will learn about how Chinese immigrants built the railroads in California, and even have a chance to \"experience\"    it themselves: They will race each other to build a railroad model on the playground, with some students being forced to \"work\" longer and faster and at cheaper wages. Wong, a middle school teacher during the school year, hopes he's exposing the students to how Chinese Americans contributed to the U.S., something that he didn't get as a student growing up in the San Francisco Bay Area. \"I planted the seeds early,\" he says. \"That's what I'm hoping for.\"\nK) And, despite setbacks, the tide may finally be turning. California legislators passed a bill last year that will bring ethnic studies to all its public high schools. Some school districts, including San Francisco and Los Angeles, already offer ethnic studies at its high schools. High schools in Portland, Chicago, and elsewhere have either implemented or will soon introduce ethnic studies classes. And, as more high schools begin teaching it, the door could crack open for middle schools, and, perhaps inevitably, elementary schools, to incorporate a truly more multicultural curriculum. Doing so will send an important message to the nation's youngest citizens: Whatever your race or ethnicity, you matter. Your history matters. Your story matters."
+        },
+        {
+          "id": "cet4-2020-09-set2-detail1",
+          "text": "When is cleaning walls a crime? When you're doing it to create art, obviously. A number of street artists around the world have started expressing themselves through a practice known as reverse graffiti (/ 19). They find dirty surfaces and paint them with images or messages using cleaning brushes or pressure hoses (rEg). Either way, it's the same principle: the image is made by cleaning away the dirt. Each artist has their own individual style but all artists share a common aim: to draw attention to the pollution in our cities. The UK's Paul Curtis, better known as Moose, operates around Leeds and London and has been commissioned by a number of companies to make reverse graffiti advertisements. Brazilian artist, Alexandre Orion, turned one of Sao Paulo's transport tunnels into an amazing wall painting in 2006 by getting rid of the dirt. Made up of a series of white skulls (Ph#*), the painting reminds drivers of the effect their pollution is having on the planet. \"Every motorist sits in the comfort of their car, but they don't give any consideration to the price their comfort has for the environment and consequently for themselves,\" says Orion. The anti-pollution message of the reverse graffiti artists confuses city authorities since the main argument against graffiti is that it spoils the appearance of both types of property: public and private. This was what Leeds City Council said about Moose's work: \"Leeds residents want to live in clean and attractive neighbourhoods. We view this kind of advertising as environmental damage and will take strong action against it.\" Moose was ordered to \"clean up his act.\" How was he supposed to do this; by making all property he had cleaned dirty again? As for the Brazilian artist's work, the authorities were annoyed but could find nothing to charge him with. They had no other option but to clean the tunnel— but only the parts Alexandre had already cleaned. The artist merely continued his campaign on the other side. The city officials then decided to take drastic action. They not only cleaned the whole tunnel but every tunnel in Sao Paulo."
+        },
+        {
+          "id": "cet4-2020-09-set2-detail2",
+          "text": "The practice of paying children an allowance became popular in America about 100 years ago. Nowadays, American kids on average receive about $ 800 per year in allowance. But the vast majority of American parents who pay allowance tie it to the completion of housework. Although many parents believe that paying an allowance for completing chores benefits their children, a range of experts expressed concern that tying allowance very closely to chores may not be ideal. In fact, the way chores work in many households worldwide points to another way. Suniya Luthar, a psychologist, is against paying kids for chores. Luthar is not opposed to giving allowances, but she thinks it's important to establish that chores are done not because they will lead to payment, but because they keep the household running. Luthar's suggested approach to allowance is compatible with that of writer Ron Lieber, who advises that allowances be used as a means of showing children how to save, give, and spend on things they care about. Kids should do chores, he writes, \"for the same reason adults do, because the chores need to be done, and not with the expectation of compensation. \" This argument has its critics, but considering the way chores are undertaken around the world may change people's thinking. Professor David Lancy of Utah State University has studied how families around the world handle chores. At about 18 months of age, Lancy says, most children become eager to help their parents, and in many cultures, they begin helping with housework at that age. They begin with very simple tasks, but their responsibilities gradually increase. And they do these tasks without payment. Lancy contrasts this with what happens in America. \"We deny our children's bids to help until they are 6 or 7 years old.\" Lancy says, \"when many have lost the desire to help and then try to motivate them with payment. The solution to this problem is not to try to use money as an incentive to do housework, but to get children involved in housework much earlier, when they actually want to do it.\""
+        }
+      ],
+      "sourceFileUrl": "/study/resources/0e42abec89ed747fad90ebe4.pdf"
+    },
+    "TRANSLATION": {
+      "instructions": "请将原卷中文翻译成英语。",
+      "prompt": "Directions: For this part, you are allowed 30 minutes to translate a passage from Chinese into English. You should write your answer on Answer Sheet 2. 茶拥有5,000年的历史。传说,神农氏(Shen Nong)喝开水时,几片野树叶子落进壶里,开水顿时散发 出宜人的香味。他喝了几口,觉得很提柙。茶就这样发现了。 自此,茶在中国开始流行。茶园遍布全国,茶商变得富有。昂贵、雅致的茶具成了地位的象征。    7жжІ 今天,茶不仅是一种健康的饮品,而且是中国文化的一个组成部分。越来越多的国际游客一边品茶, 一边了解中国文化。 四级 2020年 53",
+      "questions": [],
+      "audio": [],
+      "passages": [],
+      "sourceFileUrl": "/study/resources/0e42abec89ed747fad90ebe4.pdf"
+    }
+  }
+}

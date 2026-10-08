@@ -1,0 +1,856 @@
+[
+  {
+    "key": "cet4-2020-07-set1",
+    "questions": 55,
+    "graded": 55,
+    "audio": 1,
+    "missingStages": [],
+    "partialStages": [],
+    "sharedStages": []
+  },
+  {
+    "key": "cet4-2020-09-set1",
+    "questions": 55,
+    "graded": 52,
+    "audio": 1,
+    "missingStages": [],
+    "partialStages": [],
+    "sharedStages": []
+  },
+  {
+    "key": "cet4-2020-09-set2",
+    "questions": 30,
+    "graded": 29,
+    "audio": 0,
+    "missingStages": [
+      "LISTENING"
+    ],
+    "partialStages": [],
+    "sharedStages": []
+  },
+  {
+    "key": "cet4-2020-09-set3",
+    "questions": 30,
+    "graded": 29,
+    "audio": 0,
+    "missingStages": [
+      "LISTENING"
+    ],
+    "partialStages": [],
+    "sharedStages": []
+  },
+  {
+    "key": "cet4-2020-12-set1",
+    "questions": 55,
+    "graded": 50,
+    "audio": 1,
+    "missingStages": [],
+    "partialStages": [],
+    "sharedStages": []
+  },
+  {
+    "key": "cet4-2020-12-set2",
+    "questions": 55,
+    "graded": 47,
+    "audio": 1,
+    "missingStages": [],
+    "partialStages": [],
+    "sharedStages": []
+  },
+  {
+    "key": "cet4-2020-12-set3",
+    "questions": 30,
+    "graded": 28,
+    "audio": 0,
+    "missingStages": [
+      "LISTENING"
+    ],
+    "partialStages": [],
+    "sharedStages": []
+  },
+  {
+    "key": "cet4-2021-06-set1",
+    "questions": 55,
+    "graded": 48,
+    "audio": 1,
+    "missingStages": [],
+    "partialStages": [],
+    "sharedStages": []
+  },
+  {
+    "key": "cet4-2021-06-set2",
+    "questions": 55,
+    "graded": 47,
+    "audio": 1,
+    "missingStages": [],
+    "partialStages": [],
+    "sharedStages": []
+  },
+  {
+    "key": "cet4-2021-06-set3",
+    "questions": 30,
+    "graded": 29,
+    "audio": 0,
+    "missingStages": [
+      "LISTENING"
+    ],
+    "partialStages": [],
+    "sharedStages": []
+  },
+  {
+    "key": "cet4-2021-12-set1",
+    "questions": 55,
+    "graded": 55,
+    "audio": 1,
+    "missingStages": [],
+    "partialStages": [],
+    "sharedStages": []
+  },
+  {
+    "key": "cet4-2021-12-set2",
+    "questions": 55,
+    "graded": 54,
+    "audio": 1,
+    "missingStages": [],
+    "partialStages": [],
+    "sharedStages": []
+  },
+  {
+    "key": "cet4-2021-12-set3",
+    "questions": 30,
+    "graded": 29,
+    "audio": 0,
+    "missingStages": [
+      "LISTENING"
+    ],
+    "partialStages": [],
+    "sharedStages": []
+  },
+  {
+    "key": "cet4-2022-06-set1",
+    "questions": 55,
+    "graded": 48,
+    "audio": 1,
+    "missingStages": [],
+    "partialStages": [],
+    "sharedStages": []
+  },
+  {
+    "key": "cet4-2022-06-set2",
+    "questions": 30,
+    "graded": 30,
+    "audio": 0,
+    "missingStages": [
+      "LISTENING"
+    ],
+    "partialStages": [],
+    "sharedStages": []
+  },
+  {
+    "key": "cet4-2022-06-set3",
+    "questions": 0,
+    "graded": 0,
+    "audio": 0,
+    "missingStages": [
+      "LISTENING",
+      "READING"
+    ],
+    "partialStages": [],
+    "sharedStages": []
+  },
+  {
+    "key": "cet4-2022-09-set1",
+    "questions": 55,
+    "graded": 52,
+    "audio": 1,
+    "missingStages": [],
+    "partialStages": [],
+    "sharedStages": []
+  },
+  {
+    "key": "cet4-2022-09-set2",
+    "questions": 55,
+    "graded": 52,
+    "audio": 1,
+    "missingStages": [],
+    "partialStages": [],
+    "sharedStages": []
+  },
+  {
+    "key": "cet4-2022-09-set3",
+    "questions": 55,
+    "graded": 52,
+    "audio": 1,
+    "missingStages": [],
+    "partialStages": [],
+    "sharedStages": []
+  },
+  {
+    "key": "cet4-2022-12-set1",
+    "questions": 55,
+    "graded": 52,
+    "audio": 1,
+    "missingStages": [],
+    "partialStages": [],
+    "sharedStages": []
+  },
+  {
+    "key": "cet4-2022-12-set2",
+    "questions": 55,
+    "graded": 49,
+    "audio": 1,
+    "missingStages": [],
+    "partialStages": [],
+    "sharedStages": []
+  },
+  {
+    "key": "cet4-2022-12-set3",
+    "questions": 30,
+    "graded": 28,
+    "audio": 0,
+    "missingStages": [
+      "LISTENING"
+    ],
+    "partialStages": [],
+    "sharedStages": []
+  },
+  {
+    "key": "cet4-2023-03-set1",
+    "questions": 55,
+    "graded": 51,
+    "audio": 1,
+    "missingStages": [],
+    "partialStages": [],
+    "sharedStages": []
+  },
+  {
+    "key": "cet4-2023-03-set2",
+    "questions": 55,
+    "graded": 51,
+    "audio": 1,
+    "missingStages": [],
+    "partialStages": [],
+    "sharedStages": [
+      "LISTENING",
+      "READING"
+    ]
+  },
+  {
+    "key": "cet4-2023-03-set3",
+    "questions": 55,
+    "graded": 51,
+    "audio": 1,
+    "missingStages": [],
+    "partialStages": [],
+    "sharedStages": [
+      "LISTENING",
+      "READING"
+    ]
+  },
+  {
+    "key": "cet4-2023-06-set1",
+    "questions": 55,
+    "graded": 40,
+    "audio": 1,
+    "missingStages": [],
+    "partialStages": [],
+    "sharedStages": []
+  },
+  {
+    "key": "cet4-2023-06-set2",
+    "questions": 55,
+    "graded": 45,
+    "audio": 1,
+    "missingStages": [],
+    "partialStages": [],
+    "sharedStages": []
+  },
+  {
+    "key": "cet4-2023-06-set3",
+    "questions": 30,
+    "graded": 29,
+    "audio": 0,
+    "missingStages": [
+      "LISTENING"
+    ],
+    "partialStages": [],
+    "sharedStages": []
+  },
+  {
+    "key": "cet4-2023-12-set1",
+    "questions": 55,
+    "graded": 43,
+    "audio": 1,
+    "missingStages": [],
+    "partialStages": [],
+    "sharedStages": []
+  },
+  {
+    "key": "cet4-2023-12-set2",
+    "questions": 55,
+    "graded": 42,
+    "audio": 1,
+    "missingStages": [],
+    "partialStages": [],
+    "sharedStages": []
+  },
+  {
+    "key": "cet4-2023-12-set3",
+    "questions": 30,
+    "graded": 14,
+    "audio": 0,
+    "missingStages": [
+      "LISTENING"
+    ],
+    "partialStages": [],
+    "sharedStages": []
+  },
+  {
+    "key": "cet4-2024-06-set1",
+    "questions": 55,
+    "graded": 55,
+    "audio": 1,
+    "missingStages": [],
+    "partialStages": [],
+    "sharedStages": []
+  },
+  {
+    "key": "cet4-2024-06-set2",
+    "questions": 55,
+    "graded": 55,
+    "audio": 1,
+    "missingStages": [],
+    "partialStages": [],
+    "sharedStages": []
+  },
+  {
+    "key": "cet4-2024-06-set3",
+    "questions": 30,
+    "graded": 30,
+    "audio": 0,
+    "missingStages": [
+      "LISTENING"
+    ],
+    "partialStages": [],
+    "sharedStages": []
+  },
+  {
+    "key": "cet4-2024-12-set1",
+    "questions": 55,
+    "graded": 55,
+    "audio": 1,
+    "missingStages": [],
+    "partialStages": [],
+    "sharedStages": []
+  },
+  {
+    "key": "cet4-2024-12-set2",
+    "questions": 55,
+    "graded": 55,
+    "audio": 1,
+    "missingStages": [],
+    "partialStages": [],
+    "sharedStages": []
+  },
+  {
+    "key": "cet4-2024-12-set3",
+    "questions": 30,
+    "graded": 30,
+    "audio": 0,
+    "missingStages": [
+      "LISTENING"
+    ],
+    "partialStages": [],
+    "sharedStages": []
+  },
+  {
+    "key": "cet4-2025-06-set1",
+    "questions": 55,
+    "graded": 48,
+    "audio": 1,
+    "missingStages": [],
+    "partialStages": [],
+    "sharedStages": []
+  },
+  {
+    "key": "cet4-2025-06-set2",
+    "questions": 55,
+    "graded": 55,
+    "audio": 1,
+    "missingStages": [],
+    "partialStages": [],
+    "sharedStages": []
+  },
+  {
+    "key": "cet4-2025-06-set3",
+    "questions": 30,
+    "graded": 30,
+    "audio": 0,
+    "missingStages": [
+      "LISTENING"
+    ],
+    "partialStages": [],
+    "sharedStages": []
+  },
+  {
+    "key": "cet4-2025-12-set1",
+    "questions": 55,
+    "graded": 55,
+    "audio": 1,
+    "missingStages": [],
+    "partialStages": [],
+    "sharedStages": []
+  },
+  {
+    "key": "cet4-2025-12-set2",
+    "questions": 55,
+    "graded": 54,
+    "audio": 1,
+    "missingStages": [],
+    "partialStages": [],
+    "sharedStages": []
+  },
+  {
+    "key": "cet4-2025-12-set3",
+    "questions": 30,
+    "graded": 30,
+    "audio": 0,
+    "missingStages": [
+      "LISTENING"
+    ],
+    "partialStages": [],
+    "sharedStages": []
+  },
+  {
+    "key": "cet6-2020-07-set1",
+    "questions": 55,
+    "graded": 55,
+    "audio": 1,
+    "missingStages": [],
+    "partialStages": [],
+    "sharedStages": []
+  },
+  {
+    "key": "cet6-2020-09-set1",
+    "questions": 55,
+    "graded": 51,
+    "audio": 1,
+    "missingStages": [],
+    "partialStages": [],
+    "sharedStages": []
+  },
+  {
+    "key": "cet6-2020-09-set2",
+    "questions": 30,
+    "graded": 30,
+    "audio": 0,
+    "missingStages": [
+      "LISTENING"
+    ],
+    "partialStages": [],
+    "sharedStages": []
+  },
+  {
+    "key": "cet6-2020-09-set3",
+    "questions": 30,
+    "graded": 30,
+    "audio": 0,
+    "missingStages": [
+      "LISTENING"
+    ],
+    "partialStages": [],
+    "sharedStages": [
+      "LISTENING",
+      "READING"
+    ]
+  },
+  {
+    "key": "cet6-2020-12-set1",
+    "questions": 55,
+    "graded": 52,
+    "audio": 1,
+    "missingStages": [],
+    "partialStages": [],
+    "sharedStages": []
+  },
+  {
+    "key": "cet6-2020-12-set2",
+    "questions": 55,
+    "graded": 55,
+    "audio": 1,
+    "missingStages": [],
+    "partialStages": [],
+    "sharedStages": []
+  },
+  {
+    "key": "cet6-2020-12-set3",
+    "questions": 30,
+    "graded": 30,
+    "audio": 0,
+    "missingStages": [
+      "LISTENING"
+    ],
+    "partialStages": [],
+    "sharedStages": []
+  },
+  {
+    "key": "cet6-2021-06-set1",
+    "questions": 55,
+    "graded": 46,
+    "audio": 1,
+    "missingStages": [],
+    "partialStages": [],
+    "sharedStages": []
+  },
+  {
+    "key": "cet6-2021-06-set2",
+    "questions": 55,
+    "graded": 50,
+    "audio": 1,
+    "missingStages": [],
+    "partialStages": [],
+    "sharedStages": []
+  },
+  {
+    "key": "cet6-2021-06-set3",
+    "questions": 30,
+    "graded": 28,
+    "audio": 0,
+    "missingStages": [
+      "LISTENING"
+    ],
+    "partialStages": [],
+    "sharedStages": []
+  },
+  {
+    "key": "cet6-2021-12-set1",
+    "questions": 55,
+    "graded": 55,
+    "audio": 1,
+    "missingStages": [],
+    "partialStages": [],
+    "sharedStages": []
+  },
+  {
+    "key": "cet6-2021-12-set2",
+    "questions": 55,
+    "graded": 54,
+    "audio": 1,
+    "missingStages": [],
+    "partialStages": [],
+    "sharedStages": []
+  },
+  {
+    "key": "cet6-2021-12-set3",
+    "questions": 10,
+    "graded": 10,
+    "audio": 0,
+    "missingStages": [
+      "LISTENING"
+    ],
+    "partialStages": [
+      "READING"
+    ],
+    "sharedStages": []
+  },
+  {
+    "key": "cet6-2022-06-set1",
+    "questions": 55,
+    "graded": 55,
+    "audio": 1,
+    "missingStages": [],
+    "partialStages": [],
+    "sharedStages": []
+  },
+  {
+    "key": "cet6-2022-06-set2",
+    "questions": 30,
+    "graded": 29,
+    "audio": 0,
+    "missingStages": [
+      "LISTENING"
+    ],
+    "partialStages": [],
+    "sharedStages": []
+  },
+  {
+    "key": "cet6-2022-06-set3",
+    "questions": 30,
+    "graded": 29,
+    "audio": 0,
+    "missingStages": [
+      "LISTENING"
+    ],
+    "partialStages": [],
+    "sharedStages": []
+  },
+  {
+    "key": "cet6-2022-09-set1",
+    "questions": 55,
+    "graded": 50,
+    "audio": 1,
+    "missingStages": [],
+    "partialStages": [],
+    "sharedStages": []
+  },
+  {
+    "key": "cet6-2022-09-set2",
+    "questions": 55,
+    "graded": 50,
+    "audio": 1,
+    "missingStages": [],
+    "partialStages": [],
+    "sharedStages": [
+      "LISTENING",
+      "READING"
+    ]
+  },
+  {
+    "key": "cet6-2022-09-set3",
+    "questions": 55,
+    "graded": 50,
+    "audio": 1,
+    "missingStages": [],
+    "partialStages": [],
+    "sharedStages": [
+      "LISTENING",
+      "READING"
+    ]
+  },
+  {
+    "key": "cet6-2022-12-set1",
+    "questions": 55,
+    "graded": 55,
+    "audio": 1,
+    "missingStages": [],
+    "partialStages": [],
+    "sharedStages": []
+  },
+  {
+    "key": "cet6-2022-12-set2",
+    "questions": 55,
+    "graded": 54,
+    "audio": 1,
+    "missingStages": [],
+    "partialStages": [],
+    "sharedStages": []
+  },
+  {
+    "key": "cet6-2022-12-set3",
+    "questions": 30,
+    "graded": 30,
+    "audio": 0,
+    "missingStages": [
+      "LISTENING"
+    ],
+    "partialStages": [],
+    "sharedStages": []
+  },
+  {
+    "key": "cet6-2023-03-set1",
+    "questions": 55,
+    "graded": 55,
+    "audio": 1,
+    "missingStages": [],
+    "partialStages": [],
+    "sharedStages": []
+  },
+  {
+    "key": "cet6-2023-03-set2",
+    "questions": 55,
+    "graded": 55,
+    "audio": 1,
+    "missingStages": [],
+    "partialStages": [],
+    "sharedStages": [
+      "LISTENING",
+      "READING"
+    ]
+  },
+  {
+    "key": "cet6-2023-03-set3",
+    "questions": 55,
+    "graded": 55,
+    "audio": 1,
+    "missingStages": [],
+    "partialStages": [],
+    "sharedStages": [
+      "LISTENING",
+      "READING"
+    ]
+  },
+  {
+    "key": "cet6-2023-06-set1",
+    "questions": 55,
+    "graded": 54,
+    "audio": 1,
+    "missingStages": [],
+    "partialStages": [],
+    "sharedStages": []
+  },
+  {
+    "key": "cet6-2023-06-set2",
+    "questions": 55,
+    "graded": 55,
+    "audio": 1,
+    "missingStages": [],
+    "partialStages": [],
+    "sharedStages": []
+  },
+  {
+    "key": "cet6-2023-06-set3",
+    "questions": 30,
+    "graded": 30,
+    "audio": 0,
+    "missingStages": [
+      "LISTENING"
+    ],
+    "partialStages": [],
+    "sharedStages": []
+  },
+  {
+    "key": "cet6-2023-12-set1",
+    "questions": 55,
+    "graded": 53,
+    "audio": 1,
+    "missingStages": [],
+    "partialStages": [],
+    "sharedStages": []
+  },
+  {
+    "key": "cet6-2023-12-set2",
+    "questions": 55,
+    "graded": 55,
+    "audio": 1,
+    "missingStages": [],
+    "partialStages": [],
+    "sharedStages": []
+  },
+  {
+    "key": "cet6-2023-12-set3",
+    "questions": 30,
+    "graded": 30,
+    "audio": 0,
+    "missingStages": [
+      "LISTENING"
+    ],
+    "partialStages": [],
+    "sharedStages": []
+  },
+  {
+    "key": "cet6-2024-06-set1",
+    "questions": 55,
+    "graded": 55,
+    "audio": 1,
+    "missingStages": [],
+    "partialStages": [],
+    "sharedStages": []
+  },
+  {
+    "key": "cet6-2024-06-set2",
+    "questions": 55,
+    "graded": 55,
+    "audio": 1,
+    "missingStages": [],
+    "partialStages": [],
+    "sharedStages": []
+  },
+  {
+    "key": "cet6-2024-06-set3",
+    "questions": 30,
+    "graded": 30,
+    "audio": 0,
+    "missingStages": [
+      "LISTENING"
+    ],
+    "partialStages": [],
+    "sharedStages": []
+  },
+  {
+    "key": "cet6-2024-12-set1",
+    "questions": 55,
+    "graded": 55,
+    "audio": 1,
+    "missingStages": [],
+    "partialStages": [],
+    "sharedStages": []
+  },
+  {
+    "key": "cet6-2024-12-set2",
+    "questions": 55,
+    "graded": 55,
+    "audio": 1,
+    "missingStages": [],
+    "partialStages": [],
+    "sharedStages": []
+  },
+  {
+    "key": "cet6-2024-12-set3",
+    "questions": 30,
+    "graded": 30,
+    "audio": 0,
+    "missingStages": [
+      "LISTENING"
+    ],
+    "partialStages": [],
+    "sharedStages": []
+  },
+  {
+    "key": "cet6-2025-06-set1",
+    "questions": 55,
+    "graded": 55,
+    "audio": 1,
+    "missingStages": [],
+    "partialStages": [],
+    "sharedStages": []
+  },
+  {
+    "key": "cet6-2025-06-set2",
+    "questions": 55,
+    "graded": 55,
+    "audio": 1,
+    "missingStages": [],
+    "partialStages": [],
+    "sharedStages": []
+  },
+  {
+    "key": "cet6-2025-06-set3",
+    "questions": 30,
+    "graded": 30,
+    "audio": 0,
+    "missingStages": [
+      "LISTENING"
+    ],
+    "partialStages": [],
+    "sharedStages": []
+  },
+  {
+    "key": "cet6-2025-12-set1",
+    "questions": 55,
+    "graded": 55,
+    "audio": 1,
+    "missingStages": [],
+    "partialStages": [],
+    "sharedStages": []
+  },
+  {
+    "key": "cet6-2025-12-set2",
+    "questions": 55,
+    "graded": 55,
+    "audio": 1,
+    "missingStages": [],
+    "partialStages": [],
+    "sharedStages": []
+  },
+  {
+    "key": "cet6-2025-12-set3",
+    "questions": 30,
+    "graded": 28,
+    "audio": 0,
+    "missingStages": [
+      "LISTENING"
+    ],
+    "partialStages": [],
+    "sharedStages": []
+  }
+]

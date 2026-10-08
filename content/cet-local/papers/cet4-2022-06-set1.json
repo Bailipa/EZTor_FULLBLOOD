@@ -1,0 +1,1126 @@
+{
+  "slug": "cet4-2022-06-set1-full",
+  "version": 1,
+  "title": "2022年6月 · 第1套整卷模拟真题",
+  "level": "CET4",
+  "kind": "FULL",
+  "originType": "PAST_EXAM",
+  "sourceName": "用户提供的本地四六级资料",
+  "sourceUrl": "/study/resources/98a4aaecf332f9874f8940a8.pdf",
+  "rightsHolder": "原试卷及解析作者",
+  "rightsEvidence": "用户提供本地资源并要求接入本地学习系统；原文件及校验值见 content/cet-local/index.json。未授权公开再分发或生产部署。",
+  "content": {
+    "WRITING": {
+      "instructions": "原卷写作要求",
+      "prompt": "Directions: Suppose you are going to write a proposal to your school library for improving its service. You are to write about its current problems and possible solutions to these problems. You will have 30 minutes to write the proposal. You should write at least 120 words but no more than 180 words.",
+      "questions": [],
+      "audio": [],
+      "passages": [],
+      "minimumWords": 120,
+      "maximumWords": 180,
+      "sourceFileUrl": "/study/resources/98a4aaecf332f9874f8940a8.pdf"
+    },
+    "LISTENING": {
+      "instructions": "原卷听力选择题",
+      "questions": [
+        {
+          "id": "cet4-2022-06-set1-q1",
+          "type": "NEWS",
+          "prompt": "第 1 题(题干在原始录音中)",
+          "choices": [
+            "It studied the effects of exercise on sleep.",
+            "Its participants came from various walks of life.",
+            "Its findings confirmed those of previous studies.",
+            "It ran for as long as some thirty years."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "audioId": "cet4-2022-06-set1-audio"
+        },
+        {
+          "id": "cet4-2022-06-set1-q2",
+          "type": "NEWS",
+          "prompt": "第 2 题(题干在原始录音中)",
+          "choices": [
+            "Eating more vegetables instead of meats.",
+            "Drinking water instead of beverages with added sugar.",
+            "Consuming more energy drinks and sports drinks.",
+            "Forming the habit of exercising regularly."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "audioId": "cet4-2022-06-set1-audio"
+        },
+        {
+          "id": "cet4-2022-06-set1-q3",
+          "type": "NEWS",
+          "prompt": "第 3 题(题干在原始录音中)",
+          "choices": [
+            "He asked them about his lost paintings.",
+            "He knew the owner of two missing paintings.",
+            "He left his paintings at a highway rest stop.",
+            "He found two 17th-century oil paintings."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "audioId": "cet4-2022-06-set1-audio"
+        },
+        {
+          "id": "cet4-2022-06-set1-q4",
+          "type": "NEWS",
+          "prompt": "第 4 题(题干在原始录音中)",
+          "choices": [
+            "They are imitations.",
+            "They are originals.",
+            "They were stolen by an Italian boy.",
+            "They came from the same artist."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "audioId": "cet4-2022-06-set1-audio"
+        },
+        {
+          "id": "cet4-2022-06-set1-q5",
+          "type": "NEWS",
+          "prompt": "第 5 题(题干在原始录音中)",
+          "choices": [
+            "Look after her grandfather.",
+            "Leave the remote cold region.",
+            "Save her sick grandmother.",
+            "Flee from the threat of bears."
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 1,
+          "audioId": "cet4-2022-06-set1-audio"
+        },
+        {
+          "id": "cet4-2022-06-set1-q6",
+          "type": "NEWS",
+          "prompt": "第 6 题(题干在原始录音中)",
+          "choices": [
+            "She has to face a criminal charge.",
+            "She was found lying motionless in the snow.",
+            "She searched for her daughter in freezing cold.",
+            "She works in childcare services. 2022. 6 / 1 (#11)"
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 1,
+          "audioId": "cet4-2022-06-set1-audio"
+        },
+        {
+          "id": "cet4-2022-06-set1-q7",
+          "type": "NEWS",
+          "prompt": "第 7 题(题干在原始录音中)",
+          "choices": [
+            "She was found in a forest after three days.",
+            "She lay totally unconscious for three days.",
+            "She suffered from the effects of severe cold.",
+            "She was finally rescued by her relatives."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "audioId": "cet4-2022-06-set1-audio"
+        },
+        {
+          "id": "cet4-2022-06-set1-q8",
+          "type": "CONVERSATION",
+          "prompt": "第 8 题(题干在原始录音中)",
+          "choices": [
+            "She shows a real passion for taking photos.",
+            "She has just returned from her hometown.",
+            "She comes from the city of Cape Town.",
+            "She has a truly amazing appearance."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "audioId": "cet4-2022-06-set1-audio"
+        },
+        {
+          "id": "cet4-2022-06-set1-q9",
+          "type": "CONVERSATION",
+          "prompt": "第 9 题(题干在原始录音中)",
+          "choices": [
+            "It is as famous as Cape Town.",
+            "It has a flat surface at the top.",
+            "It is green and free from pollution.",
+            "It was named by European settlers."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "audioId": "cet4-2022-06-set1-audio"
+        },
+        {
+          "id": "cet4-2022-06-set1-q10",
+          "type": "CONVERSATION",
+          "prompt": "第 10 题(题干在原始录音中)",
+          "choices": [
+            "She has British ancestors.",
+            "She is of mixed blood.",
+            "She grew up in India.",
+            "She speaks several languages."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "audioId": "cet4-2022-06-set1-audio"
+        },
+        {
+          "id": "cet4-2022-06-set1-q11",
+          "type": "CONVERSATION",
+          "prompt": "第 11 题(题干在原始录音中)",
+          "choices": [
+            "It is an extremely violent sport.",
+            "It is becoming a national sport.",
+            "It is originated in New Zealand.",
+            "It is more popular than football."
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 1,
+          "audioId": "cet4-2022-06-set1-audio"
+        },
+        {
+          "id": "cet4-2022-06-set1-q12",
+          "type": "CONVERSATION",
+          "prompt": "第 12 题(题干在原始录音中)",
+          "choices": [
+            "Prepare a study guide.",
+            "Consult his advisors.",
+            "Go over his notes regularly.",
+            "Take stress-relief sessions."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "audioId": "cet4-2022-06-set1-audio"
+        },
+        {
+          "id": "cet4-2022-06-set1-q13",
+          "type": "CONVERSATION",
+          "prompt": "第 13 题(题干在原始录音中)",
+          "choices": [
+            "His worksheets are terribly messy.",
+            "He finds the workload too heavy.",
+            "His study folder is badly disorganized.",
+            "He has difficulty taking notes quickly."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "audioId": "cet4-2022-06-set1-audio"
+        },
+        {
+          "id": "cet4-2022-06-set1-q14",
+          "type": "CONVERSATION",
+          "prompt": "第 14 题(题干在原始录音中)",
+          "choices": [
+            "A visual learner.",
+            "An emotional learner.",
+            "An organized learner.",
+            "A logical learner."
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 1,
+          "audioId": "cet4-2022-06-set1-audio"
+        },
+        {
+          "id": "cet4-2022-06-set1-q15",
+          "type": "CONVERSATION",
+          "prompt": "第 15 题(题干在原始录音中)",
+          "choices": [
+            "Arrange them using color and pictures.",
+            "Restructure them in a logical way.",
+            "Commit them to memory after class.",
+            "Organize them into a well-connected story."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "audioId": "cet4-2022-06-set1-audio"
+        },
+        {
+          "id": "cet4-2022-06-set1-q16",
+          "type": "PASSAGE",
+          "prompt": "第 16 题(题干在原始录音中)",
+          "choices": [
+            "It is mainly based on a society's religion.",
+            "It is interpreted differently in different times.",
+            "It is a code of conduct based on laws and ethics.",
+            "It is a moral principle to guide people's behavior. 2022. 6 / 2 ($ 115)"
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "audioId": "cet4-2022-06-set1-audio"
+        },
+        {
+          "id": "cet4-2022-06-set1-q17",
+          "type": "PASSAGE",
+          "prompt": "第 17 题(题干在原始录音中)",
+          "choices": [
+            "It may lead to misunderstanding despite good intentions.",
+            "It assumes that human beings are ali good-natured.",
+            "It may sometimes produce undesirable outcomes.",
+            "It fails to consider the complexity of human relationships."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "audioId": "cet4-2022-06-set1-audio"
+        },
+        {
+          "id": "cet4-2022-06-set1-q18",
+          "type": "PASSAGE",
+          "prompt": "第 18 题(题干在原始录音中)",
+          "choices": [
+            "The golden rule is often in conflict with certain laws and ethical principles.",
+            "The golden rule must sometimes give way to more important principles.",
+            "Failure to follow the golden rule may lead to violation of laws and ethics.",
+            "Observing the golden rule is the first step to becoming a responsible citizen."
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 2,
+          "audioId": "cet4-2022-06-set1-audio"
+        },
+        {
+          "id": "cet4-2022-06-set1-q19",
+          "type": "PASSAGE",
+          "prompt": "第 19 题(题干在原始录音中)",
+          "choices": [
+            "Many of them find it rather difficult to manage.",
+            "They have not seen as much diversity as desired.",
+            "Many of them have an increasingly diversified staff.",
+            "They have not quite grasped the concept of diversity."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "audioId": "cet4-2022-06-set1-audio"
+        },
+        {
+          "id": "cet4-2022-06-set1-q20",
+          "type": "PASSAGE",
+          "prompt": "第 20 题(题干在原始录音中)",
+          "choices": [
+            "Initiatives to achieve diversity in large corporations.",
+            "Advantages and disadvantages of a diversified team.",
+            "People's attitudes towards diversity at the workplace.",
+            "Innovative ideas and solutions resulting from diversity."
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 2,
+          "audioId": "cet4-2022-06-set1-audio"
+        },
+        {
+          "id": "cet4-2022-06-set1-q21",
+          "type": "PASSAGE",
+          "prompt": "第 21 题(题干在原始录音中)",
+          "choices": [
+            "People prefer to work with team members similar to themselves.",
+            "Employers attach great importance to their corporations' diversity.",
+            "Employers differ from employees in their perspectives on diversity.",
+            "Doubts about the practicability of diversity are gradually disappearing."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "audioId": "cet4-2022-06-set1-audio"
+        },
+        {
+          "id": "cet4-2022-06-set1-q22",
+          "type": "PASSAGE",
+          "prompt": "第 22 题(题干在原始录音中)",
+          "choices": [
+            "Choosing the best time for signing a business contract.",
+            "Changing one's form of communication from time to time.",
+            "Laying equal stress on written and spoken communication.",
+            "Using different forms of communication appropriately."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "audioId": "cet4-2022-06-set1-audio"
+        },
+        {
+          "id": "cet4-2022-06-set1-q23",
+          "type": "PASSAGE",
+          "prompt": "第 23 题(题干在原始录音中)",
+          "choices": [
+            "They are regarded as seriously binding.",
+            "They are seldom honored by business partners.",
+            "They are taken as memos of understanding.",
+            "They are to be confirmed in written form."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "audioId": "cet4-2022-06-set1-audio"
+        },
+        {
+          "id": "cet4-2022-06-set1-q24",
+          "type": "PASSAGE",
+          "prompt": "第 24 题(题干在原始录音中)",
+          "choices": [
+            "It has reached the highest level of evolution.",
+            "It places a high value on written contracts.",
+            "It regards written contracts as unalterable.",
+            "It has seen a decline in verbal agreements."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "audioId": "cet4-2022-06-set1-audio"
+        },
+        {
+          "id": "cet4-2022-06-set1-q25",
+          "type": "PASSAGE",
+          "prompt": "第 25 题(题干在原始录音中)",
+          "choices": [
+            "Its details cannot be renegotiated.",
+            "It has to be carried out to the letter.",
+            "It strengthens business partnerships.",
+            "Its terms may not be strictly binding."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "audioId": "cet4-2022-06-set1-audio"
+        }
+      ],
+      "audio": [
+        {
+          "id": "cet4-2022-06-set1-audio",
+          "url": "/study/resources/c1481f0a77c37f601e57ea1c.m4a",
+          "sourceUrl": "/study/resources/c1481f0a77c37f601e57ea1c.m4a",
+          "durationSeconds": 1540.086712,
+          "transcript": "",
+          "identity": "cet4_2022_06_1.mp3 SHA256:c1481f0a77c37f601e57ea1c46c5149d7111ad7b54c339322d3557de9a6ef303"
+        }
+      ],
+      "passages": [],
+      "sourceFileUrl": "/study/resources/98a4aaecf332f9874f8940a8.pdf"
+    },
+    "READING": {
+      "instructions": "请依次完成选词填空、长篇匹配和仔细阅读。",
+      "questions": [
+        {
+          "id": "cet4-2022-06-set1-q26",
+          "type": "WORD_BANK",
+          "prompt": "第 26 空",
+          "choices": [
+            "adult",
+            "associated",
+            "chew",
+            "contains",
+            "continue",
+            "defense",
+            "dental",
+            "downward",
+            "emotional",
+            "implies",
+            "mammal",
+            "replace",
+            "swallow",
+            "triggered",
+            "underneath"
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 0.5,
+          "passageId": "cet4-2022-06-set1-bank"
+        },
+        {
+          "id": "cet4-2022-06-set1-q27",
+          "type": "WORD_BANK",
+          "prompt": "第 27 空",
+          "choices": [
+            "adult",
+            "associated",
+            "chew",
+            "contains",
+            "continue",
+            "defense",
+            "dental",
+            "downward",
+            "emotional",
+            "implies",
+            "mammal",
+            "replace",
+            "swallow",
+            "triggered",
+            "underneath"
+          ],
+          "answerIndex": 6,
+          "explanation": "原卷答案：G。",
+          "weight": 0.5,
+          "passageId": "cet4-2022-06-set1-bank"
+        },
+        {
+          "id": "cet4-2022-06-set1-q28",
+          "type": "WORD_BANK",
+          "prompt": "第 28 空",
+          "choices": [
+            "adult",
+            "associated",
+            "chew",
+            "contains",
+            "continue",
+            "defense",
+            "dental",
+            "downward",
+            "emotional",
+            "implies",
+            "mammal",
+            "replace",
+            "swallow",
+            "triggered",
+            "underneath"
+          ],
+          "answerIndex": 5,
+          "explanation": "原卷答案：F。",
+          "weight": 0.5,
+          "passageId": "cet4-2022-06-set1-bank"
+        },
+        {
+          "id": "cet4-2022-06-set1-q29",
+          "type": "WORD_BANK",
+          "prompt": "第 29 空",
+          "choices": [
+            "adult",
+            "associated",
+            "chew",
+            "contains",
+            "continue",
+            "defense",
+            "dental",
+            "downward",
+            "emotional",
+            "implies",
+            "mammal",
+            "replace",
+            "swallow",
+            "triggered",
+            "underneath"
+          ],
+          "answerIndex": 14,
+          "explanation": "原卷答案：O。",
+          "weight": 0.5,
+          "passageId": "cet4-2022-06-set1-bank"
+        },
+        {
+          "id": "cet4-2022-06-set1-q30",
+          "type": "WORD_BANK",
+          "prompt": "第 30 空",
+          "choices": [
+            "adult",
+            "associated",
+            "chew",
+            "contains",
+            "continue",
+            "defense",
+            "dental",
+            "downward",
+            "emotional",
+            "implies",
+            "mammal",
+            "replace",
+            "swallow",
+            "triggered",
+            "underneath"
+          ],
+          "answerIndex": 4,
+          "explanation": "原卷答案：E。",
+          "weight": 0.5,
+          "passageId": "cet4-2022-06-set1-bank"
+        },
+        {
+          "id": "cet4-2022-06-set1-q31",
+          "type": "WORD_BANK",
+          "prompt": "第 31 空",
+          "choices": [
+            "adult",
+            "associated",
+            "chew",
+            "contains",
+            "continue",
+            "defense",
+            "dental",
+            "downward",
+            "emotional",
+            "implies",
+            "mammal",
+            "replace",
+            "swallow",
+            "triggered",
+            "underneath"
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 0.5,
+          "passageId": "cet4-2022-06-set1-bank"
+        },
+        {
+          "id": "cet4-2022-06-set1-q32",
+          "type": "WORD_BANK",
+          "prompt": "第 32 空",
+          "choices": [
+            "adult",
+            "associated",
+            "chew",
+            "contains",
+            "continue",
+            "defense",
+            "dental",
+            "downward",
+            "emotional",
+            "implies",
+            "mammal",
+            "replace",
+            "swallow",
+            "triggered",
+            "underneath"
+          ],
+          "answerIndex": 11,
+          "explanation": "原卷答案：L。",
+          "weight": 0.5,
+          "passageId": "cet4-2022-06-set1-bank"
+        },
+        {
+          "id": "cet4-2022-06-set1-q33",
+          "type": "WORD_BANK",
+          "prompt": "第 33 空",
+          "choices": [
+            "adult",
+            "associated",
+            "chew",
+            "contains",
+            "continue",
+            "defense",
+            "dental",
+            "downward",
+            "emotional",
+            "implies",
+            "mammal",
+            "replace",
+            "swallow",
+            "triggered",
+            "underneath"
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 0.5,
+          "passageId": "cet4-2022-06-set1-bank"
+        },
+        {
+          "id": "cet4-2022-06-set1-q34",
+          "type": "WORD_BANK",
+          "prompt": "第 34 空",
+          "choices": [
+            "adult",
+            "associated",
+            "chew",
+            "contains",
+            "continue",
+            "defense",
+            "dental",
+            "downward",
+            "emotional",
+            "implies",
+            "mammal",
+            "replace",
+            "swallow",
+            "triggered",
+            "underneath"
+          ],
+          "answerIndex": 13,
+          "explanation": "原卷答案：N。",
+          "weight": 0.5,
+          "passageId": "cet4-2022-06-set1-bank"
+        },
+        {
+          "id": "cet4-2022-06-set1-q35",
+          "type": "WORD_BANK",
+          "prompt": "第 35 空",
+          "choices": [
+            "adult",
+            "associated",
+            "chew",
+            "contains",
+            "continue",
+            "defense",
+            "dental",
+            "downward",
+            "emotional",
+            "implies",
+            "mammal",
+            "replace",
+            "swallow",
+            "triggered",
+            "underneath"
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 0.5,
+          "passageId": "cet4-2022-06-set1-bank"
+        },
+        {
+          "id": "cet4-2022-06-set1-q36",
+          "type": "MATCHING",
+          "prompt": "Clues about the culture of a company can be found on its website.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段",
+            "O 段"
+          ],
+          "answerIndex": 6,
+          "explanation": "原卷答案：G。",
+          "weight": 1,
+          "passageId": "cet4-2022-06-set1-matching"
+        },
+        {
+          "id": "cet4-2022-06-set1-q37",
+          "type": "MATCHING",
+          "prompt": "It can be difficult to know the real situation in a company until you become part of it.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段",
+            "O 段"
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "passageId": "cet4-2022-06-set1-matching"
+        },
+        {
+          "id": "cet4-2022-06-set1-q38",
+          "type": "MATCHING",
+          "prompt": "It is impossible for a job applicant to have every expectation met.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段",
+            "O 段"
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 1,
+          "passageId": "cet4-2022-06-set1-matching"
+        },
+        {
+          "id": "cet4-2022-06-set1-q39",
+          "type": "MATCHING",
+          "prompt": "Simply by reading its description, the author found the job offered ideal.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段",
+            "O 段"
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "passageId": "cet4-2022-06-set1-matching"
+        },
+        {
+          "id": "cet4-2022-06-set1-q40",
+          "type": "MATCHING",
+          "prompt": "Job applicants are advised to make a written list of their likes and dislikes in their previous employment.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段",
+            "O 段"
+          ],
+          "answerIndex": 5,
+          "explanation": "原卷答案：F。",
+          "weight": 1,
+          "passageId": "cet4-2022-06-set1-matching"
+        },
+        {
+          "id": "cet4-2022-06-set1-q41",
+          "type": "MATCHING",
+          "prompt": "At the end of an interview, a job applicant should seize the opportunity to get answers to their urgent questions.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段",
+            "O 段"
+          ],
+          "answerIndex": 10,
+          "explanation": "原卷答案：K。",
+          "weight": 1,
+          "passageId": "cet4-2022-06-set1-matching"
+        },
+        {
+          "id": "cet4-2022-06-set1-q42",
+          "type": "MATCHING",
+          "prompt": "To begin with, job applicants should be clear what they expect from their future employer.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段",
+            "O 段"
+          ],
+          "answerIndex": 4,
+          "explanation": "原卷答案：E。",
+          "weight": 1,
+          "passageId": "cet4-2022-06-set1-matching"
+        },
+        {
+          "id": "cet4-2022-06-set1-q43",
+          "type": "MATCHING",
+          "prompt": "Job applicants should read with a critical eye what is written about a company on the website.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段",
+            "O 段"
+          ],
+          "answerIndex": 8,
+          "explanation": "原卷答案：I。",
+          "weight": 1,
+          "passageId": "cet4-2022-06-set1-matching"
+        },
+        {
+          "id": "cet4-2022-06-set1-q44",
+          "type": "MATCHING",
+          "prompt": "Job satisfaction has a lot to do with company culture.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段",
+            "O 段"
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "passageId": "cet4-2022-06-set1-matching"
+        },
+        {
+          "id": "cet4-2022-06-set1-q45",
+          "type": "MATCHING",
+          "prompt": "A chat with an insider of a company can give job applicants very useful information when they prepare for an interview.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段",
+            "N 段",
+            "O 段"
+          ],
+          "answerIndex": 9,
+          "explanation": "原卷答案：J。",
+          "weight": 1,
+          "passageId": "cet4-2022-06-set1-matching"
+        },
+        {
+          "id": "cet4-2022-06-set1-q46",
+          "type": "DETAIL",
+          "prompt": "What does the author say about students enrolled in online classes?",
+          "choices": [
+            "They can access course materials easily.",
+            "They are unmotivated to learn.",
+            "They can learn at their own pace.",
+            "They rarely fulfil the course requirements."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "passageId": "cet4-2022-06-set1-detail1"
+        },
+        {
+          "id": "cet4-2022-06-set1-q47",
+          "type": "DETAIL",
+          "prompt": "What does the author think of online course assignments?",
+          "choices": [
+            "They are made convenient to mark.",
+            "They are meant to facilitate interaction.",
+            "They are based on easily accessible material.",
+            "They are given to accommodate students' needs."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "passageId": "cet4-2022-06-set1-detail1"
+        },
+        {
+          "id": "cet4-2022-06-set1-q48",
+          "type": "DETAIL",
+          "prompt": "What does the author say is one disadvantage of online classes?",
+          "choices": [
+            "They are frequently scheduled at irregular times.",
+            "They make professors' offices much less accessible.",
+            "They tend to increase professors' burden of responding to students' emails.",
+            "They provide little chance for students to build relationships with each other."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "passageId": "cet4-2022-06-set1-detail1"
+        },
+        {
+          "id": "cet4-2022-06-set1-q49",
+          "type": "DETAIL",
+          "prompt": "What problem may arise if classes go online?",
+          "choices": [
+            "More students may find it easy to be absent from them.",
+            "Teachers will worry about poor internet connections.",
+            "Some students may have difficulty attending them.",
+            "Schools with limited resources will be at a disadvantage."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "passageId": "cet4-2022-06-set1-detail1"
+        },
+        {
+          "id": "cet4-2022-06-set1-q50",
+          "type": "DETAIL",
+          "prompt": "What does the author think constitutes a key part of genuine education?",
+          "choices": [
+            "Acquisition of useful knowledge.",
+            "Training of real-life skills on campus.",
+            "Development of students' personalities.",
+            "Cultivation of analytical thinking ability."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "passageId": "cet4-2022-06-set1-detail1"
+        },
+        {
+          "id": "cet4-2022-06-set1-q51",
+          "type": "DETAIL",
+          "prompt": "What does the author think open debate can do?",
+          "choices": [
+            "Help the public to better understand science.",
+            "Clear up confusion in the scientific community.",
+            "Settle disputes between universities and government agencies.",
+            "Prevent information from being used incorrectly by the public."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "passageId": "cet4-2022-06-set1-detail2"
+        },
+        {
+          "id": "cet4-2022-06-set1-q52",
+          "type": "DETAIL",
+          "prompt": "Why did a recent debate published in The New York Times arouse concerns among experts?",
+          "choices": [
+            "It might hinder the progress in medical research.",
+            "It might breed public distrust in modern medicine.",
+            "It might add to the difficulty of getting research funds.",
+            "It might prevent medical scientists reaching consensus."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "passageId": "cet4-2022-06-set1-detail2"
+        },
+        {
+          "id": "cet4-2022-06-set1-q53",
+          "type": "DETAIL",
+          "prompt": "Why does the author say some experts' anxiety seems misplaced?",
+          "choices": [
+            "Debating scientific issues at a conference is now old-fashioned.",
+            "Diverse topics can be debated by both scientists and the public.",
+            "Debates about science are accessible to the public anyway.",
+            "Scientists can voice their opinions whatever way they like."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "passageId": "cet4-2022-06-set1-detail2"
+        },
+        {
+          "id": "cet4-2022-06-set1-q54",
+          "type": "DETAIL",
+          "prompt": "What does the author suggest scientists do about public debate?",
+          "choices": [
+            "Have more discussions about it.",
+            "Embrace it with open arms.",
+            "Formulate new rules for it.",
+            "Restrain it to a rational degree."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "passageId": "cet4-2022-06-set1-detail2"
+        },
+        {
+          "id": "cet4-2022-06-set1-q55",
+          "type": "DETAIL",
+          "prompt": "What does the author say about science in the last paragraph?",
+          "choices": [
+            "It is transmitted through textbooks.",
+            "It is what proves valid and true to life.",
+            "It is a dynamic and self-improving process.",
+            "It is a collection of facts and established rules."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "passageId": "cet4-2022-06-set1-detail2"
+        }
+      ],
+      "audio": [],
+      "passages": [
+        {
+          "id": "cet4-2022-06-set1-bank",
+          "text": "You might think of your teeth as tools, like built-in knives and forks, but if they are mere tools, why do they feel pain and wouldn't it be better if they could just __(26)__ under any condition? In spite of our __(27)__ discomfort, it turns out there's a good reason our teeth are so sensitive. Tooth pain is a __(28)__ mechanism that ensures when a tooth is being damaged we'll notice and do something about it. If we eat something too hot or too cold, or if the tooth is worn down enough where the tissue __(29)__ is exposed, all of those things cause pain, and then the pain causes the person not to use that tooth to try to protect it a little bit more. So it's really a protective mechanism more than anything else. If teeth didn't feel pain, we might __(30)__ to use them in situations that damage them, and for humans, damaging __(31)__ teeth is a problem because, unlike crocodiles, we can't __(32)__ them. Teeth have three layers, only one of which the innermost layer of the tooth can hurt, as that layer of the tooth __(33)__ both blood vessels and nerves. Pain is the only feeling to which the nerves in that layer respond. Whereas people with tooth sensitivity may complain, for example, of tooth pain __(34)__  by heat or cold, the nerves in the inner layer don't sense temperature. Rather, they feel pain, which may be __(35)__  with, say, drinking something very cold."
+        },
+        {
+          "id": "cet4-2022-06-set1-matching",
+          "text": "How to determine if a company is a good fit for you\nA) On paper, the job seemed perfect for me: The position was completely in line with my degree, the duties and responsibilities were compatible with my interests, and the office maintained a well-stocked kitchen that would satisfy my every snack desire.\nB) Sounds like my dream job, right? There was only one small problem: I simply didn't get along with the company culture. They favored a more rigid, closed-door, corporate atmosphere, while I would have preferred something more collaborative and open. They were complete clock watchers, while I would have liked a more flexible schedule. To put it plainly, we just weren't on the same page.\nC) When it comes to looking for a new job, you already know that a big part of the interview process involves the company evaluating whether or not you're a good fit for their open role. But, it's important to keep in mind that the employer isn't the only one who needs to identify a good match- you should be looking for that same exact thing. Company culture can have a big impact on how you feel about your work, so you want to make sure you sign an offer letter with an organization you're truly excited about. 2022. 6 / 4 (# 115)\nD) However, figuring out what a company is like before you actually work there can be a bit of a challenge. Luckily, there are a few things you can do to determine whether or not a company is a good fit for you-before you ever sign your name on that dotted line.\nE) First of all, know what you want. It's hard to make any decisions when you don't really know what you're looking for. So before you can determine whether you and a specific company would be compatible together, it's important to have a solid handle on what exactly you want from your employer. Many of us have an easier time identifying the things that we absolutely don't want. If those are the only things you can think of, don't worry! That's still a good place to start.\nF) Start by writing down the things you didn't like about previous employers, as well as the parts you really valued. There's no wrong answer here so from big things to small details, write them all down on your list. This will help you immediately identify what you're looking for in an organization, as well as the things you're trying to stay far, far away from.\nG) Make sure to do your research. Now comes the part when you put on your detective hat and do a little digging. The Internet will be your best friend when you're trying to familiarize yourself with a company's culture before ever walking through their office doors. And where exactly should you look for these culture clues? Start with the most obvious place first: the company's website. Read through their copy and blog. Do they use formal, direct language? Or is it casual, conversational, and maybe even a little humorous? This can be a big indicator of what sort of atmosphere the company is trying to cultivate.\nH) Next, turn your attention toward their social media outlets. Are they sharing photos of their team's Thursday afternoon barbeque or Halloween costume contest? Or are their social media accounts strictly reserved for company-related announcements and product launches?\nI) An industry review website like Glassdoor is another spot to check in order to find some insider information about what you can expect about a company. However, remember to take the reviews you read with a grain of salt many of them are written by scorned (i*#li) employees.\nJ) Finally, you can never fail with personal connections. Send a quick message to a current or previous company employee on LinkedIn or by email and ask if they would be willing to have a quick conversation with you about the organization in general. If you get a yes to your request for a chat, you'll be armed with some pretty powerful and helpful information heading into your interview!\nK) Learn more by asking questions. You know that part at the end of a job interview when the hiring manager asks if you have any questions, and you just stare across the table blankly with your mouth hanging open? That's the perfect opportunity to speak up and get your burning company culture questions answered! So yes, you can definitely ask your interviewer about what it's like to work for that particular organization. Simple questions like, \"What three words would you use to describe the culture here?\" or \"What's your favorite part about working for this company?\" can reveal a lot about what it's really like behind closed doors.\nL) Prioritize your values. What does my dream company culture look like? Well, I could come and go as I please, as long as I was getting the work done. My boss would genuinely listen to and value all of my ideas and suggestions. My co-workers would all be friendly with one another, without ever falling into the office gossip trap. The kitchen would have endless options of pizza and cookies. Oh, and they'd give me two months of paid vacation with a very generous salary.\nM) What are my chances of finding all of those things with one employer? Slim to none believe me, I've looked. This is why it's so important to know which aspects of a company's culture you value most. Is it an open communication style or a flexible schedule? Focus on the top spots on your priority list, and 2022. 6 / 5 (# 112) ensure a potential employer at least checks those boxes. Unfortunately, this is reality, you can't have everything you want but a few are certainly achievable.\nN) When you're hunting for a new job, you already know that the employer is trying to decide whether or not you're a good fit for the position. But you should also look at the process through a similar lens. You may not be the one conducting the actual interview, but you're still trying to determine whether or not the company is a good fit for you.\nO) Keep these tips in mind to figure out whether you and a potential employer are a perfect match or just a recipe ($*) for disaster. After all, it's a good thing to know before actually accepting an offer."
+        },
+        {
+          "id": "cet4-2022-06-set1-detail1",
+          "text": "Online classes began to be popularized just a few decades ago. They are advertised as a way for adults to finish their education and students to learn the material at their own pace it is far more compatible for people with busy schedules. But after being enrolled in an online course last fall semester, I came to realize online classes were merely a means to fulfil course requirements. First of all, students lack the desire to learn, and they simply complete their assignments to receive credit for a passing grade rather than genuinely engage with the course material. As online courses tend to have more than 100 students, most of the assignments are short and simple. They are not designed for students to interact with the material in depth but designed to be graded easily to , accommodate such a large number of students. Perhaps the biggest disadvantage of taking an online class is the absence of face-to-face interaction between the teacher and their students. Live sessions are infrequent and are often scheduled during the middle of the day when students have to attend other classes or work. The office hours of the professor may also be during inconvenient times for many students as well. Most interaction with the professor has to be through email which is often impersonal. It is nearly impossible for students to build a relationship with their professor. 2022. 6 / 6 (35 1 1) There is also little interaction amongst students. It can be harder for students to create study groups: and form relationships with their peers. Online classes also require either a computer or laptop and a reliable internet connection. Not all students have access to these types of resources, whether it is for financial or other reasons, and some students can be put at a disadvantage. Offering online classes certainly helps students who would otherwise not be able to attend classroom sessions. However, they fail to provide a genuine education with an emphasis on convenience rather than critical thinking. We need restructured online classes in which students can have a learning experience that will actually provide quality education."
+        },
+        {
+          "id": "cet4-2022-06-set1-detail2",
+          "text": "In the age of the internet, there's no such thing as a private debate. But is that bad for science? Some scientists have had concerns. When debates in any sector move beyond the halls of universities and government agencies, there's potential for information to be used incorrectly, leading to public confusion; yet, open debate can also promote communication between the scientific community and the public. Recent open debates on scientific research, health, and policy have aroused greater public attention and encouraged more diverse voices. If this trend spurs scientists to agree more quickly about the best solutions to our problems and at the same time helps the public observe the process of scientific discourse more clearly then this is good for everyone, including scientists. A recent debate published in The New York Times discussed the question of how quickly medicine should be developed and produced. Issues such as safety of the product and perception of the public were 2022. 6 / 7 (3 1 1) examined and considered. But some experts worried that such public speculation might lead people to believe that disagreement about the details meant a lack of adequate scientific consensus over the safety and efficiency of modern-day medicine. The anxiety seems misplaced. Gone are the days of going to a conference and debating scientific issues, and that's good because those gatherings were not diverse enough and excluded many important voices. These days, the public can access debates about science regardless of where they take place. For many scientists, public debate is a new frontier and it may feel like a place with few restraints or rules, but rather than avoiding such conversations, let the debates be transparent and vigorous, wherever they are held. If the public is to understand that science is an honorably self-correcting process, the idea that science is a fixed set of facts in a textbook needs to be dismissed. With the validity of science coming under attack, there's a need for scientific debates to be perceived as open and true to life. Let everyone see the noisy, messy deliberations that advance science and lead to decisions that benefit us all."
+        }
+      ],
+      "sourceFileUrl": "/study/resources/98a4aaecf332f9874f8940a8.pdf"
+    },
+    "TRANSLATION": {
+      "instructions": "请将原卷中文翻译成英语。",
+      "prompt": "Directions: For this part, you are allowed 30 minutes to translate a passage from Chinese into English. You should write your answer on Answer Sheet 2. 从前有个农夫嫌他种的禾苗长得慢,就到地里把禾苗一株株地拔高了一点。回家后他对家人说:“今 天可真把我累坏了!但我总算让禾苗一下子长高了。”他儿子到地里去一看,禾苗都已死光了。 现在有些家长急于让孩子成功,往往步那个农夫的后生,搞得孩子苦不堪言,却不见孩子学业长进。 这样的家长是否该对这个问题有所醒悟,让孩子自然成长呢? 2022. 6/ 8 (#1 1)",
+      "questions": [],
+      "audio": [],
+      "passages": [],
+      "sourceFileUrl": "/study/resources/98a4aaecf332f9874f8940a8.pdf"
+    }
+  }
+}

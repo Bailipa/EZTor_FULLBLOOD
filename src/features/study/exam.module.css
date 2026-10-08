@@ -1,0 +1,161 @@
+.panel { min-width: 0; margin-top: 16px; padding: clamp(18px, 3vw, 30px); color: var(--foreground); border: 1px solid var(--border); border-radius: 14px; background: var(--card); }
+.panel :is(button, a, input, textarea, select):focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
+.header { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; }
+.headerActions { display: flex; align-items: center; gap: 8px; }
+.header h3 { margin: 3px 0 0; font-size: 19px; line-height: 1.45; }
+.eyebrow, .source, .note { color: var(--muted-foreground); font-size: 13px; line-height: 1.7; }
+.close { width: 40px; height: 40px; color: var(--muted-foreground); font-size: 25px; border: 0; border-radius: 8px; background: var(--muted); cursor: pointer; }
+.empty { padding: 22px 16px; margin-top: 18px; border-radius: 10px; background: var(--muted); text-align: center; line-height: 1.7; }
+.empty strong { display: block; }
+.empty p { margin: 8px 0 0; color: var(--muted-foreground); font-size: 13px; }
+.stages { display: flex; flex-wrap: wrap; gap: 8px; margin-block: 18px 8px; }
+.stages span { padding: 6px 9px; color: var(--muted-foreground); background: var(--muted); border-radius: 7px; font-size: 12px; }
+.stages .currentStage { color: var(--primary-foreground); background: var(--primary); }
+.clock { padding: 7px 10px; border-radius: 8px; background: var(--muted); font-variant-numeric: tabular-nums; font-size: 14px; white-space: nowrap; }
+.source { margin-block: 12px; }
+.instructions { padding: 12px 14px; margin-block: 12px 18px; border-left: 3px solid var(--primary); background: var(--muted); font-size: 14px; line-height: 1.7; }
+.audio { display: grid; gap: 8px; margin-block: 14px 22px; font-size: 12px; }
+.audio audio { width: 100%; }
+.passage { padding: 16px; margin-block: 14px; border: 1px solid var(--border); border-radius: 10px; background: var(--background); font-family: Georgia, 'Times New Roman', serif; font-size: 17px; line-height: 1.85; white-space: pre-wrap; overflow-wrap: anywhere; }
+.prompt { margin-block: 14px; }
+.prompt p { white-space: pre-wrap; line-height: 1.7; }
+.prompt small, .textAnswer span, .actions > span { color: var(--muted-foreground); font-size: 12px; }
+.textAnswer { display: grid; gap: 8px; margin-block: 18px; font-size: 14px; font-weight: 600; }
+.textAnswer textarea { width: 100%; min-height: 180px; padding: 12px; color: var(--foreground); background: var(--background); border: 1px solid var(--border); border-radius: 9px; resize: vertical; font: inherit; font-size: 16px; line-height: 1.7; }
+.question { min-width: 0; display: grid; gap: 7px; padding: 16px; margin: 12px 0; border: 1px solid var(--border); border-radius: 10px; }
+.question legend { padding: 0 4px; font-size: 15px; line-height: 1.6; }
+.question legend span { color: var(--primary); font-weight: 600; }
+.question label { display: flex; align-items: baseline; gap: 9px; padding: 9px 7px; border-radius: 7px; line-height: 1.6; cursor: pointer; }
+.question label:hover { background: var(--muted); }
+.question input { accent-color: var(--primary); flex: none; }
+.wordBankQuestion { gap: 10px; }
+.wordBankTrigger { width: 100%; min-height: 44px; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; color: var(--foreground); background: var(--background); text-align: left; cursor: pointer; }
+.wordBankTrigger:hover { border-color: var(--primary); }
+.wordBankOverlay { background: color-mix(in srgb, black 38%, transparent) !important; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+.wordBankDialog { width: calc(100vw - 24px); height: calc(var(--app-visible-height, 100dvh) - 24px); max-width: 960px !important; max-height: none; grid-template-rows: auto auto auto minmax(0, 1fr); gap: 12px; overflow: hidden; padding: clamp(16px, 3vw, 30px); }
+.wordBankPrompt { max-height: 32vh; overflow-y: auto; padding: 14px 16px; margin: 0; border-left: 3px solid var(--primary); border-radius: 6px; background: var(--muted); font-size: 16px; line-height: 1.7; white-space: pre-wrap; overflow-wrap: anywhere; }
+.wordBankHint { margin: 0; color: var(--muted-foreground); font-size: 12px; line-height: 1.5; }
+.wordBankOptions { display: grid; min-height: 0; grid-template-columns: minmax(0, 1fr); align-content: start; gap: 8px; overflow-y: auto; padding: 4px; }
+.wordBankOption { display: flex; flex-direction: column; align-items: flex-start; gap: 3px; min-width: 0; padding: 8px 10px; border: 1px solid var(--border); border-radius: 7px; color: var(--foreground); background: var(--card); text-align: left; line-height: 1.5; cursor: pointer; }
+.wordBankOption:hover, .wordBankOption[aria-pressed='true'] { border-color: var(--primary); background: color-mix(in srgb, var(--primary) 8%, var(--card)); }
+.wordBankUsed { color: var(--primary); font-size: 11px; }
+.wordBankNotice { margin: 0; color: var(--muted-foreground); font-size: 12px; line-height: 1.5; }
+@media (min-width: 600px) { .wordBankOptions { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 18px; }
+.assist { padding: 9px 11px; color: var(--muted-foreground); border-radius: 8px; background: var(--muted); font-size: 13px; }
+.error { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; padding: 12px; margin-block: 12px; border: 1px solid var(--destructive); border-radius: 8px; font-size: 13px; line-height: 1.6; }
+.error button { color: var(--primary); background: transparent; border: 0; text-decoration: underline; cursor: pointer; }
+.score { display: flex; align-items: baseline; flex-wrap: wrap; gap: 10px; padding: 16px 0; }
+.score strong { font-size: 32px; font-variant-numeric: tabular-nums; }
+.score span { color: var(--muted-foreground); font-size: 13px; }
+.feedback { padding: 12px 14px; margin-block: 10px; border: 1px solid var(--border); border-radius: 9px; line-height: 1.7; }
+.feedback summary { cursor: pointer; font-size: 14px; font-weight: 600; }
+.feedback p { font-size: 14px; }
+.work { padding-top: 16px; margin-top: 16px; border-top: 1px solid var(--border); }
+.work h4 { margin: 0; }
+.submission { padding: 12px; border-radius: 8px; background: var(--muted); line-height: 1.7; white-space: pre-wrap; overflow-wrap: anywhere; }
+.stageBody { min-width: 0; }
+.columnHeading { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding: 2px 0 10px; color: var(--foreground); font-size: 14px; font-weight: 600; }
+.columnHeading small { color: var(--muted-foreground); font-size: 11px; font-weight: 400; }
+.readingWorkbench { min-width: 0; }
+.readingPassages, .readingAnswers { min-width: 0; }
+.readingAnswers .actions { margin-top: 18px; }
+.divider, .questionPager { display: none; }
+.lookupWord { cursor: pointer; }
+.lookupWord:hover { color: var(--primary); }
+@media (max-width: 479px) { .panel { padding: 17px 14px; } }
+
+@media (min-width: 1024px) {
+  .readingPanel { display: flex; flex-direction: column; height: calc(var(--workspace-content-height, 100dvh) - 154px); min-height: 360px; overflow: hidden; margin-top: 12px; padding: 12px 16px 16px; }
+  .readingPanel > * { flex-shrink: 0; }
+  .readingPanel .source { margin-block: 4px 8px; }
+  .readingPanel .readingWorkbench { display: grid; grid-template-columns: minmax(0, 1.16fr) minmax(320px, .84fr); gap: 18px; flex: 1 1 0; min-height: 0; }
+  .readingPanel .readingPassages, .readingPanel .readingAnswers { min-height: 0; overflow-y: auto; overscroll-behavior: contain; scrollbar-gutter: stable; scroll-padding-block: 8px; }
+  .readingPanel .readingPassages { padding: 2px 8px 20px 0; }
+  .readingPanel .readingAnswers { padding: 2px 4px 20px 18px; border-left: 1px solid var(--border); }
+  .readingPanel .readingPassages .passage { margin-block: 0 14px; padding: clamp(16px, 1.8vw, 24px); font-size: clamp(17px, 1.15vw, 19px); line-height: 1.9; }
+  .readingPanel .readingPassages .passage + .passage { margin-top: 14px; }
+  .readingPanel .readingAnswers .question { margin-block: 0 12px; padding: 14px; }
+  .readingPanel .readingAnswers .question + .question { margin-top: 12px; }
+  .readingPanel .readingAnswers .question label { padding: 10px 11px; }
+}
+
+.passageTabs { display: flex; flex-wrap: wrap; gap: 4px 8px; padding: 8px 0 12px; }
+.passageTabs button { display: inline-flex; align-items: center; gap: 8px; min-height: 34px; padding: 5px 10px; border: 1px solid transparent; border-radius: 6px; color: var(--muted-foreground); font-size: 12px; cursor: pointer; }
+.passageTabs button[aria-pressed='true'] { color: var(--foreground); background: var(--muted); border-color: var(--border); }
+.passageTabs small { font-variant-numeric: tabular-nums; opacity: .7; }
+.selectionTools { position: sticky; bottom: 0; z-index: 2; display: flex; flex-wrap: wrap; align-items: center; gap: 4px; padding: 6px; border: 1px solid var(--border); border-radius: 8px; background: var(--card); font-family: var(--font-sans); }
+.selectionTools > span { flex: 1; min-width: 60px; max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding-inline: 4px; font-size: 12px; color: var(--muted-foreground); }
+.selectionTools button { padding: 7px 8px; min-height: 34px; font-size: 12px; color: var(--foreground); border-radius: 5px; cursor: pointer; }
+.selectionTools button:hover { background: var(--muted); }
+.selectionTools button:disabled { opacity: .5; cursor: wait; }
+.passage mark { color: inherit; background: transparent; text-decoration: underline; text-decoration-color: var(--primary); text-decoration-thickness: 2px; text-underline-offset: 3px; cursor: pointer; }
+.helpDialog { max-height: calc(var(--app-visible-height, 100dvh) - 40px); overflow-y: auto; }
+.selectedText { padding: 10px 12px; border-left: 2px solid var(--primary); background: var(--muted); overflow-wrap: anywhere; }
+.helpAnswer { font-size: 15px; line-height: 1.8; white-space: pre-wrap; overflow-wrap: anywhere; }
+.helpSource { display: block; margin-top: 8px; color: var(--muted-foreground); font-size: 12px; }
+.helpDialog .textAnswer { margin: 0; }
+.helpDialog .textAnswer textarea { min-height: 80px; }
+
+.stickyHeader { position: sticky; top: 0; z-index: 10; padding-block: 10px; background: var(--card); border-bottom: 1px solid var(--border); }
+.stickyHeader > div:first-child { min-width: 0; }
+.stickyHeader h3 { font-size: 16px; overflow-wrap: anywhere; }
+.paperSelector { display: grid; gap: 10px; }
+.paperSelector label { color: var(--muted-foreground); font-size: 13px; }
+.paperSelector select { width: 100%; min-width: 0; padding: 10px; color: var(--foreground); background: var(--background); border: 1px solid var(--border); border-radius: 8px; font-size: 16px; }
+.switchDialog { max-height: calc(100dvh - 32px); overflow-y: auto; }
+.switchDialog .actions { flex-wrap: wrap; }
+@media (max-width: 639px) { .stickyHeader { flex-wrap: wrap; } .stickyHeader > div:first-child { min-width: 0; width: 100%; overflow-wrap: anywhere; } .stickyHeader .headerActions { width: 100%; justify-content: space-between; } }
+.source summary { cursor: pointer; }
+@media (max-width: 1023px) {
+  .readingPanel { height: auto; min-height: 0; overflow: visible; padding: 12px; }
+  .readingPanel .stickyHeader { padding-block: 4px 8px; }
+  .readingPanel .stickyHeader > div:first-child { flex: 1; }
+  .readingPanel .stickyHeader h3 { font-size: 14px; line-height: 1.4; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .readingPanel .eyebrow { display: none; }
+  .readingPanel .source { margin-block: 6px; max-height: 110px; overflow-y: auto; }
+  .readingPanel .stages { flex-wrap: nowrap; overflow-x: auto; margin-block: 8px; }
+  .readingPanel .stages span { white-space: nowrap; }
+  .readingPanel .passageTabs { flex-wrap: nowrap; overflow-x: auto; padding-block: 4px 8px; }
+  .passageTabs button { flex: none; white-space: nowrap; }
+  .readingWorkbench { display: grid; grid-template-rows: minmax(0, var(--reading-share, 48%)) 24px minmax(0, 1fr); height: max(180px, calc(var(--app-visible-height, 100dvh) - 400px)); min-height: 0; }
+  .readingPassages, .readingAnswers { min-height: 0; overflow-y: auto; overscroll-behavior-y: contain; -webkit-overflow-scrolling: touch; }
+  .readingPassages { position: relative; }
+  .readingPassages .passage { margin: 0; padding: 10px; border: 0; border-radius: 0; background: transparent; user-select: text; -webkit-user-select: text; }
+  .readingPassages .columnHeading { padding-block: 4px; }
+  .readingAnswers { margin: 0; padding: 0 2px 10px; border-top: 1px solid var(--border); }
+  .divider { position: relative; display: grid; place-items: center; touch-action: none; cursor: row-resize; border-block: 1px solid color-mix(in srgb, var(--primary) 35%, var(--border)); background: color-mix(in srgb, var(--primary) 7%, var(--card)); }
+  .divider span { width: 56px; height: 5px; border-radius: 999px; background: var(--primary); }
+  .divider:hover, .divider:active { background: color-mix(in srgb, var(--primary) 15%, var(--card)); }
+  .divider:focus-visible { outline: 2px solid var(--primary); outline-offset: -2px; }
+  .questionPager { position: sticky; top: 0; z-index: 3; display: flex; align-items: center; justify-content: space-between; gap: 8px; background: var(--card); border-bottom: 1px solid var(--border); font-size: 12px; }
+  .questionPager button { min-height: 40px; padding-inline: 6px; color: var(--primary); }
+  .questionPager button:disabled { color: var(--muted-foreground); opacity: .5; }
+  .readingAnswers .inactiveQuestion { display: none; }
+  .readingAnswers .columnHeading { display: none; }
+  .readingAnswers .question { margin: 8px 0; padding: 8px; }
+  .readingAnswers .question legend { font-size: 14px; }
+  .readingAnswers .question label { min-height: 44px; padding: 8px 4px; font-size: 14px; }
+  .wordBankDialog { width: calc(100vw - 12px); height: calc(var(--app-visible-height, 100dvh) - 12px); }
+  .readingAnswers .actions { margin-top: 10px; gap: 6px; }
+  .readingAnswers .actions > button { min-height: 40px; }
+  .readingPassages .selectionTools { top: auto; bottom: 0; padding: 4px; box-shadow: 0 -3px 10px color-mix(in srgb, var(--foreground) 8%, transparent); }
+  .selectionTools > span { display: none; }
+  .selectionTools button { flex: 1; min-height: 44px; padding-inline: 4px; }
+  .readingAnswers .textAnswer { margin: 4px 0; gap: 4px; }
+  .readingAnswers .textAnswer textarea { min-height: 100px; height: 130px; resize: none; }
+  .readingPassages .instructions { margin: 0 0 8px; padding: 8px; font-size: 12px; }
+  .readingPassages .prompt { margin: 0; font-size: 15px; }
+  :global(html[data-keyboard-open='true']) .readingPanel .source,
+  :global(html[data-keyboard-open='true']) .readingPanel .stages,
+  :global(html[data-keyboard-open='true']) .readingPanel .eyebrow { display: none; }
+  :global(html[data-keyboard-open='true']) .readingWorkbench { --reading-share: 30% !important; height: max(180px, calc(var(--app-visible-height, 100dvh) - 120px)); }
+  :global(html[data-keyboard-open='true']) .readingAnswers .textAnswer textarea { min-height: 70px; height: 90px; }
+}
+@media (max-width: 479px) { .header { gap: 8px; } .headerActions { gap: 4px; } .stickyHeader .clock { padding: 6px; font-size: 12px; } .close { width: 32px; height: 32px; } .passage { padding: 12px; font-size: 16px; } .question { padding: 12px; } .panel { margin-top: 10px; } }
+
+.passage mark[data-focused='true'] { outline: 2px solid var(--primary); outline-offset: 2px; scroll-margin-block: 80px; }
+
+.lookupHighlighted { background: rgb(250 204 21 / 38%); border-radius: 2px; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+.lookupWord:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+.promptImage { display: block; width: 100%; height: auto; margin-block: 12px; }

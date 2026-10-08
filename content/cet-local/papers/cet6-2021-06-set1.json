@@ -1,0 +1,1089 @@
+{
+  "slug": "cet6-2021-06-set1-full",
+  "version": 1,
+  "title": "2021年6月 · 第1套整卷模拟真题",
+  "level": "CET6",
+  "kind": "FULL",
+  "originType": "PAST_EXAM",
+  "sourceName": "用户提供的本地四六级资料",
+  "sourceUrl": "/study/resources/28ee0371724573166ed299ae.pdf",
+  "rightsHolder": "原试卷及解析作者",
+  "rightsEvidence": "用户提供本地资源并要求接入本地学习系统；原文件及校验值见 content/cet-local/index.json。未授权公开再分发或生产部署。",
+  "content": {
+    "WRITING": {
+      "instructions": "原卷写作要求",
+      "prompt": "Directions: For this part, you are allowed 30 minutes to write an essay based on the graph below. You should start your essay with a brief description of the graph and comment on China's achievements in urbanization. You should write at least 150 words but no more than 200 words.",
+      "questions": [],
+      "audio": [],
+      "passages": [],
+      "minimumWords": 150,
+      "maximumWords": 200,
+      "sourceFileUrl": "/study/resources/28ee0371724573166ed299ae.pdf",
+      "promptImageUrl": "/study/resources/68e5252b4381fde373d0b14f.png"
+    },
+    "LISTENING": {
+      "instructions": "原卷听力选择题",
+      "questions": [
+        {
+          "id": "cet6-2021-06-set1-q1",
+          "type": "CONVERSATION",
+          "prompt": "第 1 题(题干在原始录音中)",
+          "choices": [
+            "He is going to leave his present job.",
+            "He is going to attend a job interview.",
+            "He will meet his new manager in two weeks.",
+            "He will tell the management how he really feels."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "audioId": "cet6-2021-06-set1-audio"
+        },
+        {
+          "id": "cet6-2021-06-set1-q2",
+          "type": "CONVERSATION",
+          "prompt": "第 2 题(题干在原始录音中)",
+          "choices": [
+            "It should be carefully analyzed.",
+            "It should be kept private.",
+            "It can be quite useful to senior managers.",
+            "It can improve interviewees' job prospects."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "audioId": "cet6-2021-06-set1-audio"
+        },
+        {
+          "id": "cet6-2021-06-set1-q3",
+          "type": "CONVERSATION",
+          "prompt": "第 3 题(题干在原始录音中)",
+          "choices": [
+            "It may do harm to his fellow employees.",
+            "It may displease his immediate superiors.",
+            "It may adversely affect his future career prospects.",
+            "It may leave a negative impression on the interviewer."
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 1,
+          "audioId": "cet6-2021-06-set1-audio"
+        },
+        {
+          "id": "cet6-2021-06-set1-q4",
+          "type": "CONVERSATION",
+          "prompt": "第 4 题(题干在原始录音中)",
+          "choices": [
+            "Pour out his frustrations on a rate-your-employer website.",
+            "Network with his close friends to find a better employer.",
+            "Do some practice for the exit interview.",
+            "Prepare a comprehensive exit report."
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 1,
+          "audioId": "cet6-2021-06-set1-audio"
+        },
+        {
+          "id": "cet6-2021-06-set1-q5",
+          "type": "CONVERSATION",
+          "prompt": "第 5 题(题干在原始录音中)",
+          "choices": [
+            "Her career as a botanist.",
+            "Her latest documentary.",
+            "Her month-long expedition.",
+            "Her unsuccessful journey."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "audioId": "cet6-2021-06-set1-audio"
+        },
+        {
+          "id": "cet6-2021-06-set1-q6",
+          "type": "CONVERSATION",
+          "prompt": "第 6 题(题干在原始录音中)",
+          "choices": [
+            "She was caught in a hurricane.",
+            "She had to live like a vegetarian.",
+            "She suffered from water shortage.",
+            "She had to endure many hardships."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "audioId": "cet6-2021-06-set1-audio"
+        },
+        {
+          "id": "cet6-2021-06-set1-q7",
+          "type": "CONVERSATION",
+          "prompt": "第 7 题(题干在原始录音中)",
+          "choices": [
+            "They could no longer bear the humidity.",
+            "They had no more food in the canoe.",
+            "A flood was approaching.",
+            "A hurricane was coming."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "audioId": "cet6-2021-06-set1-audio"
+        },
+        {
+          "id": "cet6-2021-06-set1-q8",
+          "type": "CONVERSATION",
+          "prompt": "第 8 题(题干在原始录音中)",
+          "choices": [
+            "It was memorable.",
+            "It was unbearable.",
+            "It was fruitful.",
+            "It was uneventful."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "audioId": "cet6-2021-06-set1-audio"
+        },
+        {
+          "id": "cet6-2021-06-set1-q9",
+          "type": "PASSAGE",
+          "prompt": "第 9 题(题干在原始录音中)",
+          "choices": [
+            "It ensures the accuracy of their arguments.",
+            "It diminishes laymen's interest in science.",
+            "It hurts laymen's dignity and self-esteem.",
+            "It makes their expressions more explicit."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "audioId": "cet6-2021-06-set1-audio"
+        },
+        {
+          "id": "cet6-2021-06-set1-q10",
+          "type": "PASSAGE",
+          "prompt": "第 10 题(题干在原始录音中)",
+          "choices": [
+            "They will see the complexity of science.",
+            "They feel great respect towards scientists.",
+            "They tend to disbelieve the actual science.",
+            "They can learn to communicate with scientists."
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 1,
+          "audioId": "cet6-2021-06-set1-audio"
+        },
+        {
+          "id": "cet6-2021-06-set1-q11",
+          "type": "PASSAGE",
+          "prompt": "第 11 题(题干在原始录音中)",
+          "choices": [
+            "Explain all the jargon terms.",
+            "Do away with jargon terms.",
+            "Find appropriate topics.",
+            "Stimulate their interest."
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 1,
+          "audioId": "cet6-2021-06-set1-audio"
+        },
+        {
+          "id": "cet6-2021-06-set1-q12",
+          "type": "PASSAGE",
+          "prompt": "第 12 题(题干在原始录音中)",
+          "choices": [
+            "There were oil deposits below a local gassy hill.",
+            "The erupting gas might endanger local children.",
+            "There was oil leakage along the Gulf Coast.",
+            "The local gassy hill might start a huge fire."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "audioId": "cet6-2021-06-set1-audio"
+        },
+        {
+          "id": "cet6-2021-06-set1-q13",
+          "type": "PASSAGE",
+          "prompt": "第 13 题(题干在原始录音中)",
+          "choices": [
+            "The massive gas underground.",
+            "Their lack of the needed skill.",
+            "Their lack of suitable tools.",
+            "The sand under the hill."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "audioId": "cet6-2021-06-set1-audio"
+        },
+        {
+          "id": "cet6-2021-06-set1-q14",
+          "type": "PASSAGE",
+          "prompt": "第 14 题(题干在原始录音中)",
+          "choices": [
+            "It was not as effective as he claimed.",
+            "It rendered many oil workers jobless.",
+            "It gave birth to the oil drilling industry.",
+            "It was not popularized until years later."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "audioId": "cet6-2021-06-set1-audio"
+        },
+        {
+          "id": "cet6-2021-06-set1-q15",
+          "type": "PASSAGE",
+          "prompt": "第 15 题(题干在原始录音中)",
+          "choices": [
+            "It ruined the state's cotton and beef industries.",
+            "It totally destroyed the state's rural landscape.",
+            "It resulted in an oil surplus all over the world.",
+            "It radically transformed the state's economy."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "audioId": "cet6-2021-06-set1-audio"
+        },
+        {
+          "id": "cet6-2021-06-set1-q16",
+          "type": "LECTURE",
+          "prompt": "第 16 题(题干在原始录音中)",
+          "choices": [
+            "Insufficient motivation.",
+            "Tough regulations.",
+            "Unsuitable jobs.",
+            "Bad managers."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "audioId": "cet6-2021-06-set1-audio"
+        },
+        {
+          "id": "cet6-2021-06-set1-q17",
+          "type": "LECTURE",
+          "prompt": "第 17 题(题干在原始录音中)",
+          "choices": [
+            "Ineffective training.",
+            "Toxic company culture.",
+            "Overburdening of managers.",
+            "Lack of regular evaluation."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "audioId": "cet6-2021-06-set1-audio"
+        },
+        {
+          "id": "cet6-2021-06-set1-q18",
+          "type": "LECTURE",
+          "prompt": "第 18 题(题干在原始录音中)",
+          "choices": [
+            "It was based only on the perspective of employees.",
+            "It provided meaningful clues to solving the problem.",
+            "It was conducted from frontline managers' point of view.",
+            "It collected feedback from both employers and employees."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "audioId": "cet6-2021-06-set1-audio"
+        },
+        {
+          "id": "cet6-2021-06-set1-q19",
+          "type": "LECTURE",
+          "prompt": "第 19 题(题干在原始录音中)",
+          "choices": [
+            "It is expanding at an accelerating speed.",
+            "It is bringing prosperity to the region.",
+            "It is yielding an unprecedented profit.",
+            "It is seeing an automation revolution."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "audioId": "cet6-2021-06-set1-audio"
+        },
+        {
+          "id": "cet6-2021-06-set1-q20",
+          "type": "LECTURE",
+          "prompt": "第 20 题(题干在原始录音中)",
+          "choices": [
+            "It creates a lot of new jobs.",
+            "It exhausts resources sooner.",
+            "It causes conflicts between employers and employees.",
+            "It calls for the retraining of unskilled mining workers."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "audioId": "cet6-2021-06-set1-audio"
+        },
+        {
+          "id": "cet6-2021-06-set1-q21",
+          "type": "LECTURE",
+          "prompt": "第 21 题(题干在原始录音中)",
+          "choices": [
+            "They will wait to see its effect.",
+            "They welcome it with open arms.",
+            "They accept it with reservations.",
+            "They are strongly opposed to it."
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 2,
+          "audioId": "cet6-2021-06-set1-audio"
+        },
+        {
+          "id": "cet6-2021-06-set1-q22",
+          "type": "LECTURE",
+          "prompt": "第 22 题(题干在原始录音中)",
+          "choices": [
+            "They have experienced a gradual decline since the year of 2017.",
+            "Their annual death rate is about twice that of the global average.",
+            "They kill more people than any infectious disease.",
+            "Their cost to the nation's economy is incalculable."
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 2,
+          "audioId": "cet6-2021-06-set1-audio"
+        },
+        {
+          "id": "cet6-2021-06-set1-q23",
+          "type": "LECTURE",
+          "prompt": "第 23 题(题干在原始录音中)",
+          "choices": [
+            "They are not as reliable as claimed.",
+            "They rise and fall from year to year.",
+            "They don't reflect the changes in individual countries.",
+            "They show a difference between rich and poor nations."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "audioId": "cet6-2021-06-set1-audio"
+        },
+        {
+          "id": "cet6-2021-06-set1-q24",
+          "type": "LECTURE",
+          "prompt": "第 24 题(题干在原始录音中)",
+          "choices": [
+            "Many of them are investing heavily in infrastructure.",
+            "Many of them have seen a decline in road-death rates.",
+            "Many of them are following the example set by Thailand.",
+            "Many of them have increasing numbers of cars on the road."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "audioId": "cet6-2021-06-set1-audio"
+        },
+        {
+          "id": "cet6-2021-06-set1-q25",
+          "type": "LECTURE",
+          "prompt": "第 25 题(题干在原始录音中)",
+          "choices": [
+            "Foster better driving behavior.",
+            "Abolish all outdated traffic rules.",
+            "Provide better training for drivers.",
+            "Impose heavier penalties on speeding."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "audioId": "cet6-2021-06-set1-audio"
+        }
+      ],
+      "audio": [
+        {
+          "id": "cet6-2021-06-set1-audio",
+          "url": "/study/resources/bc5a89f888d2e79397492a4d.m4a",
+          "sourceUrl": "/study/resources/bc5a89f888d2e79397492a4d.m4a",
+          "durationSeconds": 1687.440544,
+          "transcript": "",
+          "identity": "cet6_2021_06_1.mp3 SHA256:bc5a89f888d2e79397492a4d000733011d97a0f3373e859666c764bb3d459025"
+        }
+      ],
+      "passages": [],
+      "sourceFileUrl": "/study/resources/28ee0371724573166ed299ae.pdf"
+    },
+    "READING": {
+      "instructions": "请依次完成选词填空、长篇匹配和仔细阅读。",
+      "questions": [
+        {
+          "id": "cet6-2021-06-set1-q26",
+          "type": "WORD_BANK",
+          "prompt": "第 26 空",
+          "choices": [
+            "alienating",
+            "appreciation",
+            "bias",
+            "fraud",
+            "housed",
+            "investigated",
+            "overwhelming",
+            "portraying",
+            "representation",
+            "safeguarded",
+            "secondary",
+            "superiority",
+            "temperament",
+            "tentative",
+            "threshold"
+          ],
+          "answerIndex": 5,
+          "explanation": "原卷答案：F。",
+          "weight": 0.5,
+          "passageId": "cet6-2021-06-set1-bank"
+        },
+        {
+          "id": "cet6-2021-06-set1-q27",
+          "type": "WORD_BANK",
+          "prompt": "第 27 空",
+          "choices": [
+            "alienating",
+            "appreciation",
+            "bias",
+            "fraud",
+            "housed",
+            "investigated",
+            "overwhelming",
+            "portraying",
+            "representation",
+            "safeguarded",
+            "secondary",
+            "superiority",
+            "temperament",
+            "tentative",
+            "threshold"
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 0.5,
+          "passageId": "cet6-2021-06-set1-bank"
+        },
+        {
+          "id": "cet6-2021-06-set1-q28",
+          "type": "WORD_BANK",
+          "prompt": "第 28 空",
+          "choices": [
+            "alienating",
+            "appreciation",
+            "bias",
+            "fraud",
+            "housed",
+            "investigated",
+            "overwhelming",
+            "portraying",
+            "representation",
+            "safeguarded",
+            "secondary",
+            "superiority",
+            "temperament",
+            "tentative",
+            "threshold"
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 0.5,
+          "passageId": "cet6-2021-06-set1-bank"
+        },
+        {
+          "id": "cet6-2021-06-set1-q29",
+          "type": "WORD_BANK",
+          "prompt": "第 29 空",
+          "choices": [
+            "alienating",
+            "appreciation",
+            "bias",
+            "fraud",
+            "housed",
+            "investigated",
+            "overwhelming",
+            "portraying",
+            "representation",
+            "safeguarded",
+            "secondary",
+            "superiority",
+            "temperament",
+            "tentative",
+            "threshold"
+          ],
+          "answerIndex": 7,
+          "explanation": "原卷答案：H。",
+          "weight": 0.5,
+          "passageId": "cet6-2021-06-set1-bank"
+        },
+        {
+          "id": "cet6-2021-06-set1-q30",
+          "type": "WORD_BANK",
+          "prompt": "第 30 空",
+          "choices": [
+            "alienating",
+            "appreciation",
+            "bias",
+            "fraud",
+            "housed",
+            "investigated",
+            "overwhelming",
+            "portraying",
+            "representation",
+            "safeguarded",
+            "secondary",
+            "superiority",
+            "temperament",
+            "tentative",
+            "threshold"
+          ],
+          "answerIndex": 10,
+          "explanation": "原卷答案：K。",
+          "weight": 0.5,
+          "passageId": "cet6-2021-06-set1-bank"
+        },
+        {
+          "id": "cet6-2021-06-set1-q31",
+          "type": "WORD_BANK",
+          "prompt": "第 31 空",
+          "choices": [
+            "alienating",
+            "appreciation",
+            "bias",
+            "fraud",
+            "housed",
+            "investigated",
+            "overwhelming",
+            "portraying",
+            "representation",
+            "safeguarded",
+            "secondary",
+            "superiority",
+            "temperament",
+            "tentative",
+            "threshold"
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 0.5,
+          "passageId": "cet6-2021-06-set1-bank"
+        },
+        {
+          "id": "cet6-2021-06-set1-q32",
+          "type": "WORD_BANK",
+          "prompt": "第 32 空",
+          "choices": [
+            "alienating",
+            "appreciation",
+            "bias",
+            "fraud",
+            "housed",
+            "investigated",
+            "overwhelming",
+            "portraying",
+            "representation",
+            "safeguarded",
+            "secondary",
+            "superiority",
+            "temperament",
+            "tentative",
+            "threshold"
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 0.5,
+          "passageId": "cet6-2021-06-set1-bank"
+        },
+        {
+          "id": "cet6-2021-06-set1-q33",
+          "type": "WORD_BANK",
+          "prompt": "第 33 空",
+          "choices": [
+            "alienating",
+            "appreciation",
+            "bias",
+            "fraud",
+            "housed",
+            "investigated",
+            "overwhelming",
+            "portraying",
+            "representation",
+            "safeguarded",
+            "secondary",
+            "superiority",
+            "temperament",
+            "tentative",
+            "threshold"
+          ],
+          "answerIndex": 6,
+          "explanation": "原卷答案：G。",
+          "weight": 0.5,
+          "passageId": "cet6-2021-06-set1-bank"
+        },
+        {
+          "id": "cet6-2021-06-set1-q34",
+          "type": "WORD_BANK",
+          "prompt": "第 34 空",
+          "choices": [
+            "alienating",
+            "appreciation",
+            "bias",
+            "fraud",
+            "housed",
+            "investigated",
+            "overwhelming",
+            "portraying",
+            "representation",
+            "safeguarded",
+            "secondary",
+            "superiority",
+            "temperament",
+            "tentative",
+            "threshold"
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 0.5,
+          "passageId": "cet6-2021-06-set1-bank"
+        },
+        {
+          "id": "cet6-2021-06-set1-q35",
+          "type": "WORD_BANK",
+          "prompt": "第 35 空",
+          "choices": [
+            "alienating",
+            "appreciation",
+            "bias",
+            "fraud",
+            "housed",
+            "investigated",
+            "overwhelming",
+            "portraying",
+            "representation",
+            "safeguarded",
+            "secondary",
+            "superiority",
+            "temperament",
+            "tentative",
+            "threshold"
+          ],
+          "answerIndex": 11,
+          "explanation": "原卷答案：L。",
+          "weight": 0.5,
+          "passageId": "cet6-2021-06-set1-bank"
+        },
+        {
+          "id": "cet6-2021-06-set1-q36",
+          "type": "MATCHING",
+          "prompt": "Marconi was central to our present-day understanding of communication.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段"
+          ],
+          "answerIndex": 5,
+          "explanation": "原卷答案：F。",
+          "weight": 1,
+          "passageId": "cet6-2021-06-set1-matching"
+        },
+        {
+          "id": "cet6-2021-06-set1-q37",
+          "type": "MATCHING",
+          "prompt": "As an adult, Marconi had an intuition that he had to be loyal to politicians in order to be influential.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段"
+          ],
+          "answerIndex": 8,
+          "explanation": "原卷答案：I。",
+          "weight": 1,
+          "passageId": "cet6-2021-06-set1-matching"
+        },
+        {
+          "id": "cet6-2021-06-set1-q38",
+          "type": "MATCHING",
+          "prompt": "Marconi disapproved of the use of wireless communication for commercial broadcasting.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段"
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "passageId": "cet6-2021-06-set1-matching"
+        },
+        {
+          "id": "cet6-2021-06-set1-q39",
+          "type": "MATCHING",
+          "prompt": "Marconi's example demonstrates that theoretical concepts and experiments complement each other in making progress in science and technology.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段"
+          ],
+          "answerIndex": 9,
+          "explanation": "原卷答案：J。",
+          "weight": 1,
+          "passageId": "cet6-2021-06-set1-matching"
+        },
+        {
+          "id": "cet6-2021-06-set1-q40",
+          "type": "MATCHING",
+          "prompt": "Marconi's real interest lay in the development of worldwide wireless communication.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段"
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "passageId": "cet6-2021-06-set1-matching"
+        },
+        {
+          "id": "cet6-2021-06-set1-q41",
+          "type": "MATCHING",
+          "prompt": "Marconi spent his whole life making wireless communication simple to use.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段"
+          ],
+          "answerIndex": 4,
+          "explanation": "原卷答案：E。",
+          "weight": 1,
+          "passageId": "cet6-2021-06-set1-matching"
+        },
+        {
+          "id": "cet6-2021-06-set1-q42",
+          "type": "MATCHING",
+          "prompt": "Because of his long-time connection with people in power, Marconi was unable to cut himself off from the fascist regime in Italy.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段"
+          ],
+          "answerIndex": 10,
+          "explanation": "原卷答案：K。",
+          "weight": 1,
+          "passageId": "cet6-2021-06-set1-matching"
+        },
+        {
+          "id": "cet6-2021-06-set1-q43",
+          "type": "MATCHING",
+          "prompt": "In his later years, Marconi exerted a tremendous influence on all aspects of people's life.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段"
+          ],
+          "answerIndex": 6,
+          "explanation": "原卷答案：G。",
+          "weight": 1,
+          "passageId": "cet6-2021-06-set1-matching"
+        },
+        {
+          "id": "cet6-2021-06-set1-q44",
+          "type": "MATCHING",
+          "prompt": "What connected the 19th century and our present time was the development of wireless communication.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段"
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "passageId": "cet6-2021-06-set1-matching"
+        },
+        {
+          "id": "cet6-2021-06-set1-q45",
+          "type": "MATCHING",
+          "prompt": "Despite his autonomy, Marconi felt alienated and suffered from a lack of acceptance.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段"
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 1,
+          "passageId": "cet6-2021-06-set1-matching"
+        },
+        {
+          "id": "cet6-2021-06-set1-q46",
+          "type": "DETAIL",
+          "prompt": "What did a recent research paper claim?",
+          "choices": [
+            "The type of school students attend makes a difference to their future.",
+            "Genetic differences between students are far greater than supposed.",
+            "The advantages of selective schools are too obvious to ignore.",
+            "Students' academic performance is determined by their genes."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "passageId": "cet6-2021-06-set1-detail1"
+        },
+        {
+          "id": "cet6-2021-06-set1-q47",
+          "type": "DETAIL",
+          "prompt": "What does the author think of the recent research?",
+          "choices": [
+            "Its result was questionable.",
+            "Its implication was positive.",
+            "Its influence was rather negligible.",
+            "Its conclusions were enlightening."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "passageId": "cet6-2021-06-set1-detail1"
+        },
+        {
+          "id": "cet6-2021-06-set1-q48",
+          "type": "DETAIL",
+          "prompt": "What does the author say about the relationship between DNA and intelligence?",
+          "choices": [
+            "It is one of scientific certainty.",
+            "It is not one of cause and effect.",
+            "It is subject to interpretation of statistics.",
+            "It is not fully examined by gene scientists."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "passageId": "cet6-2021-06-set1-detail1"
+        },
+        {
+          "id": "cet6-2021-06-set1-q49",
+          "type": "DETAIL",
+          "prompt": "What do hereditarians need to do to make their claims convincing?",
+          "choices": [
+            "Take all relevant factors into account in interpreting their data.",
+            "Conduct their research using more sophisticated technology.",
+            "Gather gene data from people of all social classes.",
+            "Cooperate with social scientists in their research."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "passageId": "cet6-2021-06-set1-detail1"
+        },
+        {
+          "id": "cet6-2021-06-set1-q50",
+          "type": "DETAIL",
+          "prompt": "What does the author warn against in the passage?",
+          "choices": [
+            "Exaggerating the power of technology in shaping the world.",
+            "Losing sight of professional ethics in conducting research.",
+            "Misunderstanding the findings of human cognition research.",
+            "Promoting discrimination in the name of science."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "passageId": "cet6-2021-06-set1-detail1"
+        },
+        {
+          "id": "cet6-2021-06-set1-q51",
+          "type": "DETAIL",
+          "prompt": "What do we learn from Nicola Sturgeon's speech?",
+          "choices": [
+            "The UK is set to adjust its policy on taxation.",
+            "Tourists will have to pay a tax to visit Scotland.",
+            "The UK will take new measures to boost tourism.",
+            "Edinburgh contributes most to Scotland's tourism."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "passageId": "cet6-2021-06-set1-detail2"
+        },
+        {
+          "id": "cet6-2021-06-set1-q52",
+          "type": "DETAIL",
+          "prompt": "How come the UK has been slow in imposing the tourist tax?",
+          "choices": [
+            "Its government wants to attract more tourists.",
+            "The tax is unlikely to add much to its revenue.",
+            "Its ruling party is opposed to taxes and regulation.",
+            "It takes time for local governments to reach consensus."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "passageId": "cet6-2021-06-set1-detail2"
+        },
+        {
+          "id": "cet6-2021-06-set1-q53",
+          "type": "DETAIL",
+          "prompt": "Both international and domestic visitors in the UK should pay tourist tax so as to",
+          "choices": [
+            "elevate its tourism to international standards",
+            "improve the welfare of its maintenance workers",
+            "promote its cultural exchange with other nations",
+            "ease its financial burden of providing local services"
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "passageId": "cet6-2021-06-set1-detail2"
+        },
+        {
+          "id": "cet6-2021-06-set1-q54",
+          "type": "DETAIL",
+          "prompt": "What does the author say about Western tourists?",
+          "choices": [
+            "They don't seem to care about the social cost of tourism.",
+            "They don't seem to mind paying for additional services.",
+            "They deem travel an important part of their life.",
+            "They subject the effects of tourism to scrutiny."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "passageId": "cet6-2021-06-set1-detail2"
+        },
+        {
+          "id": "cet6-2021-06-set1-q55",
+          "type": "DETAIL",
+          "prompt": "What are UK people's opinions about the levy of tourist tax?",
+          "choices": [
+            "Supportive.",
+            "Skeptical.",
+            "Divided.",
+            "Unclear."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "passageId": "cet6-2021-06-set1-detail2"
+        }
+      ],
+      "audio": [],
+      "passages": [
+        {
+          "id": "cet6-2021-06-set1-bank",
+          "text": "A new study has drawn a bleak picture of cultural inclusiveness reflected in the children's literature available in Australia. Dr. Helen Adam from Edith Cowan University's School of Education __(26)__ the cultural diversity of children's books. She examined the books __(27)__ in the kindergarten rooms of four day-care centers in Western Australia. Just 18 percent of 2,413 books in the total collection contained any __(28)__ of non-white people. Minority cultures were often featured in stereotypical or tokenistic ways, for example, by __(29)__ Asian culture with chopsticks and traditional dress. Characters that did represent a minority culture usually had __(30)__ roles in the books. The main characters were mostly Caucasian. This causes concern as it can lead to an impression that whiteness is of greater value. Dr. Adam said children formed impressions about 'difference' and identity from a very young age. Evidence has shown they develop own-race  __(31)__  from as young as three months of age. The books we share with young children can be a valuable opportunity to develop children's understanding of themselves and others. Books can also allow children to see diversity. They discover both similarities and differences between themselves and others. This can help develop understanding, acceptance and __(32)__ of diversity. Census data has shown Australians come from more than 200 countries. They speak over 300 languages at home. Additionally, Australians belong to more than 100 different religious groups. They also work in more than 1,000 different occupations. \"Australia is a multicultural society. The current __(33)__ promotion of white middle-class ideas and lifestyles risks __(34)__  children from minority groups. This can give white middle-class children a sense of __(35)__ or privilege,\" Dr. Adam said."
+        },
+        {
+          "id": "cet6-2021-06-set1-matching",
+          "text": "How Marconi Gave Us the Wireless World\nA) A hundred years before iconic figures like Bill Gates and Steve Jobs permeated our lives, an Irish- Italian inventor laid the foundation of the communication explosion of the 21st century. Guglielmo Marconi was arguably the first truly global figure in modern communication. Not only was he the first to communicate globally, he was the first to think globally about communication. Marconi may not have been the greatest inventor of his time, but more than anyone else, he brought about a fundamental shift in the way we communicate.\nB) Today's globally networked media and communication system has its origins in the 19th century, when, for the first time, messages were sent electronically across great distances. The telegraph, the telephone, and radio were the obvious predecessors of the Internet, iPods, and mobile phones. What made the link from then to now was the development of wireless communication. Marconi was the first to develop and perfect this system, using the recently-discovered \"air waves\" that make up the electromagnetic spectrum.\nC) Between 1896, when he applied for his first patent in England at the age of 22, and his death in Italy in 1937, Marconi was at the center of every major innovation in electronic communication. He was also a skilled and sophisticated organizer, an entrepreneurial innovator, who mastered the use of corporate strategy, media relations, government lobbying, international diplomacy, patents, and prosecution. Marconi was really interested in only one thing: the extension of mobile, personal, long- distance communication to the ends of the earth (and beyond, if we can believe some reports). Some like to refer to him as a genius, but if there was any genius to Marconi it was this vision.\nD) In 1901 he succeeded in signaling across the Atlantic, from the west coast of England to Newfoundland in the USA, despite the claims of science that it could not be done. In 1924 he convinced the British government to encircle the world with a chain of wireless stations using the latest technology that he had devised, shortwave radio. There    are some who say Marconi lost his edge when commercial broadcasting came along; he didn't see that radio could or should be used to frivolous (JET i) ends. In one of his last public speeches, a radio broadcast to the United States in March 1937, he deplored that broadcasting had become a one-way means of communication and foresaw it moving in another direction, toward communication as a means of exchange. That was visionary genius.\nE) Marconi's career was devoted to making wireless communication happen cheaply, efficiently, smoothly, and with an elegance that would appear to be intuitive and uncomplicated to the user-user- friendly, if you will. There is a direct connection from Marconi to today's social media, search engines, and program streaming that can best be summed up by an admittedly provocative exclamation; the 20th century did not exist. In a sense, Marconi's vision jumped from his time to our own.\nF) Marconi invented the idea of global communication- or, more straightforwardly, globally networked, mobile, wireless communication. Initially, this was wireless Morse code telegraphy (# # i #), the principal communication technology of his day. Marconi was the first to develop a practical method for wireless telegraphy using radio waves. He borrowed technical details from many sources, but what set him apart was a self-confident vision of the power of communication technology on the one hand, and, on the other, of the steps that needed to be taken to consolidate his own position as a player in that field. Tracing Marconi's lifeline leads us into the story of modern communication itself. There were other important figures, but Marconi towered over them all in reach, power, and influence, as well as in the grip he had on the popular imagination of his time. Marconi was quite simply the central figure in the emergence of a modern understanding of communication.\nG) In his lifetime, Marconi foresaw the development of television and the fax machine, GPS, radar, and the portable hand-held telephone. Two months before he died, newspapers were reporting that he was working on a \"death ray,\" and that he had \"killed a rat with an intricate device at a distance of three feet.\" By then, anything Marconi said or did was newsworthy. Stock prices rose or sank according to his pronouncements. If Marconi said he thought it might rain, there was likely to be a run on umbrellas.\nH) Marconi's biography is also a story about choices and the motivations behind them. At one level, Marconi could be fiercely autonomous and independent of the constraints of his own social class. On another scale, he was a perpetual outsider. Wherever he went, he was never \"of\" the group; he was always the \"other,\" considered foreign in Britain, British in Italy, and \"not American\" in the United States. At the same time, he also suffered tremendously from a need for acceptance that drove, and sometimes stained, every one of his relationships.\nI) Marconi placed a permanent stamp on the way we live. He was the first person to imagine a practical application for the wireless spectrum, and to develop it successfully into a global communication system-in both terms of the word; that is, worldwide and all-inclusive. He was able to do this because of a combination of factors- most important, timing and opportunity-but the single-mindedness and determination with which he carried out his self-imposed mission was fundamentally character-based; millions of Marconi's contemporaries had the same class, gender, race, and colonial privilege as he, but only a handful did anything with it. Marconi needed to achieve the goal that was set in his mind as an adolescent; by the time he reached adulthood, he understood, intuitively, that in order to have an impact he had to both develop an independent economic base and align himself with political power. Disciplined, uncritical loyalty to political power became his compass for the choices he had to make.\nJ) At the same time, Marconi was uncompromisingly independent intellectually. Shortly after Marconi's death, the nuclear physicist Enrico Fermi-soon to be the developer of the Manhattan Project-wrote that Marconi proved that theory and experimentation were complementary features of progress. \"Experience can rarely, unless guided by a theoretical concept, arrive at results of any great significance... on the other hand, an excessive trust in theoretical conviction would have prevented Marconi from persisting in experiments which were destined to bring about a revolution in the technique of radio-communications.\" In other words, Marconi had the advantage of not being burdened by preconceived assumptions.\nK) The most controversial    aspect of Marconi's life-and the reason why there has been no satisfying biography of Marconi until now-was his uncritical embrace of Benito Mussolini. At first this was not problematic for him. But as the regressive (faiE A) nature of Mussolini's regime became clear, he began to suffer a crisis of conscience. However, after a lifetime of moving within the circles of power, he was unable to break with authority, and served Mussolini faithfully (as president of Italy's national research council and royal academy, as well as a member of the Fascist Grand Council) until the day he died— conveniently—in 1937, shortly before he would have had to take a stand in the conflict that consumed a world that he had, in part, created."
+        },
+        {
+          "id": "cet6-2021-06-set1-detail1",
+          "text": "Humans are fascinated by the source of their failings and virtues. This preoccupation inevitably leads to an old debate: whether nature or nurture moulds us more. A revolution in genetics has poised this as a modern political question about the character of our society: if personalities are hard-wired into our genes, what can governments do to help us? It feels morally questionable, yet claims of genetic selection by intelligence are making headlines. This is down to \"hereditarian\" (#1iê#J) science and a recent paper claimed \" differences in exam performance between pupils attending selective and non-selective schools mirror the genetic differences between them\". With such an assertion, the work was predictably greeted by a lot of absurd claims about \"genetics determining academic success\". What the research revealed was the rather less surprising result: the educational benefits of selective schools largely disappear once pupils' inborn ability and socio- economic background were taken into account. It is a glimpse of the blindingly obvious-and there's nothing to back strongly either a hereditary or environmental argument. Yet the paper does say children are \"unintentionally genetically selected\" by the school system. Central to hereditarian science is a tall claim: that identifiable variations in genetic sequences can predict an individual's aptness to learn, reason and solve problems. This is problematic on many levels. A teacher could not seriously tell a parent their child has a low genetic tendency to study when external factors clearly exist. Unlike-minded academics say the inheritability of human traits is scientifically unsound. At best there is a weak statistical association and not a causal link between DNA and intelligence. Yet sophisticated statistics are used to create an intimidatory atmosphere of scientific certainty. While there's an undoubted genetic basis to individual difference, it is wrong to think that socially defined groups can be genetically accounted for. The fixation on genes as destiny is surely false too. Medical predictability can rarely be based on DNA alone; the environment matters too. Something as complex as intellect is likely to be affected by many factors beyond genes. If hereditarians want to advance their cause it will require more balanced interpretation and not just acts of advocacy. Genetic selection is a way of exerting influence over others, \"the ultimate collective control of human destinies,\" as writer H. G. Wells put it. Knowledge becomes power and power requires a sense of responsibility. In understanding cognitive ability, we must not elevate discrimination to a science; allowing people to climb the ladder of life only as far as their cells might suggest. This will need a more sceptical eye on the science. As technology progresses, we all have a duty to make sure that we shape a future that we would want to find ourselves in."
+        },
+        {
+          "id": "cet6-2021-06-set1-detail2",
+          "text": "Nicola Sturgeon's speech last Tuesday setting out the Scottish government's legislative programme for the year ahead confirmed what was already pretty clear. Scottish councils are set to be the first in the UK with the power to levy charges on visitors, with Edinburgh likely to lead the way. Tourist taxes are not new. The Himayalan kingdom of Bhutan has a longstanding policy of charging visitors a daily fee. France's tax on overnight stays was introduced to assist thermal spa (# t) towns to develop, and around half of French local authorities use it today. But such levies are on the rise. Moves by Barcelona and Venice to deal with the phenomenon of \"over-tourism\" through the use of charges have recently gained prominence. Japan and Greece are among the countries to have recently introduced tourist taxes. That the UK lags behind is due to our weak, by international standards, local government, as well as the opposition to taxes and regulation of our aggressively pro-market ruling party. Some UK cities have lobbied without success for the power to levy a charge on visitors. Such levies are no universal remedy as the amounts raised would be tiny compared with what has been taken away by central government since 2010. Still, it is to be hoped that the Scottish government's bold move will prompt others to act. There is no reason why visitors to the UK, or domestic tourists on holiday in hotspots such as Cornwall, should be exempt from taxation-particularly when vital local services including waste collection, park maintenance and arts and culture spending are under unprecedented strain. On the contrary, compelling tourists to make a financial contribution to the places they visit beyond their personal consumption should be part of a wider cultural shift. Westerners with disposable incomes have often behaved as if they have a right to go wherever they choose with little regard for the consequences. Just as the environmental harm caused by aviation and other transport must come under far greater scrutiny, the social cost of tourism must also be confronted. This includes the impact of short-term lets on housing costs and quality of life for residents. Several European capitals, including Paris and Berlin, are leading a campaign for tougher regulation by the European Union. It also includes the impact of overcrowding, litter and the kinds of behaviour associated with noisy parties. There is no \"one size fits all\" solution to this problem. The existence of new revenue streams for some but not all councils is complicated, and businesses are often opposed, fearing higher costs will make them uncompetitive. But those places that want them must be given the chance to make tourist taxes work."
+        }
+      ],
+      "sourceFileUrl": "/study/resources/28ee0371724573166ed299ae.pdf"
+    },
+    "TRANSLATION": {
+      "instructions": "请将原卷中文翻译成英语。",
+      "prompt": "Directions: For this part, you are allowed 30 minutes to translate a passage from Chinese into English. You should write your answer on Answer Sheet 2. 海南是仅次于台湾的中国第二大岛,是位于中国最南端的省份。海南岛 风景秀丽,气候宜人,阳光充    ТВАЛА 足,生物多样,温泉密布,海水清澈,大部分海滩几乎全年都是游泳和日光浴的理想场所,因而被誉为中国 的四季花园和度假胜地,每年都吸引了大批中外游客。 海南1988年建省以来,旅游业、服务业、高新技术产业飞速发展,是中国唯一的省级经济特区。在中央 政府和全国人民的大力支持下,海南将建成中国最大的自由贸易试验区。 六级 2021 年6月 8",
+      "questions": [],
+      "audio": [],
+      "passages": [],
+      "sourceFileUrl": "/study/resources/28ee0371724573166ed299ae.pdf"
+    }
+  }
+}

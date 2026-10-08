@@ -1,0 +1,1099 @@
+{
+  "slug": "cet6-2023-12-set2-full",
+  "version": 1,
+  "title": "2023年12月 · 第2套整卷模拟真题",
+  "level": "CET6",
+  "kind": "FULL",
+  "originType": "PAST_EXAM",
+  "sourceName": "用户提供的本地四六级资料",
+  "sourceUrl": "/study/resources/35f400af8df9a622f257dd9e.pdf",
+  "rightsHolder": "原试卷及解析作者",
+  "rightsEvidence": "用户提供本地资源并要求接入本地学习系统；原文件及校验值见 content/cet-local/index.json。未授权公开再分发或生产部署。",
+  "content": {
+    "WRITING": {
+      "instructions": "原卷写作要求",
+      "prompt": "Directions: For this part, you are allowed 30 minutes to write an essay that begins with the sentence \"Nowadays parents are increasingly aware that allowing kids more freedom to explore and learn on their own helps foster their independence and boost their confidence.\" Youcan make comments, cite examples or use your personal experiences to develop your essay. You should write at least 150 words but no more than 200 words (not including the sentence given).",
+      "questions": [],
+      "audio": [],
+      "passages": [],
+      "minimumWords": 150,
+      "maximumWords": 200,
+      "sourceFileUrl": "/study/resources/35f400af8df9a622f257dd9e.pdf"
+    },
+    "LISTENING": {
+      "instructions": "原卷听力选择题",
+      "questions": [
+        {
+          "id": "cet6-2023-12-set2-q1",
+          "type": "CONVERSATION",
+          "prompt": "第 1 题(题干在原始录音中)",
+          "choices": [
+            "Renting a car instead of driving their own.",
+            "Surfing online to check out the best deals.",
+            "Exploring more summer holiday resorts.",
+            "Spending their holidays in a novel way."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "audioId": "cet6-2023-12-set2-audio"
+        },
+        {
+          "id": "cet6-2023-12-set2-q2",
+          "type": "CONVERSATION",
+          "prompt": "第 2 题(题干在原始录音中)",
+          "choices": [
+            "He once owned a van.",
+            "He was well travelled.",
+            "He did not find holiday homes appealing.",
+            "He did not like to be locked into one place."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "audioId": "cet6-2023-12-set2-audio"
+        },
+        {
+          "id": "cet6-2023-12-set2-q3",
+          "type": "CONVERSATION",
+          "prompt": "第 3 题(题干在原始录音中)",
+          "choices": [
+            "Ensure the safety of passengers.",
+            "Drive under any weather condition.",
+            "Receive instructions via computers.",
+            "Generate their own electicity."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "audioId": "cet6-2023-12-set2-audio"
+        },
+        {
+          "id": "cet6-2023-12-set2-q4",
+          "type": "CONVERSATION",
+          "prompt": "第 4 题(题干在原始录音中)",
+          "choices": [
+            "Having one's basic needs covered while away from home.",
+            "Enjoying the freedom to choose where to go and work.",
+            "Slowing down in one's increasingly hectic life.",
+            "Riding one's mountain bike on vacation."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "audioId": "cet6-2023-12-set2-audio"
+        },
+        {
+          "id": "cet6-2023-12-set2-q5",
+          "type": "CONVERSATION",
+          "prompt": "第 5 题(题干在原始录音中)",
+          "choices": [
+            "She has missed several important appointments lately.",
+            "Her job performance has worsened over the past month.",
+            "She has lagged behind most of her co-workers in output.",
+            "Her physical health has deteriorated these past few weeks."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "audioId": "cet6-2023-12-set2-audio"
+        },
+        {
+          "id": "cet6-2023-12-set2-q6",
+          "type": "CONVERSATION",
+          "prompt": "第 6 题(题干在原始录音中)",
+          "choices": [
+            "Serious health issues.",
+            "Disturbance of her mind.",
+            "Some problems at home.",
+            "Penalty for curtailed output."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "audioId": "cet6-2023-12-set2-audio"
+        },
+        {
+          "id": "cet6-2023-12-set2-q7",
+          "type": "CONVERSATION",
+          "prompt": "第 7 题(题干在原始录音中)",
+          "choices": [
+            "The woman's work proficiency.",
+            "The woman's whole-hearted support. 2023-12-CET6(第2套)-1",
+            "His engaging personality.",
+            "His management capability."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "audioId": "cet6-2023-12-set2-audio"
+        },
+        {
+          "id": "cet6-2023-12-set2-q8",
+          "type": "CONVERSATION",
+          "prompt": "第 8 题(题干在原始录音中)",
+          "choices": [
+            "The woman will resume her work in two weeks.",
+            "The man will be back at his 100% in a couple of weeks.",
+            "The woman will be off work on the next two Mondays.",
+            "The man will help the woman get back to her usual self."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "audioId": "cet6-2023-12-set2-audio"
+        },
+        {
+          "id": "cet6-2023-12-set2-q9",
+          "type": "PASSAGE",
+          "prompt": "第 9 题(题干在原始录音中)",
+          "choices": [
+            "It can have an impact on our moods and emotions.",
+            "It can enable us to live a healthier and longer life.",
+            "It can improve our financial status significantly.",
+            "It can help us achieve better work performance."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "audioId": "cet6-2023-12-set2-audio"
+        },
+        {
+          "id": "cet6-2023-12-set2-q10",
+          "type": "PASSAGE",
+          "prompt": "第 10 题(题干在原始录音中)",
+          "choices": [
+            "One's health tends to differ before and after marriage.",
+            "One's health status is related to one's social background.",
+            "The wealthier one's spouse is, the healthier one becomes.",
+            "The spouse's level of education can impact one's health."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "audioId": "cet6-2023-12-set2-audio"
+        },
+        {
+          "id": "cet6-2023-12-set2-q11",
+          "type": "PASSAGE",
+          "prompt": "第 11 题(题干在原始录音中)",
+          "choices": [
+            "They benefited a lot from their career achievements.",
+            "They showed interest in their spouse's occupations.",
+            "They had much in common with their spouses.",
+            "They had more education than their spouses."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "audioId": "cet6-2023-12-set2-audio"
+        },
+        {
+          "id": "cet6-2023-12-set2-q12",
+          "type": "PASSAGE",
+          "prompt": "第 12 题(题干在原始录音中)",
+          "choices": [
+            "Eliminating their root cause.",
+            "Forecasting flood risks accurately.",
+            "Identifying the cities' geological features.",
+            "Finding out the changing climate patterns."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "audioId": "cet6-2023-12-set2-audio"
+        },
+        {
+          "id": "cet6-2023-12-set2-q13",
+          "type": "PASSAGE",
+          "prompt": "第 13 题(题干在原始录音中)",
+          "choices": [
+            "To validate his hypothesis about the gravity of floods.",
+            "To determine the frequency of high tides causing floods.",
+            "To improve his mathematical flooding model.",
+            "To see the feasibility of his project on flooding."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "audioId": "cet6-2023-12-set2-audio"
+        },
+        {
+          "id": "cet6-2023-12-set2-q14",
+          "type": "PASSAGE",
+          "prompt": "第 14 题(题干在原始录音中)",
+          "choices": [
+            "To study the consequences of high tides on flooded areas.",
+            "To teach local citizens how to collect data of incoming floods.",
+            "To forecast rapid floods in real time.",
+            "To classify the flooding data processed."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "audioId": "cet6-2023-12-set2-audio"
+        },
+        {
+          "id": "cet6-2023-12-set2-q15",
+          "type": "PASSAGE",
+          "prompt": "第 15 题(题干在原始录音中)",
+          "choices": [
+            "They set up Internet-connected water-level sensors.",
+            "They tracked the rising tides with video-cameras.",
+            "They used newly-developed supercomputing facilities.",
+            "They observed the direction of water flow on the spot."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "audioId": "cet6-2023-12-set2-audio"
+        },
+        {
+          "id": "cet6-2023-12-set2-q16",
+          "type": "LECTURE",
+          "prompt": "第 16 题(题干在原始录音中)",
+          "choices": [
+            "To argue about the value of a college degree.",
+            "To debate the validity of current survey data.",
+            "To account for the drastic decline in employment among men.",
+            "To compare men without college degrees with those who have."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "audioId": "cet6-2023-12-set2-audio"
+        },
+        {
+          "id": "cet6-2023-12-set2-q17",
+          "type": "LECTURE",
+          "prompt": "第 17 题(题干在原始录音中)",
+          "choices": [
+            "The increase in women taking up jobs.",
+            "The issue of changing job requirements.",
+            "The factor of wages.",
+            "The impact of inflation."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "audioId": "cet6-2023-12-set2-audio"
+        },
+        {
+          "id": "cet6-2023-12-set2-q18",
+          "type": "LECTURE",
+          "prompt": "第 18 题(题干在原始录音中)",
+          "choices": [
+            "Men's unwillingness to accept low wages in times of growing inflation.",
+            "The wage gap between those with college degrees and those without.",
+            "More jobs requiring their holders to have a college degree nowadays.",
+            "The sharp decline in marriage among men with no college degrees."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "audioId": "cet6-2023-12-set2-audio"
+        },
+        {
+          "id": "cet6-2023-12-set2-q19",
+          "type": "LECTURE",
+          "prompt": "第 19 题(题干在原始录音中)",
+          "choices": [
+            "More and more people attach importance to protecting endangered animals.",
+            "More and more people prioritize animal welfare when buying things to wear.",
+            "An increasing number of people demand to free animals being kept in cages.",
+            "An increasing number of people follow the latest trend of becoming vegetarians."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "audioId": "cet6-2023-12-set2-audio"
+        },
+        {
+          "id": "cet6-2023-12-set2-q20",
+          "type": "LECTURE",
+          "prompt": "第 20 题(题干在原始录音中)",
+          "choices": [
+            "Avoided the use of leather and fur.",
+            "Labelled all their products as vegan.",
+            "Refrained from using chemicals in their products.",
+            "Utilized a silk substitute made from mushrooms."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "audioId": "cet6-2023-12-set2-audio"
+        },
+        {
+          "id": "cet6-2023-12-set2-q21",
+          "type": "LECTURE",
+          "prompt": "第 21 题(题干在原始录音中)",
+          "choices": [
+            "Whether they actually signify a substantial change.",
+            "Whether they effectively protect animals at large.",
+            "Whether they can be considered sustainable.",
+            "Whether they can be regarded as ethical."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "audioId": "cet6-2023-12-set2-audio"
+        },
+        {
+          "id": "cet6-2023-12-set2-q22",
+          "type": "LECTURE",
+          "prompt": "第 22 题(题干在原始录音中)",
+          "choices": [
+            "The era we live in is the most peaceful in history.",
+            "The world has seen more violence in recent years.",
+            "The environmental welfare has worsened in the world.",
+            "The belief is less prevalent that the world is going to hell."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "audioId": "cet6-2023-12-set2-audio"
+        },
+        {
+          "id": "cet6-2023-12-set2-q23",
+          "type": "LECTURE",
+          "prompt": "第 23 题(题干在原始录音中)",
+          "choices": [
+            "They were actually not in their right mind.",
+            "They believed the world was deteriorating.",
+            "They did not wish to live in the previous century.",
+            "They were convinced by the statistics presented to them."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "audioId": "cet6-2023-12-set2-audio"
+        },
+        {
+          "id": "cet6-2023-12-set2-q24",
+          "type": "LECTURE",
+          "prompt": "第 24 题(题干在原始录音中)",
+          "choices": [
+            "The subjectivity of mass media.",
+            "The current state of affairs.",
+            "Our psychological biases.",
+            "Our ancestors' influence."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "audioId": "cet6-2023-12-set2-audio"
+        },
+        {
+          "id": "cet6-2023-12-set2-q25",
+          "type": "LECTURE",
+          "prompt": "第 25 题(题干在原始录音中)",
+          "choices": [
+            "Spreading exciting news around us far and wide.",
+            "Vacuuming up depressing or enraging stories.",
+            "Calculating dangerous risks to our survival.",
+            "Paying attention to negative information."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "audioId": "cet6-2023-12-set2-audio"
+        }
+      ],
+      "audio": [
+        {
+          "id": "cet6-2023-12-set2-audio",
+          "url": "/study/resources/39b8be4ef5e62c70ec3f56bc.m4a",
+          "sourceUrl": "/study/resources/39b8be4ef5e62c70ec3f56bc.m4a",
+          "durationSeconds": 1564.142585,
+          "transcript": "",
+          "identity": "cet6_2023_12_2.mp3 SHA256:39b8be4ef5e62c70ec3f56bc3143f93ab5de26cba35b7606f234701f87cfaa7d"
+        }
+      ],
+      "passages": [],
+      "sourceFileUrl": "/study/resources/35f400af8df9a622f257dd9e.pdf"
+    },
+    "READING": {
+      "instructions": "请依次完成选词填空、长篇匹配和仔细阅读。",
+      "questions": [
+        {
+          "id": "cet6-2023-12-set2-q26",
+          "type": "WORD_BANK",
+          "prompt": "第 26 空",
+          "choices": [
+            "activated",
+            "aggravated",
+            "ascertain",
+            "deliberate",
+            "differentiate",
+            "discourse",
+            "evokes",
+            "inhibit",
+            "manuscript",
+            "marvels",
+            "remnants",
+            "scenarios",
+            "speculative",
+            "unanimous",
+            "uncertainty"
+          ],
+          "answerIndex": 4,
+          "explanation": "原卷答案：E。",
+          "weight": 0.5,
+          "passageId": "cet6-2023-12-set2-bank"
+        },
+        {
+          "id": "cet6-2023-12-set2-q27",
+          "type": "WORD_BANK",
+          "prompt": "第 27 空",
+          "choices": [
+            "activated",
+            "aggravated",
+            "ascertain",
+            "deliberate",
+            "differentiate",
+            "discourse",
+            "evokes",
+            "inhibit",
+            "manuscript",
+            "marvels",
+            "remnants",
+            "scenarios",
+            "speculative",
+            "unanimous",
+            "uncertainty"
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 0.5,
+          "passageId": "cet6-2023-12-set2-bank"
+        },
+        {
+          "id": "cet6-2023-12-set2-q28",
+          "type": "WORD_BANK",
+          "prompt": "第 28 空",
+          "choices": [
+            "activated",
+            "aggravated",
+            "ascertain",
+            "deliberate",
+            "differentiate",
+            "discourse",
+            "evokes",
+            "inhibit",
+            "manuscript",
+            "marvels",
+            "remnants",
+            "scenarios",
+            "speculative",
+            "unanimous",
+            "uncertainty"
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 0.5,
+          "passageId": "cet6-2023-12-set2-bank"
+        },
+        {
+          "id": "cet6-2023-12-set2-q29",
+          "type": "WORD_BANK",
+          "prompt": "第 29 空",
+          "choices": [
+            "activated",
+            "aggravated",
+            "ascertain",
+            "deliberate",
+            "differentiate",
+            "discourse",
+            "evokes",
+            "inhibit",
+            "manuscript",
+            "marvels",
+            "remnants",
+            "scenarios",
+            "speculative",
+            "unanimous",
+            "uncertainty"
+          ],
+          "answerIndex": 12,
+          "explanation": "原卷答案：M。",
+          "weight": 0.5,
+          "passageId": "cet6-2023-12-set2-bank"
+        },
+        {
+          "id": "cet6-2023-12-set2-q30",
+          "type": "WORD_BANK",
+          "prompt": "第 30 空",
+          "choices": [
+            "activated",
+            "aggravated",
+            "ascertain",
+            "deliberate",
+            "differentiate",
+            "discourse",
+            "evokes",
+            "inhibit",
+            "manuscript",
+            "marvels",
+            "remnants",
+            "scenarios",
+            "speculative",
+            "unanimous",
+            "uncertainty"
+          ],
+          "answerIndex": 6,
+          "explanation": "原卷答案：G。",
+          "weight": 0.5,
+          "passageId": "cet6-2023-12-set2-bank"
+        },
+        {
+          "id": "cet6-2023-12-set2-q31",
+          "type": "WORD_BANK",
+          "prompt": "第 31 空",
+          "choices": [
+            "activated",
+            "aggravated",
+            "ascertain",
+            "deliberate",
+            "differentiate",
+            "discourse",
+            "evokes",
+            "inhibit",
+            "manuscript",
+            "marvels",
+            "remnants",
+            "scenarios",
+            "speculative",
+            "unanimous",
+            "uncertainty"
+          ],
+          "answerIndex": 14,
+          "explanation": "原卷答案：O。",
+          "weight": 0.5,
+          "passageId": "cet6-2023-12-set2-bank"
+        },
+        {
+          "id": "cet6-2023-12-set2-q32",
+          "type": "WORD_BANK",
+          "prompt": "第 32 空",
+          "choices": [
+            "activated",
+            "aggravated",
+            "ascertain",
+            "deliberate",
+            "differentiate",
+            "discourse",
+            "evokes",
+            "inhibit",
+            "manuscript",
+            "marvels",
+            "remnants",
+            "scenarios",
+            "speculative",
+            "unanimous",
+            "uncertainty"
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 0.5,
+          "passageId": "cet6-2023-12-set2-bank"
+        },
+        {
+          "id": "cet6-2023-12-set2-q33",
+          "type": "WORD_BANK",
+          "prompt": "第 33 空",
+          "choices": [
+            "activated",
+            "aggravated",
+            "ascertain",
+            "deliberate",
+            "differentiate",
+            "discourse",
+            "evokes",
+            "inhibit",
+            "manuscript",
+            "marvels",
+            "remnants",
+            "scenarios",
+            "speculative",
+            "unanimous",
+            "uncertainty"
+          ],
+          "answerIndex": 11,
+          "explanation": "原卷答案：L。",
+          "weight": 0.5,
+          "passageId": "cet6-2023-12-set2-bank"
+        },
+        {
+          "id": "cet6-2023-12-set2-q34",
+          "type": "WORD_BANK",
+          "prompt": "第 34 空",
+          "choices": [
+            "activated",
+            "aggravated",
+            "ascertain",
+            "deliberate",
+            "differentiate",
+            "discourse",
+            "evokes",
+            "inhibit",
+            "manuscript",
+            "marvels",
+            "remnants",
+            "scenarios",
+            "speculative",
+            "unanimous",
+            "uncertainty"
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 0.5,
+          "passageId": "cet6-2023-12-set2-bank"
+        },
+        {
+          "id": "cet6-2023-12-set2-q35",
+          "type": "WORD_BANK",
+          "prompt": "第 35 空",
+          "choices": [
+            "activated",
+            "aggravated",
+            "ascertain",
+            "deliberate",
+            "differentiate",
+            "discourse",
+            "evokes",
+            "inhibit",
+            "manuscript",
+            "marvels",
+            "remnants",
+            "scenarios",
+            "speculative",
+            "unanimous",
+            "uncertainty"
+          ],
+          "answerIndex": 5,
+          "explanation": "原卷答案：F。",
+          "weight": 0.5,
+          "passageId": "cet6-2023-12-set2-bank"
+        },
+        {
+          "id": "cet6-2023-12-set2-q36",
+          "type": "MATCHING",
+          "prompt": "Exploration of shipwrecks on the sea floor is crucial in updating our understanding of humanity's paSL.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段"
+          ],
+          "answerIndex": 5,
+          "explanation": "原卷答案：F。",
+          "weight": 1,
+          "passageId": "cet6-2023-12-set2-matching"
+        },
+        {
+          "id": "cet6-2023-12-set2-q37",
+          "type": "MATCHING",
+          "prompt": "Quite a number of majestic ships sailing from Europe to America were wrecked off the Florida coast 2023-12-CET6(第2套)-6 over the centuries.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段"
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "passageId": "cet6-2023-12-set2-matching"
+        },
+        {
+          "id": "cet6-2023-12-set2-q38",
+          "type": "MATCHING",
+          "prompt": "Pritchett suffered a heavy loss when a US district court ruled against him.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段"
+          ],
+          "answerIndex": 8,
+          "explanation": "原卷答案：I。",
+          "weight": 1,
+          "passageId": "cet6-2023-12-set2-matching"
+        },
+        {
+          "id": "cet6-2023-12-set2-q39",
+          "type": "MATCHING",
+          "prompt": "Recently, people who found treasures in shipwrecks have been sued over their rights to own them.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段"
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "passageId": "cet6-2023-12-set2-matching"
+        },
+        {
+          "id": "cet6-2023-12-set2-q40",
+          "type": "MATCHING",
+          "prompt": "Pritchett claims he got support of millions of dollars from investors for his shipwreck exploration.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段"
+          ],
+          "answerIndex": 6,
+          "explanation": "原卷答案：G。",
+          "weight": 1,
+          "passageId": "cet6-2023-12-set2-matching"
+        },
+        {
+          "id": "cet6-2023-12-set2-q41",
+          "type": "MATCHING",
+          "prompt": "One pioneer marine scientist thinks archaeologists should make greater efforts to publish their findings.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段"
+          ],
+          "answerIndex": 11,
+          "explanation": "原卷答案：L。",
+          "weight": 1,
+          "passageId": "cet6-2023-12-set2-matching"
+        },
+        {
+          "id": "cet6-2023-12-set2-q42",
+          "type": "MATCHING",
+          "prompt": "With technological advancement in recent years, salvors now can detect the invaluable man-made objects lying buried under the sea.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段"
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "passageId": "cet6-2023-12-set2-matching"
+        },
+        {
+          "id": "cet6-2023-12-set2-q43",
+          "type": "MATCHING",
+          "prompt": "According to a lawyer, many treasure hunters are susceptible to loss because they are unaware they face a financially stronger opponent in court.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段"
+          ],
+          "answerIndex": 9,
+          "explanation": "原卷答案：J。",
+          "weight": 1,
+          "passageId": "cet6-2023-12-set2-matching"
+        },
+        {
+          "id": "cet6-2023-12-set2-q44",
+          "type": "MATCHING",
+          "prompt": "Salvors of treasures in sunken ships and marine archaeologists are now hostile to each other.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段"
+          ],
+          "answerIndex": 4,
+          "explanation": "原卷答案：E。",
+          "weight": 1,
+          "passageId": "cet6-2023-12-set2-matching"
+        },
+        {
+          "id": "cet6-2023-12-set2-q45",
+          "type": "MATCHING",
+          "prompt": "Archaeologists want to see artifacts help humans understand their past instead of being sold to private collectors at an outrageous price.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段"
+          ],
+          "answerIndex": 10,
+          "explanation": "原卷答案：K。",
+          "weight": 1,
+          "passageId": "cet6-2023-12-set2-matching"
+        },
+        {
+          "id": "cet6-2023-12-set2-q46",
+          "type": "DETAIL",
+          "prompt": "What do we learn about singer and actress Selena Gomez in the past four and a half years?",
+          "choices": [
+            "She has had worsening mental problems.",
+            "She has won Instagram's most followers.",
+            "She has refrained from using social media.",
+            "She has succeeded in a bid on the internet."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "passageId": "cet6-2023-12-set2-detail1"
+        },
+        {
+          "id": "cet6-2023-12-set2-q47",
+          "type": "DETAIL",
+          "prompt": "Why does actively opting out of using the interet become a matter of privilege?",
+          "choices": [
+            "Most people find it subtle and complicated to give up using the internet.",
+            "Most people can hardly ditch the web while avoiding hate and comparisons.",
+            "Most people can hardly get by without the internet due to growing digitisation.",
+            "Most people have been seriously addicted to the web without being aware of it."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "passageId": "cet6-2023-12-set2-detail1"
+        },
+        {
+          "id": "cet6-2023-12-set2-q48",
+          "type": "DETAIL",
+          "prompt": "Why does the author say \"witnessing companies .. feels particularly irritating” (Lines 3-4, Para. 6)?",
+          "choices": [
+            "The UK digital divide would further worsen due to the metaverse.",
+            "The concept of the metaverse is believed to be still quite illusory.",
+            "School children would be drawn farther away from the real world.",
+            "Most families in the UK do not have stable broadband connections."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "passageId": "cet6-2023-12-set2-detail1"
+        },
+        {
+          "id": "cet6-2023-12-set2-q49",
+          "type": "DETAIL",
+          "prompt": "What is worth bearing in mind concerning social media platforms?",
+          "choices": [
+            "They are conducive to promoting societal equality.",
+            "They help many people feel connected with others.",
+            "They provide a necessary device for a digital detox.",
+            "They create a virtual community on the internet."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "passageId": "cet6-2023-12-set2-detail1"
+        },
+        {
+          "id": "cet6-2023-12-set2-q50",
+          "type": "DETAIL",
+          "prompt": "What does the author think is really important for those living in digital exclusion?",
+          "choices": [
+            "Having access to the internet.",
+            "Edging further towards web 3.0.",
+            "Getting more educational resources.",
+            "Opening more social media accounts."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "passageId": "cet6-2023-12-set2-detail1"
+        },
+        {
+          "id": "cet6-2023-12-set2-q51",
+          "type": "DETAIL",
+          "prompt": "What docs the author think is easy to see in many areas of contemporary life?",
+          "choices": [
+            "The disagreement on the inevitability of competition.",
+            "The consequence of psychological investigation.",
+            "The effect of human drives.",
+            "The impact of competition."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "passageId": "cet6-2023-12-set2-detail2"
+        },
+        {
+          "id": "cet6-2023-12-set2-q52",
+          "type": "DETAIL",
+          "prompt": "According to psychology, what do people strive to do following the initial stage of their life?",
+          "choices": [
+            "Fulfil individual needs without incurring adverse effects of human drives.",
+            "Indulge in cultural pursuits while keeping their base impulses at bay.",
+            "Gain extensive recognition without exposing pure indulgence.",
+            "Satisty their own desires while observing social conventions."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "passageId": "cet6-2023-12-set2-detail2"
+        },
+        {
+          "id": "cet6-2023-12-set2-q53",
+          "type": "DETAIL",
+          "prompt": "What do we learn about the “natural world” characterized by Thomas Hobbes?",
+          "choices": [
+            "It gets misrepresented by philosophers and anthropologists.",
+            "It gets distorted in Darwin's The Origin of Species.",
+            "It is free from the rational intervention of humans.",
+            "It is the pre-rational world rarely appreciated nowadays."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "passageId": "cet6-2023-12-set2-detail2"
+        },
+        {
+          "id": "cet6-2023-12-set2-q54",
+          "type": "DETAIL",
+          "prompt": "What can we conclude from Darwin's assertion in The Origin of Species?",
+          "choices": [
+            "All species inherently depend on others for survival.",
+            "Struggles for survival do not exclude mutual support.",
+            "Competition weighs as much as cooperation as a survival strategy.",
+            "The strongest species proves to be the fittest in natural selection."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "passageId": "cet6-2023-12-set2-detail2"
+        },
+        {
+          "id": "cet6-2023-12-set2-q55",
+          "type": "DETAIL",
+          "prompt": "What conclusion did Margaret Mead reach afier studying dozens of different cultures?",
+          "choices": [
+            "Itis characteristic of humans to be competitive.",
+            "Americans are uniquely opposed to cooperation. 2023-12-CET6(第2套)-9",
+            "Competition is relatively more prevalent in Western societies.",
+            "People's attitude towards competition is actually culture-bound."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "passageId": "cet6-2023-12-set2-detail2"
+        }
+      ],
+      "audio": [],
+      "passages": [
+        {
+          "id": "cet6-2023-12-set2-bank",
+          "text": "Questions __(26)__ to __(35)__ are based on the following passage. Our brains respond to language expressing facts differently than they do to words conveying possibility, scientists at New York University have recently found. Their work offers new insights into the impact word choice has on how we_26 between statements expressing what is real versus what is merely possible. The researchers assert their findings are important because we are presented with false information all the time. Some of this is  __(27)__ as is the case with deceptive advertisements, but the problem is  __(28)__ by individuals who believe they are sharing correct information. Thus, it is more important than ever to separate the factual from the possible or merely __(29)__ in how we communicate. This is especially true as the study makes clear that information presented as fact __(30)__ special responses in our brains, which are distinct from when we process the same content with clear indicators of  __(31)__ In their new study, the scientists intended to __(32)__ how the brain computes possibilities as expressed by words such as “may,” “might,” and \"if'. The researchers compared brain responses to statements expressing actual __(33)__  and those expressing possibility. *There is a monster under my bed\" exemplifies a factual statement. \"1 will stay home,” is also factual. This is opposed to statements that express possibility, like \"There might be a monster under my bed,\" or \"If it rains, I will stay home.” The results of the study showed that factual Janguage __(34)__ a rapid increase in brain activity, with the brain responding more powerfully and showing more engagement with factual phrases compared to those communicating possibility. Thus, facts rule when it comes to the brain. Brain regions involved in processing_35_rapidly distinguish facts from possibilities. Further, these regions respond in a much more robust fashion to factual statements."
+        },
+        {
+          "id": "cet6-2023-12-set2-matching",
+          "text": "2023-12-CET6(第2套)-4 Treasure Fever\nA) Most visitors come to Cape Canaveral, on the northeast coast of Florida, for the tourist attractions. It's home to the second-busiest cruise ship port in the world and is a gateway to the cosmos. Nearly 1.5 million visitors flock here every year to watch rockets, spacecraft, and satellites blast off into the solar system from Kennedy Space Center Visitor Complex. Nearly 64 kilometers of undeveloped beach and 648 square kilometers of protected refuge fan out from the cape's sandy shores.\nB) Yet some of Cape Canaveral's most legendary attractions lie unseen, wedged under the sea's surface in mud and sand, for this part of the world has a reputation as a deadly ship trap. Over the centuries, dozens of majestic Old World sailing ships smashed and sank on this irregular stretch of windy Florida coast. They were vessels built for war and commerce, crossing the globe carrying everything from coins to cannons, boxes of silver and gold, chests of jewels and porcelain, and pearls from the Caribbean.\nC) Cape Canaveral contains one of the greatest concentrations of colonial shipwrecks in the world. In recent years, advances in radar, diving, detection equipment, computers, and GPS have transformed the hunt. The naked eye might see a pile of rocks, but technology can reveal the precious artifacts(人 工制品) that lie hidden on the ocean floor.\nD) As technology renders the seabed more accessible, the hunt for treasure-filled ships has drawn a fresh tide of salvors(打捞人员)and their investors—as well as marine archaeologists(考古学家)wanting to bring to light the lost relics. But of late, when salvors have found vessels, their rights have been challenged in court. The big question: who should have control of these treasures?\nE) High-stakes fights over shipwrecks pit archaeologists against treasure hunters in a vicious cycle of accusations. Archaeologists regard themselves as protectors of history, and they see salvors as careless destroyers. Salvors feel they do the hard work of searching for ships, only to have them stolen from under them when discovered. This kind of clash inevitably takes place on a grand scale. Aside from the salvors, their investors, and the maritime archaeologists who serve as expert witnesses, the battles sweep in local and international governments and organizations like UNESCO that work to protect under-water heritage. The court cases that ensue stretch on for years. Are finders keepers, or do the ships belong to the countries that made them and sent them sailing centuries ago? Where once salvors and archaeologists worked side by side, now they belong to opposing, and equally contemptuous, tribes.\nF)    Nearly three million vessels lie wrecked on the Earth's ocean floor—from old canoes to the Titanic一 and likely less than one percent have been explored. Some—like an ancient Roman ship found off Antikythera, Greece, dated between 70 and 60 BC and carrying astonishingly sophisticated gqears and dials for navigating by the sun—are critical to a new understanding of our past. No wonder there is an eternal stirring among everybody from salvors to scholars to find them.\nG) In May 2016, a salvor named Bobby Pritchett, president of Global Marine Exploration (GME) in Tampa, Florida, announced that he had discovered scattered remains of a ship buried a kilometer off Cape Canaveral. Over the prior three years, he and his crew had obtained 14 state permits to survey a nearly 260-square-kilometer area off the cape; they worked 250 days a year, backed by investor funds of, he claims, US $4 million. It was hard work. Crew members were up at dawn, dragging sensors from their expedition vessels back and forth, day in and day out, year after year, to detect metal of any kind. Using computer technology, Pritchett and his crew created intricate, color-coded maps marked with the GPS coordinates of thousands of finds, all invisible under a meter of sand.\nH) One day in 2015, the magnetometer(磁力计)picked up metal that turned out to be an iron cannon; 2023-12-CET6(第2套)-5 when the divers blew the sand away, they also discovered a more precious bronze cannon with markings indicating French royalty and, not far off, a famous marble column carved with the coat of arms of France, known from historical paintings. The discovery was cause for celebration. The artifacts indicated the divers had likely found the wreck of La Trinite, a 16th-century French vessel that had been at the center of a bloody battle between France and Spain that changed the fate of the United States of America.\nI) And then the legal storm began, with GME and Pritchett pitted against Florida and France. The Sunken Military Craft Act of 2004, a US federal act, protects any vessel that was on a military mission, allowing the originating country to claim their ship even centuries later. In 2018, two long years after Pritchett's discovery, the federal district court ruled in favor of France. For Pritchett, the decision was devastating. Millions of dollars of investor funding and years of labor were lost.\nJ) But this is far from the first time a salvor has lost all rights to a discovery. In 2012, for instance, Spain won a five-year legal battle against Odyssey Marine Exploration, which had hauled 594,000 gold and silver coins firom a Spanish wreck off the coast of Portugal across the Atlantic to the United States. “Treasure hunters can be naive,” says attorney David Concannon, who has had several maritime archaeologists as clients and represented two sides in the battles over the Titanic for 20 years. “Many treasure hunters don't understand they are going to have to fight for their rights against a government that has an endless supply of money for legal battles that treasure hunters are likely to lose’\nK) Putting an inflated price on artifacts rather than viewing them as cultural and historical treasures that transcend any price is what irritates many archaeologists. For the archaeologist, everything in a wreck matters—hair, fabric, a fragment of a newspaper, rat bones—all things speak volumes. Archacologists don't want artifacts ending up in a private collection instead of taking humanity on a journey of understanding.\nL) George Bass is one of the pioneers of under. water archaeology, and a researcher at Texas A&M University. He has testified in court against treasure hunters, but says archaeology is not without its own serious problems. He believes archaeologists need to do a better job themselves instead of routinely criticizing treasure hunters. “Archaeology has a terrible reputation for not publishing enough on its excavations(发掘)and finds,” he says. Gathering data, unearthing and meticulously preserving and examining finds, verifying identity and origin, piecing together the larger story, and writing and publishing a comprehensive paper or book can take decades. A bit cynically, Bass describes colleagues who never published because they waited so long they became ill or died. Who is more at fault, Bass asks, the professional archaeologist who carefully excavates a site and never publishes on it or the treasure hunter who locates a submerged wreck, salvages part, conserves part, and publishes a book on the operation?\nM) Prichett concedes that his find deserves carefiul excavation and preservation. “I think what I found should go in a museum,” he says. “But I also think I should get paid for what I found.\"Indeed, it's a bit of a mystery why governments, archaeologists, and treasure hunters can't work together-and why salvors aren't at least given a substantial finder's fee before the original owner takes possession of the vessel and its artifacts."
+        },
+        {
+          "id": "cet6-2023-12-set2-detail1",
+          "text": "Could you get by without using the internet for four and a half years? That's exactly what singer and actress Selena Gomez has done in a bid to improve her mental health. She has spoken extensively about the relationship between her social media usage and her mental wellbeing, recalling feeling like “an addict” when she became Instagram's most followed user in 2016. “Taking a break from social media was the best decision that I've ever made for my mental health', says she. “The unnecessary hate and comparisons went away once I put my phone down.” Ditching the web at large, however, is a tar more subtle and complicated prospect. The increasing digitisation of our society means that everything from paying a gas bill to plotting a route to a friend's house and even making a phone call is at the mercy of your internet connection. Actively opting out of using the internet becomes a matter of privilege. Ms. Gomez's multi-millionaire status has allowed her to take the “social” out of social media, so she can continue to leverage her enormous fame while keeping the trolls(恶意挑衅的帖子)at bay. The fact that she's still the second most followed woman on Instagram suggests it's entirely possible to maintain a significant web profile to promote various projects—by way of a dedicated team—without being exposed to the cruel comments, hate mail and rape or death threats. It goes without saying that this is fundamentally different from how the rest of us without beauty deals and films to publicise use the likes of Instagram, TikTok and Twitter, but even the concept of a digital detox(戒瘾)requires having a device and connectivity to choose to disconnect from. The UK's digital divide has worsened over the past two years, leaving poorer families without broadband connections in their homes. Digital exclusion is a major threat to wider societal equality in the UK, so witnessing companies like Facebook championing the metaverse(元宇宙)as the next great frontier when school children are struggling to complete their homework feels particularly irritating. Consequently, it's worth bearing in mind that while deleting all social media accounts will 2023-12-CET6(第2套)-7 undoubtedly make some feel infinitely better, many other people benefit from the strong sense of community that sharing platforms can breed. Internet access will continue to grow in importance as we edge further towards web 3.0, and greater resources and initiatives are needed to provide the underprivileged with the connectivity they desperately need to Learn, work and live. If's crucial that people who feel that social media is having a detrimental effect on their mental health are allowed to switch off and for those living in digital exclusion to be able to switch on in the first place."
+        },
+        {
+          "id": "cet6-2023-12-set2-detail2",
+          "text": "Psychologists have long been in disagreement as to whether competition is a learned or a genetic component of human behavior. Whatever it is, you cannot but recognize the effect competition is exerting in academics and many other areas of contemporary life. Psychologically speaking, competition has been seen as an inevitable consequence of human drives. According to Sigmund Freud, humans are born screaming for attention and full of organic drives for fulfillment in various areas. Initially, we compete for the attention of our parents. Thereafter, we are at the mercy of a battle between our base impulses for self-fulfillment and social and cultural norms which prohibit pure indulgence. Current work in anthropology(人类学)has suggested, however, that this view of the role of competition in human behavior may be incorrect. Thomas Hobbes, one of the great philosophers of the seventeenth century, is perhaps best remembered for his characterization of the “natural world,” that is, 2023-12-CET6(第2套)-8 the world before the imposition of the will of humanity, as being “'nasty, brutish, and short.\" This image of the pre-rational world is still widely held, reinforced by Charles Darwin's highly influential work, The Origin of Species, which established the doctrine of natural selection. This doctrine, which takes for gqranted that those species best able to adapt to and master the natural environment in which they live will survive, has suggested that the struggle for survival is an inherent human trait which determines a person's success. Darwin's theory has even been summarized as survival of the fittest”a phrase Darwin himself never used—further highlighting competition's role in success. As it has often been pointed out, however, there is nothing in the concept of natural selection that suggests that competition is the most successful strategy for “survival of the fittest.\" Darwin asserted in The Origin of Species that the struggles he was describing should be viewed as metaphors and could easily include dependence and cooperation. Many studies have been conducted to test the importance placed on competition as opposed to other values, such as cooperation—by various cultures, and generally conclude that Americans uniquely praise competition as natural, inevitable, and desirable. In 1937, the world-renowned anthropologist Margaret Mead published Cooperation and Comperition among Primitive Peoples, based on her studies of several societies that did not prize competition, and, in fact, seemed at times to place a negative value on it. One such society was the Zuni Indians of Arizona, and they, Mead found, valued cooperation far more than competition. After studying dozens of such cultures, Mead's final conclusion was that competitiveness is a culturally created aspect of human behavior, and that its prevalence in a particular society is relative to how that society values it."
+        }
+      ],
+      "sourceFileUrl": "/study/resources/35f400af8df9a622f257dd9e.pdf"
+    },
+    "TRANSLATION": {
+      "instructions": "请将原卷中文翻译成英语。",
+      "prompt": "Directions: For this part, you are allowed 30 minutes to translate a passage from Chinese into English. You should write your answer on Answer Sheet 2. 随着经济与社会的发展,中国人口结构发生了显著变化,逐渐步入老龄化社会。中国老年人 口将持续增加,人口老龄化趋势将更加明显。为了应对人口老龄化带来的种种挑战,国家正积极 采取措施,加大对养老的支持。通过改革社会保障(social security)制度,政府不断增加社会保障经 费,逐步扩大社会保障覆盖范围,使更多老年人受益。政府还鼓励各种社会团体为老年人提供服 务。在政府和社会团体的共同努力下,老年人将生活得更加幸福。 2023-12-CET6(第2套)-10",
+      "questions": [],
+      "audio": [],
+      "passages": [],
+      "sourceFileUrl": "/study/resources/35f400af8df9a622f257dd9e.pdf"
+    }
+  }
+}

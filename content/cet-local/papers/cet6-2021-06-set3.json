@@ -1,0 +1,708 @@
+{
+  "slug": "cet6-2021-06-set3-full",
+  "version": 1,
+  "title": "2021年6月 · 第3套整卷模拟真题",
+  "level": "CET6",
+  "kind": "FULL",
+  "originType": "PAST_EXAM",
+  "sourceName": "用户提供的本地四六级资料",
+  "sourceUrl": "/study/resources/1bb51699ea16bd7abf5ebc12.pdf",
+  "rightsHolder": "原试卷及解析作者",
+  "rightsEvidence": "用户提供本地资源并要求接入本地学习系统；原文件及校验值见 content/cet-local/index.json。未授权公开再分发或生产部署。",
+  "content": {
+    "WRITING": {
+      "instructions": "原卷写作要求",
+      "prompt": "Directions: For this part, you are allowed 30 minutes to write an essay based on the chart below. You should start your essay with a brief description of the chart and comment on China's achievements in poverty alleviation. You should write at least 150 words but no more than 200 words.",
+      "questions": [],
+      "audio": [],
+      "passages": [],
+      "minimumWords": 150,
+      "maximumWords": 200,
+      "sourceFileUrl": "/study/resources/1bb51699ea16bd7abf5ebc12.pdf",
+      "promptImageUrl": "/study/resources/001e68122e25ec57ac5f199b.png"
+    },
+    "LISTENING": {
+      "instructions": "听力材料",
+      "questions": [],
+      "audio": [],
+      "passages": [],
+      "unavailableReason": "原卷未刊载本卷独立听力题文。说明:由于2021年6月六级考试全国共考了2套听力,本套真题听力与前2套内容完全一样,只是顺序不 一样,因此在本套真题中不再重复出现。",
+      "sourceFileUrl": "/study/resources/1bb51699ea16bd7abf5ebc12.pdf"
+    },
+    "READING": {
+      "instructions": "请依次完成选词填空、长篇匹配和仔细阅读。",
+      "questions": [
+        {
+          "id": "cet6-2021-06-set3-q26",
+          "type": "WORD_BANK",
+          "prompt": "第 26 空",
+          "choices": [
+            "adversity",
+            "authentic",
+            "convey",
+            "depictions",
+            "diminished",
+            "drowned",
+            "embark",
+            "fragility",
+            "neglected",
+            "obscurity",
+            "outlines",
+            "prevalent",
+            "purchasable",
+            "submit",
+            "suppress"
+          ],
+          "answerIndex": 7,
+          "explanation": "原卷答案：H。",
+          "weight": 0.5,
+          "passageId": "cet6-2021-06-set3-bank"
+        },
+        {
+          "id": "cet6-2021-06-set3-q27",
+          "type": "WORD_BANK",
+          "prompt": "第 27 空",
+          "choices": [
+            "adversity",
+            "authentic",
+            "convey",
+            "depictions",
+            "diminished",
+            "drowned",
+            "embark",
+            "fragility",
+            "neglected",
+            "obscurity",
+            "outlines",
+            "prevalent",
+            "purchasable",
+            "submit",
+            "suppress"
+          ],
+          "answerIndex": 4,
+          "explanation": "原卷答案：E。",
+          "weight": 0.5,
+          "passageId": "cet6-2021-06-set3-bank"
+        },
+        {
+          "id": "cet6-2021-06-set3-q28",
+          "type": "WORD_BANK",
+          "prompt": "第 28 空",
+          "choices": [
+            "adversity",
+            "authentic",
+            "convey",
+            "depictions",
+            "diminished",
+            "drowned",
+            "embark",
+            "fragility",
+            "neglected",
+            "obscurity",
+            "outlines",
+            "prevalent",
+            "purchasable",
+            "submit",
+            "suppress"
+          ],
+          "answerIndex": 9,
+          "explanation": "原卷答案：J。",
+          "weight": 0.5,
+          "passageId": "cet6-2021-06-set3-bank"
+        },
+        {
+          "id": "cet6-2021-06-set3-q29",
+          "type": "WORD_BANK",
+          "prompt": "第 29 空",
+          "choices": [
+            "adversity",
+            "authentic",
+            "convey",
+            "depictions",
+            "diminished",
+            "drowned",
+            "embark",
+            "fragility",
+            "neglected",
+            "obscurity",
+            "outlines",
+            "prevalent",
+            "purchasable",
+            "submit",
+            "suppress"
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 0.5,
+          "passageId": "cet6-2021-06-set3-bank"
+        },
+        {
+          "id": "cet6-2021-06-set3-q30",
+          "type": "WORD_BANK",
+          "prompt": "第 30 空",
+          "choices": [
+            "adversity",
+            "authentic",
+            "convey",
+            "depictions",
+            "diminished",
+            "drowned",
+            "embark",
+            "fragility",
+            "neglected",
+            "obscurity",
+            "outlines",
+            "prevalent",
+            "purchasable",
+            "submit",
+            "suppress"
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 0.5,
+          "passageId": "cet6-2021-06-set3-bank"
+        },
+        {
+          "id": "cet6-2021-06-set3-q31",
+          "type": "WORD_BANK",
+          "prompt": "第 31 空",
+          "choices": [
+            "adversity",
+            "authentic",
+            "convey",
+            "depictions",
+            "diminished",
+            "drowned",
+            "embark",
+            "fragility",
+            "neglected",
+            "obscurity",
+            "outlines",
+            "prevalent",
+            "purchasable",
+            "submit",
+            "suppress"
+          ],
+          "answerIndex": 5,
+          "explanation": "原卷答案：F。",
+          "weight": 0.5,
+          "passageId": "cet6-2021-06-set3-bank"
+        },
+        {
+          "id": "cet6-2021-06-set3-q32",
+          "type": "WORD_BANK",
+          "prompt": "第 32 空",
+          "choices": [
+            "adversity",
+            "authentic",
+            "convey",
+            "depictions",
+            "diminished",
+            "drowned",
+            "embark",
+            "fragility",
+            "neglected",
+            "obscurity",
+            "outlines",
+            "prevalent",
+            "purchasable",
+            "submit",
+            "suppress"
+          ],
+          "answerIndex": 12,
+          "explanation": "原卷答案：M。",
+          "weight": 0.5,
+          "passageId": "cet6-2021-06-set3-bank"
+        },
+        {
+          "id": "cet6-2021-06-set3-q33",
+          "type": "WORD_BANK",
+          "prompt": "第 33 空",
+          "choices": [
+            "adversity",
+            "authentic",
+            "convey",
+            "depictions",
+            "diminished",
+            "drowned",
+            "embark",
+            "fragility",
+            "neglected",
+            "obscurity",
+            "outlines",
+            "prevalent",
+            "purchasable",
+            "submit",
+            "suppress"
+          ],
+          "answerIndex": 6,
+          "explanation": "原卷答案：G。",
+          "weight": 0.5,
+          "passageId": "cet6-2021-06-set3-bank"
+        },
+        {
+          "id": "cet6-2021-06-set3-q34",
+          "type": "WORD_BANK",
+          "prompt": "第 34 空",
+          "choices": [
+            "adversity",
+            "authentic",
+            "convey",
+            "depictions",
+            "diminished",
+            "drowned",
+            "embark",
+            "fragility",
+            "neglected",
+            "obscurity",
+            "outlines",
+            "prevalent",
+            "purchasable",
+            "submit",
+            "suppress"
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 0.5,
+          "passageId": "cet6-2021-06-set3-bank"
+        },
+        {
+          "id": "cet6-2021-06-set3-q35",
+          "type": "WORD_BANK",
+          "prompt": "第 35 空",
+          "choices": [
+            "adversity",
+            "authentic",
+            "convey",
+            "depictions",
+            "diminished",
+            "drowned",
+            "embark",
+            "fragility",
+            "neglected",
+            "obscurity",
+            "outlines",
+            "prevalent",
+            "purchasable",
+            "submit",
+            "suppress"
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 0.5,
+          "passageId": "cet6-2021-06-set3-bank"
+        },
+        {
+          "id": "cet6-2021-06-set3-q36",
+          "type": "MATCHING",
+          "prompt": "There is an ongoing debate among the public as to whether the images of deceased celebrities should be recreated.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 6,
+          "explanation": "原卷答案：G。",
+          "weight": 1,
+          "passageId": "cet6-2021-06-set3-matching"
+        },
+        {
+          "id": "cet6-2021-06-set3-q37",
+          "type": "MATCHING",
+          "prompt": "The CGI technology allows the image of the deceased James Dean to be presented to young people in new settings.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "passageId": "cet6-2021-06-set3-matching"
+        },
+        {
+          "id": "cet6-2021-06-set3-q38",
+          "type": "MATCHING",
+          "prompt": "It is very likely that the CGI-recreated image of a deceased celebrity will fail to match the real actor especially in facial expressions.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 9,
+          "explanation": "原卷答案：J。",
+          "weight": 1,
+          "passageId": "cet6-2021-06-set3-matching"
+        },
+        {
+          "id": "cet6-2021-06-set3-q39",
+          "type": "MATCHING",
+          "prompt": "The use of digital technology can bring images of deceased celebrities back to the screen.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "passageId": "cet6-2021-06-set3-matching"
+        },
+        {
+          "id": "cet6-2021-06-set3-q40",
+          "type": "MATCHING",
+          "prompt": "Recreating a deceased famous actor or actress may violate their legitimate rights.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 5,
+          "explanation": "原卷答案：F。",
+          "weight": 1,
+          "passageId": "cet6-2021-06-set3-matching"
+        },
+        {
+          "id": "cet6-2021-06-set3-q41",
+          "type": "MATCHING",
+          "prompt": "More CGI-recreated images of deceased celebrities are expected to appear on screen.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 11,
+          "explanation": "原卷答案：L。",
+          "weight": 1,
+          "passageId": "cet6-2021-06-set3-matching"
+        },
+        {
+          "id": "cet6-2021-06-set3-q42",
+          "type": "MATCHING",
+          "prompt": "The image of James Dean will be recreated on screen with his voice dubbed by someone else.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "passageId": "cet6-2021-06-set3-matching"
+        },
+        {
+          "id": "cet6-2021-06-set3-q43",
+          "type": "MATCHING",
+          "prompt": "However advanced the CGI technology is, the recreated image will differ in a way from the real actor.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 7,
+          "explanation": "原卷答案：H。",
+          "weight": 1,
+          "passageId": "cet6-2021-06-set3-matching"
+        },
+        {
+          "id": "cet6-2021-06-set3-q44",
+          "type": "MATCHING",
+          "prompt": "A lot of actors today are likely to make use of the CGI technology to have their images stored for the benefit of their families.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 4,
+          "explanation": "原卷答案：E。",
+          "weight": 1,
+          "passageId": "cet6-2021-06-set3-matching"
+        },
+        {
+          "id": "cet6-2021-06-set3-q45",
+          "type": "MATCHING",
+          "prompt": "Some actors are concerned that they may lose jobs because of the CGI technology.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 8,
+          "explanation": "原卷答案：I。",
+          "weight": 1,
+          "passageId": "cet6-2021-06-set3-matching"
+        },
+        {
+          "id": "cet6-2021-06-set3-q46",
+          "type": "DETAIL",
+          "prompt": "What do we learn from the passage about creativity?",
+          "choices": [
+            "It develops best when people are spiritually prepared.",
+            "It is most often wielded by scientists and entrepreneurs.",
+            "It is founded on scientific knowledge and analytical skills.",
+            "It contributes to intellectual growth but can easily be killed."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "passageId": "cet6-2021-06-set3-detail1"
+        },
+        {
+          "id": "cet6-2021-06-set3-q47",
+          "type": "DETAIL",
+          "prompt": "What is the conclusion of a recently-published report?",
+          "choices": [
+            "Natural sciences should be learned the way humanities courses are.",
+            "Cultivation of creativity should permeate the entire school curriculum.",
+            "Art courses should be made compulsory for all students.",
+            "Students should learn more obviously creative subjects."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "passageId": "cet6-2021-06-set3-detail1"
+        },
+        {
+          "id": "cet6-2021-06-set3-q48",
+          "type": "DETAIL",
+          "prompt": "What does the report say is detrimental to the fostering of creativity?",
+          "choices": [
+            "Alleviation of pressure.",
+            "Teacher-led school activities.",
+            "Test-oriented teaching.",
+            "Independent learning."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "passageId": "cet6-2021-06-set3-detail1"
+        },
+        {
+          "id": "cet6-2021-06-set3-q49",
+          "type": "DETAIL",
+          "prompt": "What do we learn about the private schools in the UK?",
+          "choices": [
+            "They encourage extracurricular activities.",
+            "They attach great importance to arts education.",
+            "They prioritize arts subjects over maths and sciences.",
+            "They cater to students from different family backgrounds."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "passageId": "cet6-2021-06-set3-detail1"
+        },
+        {
+          "id": "cet6-2021-06-set3-q50",
+          "type": "DETAIL",
+          "prompt": "What should be done to meet the future challenges?",
+          "choices": [
+            "Increasing government investment in school education.",
+            "Narrowing the existing gap between the rich and the poor.",
+            "Providing all children with equal access to arts education.",
+            "Focusing on meeting the needs of under-privileged students."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "passageId": "cet6-2021-06-set3-detail1"
+        },
+        {
+          "id": "cet6-2021-06-set3-q51",
+          "type": "DETAIL",
+          "prompt": "What do people tend to do while engaging in a conversation?",
+          "choices": [
+            "Repeat what their partners say one way or another.",
+            "Focus as much as possible on topics of mutual interest.",
+            "Imitate their partners' gestures without their knowing it.",
+            "Observe carefully how their partners make use of gestures."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "passageId": "cet6-2021-06-set3-detail2"
+        },
+        {
+          "id": "cet6-2021-06-set3-q52",
+          "type": "DETAIL",
+          "prompt": "When does mirroring usually take place in a conversation?",
+          "choices": [
+            "When both sides are sympathetic with each other.",
+            "When both sides have a lot of things in common.",
+            "When both sides make interesting contributions.",
+            "When both sides try to seek common ground."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "passageId": "cet6-2021-06-set3-detail2"
+        },
+        {
+          "id": "cet6-2021-06-set3-q53",
+          "type": "DETAIL",
+          "prompt": "What do we learn about popular culture?",
+          "choices": [
+            "It encourages people to imitate.",
+            "It appeals mostly to big names.",
+            "It acquaints young people with their idols.",
+            "It can change people's mode of cognition."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "passageId": "cet6-2021-06-set3-detail2"
+        },
+        {
+          "id": "cet6-2021-06-set3-q54",
+          "type": "DETAIL",
+          "prompt": "Why is the saying \"copy from two, it's research\" a lesson to learn?",
+          "choices": [
+            "It facilitates the creation of one's own writing style.",
+            "It helps to protect one's intellectual property rights.",
+            "It fosters correct interpretation of professional writing.",
+            "It enables one to write intriguing sequels to famous stories."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "passageId": "cet6-2021-06-set3-detail2"
+        },
+        {
+          "id": "cet6-2021-06-set3-q55",
+          "type": "DETAIL",
+          "prompt": "Why does the author say imitation is rather paradoxical?",
+          "choices": [
+            "It is liable to different interpretations.",
+            "It is by and large a necessary evil.",
+            "It can give rise to endless disputes.",
+            "It may do harm as well as good."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "passageId": "cet6-2021-06-set3-detail2"
+        }
+      ],
+      "audio": [],
+      "passages": [
+        {
+          "id": "cet6-2021-06-set3-bank",
+          "text": "At 43, I've reached the stage where women are warned to watch out for the creeping sadness of middle age. We're served up an endless stream of advice on \"how to survive your 40s\", as if we're in the endurance stage of a slow limp toward  __(26)__  . This is the age women start to become \" invisible\"-our value, attractiveness and power supposedly __(27)__ by the vanishing of youth. But I don't feel like I'm fading into __(28)__ . I feel more seen than I ever have, and for the first time in my life, I have a clear-eyed view of myself that is __(29)__ , compassionate and accepting. When I look in the mirror, I'm proud of who I am-even those \"broken\" parts that for so long seemed impossible to love. So when advertisers try to sell me ways to \"turn back the clock\", I have to __(30)__ a laugh. I wouldn't go back to the crippling self-consciousness of my youth if you paid me. This hard-won sense of self-acceptance is one of the joys of being an older woman. But it's a narrative often __(31)__ out by the shame that marketers rely on to peddle us their diet pills, miracle face creams and breathable yoga pants- as if self-love is a __(32)__ commodity. For some women I know, this sense of trust and self-belief later in life gave them the courage to leave dysfunctional relationships or __(33)__ on new career paths. Others talked about enjoying their own company, of growth through __(34)__ , deepening bonds of friendships, the ability to be more compassionate, less judgmental and to listen more and appreciate the small pleasures. Life past 40 is far from smooth sailing, but it's so much more than the reductive __(35)__ we see in women's magazines and on the Hollywood big screen."
+        },
+        {
+          "id": "cet6-2021-06-set3-matching",
+          "text": "What Are the Ethics of CGI Actors-And Will They Replace Real Ones?\nA) Digital humans are coming to a screen near you. As computer-generated imagery (CGI) has become cheaper and more sophisticated, the film industry can now convincingly recreate people on screen- even actors who have been dead for decades. The technology's ability to effectively keep celebrities alive beyond the grave is raising questions about public legacies and image rights.\nB) Late in 2019, it was announced that US actor James Dean, who died in 1955, will star in a Vietnam War film scheduled for release later this year. In the film, which will be called Finding Jack, Dean will be recreated on screen with CGI based on old footage (# H 4*) and photographs, with another actor voicing him. The news was met with excitement by those keen to see Dean digitally brought back to life for only his fourth film, but it also drew sharp criticism. \"This is puppeteering the dead for their fame alone,\" actress Zelda Williams wrote on Twitter. \"It sets such an awful precedent for the future of performance.\" Her father, Robin Williams, who died in 2014, was keen to avoid the same fate. Before his death, he filed a deed protecting the use of his image until 2039, preventing others from recreating him using CGI to appear in a film, TV show or as a hologram (##$ #E$18).\nC) The James Dean film is a way to keep the actor's image relevant for younger generations, says Mark Roesler of CMG Worldwide, the firm that represents Dean's estate. \"I think this is the beginning of an entire wave,\" says Travis Cloyd, CEO of Worldwide XR, one of the companies behind the digital recreation of Dean. \"Moving into the future, we want James Dean to be brought into different gaming environments, or different virtual reality environments, or augmented reality environments,\" he says.\nD) Other actors have been revived, with the permission of their estates, for advertising purposes: for example, a 2011 advertisement for Dior featured contemporary actress Charlize Theron alongside iconic 20th-century stars Marilyn Monroe, Grace Kelly and Marlene Dietrich. Later, Audrey Hepburn was digitally recreated for a chocolate commercial in 2013. In the same year, a CGI Bruce Lee appeared in a Chinese-language ad for a whisky brand, which offended many fans because Lee was widely known not to drink alcohol at all. \"In the last five years, it's become more affordable and more achievable in a whole movie,\" says Tim Webber at UK visual effects firm Framestore, the company behind the Hepburn chocolate ad. Framestore used body doubles with resemblance to Hepburn's facial structure and body shape as a framework for manual animation. The process was extremely difficult and expensive, says Webber, but the technology has moved on.\nE) Now, a person can be animated from scratch. \"If they're alive today, you can put them in scanning rigs, you can get every detail of their body analysed very carefully and that makes it much easier, whereas working from available photographs is tricky,\" says Webber, who won an Academy Award for his visual effects work on the 2013 film Gravity. \"I also see a lot of actors today who will have the desire to take advantage of this technology: to have their likeness captured and stored for future content,\" says Cloyd. \"They foresee this being something that could give their estates and give their families the ability to make money from their likeness when they're gone.\"\nF) A hidden hazard of digitally recreating a deceased (E # i) celebrity is the risk of damaging their legacy. \"We have to respect the security and the integrity of rights holders,\" says John Canning at Digital Domain, a US firm that created a hologram rapper (i PH Z^) Tupac Shakur, which appeared at the Coachella music festival in 2012, 15 years after his death.\nG) Legally, a person's rights to control the commercial use of their name and image beyond their death differ between and even within countries. In certain US states, for example, these rights are treated similarly to property rights, and are transferable to a person's heirs. In California, under the Celebrities Rights Act, the personality rights for a celebrity last for 70 years after their death. \"We've got a societal debate going on about access to our public commons, as it were, about famous faces,\" says Lilian Edwards at Newcastle University, UK. Should the public be allowed to use or reproduce images of famous people, given how iconic they are? And what is in the best interest of a deceased person's legacy may conflict with the desires of their family or the public, says Edwards.\nH) A recreation, however lifelike, will never be indistinguishable from a real actor, says Webber. \"When we are bringing someone back, representing someone who is no longer alive on the screen, what we are doing is extremely sophisticated digital make-up,\" he says. \" A performance is a lot more than a physical resemblance.\"\nI) As it becomes easier to digitally recreate celebrities and to entirely manufacture on-screen identities, could this kind of technology put actors out of jobs? \"I think actors are worried about this,\" says Edwards. \"But I think it will take a very long time.\" This is partly because of the risk that viewers find virtual humans scary. Edwards cites widespread backlash to the digital recreation of Carrie Fisher as a young Princess Leia in Rogue One, a trick later repeated in the recent Star Wars: The Rise of Skywalker, which was filmed after Fisher's death in 2016. \"People didn't like it,\" she says. \"They discovered the uncanny valley (# 4).\"\nJ) This refers to the idea that when objects trying to resemble humans aren't quite perfect, they can make viewers feel uneasy because they fall somewhere between obviously non-human and fully human. \"That's always a danger when you're doing anything human or human-like,\" says Webber. \"There're a thousand things that could go wrong with a computer-generated facial performance, and any one of those could make it fall into the uncanny valley,\" he says. \"Your brain just knows there's something wrong.\" The problem often arises around the eyes or mouth, says Webber. \"They're the areas that you look at when you're talking to someone. \"\nK) An unfamiliar digital human that has been created through CGI will also face the same challenge as an unknown actor; they don't have the appeal of an established name. \"You have to spend substantial capital in creating awareness around their likeness and making sure people are familiar with who they are,\" says Cloyd. This is now starting to happen. \"The way you pre-sell a movie in a foreign market is based on relevant talent,\" he says. \"I think we're a long way away from having virtual beings that have the ability to pre-sell content.\"\nL) Webber expects that we will see more digital humans on screen. \"It's happening because it can happen,\" he says. Referring to a line from Jurassic Park (1 W 4E/A), he adds: \"People are too busy thinking about what they can do to think about whether they should do it.\""
+        },
+        {
+          "id": "cet6-2021-06-set3-detail1",
+          "text": "You can't see it, smell it, or hear it, and people disagree on how precisely to define it, or where exactly it comes from. It isn't a school subject or an academic discipline, but it can be learned. It is a quality that is required of artists, but it is also present in the lives of scientists and entrepreneurs. All of us benefit from it and we thrive mentally and spiritually when we are able to wield it. It is a delicate thing, easily stamped out; in fact, it flourishes most fully when people are playful and childlike. Meanwhile, it works best in conjunction with deep knowledge and expertise. This mysterious— but teachable-quality is creativity, the subject of a recently-published report by Durham Commission on Creativity and Education. The report concludes that creativity should not inhabit the school curriculum only as it relates to drama, music, art and other obviously creative subjects, but that creative thinking ought to run through all of school life, infusing (3E#) the way humanities and natural sciences are learned. The authors, who focus on education in England, offer a number of sensible recommendations, some of which are an attempt to alleviate the uninspiring and fact-based approach to education that has crept into policy in recent years. When children are regarded as vessels to be filled with facts, creativity does not prosper; nor does it when teachers' sole objective is coaching children towards exams. One suggestion from the commission is    a network of teacher-led \"creativity collaboratives\", along the lines of existing maths hubs (fob), with the aim of supporting teaching for creativity through the school curriculum. Nevertheless, it is arts subjects through which creativity can most obviously be fostered. The value placed on them by the independent education sector is clear. One only has to look at the remarkable arts facilities at Britain's top private schools to comprehend this. But in the state sector the excessive focus on English, maths and science threatens to crush arts subjects; meanwhile, reduced school budgets mean diminishing extracurricular activities. There has been a 28.1% decline in students taking creative subjects at high schools since 2014, though happily, art and design have seen a recent increase. This discrepancy between state and private education is a matter of social justice. It is simply wrong and unfair that most children have a fraction of the access to choirs, orchestras, art studios and drama that their more privileged peers enjoy. As lives are affected by any number of looming challenges— climate crisis, automation in the workplace-humans are going to need creative thinking more than ever. For all of our sakes, creativity in education, and for all, must become a priority."
+        },
+        {
+          "id": "cet6-2021-06-set3-detail2",
+          "text": "Emulating your conversation partner's actions is a common human behavior classified as \"mirroring\" and has been known and studied by psychologists for years. We all tend to subconsciously copy gestures of people we like. But why do we act like this? As a rule, mirroring means that conversationalists enjoy their communication and that there's a certain level of agreement between them. The topic of discussion is equally interesting for both and they know their interests meet. Repeating someone's behavior is typical of talented communicators, not always because the person is sympathetic, but because there is a goal to be achieved. This way new idols have been brought to the stage: politicians, celebrities, and other big names. Popular culture makes people want to look popular, and act and speak like popular people. Nowadays celebrities steal lyrics from each other and struggle with copyright violation accusations or straightforwardly claim themselves to be the authors, even though all the work was done by other people. Among celebrities, it's trendy nowadays to use their own speech writers as politicians do. The so- called \"ghostwriting\" can take various forms: books, articles, autobiographies, and even social media posts. Who is a true copycat (#be fi) and who gets copycatted? Sometimes, it is a hard nut to crack without an expert's help. But new authorship defending methods based on identifying individual writing patterns are already here. Their aim is to protect intellectual property. Using scientific methods, some of them can define authorship with 85% accuracy. Writing is not an easy craft to master. If you want to write like a professional without plagiarism (f 1) , there are a few lessons to learn and the first one is: \"Copy from one, it's plagiarism; copy from two, it's research.\" The correct interpretation of this statement is not about copying, but rather about creating your own style. When you study an author's writing style, don't stop on a single one, but explore numerous styles instead. Examine types of sentences they use, pay attention to their metaphors, and focus on stories you feel you could write a pretty cool sequel (57 M) to. Imitation is rather paradoxical. As an integral part of learning, it brings about positive changes, making people develop and grow. However, it may do a lot of harm. Copying someone's thoughts, ideas or inventions is completely unacceptable. It infringes on intellectual property rights of others. Still, many things we do are about copying others one way.or another. So if you want to compliment someone on the work they have done and imitate it, just make sure you do it the right way to avoid committing plagiarism."
+        }
+      ],
+      "sourceFileUrl": "/study/resources/1bb51699ea16bd7abf5ebc12.pdf"
+    },
+    "TRANSLATION": {
+      "instructions": "请将原卷中文翻译成英语。",
+      "prompt": "Directions: For this part, you are allowed 30 minutes to translate a passage from Chinese into English. You should write your answer on Answer Sheet 2. 云南是位于中国西南的一个省份,平均海拔1500米。云南历史悠久,风景秀丽,气候宜人。云南生态    ТВА 环境优越,生物多种多样,被誉为野生动植物的天堂。云南还有多种矿藏和充足的水资源,为全省经济的 可持续发展提供了有利条件。 云南居住着25个少数民族,他们大多有自己的语言、习俗和宗教。云南独特的自然景色和丰富的民 族文化使其成为中国最受欢迎的旅游目的地之一,每年都吸引着大批国内外游客前往观光旅游。 六级2021年6月",
+      "questions": [],
+      "audio": [],
+      "passages": [],
+      "sourceFileUrl": "/study/resources/1bb51699ea16bd7abf5ebc12.pdf"
+    }
+  }
+}

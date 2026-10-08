@@ -9,6 +9,7 @@ export const vocabularyTabs = [
 
 export function getWorkspaceSection(pathname: string) {
   if (pathname.startsWith('/dictation') || pathname === '/mistakes') return 'review'
+  if (pathname.startsWith('/study')) return 'study'
   if (vocabularyTabs.some(({ href }) => pathname === href || pathname.startsWith(`${href}/`))) return 'vocabulary'
   if (pathname === '/ai' || pathname === '/chat') return 'translation'
   if (pathname.startsWith('/leaderboard')) return 'ranking'
@@ -21,6 +22,7 @@ export const workspaceSections = {
   home: { label: '工作台', icon: Home },
   translation: { label: '翻译与聊天', icon: Sparkles },
   review: { label: '默写复习', icon: PenTool },
+  study: { label: '四六级备考', icon: BookOpen },
   vocabulary: { label: '词库', icon: BookOpen },
   ranking: { label: '排行榜', icon: Trophy },
   settings: { label: '设置', icon: Settings2 },

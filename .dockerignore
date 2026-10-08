@@ -3,6 +3,12 @@ node_modules
 .git
 .env
 .env.local
+.env.*
+.local-preview
+.local-cet-import
+四级
+六级
+*.textClipping
 *.md
 logs
 coverage

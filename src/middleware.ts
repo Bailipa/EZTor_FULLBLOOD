@@ -30,6 +30,7 @@ const OPTIONAL_AUTH_PATHS = [
   '/api/flashcard/public',
   // 弹幕：未登录降级公共词池（游客/系统托盘/快捷键开弹幕），登录才走私人词库
   '/api/danmaku',
+  '/api/leaderboard/status',
 ]
 
 const PUBLIC_PATHS = ['/vendor/canvas-confetti/confetti-1.9.4.browser.js', '/site-config.json', '/auth/signin', '/api/auth', '/api/captcha', '/api/health', '/api/auth/xiaoying', '/flywheel-preview.html', '/share', '/api/share-profile', '/download', '/manifest.webmanifest', '/danmaku-overlay.html', '/api/version', '/api/debug', '/updates', '/api/downloads/record', '/api/zh-to-en', '/public-vocabulary', '/api/public-vocabulary', '/robots.txt', '/sitemap.xml', '/b40aa04f8861b8f440dcd1be37a799ad.txt']
@@ -48,6 +49,7 @@ const ADMIN_PATHS = [
   '/api/config',
   '/api/admin/downloads',
   '/api/admin/online',
+  '/api/admin/leaderboard',
 ]
 
 function isPathMatch(pathname: string, paths: string[]): boolean {

@@ -1,0 +1,1095 @@
+{
+  "slug": "cet4-2023-03-set2-full",
+  "version": 2,
+  "title": "2023年3月 · 第2套整卷模拟真题",
+  "level": "CET4",
+  "kind": "FULL",
+  "originType": "PAST_EXAM",
+  "sourceName": "用户提供的本地四六级资料",
+  "sourceUrl": "/study/resources/0d695e4d6d568aadcaf9420f.pdf",
+  "rightsHolder": "原试卷及解析作者",
+  "rightsEvidence": "用户提供本地资源并要求接入本地学习系统；原文件及校验值见 content/cet-local/index.json。未授权公开再分发或生产部署。",
+  "content": {
+    "WRITING": {
+      "instructions": "原卷写作要求",
+      "prompt": "Directions: Suppose you have read a book recently and intend to recommend it to other members of your book club via an online forum. Briefly introduce the book and explain why it is worth reading. You will have 30 minutes for this task and should write at least 120 words but no more than 180 words.",
+      "questions": [],
+      "audio": [],
+      "passages": [],
+      "minimumWords": 120,
+      "maximumWords": 180,
+      "sourceFileUrl": "/study/resources/0d695e4d6d568aadcaf9420f.pdf"
+    },
+    "LISTENING": {
+      "instructions": "原卷听力选择题",
+      "questions": [
+        {
+          "id": "cet4-2023-03-set2-q1",
+          "type": "NEWS",
+          "prompt": "第 1 题(题干在原始录音中)",
+          "choices": [
+            "A proposed policy allowing Africans to travel in Africa without a visa.",
+            "An agreement among 13 African countries to set up a free-trade zone.",
+            "A plan to invite all African countries to join the African Union.",
+            "An important initiative to permit tourists to visit Africa without a visa."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "audioId": "cet4-2023-03-set2-audio"
+        },
+        {
+          "id": "cet4-2023-03-set2-q2",
+          "type": "NEWS",
+          "prompt": "第 2 题(题干在原始录音中)",
+          "choices": [
+            "It will attract more investments from all over the world.",
+            "It will help many African countries reduce trade deficits.",
+            "It will reduce the cost of trade between African countries.",
+            "It will allow Africans to play a bigger role in world trade."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "audioId": "cet4-2023-03-set2-audio"
+        },
+        {
+          "id": "cet4-2023-03-set2-q3",
+          "type": "NEWS",
+          "prompt": "第 3 题(题干在原始录音中)",
+          "choices": [
+            "Cooling down volcanic rock with sea water.",
+            "Storing carbon dioxide underground as a gas.",
+            "Capturing carbon dioxide and burying it under the sea.",
+            "Pumping carbon dioxide underground to form stone."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "audioId": "cet4-2023-03-set2-audio"
+        },
+        {
+          "id": "cet4-2023-03-set2-q4",
+          "type": "NEWS",
+          "prompt": "第 4 题(题干在原始录音中)",
+          "choices": [
+            "Lack of burying ground.",
+            "Long time for processing.",
+            "High consumption of water.",
+            "Enormous cost of energy."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "audioId": "cet4-2023-03-set2-audio"
+        },
+        {
+          "id": "cet4-2023-03-set2-q5",
+          "type": "NEWS",
+          "prompt": "第 5 题(题干在原始录音中)",
+          "choices": [
+            "It varies with the seasons.",
+            "It has been on the decline.",
+            "It has caused nationwide concern.",
+            "It is ninety grams daily on average."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "audioId": "cet4-2023-03-set2-audio"
+        },
+        {
+          "id": "cet4-2023-03-set2-q6",
+          "type": "NEWS",
+          "prompt": "第 6 题(题干在原始录音中)",
+          "choices": [
+            "They emphasize food variety.",
+            "They prefer French stick loaves.",
+            "They do more cooking than men.",
+            "They favor diets lower in calories."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "audioId": "cet4-2023-03-set2-audio"
+        },
+        {
+          "id": "cet4-2023-03-set2-q7",
+          "type": "NEWS",
+          "prompt": "第 7 题(题干在原始录音中)",
+          "choices": [
+            "They bake more bread at home.",
+            "They spend less time eating breakfast.",
+            "They eat more fruit than they used to.",
+            "They put jam instead of butter on bread. 2023-03-CET4(7 1 1)-1"
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "audioId": "cet4-2023-03-set2-audio"
+        },
+        {
+          "id": "cet4-2023-03-set2-q8",
+          "type": "CONVERSATION",
+          "prompt": "第 8 题(题干在原始录音中)",
+          "choices": [
+            "After the rush hour.",
+            "Early in the morning.",
+            "As soon as possible.",
+            "Around lunch time."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "audioId": "cet4-2023-03-set2-audio"
+        },
+        {
+          "id": "cet4-2023-03-set2-q9",
+          "type": "CONVERSATION",
+          "prompt": "第 9 题(题干在原始录音中)",
+          "choices": [
+            "Two first class seats.",
+            "Two seats together.",
+            "One window seat.",
+            "One seat near the exit."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "audioId": "cet4-2023-03-set2-audio"
+        },
+        {
+          "id": "cet4-2023-03-set2-q10",
+          "type": "CONVERSATION",
+          "prompt": "第 10 题(题干在原始录音中)",
+          "choices": [
+            "In the middle of the platform.",
+            "At the far end of the platform.",
+            "Behind the yellow line.",
+            "In the waiting room."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "audioId": "cet4-2023-03-set2-audio"
+        },
+        {
+          "id": "cet4-2023-03-set2-q11",
+          "type": "CONVERSATION",
+          "prompt": "第 11 题(题干在原始录音中)",
+          "choices": [
+            "Wait in a queue for his turn.",
+            "Go to the baggage claim area.",
+            "Pay an extra fee for the service.",
+            "Give the ticket to the train guard."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "audioId": "cet4-2023-03-set2-audio"
+        },
+        {
+          "id": "cet4-2023-03-set2-q12",
+          "type": "CONVERSATION",
+          "prompt": "第 12 题(题干在原始录音中)",
+          "choices": [
+            "Almost all of them were operating at a deficit.",
+            "They have all been turned into movie theatres.",
+            "Nearly all of them closed down decades ago.",
+            "They have adapted to meet fashion changes."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "audioId": "cet4-2023-03-set2-audio"
+        },
+        {
+          "id": "cet4-2023-03-set2-q13",
+          "type": "CONVERSATION",
+          "prompt": "第 13 题(题干在原始录音中)",
+          "choices": [
+            "It shows foreign movies exclusively.",
+            "It shows movies from the 1950s.",
+            "It is the oldest theatre in London.",
+            "It is located next to a hat factory."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "audioId": "cet4-2023-03-set2-audio"
+        },
+        {
+          "id": "cet4-2023-03-set2-q14",
+          "type": "CONVERSATION",
+          "prompt": "第 14 题(题干在原始录音中)",
+          "choices": [
+            "They wear hats on social occasions.",
+            "They don't speak foreign languages.",
+            "They enjoy watching foreign movies.",
+            "They don't go to movie theatres often."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "audioId": "cet4-2023-03-set2-audio"
+        },
+        {
+          "id": "cet4-2023-03-set2-q15",
+          "type": "CONVERSATION",
+          "prompt": "第 15 题(题干在原始录音中)",
+          "choices": [
+            "They are meant mostly for immigrants.",
+            "They attract large crowds of young Londoners.",
+            "They are hard for English people to appreciate.",
+            "They have an English translation on the screen."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "audioId": "cet4-2023-03-set2-audio"
+        },
+        {
+          "id": "cet4-2023-03-set2-q16",
+          "type": "PASSAGE",
+          "prompt": "第 16 题(题干在原始录音中)",
+          "choices": [
+            "She doesn't think smartphones can replace tablets.",
+            "She incorporates smartphones into her teaching.",
+            "She cannot stop children using smartphones.",
+            "She regards smartphones as a distraction."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "audioId": "cet4-2023-03-set2-audio"
+        },
+        {
+          "id": "cet4-2023-03-set2-q17",
+          "type": "PASSAGE",
+          "prompt": "第 17 题(题干在原始录音中)",
+          "choices": [
+            "To enforce school discipline.",
+            "To make students concentrate.",
+            "To help children grow up to be professionals. 2023-03-CET4(7 1 4)-2",
+            "To cultivate children's good study habits."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "audioId": "cet4-2023-03-set2-audio"
+        },
+        {
+          "id": "cet4-2023-03-set2-q18",
+          "type": "PASSAGE",
+          "prompt": "第 18 题(题干在原始录音中)",
+          "choices": [
+            "Use books and pens only.",
+            "Cut down their screen time.",
+            "Make full use of electronic devices.",
+            "Learn to use the internet for research."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "audioId": "cet4-2023-03-set2-audio"
+        },
+        {
+          "id": "cet4-2023-03-set2-q19",
+          "type": "PASSAGE",
+          "prompt": "第 19 题(题干在原始录音中)",
+          "choices": [
+            "By cleaning the kitchen floor.",
+            "By looking after her baby brother.",
+            "By helping her mother do the dishes.",
+            "By helping her brother wash windows."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "audioId": "cet4-2023-03-set2-audio"
+        },
+        {
+          "id": "cet4-2023-03-set2-q20",
+          "type": "PASSAGE",
+          "prompt": "第 20 题(题干在原始录音中)",
+          "choices": [
+            "She ordered a large number of dolls.",
+            "She checked if a purple doll was ordered.",
+            "She mistakenly canceled her mom's order.",
+            "She ordered a more expensive doll instead."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "audioId": "cet4-2023-03-set2-audio"
+        },
+        {
+          "id": "cet4-2023-03-set2-q21",
+          "type": "PASSAGE",
+          "prompt": "第 21 题(题干在原始录音中)",
+          "choices": [
+            "They asked the children's hospital to pick them.",
+            "They took all of them to the children's hospital.",
+            "They opened all of them one by one.",
+            "They discussed where to keep them."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "audioId": "cet4-2023-03-set2-audio"
+        },
+        {
+          "id": "cet4-2023-03-set2-q22",
+          "type": "PASSAGE",
+          "prompt": "第 22 题(题干在原始录音中)",
+          "choices": [
+            "The time one starts school.",
+            "The classroom atmosphere.",
+            "The school that one attends.",
+            "The relationship with classmates."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "audioId": "cet4-2023-03-set2-audio"
+        },
+        {
+          "id": "cet4-2023-03-set2-q23",
+          "type": "PASSAGE",
+          "prompt": "第 23 题(题干在原始录音中)",
+          "choices": [
+            "To help parents decide when to send their children to school.",
+            "To find causes for differences in the participants' performance.",
+            "To identify students having potential to be professional athletes.",
+            "To offer constructive suggestions for making educational policies."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "audioId": "cet4-2023-03-set2-audio"
+        },
+        {
+          "id": "cet4-2023-03-set2-q24",
+          "type": "PASSAGE",
+          "prompt": "第 24 题(题干在原始录音中)",
+          "choices": [
+            "Political leaders.",
+            "Financial analysts.",
+            "Professional athletes.",
+            "High-school students."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "audioId": "cet4-2023-03-set2-audio"
+        },
+        {
+          "id": "cet4-2023-03-set2-q25",
+          "type": "PASSAGE",
+          "prompt": "第 25 题(题干在原始录音中)",
+          "choices": [
+            "Leadership ability.",
+            "Commitment to work.",
+            "Risk-taking.",
+            "Self-confidence."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "audioId": "cet4-2023-03-set2-audio"
+        }
+      ],
+      "audio": [
+        {
+          "id": "cet4-2023-03-set2-audio",
+          "url": "/study/resources/1d6a0e841aa7d37954b64d93.m4a",
+          "sourceUrl": "/study/resources/1d6a0e841aa7d37954b64d93.m4a",
+          "durationSeconds": 1389.203447,
+          "transcript": "",
+          "identity": "cet4_2023_03_1.mp3 SHA256:1d6a0e841aa7d37954b64d93e0a07518e476817dae3ddee15095a30ba5840585"
+        }
+      ],
+      "passages": [],
+      "sourceFileUrl": "/study/resources/40a0aaad9c96828069ac2161.pdf",
+      "sourceNotice": "原资料说明本套与第一套题目内容相同，但题序不同；本章练习按第一套题序展示，并使用第一套对应答案和录音。"
+    },
+    "READING": {
+      "instructions": "请依次完成选词填空、长篇匹配和仔细阅读。",
+      "questions": [
+        {
+          "id": "cet4-2023-03-set2-q26",
+          "type": "WORD_BANK",
+          "prompt": "第 26 空",
+          "choices": [
+            "wore",
+            "wildlife",
+            "suspect",
+            "struck",
+            "similar",
+            "quantity",
+            "overthrown",
+            "mess",
+            "intense",
+            "human",
+            "effective",
+            "delight",
+            "colorful",
+            "bore",
+            "alike"
+          ],
+          "answerIndex": 14,
+          "explanation": "原卷答案：O。",
+          "weight": 0.5,
+          "passageId": "cet4-2023-03-set2-bank"
+        },
+        {
+          "id": "cet4-2023-03-set2-q27",
+          "type": "WORD_BANK",
+          "prompt": "第 27 空",
+          "choices": [
+            "wore",
+            "wildlife",
+            "suspect",
+            "struck",
+            "similar",
+            "quantity",
+            "overthrown",
+            "mess",
+            "intense",
+            "human",
+            "effective",
+            "delight",
+            "colorful",
+            "bore",
+            "alike"
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 0.5,
+          "passageId": "cet4-2023-03-set2-bank"
+        },
+        {
+          "id": "cet4-2023-03-set2-q28",
+          "type": "WORD_BANK",
+          "prompt": "第 28 空",
+          "choices": [
+            "wore",
+            "wildlife",
+            "suspect",
+            "struck",
+            "similar",
+            "quantity",
+            "overthrown",
+            "mess",
+            "intense",
+            "human",
+            "effective",
+            "delight",
+            "colorful",
+            "bore",
+            "alike"
+          ],
+          "answerIndex": 11,
+          "explanation": "原卷答案：L。",
+          "weight": 0.5,
+          "passageId": "cet4-2023-03-set2-bank"
+        },
+        {
+          "id": "cet4-2023-03-set2-q29",
+          "type": "WORD_BANK",
+          "prompt": "第 29 空",
+          "choices": [
+            "wore",
+            "wildlife",
+            "suspect",
+            "struck",
+            "similar",
+            "quantity",
+            "overthrown",
+            "mess",
+            "intense",
+            "human",
+            "effective",
+            "delight",
+            "colorful",
+            "bore",
+            "alike"
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 0.5,
+          "passageId": "cet4-2023-03-set2-bank"
+        },
+        {
+          "id": "cet4-2023-03-set2-q30",
+          "type": "WORD_BANK",
+          "prompt": "第 30 空",
+          "choices": [
+            "wore",
+            "wildlife",
+            "suspect",
+            "struck",
+            "similar",
+            "quantity",
+            "overthrown",
+            "mess",
+            "intense",
+            "human",
+            "effective",
+            "delight",
+            "colorful",
+            "bore",
+            "alike"
+          ],
+          "answerIndex": 8,
+          "explanation": "原卷答案：I。",
+          "weight": 0.5,
+          "passageId": "cet4-2023-03-set2-bank"
+        },
+        {
+          "id": "cet4-2023-03-set2-q31",
+          "type": "WORD_BANK",
+          "prompt": "第 31 空",
+          "choices": [
+            "wore",
+            "wildlife",
+            "suspect",
+            "struck",
+            "similar",
+            "quantity",
+            "overthrown",
+            "mess",
+            "intense",
+            "human",
+            "effective",
+            "delight",
+            "colorful",
+            "bore",
+            "alike"
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 0.5,
+          "passageId": "cet4-2023-03-set2-bank"
+        },
+        {
+          "id": "cet4-2023-03-set2-q32",
+          "type": "WORD_BANK",
+          "prompt": "第 32 空",
+          "choices": [
+            "wore",
+            "wildlife",
+            "suspect",
+            "struck",
+            "similar",
+            "quantity",
+            "overthrown",
+            "mess",
+            "intense",
+            "human",
+            "effective",
+            "delight",
+            "colorful",
+            "bore",
+            "alike"
+          ],
+          "answerIndex": 12,
+          "explanation": "原卷答案：M。",
+          "weight": 0.5,
+          "passageId": "cet4-2023-03-set2-bank"
+        },
+        {
+          "id": "cet4-2023-03-set2-q33",
+          "type": "WORD_BANK",
+          "prompt": "第 33 空",
+          "choices": [
+            "wore",
+            "wildlife",
+            "suspect",
+            "struck",
+            "similar",
+            "quantity",
+            "overthrown",
+            "mess",
+            "intense",
+            "human",
+            "effective",
+            "delight",
+            "colorful",
+            "bore",
+            "alike"
+          ],
+          "answerIndex": 7,
+          "explanation": "原卷答案：H。",
+          "weight": 0.5,
+          "passageId": "cet4-2023-03-set2-bank"
+        },
+        {
+          "id": "cet4-2023-03-set2-q34",
+          "type": "WORD_BANK",
+          "prompt": "第 34 空",
+          "choices": [
+            "wore",
+            "wildlife",
+            "suspect",
+            "struck",
+            "similar",
+            "quantity",
+            "overthrown",
+            "mess",
+            "intense",
+            "human",
+            "effective",
+            "delight",
+            "colorful",
+            "bore",
+            "alike"
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 0.5,
+          "passageId": "cet4-2023-03-set2-bank"
+        },
+        {
+          "id": "cet4-2023-03-set2-q35",
+          "type": "WORD_BANK",
+          "prompt": "第 35 空",
+          "choices": [
+            "wore",
+            "wildlife",
+            "suspect",
+            "struck",
+            "similar",
+            "quantity",
+            "overthrown",
+            "mess",
+            "intense",
+            "human",
+            "effective",
+            "delight",
+            "colorful",
+            "bore",
+            "alike"
+          ],
+          "answerIndex": 13,
+          "explanation": "原卷答案：N。",
+          "weight": 0.5,
+          "passageId": "cet4-2023-03-set2-bank"
+        },
+        {
+          "id": "cet4-2023-03-set2-q36",
+          "type": "MATCHING",
+          "prompt": "Many people today still find name hyphenation upon marriage unacceptable.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 7,
+          "explanation": "原卷答案：H。",
+          "weight": 1,
+          "passageId": "cet4-2023-03-set2-matching"
+        },
+        {
+          "id": "cet4-2023-03-set2-q37",
+          "type": "MATCHING",
+          "prompt": "As a compromise, a bride will in most cases adopt a name that combines the couple's last names.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "passageId": "cet4-2023-03-set2-matching"
+        },
+        {
+          "id": "cet4-2023-03-set2-q38",
+          "type": "MATCHING",
+          "prompt": "The bride should consider adopting her groom's last name whether he feels strongly about it or not.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 1,
+          "passageId": "cet4-2023-03-set2-matching"
+        },
+        {
+          "id": "cet4-2023-03-set2-q39",
+          "type": "MATCHING",
+          "prompt": "Making preparations for marriage causes a lot of stress.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "passageId": "cet4-2023-03-set2-matching"
+        },
+        {
+          "id": "cet4-2023-03-set2-q40",
+          "type": "MATCHING",
+          "prompt": "Hyphenating the last names could be a win-win solution should arguments arise about what name to adopt upon marriage.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 1,
+          "passageId": "cet4-2023-03-set2-matching"
+        },
+        {
+          "id": "cet4-2023-03-set2-q41",
+          "type": "MATCHING",
+          "prompt": "It used to be considered socially unacceptable for a bride to retain her maiden name.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "passageId": "cet4-2023-03-set2-matching"
+        },
+        {
+          "id": "cet4-2023-03-set2-q42",
+          "type": "MATCHING",
+          "prompt": "The bride who adopts a hyphenated last name after marriage can maintain connections with their past achievements.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 4,
+          "explanation": "原卷答案：E。",
+          "weight": 1,
+          "passageId": "cet4-2023-03-set2-matching"
+        },
+        {
+          "id": "cet4-2023-03-set2-q43",
+          "type": "MATCHING",
+          "prompt": "Hyphenating names allows the bride to preserve her own identity while respecting tradition.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 6,
+          "explanation": "原卷答案：G。",
+          "weight": 1,
+          "passageId": "cet4-2023-03-set2-matching"
+        },
+        {
+          "id": "cet4-2023-03-set2-q44",
+          "type": "MATCHING",
+          "prompt": "No matter what name the bride adopts, it is most important that the newly-weds truly love each other.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 11,
+          "explanation": "原卷答案：L。",
+          "weight": 1,
+          "passageId": "cet4-2023-03-set2-matching"
+        },
+        {
+          "id": "cet4-2023-03-set2-q45",
+          "type": "MATCHING",
+          "prompt": "Legally speaking, the bride is free to choose whatever name she prefers.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段"
+          ],
+          "answerIndex": 5,
+          "explanation": "原卷答案：F。",
+          "weight": 1,
+          "passageId": "cet4-2023-03-set2-matching"
+        },
+        {
+          "id": "cet4-2023-03-set2-q46",
+          "type": "DETAIL",
+          "prompt": "What do we learn from the passage about the brightest people?",
+          "choices": [
+            "They can make silly mistakes in straightforward situations.",
+            "They usually turn a blind eye to their own weaknesses.",
+            "They are admired by people around them.",
+            "They can differ in their personalities."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "passageId": "cet4-2023-03-set2-detail1"
+        },
+        {
+          "id": "cet4-2023-03-set2-q47",
+          "type": "DETAIL",
+          "prompt": "What accounts for the existence of intelligent people's logical blind spots?",
+          "choices": [
+            "Their irrational way of thinking.",
+            "Too much faith in their ability to think.",
+            "Their ignorance of behavioural science.",
+            "Too much concern about their work."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "passageId": "cet4-2023-03-set2-detail1"
+        },
+        {
+          "id": "cet4-2023-03-set2-q48",
+          "type": "DETAIL",
+          "prompt": "How do smart people react when they are found to be wrong?",
+          "choices": [
+            "They shit the blame to others.",
+            "They graciously accept the facts.",
+            "They may feel shocked.",
+            "They may get offended."
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 2,
+          "passageId": "cet4-2023-03-set2-detail1"
+        },
+        {
+          "id": "cet4-2023-03-set2-q49",
+          "type": "DETAIL",
+          "prompt": "What may happen to smart people who find it difficult to accept suggestions?",
+          "choices": [
+            "They may suffer in their professional and private life.",
+            "They may lose faith in their administrative abilities.",
+            "They may commit more errors than ever before.",
+            "They may experience a lot of emotional stress."
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 2,
+          "passageId": "cet4-2023-03-set2-detail1"
+        },
+        {
+          "id": "cet4-2023-03-set2-q50",
+          "type": "DETAIL",
+          "prompt": "What is said about those working with or under overachieving people?",
+          "choices": [
+            "They put a lot of effort into their work.",
+            "They set higher goals for themselves.",
+            "They are under increasing pressure.",
+            "They take less time to get things done."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "passageId": "cet4-2023-03-set2-detail1"
+        },
+        {
+          "id": "cet4-2023-03-set2-q51",
+          "type": "DETAIL",
+          "prompt": "Why is the U.S. State Department launching an online learning program for refugees?",
+          "choices": [
+            "To enable them to settle down in host countries.",
+            "To allow them to learn as many job skills as possible.",
+            "To offer them a platform to pursue advanced degrees.",
+            "To help them to meet new employment standards."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "passageId": "cet4-2023-03-set2-detail2"
+        },
+        {
+          "id": "cet4-2023-03-set2-q52",
+          "type": "DETAIL",
+          "prompt": "What do we know about \"Coursera for Refugees\"?",
+          "choices": [
+            "It provides refugees with a wide range of courses free of charge.",
+            "It offers free online data services for refugees around the world.",
+            "It allows refugees to obtain degrees in various academic fields.",
+            "It supplies refugees with a great variety of job opportunities."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "passageId": "cet4-2023-03-set2-detail2"
+        },
+        {
+          "id": "cet4-2023-03-set2-q53",
+          "type": "DETAIL",
+          "prompt": "What does the passage say is a consequence of the global migrant crisis?",
+          "choices": [
+            "Instability increases in host countries.",
+            "The global economic crisis intensifies.",
+            "A lot more refugees die during migration.",
+            "Refugees find it more difficult to get a job."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "passageId": "cet4-2023-03-set2-detail2"
+        },
+        {
+          "id": "cet4-2023-03-set2-q54",
+          "type": "DETAIL",
+          "prompt": "What does the author say causes refugees' difficulty in taking online courses?",
+          "choices": [
+            "Cultural environment.",
+            "Changed academic requirements.",
+            "Lack of language skills.",
+            "Difference in teaching platforms."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "passageId": "cet4-2023-03-set2-detail2"
+        },
+        {
+          "id": "cet4-2023-03-set2-q55",
+          "type": "DETAIL",
+          "prompt": "What did the joint study find about the MOOCs several years ago?",
+          "choices": [
+            "They helped solve learners' financial problems.",
+            "They benefited most of the learners.",
+            "They changed some learners' career path.",
+            "They provided the most needed vocational skills."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "passageId": "cet4-2023-03-set2-detail2"
+        }
+      ],
+      "audio": [],
+      "passages": [
+        {
+          "id": "cet4-2023-03-set2-bank",
+          "text": "Questions __(26)__ to __(35)__ are based on the following passage. It's a fantasy that goes back centuries: a message in a bottle, carried ashore from far-off lands. Authors, artists and children    26 have dreamed of such a gift from the sea. This time, though, it's not a bottle that washes ashore. It's eggs thousands of little toy eggs. That's what happened on the German island of Langeog this week. Lying just off the North Sea coast, it found itself __(27)__ by an invasion of colored plastic eggs-- much to the __(28)__ of local children, because the eggs contained toys. Police  __(29)__ the eggs came from a freighter that lost part of its cargo during an unusually __(30)__ storm, the worst to hit Germany's northeastern coast since 2006. At any rate, what was lost now has been found, by many of the community's littlest residents. 2023-03-CET4(# 1 1)-3 \"The surprise eggs have found their way to freedom,\" said Mayor Uwe Garrel. However, the joy of the moment __(31)__ off soon. \"At first, I thought this was a wonder, because everything was so __(32)__ , but then we realized that this is a huge  __(33)__ in the end,\" said the mayor. He also noted the plastic bags and other materials that have washed ashore on the island can cause serious problems for __(34)__ Still, all these little eggs contained an extra treat with their toys. They _    35 notes from afar. There was just one problem for the German children who received them: They were written in Russian."
+        },
+        {
+          "id": "cet4-2023-03-set2-matching",
+          "text": "Hyphenating your last name after marriage?\nA) Congratulations on deciding to get married! While being married is great and wonderful, the act of getting married can be quite stressful. There is the planning of the ceremony itself, the merging (A) of two households and all of the details involved in that. You also have to take the time to apply for your marriage license and then decide whether or not you are going to keep your last name or change it.\nB) This is where a lot of people have trouble. Once upon a time, it was just customary for a bride to take her groom's last name as hen own and abandon her maiden name completely. The act of keeping her own last name was considered taboo (#2⁄5) and people's eyebrows would raise right off their faces when they found out that the bride was even considering something so radical. Over time, though, more and more women are deciding to keep their last names.\nC) There are a lot of reasons to want to keep your own last name. Hopefully you have a supportive groom who understands why this idea is the most appealing to you. A lot of times, though, the act of keeping your name is still something that causes concern. Even if your groom is fine with it, his family (or your own) might not be so understanding.\nD) There are a couple of ways to compromise on the issue. You could choose an entirely new last name for the two of you to share. This way neither of you gets \"your\" way and you both have to deal with the legalities of going through a name change. Most of the time, though, the most popular compromise is to hyphenate your last name and the last name of your groom. For example, if your groom's name is John Smith and your name is Kate Jones. You would name yourself Kate 2023-03-CET4(7 1 1⁄2)-4 Jones-Smith or Kate Smith-Jones. This allows you to keep going by your own last name while legally adopting your husband's last name at the same time.\nE) The compromise is the biggest reason that so many women choose to hyphenate their last names. It is a way of you keeping your own identity while also making your future husband happy. It allows you to stay connected to accomplishments that you achieved before you got married. For example, many women who choose to hyphenate do so partially because they have earned higher educational degrees and certifications under their maiden names. They might have also had things published or publicized and want to stay connected to that identity. Hyphenating your last name can help you bridge the gap between your personal and professional lives. Many women who opt to simply keep their own names do so because they don't want to give up all that they have accomplished professionally. Adopting their husband's last name makes it hard for them to claim ownership of these accomplishments personally because they happened under their \"other\" name.\nF) While tradition is one thing, there isn't any logical reason to completely change your name. Keeping your name and joining it to your husband's through hyphenation is as legal as simply adopting his name or as simply keeping your own and leaving his out of the picture entirely.\nG)    Probably the most important reason to consider hyphenation is your identity. You've spent your whole life building your identity under a certain name. Obviously you will still be you even if you've taken on your husband's last name and omitted yours entirely. At the same time, your name is associated with the identity you've built up and hyphenation allows you to respect that while also respecting tradition and your husband's family's identity.\nH) If you care about outside opinions on your name, you should know that a large portion of today's society is annoyed by the hyphenated name. Some people find it \"snobby\" (# #Jat) and others simply find it irritating because they have a hard time remembering which last name they are supposed to say first. Some people even believe that not simply adopting your husband's last name is a huge sign of disrespect and a lack of commitment.\n\nI) It is possible that your future husband will find this choice offensive. Some men, regardless of how you might feel about some things, are traditionalists and feel that it is simply \"right\" for the woman to take the man's last name as her own. Whether your future husband insisting on your adopting his last name is a red flag to you or not, it is still something that you should take into consideration.\nJ) There are all sorts of reasons to hyphenate your name or not to hyphenate your name. The basis for each of these things, however, is whether or not you are willing to make a compromise when it comes to changing your name. The hyphenation is the epitome (1# fL) of a compromise. One spouse wants a complete name change. The other spouse wants no name change. Hyphenating the two names is a way for each person to, at least a little bit, \"win\" the argument.\nK) And don't forget the legal stuff! Making the decision is just part of the process. From there you are going to have to legally change your name all over the place. You'll need to change your name at the bank, with social security, with your credit cards, on your driver's license, at the gym ... everywhere. It's easy to get overwhelmed just thinking about it.\nL) What matters, of course, is that the two of you are going to be happily married—hopefully for the of your lives. At the end of the day, whether you each keep your names, whether you come up with an entirely new name for the two of you to share or whether you hyphenate your current last names, what matters is that you love each other and are going to be joining your lives together. Try to remember that as you are staring at the application for your marriage license and filling out the portion that reads \"name after you get married\" (or whatever the legalese for that might be). 2023-03-CET4(7 1 1)-5"
+        },
+        {
+          "id": "cet4-2023-03-set2-detail1",
+          "text": "It's good to be smart. After all, intelligent people earn more money, accumulate more wealth, and even live longer. But there's another side to the story. The brightest people and strongest leaders sometimes make errors others don't, especially in situations that require common sense. Travis Bradberry, president at TalentSmart, explained Bradberry in his post Why Smart People Act so Stupid that \"rational thinking and intelligence don't tend to go hand in hand\". Intelligent people are more prone to silly mistakes because of blind spots in how they use logic. These blind spots exist because smart people tend to be overconfident in their reasoning abilities. \"They're so used to being right and having quick answers that they don't even realise when they're making a mess by answering without thinking things through.\" A lifetime of praise leads smart people to develop too much faith in their intelligence and abilities. They often fail to recognise when they need help, and when they do recognise it, they tend to believe that no one else is capable of providing it. \"It's hard for anyone to graciously accept the fact that they're wrong. It's even harder for smart people because they grow so used to being right all the time that it becomes a part of their identity,\" Bradberry wrote. \"For smart people, being wrong can feel like a personal attack, and being right, a necessity.\" Smart people also have a hard time accepting feedback. They tend to undervalue the opinions of others, which means they have trouble believing that anyone is qualified to give them useful feedback. Not only does this tendency hinder their growth and performance, it can lead to harmful relationships, both personally and professionally. Smart people develop overachieving personalities because things come so easily to them. They simply don't understand how hard some people have to work to accomplish the same things, and because of that, they push people too hard. They set the bar too high, and when people take too long or don't get things quite right, they assume it's due toa lack of effort. So they push even harder. 2023-03-CET4(7 1 1)-6"
+        },
+        {
+          "id": "cet4-2023-03-set2-detail2",
+          "text": "Of the endless troubles that come with being driven from one's home country, losing educational certificates may seem small. But it isn't. Refugees who settle in other countries often find themselves unable to continue on their previous career path due to a new set of employer standards or skills requirements. To solve this problem, the U.S. State Department is posing a solution: online learning. The State Department will announce a partnership with an online education platform called Coursera. The platform will allow refugees worldwide to take thousands of online courses for free. \"Coursera for Refugees\" will be available for any non-profit group that supports refugees in any country, as well as individual refugees. They can apply for fully funded access to Coursera's course catalog, which means they can take all of the platform's classes and obtain professional certificates for free. The platform currently offers professor-led lectures on a broad range of topics, from data science to fashion design. As the world migrant crisis intensifies, employment is becoming a global concern. The new program aims to aid refugees by offering \"important skills that will help them in the global economy,\" Evan Ryan, U.S. assistant secretary of state for educational and cultural affairs, said on a press call last week. \"What we don't want to do is not act,\" added Coursera chief operations officer Lila Ibrahim. The idea isn't without its kinks. For one, starting on a new career path is not as simple as watching a few videos and obtaining an online certificate; even those looking to continue previous careers can't simply rely on an online lecture to get them up-to-date on standards, policies, and practices. For another, most of the classes on Coursera are in English, and though there are plans to add translations, language barriers can be a big obstacle. Then there are the questions over the value of massive open online courses (MOOCs) themselves both for refugees and for average learners. But it's still early days and there are signs of hope. In 2015, a joint study found 72% of people taking MOOCs saw career benefits afterward. 2023-03-CET4(# 1 1)-7"
+        }
+      ],
+      "sourceFileUrl": "/study/resources/40a0aaad9c96828069ac2161.pdf",
+      "sourceNotice": "原资料说明本套与第一套题目内容相同，但题序不同；本章练习按第一套题序展示，并使用第一套对应答案和录音。"
+    },
+    "TRANSLATION": {
+      "instructions": "请将原卷中文翻译成英语。",
+      "prompt": "Directions: For this part, you are allowed 30 minutes to translate a passage from Chinese into English. You should write your answer on Answer Sheet 2. 近年来,越来越多的城市居民为农村的由园风光所吸引,利用节假日到乡村旅游,他们住在 农民家中,品尝具有当地风味的农家饭菜,有些游客还参与采摘瓜果等活动,亲身感受收获的喜 悦。乡村旅游能够有效地帮助游客舒缓压力,放松心情,增进身心健康。实际上,这种旅游形式 不仅能使城市游客受益,同时也能增加农民的收入,促进农村经济发展。 2023-03-CET4(# 2 1)-1",
+      "questions": [],
+      "audio": [],
+      "passages": [],
+      "sourceFileUrl": "/study/resources/0d695e4d6d568aadcaf9420f.pdf"
+    }
+  }
+}

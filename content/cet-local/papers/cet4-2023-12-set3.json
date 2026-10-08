@@ -1,0 +1,731 @@
+{
+  "slug": "cet4-2023-12-set3-full",
+  "version": 1,
+  "title": "2023年12月 · 第3套整卷模拟真题",
+  "level": "CET4",
+  "kind": "FULL",
+  "originType": "PAST_EXAM",
+  "sourceName": "用户提供的本地四六级资料",
+  "sourceUrl": "/study/resources/9b95b2e4cbf4fd7763ada5f6.pdf",
+  "rightsHolder": "原试卷及解析作者",
+  "rightsEvidence": "用户提供本地资源并要求接入本地学习系统；原文件及校验值见 content/cet-local/index.json。未授权公开再分发或生产部署。",
+  "content": {
+    "WRITING": {
+      "instructions": "原卷写作要求",
+      "prompt": "Directions: Suppose the university newspaper is inviting submissions from the students for its coming edition on what in their university impresses them most. You are now to write an essay for submission. You will have 30 minutes to write the essay. You should write at least 120 words but no more than 180 words.",
+      "questions": [],
+      "audio": [],
+      "passages": [],
+      "minimumWords": 120,
+      "maximumWords": 180,
+      "sourceFileUrl": "/study/resources/9b95b2e4cbf4fd7763ada5f6.pdf"
+    },
+    "LISTENING": {
+      "instructions": "听力材料",
+      "questions": [],
+      "audio": [],
+      "passages": [],
+      "unavailableReason": "原卷未刊载本卷独立听力题文。特别说明:由于多题多卷,官方第三套真题的听力试题与第二套真题的一致,只是选项顺序不同,因此, т7т, Дн 本套试卷不再提供听力部分。",
+      "sourceFileUrl": "/study/resources/9b95b2e4cbf4fd7763ada5f6.pdf"
+    },
+    "READING": {
+      "instructions": "请依次完成选词填空、长篇匹配和仔细阅读。",
+      "questions": [
+        {
+          "id": "cet4-2023-12-set3-q26",
+          "type": "WORD_BANK",
+          "prompt": "第 26 空",
+          "choices": [
+            "base",
+            "eagerly",
+            "especially",
+            "focus",
+            "indicator",
+            "overall",
+            "preached",
+            "prior",
+            "prompt",
+            "puzzle",
+            "quantified",
+            "recovery",
+            "reflected",
+            "story",
+            "strongly"
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 0.5,
+          "passageId": "cet4-2023-12-set3-bank"
+        },
+        {
+          "id": "cet4-2023-12-set3-q27",
+          "type": "WORD_BANK",
+          "prompt": "第 27 空",
+          "choices": [
+            "base",
+            "eagerly",
+            "especially",
+            "focus",
+            "indicator",
+            "overall",
+            "preached",
+            "prior",
+            "prompt",
+            "puzzle",
+            "quantified",
+            "recovery",
+            "reflected",
+            "story",
+            "strongly"
+          ],
+          "answerIndex": 5,
+          "explanation": "原卷答案：F。",
+          "weight": 0.5,
+          "passageId": "cet4-2023-12-set3-bank"
+        },
+        {
+          "id": "cet4-2023-12-set3-q28",
+          "type": "WORD_BANK",
+          "prompt": "第 28 空",
+          "choices": [
+            "base",
+            "eagerly",
+            "especially",
+            "focus",
+            "indicator",
+            "overall",
+            "preached",
+            "prior",
+            "prompt",
+            "puzzle",
+            "quantified",
+            "recovery",
+            "reflected",
+            "story",
+            "strongly"
+          ],
+          "answerIndex": 4,
+          "explanation": "原卷答案：E。",
+          "weight": 0.5,
+          "passageId": "cet4-2023-12-set3-bank"
+        },
+        {
+          "id": "cet4-2023-12-set3-q29",
+          "type": "WORD_BANK",
+          "prompt": "第 29 空",
+          "choices": [
+            "base",
+            "eagerly",
+            "especially",
+            "focus",
+            "indicator",
+            "overall",
+            "preached",
+            "prior",
+            "prompt",
+            "puzzle",
+            "quantified",
+            "recovery",
+            "reflected",
+            "story",
+            "strongly"
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 0.5,
+          "passageId": "cet4-2023-12-set3-bank"
+        },
+        {
+          "id": "cet4-2023-12-set3-q30",
+          "type": "WORD_BANK",
+          "prompt": "第 30 空",
+          "choices": [
+            "base",
+            "eagerly",
+            "especially",
+            "focus",
+            "indicator",
+            "overall",
+            "preached",
+            "prior",
+            "prompt",
+            "puzzle",
+            "quantified",
+            "recovery",
+            "reflected",
+            "story",
+            "strongly"
+          ],
+          "answerIndex": 13,
+          "explanation": "原卷答案：N。",
+          "weight": 0.5,
+          "passageId": "cet4-2023-12-set3-bank"
+        },
+        {
+          "id": "cet4-2023-12-set3-q31",
+          "type": "WORD_BANK",
+          "prompt": "第 31 空",
+          "choices": [
+            "base",
+            "eagerly",
+            "especially",
+            "focus",
+            "indicator",
+            "overall",
+            "preached",
+            "prior",
+            "prompt",
+            "puzzle",
+            "quantified",
+            "recovery",
+            "reflected",
+            "story",
+            "strongly"
+          ],
+          "answerIndex": 12,
+          "explanation": "原卷答案：M。",
+          "weight": 0.5,
+          "passageId": "cet4-2023-12-set3-bank"
+        },
+        {
+          "id": "cet4-2023-12-set3-q32",
+          "type": "WORD_BANK",
+          "prompt": "第 32 空",
+          "choices": [
+            "base",
+            "eagerly",
+            "especially",
+            "focus",
+            "indicator",
+            "overall",
+            "preached",
+            "prior",
+            "prompt",
+            "puzzle",
+            "quantified",
+            "recovery",
+            "reflected",
+            "story",
+            "strongly"
+          ],
+          "answerIndex": 7,
+          "explanation": "原卷答案：H。",
+          "weight": 0.5,
+          "passageId": "cet4-2023-12-set3-bank"
+        },
+        {
+          "id": "cet4-2023-12-set3-q33",
+          "type": "WORD_BANK",
+          "prompt": "第 33 空",
+          "choices": [
+            "base",
+            "eagerly",
+            "especially",
+            "focus",
+            "indicator",
+            "overall",
+            "preached",
+            "prior",
+            "prompt",
+            "puzzle",
+            "quantified",
+            "recovery",
+            "reflected",
+            "story",
+            "strongly"
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 0.5,
+          "passageId": "cet4-2023-12-set3-bank"
+        },
+        {
+          "id": "cet4-2023-12-set3-q34",
+          "type": "WORD_BANK",
+          "prompt": "第 34 空",
+          "choices": [
+            "base",
+            "eagerly",
+            "especially",
+            "focus",
+            "indicator",
+            "overall",
+            "preached",
+            "prior",
+            "prompt",
+            "puzzle",
+            "quantified",
+            "recovery",
+            "reflected",
+            "story",
+            "strongly"
+          ],
+          "answerIndex": 11,
+          "explanation": "原卷答案：L。",
+          "weight": 0.5,
+          "passageId": "cet4-2023-12-set3-bank"
+        },
+        {
+          "id": "cet4-2023-12-set3-q35",
+          "type": "WORD_BANK",
+          "prompt": "第 35 空",
+          "choices": [
+            "base",
+            "eagerly",
+            "especially",
+            "focus",
+            "indicator",
+            "overall",
+            "preached",
+            "prior",
+            "prompt",
+            "puzzle",
+            "quantified",
+            "recovery",
+            "reflected",
+            "story",
+            "strongly"
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 0.5,
+          "passageId": "cet4-2023-12-set3-bank"
+        },
+        {
+          "id": "cet4-2023-12-set3-q36",
+          "type": "MATCHING",
+          "prompt": "Research has found the use of digital technology benefits not only teenagers' social lives but also their studies.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段"
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "passageId": "cet4-2023-12-set3-matching"
+        },
+        {
+          "id": "cet4-2023-12-set3-q37",
+          "type": "MATCHING",
+          "prompt": "It is urgent that schools teach kids how to verify online information.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段"
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 1,
+          "passageId": "cet4-2023-12-set3-matching"
+        },
+        {
+          "id": "cet4-2023-12-set3-q38",
+          "type": "MATCHING",
+          "prompt": "Students now write longer and more complex essays than their counterparts in previous decades while the error rates remain unchanged.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段"
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 1,
+          "passageId": "cet4-2023-12-set3-matching"
+        },
+        {
+          "id": "cet4-2023-12-set3-q39",
+          "type": "MATCHING",
+          "prompt": "Newspaper reports of teenagers give a false picture of their behaviour.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段"
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 1,
+          "passageId": "cet4-2023-12-set3-matching"
+        },
+        {
+          "id": "cet4-2023-12-set3-q40",
+          "type": "MATCHING",
+          "prompt": "Parents are advised to mind their own digital behaviour and set a good example for their kids.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段"
+          ],
+          "answerIndex": 12,
+          "explanation": "原卷答案：M。",
+          "weight": 1,
+          "passageId": "cet4-2023-12-set3-matching"
+        },
+        {
+          "id": "cet4-2023-12-set3-q41",
+          "type": "MATCHING",
+          "prompt": "Contrary to parents' belief, kids try hard to leave as few traces as possible on the web.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段"
+          ],
+          "answerIndex": 4,
+          "explanation": "原卷答案：E。",
+          "weight": 1,
+          "passageId": "cet4-2023-12-set3-matching"
+        },
+        {
+          "id": "cet4-2023-12-set3-q42",
+          "type": "MATCHING",
+          "prompt": "Students' ability to learn formal writing is unlikely to be affected by texting.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段"
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 1,
+          "passageId": "cet4-2023-12-set3-matching"
+        },
+        {
+          "id": "cet4-2023-12-set3-q43",
+          "type": "MATCHING",
+          "prompt": "Historically, new technologies have always caused great fears among parents.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段"
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 1,
+          "passageId": "cet4-2023-12-set3-matching"
+        },
+        {
+          "id": "cet4-2023-12-set3-q44",
+          "type": "MATCHING",
+          "prompt": "The reading culture was seriously affected by cable television some four decades ago.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段"
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 1,
+          "passageId": "cet4-2023-12-set3-matching"
+        },
+        {
+          "id": "cet4-2023-12-set3-q45",
+          "type": "MATCHING",
+          "prompt": "Teachers say that kids' writing is too casual, using language characteristic of text messages.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段"
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 1,
+          "passageId": "cet4-2023-12-set3-matching"
+        },
+        {
+          "id": "cet4-2023-12-set3-q46",
+          "type": "DETAIL",
+          "prompt": "What do we learn from the passage about Red Rum the racehorse?",
+          "choices": [
+            "He captured public affection long before he won national titles.",
+            "He won enormous fame and love from British people.",
+            "He became a myth three decades after his retirement.",
+            "He owed his great success to several well-known horse trainers."
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 2,
+          "passageId": "cet4-2023-12-set3-detail1"
+        },
+        {
+          "id": "cet4-2023-12-set3-q47",
+          "type": "DETAIL",
+          "prompt": "What did the serious bone disease in Red Rum's foot mean to himself and his trainer?",
+          "choices": [
+            "It was simply a hindrance they had to get over to excel.",
+            "It was surely a disadvantage though not considered fatal.",
+            "It was actually the end of a racing career that had just begun.",
+            "It was really a major obstacle hard to overcome on their own."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "passageId": "cet4-2023-12-set3-detail1"
+        },
+        {
+          "id": "cet4-2023-12-set3-q48",
+          "type": "DETAIL",
+          "prompt": "What does the author say Red Rum did with his power, speed and jumping ability?",
+          "choices": [
+            "He won his first Grand National title at 12.",
+            "He took two firsts successively in 1935-1936.",
+            "He surprised sporting fans worldwide in 1973.",
+            "He took three Grand National wins in the 1970s."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "passageId": "cet4-2023-12-set3-detail1"
+        },
+        {
+          "id": "cet4-2023-12-set3-q49",
+          "type": "DETAIL",
+          "prompt": "What did people generally think of Red Rum when he returned to the racecourse in 1977?",
+          "choices": [
+            "He had already passed the peak of his racing life.",
+            "He would have no rival in Grand National steeplechases.",
+            "He had lost his charm with the leagues of Grand National fans.",
+            "He could be expected to repeat his glory in the prime of his career."
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 2,
+          "passageId": "cet4-2023-12-set3-detail1"
+        },
+        {
+          "id": "cet4-2023-12-set3-q50",
+          "type": "DETAIL",
+          "prompt": "What became of Red Rum after his career ended?",
+          "choices": [
+            "He suffered from severe pain in a heel.",
+            "He spent almost all his time traveling.",
+            "He lived on various charity benefits.",
+            "He remained famous and popular."
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 2,
+          "passageId": "cet4-2023-12-set3-detail1"
+        },
+        {
+          "id": "cet4-2023-12-set3-q51",
+          "type": "DETAIL",
+          "prompt": "What does the author say businesspeople often do?",
+          "choices": [
+            "Strive to make sense of some unknown forces.",
+            "Avoid being driven by their own feelings.",
+            "Draw on a vast wealth of past experience.",
+            "Rely on instincts in decision-making."
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 2,
+          "passageId": "cet4-2023-12-set3-detail2"
+        },
+        {
+          "id": "cet4-2023-12-set3-q52",
+          "type": "DETAIL",
+          "prompt": "What should we take into account in order to make informed decisions?",
+          "choices": [
+            "The likelihood of errors.",
+            "Systematic data and analysis.",
+            "The complexity of circumstances.",
+            "Personal feelings and business strategies."
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 2,
+          "passageId": "cet4-2023-12-set3-detail2"
+        },
+        {
+          "id": "cet4-2023-12-set3-q53",
+          "type": "DETAIL",
+          "prompt": "What should people do in a decision-making process if instincts disagree with data?",
+          "choices": [
+            "Resolve the dilemma with previous experience.",
+            "Figure out which of the two is more reliable.",
+            "Combine the two together.",
+            "Prioritize instincts over data."
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 2,
+          "passageId": "cet4-2023-12-set3-detail2"
+        },
+        {
+          "id": "cet4-2023-12-set3-q54",
+          "type": "DETAIL",
+          "prompt": "What should we do when facing various factors that limit the practicality of data?",
+          "choices": [
+            "Make a rational and systematic analysis.",
+            "Explore the most feasible options.",
+            "Resort to our inner wisdom.",
+            "Apply definitive criteria."
+          ],
+          "answerIndex": -1,
+          "answerUnavailableReason": "原始答案暂未核对，本题不计分。",
+          "explanation": "原始答案暂未核对,本题暂不计分。",
+          "weight": 2,
+          "passageId": "cet4-2023-12-set3-detail2"
+        },
+        {
+          "id": "cet4-2023-12-set3-q55",
+          "type": "DETAIL",
+          "prompt": "What does it take for decisions to become the best according to the author?",
+          "choices": [
+            "Applying instincts and data in conjunction.",
+            "Assessing all factors when making a choice.",
+            "Recalling what has actually worked in the past.",
+            "Refraining from trusting instincts arbitrarily."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "passageId": "cet4-2023-12-set3-detail2"
+        }
+      ],
+      "audio": [],
+      "passages": [
+        {
+          "id": "cet4-2023-12-set3-bank",
+          "text": "When people set out to improve their health, they usually take a familiar path: starting a healthy diet, getting better sleep, and doing regular exercise. Each of these behaviors is important, of course, but they all __(26)__ on physical health and a growing body of research suggests that social health is just as, if not more, important to __(27)__ well-being One recent study published in the journal PLOS ONE, for example, found that the strength of a person's social circle was a better __(28)__ of self-reported stress, happiness and well-being levels than fitness tracker data on physical activity, heart rate and sleep. That finding suggests that the \" __(29)__ self\" represented by endless amounts of health data doesn't tell the whole __(30)__ . There's also a qualified self, which is who I am, what are my activities, my social network, and all of these aspects are not __(31)__ in any of these measurements. This idea is supported by plenty of __(32)__ research. Studies have shown that social support-whether it comes from friends, family members or a spouse is __(33)__ associated with better mental and physical health. A rich social life, these studies suggest, can lower stress levels, improve mood, encourage positive health behaviors and discourage damaging ones, boost heart health and improve illness __(34)__ rates. Social isolation, meanwhile, is linked to higher rates of physical diseases and mental health conditions. It's a significant problem, __(35)__ since loneliness is emerging as a widespread public health problem in many countries. 19    •2023年12月四级真题(第三套)"
+        },
+        {
+          "id": "cet4-2023-12-set3-matching",
+          "text": "Teenagers and social networking\nA) As a parent of two boys at primary school, I worry about the issues associated with teenagers and social media. Newspapers are constantly filled with frightening accounts of drug addiction and aggressive behaviour supposedly caused by violent videogames. But even when these accounts touch on real concerns, they do not really reflect the great mass of everyday teenage social behaviour: the online chat, the texting, the surfing, and the emergence of a new teenage sphere that is conducted digitally.\nB) New technologies always provoke generational panic, which usually has more to do with adult fears than with the lives of teenagers. In the 1930s, parents worried that radio was gaining \"an irresistible hold of their children\". In the 80s, the great danger was the Sony Walkman (KE * \"T). When you look at today's digital activity, the facts are much more positive than you might expect.\nC) Indeed, social scientists who study young people have found that their digital use can be inventive and even beneficial. This is true not just in terms of their social lives, but their education too. So if you use a ton of social media, do you become unable, or unwilling, to engage in face-to-face contact? The evidence suggests not. Research by Amanda Lenhart of the Pew Research Centre, a US think tank, found that the most passionate texters are also the kids most likely to spend time with friends in person. One form of socialising doesn't replace the other. It expands it.\nD) \"Kids still spend time face to face,\" Lenhart says. Indeed, as they get older and are given more freedom, they often ease up on social networking. Early on, the web is their \"third space\", but by the late teens, it's replaced in reaction to greater independence. They have to be on Facebook, to know what's going on among friends and family, but they are ambivalent (A $ /ü FEt) about it, says Rebecca Eynon, a research fellow at the Oxford Internet Institute, who has interviewed about 200 British teenagers over three years. As they gain experience with living online, they begin to adjust their behaviour, struggling with new communication skills, as they do in the real world.\nE) Parents are wrong to worry that kids don't care about privacy. In fact, they spend hours changing Facebook settings or using quick-delete sharing tools, such as Snapchat, to minimise their traces. Or they post a •2023年12月四级真题(第三套)    20 photograph on Instagram, have a pleasant conversation with friends and then delete it so that no traces remain.\nF) This is not to say that kids always use good judgment. Like everyone else, they make mistakes sometimes serious ones. But working out how to behave online is a new social skill. While there's plenty of drama and messiness online, it is not, for most teens, a cycle of non-stop abuse: a Pew study found only 15% of teens said someone had bullied them online in the last 12 months.\nG) But surely all this short-form writing is affecting literacy? Certainly, teachers worry. They say that kids use overly casual language and text-speak in writing, and don't have as much patience for long reading and complex arguments. Yet studies of first-year college papers suggest these anxieties may be partly based on misguided nostalgia (#7-1F). When Stanford University scholar Andrea Lunsford gathered data on the rates of errors in \"freshman composition\" papers going back to 1917, she found that they were virtually identical to today.\nH) But even as error rates stayed stable, student essays have blossomed in size and complexity. They are now six times longer and, unlike older \"what I did this summer\" essays, they offer arguments supported by evidence. Why? Computers have vastly increased the ability of students to gather information, sample different points of view and write more fluidly.\nI) When linguist Naomi Baron studied students' instant messaging even there she found surprisingly rare usage of short forms such as \"u\" for \"you\", and as students got older, they began to write in more grammatical sentences. That is because they want to appear more adult, and they know how adults are expected to write. Clearly, teaching teens formal writing is still crucial, but texting probably isn't destroying their ability to learn it.\nJ) It is probably true that fewer kids are heavy readers compared with two generations ago, when cheap paperbacks boosted rates of reading. But even back then, a minority of people perhaps 20% were lifelong heavy readers, and it was cable TV, not the internet, that struck a blow at that culture in the 1980s. Still, 15% or more of kids are found to be deeply bookish. In fact, the online world offers kids remarkable opportunities to become literate and creative because young people can now publish ideas not just to their friends, but to the world. And it turns out that when they write for strangers, their sense of \"authentic audience\" makes them work harder, push themselves further, and create powerful new communicative forms.\nK) Few would deny that too much time online can be harmful. Some of the dangers are emotional: hurting someone from a distance is not the same as hurting them face to face. If we're lucky, the legal environment will change to make teenagers' online lives less likely to haunt them later on. Just last week, California passed a law allowing minors to demand that internet firms erase their digital past and the EU has considered similar legislation.\nL) Distraction is also a serious issue. When kids switch from chat to music to homework, they are indeed likely to have trouble doing each task well. And studies show that pupils don't fact-check information online- \"smart searching\" is a skill schools need to teach urgently. It's also true that too much social networking and game playing can cut into schoolwork and sleep. This is precisely why parents still need to set firm boundaries around it, as with any other distraction.\nM) So what's the best way to cope? The same boring old advice that applies to everything in parenting: moderation. Rebecca Eynon argues that it's key to model good behaviour. Parents who stare non-stop at their phones and don't read books are likely to breed kids who will do the same. As ever, we ought to be careful about our own behaviour."
+        },
+        {
+          "id": "cet4-2023-12-set3-detail1",
+          "text": "In the history of horse racing, few horses have captured the affection of the British public like Red Rum. Today, three decades after his retirement, he is still one of the best-known and most beloved racehorses of all time. Red Rum was passed around to several owners before being purchased for Noel Le Mar. The agent who made the purchase was the now-legendary horse trainer Donald \"Ginger\" McCain. It wasn't apparent at the time, but Red Rum had a serious bone disease in his foot. For many horses (and many trainers) this would mean the end of a racing career before it even began. For Ginger and Red Rum, though, it was just an obstacle to greatness that had to be overcome. Red Rum's true talent came out in steeplechases (I$ *7 * 4). His power, speed and jumping ability carried him to his first Grand National title in 1973. The very next year, Red Rum returned to take his second title. He was the first horse to take successive firsts since Reynoldstown in 1935-1936. Red Rum's spirit and grace had already begun to charm the leagues of Grand National fans. In the following two years, Red Rum lost out on the title, coming in second both times. When he returned in 1977 to try again, he was largely regarded as past his prime. He was 12 years old and not expected to place highly. He surprised sporting fans around the world when he came in a remarkable 25 lengths ahead of the nearest horse, taking his third Grand National win. To this day, Red Rum's third win is known as one of the greatest moments in horse racing history. Red Rum was headed for the Grand National once again in 1978 but suffered an injury in one of his heels shortly before the race. He was retired soon after, but his public life and fame by no means decreased with the end of his career. Red Rum traveled all over the country for various engagements. He often led pre-race parades at Aintree Racecourse and was a popular guest at charity benefits and public events."
+        },
+        {
+          "id": "cet4-2023-12-set3-detail2",
+          "text": "People in business often make decisions based on their own personal feelings or instincts. It is quite horrifying to see people being guided by some unknown force. But how wise is it, really, to let your instincts drive your decisions? In the decision-making process, relying on instincts only makes sense when you have a vast experience to support you. Simply \"feeling\" that something is right or should be done is highly subjective and can drown you. On the other hand, there is a more rational approach to making decisions. Data and analysis have long been associated with informed decisions. These reduce the likelihood of errors and increase the chances of success. Big, systematic data is mostly the foundation of most of our decisions, personal and business alike. But with its extreme usability comes a complication: what do you do if you strongly feel something should not be done, even if the data insists that it should? This seemingly easy question is what drives the need to understand the relationship between instincts and data in the decision-making process. Without making things complicated, the solution to this dilemma is using data and instincts in conjunction to arrive at the best possible decisions. Instinctive decisions are always backed by previous experiences or information, which acknowledges that instinctive decisions have worked in the past. Decisions are not about making the choice and braving the consequences because you want to blindly trust your instincts. They are about combining your inner wisdom with the knowledge of systematic data to make the best decisions. Sometimes, rational analysis and data are impractical to be employed in certain situations. Absence of definitive criteria, and time and resource constraints, and novel situations are instances which limit the practicality of data. The only feasible option is to rely on what your instincts tell you. In these situations, instincts can help you make effective and quick decisions. Combining instinctive and rational analysis produces well-rounded decisions. It reduces the chances of making mistakes, and has increasingly become a favorite approach to decision-making among leaders of today."
+        }
+      ],
+      "sourceFileUrl": "/study/resources/9b95b2e4cbf4fd7763ada5f6.pdf"
+    },
+    "TRANSLATION": {
+      "instructions": "请将原卷中文翻译成英语。",
+      "prompt": "Directions: For this part, you are allowed 30 minutes to translate a passage from Chinese into English. You should write your answer on Answer Sheet 2. 改革开放以来,中国人民生活水平不断提高,这在人们的饮食(diet) 变化上得到充分体现。如今,    ГАЛЕСЕКУтНА ДЕлАЄ (det) Т7. 人们不再满足于吃得饱,而是追求吃得更加安全、更加营养、更加健康,食物也愈来愈丰富多样,不 再限于本地的农产品。物流业(logistics industry)的发展使人们很容易品尝到全国各地的特产。毫无    (logistic int 疑问,食品质量与饮食结构的改善为增进人们健康提供了有力的保障。",
+      "questions": [],
+      "audio": [],
+      "passages": [],
+      "sourceFileUrl": "/study/resources/9b95b2e4cbf4fd7763ada5f6.pdf"
+    }
+  }
+}

@@ -1,0 +1,1099 @@
+{
+  "slug": "cet6-2020-07-set1-full",
+  "version": 1,
+  "title": "2020年7月 · 第1套整卷模拟真题",
+  "level": "CET6",
+  "kind": "FULL",
+  "originType": "PAST_EXAM",
+  "sourceName": "用户提供的本地四六级资料",
+  "sourceUrl": "/study/resources/33747f90861882a440cd761d.pdf",
+  "rightsHolder": "原试卷及解析作者",
+  "rightsEvidence": "用户提供本地资源并要求接入本地学习系统；原文件及校验值见 content/cet-local/index.json。未授权公开再分发或生产部署。",
+  "content": {
+    "WRITING": {
+      "instructions": "原卷写作要求",
+      "prompt": "Directions:   For  thispart,  you  are allowed   30 minutes   to write an  essay  on  the saying               The  best preparation    for tomorrow    is doing  your   best today.  You  should               write at least 150  words  but  no more   than 200  words.",
+      "questions": [],
+      "audio": [],
+      "passages": [],
+      "minimumWords": 150,
+      "maximumWords": 200,
+      "sourceFileUrl": "/study/resources/33747f90861882a440cd761d.pdf"
+    },
+    "LISTENING": {
+      "instructions": "原卷听力选择题",
+      "questions": [
+        {
+          "id": "cet6-2020-07-set1-q1",
+          "type": "CONVERSATION",
+          "prompt": "第 1 题(题干在原始录音中)",
+          "choices": [
+            "She isa great athlete.",
+            "She isa famed speaker.",
+            "She isa famous scientist.",
+            "She isa noted inventor."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "audioId": "cet6-2020-07-set1-audio"
+        },
+        {
+          "id": "cet6-2020-07-set1-q2",
+          "type": "CONVERSATION",
+          "prompt": "第 2 题(题干在原始录音中)",
+          "choices": [
+            "How knowledge of human biochemistry has been evolving.",
+            "How nutrition helps athletes' performance in competitions.",
+            "How scientific training enables athletes to setnew records.",
+            "How technology has helped athletes to scale new heights."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "audioId": "cet6-2020-07-set1-audio"
+        },
+        {
+          "id": "cet6-2020-07-set1-q3",
+          "type": "CONVERSATION",
+          "prompt": "第 3 题(题干在原始录音中)",
+          "choices": [
+            "Our physical structures.",
+            "Our scientific knowledge.",
+            "Our biochemical process.",
+            "Our concept of nutrition."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "audioId": "cet6-2020-07-set1-audio"
+        },
+        {
+          "id": "cet6-2020-07-set1-q4",
+          "type": "CONVERSATION",
+          "prompt": "第 4 题(题干在原始录音中)",
+          "choices": [
+            "Itmay increase the expenses of sports competitions.",
+            "It may lead to athletes'over reliance on equipment.",
+            "It may give an unfair advantage to some athletes.",
+            "It may change the nature of sports competitions."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "audioId": "cet6-2020-07-set1-audio"
+        },
+        {
+          "id": "cet6-2020-07-set1-q5",
+          "type": "CONVERSATION",
+          "prompt": "第 5 题(题干在原始录音中)",
+          "choices": [
+            "Experience.",
+            "Flexibility.",
+            "Family background.",
+            "Business connections."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "audioId": "cet6-2020-07-set1-audio"
+        },
+        {
+          "id": "cet6-2020-07-set1-q6",
+          "type": "CONVERSATION",
+          "prompt": "第 6 题(题干在原始录音中)",
+          "choices": [
+            "Buying directly from factories.",
+            "Shipping goods in bulk by sea.",
+            "Having partners in many parts of the world.",
+            "Using the same container back and forth."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "audioId": "cet6-2020-07-set1-audio"
+        },
+        {
+          "id": "cet6-2020-07-set1-q7",
+          "type": "CONVERSATION",
+          "prompt": "第 7 题(题干在原始录音中)",
+          "choices": [
+            "Warehouses.",
+            "Factories.",
+            "Investors.",
+            "Retailers."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "audioId": "cet6-2020-07-set1-audio"
+        },
+        {
+          "id": "cet6-2020-07-set1-q8",
+          "type": "CONVERSATION",
+          "prompt": "第 8 题(题干在原始录音中)",
+          "choices": [
+            "Trendy style.",
+            "Unique design.",
+            "Lower import duties.",
+            "Lower shipping costs."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "audioId": "cet6-2020-07-set1-audio"
+        },
+        {
+          "id": "cet6-2020-07-set1-q9",
+          "type": "PASSAGE",
+          "prompt": "第 9 题(题干在原始录音中)",
+          "choices": [
+            "Ithelps employees to reduce their stress.",
+            "Itprevents employees from feeling bored.",
+            "Itstrengthens harmony among employees.",
+            "Ithelps employees to view things positively."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "audioId": "cet6-2020-07-set1-audio"
+        },
+        {
+          "id": "cet6-2020-07-set1-q10",
+          "type": "PASSAGE",
+          "prompt": "第 10 题(题干在原始录音中)",
+          "choices": [
+            "Weekends are conducive to reducing stress.",
+            "Humor isvital to interpersonal relationships.",
+            "All workers experience some emotional stress.",
+            "Humor can help workers excel at routine tasks."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "audioId": "cet6-2020-07-set1-audio"
+        },
+        {
+          "id": "cet6-2020-07-set1-q11",
+          "type": "PASSAGE",
+          "prompt": "第 11 题(题干在原始录音中)",
+          "choices": [
+            "Smash the toys to release their bottled-up resentments.",
+            "Take the boss doll apart as long as they reassemble it.",
+            "Design and installstress-reducing gadgets.",
+            "Strike atthe boss doll as hard as they like."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "audioId": "cet6-2020-07-set1-audio"
+        },
+        {
+          "id": "cet6-2020-07-set1-q12",
+          "type": "PASSAGE",
+          "prompt": "第 12 题(题干在原始录音中)",
+          "choices": [
+            "The recent finding of a changed gene in obese mice.",
+            "A breakthrough in understanding gene modification.",
+            "A newly discovered way for people to lose weight.",
+            "The self-repairing ability of a gene in obese mice."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "audioId": "cet6-2020-07-set1-audio"
+        },
+        {
+          "id": "cet6-2020-07-set1-q13",
+          "type": "PASSAGE",
+          "prompt": "第 13 题(题干在原始录音中)",
+          "choices": [
+            "It renders an organism unable to fight diseases.",
+            "Itprevents the mice's fatty tissues from growing.",
+            "Ithelps organisms adapt toenvironmental changes.",
+            "Itrenders mice unable to sense when to stop eating."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "audioId": "cet6-2020-07-set1-audio"
+        },
+        {
+          "id": "cet6-2020-07-set1-q14",
+          "type": "PASSAGE",
+          "prompt": "第 14 题(题干在原始录音中)",
+          "choices": [
+            "Human beings have more obesity genes than most mice do.",
+            "Half of a person's total weight variation can be controlled.",
+            "People are born with a tendency to have a certain weight.",
+            "The function of the obesity genes is yet to be explored."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "audioId": "cet6-2020-07-set1-audio"
+        },
+        {
+          "id": "cet6-2020-07-set1-q15",
+          "type": "PASSAGE",
+          "prompt": "第 15 题(题干在原始录音中)",
+          "choices": [
+            "The worsening of natural environment.",
+            "The abundant provision of rich foods.",
+            "The accelerated pace of present-day life.",
+            "The adverse impact of the food industry."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "audioId": "cet6-2020-07-set1-audio"
+        },
+        {
+          "id": "cet6-2020-07-set1-q16",
+          "type": "LECTURE",
+          "prompt": "第 16 题(题干在原始录音中)",
+          "choices": [
+            "Similarity in interests.",
+            "Mental stimulation.",
+            "Openness.",
+            "Compassion."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "audioId": "cet6-2020-07-set1-audio"
+        },
+        {
+          "id": "cet6-2020-07-set1-q17",
+          "type": "LECTURE",
+          "prompt": "第 17 题(题干在原始录音中)",
+          "choices": [
+            "The willingness to offer timely help.",
+            "The joy found in each other\" s company.",
+            "Personal bonds.",
+            "Emotional factors."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "audioId": "cet6-2020-07-set1-audio"
+        },
+        {
+          "id": "cet6-2020-07-set1-q18",
+          "type": "LECTURE",
+          "prompt": "第 18 题(题干在原始录音中)",
+          "choices": [
+            "Failure to keep a promise.",
+            "Lack of frankness.",
+            "Feelings of betrayal.",
+            "Loss of contact."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "audioId": "cet6-2020-07-set1-audio"
+        },
+        {
+          "id": "cet6-2020-07-set1-q19",
+          "type": "LECTURE",
+          "prompt": "第 19 题(题干在原始录音中)",
+          "choices": [
+            "Along the low-lying Colorado River.",
+            "At the Dinosaur National Monument.",
+            "Along the border of the U. S. and Canada.",
+            "At museums of natural history in large cities."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "audioId": "cet6-2020-07-set1-audio"
+        },
+        {
+          "id": "cet6-2020-07-set1-q20",
+          "type": "LECTURE",
+          "prompt": "第 20 题(题干在原始录音中)",
+          "choices": [
+            "Volcanic explosions could bring whole animal species to extinction.",
+            "Some natural disaster killed a whole herd of dinosaurs in the area.",
+            "The pit should be carefully preserved for the study of dinosaurs.",
+            "The whole region must have been struck by a devastating flood."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "audioId": "cet6-2020-07-set1-audio"
+        },
+        {
+          "id": "cet6-2020-07-set1-q21",
+          "type": "LECTURE",
+          "prompt": "第 21 题(题干在原始录音中)",
+          "choices": [
+            "They floated down an eastward flowing river.",
+            "They lay buried deep in the sand for millions of years.",
+            "They were skeletons of dinosaurs inhabiting the locality.",
+            "They were remains of dinosaurs killed in a volcanic explosion."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "audioId": "cet6-2020-07-set1-audio"
+        },
+        {
+          "id": "cet6-2020-07-set1-q22",
+          "type": "LECTURE",
+          "prompt": "第 22 题(题干在原始录音中)",
+          "choices": [
+            "Indulging in seeking leisure and material comfort.",
+            "Attaching too much importance to independence.",
+            "Failing to care for parents in the traditional way.",
+            "Leaving their parents on the verge of starvation."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "audioId": "cet6-2020-07-set1-audio"
+        },
+        {
+          "id": "cet6-2020-07-set1-q23",
+          "type": "LECTURE",
+          "prompt": "第 23 题(题干在原始录音中)",
+          "choices": [
+            "They have great difficulty living by themselves.",
+            "They have littlehope of getting any family care.",
+            "They have fond memories of theirgood old days.",
+            "They have a sense of independence and autonomy."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "audioId": "cet6-2020-07-set1-audio"
+        },
+        {
+          "id": "cet6-2020-07-set1-q24",
+          "type": "LECTURE",
+          "prompt": "第 24 题(题干在原始录音中)",
+          "choices": [
+            "People in many parts of the world preferred small-size families.",
+            "There have been extended families in most parts of the world.",
+            "Many elderly people were unwilling to take care of their grandchildren.",
+            "So many young Americans refused to live together with their parents."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "audioId": "cet6-2020-07-set1-audio"
+        },
+        {
+          "id": "cet6-2020-07-set1-q25",
+          "type": "LECTURE",
+          "prompt": "第 25 题(题干在原始录音中)",
+          "choices": [
+            "Leave their younger generations alone.",
+            "Avoid being a burden to their children.",
+            "Stay healthy by engaging injoyful activities.",
+            "View things from their children\" s perspective."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "audioId": "cet6-2020-07-set1-audio"
+        }
+      ],
+      "audio": [
+        {
+          "id": "cet6-2020-07-set1-audio",
+          "url": "/study/resources/096f8208b863c9d237cf6102.m4a",
+          "sourceUrl": "/study/resources/096f8208b863c9d237cf6102.m4a",
+          "durationSeconds": 1611.093333,
+          "transcript": "",
+          "identity": "cet6_2020_07_1.mp3 SHA256:096f8208b863c9d237cf61022d7eff8ae4e685662e68fe88cf4dd72458417c75"
+        }
+      ],
+      "passages": [],
+      "sourceFileUrl": "/study/resources/33747f90861882a440cd761d.pdf"
+    },
+    "READING": {
+      "instructions": "请依次完成选词填空、长篇匹配和仔细阅读。",
+      "questions": [
+        {
+          "id": "cet6-2020-07-set1-q26",
+          "type": "WORD_BANK",
+          "prompt": "第 26 空",
+          "choices": [
+            "capacity",
+            "declaration",
+            "deteriorating",
+            "determined",
+            "disaster",
+            "eroding",
+            "grabbed",
+            "inventory",
+            "junction",
+            "monotonous",
+            "overwhelming",
+            "stagnation",
+            "stake",
+            "stifled",
+            "urgent"
+          ],
+          "answerIndex": 6,
+          "explanation": "原卷答案：G。",
+          "weight": 0.5,
+          "passageId": "cet6-2020-07-set1-bank"
+        },
+        {
+          "id": "cet6-2020-07-set1-q27",
+          "type": "WORD_BANK",
+          "prompt": "第 27 空",
+          "choices": [
+            "capacity",
+            "declaration",
+            "deteriorating",
+            "determined",
+            "disaster",
+            "eroding",
+            "grabbed",
+            "inventory",
+            "junction",
+            "monotonous",
+            "overwhelming",
+            "stagnation",
+            "stake",
+            "stifled",
+            "urgent"
+          ],
+          "answerIndex": 4,
+          "explanation": "原卷答案：E。",
+          "weight": 0.5,
+          "passageId": "cet6-2020-07-set1-bank"
+        },
+        {
+          "id": "cet6-2020-07-set1-q28",
+          "type": "WORD_BANK",
+          "prompt": "第 28 空",
+          "choices": [
+            "capacity",
+            "declaration",
+            "deteriorating",
+            "determined",
+            "disaster",
+            "eroding",
+            "grabbed",
+            "inventory",
+            "junction",
+            "monotonous",
+            "overwhelming",
+            "stagnation",
+            "stake",
+            "stifled",
+            "urgent"
+          ],
+          "answerIndex": 12,
+          "explanation": "原卷答案：M。",
+          "weight": 0.5,
+          "passageId": "cet6-2020-07-set1-bank"
+        },
+        {
+          "id": "cet6-2020-07-set1-q29",
+          "type": "WORD_BANK",
+          "prompt": "第 29 空",
+          "choices": [
+            "capacity",
+            "declaration",
+            "deteriorating",
+            "determined",
+            "disaster",
+            "eroding",
+            "grabbed",
+            "inventory",
+            "junction",
+            "monotonous",
+            "overwhelming",
+            "stagnation",
+            "stake",
+            "stifled",
+            "urgent"
+          ],
+          "answerIndex": 10,
+          "explanation": "原卷答案：K。",
+          "weight": 0.5,
+          "passageId": "cet6-2020-07-set1-bank"
+        },
+        {
+          "id": "cet6-2020-07-set1-q30",
+          "type": "WORD_BANK",
+          "prompt": "第 30 空",
+          "choices": [
+            "capacity",
+            "declaration",
+            "deteriorating",
+            "determined",
+            "disaster",
+            "eroding",
+            "grabbed",
+            "inventory",
+            "junction",
+            "monotonous",
+            "overwhelming",
+            "stagnation",
+            "stake",
+            "stifled",
+            "urgent"
+          ],
+          "answerIndex": 5,
+          "explanation": "原卷答案：F。",
+          "weight": 0.5,
+          "passageId": "cet6-2020-07-set1-bank"
+        },
+        {
+          "id": "cet6-2020-07-set1-q31",
+          "type": "WORD_BANK",
+          "prompt": "第 31 空",
+          "choices": [
+            "capacity",
+            "declaration",
+            "deteriorating",
+            "determined",
+            "disaster",
+            "eroding",
+            "grabbed",
+            "inventory",
+            "junction",
+            "monotonous",
+            "overwhelming",
+            "stagnation",
+            "stake",
+            "stifled",
+            "urgent"
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 0.5,
+          "passageId": "cet6-2020-07-set1-bank"
+        },
+        {
+          "id": "cet6-2020-07-set1-q32",
+          "type": "WORD_BANK",
+          "prompt": "第 32 空",
+          "choices": [
+            "capacity",
+            "declaration",
+            "deteriorating",
+            "determined",
+            "disaster",
+            "eroding",
+            "grabbed",
+            "inventory",
+            "junction",
+            "monotonous",
+            "overwhelming",
+            "stagnation",
+            "stake",
+            "stifled",
+            "urgent"
+          ],
+          "answerIndex": 11,
+          "explanation": "原卷答案：L。",
+          "weight": 0.5,
+          "passageId": "cet6-2020-07-set1-bank"
+        },
+        {
+          "id": "cet6-2020-07-set1-q33",
+          "type": "WORD_BANK",
+          "prompt": "第 33 空",
+          "choices": [
+            "capacity",
+            "declaration",
+            "deteriorating",
+            "determined",
+            "disaster",
+            "eroding",
+            "grabbed",
+            "inventory",
+            "junction",
+            "monotonous",
+            "overwhelming",
+            "stagnation",
+            "stake",
+            "stifled",
+            "urgent"
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 0.5,
+          "passageId": "cet6-2020-07-set1-bank"
+        },
+        {
+          "id": "cet6-2020-07-set1-q34",
+          "type": "WORD_BANK",
+          "prompt": "第 34 空",
+          "choices": [
+            "capacity",
+            "declaration",
+            "deteriorating",
+            "determined",
+            "disaster",
+            "eroding",
+            "grabbed",
+            "inventory",
+            "junction",
+            "monotonous",
+            "overwhelming",
+            "stagnation",
+            "stake",
+            "stifled",
+            "urgent"
+          ],
+          "answerIndex": 14,
+          "explanation": "原卷答案：O。",
+          "weight": 0.5,
+          "passageId": "cet6-2020-07-set1-bank"
+        },
+        {
+          "id": "cet6-2020-07-set1-q35",
+          "type": "WORD_BANK",
+          "prompt": "第 35 空",
+          "choices": [
+            "capacity",
+            "declaration",
+            "deteriorating",
+            "determined",
+            "disaster",
+            "eroding",
+            "grabbed",
+            "inventory",
+            "junction",
+            "monotonous",
+            "overwhelming",
+            "stagnation",
+            "stake",
+            "stifled",
+            "urgent"
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 0.5,
+          "passageId": "cet6-2020-07-set1-bank"
+        },
+        {
+          "id": "cet6-2020-07-set1-q36",
+          "type": "MATCHING",
+          "prompt": "Piaget believed that small children could not collaborate with others while playing.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段"
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 1,
+          "passageId": "cet6-2020-07-set1-matching"
+        },
+        {
+          "id": "cet6-2020-07-set1-q37",
+          "type": "MATCHING",
+          "prompt": "The author and his colleagues’ study shows two-year-old may be able to predict other people's feelings.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段"
+          ],
+          "answerIndex": 9,
+          "explanation": "原卷答案：J。",
+          "weight": 1,
+          "passageId": "cet6-2020-07-set1-matching"
+        },
+        {
+          "id": "cet6-2020-07-set1-q38",
+          "type": "MATCHING",
+          "prompt": "In the latter half of the last century , fewer and fewer people believed the basis for our understanding of the world is wholly empirical.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段"
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 1,
+          "passageId": "cet6-2020-07-set1-matching"
+        },
+        {
+          "id": "cet6-2020-07-set1-q39",
+          "type": "MATCHING",
+          "prompt": "Research conducted by Jean Piaget in the last century suggested babies were insensitive to others\" thinking.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段"
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 1,
+          "passageId": "cet6-2020-07-set1-matching"
+        },
+        {
+          "id": "cet6-2020-07-set1-q40",
+          "type": "MATCHING",
+          "prompt": "Our improved understanding of babies' intellectual power is attributable to better research tools.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段"
+          ],
+          "answerIndex": 10,
+          "explanation": "原卷答案：K。",
+          "weight": 1,
+          "passageId": "cet6-2020-07-set1-matching"
+        },
+        {
+          "id": "cet6-2020-07-set1-q41",
+          "type": "MATCHING",
+          "prompt": "It has been found in recent research that even small babies are sensitive to other people's points of view.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段"
+          ],
+          "answerIndex": 4,
+          "explanation": "原卷答案：E。",
+          "weight": 1,
+          "passageId": "cet6-2020-07-set1-matching"
+        },
+        {
+          "id": "cet6-2020-07-set1-q42",
+          "type": "MATCHING",
+          "prompt": "Scientists are still debating what inference can be drawn from certain physical expressions of a child.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段"
+          ],
+          "answerIndex": 12,
+          "explanation": "原卷答案：M。",
+          "weight": 1,
+          "passageId": "cet6-2020-07-set1-matching"
+        },
+        {
+          "id": "cet6-2020-07-set1-q43",
+          "type": "MATCHING",
+          "prompt": "The newer research methods focus on infants' simple behaviors instead of requiring them to answer questions.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段"
+          ],
+          "answerIndex": 7,
+          "explanation": "原卷答案：H。",
+          "weight": 1,
+          "passageId": "cet6-2020-07-set1-matching"
+        },
+        {
+          "id": "cet6-2020-07-set1-q44",
+          "type": "MATCHING",
+          "prompt": "With the progress in psychology , the traditional view of children’s self-centered nature and limited thinking abilities has become less and less influential",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段"
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 1,
+          "passageId": "cet6-2020-07-set1-matching"
+        },
+        {
+          "id": "cet6-2020-07-set1-q45",
+          "type": "MATCHING",
+          "prompt": "Even though marked advances have been made ? it is wrong to dismiss Piaget's fundamental contributions to the study of kids' cognitive abilities.",
+          "choices": [
+            "A 段",
+            "B 段",
+            "C 段",
+            "D 段",
+            "E 段",
+            "F 段",
+            "G 段",
+            "H 段",
+            "I 段",
+            "J 段",
+            "K 段",
+            "L 段",
+            "M 段"
+          ],
+          "answerIndex": 11,
+          "explanation": "原卷答案：L。",
+          "weight": 1,
+          "passageId": "cet6-2020-07-set1-matching"
+        },
+        {
+          "id": "cet6-2020-07-set1-q46",
+          "type": "DETAIL",
+          "prompt": "What do we learn about followers of the positive stress movement?",
+          "choices": [
+            "They are usually quite sensitive to different types of stress.",
+            "They hold a different view on stress from the popular one.",
+            "They derive much pleasure from living a very hectic life.",
+            "They gain a competitive edge by enjoying good health."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "passageId": "cet6-2020-07-set1-detail1"
+        },
+        {
+          "id": "cet6-2020-07-set1-q47",
+          "type": "DETAIL",
+          "prompt": "What do followers of the positive stress movement usually do to put their ideas into practice?",
+          "choices": [
+            "They keep changing their living habits.",
+            "They network with influential figures.",
+            "They seek jobs in tech industries.",
+            "They apply extreme tactics."
+          ],
+          "answerIndex": 3,
+          "explanation": "原卷答案：D。",
+          "weight": 2,
+          "passageId": "cet6-2020-07-set1-detail1"
+        },
+        {
+          "id": "cet6-2020-07-set1-q48",
+          "type": "DETAIL",
+          "prompt": "What does Zachary Rapp say about his unconventional practices?",
+          "choices": [
+            "They help him combat stress from work.",
+            "They enable him to cut down living expenses.",
+            "They enable him to recover from injuries and illnesses,",
+            "They help him get three companies enlisted all at once."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "passageId": "cet6-2020-07-set1-detail1"
+        },
+        {
+          "id": "cet6-2020-07-set1-q49",
+          "type": "DETAIL",
+          "prompt": "What can be inferred from the passage about day-to-day stress?",
+          "choices": [
+            "It isharmful to one's physical and mental health.",
+            "Itdoes not differ in essence from positive stress.",
+            "Itis something everybody has to live with.",
+            "It does not help build up one's tolerance."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "passageId": "cet6-2020-07-set1-detail1"
+        },
+        {
+          "id": "cet6-2020-07-set1-q50",
+          "type": "DETAIL",
+          "prompt": "What do some medical professionals think of positive stress?",
+          "choices": [
+            "Its true effect remains to be verified.",
+            "Its side effect should not be ignored.",
+            "Its effect varies considerably from person to person.",
+            "Its practitioners should not take it as a form of therapy."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "passageId": "cet6-2020-07-set1-detail1"
+        },
+        {
+          "id": "cet6-2020-07-set1-q51",
+          "type": "DETAIL",
+          "prompt": "What does the author say sounds ironic?",
+          "choices": [
+            "Some predators may often turn out to be prey of other predators.",
+            "Hunting may also be a solution to the problem caused by hunting.",
+            "The species of prey animals continue to vary despite humans' hunting-",
+            "The number of prey animals keeps rising despite environmental change."
+          ],
+          "answerIndex": 1,
+          "explanation": "原卷答案：B。",
+          "weight": 2,
+          "passageId": "cet6-2020-07-set1-detail2"
+        },
+        {
+          "id": "cet6-2020-07-set1-q52",
+          "type": "DETAIL",
+          "prompt": "What does Glenn Kirk think ofcharging hunters' licensefees?",
+          "choices": [
+            "Itkeeps game population under control.",
+            "Itturns huntinginto asport ofthe rich.",
+            "Itleads toecological imbalance.",
+            "Ithelps stop killingforpleasure."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "passageId": "cet6-2020-07-set1-detail2"
+        },
+        {
+          "id": "cet6-2020-07-set1-q53",
+          "type": "DETAIL",
+          "prompt": "What is the argument of the Humane Society of the United States against hunting?",
+          "choices": [
+            "Overpopulation isnot an issueformost hunted animals-",
+            "Hunting deprivesanimal populations of theirfoodsources.",
+            "Many birds and smallanimals are being irrationallykilled-",
+            "Hunting isuniversallyacknowledged as a savage behavior."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "passageId": "cet6-2020-07-set1-detail2"
+        },
+        {
+          "id": "cet6-2020-07-set1-q54",
+          "type": "DETAIL",
+          "prompt": "When ishunting morally justifiableaccording toGary E. Varner?",
+          "choices": [
+            "When itbenefitsanimals and theirecosystem-",
+            "When itserves both human and animal interests.",
+            "When itis indispensableto humans' subsistence.",
+            "When itstabilizesthepopulationof animal species."
+          ],
+          "answerIndex": 0,
+          "explanation": "原卷答案：A。",
+          "weight": 2,
+          "passageId": "cet6-2020-07-set1-detail2"
+        },
+        {
+          "id": "cet6-2020-07-set1-q55",
+          "type": "DETAIL",
+          "prompt": "What concept are green leaders tryingto promote?",
+          "choices": [
+            "Effective protectionofanimal habitats.",
+            "Strictcontrolover urban development.",
+            "Coordinated effortsofhuntersand environmentalists.",
+            "A compromise between development and animal protection."
+          ],
+          "answerIndex": 2,
+          "explanation": "原卷答案：C。",
+          "weight": 2,
+          "passageId": "cet6-2020-07-set1-detail2"
+        }
+      ],
+      "audio": [],
+      "passages": [
+        {
+          "id": "cet6-2020-07-set1-bank",
+          "text": "Questions __(26)__ to __(35)__ are based   on  the following   passage.      The  United   Nations   issued  a report last week   warning   that humans    are destroying nature at such  a rate that life on  Earth  isat risk. When    the report came   out, it naturally 26    headlines.   But  obviously   it didn’t  hijack  the  news   agenda   in  the manner    of  a major  terrorist attack or __(27)__ of war.      The   report  from  the  Intergovernmental     Science-Policy    Platform   on  Biodiversity and  Ecosystem    Services   (IPBES    )  is clear  on  what's  at __(28)__ and  what   needs   to change.   IPBES    chair   Robert   Watson    says   the  “ __(29)__ evidence”    an  presents “ ominous   (凶兆的)        picture”  .“The   health  of ecosystems    on  which   we  and  all other species  depend   is __(30)__ more   rapidly  than  ever,  ” Robert   Watson   said. We   are __(31)__ the very  foundations   of our  economies   , live-lihoods  ,food  security  ,health  and  quality of life worldwide.     ''The   report  says  it\"s not  too  late  if we   make\"   transformative change”    一   fundamental,    system-wide     reorganization    —    at every  level  from  local toglobal  , and  we  need  to focus  on how   to make   that happen.      First  , don't  indulge   in  despair   , because   despair   leads  to  inertia  and  doing nothing  means   certain __(32)__ .Every   action  to save  nature  will improve   our  collective and personal   futures  and  the only  way   to respond   to a threat of this scale  is with __(33)__ action  rooted  in headstrong    optimism-    Second   , we   need  relentless  focus   ,just  like when  paramedics    (  救护人员        )arrive  on  a scene   and  use the  concept   of triage(伤员 鉴别分类)\"to         ensure  the most __(34)__ cases  get treated  first.Saving   the natural  world needs  that kind  of  thinking.  We   don't have   the   35     to do  everything   at once  . We\n\n\n\nneed  to make  hard  choices."
+        },
+        {
+          "id": "cet6-2020-07-set1-matching",
+          "text": "Children   Understand     Far  More    About   Other   Minds   Than    Long   Believed      [A]  Until  a  few  decades   ago,  scholars   believed  that  young   children  know    very little,ifanything   , about   what  others  are  thinking.  Swiss   psychologist    Jean  Piaget  , who   is credited   with  founding    the  scientific  study   of  children\"   s thinking   , was convinced   that preschool   children  cannot  consider   what  goes  on  in the minds   of others. The  interviews   and   experiments    he  conducted    with  kids  in  the middle   of  the  20th century  suggested   that  they were   trapped  in  their subjective  viewpoints,    incapable   of imagining   what  others  think, feel or believe.      [B]  Much    of  the  subsequent    research  on  early  childhood    thinking   was   highly influenced   by  Piaget’s  ideas.  Scholars    sought   to refine  his  theory  and   empirically confirm   his  views.   But  it became     increasingly   clear  that  Piaget   seemed    to  have gravely  underestimated     the  intellectual  powers   of  very  young   kids  before   they  can make   themselves    understood     by  speech.   Researchers     began   to  devise   ever  more ingenious  ways   of figuring  out  what  goes   on in the  minds  of  babies  ,and  the resulting picture  of  their abilities  shows   subtle   variations.  Consequently     ,  the old   view   of children’s   egocentric   ( 自我中心的               )  nature   and  intellectual   weaknesses     has increasingly  fallen  out of favor  and  become    replaced  by  a more   generous   position  that sees a budding    sense  not only   of the physical   world  but  also of  other  minds’  even   in the youngest   young.  ”\n\n\n\n     [C]  Historically   , children   didn't receive   much   respect   for their  mental   powers- Piaget  not  only  believed   that children   were   “egocentric”   in  the sense   that they  were unable  to  differentiate  between    their own   viewpoint    and  that of  others  ; he  was  also convinced    that their thinking   was   characterized   by  systematic    errors and   confusions. When   playing   with  others  , they  don't cooperate    because   they  do not  realize  there are different  roles and  perspectives    . He  was   convinced    that children   literally cannot  get their act together\"  : instead  of playing   cooperatively   and  truly  together  , they play  side by side,  with  littleregard   for others.  And   when   speaking    with  others  , a young   child supposedly    cannot   consider    the  listener's  viewpoint    but\"  talks  to  himself   without listening to others.''      [D]  Piaget   and  his followers   maintained    that children   go  through   something    like a  dark   age   of  intellectual   development      before   slowly   and    gradually   becoming enlightened    by  reason    and   rationality  as   they  reach   school    age.  Alongside     this enlightenment    develops    an  ever  growing    understanding    of  other  persons   , including their attitudes and  views   of the world.      [E]  Today   , a  very  different  picture  of  children's  mental   development      emerges. Psychologists    continually    reveal   new   insights   into  the  depth   of  young    children's knowledge    of the  world  , including   their understanding    of other  minds.   Recent   studies suggest  that even  infants  are sensitive  to others'  perspectives   and  beliefs.      [F]  Part  of the motivation    to revise  some   of  Piaget’s  conclusions    stemmed    from an ideological   shift about   the origin  of human    knowledge     that occurred   in the  second half of  the  20th  century.   It became    increasingly    unpopular    to  assume    that a  basic understanding    of  the  world   can  be  built entirely  from   experience.    This  was   in part prompted    by  theorist Noam    Chomsky,     who   argued   that something    as  complex    as the rules of grammar     cannot  be  picked  up  from   exposure   to speech   ,but  is supplied  by  an inborn   language    faculty.  \"Others   followed    suit and   defined   further   core  areas\"   in which   knowledge     allegedly   cannot   be pieced   together   from   experience    but must   be possessed   at birth. One  such   area is our  knowledge    of  others' minds.   Some   even  argue that a basic  knowledge     of others'  minds   is not only  possessed    by  human    infants  ,but must  be  cvolutionarily   old  and  hence  shared   by  our nearest   living relatives  , the great apes.      [G]  To  prove   that infants  know   more   in this realm   than  had  been  acknowledged, researchers  needed    to come   up  with  innovative   ways   of showing    it.A  big part  of why we  now   recognize   so much   more   of  kids\" intellectual  capacities   isthe  development     of much   more  sensitive  research   tools than  Piaget  had  at his disposal.      [H]  Instead   of engaging    babies  in dialog  or  having  them   execute   complex    motor tasks , the  newer   methods    capitalize   on  behaviors   that  have  a  firm  place  in  infants' natural  behavior   repertoire:  looking   ,listening  , sucking   , making   facial  expressions   , gestures  and  simple   manual   actions.  The   idea  of focusing   on  these  “small  behaviors” is that  they  give   kids  the  chance    to  demonstrate     their  knowledge     implicitly   and spontaneously    without   having   to  respond   to questions   or  instructions.  For  example    , children  might   look  longer   at an  event   that they  did  not  expect   to happen   , or  they might   show   facial  expressions     indicating   that  they  have   sympathetic     concern    for others.  When    researchers    measure    these  less  demanding     , and   often  involuntary    ,\n\n\n\nbehaviors,  they  can  detect  a sensitivity  to others'  mental  states  at a much   younger   age than with  the more   taxing  methods    that Piaget  and  his followers   deployed.      [I]  In  the  1980s    ,  these  kinds   of  implicit   measures     became    customary     in developmental     psychology.     But   it took   a  while   longer    before   these  tools   were employed    to measure   children's  grasp  of the mental   lives of others.      [J]  In  a  set  of  experiments     , my   colleagues    at  the  University    of  Southern California  and   I found  evidence    that babies   can  even  anticipate  how   others   will feel when   their expectations   are disappointed.    We  acted  out  several  puppet  (木偶)shows       in front of two-year-old    children.  In these  puppet  shows   , a protagonist   ( Cookie   Monster) lefthis precious   belongings   ( cookies   ) on stage  and  later returned  to fetch  them.  What the protagonist   did  not  know   was   that an  antagonist   had   come   and  messed    with  his possessions.   The    children   had   witnessed    these  acts   and   attentively   watched    the protagonist   return. We   recorded   children's  facial  and  bodily  expressions.   Children   bit their lips , wrinkled   their nose  or  wiggled   (扭动)     in  their chair  when   the protagonist came   back,  as if they  anticipated  the  bewilderment     and  disappointment     he  was  about to experience.   Importantly    , children   showed    no  such   reactions  and   remained    calm when   the protagonist   had  seen  the  events  himself   and  thus  knew   what  to  expect.  Our study  reveals  that by  the tender  age  of two,  kids  not  only  track what   others  believe  or expect  ;they  can  even  foresee  how   others  will feel when   they  discover  reality.      [K]  Studies   like this reveal  that  there  is much   more   going   on in  small  kids' and even  infants' minds   than  was  previously    believed.  With   the explicit  measures   used   by Piaget  and  successors   ,these  deeper   layers  of kids' understanding    cannot   be  accessed. The  new  investigative   tools  demonstrate    that kids know    more  than  they  can  say: when we  scratch  beneath   the  surface  , we  find  an emerging    understanding     of relations  and perspectives   that Piaget  probably   did not  dream   of.      [L]  Despite   these  obvious   advances    in the study   of young   children's  thinking,   it would   be a grave   mistake   to dismiss  the  careful  and  systematic   analyses   compiled    by Piaget  and   others  before   the  new    tests dominated     the  scene   because   the  original methods    revealed   essential   facts  about   how   children   think  that  the  new    methods cannot  uncover.      [M]   There's  no  consensus   in today's  science   community     about  how   much   we  can infer from   a  look,  a  facial  expression    or a  hand   gesture.   These   behaviors    clearly indicate  a curiosity  about  what   goes  on  in the  mind   of others  , and  probably    a set of early intuitions  coupled   with  a willingness   to learn  more.  They   pave   the way   to richer and  more   explicit forms   of understanding     of the  minds   of others.  But  they  can  in  no way  replace   the  child's growing    ability to  articulate  and  refine  her  understanding    of how  people   behave   and  why."
+        },
+        {
+          "id": "cet6-2020-07-set1-detail1",
+          "text": "People   often  discuss   the dangers    of too  much   stress  , but lately  a very  different view  of  stress  is gaining   popularity:   this  view   of  stress  , held  by  members     of  the positive  stress movement     , argues  that  stress might   actually  be beneficial   The  positive stress movement     is made   up  of  people  such   as Zachary    Rapp   who   are looking   for  an edge  in a competitive    world,  and  Rapp's   routine  is a good   example   of  followers   of the movement.     He  wakes    up  most   mornings    at dawn,   goes   for  a run,  sips  black  coffee while  ripping   through   emails,   and  then  steps  into  a freezing   cold  shower.    This  is a routine  designed   to reduce   the  stress of  running   simultaneously    three  different  health and biotechnology     companies    for 18  hours  a day.      Although    Rapp's   practices  may   sound   extreme,   he is part of a growing    movement, consisting   largely  of tech   industry  workers    who   claim   that such   radical  tactics  will help  them   live  better  and  longer.  Inspired   by   influential  figures  in  different  fields, including    entertainers,    athletes,    entrepreneurs      and    scientists,   positive    stress practitioners  seek   out  some    combination    of  extreme    temperatures,    restrictive  diets, punishing   exercise  routines  and  general   discomfort.      Rapp    argues  that  positive  stress keeps   him   balanced.   In addition   to running   and freezing  showers,   Rapp   uses  ice  baths,  hot yoga,   and  unconventional     eating  practices such   as  climinating     dairy  ,  sugar   ,  alcohol    and   various   other   foods    high   in carbohydrates    .He  believes   that these  practices?  which   put  stress on  his body,  actually make   him   feel  less  stress  from   work.   However,     Rapp    does   not  credit  anyone    in\n\n\n\nparticular for his  choices:  he said  he started  using  these  methods   in college  7  where  he got into the  habit of  taking  ice baths  to recover   from  sports.  He  got back   into it while trying to get his three  companies    off the ground.      Rapp   works   long  hours  and  sleeps  only  five to seven   hours  a night  but he  said he only gets  sick  once  a year. For  him,  the  difference  between    day-to-day   stress, like  the kind  we  feel  when   moving    apartments,   and   positive  stress is that  the latter involves pushing  the  body  to extremes   and  forcing  it to build up  a tolerance.      One   thought   leader   in the  positive  stress  world   is Dutch   extreme    athlete Wim Hof,  who   earned   the name\"    ice  man\"   for his  ability to  withstand   severe   cold  using deep  breathing   exercises.  Hof's  ideas have   become    popular  among    tech  industry  elites and, thanks  to  Hof, cold  showers   are  now   a trend ; indeed  , some   even  call ita form   of therapy.      But   it is important   to  note  that  not everyone    agrees   with  these   practitioners  ; indeed,  some   medical   professionals   argue  that positive  stress is not  for everyone   , and that itmight  even   be dangerous    for people  who   are unhealthy   or older."
+        },
+        {
+          "id": "cet6-2020-07-set1-detail2",
+          "text": "Is hunting   good  or bad  for the  environment    ,Like   so many   hot button   issues , the answer   to this question   depends    upon   who   you  ask.  On   the one   hand  , some   say  , nothing   could  be   more   natural  than   hunting,   and  indeed   just  about   every  animal species  一    including  humans     一   has  been  either predator  or prey  at some   point  in its evolution.  And,   ironic  as  it sounds    , since  humans    have   wiped    out  many   animal predators  , some  see  hunting   as a natural  way  to reduce   the herds  of prey  animals   that now  reproduce   beyond    the environment's    carrying  capacity.      On   the  other  hand,  many    environmental     and  animal   advocates    see  hunting   as savage   , arguing   that it is  morally   wrong    to kill animals    , regardless   of practical considerations.  According    to  Glenn  Kirk   of the California-based    The  Animals'   Voice   , hunting\"   causes   immense    suffering   to individual   wild   animals...\"and   is\"irrationally cruel because   unlike   natural  predation  ( 捕食)     ,hunters  kill for  pleasure  ...” He  adds that , despite   hunters'  claims   that  hunting   keeps   wildlife  populations    in balance    , hunters' license  fees are  used  to manipulate   a  few  game   species  into overpopulation    at the expense   of  a much    larger number    of  non-game    species   ,resulting  in  the loss  of biological  diversity, genetic  integrity and  ecological   balance.\"      Beyond    moral   issues , others  contend   that hunting   is not practical-  According    to the Humane     Society  of  the United   States  , the vast  majority   of hunted   species   —— such  as waterfowl   , rabbits  ,upland   birds  and  mourning    doves  ——\"provide       minimal nutrition and  do  not require  population   control.\"      Author   Gary   E  ・  Varner  suggests   in his  book  , In Nature's   Interests , that some types  of  hunting    may   be   morally   justifiable  while   others   may   not   be.  Hunting “designed   to  secure  the  aggregate   welfare   of  the target  species,  the  integrity  of  its ecosystem,   or both\"  —what    Varner   terms  ' therapeutic  hunting'  —is   defensible  , while subsistence  and  sport  hunting  —both    of which   only  benefit human    beings—is    not.      Regardless    of one's individual   stance  ,fewer  Americans     hunt today   than in recent history. Data   gathered  by  the  U.  S. Fish  &  Wildlife   Service   in 2006   show   that only five percent  of Americans     一   some   12.5  million  individuals    一   consider   themselves hunters  today  ,down   from   nine percent  in 2001   and  15 percent   in1996.      Public   support    for  hunting   , however     , is  on  the   rise. A   2007   survey   by Responsive    Management      Inc.  found   that eighty   percent  of  respondents    agreed   that “hunting  has  a legitimate  place  in modem     society  ,\" and  the  percentage   of Americans indicating  disapproval   of  hunting   declined  from   22  percent  in  1995  to  16  percent  in 2007.      Perhaps    matching    the  trend  among    the  public,  green   leaders  are  increasingly advocating   cooperation    between    hunters   and  environmental     groups:   After  all, both deplore  urban  sprawl  and  habitat  destruction."
+        }
+      ],
+      "sourceFileUrl": "/study/resources/33747f90861882a440cd761d.pdf"
+    },
+    "TRANSLATION": {
+      "instructions": "请将原卷中文翻译成英语。",
+      "prompt": "Directions: For this part you are allowed  30 minutes to translate a passage  from            Chinese  intoEnglish.You should write your answer on Answer  Sheet 2.\n\n    《三国演义》(The         Romance   ofthe Three Kingdoms)是中国一部著名的历史小 说,写于十四世纪。这部文学作品以三国时期的历史为背景,描写了从公元二世 纪下半叶到公元三世纪下半叶的魏、蜀、吴三国之间的战争。小说中刻画了近千 个人物和无数的历史事件。这些人物和事件虽然大都基于真实的历史,但都不同 程度地浪漫化和戏剧化了。《三国演义》是一部公认的文学杰作。自面世以来, 这部小说不断吸引着一代又一代的读者,并且对中国文化产生着广泛而持久的影 响。\n\n\n\n                                   【   参   考   答    案   】\n\n                                       【",
+      "questions": [],
+      "audio": [],
+      "passages": [],
+      "sourceFileUrl": "/study/resources/33747f90861882a440cd761d.pdf"
+    }
+  }
+}
