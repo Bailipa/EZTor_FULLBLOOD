@@ -1,4 +1,4 @@
-.timer { border: 1px solid var(--border); border-radius: 16px; padding: 14px 16px; margin-block: 12px; background: var(--card); min-width: 0; }
+.timer { border: 1px solid var(--border); border-radius: 16px; padding: 14px 16px; margin: 0; background: var(--card); min-width: 0; }
 .heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
 .heading > div { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
 .total { font-variant-numeric: tabular-nums; font-size: 1.25rem; font-weight: 650; }
@@ -7,3 +7,21 @@
 .modules span[data-active="true"] { color: var(--primary); }
 .modules b { font-variant-numeric: tabular-nums; font-weight: 500; }
 .note { color: var(--muted-foreground); font-size: .78rem; line-height: 1.6; margin-top: 8px; }
+
+.floating { position: fixed; right: 24px; bottom: 24px; z-index: 40; }
+.trigger { position: relative; display: flex; align-items: center; justify-content: center; gap: 8px; height: 44px; padding: 0 14px; border: 1px solid var(--border); border-radius: 999px; background: var(--card); color: var(--foreground); box-shadow: 0 4px 18px color-mix(in srgb, var(--foreground) 12%, transparent); cursor: pointer; }
+.trigger[data-running='true'] { color: var(--primary); border-color: color-mix(in srgb, var(--primary) 45%, var(--border)); }
+.trigger:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
+.readout { font-size: 13px; font-variant-numeric: tabular-nums; }
+.indicator { position: absolute; top: 2px; right: 2px; width: 8px; height: 8px; border: 2px solid var(--card); border-radius: 50%; background: var(--primary); }
+.indicator[data-warning='true'] { background: var(--destructive); }
+.popover { z-index: 45; width: min(340px, calc(100vw - 24px)); max-height: min(440px, calc(var(--app-visible-height, 100dvh) - 100px)); overflow-y: auto; border-radius: 16px; background: var(--card); color: var(--foreground); box-shadow: 0 8px 32px color-mix(in srgb, var(--foreground) 16%, transparent); outline: none; }
+@media (max-width: 767px) {
+  .floating { left: calc(50% + 81px); right: auto; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); }
+  .trigger { width: 44px; padding: 0; }
+  .readout { display: none; }
+  :global(html[data-mobile-nav-open='true']) .floating,
+  :global(html[data-mobile-nav-open='true']) .popover,
+  :global(html[data-keyboard-open='true']) .floating,
+  :global(html[data-keyboard-open='true']) .popover { display: none; }
+}

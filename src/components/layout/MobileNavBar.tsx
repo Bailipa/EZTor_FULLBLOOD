@@ -228,6 +228,11 @@ export default function MobileNavBar() {
     },
   }
 
+  useEffect(() => {
+    document.documentElement.dataset.mobileNavOpen = String(open)
+    return () => { delete document.documentElement.dataset.mobileNavOpen }
+  }, [open])
+
   useEffect(() => { changeOpen(false) }, [pathname, changeOpen])
   useEffect(() => { if (keyboardVisible) changeOpen(false) }, [keyboardVisible, changeOpen])
   useEffect(() => {

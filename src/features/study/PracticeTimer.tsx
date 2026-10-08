@@ -1,6 +1,9 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, type ReactNode } from 'react'
+import { createPortal } from 'react-dom'
+import { Popover } from 'radix-ui'
+import { Timer as TimerIcon } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { studyRequest } from './client'
 import type { ExamSessionView, ExamStage } from './examTypes'
@@ -141,7 +144,8 @@ function Timer({ accountId, session, onSaved }: Props) {
 
   const display = saved ?? clock
   const complete = session.status === 'COMPLETE'
-  return <section className={styles.timer} aria-label="自主计时">
+  return <FloatingTimer total={display.totalMs} running={clock.runningSince !== null} warning={!!error || storageError}>
+  <section className={styles.timer} aria-label="自主计时">
     <div className={styles.heading}>
       <div><strong>{complete ? '本套用时' : '自主计时'}</strong><span className={styles.total}>{formatPracticeTime(display.totalMs)}</span></div>
       {!complete && <Button size="sm" variant="outline" disabled={!ready} onClick={() => {
@@ -161,4 +165,36 @@ function Timer({ accountId, session, onSaved }: Props) {
     {storageError && <p className={styles.note} role="alert">浏览器无法持久缓存用时，当前标签内仍会保留；刷新或关闭前请完成本次练习并保存用时。</p>}
     {error && <p role="alert" className={styles.note}>{error} <Button variant="outline" size="sm" onClick={() => setRetry(value => value + 1)}>重试保存</Button></p>}
   </section>
+  </FloatingTimer>
+}
+
+function FloatingTimer({ total, running, warning, children }: { total: number; running: boolean; warning: boolean; children: ReactNode }) {
+  const [mounted, setMounted] = useState(false)
+  const [open, setOpen] = useState(false)
+  useEffect(() => {
+    setMounted(true)
+    const closeForNavigation = () => {
+      if (document.documentElement.dataset.mobileNavOpen === 'true') setOpen(false)
+    }
+    const observer = new MutationObserver(closeForNavigation)
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-mobile-nav-open'] })
+    return () => observer.disconnect()
+  }, [])
+  if (!mounted) return null
+  return createPortal(<Popover.Root open={open} onOpenChange={setOpen}>
+    <div className={styles.floating}>
+      <Popover.Trigger asChild>
+        <button type="button" className={styles.trigger} data-running={running} aria-label={`自主计时 ${formatPracticeTime(total)}，${open ? '收起' : '展开'}计时面板`}>
+          <TimerIcon size={20} aria-hidden />
+          <span className={styles.readout}>{formatPracticeTime(total)}</span>
+          {(running || warning) && <span className={styles.indicator} data-warning={warning} aria-hidden />}
+        </button>
+      </Popover.Trigger>
+    </div>
+    <Popover.Portal>
+      <Popover.Content className={styles.popover} side="top" align="end" sideOffset={10} collisionPadding={12} aria-label="自主计时面板">
+        {children}
+      </Popover.Content>
+    </Popover.Portal>
+  </Popover.Root>, document.body)
 }
