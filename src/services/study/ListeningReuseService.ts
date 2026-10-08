@@ -1,5 +1,6 @@
 import { createHash, randomInt } from 'node:crypto'
 import type { Prisma, ExamPaper } from '@prisma/client'
+import { examPaperKey } from './ExamAccessService'
 import { parseExamContent } from '@/features/study/examDomain'
 import type { StudyLevel } from '@/features/study/domain'
 import type { ExamContent, ExamPaperKind, ExamState, ExamSection } from '@/features/study/examTypes'
@@ -24,11 +25,12 @@ export function shuffledListening(section: ExamSection): ExamSection {
 }
 export async function prepareListeningReuse(tx: Prisma.TransactionClient, userId: string, paper: ExamPaper, state: ExamState) {
   const content = effectiveExamContent(paper, state)
-  const match = /^(cet[46]-\d{4}-\d{2})-set3$/.exec(paper.slug)
+  const match = /^(cet[46]-\d{4}-\d{2})-set3$/.exec(examPaperKey(paper.slug))
   const explanation = content.LISTENING.unavailableReason ?? ''
   const sourceSet = /与第([一二])套真题的[听力\s]*.*一致/.exec(explanation)?.[1]
   if (!match || !sourceSet || content.LISTENING.questions.length) return
-  const source = await tx.examPaper.findFirst({ where: { slug: `${match[1]}-set${sourceSet === '一' ? 1 : 2}`, level: paper.level, rightsStatus: 'APPROVED' }, orderBy: { version: 'desc' } })
+  const sourceKey = `${match[1]}-set${sourceSet === '一' ? 1 : 2}`
+  const source = await tx.examPaper.findFirst({ where: { slug: { in: [sourceKey, `${sourceKey}-full`, `${sourceKey}-listening`] }, kind: 'FULL', level: paper.level, rightsStatus: 'APPROVED' }, orderBy: { version: 'desc' } })
   if (!source) return
   const section = effectiveExamContent(source, { drafts: {}, submissions: {}, firstAnswers: {}, audioPlays: {} }).LISTENING
   if (section.unavailableReason || section.audioUnavailableReason || section.questions.length !== 25 || !section.audio.length || section.questions.some(question => question.answerIndex < 0 || !question.audioId || !section.audio.some(audio => audio.id === question.audioId))) return

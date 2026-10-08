@@ -12,6 +12,7 @@ import {
   reviewExamPaper as reviewPaper,
   startExam,
 } from '@/services/study/ExamService'
+import { examPaperKey } from '@/services/study/ExamAccessService'
 import { readingMarks, readingMarkSource } from '@/services/study/ReadingMarkService'
 import type { ExamAction, ExamState } from '@/features/study/examTypes'
 import { originalExamFixture } from './examFixture'
@@ -19,7 +20,7 @@ async function reviewExamPaper(...args: Parameters<typeof reviewPaper>) {
   const result = await reviewPaper(...args)
   if (args[2].rightsStatus === 'APPROVED') {
     const paper = await db.examPaper.findUniqueOrThrow({ where: { id: args[1] } })
-    for (const userId of Object.values(users)) await db.examAccess.upsert({ where: { userId_paperKey: { userId, paperKey: paper.slug } }, create: { userId, paperKey: paper.slug }, update: {} })
+    for (const userId of Object.values(users)) await db.examAccess.upsert({ where: { userId_paperKey: { userId, paperKey: examPaperKey(paper.slug) } }, create: { userId, paperKey: examPaperKey(paper.slug) }, update: {} })
   }
   return result
 }
@@ -313,7 +314,7 @@ describe.skipIf(!url)('Exam integrity in isolated PostgreSQL', () => {
     const imported: string[] = []
     for (const set of [2, 3]) {
       const fixture = originalExamFixture()
-      fixture.slug = `cet4-2098-12-set${set}`
+      fixture.slug = `cet4-2098-12-set${set}-full`
       if (set === 3) fixture.content.LISTENING = { instructions: '听力材料', questions: [], audio: [], passages: [], unavailableReason: '官方第三套真题的听力试题与第二套真题的一致,只是选项顺序不同' }
       const paper = await importExamPaper(users.admin, fixture, db)
       imported.push(paper.id); paperIds.add(paper.id)
