@@ -25,8 +25,11 @@ interface AiLogRow {
   cost: number
   isAiFree: boolean
   turns: number
+  status: string
   createdAt: string
 }
+
+const STATUS_LABELS: Record<string, string> = { STARTED: '已接收，结果待确认', SUCCESS: '已回答', FAILED: '失败', BLOCKED: '已拦截', ABORTED: '已中断', UNKNOWN: '历史记录' }
 
 export default function AdminAiPage() {
   const { isLoading, isAdmin } = useAdminCheck()
@@ -96,7 +99,7 @@ export default function AdminAiPage() {
             <h1 className="text-xl font-semibold flex items-center gap-2">
               <Sparkles className="w-5 h-5 text-primary" /> AI 询问统计
             </h1>
-            <p className="text-sm text-muted-foreground mt-1">按用户统计 AI 询问使用量与学力消耗，点击展开查看提问内容</p>
+            <p className="text-sm text-muted-foreground mt-1">按用户统计 AI 请求（含失败与拦截），点击展开查看实际问题及状态</p>
           </div>
         </div>
 
@@ -166,10 +169,10 @@ export default function AdminAiPage() {
                                   {logs.map((l) => (
                                     <div key={l.id} className="bg-background rounded-lg border border-border/60 p-3">
                                       <div className="text-xs text-muted-foreground mb-1">
-                                        {new Date(l.createdAt).toLocaleString('zh-CN')} · 消耗 {l.cost} 学力 · {l.turns} 轮
+                                        {new Date(l.createdAt).toLocaleString('zh-CN')} · {STATUS_LABELS[l.status] ?? '历史记录'} · 消耗 {l.cost} 学力 · {l.turns} 轮
                                         {l.isAiFree && <Badge variant="outline" className="ml-2 text-amber-600">免费</Badge>}
                                       </div>
-                                      <div className="text-sm break-words">{l.prompt}</div>
+                                      <div className="text-sm whitespace-pre-wrap break-words">{l.prompt}</div>
                                     </div>
                                   ))}
                                 </div>

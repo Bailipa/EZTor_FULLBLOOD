@@ -6,11 +6,10 @@ import { Button } from '@/components/ui/button'
 import type { ReadingMark } from './examTypes'
 import styles from './exam.module.css'
 
-export default function ReadingHelp({ mark, mode, title, context, onClose, onPrepare }: {
-  mark: ReadingMark; mode: 'translate' | 'ask'; title: string; context: string
+export default function ReadingHelp({ mark, onClose, onPrepare }: {
+  mark: ReadingMark
   onClose: () => void; onPrepare: () => Promise<boolean | void>
 }) {
-  const [question, setQuestion] = useState('这段话在文中是什么意思？')
   const [answer, setAnswer] = useState('')
   const [answerSource, setAnswerSource] = useState<'PUBLIC' | 'AI' | null>(null)
   const [contributionNotice, setContributionNotice] = useState('')
@@ -22,20 +21,21 @@ export default function ReadingHelp({ mark, mode, title, context, onClose, onPre
   const sendRef = useRef<() => Promise<void>>(async () => {})
   useEffect(() => () => controller.current?.abort(), [])
   useEffect(() => {
-    if (mode !== 'translate') return
     const timer = window.setTimeout(() => void sendRef.current(), 0)
     return () => window.clearTimeout(timer)
-  }, [mode])
+  }, [])
   async function send() {
     if (busy || sending.current) return
     sending.current = true
     const request = new AbortController()
     controller.current = request
-    setBusy(true); setProgress('正在同步练习进度…'); setError(''); setAnswer(''); setAnswerSource(null); setContributionNotice('')
+    setBusy(true); setProgress('正在准备翻译…'); setError(''); setAnswer(''); setAnswerSource(null); setContributionNotice('')
     try {
       if (!await onPrepare()) throw new Error('辅助使用记录未保存，请先同步练习进度后重试。')
       if (request.signal.aborted) return
-      if (mode === 'translate') {
+      const candidate = mark.text.trim().replace(/’/g, "'")
+      const singleWord = /^[\p{Script=Latin}\p{M}]+(?:['-][\p{Script=Latin}\p{M}]+)*$/u.test(candidate)
+      if (singleWord) {
         const publicResponse = await fetch('/api/public-translate', {
           method: 'POST', signal: request.signal, headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ words: [mark.text] }),
@@ -49,20 +49,19 @@ export default function ReadingHelp({ mark, mode, title, context, onClose, onPre
           return
         }
       }
-      setProgress(mode === 'ask' ? '正在连接阅读助手…' : '正在补充释义…')
-      const response = await fetch(mode === 'translate' ? '/api/translate-only' : '/api/ai/ask', {
+      setProgress('正在翻译所选文字…')
+      const response = await fetch('/api/translate-only', {
         method: 'POST', signal: request.signal, headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(mode === 'translate' ? { input: mark.text } : { messages: [{ role: 'user', content: question }], readingCoach: { title, selection: mark.text, context, question } }),
+        body: JSON.stringify({ input: mark.text }),
       })
-      if (mode === 'translate' || !response.ok) {
+      {
         const body = await response.json()
-        if (!response.ok || !body.success) throw new Error(body.error || '暂时无法获取解释，请重试')
+        if (!response.ok || !body.success) throw new Error(body.error || '暂时无法获取翻译，请重试')
         const translation = body.data.translation as string
         setAnswer(translation)
-        if (mode === 'translate') {
+        {
           setAnswerSource('AI')
-          const candidate = mark.text.trim().replace(/’/g, "'")
-          if (/^[\p{Script=Latin}\p{M}]+(?:['-][\p{Script=Latin}\p{M}]+)*$/u.test(candidate)) {
+          if (singleWord) {
             setContributionNotice('正在登记贡献…')
             try {
               const contribution = await fetch('/api/contributions/submissions', {
@@ -88,50 +87,18 @@ export default function ReadingHelp({ mark, mode, title, context, onClose, onPre
         }
         return
       }
-      const reader = response.body?.getReader()
-      if (!reader) throw new Error('无法读取 AI 解答，请重试')
-      const decoder = new TextDecoder()
-      let buffer = '', text = '', finished = false
-      const parse = (part: string) => {
-        const event = part.split('\n').find((line) => line.startsWith('event:'))?.slice(6).trim()
-        const data = part.split('\n').filter((line) => line.startsWith('data:')).map((line) => line.slice(5).trim()).join('\n')
-        if (!data) return
-        const payload = JSON.parse(data)
-        if (event === 'error') throw new Error(payload.error || 'AI 暂不可用，请重试')
-        if (event === 'status' && !request.signal.aborted) setProgress(payload.text)
-        if (event === 'text') {
-          text = payload.delta ? text + payload.text : payload.text
-          if (!request.signal.aborted) { setAnswer(text); setProgress(text ? '正在生成解答…' : '正在重新连接…') }
-        }
-        if (event === 'done') finished = payload.success === true
-      }
-      try {
-        while (true) {
-          const chunk = await reader.read()
-          if (chunk.done) break
-          buffer += decoder.decode(chunk.value, { stream: true }).replace(/\r\n/g, '\n')
-          let boundary
-          while ((boundary = buffer.indexOf('\n\n')) >= 0) { parse(buffer.slice(0, boundary)); buffer = buffer.slice(boundary + 2) }
-        }
-        buffer += decoder.decode()
-        if (buffer.trim()) parse(buffer)
-        if (!finished || !text.trim()) throw new Error('解答中断，请重试')
-        if (!request.signal.aborted) setAnswer(text)
-      } finally { await reader.cancel().catch(() => {}) }
     } catch (failure) {
       if (!request.signal.aborted) setError(failure instanceof Error ? failure.message : '请求失败，请重试')
     } finally { sending.current = false; if (!request.signal.aborted) setBusy(false) }
   }
   sendRef.current = send
   return <Dialog open onOpenChange={(open) => { if (!open) { controller.current?.abort(); onClose() } }}><DialogContent className={styles.helpDialog}>
-    <DialogTitle>{mode === 'translate' ? '查看释义' : '阅读提问'}</DialogTitle>
-    <DialogDescription>保留阅读位置；阅读提问提供理解线索，不直接揭示答案。本次辅助会记录到练习档案。</DialogDescription>
+    <DialogTitle>翻译</DialogTitle>
+    <DialogDescription>仅翻译你选中的文字。本次使用翻译会记录到练习档案。</DialogDescription>
     <blockquote className={styles.selectedText}>{mark.text}</blockquote>
-    {mode === 'ask' && <label className={styles.textAnswer}>你的问题<textarea value={question} maxLength={500} onChange={(event) => setQuestion(event.target.value)} placeholder="哪里不理解？" /></label>}
-    {(mode === 'ask' || !answer) && <Button disabled={busy || (mode === 'ask' && !question.trim())} onClick={() => void send()}>{busy ? contributionNotice.startsWith('正在登记') ? '正在登记贡献…' : '正在获取解释…' : answer ? '重新解答' : mode === 'translate' ? '查看翻译' : '提问'}</Button>}
     {busy && <p role="status" className="text-sm font-medium text-primary">{progress}</p>}
-    {error && <p role="alert" className={styles.error}>{error}</p>}
-    {answer && <div className={styles.helpAnswer} aria-busy={busy}>{answer}{answerSource && <small className={styles.helpSource}>{answerSource === 'PUBLIC' ? '公共词库' : 'AI 补充释义'}</small>}</div>}
+    {error && <div role="alert" className={styles.error}>{error}<Button variant="outline" size="sm" disabled={busy} onClick={() => void send()}>重试翻译</Button></div>}
+    {answer && <div className={styles.helpAnswer} aria-busy={busy}>{answer}{answerSource && <small className={styles.helpSource}>{answerSource === 'PUBLIC' ? '公共词库' : 'AI 翻译'}</small>}</div>}
     {contributionNotice && <p role="status" className="rounded-lg border border-primary bg-primary/10 px-3 py-2 text-sm font-semibold text-primary">{contributionNotice}</p>}
   </DialogContent></Dialog>
 }

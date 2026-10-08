@@ -35,9 +35,21 @@ export async function GET(req: Request) {
     prisma.aiAskLog.count({ where }),
   ])
 
+  const audits = rows.length ? await prisma.auditLog.findMany({
+    where: { action: 'AI_ASK', entityId: { in: rows.map(row => row.id) } },
+    select: { entityId: true, newValue: true },
+  }) : []
+  const statuses = new Map(audits.map(audit => {
+    let status = 'UNKNOWN'
+    try {
+      const parsed = JSON.parse(audit.newValue ?? '{}').status
+      if (['STARTED', 'SUCCESS', 'FAILED', 'BLOCKED', 'ABORTED'].includes(parsed)) status = parsed
+    } catch { /* historical records have no outcome metadata */ }
+    return [audit.entityId, status]
+  }))
   return NextResponse.json({
     success: true,
-    data: rows.map((r) => ({ ...r, createdAt: r.createdAt.toISOString() })),
+    data: rows.map((r) => ({ ...r, status: statuses.get(r.id) ?? 'UNKNOWN', createdAt: r.createdAt.toISOString() })),
     pagination: { page, limit, total, totalPages: Math.ceil(total / limit) },
   })
 }

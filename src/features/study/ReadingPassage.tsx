@@ -21,7 +21,7 @@ function words(text: string, start: number, highlights: Set<string>, tokens: Wor
     const end = Math.min(token.end, start + text.length) - start
     parts.push(text.slice(cursor, offset))
     const highlighted = highlights.has(`${token.start}:${token.end}`)
-    parts.push(<span role="button" tabIndex={0} aria-label={highlighted ? `${token.text}，再次点按取消荧光` : `${token.text}，${allowHelp ? '点按查词并荧光标记' : '点按荧光标记'}`} aria-pressed={highlighted} key={`${start + offset}:${start + end}`} data-word-start={token.start} data-word-end={token.end} className={`${styles.lookupWord} ${highlighted ? styles.lookupHighlighted : ''}`}>{text.slice(offset, end)}</span>)
+    parts.push(<span role="button" tabIndex={0} aria-label={highlighted ? `${token.text}，再次点按取消荧光` : `${token.text}，${allowHelp ? '点按翻译并荧光标记' : '点按荧光标记'}`} aria-pressed={highlighted} key={`${start + offset}:${start + end}`} data-word-start={token.start} data-word-end={token.end} className={`${styles.lookupWord} ${highlighted ? styles.lookupHighlighted : ''}`}>{text.slice(offset, end)}</span>)
     cursor = end
   }
   parts.push(text.slice(cursor))
@@ -33,7 +33,7 @@ export default function ReadingPassage({ passage, marks, highlights, disabled, o
   readOnly?: boolean; allowHelp?: boolean; focusMark?: ReadingMark
   onMark: (mark: ReadingMark, marked: boolean) => void
   onHighlight: (mark: ReadingMark, marked: boolean) => Promise<boolean | void>
-  onHelp: (mark: ReadingMark, mode: 'translate' | 'ask') => void
+  onHelp: (mark: ReadingMark, mode: 'translate') => void
 }) {
   const article = useRef<HTMLElement>(null)
   const pointer = useRef({ x: 0, y: 0, at: 0 })
@@ -93,8 +93,7 @@ export default function ReadingPassage({ passage, marks, highlights, disabled, o
   const tools = selection && <div className={styles.selectionTools} role="toolbar" aria-label="选中文字操作">
       <span title={selection.text}>{selection.text}</span>
       <button disabled={disabled || readOnly} onClick={() => onMark(selection, !marked)}>{marked ? '取消标记' : '标记'}</button>
-      {allowHelp && <button disabled={disabled} onClick={() => onHelp(selection, 'translate')}>查词</button>}
-      {allowHelp && <button disabled={disabled} onClick={() => onHelp(selection, 'ask')}>问 AI</button>}
+      {allowHelp && <button disabled={disabled} onClick={() => onHelp(selection, 'translate')}>翻译</button>}
       <button aria-label="收起选词工具" onClick={() => setSelection(null)}>收起</button>
     </div>
   return <>
