@@ -116,6 +116,7 @@ The platform is assembled from small, reusable projects:
 - [EZTor SRS Core](https://github.com/Bailipa/eztor-srs-core) — dependency-free spaced repetition for flashcards and vocabulary apps
 - [EZTor Translation Quality](https://github.com/Bailipa/eztor-translation-quality) — explainable scoring for vocabulary translations
 - [EZTor CET4 Original Content](https://github.com/Bailipa/eztor-cet-content) — structured original CET-4 practice content
+- [EZTor English Forms](https://github.com/Bailipa/eztor-english-forms) — irregular forms and vocabulary answer matching
 
 ## License
 

@@ -120,6 +120,7 @@ src/
 - [EZTor SRS Core](https://github.com/Bailipa/eztor-srs-core) —— 间隔重复学习算法
 - [EZTor Translation Quality](https://github.com/Bailipa/eztor-translation-quality) —— 可解释的词汇翻译质量评分
 - [EZTor CET4 Original Content](https://github.com/Bailipa/eztor-cet-content) —— 结构化原创四级练习内容
+- [EZTor English Forms](https://github.com/Bailipa/eztor-english-forms) —— 英语不规则词形和练习答案判断
 
 ## 许可证
 
