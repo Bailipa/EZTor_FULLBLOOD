@@ -1784,3 +1784,9 @@ session返回最少用户字段，并按数据库当前账号/角色核对管理
 用户明确要求标注模拟卷、默认全用户开放并与待发布加固一起发布测试站。实现统一权限：根据数据库审核通过的ORIGINAL内容提供默认访问，覆盖目录、作答、历史/标记/分析授权及资源；不依据客户端slug前缀放行，不批量添加用户授权。真题继续ExamAccess；管理页只列需单独授权的真题，并说明模拟卷默认开放。
 选择器标注原创模拟卷/全员开放，标题为“EZTor原创四级模拟卷01（参考2025·待校准）”，各模块标注非真题、虚构情境、合成听力及难度待校准。增加MP3受鉴权流式Range访问，原始答案只在服务端受控导入JSON内，沿用提交前投影过滤。
 版本脚本升至2.4.0/versionCode77；本机Next构建通过，OIDC显式false；定向ESLint与类型检查通过。未新增或运行测试套件。首次SSH未指定非默认密钥失败，改用已有hardened密钥连接成功；只读发布前检查：服务器磁盘可用7063945216B、MemAvailable约1796MiB，生产PID1344/测试PID39975均online；测试库7用户/86试卷/9考试/353授权/0逐句阅读。31项既有迁移哈希一致，待迁移仅20261009010000_add_shared_rate_limits。尚未迁移、导入、切换，待完整备份与包校验。
+
+2026-10-09 — 2.4.0切换与媒体回归修复（2.4.1准备）
+2.4.0 BUILD_ID XNDWtjyZheDxnIcBhBXFw，源码a6771e2f0200c0fe88f0dd084329bc6e471e61f8，包40563329B/SHA256 7212dc921297d151d49a7f155a8443b9c72eb56c6262b4cc271d5fa594670139。测试库完整备份/www/wwwroot/test.eztor.dogeggcode.cyou/backups/eztor_test-before-2.4.0-20261009.dump，3294183B/SHA256 dbe40edab75218b3cfe3b3d87b6ef93dc041a9b7322e9da473ac43255149eebf；已下载本机.local-cet-import/deploy-2.4.0/同名文件（0600），双方哈希/大小、pg_restore目录校验通过，未宣称本轮完整恢复演练。
+新增迁移20261009010000_add_shared_rate_limits按发布包SQL事务执行并登记Prisma迁移校验和da4b44af68a5ad9da8ab527fca476dfe9d8d9fafdcd9a3249b547d6fd0467d9b。首次门禁因42501新表访问权限失败，未切进程；查明管理员角色执行DDL产生属主差异，将新表属主对齐现有User表应用角色，未改迁移文件/校验和、未写用户业务数据。随后门禁通过、样卷经既有导入/审核服务批准，测试进程切至2.4.0，生产PID1344保持不变；回滚目标2.3.1-dbjCX83_PPTsUkYSxoiGy，新表为附加结构，旧版不使用。
+HTTPS临时无授权账号核对已确认原创目录可见、真题POST拒绝、CET6无无授权真题；首次验收脚本误用session.stage（实际字段status），修正后再验收。新增真题音频拒绝检查发现500；日志明确Failed to proxy https://localhost:3200/...及EPROTO wrong version number。定位Node middleware克隆外部HTTPS协议，向仅HTTP的本机应用端口发起TLS。未标记整体验收完成；临时账号及其作答已清理。
+修订媒体重写为固定127.0.0.1和应用PORT上的内部HTTP鉴权路由，外部TLS与Cookie鉴权保持；版本升2.4.1/versionCode78，准备重新构建部署。Git首次push因旧12450代理失败，核对系统当前12451后更新本仓库代理并成功推送a6771e2。

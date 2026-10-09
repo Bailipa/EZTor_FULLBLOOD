@@ -100,8 +100,9 @@ export default async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
   // Resource URLs stay compatible; serve them through the current database grant check.
   if (pathname.startsWith('/study/resources/')) {
-    const target = request.nextUrl.clone()
-    target.pathname = '/api' + pathname
+    // The app listens over HTTP behind TLS termination. A cloned HTTPS URL would
+    // proxy TLS to the HTTP app port in the Node runtime and fail with EPROTO.
+    const target = new URL(`/api${pathname}${request.nextUrl.search}`, `http://127.0.0.1:${process.env.PORT || '3000'}`)
     return baseHeaders(NextResponse.rewrite(target))
   }
   const isApi = pathname.startsWith('/api/')
