@@ -1790,3 +1790,13 @@ session返回最少用户字段，并按数据库当前账号/角色核对管理
 新增迁移20261009010000_add_shared_rate_limits按发布包SQL事务执行并登记Prisma迁移校验和da4b44af68a5ad9da8ab527fca476dfe9d8d9fafdcd9a3249b547d6fd0467d9b。首次门禁因42501新表访问权限失败，未切进程；查明管理员角色执行DDL产生属主差异，将新表属主对齐现有User表应用角色，未改迁移文件/校验和、未写用户业务数据。随后门禁通过、样卷经既有导入/审核服务批准，测试进程切至2.4.0，生产PID1344保持不变；回滚目标2.3.1-dbjCX83_PPTsUkYSxoiGy，新表为附加结构，旧版不使用。
 HTTPS临时无授权账号核对已确认原创目录可见、真题POST拒绝、CET6无无授权真题；首次验收脚本误用session.stage（实际字段status），修正后再验收。新增真题音频拒绝检查发现500；日志明确Failed to proxy https://localhost:3200/...及EPROTO wrong version number。定位Node middleware克隆外部HTTPS协议，向仅HTTP的本机应用端口发起TLS。未标记整体验收完成；临时账号及其作答已清理。
 修订媒体重写为固定127.0.0.1和应用PORT上的内部HTTP鉴权路由，外部TLS与Cookie鉴权保持；版本升2.4.1/versionCode78，准备重新构建部署。Git首次push因旧12450代理失败，核对系统当前12451后更新本仓库代理并成功推送a6771e2。
+
+
+2026-10-09 原创四级样卷接入与测试版发布完成
+范围：仅test.eztor.dogeggcode.cyou，版本2.4.1，BUILD_ID vYnqfKc09TTJX1mDmFWqJ，部署源码9b211bf65f25002638172c51802e3dce5b18d5a5；构建时工作区仅有6张既有未跟踪预览图，未打包。
+归档：eztor-web-2.4.1-vYnqfKc09TTJX1mDmFWqJ-20261009022013205.tar.gz，40562977字节，SHA256 cbfdab20ee0f6886ea5a3a03c2c5337ee242922109ae1fc4d122f76c8d9d6b97。文件白名单检查通过，无PDF、数据库、环境文件或凭据；复用服务器已核验原创MP3，未重复上传资源。
+数据库：新增迁移20261009010000_add_shared_rate_limits已于2.4.0应用；2.4.1启动前32项迁移校验通过，未再执行DDL。完整备份服务器/www/wwwroot/test.eztor.dogeggcode.cyou/backups/eztor_test-before-2.4.1-20261009.dump，本机/Users/elee987/Downloads/web_compressed/.local-cet-import/deploy-2.4.1/eztor_test-before-2.4.1-20261009.dump，3315191字节，SHA256 18991ea081e01645f62f228f2e7809a5239fe789391d764a2bcafa5cdda721da；本机权限0600，两端哈希与pg_restore目录检查通过，本次未执行完整恢复演练。
+功能：原创模拟卷01已导入并审核，明确标注原创非真题、参考2025、难度待校准、AI合成配音；所有登录用户含新账号默认开放，真题继续逐卷授权。2.4.1修复HTTPS反向代理下音频转发协议导致的500。此前待发布AI传输/会话/限流防御改动随2.4.0一并包含；本次未调用模型作质量验证。
+已实现、已构建、已部署；线上HTTPS接口验收通过：零授权新用户仅见原创卷、真题启动及音频403、未登录音频401、标注、答前隐藏答案/参考文/听力原文、阅读草稿与标记保存恢复及标记查询、阅读提交解锁反馈、整卷写作进入听力、MP3 Range206、session有效。使用临时账号，已移除其关联数据，无AI调用。首轮清理脚本因客户端无新表delegate失败，改参数化原始SQL后完整重跑通过；非业务流程故障。
+前后计数均{'users': 7, 'papers': 87, 'attempts': 9, 'grants': 353, 'reading': 0}。生产cet4-web PID1344保持不变；磁盘剩余6684684288字节。测试回滚目标/www/wwwroot/test.eztor.dogeggcode.cyou/releases/2.4.0-XNDWtjyZheDxnIcBhBXFw；更早2.3.1版本保留，若回滚到该版原创默认开放入口会丢失；新增限流迁移为增量表。
+未覆盖：浏览器桌面/手机视觉验收、整卷四阶段完整作答、完整音频人工听感、独立盲审、官方词表覆盖及真人心理测量校准。长篇匹配描述性指标偏高，仍须校准，不宣称与2025真题等难。正式发行前仍须核对音频分发条件。

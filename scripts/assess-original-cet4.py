@@ -94,7 +94,7 @@ for kind, label in [('WORD_BANK', '选词填空'), ('MATCHING', '长篇匹配'),
         rows.append(f'| {label}{i+1 if len(samples)>1 else ""} | {len(refs)} | {sample["words"]} / {span("words")} | {sample["ari"]:.1f} / {span("ari")} | {sample["colemanLiau"]:.1f} / {span("colemanLiau")} |')
 body = '''# 原创样卷01：难度评估方法与当前证据
 
-日期：2026-10-09。定位：参考2025年可靠真题的原创四级样卷；2026年待校准。未部署。
+日期：2026-10-09。定位：参考2025年可靠真题的原创四级样卷；2026年待校准。发布状态见本目录README及工作记录，评估结果不代表难度校准完成。
 
 ## 采用的现成标准
 
