@@ -48,6 +48,10 @@ const nextConfig: NextConfig = {
     // 避免把源码/设计稿/构建产物打包进 standalone。
     '/*': [
       './src/**',
+      './.local-cet-import/**',
+      './output/**',
+      './四级/**',
+      './六级/**',
       './android/**',
       './desktop/**',
       './data/**',
@@ -88,6 +92,8 @@ const nextConfig: NextConfig = {
     ],
   },
   experimental: {
+    // The independent exam resource endpoint accepts audio up to 80 MiB.
+    proxyClientMaxBodySize: '80mb',
     // Local comparison for dev memory pressure; cache causality is unconfirmed.
     turbopackFileSystemCacheForDev: false,
     // Avoid spawning a separate Node process for TypeScript checks on Windows,

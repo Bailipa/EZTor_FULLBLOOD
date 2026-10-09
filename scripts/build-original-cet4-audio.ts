@@ -7,12 +7,17 @@ import { synthesizeSpeech } from '../src/lib/tts'
 type Segment = { speaker: string; text: string }
 type Group = { id: string; type: string; title: string; segments: Segment[]; questions: { number: number; prompt: string }[] }
 async function main() {
-const root = resolve('content/cet-original/cet4-original-001')
-const cache = resolve('.local-cet-import/original-cet4-001/audio')
+const paperArg = process.argv.indexOf('--paper-dir')
+const paperDir = paperArg < 0 ? 'cet4-original-001' : process.argv[paperArg + 1]
+if (!/^cet4-original-\d{3}$/.test(paperDir ?? '')) throw new Error('Invalid original paper folder')
+const root = resolve('content/cet-original', paperDir)
+const cache = resolve('.local-cet-import', paperDir.replace('cet4-original-', 'original-cet4-'), 'audio')
 const voices: Record<string, string> = { narrator: 'en-US-AriaNeural', woman: 'en-US-JennyNeural', man: 'en-US-GuyNeural' }
-const bodyWordsPerMinute = 130
+const listening = JSON.parse(await readFile(join(root, 'listening-script.json'), 'utf8'))
+const bodyWordsPerMinute = listening.audioSettings?.bodyWordsPerMinute ?? 130
+if (!Number.isFinite(bodyWordsPerMinute) || bodyWordsPerMinute < 120 || bodyWordsPerMinute > 160) throw new Error('Invalid speech pacing')
 const listeningSeconds = 25 * 60
-const groups: Group[] = JSON.parse(await readFile(join(root, 'listening-script.json'), 'utf8')).groups
+const groups: Group[] = listening.groups
 const chunks: { file: string; duration: number; text?: string; speaker?: string; group?: string; role: string }[] = []
 await mkdir(cache, { recursive: true })
 function duration(file: string): number {
@@ -35,8 +40,19 @@ async function speech(text: string, speaker = 'narrator', group?: string, role =
   const raw = join(cache, `${key}.mp3`), file = join(cache, `${key}-${bodyWordsPerMinute}-${role}.wav`)
   try { await stat(file) } catch {
     try { await stat(raw) } catch {
-      const response = await synthesizeSpeech({ input: text, voice })
-      await writeFile(raw, Buffer.from(await response.arrayBuffer()))
+      let bytes: Buffer | undefined
+      for (let attempt = 1; attempt <= 3; attempt++) {
+        try {
+          const response = await synthesizeSpeech({ input: text, voice })
+          bytes = Buffer.from(await response.arrayBuffer())
+          break
+        } catch (error) {
+          if (attempt === 3) throw error
+          console.log(`Retrying speech segment (${attempt}/3)`)
+        }
+      }
+      if (!bytes?.length) throw new Error('Empty speech segment')
+      await writeFile(raw, bytes)
     }
     const rawSeconds = duration(raw)
     const words = text.match(/\b[\w]+(?:['’-][\w]+)*\b/g)?.length ?? 0
@@ -45,7 +61,7 @@ async function speech(text: string, speaker = 'narrator', group?: string, role =
   }
   chunks.push({ file, duration: duration(file), text, speaker, group, role })
 }
-await speech('This is EZTor original practice paper one for College English Test Band Four. The situations in this paper are fictional. The voices are synthetic. Listening comprehension. Each recording will be played once. Listen carefully and choose the best answer to each question.', 'narrator', undefined, 'directions')
+await speech(`This is EZTor original practice paper ${Number(paperDir.slice(-3))} for College English Test Band Four. The situations in this paper are fictional. The voices are synthetic. Listening comprehension. Each recording will be played once. Listen carefully and choose the best answer to each question.`, 'narrator', undefined, 'directions')
 for (const [i, group] of groups.entries()) {
   if ([0, 3, 5].includes(i)) {
     const section = i === 0 ? 'A' : i === 3 ? 'B' : 'C'

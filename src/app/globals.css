@@ -706,3 +706,8 @@ html[data-brand-theme='indigo'] .indigo-page-header [data-slot='select-trigger']
   content-visibility: auto;
   contain-intrinsic-size: auto 220px;
 }
+
+/* Global home footer rule belongs outside a CSS module (Webpack pure selectors). */
+@media (max-width: 767px) {
+  [data-home-footer] { display: none; }
+}

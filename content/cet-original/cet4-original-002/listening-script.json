@@ -1,0 +1,517 @@
+{
+  "notice": "原创虚构报道、调查与人物；不是现实新闻或研究结论。AI合成配音。",
+  "groups": [
+    {
+      "id": "listening-1",
+      "type": "NEWS",
+      "title": "渡轮票务故障",
+      "segments": [
+        {
+          "speaker": "narrator",
+          "text": "A river ferry’s ticket machine stopped working yesterday just before the morning service. Some travellers thought the sailing would be cancelled because there was no cash desk at the landing point. Instead, the operator allowed everyone to board and recorded the number of passengers by hand. Tickets already purchased on phones remained valid, and other passengers were asked to pay at the terminal on the opposite bank.\nThe fault affected ticket sales rather than the equipment used to operate the boat. A replacement machine arrived before lunchtime, but staff kept a temporary payment desk open because some passengers had been unable to complete their earlier payments. No extra charge was added for paying later. The operator said it would test the connection at the landing point before installing more machines. The company is considering keeping paper tickets available, but has not yet decided whether they will be sold on every boat."
+        }
+      ],
+      "questions": [
+        {
+          "number": 1,
+          "prompt": "Why did some passengers expect the morning ferry to be cancelled?",
+          "correct": "They could not buy tickets at the departure point.",
+          "distractors": [
+            "They had been told their phone tickets were no longer valid.",
+            "They saw a fault in the equipment used to operate the boat.",
+            "They were asked to wait for staff to count the passengers."
+          ],
+          "evidence": "ticket machine stopped working ... no cash desk",
+          "explanation": "停航预期来自出发点售票失效；手机票仍有效，船舶设备未坏，人工计数是替代措施而非预期原因。"
+        },
+        {
+          "number": 2,
+          "prompt": "What did the operator say it would do before adding more ticket machines?",
+          "correct": "Check the connection at the landing point.",
+          "distractors": [
+            "Keep the temporary desk open on every boat.",
+            "Introduce an additional charge for delayed payments.",
+            "Replace phone tickets with tickets sold by hand."
+          ],
+          "evidence": "test the connection ... before installing more machines",
+          "explanation": "后续先检查连接；纸票是否每船供应尚未决定，临时柜台并非设在每船，延迟付款不加价，手机票未取消。"
+        }
+      ]
+    },
+    {
+      "id": "listening-2",
+      "type": "NEWS",
+      "title": "校园深色路面试验",
+      "segments": [
+        {
+          "speaker": "narrator",
+          "text": "A university has completed a trial of two pedestrian-path surfaces. One section used ordinary dark paving, while the other was covered with a lighter material. Students measured temperatures at the same time each afternoon for six weeks. They expected the lighter section to remain cooler, but also wanted to know how it would stand up to everyday use.\nThe lighter surface was generally cooler on sunny days. However, maintenance workers noticed that the difference became smaller as dirt collected on it. After cleaning, the temperature gap widened again. The researchers said this showed why a material should not be judged only immediately after installation. They warned that a cooler pavement does not necessarily produce an equally large reduction in the temperature of the surrounding air.\nThe university will continue observing the path through the rainy season. Wider use has been postponed until the cleaning requirements and performance in wet weather are clearer."
+        }
+      ],
+      "questions": [
+        {
+          "number": 3,
+          "prompt": "What did maintenance workers notice during the trial?",
+          "correct": "Dirt reduced the temperature advantage of the lighter surface.",
+          "distractors": [
+            "Cleaning made both sections reach the same temperature.",
+            "The dark section collected less dirt after each cleaning.",
+            "The lighter material was coolest immediately before rain."
+          ],
+          "evidence": "difference became smaller as dirt collected ... After cleaning ... widened",
+          "explanation": "灰尘使优势缩小，清洁又扩大差异；不是清洁后相同，文中未比较积灰量或称雨前最凉。"
+        },
+        {
+          "number": 4,
+          "prompt": "Why has the university delayed wider use of the material?",
+          "correct": "Its maintenance needs and wet-weather performance require further observation.",
+          "distractors": [
+            "Its effect on surrounding air has proved greater than expected.",
+            "The six-week trial showed that it was unsuitable for everyday use.",
+            "Students measured the two sections at different times of day."
+          ],
+          "evidence": "until the cleaning requirements and performance in wet weather are clearer",
+          "explanation": "等待维护及雨季表现依据；没有证实不适用或空气降温更大，测量明确同时进行。"
+        }
+      ]
+    },
+    {
+      "id": "listening-3",
+      "type": "NEWS",
+      "title": "夜间快递寄存服务",
+      "segments": [
+        {
+          "speaker": "narrator",
+          "text": "A residential district is extending the opening hours of its parcel collection room after a trial. It previously closed at six, forcing some residents returning from work to postpone collection until the weekend. During the trial it stayed open until nine on three evenings a week.\nThe district initially considered leaving the room open without staff. It rejected that idea after residents said they wanted someone available when a package could not be found. Two part-time assistants now cover the extra hours. Residents do not pay a fee for collecting parcels, although local delivery companies contribute towards the additional staffing cost.\nMore people used the evening service than expected, but use was concentrated on Tuesdays and Thursdays. The district will therefore add a late closing time on those two days, while keeping Friday as the third evening. It will not open late every day. The aim is fewer repeat journeys caused by unsuitable collection hours. Its next review will compare repeat journeys under the new schedule."
+        }
+      ],
+      "questions": [
+        {
+          "number": 5,
+          "prompt": "Why did the district reject an unstaffed parcel room?",
+          "correct": "Residents wanted assistance with missing packages.",
+          "distractors": [
+            "Delivery firms refused to contribute to the running cost.",
+            "Residents preferred to collect parcels only at weekends.",
+            "The room had too little space for additional deliveries."
+          ],
+          "evidence": "wanted someone available when a package could not be found",
+          "explanation": "拒绝无人值守是需要现场协助；公司实际分担成本，周末取件是旧限制结果，未说空间不足。"
+        },
+        {
+          "number": 6,
+          "prompt": "Who helps pay for the additional evening staff?",
+          "correct": "Delivery companies serving the district.",
+          "distractors": [
+            "Residents who use the room after six.",
+            "The two assistants working part-time.",
+            "Shops receiving deliveries on Fridays."
+          ],
+          "evidence": "local delivery companies contribute ... staffing cost",
+          "explanation": "快递公司贡献人员成本；居民取件免费，兼职人员为雇员而非付费者，未说商店。"
+        },
+        {
+          "number": 7,
+          "prompt": "What will be the room’s regular late-opening pattern?",
+          "correct": "Three evenings, including Tuesday and Thursday.",
+          "distractors": [
+            "Every weekday except Tuesday and Thursday.",
+            "Only the two evenings with the greatest demand.",
+            "Three evenings chosen separately each week."
+          ],
+          "evidence": "Tuesdays and Thursdays ... keeping Friday as the third evening",
+          "explanation": "三晚含周二周四和周五；非只两晚、非排除需求大日、非每周随机选。"
+        }
+      ]
+    },
+    {
+      "id": "listening-4",
+      "type": "CONVERSATION",
+      "title": "学生剧团服装安排",
+      "segments": [
+        {
+          "speaker": "woman",
+          "text": "Have you seen the costumes for our play? I went to the store this morning, but I didn't bring anything back."
+        },
+        {
+          "speaker": "man",
+          "text": "Were they more expensive than the manager told us? We allowed a little extra in the budget."
+        },
+        {
+          "speaker": "woman",
+          "text": "The prices were fine. The problem was size. The coats looked right on the display, but most of our actors couldn't move comfortably in them."
+        },
+        {
+          "speaker": "man",
+          "text": "Could we order larger ones? The performance is still two weeks away."
+        },
+        {
+          "speaker": "woman",
+          "text": "The manager said delivery would take three weeks. She suggested hiring clothes from the theatre in town instead."
+        },
+        {
+          "speaker": "man",
+          "text": "That could work. My sister helped with a production there last year. She said their collection was good, although you have to collect it yourself."
+        },
+        {
+          "speaker": "woman",
+          "text": "I called them. We can borrow six coats for the weekend, and they don't charge student groups. But we must pay a deposit and return everything on Monday morning."
+        },
+        {
+          "speaker": "man",
+          "text": "Monday? I have a class at nine. Could you return them?"
+        },
+        {
+          "speaker": "woman",
+          "text": "I'll be away then. I was hoping you could take them before your class. The theatre opens at eight, and it's only ten minutes from campus."
+        },
+        {
+          "speaker": "man",
+          "text": "All right. I'll take the earlier bus. What about the hats? We haven't found anything suitable yet."
+        },
+        {
+          "speaker": "woman",
+          "text": "The theatre doesn't have the kind we need. Mei can make some from material left over from the set. She just needs the measurements."
+        },
+        {
+          "speaker": "man",
+          "text": "I'll ask the actors for those this afternoon. Then you can confirm the coats with the theatre."
+        },
+        {
+          "speaker": "woman",
+          "text": "Good. I'll also check whether the deposit can be paid from the society account. We shouldn't ask one person to cover it."
+        }
+      ],
+      "questions": [
+        {
+          "number": 8,
+          "prompt": "Why did the woman leave the store without buying costumes?",
+          "correct": "The actors would find the available coats difficult to move in.",
+          "distractors": [
+            "The coats exceeded the amount allowed in the budget.",
+            "The manager could not supply coats before the performance.",
+            "The coats did not resemble those needed for the play."
+          ],
+          "evidence": "prices ... fine ... problem was size ... move comfortably",
+          "explanation": "现货不买是尺寸妨碍动作；较大号交货慢是后续讨论，非最初去店的直接问题；价格及外观合适。"
+        },
+        {
+          "number": 9,
+          "prompt": "What condition applies to borrowing coats from the theatre?",
+          "correct": "A payment must be held until the coats are returned.",
+          "distractors": [
+            "A student hire charge must be paid for each coat.",
+            "A member of theatre staff must collect the coats afterwards.",
+            "The clothes must be returned before the weekend begins."
+          ],
+          "evidence": "must pay a deposit ... return ... Monday",
+          "explanation": "deposit是可返保证金，不是每件租金；需自己取还；周一归还非周末前。"
+        },
+        {
+          "number": 10,
+          "prompt": "How will the man fit the return trip into his schedule?",
+          "correct": "He will travel earlier before his Monday class.",
+          "distractors": [
+            "He will ask his sister to miss the morning class.",
+            "He will return the clothes after the theatre closes.",
+            "He will leave the coats with the woman on Sunday."
+          ],
+          "evidence": "take them before your class ... opens at eight ... earlier bus",
+          "explanation": "他将早乘公交，九点前归还；姐姐仅提供经验，女子将离开，未计划关门后或周日交给她。"
+        },
+        {
+          "number": 11,
+          "prompt": "What will the man do that afternoon?",
+          "correct": "Obtain the actors’ measurements for making hats.",
+          "distractors": [
+            "Confirm the coat reservation with the theatre.",
+            "Find a way to pay the deposit from the society account.",
+            "Buy material to replace the remaining scenery."
+          ],
+          "evidence": "ask the actors for those this afternoon",
+          "explanation": "those指制作帽子尺寸；确认外套、查保证金由女子做；材料是布景余料，无需买替代物。"
+        }
+      ]
+    },
+    {
+      "id": "listening-5",
+      "type": "CONVERSATION",
+      "title": "合租搬家选择",
+      "segments": [
+        {
+          "speaker": "man",
+          "text": "I think I've found a room for next term. It's in the building beside the supermarket, not the one opposite the station."
+        },
+        {
+          "speaker": "woman",
+          "text": "That's quite close to campus. Is the rent lower than where you live now?"
+        },
+        {
+          "speaker": "man",
+          "text": "A little higher, actually. But I could walk to lectures instead of buying a monthly bus pass. The total should be about the same."
+        },
+        {
+          "speaker": "woman",
+          "text": "Have you visited? The advertisement might not tell you everything."
+        },
+        {
+          "speaker": "man",
+          "text": "I went yesterday evening. The room itself was quiet, though the kitchen was busy. Three other students share it."
+        },
+        {
+          "speaker": "woman",
+          "text": "Would that bother you? You usually cook when you get home."
+        },
+        {
+          "speaker": "man",
+          "text": "Possibly, but they said most of them eat earlier. I stayed until eight and the kitchen was empty by then. I'd rather share a busy kitchen than spend another winter waiting for buses."
+        },
+        {
+          "speaker": "woman",
+          "text": "When could you move in?"
+        },
+        {
+          "speaker": "man",
+          "text": "The first of September. My current contract ends a week before that, so there'd be a gap."
+        },
+        {
+          "speaker": "woman",
+          "text": "You could stay with your cousin. Doesn't she have a spare room?"
+        },
+        {
+          "speaker": "man",
+          "text": "She does, but she's moving herself. I'll ask the accommodation office whether I can use a guest room for those seven days."
+        },
+        {
+          "speaker": "woman",
+          "text": "Good idea. Are you ready to sign the new agreement?"
+        },
+        {
+          "speaker": "man",
+          "text": "Not quite. The owner said heating was included, but the document I received lists it as a separate charge. I need that corrected before I commit."
+        },
+        {
+          "speaker": "woman",
+          "text": "Yes, get it in writing. Otherwise the saving on transport might disappear."
+        },
+        {
+          "speaker": "man",
+          "text": "Exactly. I'll email the owner tonight. If the total turns out to be higher, I'll keep looking."
+        }
+      ],
+      "questions": [
+        {
+          "number": 12,
+          "prompt": "Why does the man expect his overall costs to remain similar?",
+          "correct": "He would exchange transport spending for a higher rent.",
+          "distractors": [
+            "The owner would reduce the rent during winter.",
+            "The other tenants would share his bus-pass expense.",
+            "Heating would cost less than in his current room."
+          ],
+          "evidence": "higher ... walk ... instead ... bus pass ... total ... same",
+          "explanation": "租金增但不需月票；未获冬季减租，同住者不分担交通费，取暖条款尚矛盾。"
+        },
+        {
+          "number": 13,
+          "prompt": "What made the shared kitchen seem acceptable to the man?",
+          "correct": "It would normally be free by the time he wanted to cook.",
+          "distractors": [
+            "The other tenants agreed to eat outside in the evening.",
+            "The room owner planned to add a second kitchen.",
+            "He could change his meals to the tenants’ earlier schedule."
+          ],
+          "evidence": "kitchen ... empty by ... eight ... most ... eat earlier",
+          "explanation": "其他人较早吃，符合他八点使用；不是他们外食、建新厨房或他改为早吃。"
+        },
+        {
+          "number": 14,
+          "prompt": "What does the man plan to do about the gap between contracts?",
+          "correct": "Ask about temporary university accommodation.",
+          "distractors": [
+            "Stay in the room his cousin is leaving.",
+            "Extend the new agreement by seven days.",
+            "Move into the new room before September."
+          ],
+          "evidence": "accommodation office ... guest room ... seven days",
+          "explanation": "求学校客房；表亲搬家无法接待，无提前入新房或延长新合同计划。"
+        },
+        {
+          "number": 15,
+          "prompt": "What is preventing the man from signing the agreement?",
+          "correct": "A written charge conflicts with the owner’s earlier statement.",
+          "distractors": [
+            "His expected transport saving has proved too small.",
+            "The owner has not yet fixed a date for moving in.",
+            "His current contract requires him to stay for another term."
+          ],
+          "evidence": "heating ... included ... document ... separate charge",
+          "explanation": "口头包含取暖与书面另收费冲突；总价尚待确认，日期已知，旧租期非再延一学期。"
+        }
+      ]
+    },
+    {
+      "id": "listening-6",
+      "type": "PASSAGE",
+      "title": "熟悉声音与注意力",
+      "segments": [
+        {
+          "speaker": "narrator",
+          "text": "A student working in a quiet room may be disturbed by a single conversation in the corridor, while another manages to read in a busy café. The difference is not necessarily that one person concentrates better. The pattern and meaning of sound can matter as much as its volume.\nImagine a study in which volunteers complete the same reading task under different conditions. In one room, they hear a steady background sound. In another, short spoken messages occur at irregular intervals. Even if the average sound level is similar, the changing messages may draw attention away from the page. Words are especially difficult to ignore when they seem relevant, such as a person's own name.\nFamiliarity can also change the experience. Someone used to a particular environment may stop noticing its regular sounds, although a new or unexpected noise still attracts attention. This does not mean that background sound improves every task. Activities that require holding several pieces of verbal information in mind may be more vulnerable to speech than routine practical work.\nThe useful lesson is to look beyond a simple choice between silence and noise. A student deciding where to work should consider the task, the predictability of interruptions and the kinds of sound present. Headphones may reduce some distractions, but music with familiar lyrics can introduce competing words. An environment that feels pleasant is not always the one that best supports a demanding reading task."
+        }
+      ],
+      "questions": [
+        {
+          "number": 16,
+          "prompt": "What does the speaker suggest about working in a café?",
+          "correct": "Its sound pattern may be easier to ignore than isolated speech elsewhere.",
+          "distractors": [
+            "Its noise generally improves a reader’s ability to concentrate.",
+            "Its average sound level is usually lower than that of a corridor.",
+            "Its customers are less likely to produce unfamiliar words."
+          ],
+          "evidence": "The pattern and meaning of sound can matter as much as its volume ... steady background sound ... at irregular intervals",
+          "explanation": "说明为何看似更吵仍能阅读，取决模式；没有普遍改善、实际分贝或词汇比较。"
+        },
+        {
+          "number": 17,
+          "prompt": "Which task does the speaker say may be especially affected by speech?",
+          "correct": "Keeping several items of verbal information in mind.",
+          "distractors": [
+            "Carrying out a familiar practical activity.",
+            "Recognising regular sounds in a known environment.",
+            "Choosing a comfortable seat before beginning work."
+          ],
+          "evidence": "holding several pieces of verbal information ... more vulnerable",
+          "explanation": "涉及语言工作记忆较易干扰；routine work为对照，辨声与选座非该段受干扰任务。"
+        },
+        {
+          "number": 18,
+          "prompt": "What caution does the speaker give about headphones?",
+          "correct": "The material played through them can itself compete for attention.",
+          "distractors": [
+            "They make unfamiliar background sounds appear predictable.",
+            "They prevent users from noticing any interruption.",
+            "They are useful only when no music is played."
+          ],
+          "evidence": "music with familiar lyrics ... competing words",
+          "explanation": "耳机可减部分干扰，歌词也竞争语言注意；非全阻断、将陌生变可预测或仅无音乐才有用。"
+        }
+      ]
+    },
+    {
+      "id": "listening-7",
+      "type": "PASSAGE",
+      "title": "运动馆预约与实际使用",
+      "segments": [
+        {
+          "speaker": "narrator",
+          "text": "A university sports centre used to measure demand by counting online bookings. When nearly every badminton court appeared reserved each evening, managers considered extending the building. Yet students often complained that they could not book a court, while staff could see several empty ones.\nThe centre investigated for four weeks. It found that some students made reservations early in the week but changed their plans without cancelling. Others booked two neighbouring periods because they were unsure when their group would arrive. The reservation system recorded all these periods as occupied, although the courts were not always used.\nManagers introduced a reminder sent two hours before each session and made cancellation possible with one click. They also released a court if the group had not checked in ten minutes after the starting time. Students could still book in advance, and there was no charge for cancelling before the session began.\nAfter the change, the number of bookings fell slightly, but the hours actually spent playing increased. More students reported finding a space at short notice. The result did not mean that the centre would never need extra courts. It showed that reservations alone had given an incomplete picture of demand. Before investing in a larger building, managers wanted to distinguish a space that someone intended to use from one that was genuinely occupied."
+        }
+      ],
+      "questions": [
+        {
+          "number": 19,
+          "prompt": "What contradiction prompted the sports centre’s investigation?",
+          "correct": "Bookings suggested full use while some courts stood empty.",
+          "distractors": [
+            "Students wanted more courts although evening bookings were falling.",
+            "Staff saw crowded courts while students reported unused reservations.",
+            "Managers planned longer opening hours although demand was unchanged."
+          ],
+          "evidence": "nearly every ... reserved ... staff ... empty",
+          "explanation": "预约满与实际空并存；未说调查前预约下降，工作人员看到空而非拥挤，考虑扩建非延时。"
+        },
+        {
+          "number": 20,
+          "prompt": "What would happen if a group failed to arrive within ten minutes?",
+          "correct": "Its reserved court would become available to others.",
+          "distractors": [
+            "It would be charged for cancelling at short notice.",
+            "Its next two bookings would be removed from the system.",
+            "It would receive a reminder two hours after the session."
+          ],
+          "evidence": "released ... not checked in ten minutes after ... starting",
+          "explanation": "释放当前球场；提醒为提前两小时，未说罚费或移除未来两次。"
+        },
+        {
+          "number": 21,
+          "prompt": "What did the change reveal about demand?",
+          "correct": "Actual use could rise even when recorded reservations declined.",
+          "distractors": [
+            "New facilities were unnecessary because total demand had fallen.",
+            "Advance booking prevented students from using courts at short notice.",
+            "The original booking figures understated the need for a larger building."
+          ],
+          "evidence": "bookings fell slightly ... hours actually ... increased ... never ... extra courts",
+          "explanation": "记录预约下降而实际运动增加；不永久排除扩建，仍可提前订，旧数字不能直接代表需求并非低估证明。"
+        }
+      ]
+    },
+    {
+      "id": "listening-8",
+      "type": "PASSAGE",
+      "title": "家庭相册中的无名人物",
+      "segments": [
+        {
+          "speaker": "narrator",
+          "text": "When a community archive invited residents to bring in old family photographs, the organisers expected to receive pictures of important public events. Instead, most contributions showed ordinary meals, shop entrances and people standing outside their homes. Many had no date or name written on the back.\nAt first, volunteers tried to identify every person before accepting a photograph. This quickly slowed the project. The organisers changed their approach: an uncertain detail could be recorded as uncertain, provided that the source of the information was clear. A contributor's memory that a picture was taken before a particular shop closed could still be useful, even if the exact year remained unknown.\nThe archive then held small viewing sessions. Residents compared street corners and signs, sometimes correcting dates that had seemed certain. They were asked to explain what supported an identification rather than simply agree with the most confident speaker. When accounts differed, both were kept until further evidence became available.\nNot every photograph could be displayed publicly. Some contributors allowed a copy to be stored but did not want images of relatives placed online. Those choices were recorded separately from the information about the picture. The organisers hoped that the collection would support future research into everyday life. Its value depended not on pretending that every detail was known, but on preserving images together with an honest record of what people could and could not tell them."
+        }
+      ],
+      "questions": [
+        {
+          "number": 22,
+          "prompt": "How did the photographs received differ from the organisers’ expectation?",
+          "correct": "They mainly recorded everyday scenes rather than public occasions.",
+          "distractors": [
+            "They usually carried complete names and dates on the back.",
+            "They focused on shop closures rather than people at home.",
+            "They included fewer family members than public officials."
+          ],
+          "evidence": "expected ... public events ... most ... ordinary meals ... homes",
+          "explanation": "普通生活而非重大事件；多数无日期名，未说主要拍关店或比较官员。"
+        },
+        {
+          "number": 23,
+          "prompt": "What change did the organisers make to the acceptance process?",
+          "correct": "They allowed information gaps when the source was documented.",
+          "distractors": [
+            "They accepted only pictures whose exact year could be established.",
+            "They replaced contributors’ memories with volunteers’ estimates.",
+            "They required agreement on every person before storing a picture."
+          ],
+          "evidence": "uncertain ... recorded as uncertain ... source ... clear",
+          "explanation": "记录不确定及来源；不是强求精确年、用估计替记忆或全人名一致。"
+        },
+        {
+          "number": 24,
+          "prompt": "What were residents asked to do during viewing sessions?",
+          "correct": "Give reasons supporting their identification of an image.",
+          "distractors": [
+            "Follow the person who expressed the greatest confidence.",
+            "Choose one account immediately when memories conflicted.",
+            "Limit corrections to photographs without a recorded date."
+          ],
+          "evidence": "explain what supported ... rather than ... most confident",
+          "explanation": "要依据，矛盾保留待证；不是从众、立即二选一或仅改无日期图。"
+        },
+        {
+          "number": 25,
+          "prompt": "Why did some stored photographs remain unavailable online?",
+          "correct": "Permission to preserve a copy did not necessarily include public display.",
+          "distractors": [
+            "The archive could not identify the relatives shown in them.",
+            "Contributors wanted the originals returned before copies were made.",
+            "Researchers considered private family scenes unsuitable for study."
+          ],
+          "evidence": "allowed ... stored ... did not want ... online ... choices ... separately",
+          "explanation": "存储和公开授权区分；非不识人物、原件返还阻止复制或研究者排斥日常场景。"
+        }
+      ]
+    }
+  ],
+  "audioSettings": {
+    "bodyWordsPerMinute": 135,
+    "reason": "正文目标在四级既有参考范围内；参考MP3的正文精确语速未对齐测得，不宣称两者听感相同。"
+  }
+}

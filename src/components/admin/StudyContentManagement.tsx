@@ -6,6 +6,7 @@ import { parsePassage, type PassageInput } from '@/features/study/domain'
 import { parseExamContent } from '@/features/study/examDomain'
 import { Button } from '@/components/ui/button'
 import styles from './study-content.module.css'
+import ExamResourceUpload from './ExamResourceUpload'
 
 type RecordRow = {
   id: string; slug: string; version: number; title: string; level: string; kind: string
@@ -105,7 +106,7 @@ function ContentManager({ accountId, mode }: { accountId: string; mode: 'passage
     setSaving(true); setError(''); setNotice('')
     try {
       await studyRequest(accountId, `${endpoint}/${encodeURIComponent(record.id)}`, { method: 'PATCH', body: JSON.stringify(mode === 'exams' ? { rightsStatus: status, reviewEvidence: reviewReason } : { status, reason: reviewReason }) })
-      if (current()) { setNotice(status === 'APPROVED' ? '已批准' : '已撤回'); setReason('') }
+      if (current()) { setNotice(status === 'APPROVED' ? mode === 'exams' ? '已发布，用户刷新试卷目录后可见' : '已批准' : '已撤回'); setReason('') }
       await load()
     } catch (e) { if (current()) setError(`${e instanceof Error ? e.message : '审核请求失败'}。无法确认服务端是否已提交，请刷新记录核对后再操作。`) }
     finally { if (writeOperation.current === operation) writing.current = false; if (current()) setSaving(false) }
@@ -124,11 +125,12 @@ function ContentManager({ accountId, mode }: { accountId: string; mode: 'passage
   }
 
   return <main className={styles.page}><div className={styles.inner}>
-    <header className={styles.header}><h1 className={styles.title}>CET 内容包管理</h1><p className={styles.muted}>上传内容包，核对题文、答案、音频与来源后再批准；使用说明如实记录。</p></header>
+    <header className={styles.header}><h1 className={styles.title}>CET 内容包管理</h1><p className={styles.muted}>{mode === 'exams' ? '选择JSON预览 → 上传听力 → 导入待核验 → 审核发布。发布后刷新试卷目录即可使用，无需重新部署。' : '上传内容包，核对题文、答案与来源后再批准；使用说明如实记录。'}</p></header>
     <section className={styles.panel}>
       <h2 className="font-semibold">导入内容包</h2>
-      <input type="file" accept="application/json,.json" onChange={(e) => void selectFile(e.currentTarget.files?.[0])} />
+      <input disabled={saving} aria-label="试题JSON内容包" type="file" accept="application/json,.json" onChange={(e) => void selectFile(e.currentTarget.files?.[0])} />
       <p className={styles.muted}>仅 JSON，文件不超过 {maxBytes.toLocaleString()} 字节。预览不替代服务端完整校验。</p>
+      {mode === 'exams' && <p className={styles.muted}>先预览，确认音频上传完成后再点“导入待核验”。修改已存在试卷请增加JSON中的version，原版本和历史成绩保持不变。</p>}
       {raw && <><div className={styles.row}><strong>{fileName}</strong><span>{String(raw.title)}</span><span>{String(raw.level)} · {kindLabel[String(raw.kind)] || String(raw.kind)}</span></div>
         <div className={styles.muted}>标识 {String(raw.slug)} · 版本 {String(raw.version)} · 来源 {String(raw.sourceName)}{passage ? ` · ${sentences} 句 / ${paragraphs} 段 / ${questions} 题` : ' · CET 听力或完整试卷'}</div>
         <pre className={styles.preview}>{JSON.stringify({ sourceUrl: raw.sourceUrl, rightsHolder: raw.rightsHolder, rightsEvidence: raw.rightsEvidence, structure: { sentenceCount: sentences, paragraphCount: paragraphs, questionCount: questions, translationTask: true, writingTask: true } }, null, 2)}</pre>
@@ -136,6 +138,7 @@ function ContentManager({ accountId, mode }: { accountId: string; mode: 'passage
         <Button disabled={saving} onClick={() => void importContent()}>{saving ? '处理中…' : '导入待核验'}</Button>
       </>}
     </section>
+    {mode === 'exams' && <ExamResourceUpload key={accountId} accountId={accountId} />}
     <section className={styles.panel}>
       <div className={styles.row}><h2 className="font-semibold">最近 50 条</h2><Button variant="outline" disabled={loading} onClick={() => void load()}>{loading ? '加载中…' : '刷新'}</Button></div>
       {loading && records.length === 0 && <p className={styles.muted}>正在加载记录…</p>}
@@ -148,7 +151,7 @@ function ContentManager({ accountId, mode }: { accountId: string; mode: 'passage
         <div className={styles.label}>{new Date(record.createdAt).toLocaleString('zh-CN')}</div>
         <button onClick={() => void inspect(record.id)}>查看题文与答案</button>
         {detail?.id === record.id && <pre className={styles.preview}>{JSON.stringify(detail.content, null, 2)}</pre>}
-        {record.rightsStatus !== 'REJECTED' && <div className={styles.row}><Button disabled={saving || reason.trim().length < 6} onClick={() => void review(record, record.rightsStatus === 'APPROVED' ? 'REJECTED' : 'APPROVED')}>{record.rightsStatus === 'APPROVED' ? '撤回' : '批准'}</Button>{record.rightsStatus === 'PENDING' && <Button variant="outline" disabled={saving || reason.trim().length < 6} onClick={() => void review(record, 'REJECTED')}>拒绝</Button>}</div>}
+        {record.rightsStatus !== 'REJECTED' && <div className={styles.row}><Button disabled={saving || reason.trim().length < 6} onClick={() => void review(record, record.rightsStatus === 'APPROVED' ? 'REJECTED' : 'APPROVED')}>{record.rightsStatus === 'APPROVED' ? '撤回' : mode === 'exams' ? '审核并发布' : '批准'}</Button>{record.rightsStatus === 'PENDING' && <Button variant="outline" disabled={saving || reason.trim().length < 6} onClick={() => void review(record, 'REJECTED')}>拒绝</Button>}</div>}
       </article>)}
     </section>
     <section className={styles.panel}><label htmlFor="review-reason" className="font-semibold">审核说明（批准或撤回前必填，至少 6 字）</label><textarea id="review-reason" className={styles.field} rows={3} maxLength={2000} value={reason} onChange={(e) => setReason(e.target.value)} placeholder="记录核验依据或撤回原因" /></section>

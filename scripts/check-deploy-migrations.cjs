@@ -21,6 +21,8 @@ async function checkDeployMigrations(root = path.resolve(__dirname, '..')) {
     }
     // Also catch accidental schema deletion despite a completed migration record.
     await db.$queryRaw`SELECT key, count, "resetTime" FROM "RateLimitWindow" LIMIT 0`
+    await db.$queryRaw`SELECT filename, sha256 FROM "ExamResource" LIMIT 0`
+    await db.$queryRaw`SELECT "paperId", filename FROM "ExamPaperResource" LIMIT 0`
   } finally {
     await db.$disconnect()
   }

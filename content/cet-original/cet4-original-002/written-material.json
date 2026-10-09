@@ -1,0 +1,314 @@
+{
+  "writingPrompt": "Directions: Suppose your university newspaper is inviting submissions on the value of learning a practical skill outside your major. You are now to write an essay for submission. You should explain your view and give an example. You will have 30 minutes to write the essay. You should write at least 120 words but no more than 180 words.",
+  "writingReference": "University students should be encouraged to learn a practical skill beyond their main subject. Such learning need not distract them from academic work; with a reasonable schedule, it can make that work more meaningful.\nOne benefit is the opportunity to approach problems in a different way. An engineering student who learns basic cooking, for example, must adjust a plan to the ingredients and time available. Following a formula is useful, but noticing what is happening matters too. This experience can encourage flexibility rather than blind dependence on instructions.\nA second benefit is greater independence. Knowing how to prepare a simple meal or mend a piece of clothing allows students to manage ordinary difficulties themselves. These small successes can build confidence that carries into less familiar situations.\nLearning an additional skill is therefore worthwhile, provided that students set realistic goals. The aim is not to become an expert in everything, but to become more capable of handling everyday life.",
+  "writingRubric": [
+    "任务回应：明确讨论专业之外实用技能的价值，有具体例证，不只罗列技能。",
+    "组织：论点、理由与例证相连，结论有依据；不强求固定段数。",
+    "语言：语义清楚、搭配和时态准确，有适度句式变化；不以生僻词数量加分。",
+    "字数120—180词；参考范文为一种写法，不是官方赋分模型。"
+  ],
+  "translationPrompt": "中国的传统戏曲融合了音乐、舞蹈和表演，具有鲜明的地方特色。过去，人们常在节庆期间聚集在露天戏台前看戏，年轻观众也由此了解历史故事。如今，一些剧团在保留传统表演形式的同时，尝试通过短视频吸引更多年轻人。许多学校还邀请演员走进课堂，介绍戏曲知识。通过这些努力，这门古老的艺术正以新的方式融入现代生活。",
+  "translationReference": "Traditional Chinese opera combines music, dance and acting and has distinctive local features. In the past, people often gathered in front of open-air stages during festivals to watch performances, through which young audiences also learned about historical stories. Today, while preserving traditional forms of performance, some opera companies are trying to attract more young people through short videos. Many schools also invite performers into classrooms to introduce students to Chinese opera. Through these efforts, this ancient art is becoming part of modern life in new ways.",
+  "translationRubric": [
+    "主要信息完整：艺术构成、地方特色、过去节庆观演、年轻人了解故事、当代剧团与学校做法、融入现代生活。",
+    "关键关系：过去与如今对照；保留传统的同时尝试新渠道；努力与结果的衔接。",
+    "可接受表达：Chinese opera / traditional Chinese theatre；opera companies / troupes；open-air stages。",
+    "历史故事不等于所有演出均属历史纪实；“地方特色”不强制译成一个固定术语。",
+    "评价准确、完整和通顺，允许拆句或合句；不逐字比较参考译文。"
+  ],
+  "cloze": "A weather forecast is often treated as a promise. Rain on a supposedly dry day may therefore seem like a failure. Yet a forecast represents a judgment about possible outcomes, rather than a __(26)__ that one will happen.\nModern forecasting begins with observations from many sources. These measurements provide only a __(27)__ picture of the atmosphere: instruments cannot record conditions at every point. Small differences in the starting information may become more __(28)__ as predictions reach into the future.\nTo deal with this problem, forecasters run a model repeatedly, making __(29)__ changes to its starting conditions. If the results remain similar, confidence in a particular outcome may increase. If they differ widely, the disagreement itself is __(30)__ information. A single prediction could hide important uncertainty.\nThis does not mean that all forecasts deserve equal trust. A warning issued before a storm can be based on evidence that was not __(31)__ several days earlier. Nor does uncertainty make preparation pointless. People may reasonably __(32)__ an outdoor event when the possible consequences of severe weather are serious, even if its arrival is not certain.\nThe challenge is therefore to __(33)__ uncertainty without making the message so complicated that it becomes useless. A percentage needs explanation, and a warning should make clear which area and time it concerns. Better understanding allows users to make decisions that __(34)__ both the likelihood of an event and the cost of being unprepared. The forecast then becomes a tool for judgment, rather than a test of whether somebody can __(35)__ the future perfectly.",
+  "bank": [
+    "account",
+    "available",
+    "communicate",
+    "complete",
+    "guarantee",
+    "partial",
+    "postpone",
+    "predict",
+    "replace",
+    "significant",
+    "slight",
+    "steadily",
+    "temporary",
+    "valuable",
+    "weigh"
+  ],
+  "clozeAnswers": [
+    [
+      "guarantee",
+      "26需名词，a guarantee that为保证某事发生；account若作记述不能自然支配此处that内容，且不符合“可能结果而非承诺”的对照。"
+    ],
+    [
+      "partial",
+      "only与后面的cannot record every point说明信息不完整；complete与依据相反，temporary不表示空间覆盖不足。"
+    ],
+    [
+      "significant",
+      "差异随预测时距增加而变得重要；more significant强调影响，temporary表示暂时，与时距增加导致影响放大的含义不符。"
+    ],
+    [
+      "slight",
+      "多次运行时略调初始条件，说明小差异如何影响预测；complete用于changes不自然，且会改变问题。"
+    ],
+    [
+      "valuable",
+      "结果分歧本身有用，提示不确定性；available仅说明能获取，不能解释分歧为何值得报告。"
+    ],
+    [
+      "available",
+      "此前尚未取得的证据；valuable强调价值变化而非时间上的可获得性。"
+    ],
+    [
+      "postpone",
+      "恶劣天气潜在后果大时推迟户外活动；replace缺少替换对象关系，predict不能以event作此处处置动作。"
+    ],
+    [
+      "communicate",
+      "向用户传达不确定性，与message及后面解释百分比相连；replace不能表达信息沟通。"
+    ],
+    [
+      "weigh",
+      "weigh A and B表示综合权衡发生可能与准备不足代价；account需for，单独account不能在此作及物动词。"
+    ],
+    [
+      "predict",
+      "预测未来，与forecasts主题及perfectly相连；postpone the future不成立。"
+    ]
+  ],
+  "matchingTitle": "A different view from the old railway line",
+  "matchingParagraphs": [
+    [
+      "A",
+      "I expected the village railway walk to begin with a story about steam engines. Instead, our guide, Mrs Lin, asked us to look at a row of shallow marks in a stone wall. They had been left by ropes used to pull loaded carts towards the former station, yet we had walked past them on our way from the bus without noticing anything unusual. Her question changed the scale of the visit: the route would not simply take us between impressive buildings, but invite us to read ordinary surfaces."
+    ],
+    [
+      "B",
+      "The railway had once carried tea and timber from the surrounding hills. After freight services ended, parts of the track were removed and the station became a storehouse; a proposal to turn the whole line into a cycle route was discussed, but several narrow sections would have required major rebuilding. The walking route that eventually opened retained the older bridges and included short diversions where the original line was unsafe. Its slightly uneven path was part of the experience, though suitable shoes were essential. A few surviving rails were displayed at stopping points rather than used as the walking surface."
+    ],
+    [
+      "C",
+      "Although the printed map showed a single continuous route, on the ground it was divided into three loops connected by the village square. Mrs Lin explained that visitors often arrived with very different amounts of time. A family waiting for an afternoon bus could complete the shortest loop, while walkers with a full day could continue into the hills. None of the shorter choices required an awkward return along exactly the same path."
+    ],
+    [
+      "D",
+      "Our first stop was the old weighing room. The large scale was still there, but the most revealing object was a notebook beside it, copies of whose pages showed how the amount recorded for the same cart could change after damaged packaging was removed. An elderly former clerk had helped explain the figures. Without his account, the columns would have looked like a dull list of numbers rather than evidence of decisions made during a busy working day."
+    ],
+    [
+      "E",
+      "Farther along, a low building contained recordings of former railway workers. Although I initially wished there were more dramatic photographs, a voice soon described the difficulty of hearing a colleague through the noise of unloading. Another speaker remembered the silence after the last train had gone. Neither recording offered a complete history. Together they gave the buildings a human scale that the dates on the information boards could not provide. Visitors could listen through handsets, so several accounts could be heard in the same room without competing with one another."
+    ],
+    [
+      "F",
+      "The route crossed a stream beside a recently repaired footbridge. Its new wooden surface looked older than it was because the builders had avoided a bright protective finish. Because this had led some visitors to suppose that the bridge was original, a small notice now explained which parts had been replaced and why. Keeping the appearance of an old structure, Mrs Lin said, should not mean concealing the work that made it safe to cross."
+    ],
+    [
+      "G",
+      "At the next junction our group spread out. Several people climbed a short flight of steps for a view of the valley, while others remained on a level path. Although I had worried that choosing the easier way would mean missing an important part of the story, both paths reached the same picnic area, where the main information panels were placed. The climb offered a different view rather than access to essential material denied to everyone else."
+    ],
+    [
+      "H",
+      "Lunch was served in the former station kitchen. The menu used vegetables from farms nearby, although the owner was careful about the word local. Since rice, for instance, came from another county and some ingredients were unavailable in winter, she preferred to say where things came from rather than promise that every item had travelled only a few kilometres. The meal was simple, but this explanation made the account of village food more convincing."
+    ],
+    [
+      "I",
+      "In the afternoon we passed a workshop where an artist used discarded railway metal. I admired a small bird made from a bent fastening, but the artist pointed to a shelf of objects she would not cut up. Some pieces carried numbers that could help identify where they had been used; before accepting material from the site, she asked the local archive whether it should be kept. Giving old objects a new life did not require treating all of them as equally disposable."
+    ],
+    [
+      "J",
+      "Near the tunnel, mobile reception disappeared. The visitor website contained an audio description, but I could not open it. Fortunately, the route booklet included the same essential information and a simple diagram stood at the entrance; Mrs Lin said that the booklet had survived several attempts to replace it entirely with phone-based material. A technology that worked well in the village square did not necessarily work equally well along the whole line."
+    ],
+    [
+      "K",
+      "We reached the upper station later than planned because a shower had slowed us down. I assumed that the small exhibition there would already be closed. In fact, its opening hours followed the last returning shuttle rather than the working hours of the village office, an arrangement agreed with the drivers and explained in a notice listing the final departure time. It allowed walkers to look around without having to choose between the exhibition and their journey home. On days without a shuttle, the exhibition used a shorter schedule, clearly printed on the route map."
+    ],
+    [
+      "L",
+      "Back in the square, I bought a postcard showing the station before the railway closed. The roofs looked familiar, yet the space between them was full of people and goods rather than visitors carrying cameras. The walk had not restored that vanished activity, nor had it turned the village into a fixed picture of the past. It had given me a way to connect details I could see with lives I could only partly imagine. I left noticing marks on walls that would previously have escaped my attention."
+    ]
+  ],
+  "matching": [
+    [
+      "Visitors with limited time could follow a complete circuit rather than retrace their steps.",
+      "C",
+      "three loops ... shortest loop ... None ... return along exactly the same path"
+    ],
+    [
+      "A repair was explained so that an old appearance would not be mistaken for wholly original construction.",
+      "F",
+      "visitors ... suppose ... original; notice ... parts ... replaced"
+    ],
+    [
+      "An account from a former employee helped visitors understand the practical meaning of written records.",
+      "D",
+      "former clerk ... explain ... figures ... decisions"
+    ],
+    [
+      "Some discarded items were preserved because their markings could provide historical information.",
+      "I",
+      "numbers ... identify ... archive ... kept"
+    ],
+    [
+      "The daily closing arrangement took account of visitors’ available transport.",
+      "K",
+      "opening hours followed the last returning shuttle"
+    ],
+    [
+      "A printed alternative remained useful where a digital resource could not be accessed.",
+      "J",
+      "mobile reception disappeared ... booklet included ... information"
+    ],
+    [
+      "The guide drew attention to traces of work that the author had initially overlooked.",
+      "A",
+      "marks ... ropes ... carts ... without noticing"
+    ],
+    [
+      "The provider acknowledged that not every ingredient came from the immediate area.",
+      "H",
+      "Rice ... another county ... rather than promise every item"
+    ],
+    [
+      "Two paths offered different levels of physical effort without separating visitors from the main explanations.",
+      "G",
+      "steps ... level path ... panels ... routes met"
+    ],
+    [
+      "Personal memories supplied a dimension that historical dates alone could not convey.",
+      "E",
+      "voice ... noise ... silence ... human scale ... dates ... could not provide"
+    ]
+  ],
+  "detailPassages": [
+    "Retailers can advertise free delivery without making delivery cost nothing. Packing, transport and the final journey to a customer's door still require resources. What changes is the way in which those costs are covered. They may be included in product prices, covered by a subscription (订阅) or absorbed by a seller expecting future business.\nConsider an imaginary experiment involving two otherwise identical online shops. One advertises a lamp at 80 yuan and adds a delivery charge of 10 yuan. The other offers the same lamp for 90 yuan with delivery included. Buying one lamp costs the same at either shop. Nevertheless, the inclusive offer may feel more attractive because the additional charge interrupts a decision the customer has already begun to regard as complete.\nThis preference does not mean that customers cannot add. A separate fee can be seen as an obstacle imposed by the seller, whereas an inclusive price simplifies the purchase. However, that convenience becomes questionable when customers must reach a minimum order value. Adding an unnecessary product to qualify for free delivery can produce spending greater than the charge being avoided.\nA delivery subscription may nevertheless provide genuine savings. For people making frequent small orders, the arrangement can be economical, provided that product prices are competitive and membership does not encourage additional purchases. An occasional customer faces a different calculation: an annual payment for a service used twice cannot be assessed in the same way as one used every week. Comparing delivery charges alone neglects these differences.\nThe relevant question is therefore not whether an advertisement contains the word free, but what the consumer would spend on purchases already intended. This requires a comparison of total spending and a realistic account of personal shopping habits. Separately charged delivery is not necessarily the worse arrangement, just as an inclusive price is not automatically deceptive. The presentation of a price deserves attention, but it should not substitute for examining what is actually being purchased.",
+    "Trees planted along a city street are often judged by what can be seen above ground. A healthy-looking trunk and a broad crown suggest that the planting has succeeded. Yet the space available beneath the pavement can be just as important to a tree's future as the branches that shade the road.\nIn a fictional neighbourhood renewal project, planners proposed replacing several small trees with larger ones. Residents welcomed the promise of immediate shade. However, an inspection showed that the original planting holes were surrounded by tightly packed material and underground pipes. A larger tree placed in the same restricted space might look impressive at first without remaining healthy for long.\nThe project team changed its plan. Instead of increasing the size of every new tree, it joined some planting areas beneath the pavement, allowing roots access to a wider volume of soil. This required coordination with people responsible for water pipes and other services. The work was less visible than lifting a mature tree into place, and it could not be completed everywhere along the street. Where essential services left insufficient room, the designers kept a smaller planting area and selected trees suited to it. This made a uniform appearance less important than choosing a workable arrangement for each location.\nNor did the team assume that more growing space would solve every problem. Different tree species respond differently to heat and water, and newly planted trees still need care while they become established. Residents were asked to report damaged supports or dry planting areas. These observations supplemented professional inspections rather than replacing them.\nThe revised project illustrates a difficulty in judging public improvements. A photograph taken on opening day favours changes that are immediately visible. The conditions that allow those changes to last may remain hidden. This does not make appearance unimportant: shade and an attractive street are real benefits. It does mean that the success of planting should be assessed over time, including whether the trees remain healthy, rather than solely by their size when the work is announced."
+  ],
+  "detailQuestions": [
+    [
+      [
+        "What does the opening paragraph emphasise about free delivery?",
+        "Its cost is covered through some part of the business arrangement.",
+        [
+          "Its expense is generally lower than customers expect.",
+          "Its cost is usually shared equally by seller and buyer.",
+          "Its expense is recovered mainly through future price increases."
+        ],
+        "included in product prices, covered by a subscription ... absorbed by a seller",
+        "首段列出多种成本承担方式，没有限定平均分摊、未来涨价或成本大小。"
+      ],
+      [
+        "Why may the second shop’s offer feel more attractive in the example?",
+        "It avoids a separate charge interrupting the sense of completing a purchase.",
+        [
+          "It lets customers imagine a better-quality product for the price.",
+          "It gives customers a lower total when they buy a single item.",
+          "It presents the delivery saving before the goods are selected."
+        ],
+        "additional charge interrupts a decision ... regard as complete",
+        "比较中总价与商品相同；差别是另列费用带来的心理阻碍，不是先知道优惠或质量不同。"
+      ],
+      [
+        "What risk is associated with a minimum order for free delivery?",
+        "Customers may buy something they do not need to avoid a smaller charge.",
+        [
+          "Customers may receive fewer goods than the stated minimum.",
+          "Sellers may charge for delivery even when the condition is met.",
+          "Sellers may raise membership fees as the order becomes larger."
+        ],
+        "Adding an unnecessary product ... spending greater than the charge",
+        "风险在额外购买，未说商家违约、少送商品或会员费随订单上涨。"
+      ],
+      [
+        "When can a delivery membership benefit a frequent shopper?",
+        "When its savings are not offset by higher prices or extra purchases.",
+        [
+          "When each order reaches the minimum required for free delivery.",
+          "When the shopper buys from several different online retailers.",
+          "When the membership is used to increase the number of small orders."
+        ],
+        "provided ... prices are competitive ... does not encourage additional purchases",
+        "需合并两个限定条件；多下单不是获益的充分条件，文中未要求多店或最低订单。"
+      ],
+      [
+        "What does the author recommend when comparing delivery offers?",
+        "Calculate overall spending in relation to intended shopping habits.",
+        [
+          "Prefer a separate charge when the goods are bought infrequently.",
+          "Choose an inclusive price to avoid uncertain future expenses.",
+          "Compare membership fees before considering the prices of goods."
+        ],
+        "total spending ... personal shopping habits",
+        "建议整体比较；结尾否认独立费用必差或一体价必骗，没有推荐某一种方案。"
+      ]
+    ],
+    [
+      [
+        "What limitation of judging street trees does the author identify?",
+        "Visible growth can conceal inadequate conditions below the surface.",
+        [
+          "The size of the crown gives little indication of the shade provided.",
+          "The appearance of mature trees matters less to residents than planners.",
+          "Above-ground changes cannot be compared at different times."
+        ],
+        "above ground ... space ... beneath ... just as important",
+        "上部外观不能代替地下条件检查；并未否认树冠遮阴或跨时间比较。"
+      ],
+      [
+        "Why did the team reconsider replacing small trees with larger ones?",
+        "The existing underground space might not support their lasting health.",
+        [
+          "The trees already present were providing sufficient shade.",
+          "Residents preferred improvements that could be completed gradually.",
+          "The underground pipes had been damaged by the existing trees."
+        ],
+        "restricted space ... impressive at first ... without remaining healthy",
+        "检查发现限制，不是已证实管道损坏、居民偏好改变或阴凉已足够。"
+      ],
+      [
+        "What did joining some planting areas involve?",
+        "Working with those responsible for other underground facilities.",
+        [
+          "Removing services from the whole length of the street.",
+          "Giving all newly planted trees the same quantity of soil.",
+          "Replacing larger trees with smaller ones throughout the neighbourhood."
+        ],
+        "coordination ... water pipes and other services",
+        "扩大部分地下连通空间需协调设施管理；“全路段”“所有同量”“整个社区换小树”超范围。"
+      ],
+      [
+        "What role were residents expected to play after planting?",
+        "Provide observations that would add to specialist monitoring.",
+        [
+          "Decide which species would best tolerate local heat.",
+          "Carry out routine inspections instead of professionals.",
+          "Take responsibility for identifying every underground problem."
+        ],
+        "observations supplemented professional inspections",
+        "supplemented而非replaced；居民报告支架或干燥状况，不承担专业选择或所有地下诊断。"
+      ],
+      [
+        "What is the main point of the final paragraph?",
+        "Durability requires a broader assessment than immediate visual impact.",
+        [
+          "Public projects should prioritise hidden work over visible benefits.",
+          "Opening-day photographs prevent residents from judging improvements.",
+          "The size of newly planted trees is an unreliable measure of their age."
+        ],
+        "conditions ... last ... assessed over time ... rather than solely ... size",
+        "肯定可见效益但要求看长期健康；非贬低外观、否认照片价值或讨论树龄。"
+      ]
+    ]
+  ],
+  "matchingExplanations": [
+    "C段的three loops与无需原路返回共同对应完整环线。G段讨论难易路径而非限时线路，K段讨论返程交通，其余段不含路线时长安排。",
+    "F段说新修桥面看起来较旧，公告说明替换部件，完整对应修复与原建区别。B段泛述保留旧桥，并没有说明误认原件及公告，其余段不含这组信息。",
+    "D段的旧记录、前雇员解释和数字背后工作决策共同定位。E段虽是工作者回忆，但未解释书面账簿；其余段没有此记录解读。",
+    "I段编号可帮助识别用途，先询问档案部门再决定保留。F段保留桥外观不是保存有标记的弃件，其他段没有物件历史价值的筛选。",
+    "K段开馆随末班接驳安排，对应可用交通影响关门时间。C段只按游客空闲时长设环线，没有展馆关门联动；其余段不含该安排。",
+    "J段无手机信号，纸本提供同样必要信息。C段地图用于线路选择，不涉及无法访问数字内容；其他段不含数字与纸本替代关系。",
+    "A段第一眼漏看墙痕，导游解释运货绳索留下的痕迹。L段是游后认识的总结，没有导游现场指出此痕迹；其余段未完整包含起初忽略与引导。",
+    "H段明确米来自另一县，反对保证全部近距离采购。D段货运称重不是餐食来源，其他段不讨论原料与就地承诺。",
+    "G段阶梯和水平路到同一休息区，主说明牌置于汇合点。C段不同环线服务时间差异，没有确保同等主要信息；其他段不含体力和信息公平。",
+    "E段两段声音回忆为建筑补上日期不能传达的人情体验。D段是账簿解释，L段是照片触发整体感想，都不是两段回忆录音与年份对照；其他段未含该比较。"
+  ]
+}

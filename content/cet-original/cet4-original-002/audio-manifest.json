@@ -1,0 +1,1056 @@
+{
+  "url": "/study/resources/91206ea88917684803bc17e1.mp3",
+  "sha256": "91206ea88917684803bc17e1a50d0413a5d084c5a092f8b9c4e628cb87959683",
+  "bytes": 18000908,
+  "durationSeconds": 1500,
+  "encodedDurationSeconds": 1500.048,
+  "voices": {
+    "narrator": "en-US-AriaNeural",
+    "woman": "en-US-JennyNeural",
+    "man": "en-US-GuyNeural"
+  },
+  "nominalBodyWordsPerMinute": 135,
+  "answerPauseSeconds": 15,
+  "notice": "AI合成配音；预留答题停顿。字速为制作目标，不代表与真题听感等同。",
+  "timeline": [
+    {
+      "start": 0,
+      "end": 20.283,
+      "duration": 20.282667,
+      "text": "This is EZTor original practice paper 2 for College English Test Band Four. The situations in this paper are fictional. The voices are synthetic. Listening comprehension. Each recording will be played once. Listen carefully and choose the best answer to each question.",
+      "speaker": "narrator",
+      "role": "directions"
+    },
+    {
+      "start": 20.283,
+      "end": 36.293,
+      "duration": 16.010667,
+      "text": "Section A. In this section, you will hear three news reports. After each recording, you will hear some questions. Choose the best answer from the four choices in your paper. You now have time to look at the choices.",
+      "speaker": "narrator",
+      "group": "listening-1",
+      "role": "directions"
+    },
+    {
+      "start": 36.293,
+      "end": 56.293,
+      "duration": 20,
+      "group": "listening-1",
+      "role": "preview"
+    },
+    {
+      "start": 56.293,
+      "end": 60.784,
+      "duration": 4.490667,
+      "text": "Questions 1 to 2 are based on the news report you are going to hear.",
+      "speaker": "narrator",
+      "group": "listening-1",
+      "role": "directions"
+    },
+    {
+      "start": 60.784,
+      "end": 90.535,
+      "duration": 29.750792,
+      "text": "A river ferry’s ticket machine stopped working yesterday just before the morning service. Some travellers thought the sailing would be cancelled because there was no cash desk at the landing point. Instead, the operator allowed everyone to board and recorded the number of passengers by hand. Tickets already purchased on phones remained valid, and other passengers were asked to pay at the terminal on the opposite bank.",
+      "speaker": "narrator",
+      "group": "listening-1",
+      "role": "body"
+    },
+    {
+      "start": 90.535,
+      "end": 118.51,
+      "duration": 27.97475,
+      "text": "The fault affected ticket sales rather than the equipment used to operate the boat. A replacement machine arrived before lunchtime, but staff kept a temporary payment desk open because some passengers had been unable to complete their earlier payments. No extra charge was added for paying later. The operator said it would test the connection at the landing point before installing more machines.",
+      "speaker": "narrator",
+      "group": "listening-1",
+      "role": "body"
+    },
+    {
+      "start": 118.51,
+      "end": 127.815,
+      "duration": 9.305833,
+      "text": "The company is considering keeping paper tickets available, but has not yet decided whether they will be sold on every boat.",
+      "speaker": "narrator",
+      "group": "listening-1",
+      "role": "body"
+    },
+    {
+      "start": 127.815,
+      "end": 129.815,
+      "duration": 2,
+      "group": "listening-1",
+      "role": "transition"
+    },
+    {
+      "start": 129.815,
+      "end": 135.818,
+      "duration": 6.002667,
+      "text": "Question 1. Why did some passengers expect the morning ferry to be cancelled?",
+      "speaker": "narrator",
+      "group": "listening-1",
+      "role": "question"
+    },
+    {
+      "start": 135.818,
+      "end": 150.818,
+      "duration": 15,
+      "group": "listening-1",
+      "role": "answer-time"
+    },
+    {
+      "start": 150.818,
+      "end": 157.347,
+      "duration": 6.528542,
+      "text": "Question 2. What did the operator say it would do before adding more ticket machines?",
+      "speaker": "narrator",
+      "group": "listening-1",
+      "role": "question"
+    },
+    {
+      "start": 157.347,
+      "end": 172.347,
+      "duration": 15,
+      "group": "listening-1",
+      "role": "answer-time"
+    },
+    {
+      "start": 172.347,
+      "end": 176.909,
+      "duration": 4.562667,
+      "text": "Questions 3 to 4 are based on the news report you are going to hear.",
+      "speaker": "narrator",
+      "group": "listening-2",
+      "role": "directions"
+    },
+    {
+      "start": 176.909,
+      "end": 206.662,
+      "duration": 29.752917,
+      "text": "A university has completed a trial of two pedestrian-path surfaces. One section used ordinary dark paving, while the other was covered with a lighter material. Students measured temperatures at the same time each afternoon for six weeks. They expected the lighter section to remain cooler, but also wanted to know how it would stand up to everyday use. The lighter surface was generally cooler on sunny days.",
+      "speaker": "narrator",
+      "group": "listening-2",
+      "role": "body"
+    },
+    {
+      "start": 206.662,
+      "end": 232.416,
+      "duration": 25.754292,
+      "text": "However, maintenance workers noticed that the difference became smaller as dirt collected on it. After cleaning, the temperature gap widened again. The researchers said this showed why a material should not be judged only immediately after installation. They warned that a cooler pavement does not necessarily produce an equally large reduction in the temperature of the surrounding air.",
+      "speaker": "narrator",
+      "group": "listening-2",
+      "role": "body"
+    },
+    {
+      "start": 232.416,
+      "end": 244.392,
+      "duration": 11.975542,
+      "text": "The university will continue observing the path through the rainy season. Wider use has been postponed until the cleaning requirements and performance in wet weather are clearer.",
+      "speaker": "narrator",
+      "group": "listening-2",
+      "role": "body"
+    },
+    {
+      "start": 244.392,
+      "end": 246.392,
+      "duration": 2,
+      "group": "listening-2",
+      "role": "transition"
+    },
+    {
+      "start": 246.392,
+      "end": 251.747,
+      "duration": 5.354667,
+      "text": "Question 3. What did maintenance workers notice during the trial?",
+      "speaker": "narrator",
+      "group": "listening-2",
+      "role": "question"
+    },
+    {
+      "start": 251.747,
+      "end": 266.747,
+      "duration": 15,
+      "group": "listening-2",
+      "role": "answer-time"
+    },
+    {
+      "start": 266.747,
+      "end": 272.749,
+      "duration": 6.002667,
+      "text": "Question 4. Why has the university delayed wider use of the material?",
+      "speaker": "narrator",
+      "group": "listening-2",
+      "role": "question"
+    },
+    {
+      "start": 272.749,
+      "end": 287.749,
+      "duration": 15,
+      "group": "listening-2",
+      "role": "answer-time"
+    },
+    {
+      "start": 287.749,
+      "end": 292.384,
+      "duration": 4.634667,
+      "text": "Questions 5 to 7 are based on the news report you are going to hear.",
+      "speaker": "narrator",
+      "group": "listening-3",
+      "role": "directions"
+    },
+    {
+      "start": 292.384,
+      "end": 317.248,
+      "duration": 24.864292,
+      "text": "A residential district is extending the opening hours of its parcel collection room after a trial. It previously closed at six, forcing some residents returning from work to postpone collection until the weekend. During the trial it stayed open until nine on three evenings a week. The district initially considered leaving the room open without staff.",
+      "speaker": "narrator",
+      "group": "listening-3",
+      "role": "body"
+    },
+    {
+      "start": 317.248,
+      "end": 344.335,
+      "duration": 27.087167,
+      "text": "It rejected that idea after residents said they wanted someone available when a package could not be found. Two part-time assistants now cover the extra hours. Residents do not pay a fee for collecting parcels, although local delivery companies contribute towards the additional staffing cost. More people used the evening service than expected, but use was concentrated on Tuesdays and Thursdays.",
+      "speaker": "narrator",
+      "group": "listening-3",
+      "role": "body"
+    },
+    {
+      "start": 344.335,
+      "end": 366.087,
+      "duration": 21.751125,
+      "text": "The district will therefore add a late closing time on those two days, while keeping Friday as the third evening. It will not open late every day. The aim is fewer repeat journeys caused by unsuitable collection hours. Its next review will compare repeat journeys under the new schedule.",
+      "speaker": "narrator",
+      "group": "listening-3",
+      "role": "body"
+    },
+    {
+      "start": 366.087,
+      "end": 368.087,
+      "duration": 2,
+      "group": "listening-3",
+      "role": "transition"
+    },
+    {
+      "start": 368.087,
+      "end": 373.777,
+      "duration": 5.690667,
+      "text": "Question 5. Why did the district reject an unstaffed parcel room?",
+      "speaker": "narrator",
+      "group": "listening-3",
+      "role": "question"
+    },
+    {
+      "start": 373.777,
+      "end": 388.777,
+      "duration": 15,
+      "group": "listening-3",
+      "role": "answer-time"
+    },
+    {
+      "start": 388.777,
+      "end": 394.108,
+      "duration": 5.330667,
+      "text": "Question 6. Who helps pay for the additional evening staff?",
+      "speaker": "narrator",
+      "group": "listening-3",
+      "role": "question"
+    },
+    {
+      "start": 394.108,
+      "end": 409.108,
+      "duration": 15,
+      "group": "listening-3",
+      "role": "answer-time"
+    },
+    {
+      "start": 409.108,
+      "end": 414.583,
+      "duration": 5.474667,
+      "text": "Question 7. What will be the room’s regular late-opening pattern?",
+      "speaker": "narrator",
+      "group": "listening-3",
+      "role": "question"
+    },
+    {
+      "start": 414.583,
+      "end": 429.583,
+      "duration": 15,
+      "group": "listening-3",
+      "role": "answer-time"
+    },
+    {
+      "start": 429.583,
+      "end": 445.929,
+      "duration": 16.346667,
+      "text": "Section B. In this section, you will hear two long conversations. After each recording, you will hear some questions. Choose the best answer from the four choices in your paper. You now have time to look at the choices.",
+      "speaker": "narrator",
+      "group": "listening-4",
+      "role": "directions"
+    },
+    {
+      "start": 445.929,
+      "end": 465.929,
+      "duration": 20,
+      "group": "listening-4",
+      "role": "preview"
+    },
+    {
+      "start": 465.929,
+      "end": 470.732,
+      "duration": 4.802667,
+      "text": "Questions 8 to 11 are based on the conversation you are going to hear.",
+      "speaker": "narrator",
+      "group": "listening-4",
+      "role": "directions"
+    },
+    {
+      "start": 470.732,
+      "end": 480.03,
+      "duration": 9.298167,
+      "text": "Have you seen the costumes for our play? I went to the store this morning, but I didn't bring anything back.",
+      "speaker": "woman",
+      "group": "listening-4",
+      "role": "body"
+    },
+    {
+      "start": 480.03,
+      "end": 487.557,
+      "duration": 7.526917,
+      "text": "Were they more expensive than the manager told us? We allowed a little extra in the budget.",
+      "speaker": "man",
+      "group": "listening-4",
+      "role": "body"
+    },
+    {
+      "start": 487.557,
+      "end": 498.642,
+      "duration": 11.08525,
+      "text": "The prices were fine. The problem was size. The coats looked right on the display, but most of our actors couldn't move comfortably in them.",
+      "speaker": "woman",
+      "group": "listening-4",
+      "role": "body"
+    },
+    {
+      "start": 498.642,
+      "end": 503.956,
+      "duration": 5.313417,
+      "text": "Could we order larger ones? The performance is still two weeks away.",
+      "speaker": "man",
+      "group": "listening-4",
+      "role": "body"
+    },
+    {
+      "start": 503.956,
+      "end": 511.932,
+      "duration": 7.976458,
+      "text": "The manager said delivery would take three weeks. She suggested hiring clothes from the theatre in town instead.",
+      "speaker": "woman",
+      "group": "listening-4",
+      "role": "body"
+    },
+    {
+      "start": 511.932,
+      "end": 523.017,
+      "duration": 11.084958,
+      "text": "That could work. My sister helped with a production there last year. She said their collection was good, although you have to collect it yourself.",
+      "speaker": "man",
+      "group": "listening-4",
+      "role": "body"
+    },
+    {
+      "start": 523.017,
+      "end": 535.877,
+      "duration": 12.85975,
+      "text": "I called them. We can borrow six coats for the weekend, and they don't charge student groups. But we must pay a deposit and return everything on Monday morning.",
+      "speaker": "woman",
+      "group": "listening-4",
+      "role": "body"
+    },
+    {
+      "start": 535.877,
+      "end": 540.749,
+      "duration": 4.87175,
+      "text": "Monday? I have a class at nine. Could you return them?",
+      "speaker": "man",
+      "group": "listening-4",
+      "role": "body"
+    },
+    {
+      "start": 540.749,
+      "end": 552.277,
+      "duration": 11.528458,
+      "text": "I'll be away then. I was hoping you could take them before your class. The theatre opens at eight, and it's only ten minutes from campus.",
+      "speaker": "woman",
+      "group": "listening-4",
+      "role": "body"
+    },
+    {
+      "start": 552.277,
+      "end": 559.816,
+      "duration": 7.538833,
+      "text": "All right. I'll take the earlier bus. What about the hats? We haven't found anything suitable yet.",
+      "speaker": "man",
+      "group": "listening-4",
+      "role": "body"
+    },
+    {
+      "start": 559.816,
+      "end": 570.455,
+      "duration": 10.639542,
+      "text": "The theatre doesn't have the kind we need. Mei can make some from material left over from the set. She just needs the measurements.",
+      "speaker": "woman",
+      "group": "listening-4",
+      "role": "body"
+    },
+    {
+      "start": 570.455,
+      "end": 577.976,
+      "duration": 7.520375,
+      "text": "I'll ask the actors for those this afternoon. Then you can confirm the coats with the theatre.",
+      "speaker": "man",
+      "group": "listening-4",
+      "role": "body"
+    },
+    {
+      "start": 577.976,
+      "end": 587.729,
+      "duration": 9.753583,
+      "text": "Good. I'll also check whether the deposit can be paid from the society account. We shouldn't ask one person to cover it.",
+      "speaker": "woman",
+      "group": "listening-4",
+      "role": "body"
+    },
+    {
+      "start": 587.729,
+      "end": 589.729,
+      "duration": 2,
+      "group": "listening-4",
+      "role": "transition"
+    },
+    {
+      "start": 589.729,
+      "end": 595.42,
+      "duration": 5.690667,
+      "text": "Question 8. Why did the woman leave the store without buying costumes?",
+      "speaker": "narrator",
+      "group": "listening-4",
+      "role": "question"
+    },
+    {
+      "start": 595.42,
+      "end": 610.42,
+      "duration": 15,
+      "group": "listening-4",
+      "role": "answer-time"
+    },
+    {
+      "start": 610.42,
+      "end": 615.967,
+      "duration": 5.546667,
+      "text": "Question 9. What condition applies to borrowing coats from the theatre?",
+      "speaker": "narrator",
+      "group": "listening-4",
+      "role": "question"
+    },
+    {
+      "start": 615.967,
+      "end": 630.967,
+      "duration": 15,
+      "group": "listening-4",
+      "role": "answer-time"
+    },
+    {
+      "start": 630.967,
+      "end": 636.417,
+      "duration": 5.450667,
+      "text": "Question 10. How will the man fit the return trip into his schedule?",
+      "speaker": "narrator",
+      "group": "listening-4",
+      "role": "question"
+    },
+    {
+      "start": 636.417,
+      "end": 651.417,
+      "duration": 15,
+      "group": "listening-4",
+      "role": "answer-time"
+    },
+    {
+      "start": 651.417,
+      "end": 655.932,
+      "duration": 4.514667,
+      "text": "Question 11. What will the man do that afternoon?",
+      "speaker": "narrator",
+      "group": "listening-4",
+      "role": "question"
+    },
+    {
+      "start": 655.932,
+      "end": 670.932,
+      "duration": 15,
+      "group": "listening-4",
+      "role": "answer-time"
+    },
+    {
+      "start": 670.932,
+      "end": 675.903,
+      "duration": 4.970667,
+      "text": "Questions 12 to 15 are based on the conversation you are going to hear.",
+      "speaker": "narrator",
+      "group": "listening-5",
+      "role": "directions"
+    },
+    {
+      "start": 675.903,
+      "end": 685.649,
+      "duration": 9.74625,
+      "text": "I think I've found a room for next term. It's in the building beside the supermarket, not the one opposite the station.",
+      "speaker": "man",
+      "group": "listening-5",
+      "role": "body"
+    },
+    {
+      "start": 685.649,
+      "end": 691.844,
+      "duration": 6.195125,
+      "text": "That's quite close to campus. Is the rent lower than where you live now?",
+      "speaker": "woman",
+      "group": "listening-5",
+      "role": "body"
+    },
+    {
+      "start": 691.844,
+      "end": 702.485,
+      "duration": 10.641,
+      "text": "A little higher, actually. But I could walk to lectures instead of buying a monthly bus pass. The total should be about the same.",
+      "speaker": "man",
+      "group": "listening-5",
+      "role": "body"
+    },
+    {
+      "start": 702.485,
+      "end": 706.912,
+      "duration": 4.427083,
+      "text": "Have you visited? The advertisement might not tell you everything.",
+      "speaker": "woman",
+      "group": "listening-5",
+      "role": "body"
+    },
+    {
+      "start": 706.912,
+      "end": 715.337,
+      "duration": 8.424708,
+      "text": "I went yesterday evening. The room itself was quiet, though the kitchen was busy. Three other students share it.",
+      "speaker": "man",
+      "group": "listening-5",
+      "role": "body"
+    },
+    {
+      "start": 715.337,
+      "end": 720.203,
+      "duration": 4.86625,
+      "text": "Would that bother you? You usually cook when you get home.",
+      "speaker": "woman",
+      "group": "listening-5",
+      "role": "body"
+    },
+    {
+      "start": 720.203,
+      "end": 734.838,
+      "duration": 14.634583,
+      "text": "Possibly, but they said most of them eat earlier. I stayed until eight and the kitchen was empty by then. I'd rather share a busy kitchen than spend another winter waiting for buses.",
+      "speaker": "man",
+      "group": "listening-5",
+      "role": "body"
+    },
+    {
+      "start": 734.838,
+      "end": 737.034,
+      "duration": 2.196125,
+      "text": "When could you move in?",
+      "speaker": "woman",
+      "group": "listening-5",
+      "role": "body"
+    },
+    {
+      "start": 737.034,
+      "end": 744.563,
+      "duration": 7.528667,
+      "text": "The first of September. My current contract ends a week before that, so there'd be a gap.",
+      "speaker": "man",
+      "group": "listening-5",
+      "role": "body"
+    },
+    {
+      "start": 744.563,
+      "end": 749.869,
+      "duration": 5.306208,
+      "text": "You could stay with your cousin. Doesn't she have a spare room?",
+      "speaker": "woman",
+      "group": "listening-5",
+      "role": "body"
+    },
+    {
+      "start": 749.869,
+      "end": 759.617,
+      "duration": 9.747958,
+      "text": "She does, but she's moving herself. I'll ask the accommodation office whether I can use a guest room for those seven days.",
+      "speaker": "man",
+      "group": "listening-5",
+      "role": "body"
+    },
+    {
+      "start": 759.617,
+      "end": 764.039,
+      "duration": 4.422625,
+      "text": "Good idea. Are you ready to sign the new agreement?",
+      "speaker": "woman",
+      "group": "listening-5",
+      "role": "body"
+    },
+    {
+      "start": 764.039,
+      "end": 775.57,
+      "duration": 11.531083,
+      "text": "Not quite. The owner said heating was included, but the document I received lists it as a separate charge. I need that corrected before I commit.",
+      "speaker": "man",
+      "group": "listening-5",
+      "role": "body"
+    },
+    {
+      "start": 775.57,
+      "end": 780.885,
+      "duration": 5.315083,
+      "text": "Yes, get it in writing. Otherwise the saving on transport might disappear.",
+      "speaker": "woman",
+      "group": "listening-5",
+      "role": "body"
+    },
+    {
+      "start": 780.885,
+      "end": 788.421,
+      "duration": 7.535375,
+      "text": "Exactly. I'll email the owner tonight. If the total turns out to be higher, I'll keep looking.",
+      "speaker": "man",
+      "group": "listening-5",
+      "role": "body"
+    },
+    {
+      "start": 788.421,
+      "end": 790.421,
+      "duration": 2,
+      "group": "listening-5",
+      "role": "transition"
+    },
+    {
+      "start": 790.421,
+      "end": 796.64,
+      "duration": 6.218667,
+      "text": "Question 12. Why does the man expect his overall costs to remain similar?",
+      "speaker": "narrator",
+      "group": "listening-5",
+      "role": "question"
+    },
+    {
+      "start": 796.64,
+      "end": 811.64,
+      "duration": 15,
+      "group": "listening-5",
+      "role": "answer-time"
+    },
+    {
+      "start": 811.64,
+      "end": 817.498,
+      "duration": 5.858667,
+      "text": "Question 13. What made the shared kitchen seem acceptable to the man?",
+      "speaker": "narrator",
+      "group": "listening-5",
+      "role": "question"
+    },
+    {
+      "start": 817.498,
+      "end": 832.498,
+      "duration": 15,
+      "group": "listening-5",
+      "role": "answer-time"
+    },
+    {
+      "start": 832.498,
+      "end": 838.813,
+      "duration": 6.314667,
+      "text": "Question 14. What does the man plan to do about the gap between contracts?",
+      "speaker": "narrator",
+      "group": "listening-5",
+      "role": "question"
+    },
+    {
+      "start": 838.813,
+      "end": 853.813,
+      "duration": 15,
+      "group": "listening-5",
+      "role": "answer-time"
+    },
+    {
+      "start": 853.813,
+      "end": 859.36,
+      "duration": 5.546667,
+      "text": "Question 15. What is preventing the man from signing the agreement?",
+      "speaker": "narrator",
+      "group": "listening-5",
+      "role": "question"
+    },
+    {
+      "start": 859.36,
+      "end": 874.36,
+      "duration": 15,
+      "group": "listening-5",
+      "role": "answer-time"
+    },
+    {
+      "start": 874.36,
+      "end": 890.226,
+      "duration": 15.866667,
+      "text": "Section C. In this section, you will hear three passages. After each recording, you will hear some questions. Choose the best answer from the four choices in your paper. You now have time to look at the choices.",
+      "speaker": "narrator",
+      "group": "listening-6",
+      "role": "directions"
+    },
+    {
+      "start": 890.226,
+      "end": 910.226,
+      "duration": 20,
+      "group": "listening-6",
+      "role": "preview"
+    },
+    {
+      "start": 910.226,
+      "end": 915.005,
+      "duration": 4.778667,
+      "text": "Questions 16 to 18 are based on the passage you are going to hear.",
+      "speaker": "narrator",
+      "group": "listening-6",
+      "role": "directions"
+    },
+    {
+      "start": 915.005,
+      "end": 946.977,
+      "duration": 31.972083,
+      "text": "A student working in a quiet room may be disturbed by a single conversation in the corridor, while another manages to read in a busy café. The difference is not necessarily that one person concentrates better. The pattern and meaning of sound can matter as much as its volume. Imagine a study in which volunteers complete the same reading task under different conditions. In one room, they hear a steady background sound.",
+      "speaker": "narrator",
+      "group": "listening-6",
+      "role": "body"
+    },
+    {
+      "start": 946.977,
+      "end": 978.065,
+      "duration": 31.088417,
+      "text": "In another, short spoken messages occur at irregular intervals. Even if the average sound level is similar, the changing messages may draw attention away from the page. Words are especially difficult to ignore when they seem relevant, such as a person's own name. Familiarity can also change the experience. Someone used to a particular environment may stop noticing its regular sounds, although a new or unexpected noise still attracts attention.",
+      "speaker": "narrator",
+      "group": "listening-6",
+      "role": "body"
+    },
+    {
+      "start": 978.065,
+      "end": 1006.927,
+      "duration": 28.861208,
+      "text": "This does not mean that background sound improves every task. Activities that require holding several pieces of verbal information in mind may be more vulnerable to speech than routine practical work. The useful lesson is to look beyond a simple choice between silence and noise. A student deciding where to work should consider the task, the predictability of interruptions and the kinds of sound present.",
+      "speaker": "narrator",
+      "group": "listening-6",
+      "role": "body"
+    },
+    {
+      "start": 1006.927,
+      "end": 1020.681,
+      "duration": 13.75475,
+      "text": "Headphones may reduce some distractions, but music with familiar lyrics can introduce competing words. An environment that feels pleasant is not always the one that best supports a demanding reading task.",
+      "speaker": "narrator",
+      "group": "listening-6",
+      "role": "body"
+    },
+    {
+      "start": 1020.681,
+      "end": 1022.681,
+      "duration": 2,
+      "group": "listening-6",
+      "role": "transition"
+    },
+    {
+      "start": 1022.681,
+      "end": 1028.636,
+      "duration": 5.954667,
+      "text": "Question 16. What does the speaker suggest about working in a café?",
+      "speaker": "narrator",
+      "group": "listening-6",
+      "role": "question"
+    },
+    {
+      "start": 1028.636,
+      "end": 1043.636,
+      "duration": 15,
+      "group": "listening-6",
+      "role": "answer-time"
+    },
+    {
+      "start": 1043.636,
+      "end": 1050.551,
+      "duration": 6.914667,
+      "text": "Question 17. Which task does the speaker say may be especially affected by speech?",
+      "speaker": "narrator",
+      "group": "listening-6",
+      "role": "question"
+    },
+    {
+      "start": 1050.551,
+      "end": 1065.551,
+      "duration": 15,
+      "group": "listening-6",
+      "role": "answer-time"
+    },
+    {
+      "start": 1065.551,
+      "end": 1071.193,
+      "duration": 5.642667,
+      "text": "Question 18. What caution does the speaker give about headphones?",
+      "speaker": "narrator",
+      "group": "listening-6",
+      "role": "question"
+    },
+    {
+      "start": 1071.193,
+      "end": 1086.193,
+      "duration": 15,
+      "group": "listening-6",
+      "role": "answer-time"
+    },
+    {
+      "start": 1086.193,
+      "end": 1091.068,
+      "duration": 4.874667,
+      "text": "Questions 19 to 21 are based on the passage you are going to hear.",
+      "speaker": "narrator",
+      "group": "listening-7",
+      "role": "directions"
+    },
+    {
+      "start": 1091.068,
+      "end": 1120.822,
+      "duration": 29.7545,
+      "text": "A university sports centre used to measure demand by counting online bookings. When nearly every badminton court appeared reserved each evening, managers considered extending the building. Yet students often complained that they could not book a court, while staff could see several empty ones. The centre investigated for four weeks. It found that some students made reservations early in the week but changed their plans without cancelling.",
+      "speaker": "narrator",
+      "group": "listening-7",
+      "role": "body"
+    },
+    {
+      "start": 1120.822,
+      "end": 1149.683,
+      "duration": 28.860708,
+      "text": "Others booked two neighbouring periods because they were unsure when their group would arrive. The reservation system recorded all these periods as occupied, although the courts were not always used. Managers introduced a reminder sent two hours before each session and made cancellation possible with one click. They also released a court if the group had not checked in ten minutes after the starting time.",
+      "speaker": "narrator",
+      "group": "listening-7",
+      "role": "body"
+    },
+    {
+      "start": 1149.683,
+      "end": 1179.435,
+      "duration": 29.751792,
+      "text": "Students could still book in advance, and there was no charge for cancelling before the session began. After the change, the number of bookings fell slightly, but the hours actually spent playing increased. More students reported finding a space at short notice. The result did not mean that the centre would never need extra courts. It showed that reservations alone had given an incomplete picture of demand.",
+      "speaker": "narrator",
+      "group": "listening-7",
+      "role": "body"
+    },
+    {
+      "start": 1179.435,
+      "end": 1189.629,
+      "duration": 10.193958,
+      "text": "Before investing in a larger building, managers wanted to distinguish a space that someone intended to use from one that was genuinely occupied.",
+      "speaker": "narrator",
+      "group": "listening-7",
+      "role": "body"
+    },
+    {
+      "start": 1189.629,
+      "end": 1191.629,
+      "duration": 2,
+      "group": "listening-7",
+      "role": "transition"
+    },
+    {
+      "start": 1191.629,
+      "end": 1197.92,
+      "duration": 6.290667,
+      "text": "Question 19. What contradiction prompted the sports centre’s investigation?",
+      "speaker": "narrator",
+      "group": "listening-7",
+      "role": "question"
+    },
+    {
+      "start": 1197.92,
+      "end": 1212.92,
+      "duration": 15,
+      "group": "listening-7",
+      "role": "answer-time"
+    },
+    {
+      "start": 1212.92,
+      "end": 1218.97,
+      "duration": 6.050667,
+      "text": "Question 20. What would happen if a group failed to arrive within ten minutes?",
+      "speaker": "narrator",
+      "group": "listening-7",
+      "role": "question"
+    },
+    {
+      "start": 1218.97,
+      "end": 1233.97,
+      "duration": 15,
+      "group": "listening-7",
+      "role": "answer-time"
+    },
+    {
+      "start": 1233.97,
+      "end": 1239.157,
+      "duration": 5.186667,
+      "text": "Question 21. What did the change reveal about demand?",
+      "speaker": "narrator",
+      "group": "listening-7",
+      "role": "question"
+    },
+    {
+      "start": 1239.157,
+      "end": 1254.157,
+      "duration": 15,
+      "group": "listening-7",
+      "role": "answer-time"
+    },
+    {
+      "start": 1254.157,
+      "end": 1259.248,
+      "duration": 5.090667,
+      "text": "Questions 22 to 25 are based on the passage you are going to hear.",
+      "speaker": "narrator",
+      "group": "listening-8",
+      "role": "directions"
+    },
+    {
+      "start": 1259.248,
+      "end": 1287.228,
+      "duration": 27.979958,
+      "text": "When a community archive invited residents to bring in old family photographs, the organisers expected to receive pictures of important public events. Instead, most contributions showed ordinary meals, shop entrances and people standing outside their homes. Many had no date or name written on the back. At first, volunteers tried to identify every person before accepting a photograph. This quickly slowed the project.",
+      "speaker": "narrator",
+      "group": "listening-8",
+      "role": "body"
+    },
+    {
+      "start": 1287.228,
+      "end": 1316.536,
+      "duration": 29.308833,
+      "text": "The organisers changed their approach: an uncertain detail could be recorded as uncertain, provided that the source of the information was clear. A contributor's memory that a picture was taken before a particular shop closed could still be useful, even if the exact year remained unknown. The archive then held small viewing sessions. Residents compared street corners and signs, sometimes correcting dates that had seemed certain.",
+      "speaker": "narrator",
+      "group": "listening-8",
+      "role": "body"
+    },
+    {
+      "start": 1316.536,
+      "end": 1344.958,
+      "duration": 28.421208,
+      "text": "They were asked to explain what supported an identification rather than simply agree with the most confident speaker. When accounts differed, both were kept until further evidence became available. Not every photograph could be displayed publicly. Some contributors allowed a copy to be stored but did not want images of relatives placed online. Those choices were recorded separately from the information about the picture.",
+      "speaker": "narrator",
+      "group": "listening-8",
+      "role": "body"
+    },
+    {
+      "start": 1344.958,
+      "end": 1363.595,
+      "duration": 18.637833,
+      "text": "The organisers hoped that the collection would support future research into everyday life. Its value depended not on pretending that every detail was known, but on preserving images together with an honest record of what people could and could not tell them.",
+      "speaker": "narrator",
+      "group": "listening-8",
+      "role": "body"
+    },
+    {
+      "start": 1363.595,
+      "end": 1365.595,
+      "duration": 2,
+      "group": "listening-8",
+      "role": "transition"
+    },
+    {
+      "start": 1365.595,
+      "end": 1372.462,
+      "duration": 6.866667,
+      "text": "Question 22. How did the photographs received differ from the organisers’ expectation?",
+      "speaker": "narrator",
+      "group": "listening-8",
+      "role": "question"
+    },
+    {
+      "start": 1372.462,
+      "end": 1387.462,
+      "duration": 15,
+      "group": "listening-8",
+      "role": "answer-time"
+    },
+    {
+      "start": 1387.462,
+      "end": 1393.849,
+      "duration": 6.386667,
+      "text": "Question 23. What change did the organisers make to the acceptance process?",
+      "speaker": "narrator",
+      "group": "listening-8",
+      "role": "question"
+    },
+    {
+      "start": 1393.849,
+      "end": 1408.849,
+      "duration": 15,
+      "group": "listening-8",
+      "role": "answer-time"
+    },
+    {
+      "start": 1408.849,
+      "end": 1414.875,
+      "duration": 6.026667,
+      "text": "Question 24. What were residents asked to do during viewing sessions?",
+      "speaker": "narrator",
+      "group": "listening-8",
+      "role": "question"
+    },
+    {
+      "start": 1414.875,
+      "end": 1429.875,
+      "duration": 15,
+      "group": "listening-8",
+      "role": "answer-time"
+    },
+    {
+      "start": 1429.875,
+      "end": 1436.31,
+      "duration": 6.434667,
+      "text": "Question 25. Why did some stored photographs remain unavailable online?",
+      "speaker": "narrator",
+      "group": "listening-8",
+      "role": "question"
+    },
+    {
+      "start": 1436.31,
+      "end": 1451.31,
+      "duration": 15,
+      "group": "listening-8",
+      "role": "answer-time"
+    },
+    {
+      "start": 1451.31,
+      "end": 1457.823,
+      "duration": 6.512833,
+      "text": "This is the end of listening comprehension. Please check your answers during the remaining time.",
+      "speaker": "narrator",
+      "role": "directions"
+    },
+    {
+      "start": 1457.823,
+      "end": 1500,
+      "duration": 42.17707399999972,
+      "role": "final-check"
+    }
+  ]
+}

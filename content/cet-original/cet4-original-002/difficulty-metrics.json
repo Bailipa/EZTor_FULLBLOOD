@@ -1,0 +1,214 @@
+{
+  "benchmark": "用户提供的2026年6月四级第1套",
+  "referenceCount": 1,
+  "sourceFiles": [
+    {
+      "path": "/Users/elee987/Downloads/cet4_2026_06_1.pdf",
+      "sha256": "f734669d7a6daa30f6b48a4f6f4e7065aa5d3e3a97a440bd26b8a76da996997d",
+      "bytes": 132335
+    },
+    {
+      "path": "/Users/elee987/Downloads/cet4_2026_06_1_ans.pdf",
+      "sha256": "b27cc8572e4b8a9aa87f08956c5cc46404b5c1899fff8c6df2e116b33b11ee09",
+      "bytes": 3215822
+    },
+    {
+      "path": "/Users/elee987/Downloads/cet4_2026_06_1.mp3",
+      "sha256": "a11d6616cd84e0706fd044f8d7fc929aca180774324dfaf90a75e53bfaf56e3a",
+      "bytes": 4201093
+    }
+  ],
+  "referenceAuthenticity": "用户提供资料，未另作官方版本认证；文件标题及答案册题文对应",
+  "method": "textstat 0.7.13，英文词正则统一；选词填空恢复已核对答案；长篇不计题名与段标；删除中文词义注释后比较。答案册听力稿OCR词数只作近似，残留识别错误未无依据修复。",
+  "reading": {
+    "cloze": {
+      "sample": {
+        "words": 256,
+        "sentences": 18,
+        "ari": 11.53,
+        "colemanLiau": 13.34,
+        "textSha256": "59e3ce3756726e541e665b952b3da06e7404dda92de9b6a938cb808cc08dc99b"
+      },
+      "reference": {
+        "words": 244,
+        "sentences": 14,
+        "ari": 12.88,
+        "colemanLiau": 13.14,
+        "textSha256": "f4f91e41d0309be61cfea178c7d8115117b07443ddc66457fd17614e4073b00d"
+      }
+    },
+    "matching": {
+      "sample": {
+        "words": 994,
+        "sentences": 53,
+        "ari": 11.36,
+        "colemanLiau": 10.88,
+        "textSha256": "3b833d5f036daf4c58f915b585d5795e2b33571a447458dfbe0ce3757936baf7"
+      },
+      "reference": {
+        "words": 990,
+        "sentences": 43,
+        "ari": 12.33,
+        "colemanLiau": 9.42,
+        "textSha256": "f1a1ee1d3c4900c3e4af193ef236622e01f46ce01a1a3ca3b3e8c775f02c9376"
+      }
+    },
+    "detail1": {
+      "sample": {
+        "words": 321,
+        "sentences": 21,
+        "ari": 12.45,
+        "colemanLiau": 13.91,
+        "textSha256": "13eac01bc556d0d82643c05ce9da2c101c424b7f3288718db62149496a79278e"
+      },
+      "reference": {
+        "words": 347,
+        "sentences": 25,
+        "ari": 11.73,
+        "colemanLiau": 13.36,
+        "textSha256": "059f665b1feecacff9d88d0e4240a087c8426396bf9671b4f8bf0e90d0ec10ef"
+      }
+    },
+    "detail2": {
+      "sample": {
+        "words": 341,
+        "sentences": 22,
+        "ari": 11.79,
+        "colemanLiau": 13.08,
+        "textSha256": "59798c19582793e52f0a90e52096873fef5ead1bf46ba5b5fe1a924acce4700e"
+      },
+      "reference": {
+        "words": 349,
+        "sentences": 23,
+        "ari": 12.52,
+        "colemanLiau": 14.07,
+        "textSha256": "30eccc4da9fe5df855d6c0f7d8f97c85429750433730ef8294b3699ef18a05ac"
+      }
+    }
+  },
+  "listening": [
+    {
+      "group": "listening-1",
+      "type": "NEWS",
+      "words": 151,
+      "referenceWordsApprox": 151,
+      "bodySeconds": 67.031,
+      "measuredBodyWpm": 135.16,
+      "questions": [
+        1,
+        2
+      ]
+    },
+    {
+      "group": "listening-2",
+      "type": "NEWS",
+      "words": 152,
+      "referenceWordsApprox": 143,
+      "bodySeconds": 67.483,
+      "measuredBodyWpm": 135.15,
+      "questions": [
+        3,
+        4
+      ]
+    },
+    {
+      "group": "listening-3",
+      "type": "NEWS",
+      "words": 166,
+      "referenceWordsApprox": 164,
+      "bodySeconds": 73.703,
+      "measuredBodyWpm": 135.14,
+      "questions": [
+        5,
+        6,
+        7
+      ]
+    },
+    {
+      "group": "listening-4",
+      "type": "CONVERSATION",
+      "words": 264,
+      "referenceWordsApprox": 273,
+      "bodySeconds": 116.997,
+      "measuredBodyWpm": 135.39,
+      "questions": [
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    {
+      "group": "listening-5",
+      "type": "CONVERSATION",
+      "words": 254,
+      "referenceWordsApprox": 274,
+      "bodySeconds": 112.518,
+      "measuredBodyWpm": 135.44,
+      "questions": [
+        12,
+        13,
+        14,
+        15
+      ]
+    },
+    {
+      "group": "listening-6",
+      "type": "PASSAGE",
+      "words": 237,
+      "referenceWordsApprox": 230,
+      "bodySeconds": 105.676,
+      "measuredBodyWpm": 134.56,
+      "questions": [
+        16,
+        17,
+        18
+      ]
+    },
+    {
+      "group": "listening-7",
+      "type": "PASSAGE",
+      "words": 222,
+      "referenceWordsApprox": 221,
+      "bodySeconds": 98.561,
+      "measuredBodyWpm": 135.14,
+      "questions": [
+        19,
+        20,
+        21
+      ]
+    },
+    {
+      "group": "listening-8",
+      "type": "PASSAGE",
+      "words": 235,
+      "referenceWordsApprox": 231,
+      "bodySeconds": 104.348,
+      "measuredBodyWpm": 135.12,
+      "questions": [
+        22,
+        23,
+        24,
+        25
+      ]
+    }
+  ],
+  "writingReferenceWords": 158,
+  "translationHanzi": 135,
+  "referenceTranslationHanzi": 137,
+  "audio": {
+    "sha256": "91206ea88917684803bc17e1a50d0413a5d084c5a092f8b9c4e628cb87959683",
+    "bytes": 18000908,
+    "logicalSeconds": 1500,
+    "encodedSeconds": 1500.048,
+    "referenceEncodedSeconds": 1426.726893,
+    "referenceBodySpeedMeasured": false
+  },
+  "limitations": [
+    "一套基线不能代表全年难度分布",
+    "未取得真人试做和等值数据",
+    "未完成官方词表覆盖率核验",
+    "无独立人工盲审或完整音频听感验收",
+    "未测得参考录音逐组正文语速，不以整段时长换算正文语速"
+  ]
+}

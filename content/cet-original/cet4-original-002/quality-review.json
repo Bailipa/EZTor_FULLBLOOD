@@ -1,0 +1,22 @@
+{
+  "date": "2026-10-09",
+  "scope": "本地成品检查，未导入或部署",
+  "objectiveQuestions": 55,
+  "uniqueQuestionIds": true,
+  "answerIndicesAndChoiceUniqueness": true,
+  "listeningCorrectTextsAfterShuffle": true,
+  "audioTimelineMatchesFinalScriptIgnoringWhitespace": true,
+  "audioSha256": "91206ea88917684803bc17e1a50d0413a5d084c5a092f8b9c4e628cb87959683",
+  "audioBytes": 18000908,
+  "pdfPages": {
+    "paper": 13,
+    "answers": 13
+  },
+  "existingExamParser": "通过，四模块、听力25题、阅读30题",
+  "limitations": [
+    "没有完整人工试听",
+    "没有独立人工盲审或真人实测等值",
+    "参考资料为用户提供，未独立认证官方版本",
+    "合成音频商业分发条件未独立核验"
+  ]
+}

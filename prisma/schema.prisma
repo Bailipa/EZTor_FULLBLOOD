@@ -759,6 +759,7 @@ model ExamPaper {
   content Json
   createdAt DateTime @default(now())
   attempts ExamAttempt[]
+  resources ExamPaperResource[]
   @@unique([slug, version])
   @@index([level, kind, rightsStatus, createdAt])
 }
@@ -827,4 +828,22 @@ model RateLimitWindow {
   resetTime BigInt
 
   @@index([resetTime])
+}
+
+// Content-addressed files persist outside release directories; paper links govern access.
+model ExamResource {
+  filename String @id
+  sha256 String
+  bytes Int
+  contentType String
+  createdAt DateTime @default(now())
+  papers ExamPaperResource[]
+}
+model ExamPaperResource {
+  paperId String
+  filename String
+  paper ExamPaper @relation(fields: [paperId], references: [id], onDelete: Cascade)
+  resource ExamResource @relation(fields: [filename], references: [filename], onDelete: Restrict)
+  @@id([paperId, filename])
+  @@index([filename])
 }

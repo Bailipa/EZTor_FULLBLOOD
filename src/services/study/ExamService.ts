@@ -1,3 +1,4 @@
+import { linkExamResources } from './ExamResourceService'
 import { parsePracticeTiming, MAX_MODULE_MS } from '@/features/study/practiceTiming'
 import { effectiveExamContent, prepareListeningReuse, shuffledListening, listeningHash, validListeningSubmission } from './ListeningReuseService'
 import { Prisma, type PrismaClient, type ExamAttempt, type ExamPaper } from '@prisma/client'
@@ -648,11 +649,13 @@ export async function importExamPaper(
       const { id: __, createdAt: ___, rightsStatus: ____, ...stored } = old
       if (!isDeepStrictEqual(intent, stored))
         throw new StudyInputError('已存在不可变版本，请使用新版本', 409)
+      await linkExamResources(tx, old.id, content)
       return meta(old)
     }
     const duplicate = await tx.examPaper.findUnique({ where: { contentHash: data.contentHash } })
     if (duplicate) throw new StudyInputError('试卷内容已存在', 409)
     const paper = await tx.examPaper.create({ data })
+    await linkExamResources(tx, paper.id, content)
     await tx.auditLog.create({
       data: {
         userId,
@@ -663,7 +666,7 @@ export async function importExamPaper(
       },
     })
     return meta(paper)
-  })
+  }, { timeout: 30000 })
 }
 export async function reviewExamPaper(
   userId: string,
@@ -678,7 +681,8 @@ export async function reviewExamPaper(
     await admin(tx, userId)
     const old = await tx.examPaper.findUnique({ where: { id } })
     if (!old) throw new StudyInputError('试卷不存在', 404)
-    parseExamContent(old.content, old.level as StudyLevel, old.kind as ExamPaperKind)
+    const content = parseExamContent(old.content, old.level as StudyLevel, old.kind as ExamPaperKind)
+    if (input.rightsStatus === 'APPROVED') await linkExamResources(tx, old.id, content)
     const paper = await tx.examPaper.update({
       where: { id },
       data: { rightsStatus: String(input.rightsStatus) },
@@ -694,7 +698,7 @@ export async function reviewExamPaper(
       },
     })
     return meta(paper)
-  })
+  }, { timeout: 30000 })
 }
 
 export async function adminExamPaper(userId: string, id: string, db: PrismaClient = prisma) {
