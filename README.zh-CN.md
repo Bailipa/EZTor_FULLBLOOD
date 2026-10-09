@@ -113,6 +113,14 @@ src/
 | [docs/BACKUP_RESTORE.md](docs/BACKUP_RESTORE.md)   | 数据库备份与恢复         |
 | [prisma/schema.prisma](prisma/schema.prisma)       | 数据模型定义             |
 
+## 可复用开源模块
+
+主平台拆出的独立模块：
+
+- [EZTor SRS Core](https://github.com/Bailipa/eztor-srs-core) —— 间隔重复学习算法
+- [EZTor Translation Quality](https://github.com/Bailipa/eztor-translation-quality) —— 可解释的词汇翻译质量评分
+- [EZTor CET4 Original Content](https://github.com/Bailipa/eztor-cet-content) —— 结构化原创四级练习内容
+
 ## 许可证
 
 GNU General Public License v3.0。详见 [LICENSE](LICENSE)。
