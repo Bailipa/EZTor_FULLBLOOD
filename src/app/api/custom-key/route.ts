@@ -1,3 +1,5 @@
+import { readJsonBody, RequestBodyError } from '@/lib/requestBody'
+import { modelSettingsError } from '@/lib/modelTransport'
 import { NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth/next'
 import { authOptions } from '@/lib/authOptions'
@@ -28,16 +30,13 @@ export async function POST(req: Request) {
     return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 })
   }
 
-  const body = await req.json()
-  const { baseUrl, apiKey, model } = body || {}
+  let body: Record<string, unknown>
+  try { body = await readJsonBody(req, 16 * 1024) }
+  catch (error) { return NextResponse.json({ success: false, error: error instanceof RequestBodyError ? error.message : '请求体无效' }, { status: error instanceof RequestBodyError ? error.status : 400 }) }
+  const { baseUrl, apiKey, model } = body as { baseUrl: string; apiKey: string; model: string }
 
-  if (!baseUrl || !apiKey || !model) {
-    return NextResponse.json(
-      { success: false, error: 'Base URL, API Key, and Model are required' },
-      { status: 400 },
-    )
-  }
-
+  const invalid = modelSettingsError(body)
+  if (invalid) return NextResponse.json({ success: false, error: invalid }, { status: 400 })
   await prisma.customApiKey.upsert({
     where: { userId: session.user.id },
     create: { userId: session.user.id, baseUrl, apiKey, model },

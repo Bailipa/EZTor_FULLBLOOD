@@ -5,9 +5,11 @@ import { Readable } from 'node:stream'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/authOptions'
 import prisma from '@/lib/prisma'
-import { accessiblePaperWhere } from '@/services/study/ExamAccessService'
+import { accessiblePaperWhere, defaultExamKeys } from '@/services/study/ExamAccessService'
 import resources from '../../../../../../content/cet-local/index.json'
 import figures from '../../../../../../content/cet-local/writing-figures.json'
+import originals from '../../../../../../content/cet-original/index.json'
+import { examPaperKey } from '@/services/study/ExamAccessService'
 
 export const runtime = 'nodejs'
 const keysByUrl = new Map<string, Set<string>>()
@@ -17,27 +19,32 @@ for (const item of resources.items) for (const resource of item.resources) {
   keys.add(item.key); keysByUrl.set(resource.url, keys)
 }
 for (const [key, figure] of Object.entries(figures)) keysByUrl.set(figure.url, new Set([key]))
+for (const paper of originals.papers) for (const url of paper.audio) {
+  const keys = keysByUrl.get(url) ?? new Set<string>()
+  keys.add(examPaperKey(paper.slug)); keysByUrl.set(url, keys)
+}
 
 export async function GET(req: Request, { params }: { params: Promise<{ filename: string }> }) {
   const headers = { 'Cache-Control': 'private, no-store', 'Vary': 'Cookie' }
   const session = await getServerSession(authOptions)
   if (!session?.user?.id) return Response.json({ error: '请先登录' }, { status: 401, headers })
   const { filename } = await params
-  if (!/^[a-f0-9]{24}\.(m4a|png)$/.test(filename)) return new Response(null, { status: 404, headers })
+  if (!/^[a-f0-9]{24}\.(m4a|mp3|png)$/.test(filename)) return new Response(null, { status: 404, headers })
   const keys = keysByUrl.get(`/study/resources/${filename}`)
   if (!keys) return new Response(null, { status: 404, headers })
   const user = await prisma.user.findUnique({ where: { id: session.user.id }, select: { isBanned: true, banExpiresAt: true } })
   if (!user || user.isBanned && (!user.banExpiresAt || user.banExpiresAt > new Date())) return Response.json({ error: '暂时没有试卷可用' }, { status: 403, headers })
   const directAccess = await prisma.examAccess.findFirst({ where: { userId: session.user.id, paperKey: { in: [...keys] } }, select: { paperKey: true } })
+  const defaultAccess = !directAccess && (await defaultExamKeys(prisma)).some((key) => keys.has(key))
   // A granted third paper may explicitly reuse this audio without granting the donor paper.
-  const reusedAccess = !directAccess && filename.endsWith('.m4a') && await prisma.examAttempt.findFirst({
+  const reusedAccess = !directAccess && !defaultAccess && filename.endsWith('.m4a') && await prisma.examAttempt.findFirst({
     where: {
       userId: session.user.id, mode: { in: ['FULL', 'LISTENING'] },
       paper: { rightsStatus: 'APPROVED', ...await accessiblePaperWhere(prisma, session.user.id) },
       state: { path: ['listeningReuse', 'section', 'audio'], array_contains: [{ url: `/study/resources/${filename}` }] },
     }, select: { id: true },
   })
-  if (!directAccess && !reusedAccess) return Response.json({ error: '暂时没有试卷可用' }, { status: 403, headers })
+  if (!directAccess && !defaultAccess && !reusedAccess) return Response.json({ error: '暂时没有试卷可用' }, { status: 403, headers })
   const file = path.join(process.cwd(), 'public', 'study', 'resources', filename)
   let size: number
   try { size = (await stat(file)).size } catch { return new Response(null, { status: 404, headers }) }
@@ -51,5 +58,5 @@ export async function GET(req: Request, { params }: { params: Promise<{ filename
     if (!Number.isSafeInteger(start) || !Number.isSafeInteger(end) || start > end || start >= size) return new Response(null, { status: 416, headers: { ...headers, 'Content-Range': `bytes */${size}` } })
   }
   const stream = Readable.toWeb(createReadStream(file, { start, end })) as ReadableStream<Uint8Array>
-  return new Response(stream, { status: range ? 206 : 200, headers: { ...headers, 'Content-Type': filename.endsWith('.png') ? 'image/png' : 'audio/mp4', 'Accept-Ranges': 'bytes', 'Content-Length': String(end - start + 1), ...(range ? { 'Content-Range': `bytes ${start}-${end}/${size}` } : {}) } })
+  return new Response(stream, { status: range ? 206 : 200, headers: { ...headers, 'Content-Type': filename.endsWith('.png') ? 'image/png' : filename.endsWith('.mp3') ? 'audio/mpeg' : 'audio/mp4', 'Accept-Ranges': 'bytes', 'Content-Length': String(end - start + 1), ...(range ? { 'Content-Range': `bytes ${start}-${end}/${size}` } : {}) } })
 }

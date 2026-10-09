@@ -1,4 +1,5 @@
 import OpenAI from 'openai'
+import { secureModelFetch, validateModelUrl } from './modelTransport'
 
 const IDLE_TIMEOUT = 30 * 60 * 1000 // 30 minutes
 
@@ -12,6 +13,7 @@ class ConnectionPool {
   private maxConnections = 10
 
   getClient(apiKey: string, baseUrl: string): OpenAI {
+    validateModelUrl(baseUrl)
     const key = `${apiKey}:${baseUrl}`
     const now = Date.now()
 
@@ -37,7 +39,7 @@ class ConnectionPool {
       }
     }
 
-    const client = new OpenAI({ apiKey, baseURL: baseUrl })
+    const client = new OpenAI({ apiKey, baseURL: baseUrl, fetch: secureModelFetch, timeout: 120_000, maxRetries: 0 })
     this.pool.set(key, { client, lastUsed: now })
     return client
   }

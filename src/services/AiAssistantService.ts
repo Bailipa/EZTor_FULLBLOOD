@@ -490,7 +490,7 @@ export class AiAssistantService {
     let attempt = 0
     const initialConversation = conversation.slice()
     await withLlmFailover(candidates, async (client, model) => {
-      if (opts.signal?.aborted) throw new Error('Request aborted')
+      if (opts.signal?.aborted) throw new DOMException('Request aborted', 'AbortError')
       if (attempt++ > 0) {
         conversation.splice(0, conversation.length, ...initialConversation)
         searchResults.length = 0

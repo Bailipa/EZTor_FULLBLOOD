@@ -1,0 +1,300 @@
+{
+  "cloze": "A useful campus project does not always begin with a new piece of technology. Sometimes it starts with a careful look at an ordinary service. Before proposing a solution, students need to __(26)__ evidence about what people actually do. A queue outside an office may be too __(27)__ to attract much attention, yet it can reveal a problem worth solving.\nA team investigating such a queue should record a __(28)__ time and place for each observation, rather than rely on a general impression. It may discover that the office opens only when many students are in class. These __(29)__ cannot be removed simply by designing a more attractive sign. A change in opening hours may make the service more __(30)__ without requiring an expensive new system.\nSmall trials are especially useful. Students are often __(31)__ to help when they can see how their suggestions will be used. In one imaginary project, participation grew __(32)__ over several weeks rather than appearing overnight. The team learned to explain each change and report what happened afterwards.\nSuch work can help students develop a __(33)__ of asking questions before accepting the first solution. They also learn to __(34)__ a minor inconvenience from a serious obstacle. The aim is not to produce the most impressive presentation. It is to turn careful observation into measurable __(35)__ that make a service easier to use.",
+  "bank": [
+    "accessible",
+    "briefly",
+    "collect",
+    "constant",
+    "familiar",
+    "gradually",
+    "habit",
+    "improvements",
+    "limits",
+    "notice",
+    "practical",
+    "separate",
+    "specific",
+    "waste",
+    "willing"
+  ],
+  "clozeAnswers": [
+    [
+      "collect",
+      "need to 后接动词原形，collect evidence为收集证据；后文要求先观察实际行为。"
+    ],
+    [
+      "familiar",
+      "队列因过于熟悉而不再引人注意；熟视无睹的含义与后文发现隐蔽问题相连。"
+    ],
+    [
+      "specific",
+      "record a specific time and place指记录明确的时间和地点，与general impression对照。"
+    ],
+    [
+      "limits",
+      "These后接复数名词，指办公时间与课程冲突所造成的限制；不能仅改标牌消除。"
+    ],
+    [
+      "accessible",
+      "使服务更易获得或使用，符合调整开放时段的效果。"
+    ],
+    [
+      "willing",
+      "be willing to help为愿意帮忙，解释参与动机。"
+    ],
+    [
+      "gradually",
+      "over several weeks与rather than overnight要求逐渐增长。"
+    ],
+    [
+      "habit",
+      "develop a habit of doing为形成做某事的习惯。"
+    ],
+    [
+      "separate",
+      "separate A from B表示区分轻微不便和严重障碍。"
+    ],
+    [
+      "improvements",
+      "measurable后需能被衡量的成果；关系从句说明这些改善使服务更易用。"
+    ]
+  ],
+  "matchingParagraphs": [
+    [
+      "A",
+      "A campus improvement project can look successful in photographs while making little difference to daily life. A neatly painted room or a new online form is easy to display. Whether students can actually use a service more easily is harder to show. The fictional project described here began when a university asked a student team to improve a small tools-lending service. Instead of immediately buying new tools, the team investigated how the existing service worked."
+    ],
+    [
+      "B",
+      "The first conversations produced several competing explanations. Some students said there were not enough tools. Others said they never knew whether the lending room was open. The team treated these comments as starting points rather than conclusions. It realised that people with different timetables could experience the same service very differently, even when they lived in neighbouring buildings."
+    ],
+    [
+      "C",
+      "For a week, the students observed the room before making any changes. They recorded how many people arrived, how many left without borrowing anything, and how long successful visits took. This provided a reference against which later changes could be judged. The team therefore included unsuccessful visits in its initial record, without collecting visitors' names."
+    ],
+    [
+      "D",
+      "One obstacle was the language on the cupboard labels. The labels used technical names that were familiar to experienced volunteers but confusing to many users. The team added photographs and short descriptions of what each tool could do. It kept the technical terms in smaller print, so experienced users could still find them."
+    ],
+    [
+      "E",
+      "Another difficulty was where tools was kept. Items needed for the same simple task were stored in different cupboards. Students repairing a loose bicycle part had to ask for several tools separately. The team prepared a small number of task-based kits and placed their contents on a checklist. Users could see what they needed before approaching the desk. Each item still had to be returned, but the search no longer began from nothing."
+    ],
+    [
+      "F",
+      "Changes to the room alone were insufficient. New volunteers were sometimes unsure how to answer questions and referred every visitor to the same experienced student. The team introduced a short practice session in which volunteers took turns acting as unfamiliar users. This exposed gaps in the instructions and gave volunteers experience explaining the service. The session focused on ordinary requests; it did not qualify anyone to advise on dangerous repairs or handle specialist electrical tools."
+    ],
+    [
+      "G",
+      "An online reservation form appeared to offer an easy solution to uncertain opening hours. However, the team kept a paper booking sheet as well. Some visitors arrived without a charged phone, while others found it easier to ask a question in person. Replacing every existing method with one digital route could create a new obstacle while removing an old one. The two methods were reviewed together to avoid promising the same kit to different users."
+    ],
+    [
+      "H",
+      "Not every trial worked. The team moved a return box close to the building entrance, expecting people to bring tools back more promptly. Returns did arrive earlier, but several kits came back with parts missing because no volunteer was present to check them. The team ended that trial and restored a staffed return point."
+    ],
+    [
+      "I",
+      "After two weeks, the team repeated its original observations at the same times of day. Comparing a busy Monday with a quiet weekend would have produced a misleading result. The students also checked whether a campus event had temporarily changed demand. Their record suggested shorter visits and fewer people leaving without tools, but they described this as a result of a small local trial, not proof that the arrangement would work everywhere."
+    ],
+    [
+      "J",
+      "The budget record included more than the price of new materials. Checklists had to be printed, kits had to be checked, and damaged items occasionally needed replacement. Volunteer time mattered too. A service that looked cheap because its organisers worked late every evening might not continue after they graduated. The team therefore estimated the regular work required each week and discussed which duties the university could realistically support in the longer term."
+    ],
+    [
+      "K",
+      "Safety established a firm boundary for the project. The lending service provided only tools suitable for basic tasks and displayed clear limits on its use. Items requiring specialist training remained outside the scheme, however often students requested them. The team understood that making a service more convenient did not justify ignoring risk. When a request fell outside the volunteers' knowledge, they explained the limit and suggested contacting a qualified repair service instead."
+    ],
+    [
+      "L",
+      "Before changing the opening hours, the students consulted the staff who managed the building. Users preferred evening access, but cleaning and security arrangements also had to be considered. The final schedule added two evening sessions rather than keeping the room open every night. This was less ambitious than the first proposal, yet it could be supported by the people responsible for the space. The team regarded that agreement as part of the design work itself."
+    ],
+    [
+      "M",
+      "Feedback did not end when the first changes were introduced. A small card beside the desk asked visitors to describe the most difficult part of their visit. It avoided the broad question, \"Are you satisfied?\", which often produced an answer too general to guide improvements. Cards were reviewed once a week, and a nearby notice explained which suggestions had been acted on. Comments containing personal information were not displayed publicly."
+    ],
+    [
+      "N",
+      "Other departments asked whether they could adopt the same arrangements. The team advised them to begin with a small trial and examine their own borrowing patterns. A laboratory with delicate instruments would have different requirements from a room lending bicycle pumps. The team shared its observation sheets and questions, but it did not present the exact cupboard layout as a universal solution. What could travel most easily was the process of investigating a need."
+    ],
+    [
+      "O",
+      "The project gave its organisers a less dramatic view of innovation. Improvement sometimes meant changing a label or arranging a dependable schedule, rather than inventing a new device. The students learned to judge a proposal by the obstacle it removed and the work needed to maintain it. A service remained useful when the next group of volunteers could understand it, run it safely, and discover what should be improved next."
+    ]
+  ],
+  "matching": [
+    [
+      "Preparing equipment around a task reduced the need to search separate storage areas.",
+      "E",
+      "task-based kits ... search no longer began from nothing"
+    ],
+    [
+      "The initial measurements included people who left without obtaining equipment.",
+      "C",
+      "included unsuccessful visits in its initial record"
+    ],
+    [
+      "Staff responsible for the building helped determine a feasible opening schedule.",
+      "L",
+      "cleaning and security ... final schedule added two evening sessions"
+    ],
+    [
+      "A seemingly convenient way of returning tools was abandoned after parts went missing.",
+      "H",
+      "parts missing ... ended that trial and restored a staffed return point"
+    ],
+    [
+      "Other departments were encouraged to copy the investigative process rather than the exact layout.",
+      "N",
+      "did not present the exact cupboard layout as a universal solution"
+    ],
+    [
+      "Volunteers practised explaining the service by playing the role of inexperienced users.",
+      "F",
+      "took turns acting as unfamiliar users"
+    ],
+    [
+      "The calculation of long-term costs included the amount of work volunteers would perform.",
+      "J",
+      "Volunteer time mattered too ... regular work required each week"
+    ],
+    [
+      "Images and descriptions were added without completely removing specialist vocabulary.",
+      "D",
+      "photographs ... kept the technical terms in smaller print"
+    ],
+    [
+      "Follow-up observations were scheduled to make the comparison with earlier data fairer.",
+      "I",
+      "repeated its original observations at the same times of day"
+    ],
+    [
+      "Requests for specialist equipment did not override the safety limits of the service.",
+      "K",
+      "specialist training remained outside ... however often students requested them"
+    ]
+  ],
+  "detailPassages": [
+    "The boundary between quiet study and group discussion is not always clear. A fictional campus project explored whether a change in signs could help students choose an appropriate place without requiring staff to interrupt them repeatedly.\nThe library's signs simply named its quiet and discussion floors, assuming that the labels explained the expected behaviour. Interviews suggested otherwise. Some first-time visitors thought \"discussion\" meant that phone calls were allowed anywhere. Others took \"quiet\" to mean that they could not even ask a staff member a brief question. Experienced users had learned the rules through repeated visits, but newcomers had to guess.\nThe project team replaced the general labels with short descriptions of activities. One sign explained where whispered questions could be asked on the quiet floor. The team also put information at the entrance, before visitors had chosen a seat. A sign encountered only after someone had unpacked a bag could be accurate and still arrive too late to be helpful.\nDuring the following fortnight, staff recorded fewer occasions on which they needed to explain the basic rules. The team did not assume that the signs alone had caused the change. The library was less busy in the second week, and some visitors had already seen the new information several times. Those factors could also influence behaviour. A later observation during a busier period would be needed before drawing a firmer conclusion.\nThe most useful lesson concerned the purpose of a sign. A label may describe a place from the manager's point of view while leaving a visitor uncertain about what to do. Information becomes more helpful when it appears at the moment of decision and answers the user's likely question. Adding more instructions is not necessarily the solution: a crowded notice can be as difficult to understand as a vague one. The team therefore removed repeated sentences instead of covering every wall with new signs. Its aim was to make expectations clear while preserving a welcoming place to study.",
+    "Digital tools can make the early stages of a student project look unusually productive. Notes become neatly arranged, a plan appears in minutes, and an empty page quickly fills with paragraphs. Yet the ease of producing a visible result can make it harder to judge whether the underlying work has improved.\nConsider a student preparing a short report on campus energy use. A tool may turn rough notes into a clear outline, but the student still needs to check whether the notes contain reliable measurements. If the original record mixes data from rooms of different sizes, a well-organised chart does not repair the comparison. The presentation may become clearer while the evidence remains weak.\nThe same distinction matters when students receive a polished paragraph. Reading it can create a sense of understanding because each sentence is easy to follow. Explaining the argument without looking at it is a different task. A student who cannot identify the relationship between a claim and its evidence may need to return to the source material rather than request another version of the paragraph.\nThis does not mean that students should avoid digital assistance. An outline can help them discover a missing step, and a suggested explanation can offer a starting point for revision. The important question is what students do next. One useful practice is to write down what they accepted, what they changed, and why. This makes their decisions visible and discourages the assumption that a fluent answer must also be an accurate one.\nTeachers can ask students to explain one important choice alongside the finished work. There is no single amount of digital help that suits every task. Organising a timetable and evaluating evidence demand different kinds of judgment. A useful boundary is whether assistance leaves the student able to explain and defend the choices that matter. Where it does, a tool can save effort without removing responsibility. Where it does not, the speed of producing a result may hide a gap that the project was supposed to help the student address."
+  ],
+  "detailQuestions": [
+    [
+      [
+        "What problem did the library project aim to address?",
+        "Visitors did not consistently understand how different spaces should be used.",
+        [
+          "Too few spaces were available for the different activities students wanted.",
+          "Visitors understood the rules but objected to reminders from staff.",
+          "Discussion on one floor repeatedly disturbed students on another."
+        ],
+        "labels ... expected behaviour ... newcomers had to guess",
+        "首两段聚焦空间标签不能明确行为规则，而非空间不足或取消讨论区。"
+      ],
+      [
+        "Why were the original labels less useful to newcomers?",
+        "They relied on knowledge that repeated visitors had already acquired.",
+        [
+          "They described the rooms without identifying where each floor was located.",
+          "They assumed that every visitor preferred the same level of quiet.",
+          "They explained exceptional situations in more detail than the ordinary rules."
+        ],
+        "Experienced users had learned the rules through repeated visits, but newcomers had to guess",
+        "原标签默认用户已理解惯例，新用户却无从得知。"
+      ],
+      [
+        "What does the example of an unpacked bag illustrate?",
+        "Information can lose value if it appears after the relevant decision.",
+        [
+          "Visitors need more detailed instructions after they settle into a space.",
+          "The usefulness of guidance depends mainly on whether its wording is accurate.",
+          "Students are more willing to follow rules once they have chosen a seat."
+        ],
+        "accurate and still arrive too late to be helpful",
+        "标牌正确也可能出现得太晚，故需在选座前呈现。"
+      ],
+      [
+        "Why does the team avoid attributing the result entirely to the new signs?",
+        "Changes in attendance and familiarity could also explain the result.",
+        [
+          "The observations covered only the visitors who had complained about the old labels.",
+          "Staff used a different definition of acceptable behaviour during the second week.",
+          "The number of reminders could not show whether visitors had read the signs."
+        ],
+        "less busy ... already seen the new information several times",
+        "人流和重复接触信息都是混杂因素，不能直接下因果结论。"
+      ],
+      [
+        "Which principle does the final paragraph support?",
+        "Provide concise guidance that helps users make a decision.",
+        [
+          "Increase the number of notices to make sure guidance appears in every space.",
+          "Use consistent labels even when visitors interpret those labels differently.",
+          "Explain the management reasons for rules before describing appropriate activities."
+        ],
+        "at the moment of decision ... answers the user's likely question",
+        "及时、具体且简洁的指导是中心，既不堆砌规则，也不只写欢迎语。"
+      ]
+    ],
+    [
+      [
+        "What concern does the author raise in the opening paragraph?",
+        "Visible progress may be mistaken for an improvement in the underlying work.",
+        [
+          "The time saved in producing a plan leaves too little opportunity for revision.",
+          "Students may rely on digital tools mainly for arranging their daily schedules.",
+          "An attractive final report gives teachers less information about the tools used."
+        ],
+        "ease of producing a visible result ... judge whether the underlying work has improved",
+        "区分成果外观与实质进展，不是全面否定数字工具。"
+      ],
+      [
+        "What does the energy-report example demonstrate?",
+        "Clear presentation cannot correct an unsuitable comparison in the source data.",
+        [
+          "A clear outline can remove the need to compare measurements from different rooms.",
+          "Using data from more rooms is sufficient to make an energy comparison reliable.",
+          "The accuracy of the measurements matters less than the way they are displayed."
+        ],
+        "a well-organised chart does not repair the comparison",
+        "基础数据比较有缺陷，排版清晰不能修复；其余选项夸大或反向推断。"
+      ],
+      [
+        "What may a student need to do if unable to explain a polished argument?",
+        "Re-examine the original material and its supporting evidence.",
+        [
+          "Compare several rewritten versions and select the easiest one to read.",
+          "Revise the wording before examining how the evidence supports the claim.",
+          "Practise explaining the final paragraph until its language becomes familiar."
+        ],
+        "return to the source material rather than request another version",
+        "应回到来源理解主张与证据，而非继续索要改写。"
+      ],
+      [
+        "Why does the author recommend recording accepted and changed suggestions?",
+        "It encourages students to examine and justify their decisions.",
+        [
+          "It gives teachers a complete record of how frequently each tool was used.",
+          "It helps students demonstrate that most original suggestions were retained.",
+          "It shifts attention from checking source evidence to documenting the process."
+        ],
+        "makes their decisions visible ... fluent answer ... accurate one",
+        "记录决策及理由可以促进检验，不等于机械记录全部操作。"
+      ],
+      [
+        "Which statement best expresses the author's view of digital assistance?",
+        "It is useful when students retain responsibility for important judgments.",
+        [
+          "Its value depends on how much of the final work students can produce unaided.",
+          "It is most useful when the resulting text requires little further examination.",
+          "Its efficiency provides a reasonable substitute for explaining key decisions."
+        ],
+        "able to explain and defend the choices that matter",
+        "最终标准是学生能解释并承担关键判断；不是单纯速度或禁止使用。"
+      ]
+    ]
+  ],
+  "writingPrompt": "Directions: Suppose your university is inviting suggestions on how to improve a campus service. Write an essay discussing why students should observe users' needs before proposing changes. You should give reasons and include an example. You will have 30 minutes to write the essay. You should write at least 120 words but no more than 180 words.",
+  "writingReference": "Before proposing changes to a campus service, students should understand how people actually use it. A creative idea is valuable only when it addresses a real need.\nFirst, observation can reveal obstacles that a quick discussion may miss. For example, students might assume that a long queue outside a service office requires another counter. However, watching the queue and asking users a few questions may show that unclear instructions cause repeated visits. A clear checklist could then be more useful than additional equipment.\nSecond, understanding users helps a project consider different situations. Students with morning classes and those with afternoon classes may need different opening hours. A small trial allows the team to compare results before making a permanent change.\nIn short, useful improvement begins with careful questions. By observing needs, testing an idea and listening to feedback, students can turn limited resources into a service that works better for more people.",
+  "translationPrompt": "在中国，社区图书馆正逐渐成为居民日常生活的一部分。除了提供图书，一些图书馆还举办科普活动，并帮助老年人学习使用智能手机。许多大学生利用课余时间参加志愿服务，根据居民的需要安排活动。这些服务不仅方便了居民，也让年轻人更加了解社区。为了使活动持续开展，志愿者需要与图书馆工作人员合作，定期听取居民的意见，及时调整计划。",
+  "translationReference": "In China, community libraries are gradually becoming part of residents' daily lives. In addition to providing books, some libraries hold activities that introduce scientific knowledge and help older people learn to use smartphones. Many university students volunteer in their spare time and arrange activities according to residents' needs. These services not only make life more convenient for residents but also help young people understand their communities better. To keep the activities going, volunteers need to work with library staff, regularly listen to residents' opinions and adjust their plans in time."
+}

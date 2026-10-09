@@ -1,3 +1,4 @@
+import { getClientIp } from '@/lib/onlineTracker'
 import { after, NextRequest, NextResponse } from 'next/server'
 import { randomUUID } from 'crypto'
 import prisma from '@/lib/prisma'
@@ -7,8 +8,7 @@ import { logger } from '@/lib/logger'
 
 export async function POST(req: NextRequest) {
   const startTime = Date.now()
-  const clientIp =
-    req.headers.get('x-forwarded-for')?.split(',')[0] || req.headers.get('x-real-ip') || 'unknown'
+  const clientIp = getClientIp(req)
   const userAgent = req.headers.get('user-agent') || 'unknown'
   const sessionId =
     req.headers.get('x-session-id')?.trim().slice(0, 128) ||

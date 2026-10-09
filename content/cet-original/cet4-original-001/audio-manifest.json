@@ -1,0 +1,1020 @@
+{
+  "url": "/study/resources/b339fd56ab9207371950fbb0.mp3",
+  "sha256": "b339fd56ab9207371950fbb00806ba51e92c78e88112ce5605c3e3927ea2074d",
+  "bytes": 18000908,
+  "durationSeconds": 1500,
+  "voices": {
+    "narrator": "en-US-AriaNeural",
+    "woman": "en-US-JennyNeural",
+    "man": "en-US-GuyNeural"
+  },
+  "nominalBodyWordsPerMinute": 130,
+  "answerPauseSeconds": 15,
+  "notice": "AI合成配音；预留答题停顿。字速为制作目标，不代表与真题听感等同。",
+  "timeline": [
+    {
+      "start": 0,
+      "end": 20.259,
+      "duration": 20.258667,
+      "text": "This is EZTor original practice paper one for College English Test Band Four. The situations in this paper are fictional. The voices are synthetic. Listening comprehension. Each recording will be played once. Listen carefully and choose the best answer to each question.",
+      "speaker": "narrator",
+      "role": "directions"
+    },
+    {
+      "start": 20.259,
+      "end": 36.269,
+      "duration": 16.010667,
+      "text": "Section A. In this section, you will hear three news reports. After each recording, you will hear some questions. Choose the best answer from the four choices in your paper. You now have time to look at the choices.",
+      "speaker": "narrator",
+      "group": "listening-1",
+      "role": "directions"
+    },
+    {
+      "start": 36.269,
+      "end": 56.269,
+      "duration": 20,
+      "group": "listening-1",
+      "role": "preview"
+    },
+    {
+      "start": 56.269,
+      "end": 60.76,
+      "duration": 4.490667,
+      "text": "Questions 1 to 2 are based on the news report you are going to hear.",
+      "speaker": "narrator",
+      "group": "listening-1",
+      "role": "directions"
+    },
+    {
+      "start": 60.76,
+      "end": 91.658,
+      "duration": 30.897917,
+      "text": "A neighbourhood library in Hangzhou is trying a new way to help residents repair small household items. Alongside its books, the library now lends basic tools, including screwdrivers and bicycle pumps. The service began after staff noticed that many residents wanted to repair things but did not own the right equipment. Buying a tool for a single repair seemed wasteful, especially for people living in small flats.",
+      "speaker": "narrator",
+      "group": "listening-1",
+      "role": "body"
+    },
+    {
+      "start": 91.658,
+      "end": 118.863,
+      "duration": 27.2055,
+      "text": "Residents can borrow a kit for three days with their library card. They must first watch a short safety video, but there is no lending fee. During the first month, bicycle pumps were borrowed more often than any other item. Staff had expected screwdrivers to be the most popular. The library is now collecting suggestions before buying more equipment.",
+      "speaker": "narrator",
+      "group": "listening-1",
+      "role": "body"
+    },
+    {
+      "start": 118.863,
+      "end": 136.836,
+      "duration": 17.972792,
+      "text": "It will not lend electric tools at this stage, because staff say those require more careful training. A weekly repair session is also planned, although volunteers will teach residents basic skills rather than take broken items away for repair.",
+      "speaker": "narrator",
+      "group": "listening-1",
+      "role": "body"
+    },
+    {
+      "start": 136.836,
+      "end": 138.836,
+      "duration": 2,
+      "group": "listening-1",
+      "role": "transition"
+    },
+    {
+      "start": 138.836,
+      "end": 144.431,
+      "duration": 5.594667,
+      "text": "Question 1. Why did the library introduce the tool-lending service?",
+      "speaker": "narrator",
+      "group": "listening-1",
+      "role": "question"
+    },
+    {
+      "start": 144.431,
+      "end": 159.431,
+      "duration": 15,
+      "group": "listening-1",
+      "role": "answer-time"
+    },
+    {
+      "start": 159.431,
+      "end": 165.026,
+      "duration": 5.594667,
+      "text": "Question 2. What surprised the library staff during the first month?",
+      "speaker": "narrator",
+      "group": "listening-1",
+      "role": "question"
+    },
+    {
+      "start": 165.026,
+      "end": 180.026,
+      "duration": 15,
+      "group": "listening-1",
+      "role": "answer-time"
+    },
+    {
+      "start": 180.026,
+      "end": 184.588,
+      "duration": 4.562667,
+      "text": "Questions 3 to 4 are based on the news report you are going to hear.",
+      "speaker": "narrator",
+      "group": "listening-2",
+      "role": "directions"
+    },
+    {
+      "start": 184.588,
+      "end": 213.18,
+      "duration": 28.592167,
+      "text": "A vegetable market in Chengdu has changed its morning delivery arrangements following complaints from nearby residents. Delivery vehicles previously arrived at different times before sunrise, and drivers often left their engines running while waiting for space. The market has now introduced booked delivery periods and a marked waiting area away from the residential buildings. Drivers must switch off their engines while waiting.",
+      "speaker": "narrator",
+      "group": "listening-2",
+      "role": "body"
+    },
+    {
+      "start": 213.18,
+      "end": 239,
+      "duration": 25.819333,
+      "text": "The change was tested for two weeks. According to the market manager, the number of noise complaints fell, while the average time needed to unload a vehicle remained almost unchanged. Some traders had worried that scheduled deliveries would make fresh vegetables arrive too late, but the booking system allowed them to choose earlier periods when necessary.",
+      "speaker": "narrator",
+      "group": "listening-2",
+      "role": "body"
+    },
+    {
+      "start": 239,
+      "end": 260.201,
+      "duration": 21.201208,
+      "text": "The market will continue the arrangement for another month before deciding whether to make it permanent. The manager said the next step was to improve signs at the entrance, since several first-time drivers had entered the wrong lane. No increase in delivery charges has been announced.",
+      "speaker": "narrator",
+      "group": "listening-2",
+      "role": "body"
+    },
+    {
+      "start": 260.201,
+      "end": 262.201,
+      "duration": 2,
+      "group": "listening-2",
+      "role": "transition"
+    },
+    {
+      "start": 262.201,
+      "end": 267.412,
+      "duration": 5.210667,
+      "text": "Question 3. What problem was the market trying to address?",
+      "speaker": "narrator",
+      "group": "listening-2",
+      "role": "question"
+    },
+    {
+      "start": 267.412,
+      "end": 282.412,
+      "duration": 15,
+      "group": "listening-2",
+      "role": "answer-time"
+    },
+    {
+      "start": 282.412,
+      "end": 287.118,
+      "duration": 4.706667,
+      "text": "Question 4. What happened during the two-week trial?",
+      "speaker": "narrator",
+      "group": "listening-2",
+      "role": "question"
+    },
+    {
+      "start": 287.118,
+      "end": 302.118,
+      "duration": 15,
+      "group": "listening-2",
+      "role": "answer-time"
+    },
+    {
+      "start": 302.118,
+      "end": 306.753,
+      "duration": 4.634667,
+      "text": "Questions 5 to 7 are based on the news report you are going to hear.",
+      "speaker": "narrator",
+      "group": "listening-3",
+      "role": "directions"
+    },
+    {
+      "start": 306.753,
+      "end": 338.571,
+      "duration": 31.817583,
+      "text": "Students at a university in Wuhan have completed a study of the drinking-water stations on their campus. For four weeks, volunteers counted visits at different times of day and asked users about their experience. The busiest station was close to the sports ground, but it was not the one receiving the most complaints. That was a station near the library, where the narrow space made queues difficult to organise.",
+      "speaker": "narrator",
+      "group": "listening-3",
+      "role": "body"
+    },
+    {
+      "start": 338.571,
+      "end": 365.78,
+      "duration": 27.209292,
+      "text": "Instead of immediately buying more machines, the university will first move the library station into a wider entrance area. Clear signs will separate people filling bottles from those waiting to enter the building. The students also recommended displaying the date of the latest maintenance check, because some users wanted more information about water quality. The university accepted this suggestion.",
+      "speaker": "narrator",
+      "group": "listening-3",
+      "role": "body"
+    },
+    {
+      "start": 365.78,
+      "end": 385.129,
+      "duration": 19.349,
+      "text": "A second survey is planned after the change has been in place for a month. Volunteers will compare waiting times rather than simply count total visits, so they can see whether the new arrangement has actually made the station easier to use.",
+      "speaker": "narrator",
+      "group": "listening-3",
+      "role": "body"
+    },
+    {
+      "start": 385.129,
+      "end": 387.129,
+      "duration": 2,
+      "group": "listening-3",
+      "role": "transition"
+    },
+    {
+      "start": 387.129,
+      "end": 392.315,
+      "duration": 5.186667,
+      "text": "Question 5. Which station received the most complaints?",
+      "speaker": "narrator",
+      "group": "listening-3",
+      "role": "question"
+    },
+    {
+      "start": 392.315,
+      "end": 407.315,
+      "duration": 15,
+      "group": "listening-3",
+      "role": "answer-time"
+    },
+    {
+      "start": 407.315,
+      "end": 412.118,
+      "duration": 4.802667,
+      "text": "Question 6. What will the university do first?",
+      "speaker": "narrator",
+      "group": "listening-3",
+      "role": "question"
+    },
+    {
+      "start": 412.118,
+      "end": 427.118,
+      "duration": 15,
+      "group": "listening-3",
+      "role": "answer-time"
+    },
+    {
+      "start": 427.118,
+      "end": 431.993,
+      "duration": 4.874667,
+      "text": "Question 7. What will the second survey focus on?",
+      "speaker": "narrator",
+      "group": "listening-3",
+      "role": "question"
+    },
+    {
+      "start": 431.993,
+      "end": 446.993,
+      "duration": 15,
+      "group": "listening-3",
+      "role": "answer-time"
+    },
+    {
+      "start": 446.993,
+      "end": 463.339,
+      "duration": 16.346667,
+      "text": "Section B. In this section, you will hear two long conversations. After each recording, you will hear some questions. Choose the best answer from the four choices in your paper. You now have time to look at the choices.",
+      "speaker": "narrator",
+      "group": "listening-4",
+      "role": "directions"
+    },
+    {
+      "start": 463.339,
+      "end": 483.339,
+      "duration": 20,
+      "group": "listening-4",
+      "role": "preview"
+    },
+    {
+      "start": 483.339,
+      "end": 488.142,
+      "duration": 4.802667,
+      "text": "Questions 8 to 11 are based on the conversation you are going to hear.",
+      "speaker": "narrator",
+      "group": "listening-4",
+      "role": "directions"
+    },
+    {
+      "start": 488.142,
+      "end": 501.036,
+      "duration": 12.893875,
+      "text": "I've brought the draft plan for our community sound exhibition. You suggested recording the old railway station, but I'm worried that we'll spend most of our time travelling.",
+      "speaker": "woman",
+      "group": "listening-4",
+      "role": "body"
+    },
+    {
+      "start": 501.036,
+      "end": 511.165,
+      "duration": 10.129333,
+      "text": "That's fair. We only have three weeks, and the station is nearly two hours away. What about the morning market near campus?",
+      "speaker": "man",
+      "group": "listening-4",
+      "role": "body"
+    },
+    {
+      "start": 511.165,
+      "end": 524.063,
+      "duration": 12.897958,
+      "text": "I like that. But we should avoid recording private conversations. We can ask traders whether they are willing to describe their work, and record the general background separately.",
+      "speaker": "woman",
+      "group": "listening-4",
+      "role": "body"
+    },
+    {
+      "start": 524.063,
+      "end": 527.276,
+      "duration": 3.213125,
+      "text": "Agreed. I'll prepare a short permission form.",
+      "speaker": "man",
+      "group": "listening-4",
+      "role": "body"
+    },
+    {
+      "start": 527.276,
+      "end": 541.557,
+      "duration": 14.2805,
+      "text": "Our tutor said a clear purpose matters more than expensive equipment for this project. We can use the small recorder I've already learned to operate. Let's make a trial recording first.",
+      "speaker": "woman",
+      "group": "listening-4",
+      "role": "body"
+    },
+    {
+      "start": 541.557,
+      "end": 554.452,
+      "duration": 12.895208,
+      "text": "Good. We could visit on Friday morning, then listen to the recording back here. If the wind is too strong, we can try recording under the covered entrance.",
+      "speaker": "man",
+      "group": "listening-4",
+      "role": "body"
+    },
+    {
+      "start": 554.452,
+      "end": 565.043,
+      "duration": 10.591125,
+      "text": "Friday won't work for me. I have a laboratory class until noon. Could we go on Saturday? The market is still busy then.",
+      "speaker": "woman",
+      "group": "listening-4",
+      "role": "body"
+    },
+    {
+      "start": 565.043,
+      "end": 577.02,
+      "duration": 11.977125,
+      "text": "Saturday is fine. For the exhibition, I was thinking of displaying photographs next to each sound. Visitors could read a long explanation about the market's history.",
+      "speaker": "man",
+      "group": "listening-4",
+      "role": "body"
+    },
+    {
+      "start": 577.02,
+      "end": 590.837,
+      "duration": 13.817083,
+      "text": "Photographs would help, but let's keep the labels short. We want people to listen carefully, not spend the whole visit reading. A map could show where each sound was recorded.",
+      "speaker": "woman",
+      "group": "listening-4",
+      "role": "body"
+    },
+    {
+      "start": 590.837,
+      "end": 599.123,
+      "duration": 8.286,
+      "text": "That makes sense. I'll contact the market office today and ask about permission. Could you draw the map?",
+      "speaker": "man",
+      "group": "listening-4",
+      "role": "body"
+    },
+    {
+      "start": 599.123,
+      "end": 608.792,
+      "duration": 9.668667,
+      "text": "Yes. After the trial, we can decide which parts tell a clear story. We don't have to use everything we record.",
+      "speaker": "woman",
+      "group": "listening-4",
+      "role": "body"
+    },
+    {
+      "start": 608.792,
+      "end": 610.792,
+      "duration": 2,
+      "group": "listening-4",
+      "role": "transition"
+    },
+    {
+      "start": 610.792,
+      "end": 616.627,
+      "duration": 5.834667,
+      "text": "Question 8. Why do the speakers give up recording at the railway station?",
+      "speaker": "narrator",
+      "group": "listening-4",
+      "role": "question"
+    },
+    {
+      "start": 616.627,
+      "end": 631.627,
+      "duration": 15,
+      "group": "listening-4",
+      "role": "answer-time"
+    },
+    {
+      "start": 631.627,
+      "end": 637.101,
+      "duration": 5.474667,
+      "text": "Question 9. What does the woman suggest about recording traders?",
+      "speaker": "narrator",
+      "group": "listening-4",
+      "role": "question"
+    },
+    {
+      "start": 637.101,
+      "end": 652.101,
+      "duration": 15,
+      "group": "listening-4",
+      "role": "answer-time"
+    },
+    {
+      "start": 652.101,
+      "end": 657.192,
+      "duration": 5.090667,
+      "text": "Question 10. When will the speakers make the trial recording?",
+      "speaker": "narrator",
+      "group": "listening-4",
+      "role": "question"
+    },
+    {
+      "start": 657.192,
+      "end": 672.192,
+      "duration": 15,
+      "group": "listening-4",
+      "role": "answer-time"
+    },
+    {
+      "start": 672.192,
+      "end": 676.467,
+      "duration": 4.274667,
+      "text": "Question 11. What will the man do next?",
+      "speaker": "narrator",
+      "group": "listening-4",
+      "role": "question"
+    },
+    {
+      "start": 676.467,
+      "end": 691.467,
+      "duration": 15,
+      "group": "listening-4",
+      "role": "answer-time"
+    },
+    {
+      "start": 691.467,
+      "end": 696.437,
+      "duration": 4.970667,
+      "text": "Questions 12 to 15 are based on the conversation you are going to hear.",
+      "speaker": "narrator",
+      "group": "listening-5",
+      "role": "directions"
+    },
+    {
+      "start": 696.437,
+      "end": 702.872,
+      "duration": 6.434042,
+      "text": "You've just finished your first week at the design company. How did it go?",
+      "speaker": "man",
+      "group": "listening-5",
+      "role": "body"
+    },
+    {
+      "start": 702.872,
+      "end": 719.921,
+      "duration": 17.049792,
+      "text": "I still get nervous, but that wasn't the main difficulty. I spent too long improving small details before checking whether I had understood the task. On Wednesday, I discovered I had designed the wrong kind of poster.",
+      "speaker": "woman",
+      "group": "listening-5",
+      "role": "body"
+    },
+    {
+      "start": 719.921,
+      "end": 723.135,
+      "duration": 3.214125,
+      "text": "That sounds frustrating. Was the instruction unclear?",
+      "speaker": "man",
+      "group": "listening-5",
+      "role": "body"
+    },
+    {
+      "start": 723.135,
+      "end": 737.876,
+      "duration": 14.740375,
+      "text": "It was short, and I made an assumption instead of asking. My supervisor said a rough sketch shown early would have prevented the mistake. She wasn't expecting a finished design that afternoon.",
+      "speaker": "woman",
+      "group": "listening-5",
+      "role": "body"
+    },
+    {
+      "start": 737.876,
+      "end": 742.922,
+      "duration": 5.046125,
+      "text": "So you need to check the direction before polishing the work.",
+      "speaker": "man",
+      "group": "listening-5",
+      "role": "body"
+    },
+    {
+      "start": 742.922,
+      "end": 754.888,
+      "duration": 11.966208,
+      "text": "Exactly. We agreed that I would send a simple outline at the start of each new task. She'll tell me whether I'm on the right track.",
+      "speaker": "woman",
+      "group": "listening-5",
+      "role": "body"
+    },
+    {
+      "start": 754.888,
+      "end": 758.551,
+      "duration": 3.662667,
+      "text": "Did you work late to replace the poster?",
+      "speaker": "man",
+      "group": "listening-5",
+      "role": "body"
+    },
+    {
+      "start": 758.551,
+      "end": 770.061,
+      "duration": 11.510458,
+      "text": "Not that night. The deadline was Friday, so I still had Thursday to correct it. She wanted me to understand why the design was needed.",
+      "speaker": "woman",
+      "group": "listening-5",
+      "role": "body"
+    },
+    {
+      "start": 770.061,
+      "end": 774.198,
+      "duration": 4.136708,
+      "text": "That's useful advice. What will you do next week?",
+      "speaker": "man",
+      "group": "listening-5",
+      "role": "body"
+    },
+    {
+      "start": 774.198,
+      "end": 788.934,
+      "duration": 14.736375,
+      "text": "Help the team prepare a small exhibition. My job is to check whether visitors can follow the signs between rooms. I'll walk through the building with someone who has never been there.",
+      "speaker": "woman",
+      "group": "listening-5",
+      "role": "body"
+    },
+    {
+      "start": 788.934,
+      "end": 793.98,
+      "duration": 5.046125,
+      "text": "Will you ask that person to explain where they feel uncertain?",
+      "speaker": "man",
+      "group": "listening-5",
+      "role": "body"
+    },
+    {
+      "start": 793.98,
+      "end": 805.025,
+      "duration": 11.0445,
+      "text": "Yes, without telling them the correct route first. If I guide them the whole way, the signs may seem clearer than they really are.",
+      "speaker": "woman",
+      "group": "listening-5",
+      "role": "body"
+    },
+    {
+      "start": 805.025,
+      "end": 811.446,
+      "duration": 6.42075,
+      "text": "It sounds as if your first week changed how you think about good design.",
+      "speaker": "man",
+      "group": "listening-5",
+      "role": "body"
+    },
+    {
+      "start": 811.446,
+      "end": 819.727,
+      "duration": 8.281375,
+      "text": "It did. Looking attractive is important, but a design also has to work for the people using it.",
+      "speaker": "woman",
+      "group": "listening-5",
+      "role": "body"
+    },
+    {
+      "start": 819.727,
+      "end": 821.727,
+      "duration": 2,
+      "group": "listening-5",
+      "role": "transition"
+    },
+    {
+      "start": 821.727,
+      "end": 827.322,
+      "duration": 5.594667,
+      "text": "Question 12. What was the woman's main difficulty in her first week?",
+      "speaker": "narrator",
+      "group": "listening-5",
+      "role": "question"
+    },
+    {
+      "start": 827.322,
+      "end": 842.322,
+      "duration": 15,
+      "group": "listening-5",
+      "role": "answer-time"
+    },
+    {
+      "start": 842.322,
+      "end": 847.868,
+      "duration": 5.546667,
+      "text": "Question 13. What arrangement did she make with her supervisor?",
+      "speaker": "narrator",
+      "group": "listening-5",
+      "role": "question"
+    },
+    {
+      "start": 847.868,
+      "end": 862.868,
+      "duration": 15,
+      "group": "listening-5",
+      "role": "answer-time"
+    },
+    {
+      "start": 862.868,
+      "end": 867.959,
+      "duration": 5.090667,
+      "text": "Question 14. What will she help check for the exhibition?",
+      "speaker": "narrator",
+      "group": "listening-5",
+      "role": "question"
+    },
+    {
+      "start": 867.959,
+      "end": 882.959,
+      "duration": 15,
+      "group": "listening-5",
+      "role": "answer-time"
+    },
+    {
+      "start": 882.959,
+      "end": 888.626,
+      "duration": 5.666667,
+      "text": "Question 15. Why will she avoid guiding the visitor during the walk?",
+      "speaker": "narrator",
+      "group": "listening-5",
+      "role": "question"
+    },
+    {
+      "start": 888.626,
+      "end": 903.626,
+      "duration": 15,
+      "group": "listening-5",
+      "role": "answer-time"
+    },
+    {
+      "start": 903.626,
+      "end": 919.492,
+      "duration": 15.866667,
+      "text": "Section C. In this section, you will hear three passages. After each recording, you will hear some questions. Choose the best answer from the four choices in your paper. You now have time to look at the choices.",
+      "speaker": "narrator",
+      "group": "listening-6",
+      "role": "directions"
+    },
+    {
+      "start": 919.492,
+      "end": 939.492,
+      "duration": 20,
+      "group": "listening-6",
+      "role": "preview"
+    },
+    {
+      "start": 939.492,
+      "end": 944.271,
+      "duration": 4.778667,
+      "text": "Questions 16 to 18 are based on the passage you are going to hear.",
+      "speaker": "narrator",
+      "group": "listening-6",
+      "role": "directions"
+    },
+    {
+      "start": 944.271,
+      "end": 975.629,
+      "duration": 31.357875,
+      "text": "When a university repair group first invited students to bring in broken belongings, the organisers expected the main challenge to be finding enough tools. On the first afternoon, however, they discovered a different problem. Many visitors handed over an item and immediately reached for their phones. They expected the volunteers to complete the repair for them. The group decided that this approach did not match its educational purpose.",
+      "speaker": "narrator",
+      "group": "listening-6",
+      "role": "body"
+    },
+    {
+      "start": 975.629,
+      "end": 1005.142,
+      "duration": 29.512833,
+      "text": "At the next meeting, every visitor was asked to stay at the table and take part. Volunteers began by asking what had happened before the item stopped working. They then explained one possible cause and invited the owner to carry out a safe, simple check. Anything involving dangerous electrical work was referred to a professional service. Repairs sometimes took longer under the new arrangement.",
+      "speaker": "narrator",
+      "group": "listening-6",
+      "role": "body"
+    },
+    {
+      "start": 1005.142,
+      "end": 1034.651,
+      "duration": 29.509458,
+      "text": "Yet students began to describe the sessions differently. Instead of saying that someone had fixed a lamp, they explained how they had found a loose connection or why a part needed replacing. The organisers do not measure success only by the number of completed repairs. They also ask visitors what they learned and whether they would feel comfortable making a similar check at home.",
+      "speaker": "narrator",
+      "group": "listening-6",
+      "role": "body"
+    },
+    {
+      "start": 1034.651,
+      "end": 1046.161,
+      "duration": 11.510042,
+      "text": "The group has kept its small size so that volunteers have time to explain. It cannot repair every item, and safety checks are never skipped.",
+      "speaker": "narrator",
+      "group": "listening-6",
+      "role": "body"
+    },
+    {
+      "start": 1046.161,
+      "end": 1048.161,
+      "duration": 2,
+      "group": "listening-6",
+      "role": "transition"
+    },
+    {
+      "start": 1048.161,
+      "end": 1054.116,
+      "duration": 5.954667,
+      "text": "Question 16. What unexpected problem did the organisers discover?",
+      "speaker": "narrator",
+      "group": "listening-6",
+      "role": "question"
+    },
+    {
+      "start": 1054.116,
+      "end": 1069.116,
+      "duration": 15,
+      "group": "listening-6",
+      "role": "answer-time"
+    },
+    {
+      "start": 1069.116,
+      "end": 1074.111,
+      "duration": 4.994667,
+      "text": "Question 17. How did the group change its sessions?",
+      "speaker": "narrator",
+      "group": "listening-6",
+      "role": "question"
+    },
+    {
+      "start": 1074.111,
+      "end": 1089.111,
+      "duration": 15,
+      "group": "listening-6",
+      "role": "answer-time"
+    },
+    {
+      "start": 1089.111,
+      "end": 1094.537,
+      "duration": 5.426667,
+      "text": "Question 18. What does the group consider a sign of success?",
+      "speaker": "narrator",
+      "group": "listening-6",
+      "role": "question"
+    },
+    {
+      "start": 1094.537,
+      "end": 1109.537,
+      "duration": 15,
+      "group": "listening-6",
+      "role": "answer-time"
+    },
+    {
+      "start": 1109.537,
+      "end": 1114.412,
+      "duration": 4.874667,
+      "text": "Questions 19 to 21 are based on the passage you are going to hear.",
+      "speaker": "narrator",
+      "group": "listening-7",
+      "role": "directions"
+    },
+    {
+      "start": 1114.412,
+      "end": 1144.385,
+      "duration": 29.973292,
+      "text": "A student team producing a weekly science podcast used to believe that every episode needed as much information as possible. Members collected facts from several sources and prepared long scripts. Comments suggested that the programme was difficult to follow while walking or travelling on a bus. The team initially blamed the sound quality. They bought a better microphone, yet the listening figures changed very little.",
+      "speaker": "narrator",
+      "group": "listening-7",
+      "role": "body"
+    },
+    {
+      "start": 1144.385,
+      "end": 1172.512,
+      "duration": 28.127208,
+      "text": "A teacher then asked them to describe the purpose of one episode in a single sentence. Each team member gave a different answer. The difficulty was not simply technical: the programme lacked a clear central question. For the next episode, the team chose one question about how a familiar household object worked. They kept only the information needed to answer it.",
+      "speaker": "narrator",
+      "group": "listening-7",
+      "role": "body"
+    },
+    {
+      "start": 1172.512,
+      "end": 1207.101,
+      "duration": 34.588333,
+      "text": "A short example came before the technical term, and a brief summary appeared at the end. The episode was shorter, but a greater proportion of listeners reached the final minute. The students now ask someone outside the team to listen to a draft. Rather than asking only whether it sounds interesting, they ask that person to explain the main idea afterwards. If the explanation is confused, they revise the structure before adding any more facts.",
+      "speaker": "narrator",
+      "group": "listening-7",
+      "role": "body"
+    },
+    {
+      "start": 1207.101,
+      "end": 1218.617,
+      "duration": 11.516417,
+      "text": "They still check information carefully and provide sources in the programme notes. Reducing the amount of information has not meant reducing their responsibility for accuracy.",
+      "speaker": "narrator",
+      "group": "listening-7",
+      "role": "body"
+    },
+    {
+      "start": 1218.617,
+      "end": 1220.617,
+      "duration": 2,
+      "group": "listening-7",
+      "role": "transition"
+    },
+    {
+      "start": 1220.617,
+      "end": 1226.884,
+      "duration": 6.266667,
+      "text": "Question 19. What complaint did listeners make about the original podcast?",
+      "speaker": "narrator",
+      "group": "listening-7",
+      "role": "question"
+    },
+    {
+      "start": 1226.884,
+      "end": 1241.884,
+      "duration": 15,
+      "group": "listening-7",
+      "role": "answer-time"
+    },
+    {
+      "start": 1241.884,
+      "end": 1246.687,
+      "duration": 4.802667,
+      "text": "Question 20. What did the teacher's question reveal?",
+      "speaker": "narrator",
+      "group": "listening-7",
+      "role": "question"
+    },
+    {
+      "start": 1246.687,
+      "end": 1261.687,
+      "duration": 15,
+      "group": "listening-7",
+      "role": "answer-time"
+    },
+    {
+      "start": 1261.687,
+      "end": 1267.641,
+      "duration": 5.954667,
+      "text": "Question 21. What do the students now ask an outside listener to do?",
+      "speaker": "narrator",
+      "group": "listening-7",
+      "role": "question"
+    },
+    {
+      "start": 1267.641,
+      "end": 1282.641,
+      "duration": 15,
+      "group": "listening-7",
+      "role": "answer-time"
+    },
+    {
+      "start": 1282.641,
+      "end": 1287.732,
+      "duration": 5.090667,
+      "text": "Questions 22 to 25 are based on the passage you are going to hear.",
+      "speaker": "narrator",
+      "group": "listening-8",
+      "role": "directions"
+    },
+    {
+      "start": 1287.732,
+      "end": 1320.934,
+      "duration": 33.202458,
+      "text": "At the beginning of summer, students at a college noticed that the shortest route between the library and the bus stop was not always the most comfortable. At midday, a wide paved square had very little shade. A student geography group decided to map the shade along several walking routes. Members visited each route in the morning, at midday and in the late afternoon. They recorded where shade fell along each path.",
+      "speaker": "narrator",
+      "group": "listening-8",
+      "role": "body"
+    },
+    {
+      "start": 1320.934,
+      "end": 1356.443,
+      "duration": 35.50875,
+      "text": "They soon found that a route described as shady in the morning could be almost entirely exposed a few hours later. The first version of their map used a single green line for comfortable routes. After showing it to classmates, the group changed the design. The new version lets readers choose a time of day and compare alternative paths. The college has used the observations to identify a small number of places where temporary shade could help.",
+      "speaker": "narrator",
+      "group": "listening-8",
+      "role": "body"
+    },
+    {
+      "start": 1356.443,
+      "end": 1389.182,
+      "duration": 32.738458,
+      "text": "Before making permanent changes, staff plan to count how people use those areas. The students have also added a date to the map and will update it as the season changes. They explain that shade depends on the sun's position and the growth of trees, so a useful map needs careful, regular revision. Their aim is to make daily choices easier while giving planners evidence about where improvements would matter most.",
+      "speaker": "narrator",
+      "group": "listening-8",
+      "role": "body"
+    },
+    {
+      "start": 1389.182,
+      "end": 1391.182,
+      "duration": 2,
+      "group": "listening-8",
+      "role": "transition"
+    },
+    {
+      "start": 1391.182,
+      "end": 1397.208,
+      "duration": 6.026667,
+      "text": "Question 22. Why did some students avoid the shortest route at midday?",
+      "speaker": "narrator",
+      "group": "listening-8",
+      "role": "question"
+    },
+    {
+      "start": 1397.208,
+      "end": 1412.208,
+      "duration": 15,
+      "group": "listening-8",
+      "role": "answer-time"
+    },
+    {
+      "start": 1412.208,
+      "end": 1417.227,
+      "duration": 5.018667,
+      "text": "Question 23. What did the geography group discover?",
+      "speaker": "narrator",
+      "group": "listening-8",
+      "role": "question"
+    },
+    {
+      "start": 1417.227,
+      "end": 1432.227,
+      "duration": 15,
+      "group": "listening-8",
+      "role": "answer-time"
+    },
+    {
+      "start": 1432.227,
+      "end": 1437.126,
+      "duration": 4.898667,
+      "text": "Question 24. How did the group improve its map?",
+      "speaker": "narrator",
+      "group": "listening-8",
+      "role": "question"
+    },
+    {
+      "start": 1437.126,
+      "end": 1452.126,
+      "duration": 15,
+      "group": "listening-8",
+      "role": "answer-time"
+    },
+    {
+      "start": 1452.126,
+      "end": 1457.408,
+      "duration": 5.282667,
+      "text": "Question 25. Why will the map need regular revision?",
+      "speaker": "narrator",
+      "group": "listening-8",
+      "role": "question"
+    },
+    {
+      "start": 1457.408,
+      "end": 1472.408,
+      "duration": 15,
+      "group": "listening-8",
+      "role": "answer-time"
+    },
+    {
+      "start": 1472.408,
+      "end": 1478.921,
+      "duration": 6.513167,
+      "text": "This is the end of listening comprehension. Please check your answers during the remaining time.",
+      "speaker": "narrator",
+      "role": "directions"
+    },
+    {
+      "start": 1478.921,
+      "end": 1500,
+      "duration": 21.07861399999979,
+      "role": "final-check"
+    }
+  ],
+  "encodedDurationSeconds": 1500.048
+}

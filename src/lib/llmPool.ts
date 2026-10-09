@@ -217,32 +217,17 @@ export async function markProviderQuotaExhausted(
   })
 }
 
-export async function noteProviderUsed(
-  providerId: string,
-  decrementQuotaBy: number,
-): Promise<void> {
+/** Charge admitted attempts atomically, including failures whose upstream billing is unknown. */
+export async function reserveProviderQuota(providerId: string, cost: number): Promise<boolean> {
   await ensureProviderTable()
-  const now = new Date()
-
-  const provider = await prisma.llmApiProvider.findUnique({
-    where: { id: providerId },
-    select: { quotaRemaining: true },
-  })
-
-  const newQuotaRemaining =
-    provider?.quotaRemaining !== null && provider?.quotaRemaining !== undefined
-      ? Math.max(provider.quotaRemaining - decrementQuotaBy, 0)
-      : null
-
-  await prisma.llmApiProvider.update({
-    where: { id: providerId },
-    data: {
-      quotaUsed: { increment: decrementQuotaBy },
-      quotaRemaining: newQuotaRemaining,
-      lastUsedAt: now,
-      updatedAt: now,
-    },
-  })
+  const rows = await prisma.$queryRaw<{ id: string }[]>`
+    UPDATE "LlmApiProvider"
+    SET "quotaRemaining" = CASE WHEN "quotaRemaining" IS NULL THEN NULL ELSE "quotaRemaining" - ${cost} END,
+        "quotaUsed" = "quotaUsed" + ${cost}, "lastUsedAt" = NOW(), "updatedAt" = NOW()
+    WHERE id = ${providerId} AND "isActive" = TRUE
+      AND ("quotaRemaining" IS NULL OR "quotaRemaining" >= ${cost})
+    RETURNING id`
+  return rows.length === 1
 }
 
 export type ProviderSelection =
@@ -267,6 +252,9 @@ export async function getProviderCandidates(fallback?: {
   const usable = providers.filter((p) => p.quotaRemaining === null || p.quotaRemaining > 0)
 
   if (usable.length > 0) return usable.map((provider) => ({ kind: 'db', provider }))
+
+  // A configured pool is authoritative: legacy credentials must not bypass exhausted/disabled providers.
+  if (await prisma.llmApiProvider.count() > 0) return []
 
   const apiKey = (fallback?.apiKey || '').trim()
   if (apiKey) {
@@ -304,19 +292,17 @@ export async function withLlmFailover<T>(
   fn: (client: OpenAI, model: string, sel: ProviderSelection) => Promise<T>,
   quotaCost: number,
 ): Promise<T> {
+  if (!Number.isSafeInteger(quotaCost) || quotaCost < 0) throw new Error('模型额度参数无效')
   if (candidates.length === 0) {
     throw new Error(API_QUOTA_EXHAUSTED_MESSAGE)
   }
 
   let lastErr: unknown = null
   for (const sel of candidates) {
-    if (sel.kind === 'db') {
-      if (!(sel.provider.quotaRemaining === null || sel.provider.quotaRemaining > 0)) continue
-    }
-
     const startTime = Date.now()
     try {
       const { client, model } = await createOpenAiClient(sel)
+      if (sel.kind === 'db' && !(await reserveProviderQuota(sel.provider.id, quotaCost))) continue
       const result = await fn(client, model, sel)
       const duration = Date.now() - startTime
 
@@ -327,14 +313,14 @@ export async function withLlmFailover<T>(
         true,
       )
 
-      if (sel.kind === 'db') {
-        await noteProviderUsed(sel.provider.id, quotaCost)
-      }
       return result
     } catch (err: unknown) {
+      // Cancellation is intentional: do not retry or mark a healthy provider as failed.
+      if (err instanceof Error && ['AbortError', 'APIUserAbortError'].includes(err.name)) throw err
       const duration = Date.now() - startTime
       lastErr = err
-      const errMessage = err instanceof Error ? err.message : String(err)
+      // Provider errors may echo credentials or user messages. Persist categories only.
+      const errMessage = isQuotaError(err) ? 'quota exhausted' : isRateLimitError(err) ? 'rate limit exceeded' : isConnectionError(err) ? 'connection error' : 'model provider error'
 
       // Record monitoring data
       monitoringService.recordRequest(
@@ -359,11 +345,11 @@ export async function withLlmFailover<T>(
     }
   }
 
-  if (lastErr && isQuotaError(lastErr)) {
+  if (!lastErr || isQuotaError(lastErr)) {
     throw new Error(API_QUOTA_EXHAUSTED_MESSAGE)
   }
 
-  throw lastErr || new Error('LLM request failed')
+  throw new Error('模型服务暂时不可用，请稍后重试')
 }
 
 export function maskApiKey(apiKey: string): string {

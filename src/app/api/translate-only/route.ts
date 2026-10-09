@@ -1,3 +1,5 @@
+import { readJsonBody, RequestBodyError } from '@/lib/requestBody'
+import { getClientIp } from '@/lib/onlineTracker'
 import { NextResponse } from 'next/server'
 import prisma from '@/lib/prisma'
 import { getServerSession } from 'next-auth/next'
@@ -12,26 +14,22 @@ import {
   COMBINED_OPTIMIZE_TRANSLATE_PROMPT,
 } from '@/lib/translatePrompts'
 import { API_QUOTA_EXHAUSTED_MESSAGE, getProviderCandidates, withLlmFailover } from '@/lib/llmPool'
-import { checkAndEnforceLimit, incrementUsage, DAILY_LIMIT } from '@/lib/translateOnlyUsage'
+import { checkAndEnforceLimit, reserveTranslateUsage, DAILY_LIMIT } from '@/lib/translateOnlyUsage'
 import { logger } from '@/lib/logger'
-import { fetchInsecure } from '@/lib/fetchInsecure'
-
-function getClientIp(req: Request): string {
-  return (
-    req.headers.get('x-forwarded-for')?.split(',')[0] || req.headers.get('x-real-ip') || 'unknown'
-  )
-}
+import { secureModelFetch } from '@/lib/modelTransport'
 
 async function directLlmCall(
   config: { baseUrl: string; apiKey: string; model: string },
   systemPrompt: string,
   userMessage: string,
+  signal?: AbortSignal,
 ): Promise<string> {
   const normalizedUrl = config.baseUrl.replace(/\/+$/, '')
   const chatUrl = `${normalizedUrl}/chat/completions`
 
-  const response = await fetchInsecure(chatUrl, {
+  const response = await secureModelFetch(chatUrl, {
     method: 'POST',
+    signal,
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${config.apiKey}`,
@@ -48,15 +46,8 @@ async function directLlmCall(
   })
 
   if (!response.ok) {
-    const errorText = await response.text().catch(() => 'Unknown error')
-    let errorMessage = `翻译失败 (HTTP ${response.status})`
-    try {
-      const errJson = JSON.parse(errorText)
-      errorMessage = errJson?.error?.message || errJson?.error?.code || errorMessage
-    } catch (error) {
-      logger.error({ err: error }, 'Failed to parse error response from custom API')
-    }
-    throw new Error(errorMessage)
+    await response.body?.cancel()
+    throw new Error(`翻译服务暂时不可用 (HTTP ${response.status})`)
   }
 
   const data = await response.json()
@@ -134,9 +125,10 @@ export async function POST(req: Request) {
       )
     }
 
-    const body = await req.json()
-    const rawInput = (body?.input || '').trim()
-    const deviceId: string | undefined = body?.deviceId
+    const body = await readJsonBody(req)
+    if (typeof body.input !== 'string' || (body.deviceId !== undefined && (typeof body.deviceId !== 'string' || body.deviceId.length > 200))) return NextResponse.json({ success: false, error: '输入格式无效' }, { status: 400 })
+    const rawInput = body.input.trim()
+    const deviceId = body.deviceId as string | undefined
     const optimize: boolean = body?.optimize === true
 
     if (!rawInput) {
@@ -163,11 +155,11 @@ export async function POST(req: Request) {
       let textToTranslate = input
 
       if (optimize) {
-        optimizedInput = await directLlmCall(customKey, OPTIMIZATION_PROMPT, input)
+        optimizedInput = await directLlmCall(customKey, OPTIMIZATION_PROMPT, input, req.signal)
         textToTranslate = optimizedInput
       }
 
-      const translation = await directLlmCall(customKey, translateSystemPrompt, textToTranslate)
+      const translation = await directLlmCall(customKey, translateSystemPrompt, textToTranslate, req.signal)
 
       return NextResponse.json({
         success: true,
@@ -175,8 +167,8 @@ export async function POST(req: Request) {
       })
     }
 
-    const limitCheck = await checkAndEnforceLimit(userId, isAdmin, deviceId)
-    if (!limitCheck.allowed) {
+    const reserved = await reserveTranslateUsage(userId, isAdmin, deviceId)
+    if (!reserved) {
       return NextResponse.json(
         {
           success: false,
@@ -198,8 +190,6 @@ export async function POST(req: Request) {
       translation = await systemPoolCompletion(translateSystemPrompt, input)
     }
 
-    await incrementUsage(userId, isAdmin, deviceId)
-
     const updatedUsage = await checkAndEnforceLimit(userId, isAdmin, deviceId)
 
     return NextResponse.json({
@@ -208,6 +198,7 @@ export async function POST(req: Request) {
       usage: { used: updatedUsage.used, limit: DAILY_LIMIT, remaining: updatedUsage.remaining },
     })
   } catch (err: unknown) {
+    if (err instanceof RequestBodyError) return NextResponse.json({ success: false, error: err.message }, { status: err.status })
     const message = err instanceof Error ? err.message : String(err)
     logger.error({ err }, 'Translate-only failed')
     if (String(message) === API_QUOTA_EXHAUSTED_MESSAGE) {

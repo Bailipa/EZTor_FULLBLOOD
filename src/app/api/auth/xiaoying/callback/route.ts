@@ -221,7 +221,7 @@ export async function GET(request: Request) {
 
     res.cookies.set(SESSION_COOKIE, encodedJwt, {
       httpOnly: true,
-      sameSite: 'none',
+      sameSite: 'lax',
       path: '/',
       secure: process.env.NODE_ENV === 'production',
       expires: cookieExpires,

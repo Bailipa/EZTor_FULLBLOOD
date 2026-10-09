@@ -26,6 +26,7 @@ This version has breaking changes — APIs, conventions, and file structure may 
 - 部署前检查磁盘，预留上传包、新版本解压、数据库 WAL/迁移及回滚版本空间；不足时停止发布并处理。
 - 发布包用文件白名单；上传前检查清单，排除环境文件、密钥、本地数据库、系统侧车文件和无关缓存；上传后校验哈希，再解包或切换。
 - 发布后核对进程、数据库连接、健康检查、关键匿名/登录路由，以及本次改动的真实用户流程。
+- 发布切换前，必须在目标发布目录、目标数据库环境执行 `node scripts/check-deploy-migrations.cjs`；未通过不得切换。待应用迁移包含 `20261009010000_add_shared_rate_limits`，完整备份后应用发布包迁移再检查。`prepare-deploy-package.mjs` 已将相同检查接入发布包启动入口，不得绕过入口直接启动 `server-runtime.js`。
 - 回滚前核对代码、迁移及数据兼容性；保留当前和可用回滚版本。删除旧版本前确认共享资源的引用关系。
 
 ## 4. 生产数据与故障

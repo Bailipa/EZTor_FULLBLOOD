@@ -44,7 +44,7 @@ export default function UserExamAccess({ user, onClose }: { user: { id: string; 
   const visible = papers.filter((paper) => (level === 'ALL' || paper.level === level) && `${paper.title} ${paper.key}`.toLowerCase().includes(search.trim().toLowerCase()))
   return <Dialog open onOpenChange={(open) => { if (!open && !saving) onClose() }}>
     <DialogContent className="max-h-[85dvh] flex flex-col sm:max-w-xl">
-      <DialogHeader><DialogTitle>{user.username} · 真题权限</DialogTitle><DialogDescription>勾选即开放，取消即关闭。每套试卷的所有题型共用权限，答题记录保留。新账号默认不开放任何试卷。</DialogDescription></DialogHeader>
+      <DialogHeader><DialogTitle>{user.username} · 真题权限</DialogTitle><DialogDescription>勾选即开放，取消即关闭。每套真题的所有题型共用权限，答题记录保留。新账号默认不开放真题；原创模拟卷向所有用户开放，无需勾选。</DialogDescription></DialogHeader>
       <div className="flex gap-2">
         <Input aria-label="搜索试卷" placeholder="搜索年份、月份或套数" value={search} onChange={(event) => setSearch(event.target.value)} />
         <ThemedSelect aria-label="筛选级别" className="rounded-lg border bg-background px-2 text-sm" value={level} onValueChange={(value) => setLevel(value)}><SelectItem value="ALL">全部</SelectItem><SelectItem value="CET4">四级</SelectItem><SelectItem value="CET6">六级</SelectItem></ThemedSelect>

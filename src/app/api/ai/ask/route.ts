@@ -5,12 +5,14 @@ import prisma from '@/lib/prisma'
 import { aiAssistantService, trimHistory } from '@/services/AiAssistantService'
 import { startAiRequestLog, finishAiRequestLog, type AiRequestStatus } from '@/services/AiRequestLogService'
 import { accessiblePaperWhere } from '@/services/study/ExamAccessService'
-import { rateLimit, getClientKey } from '@/lib/rateLimit'
+import { rateLimit } from '@/lib/rateLimit'
 import { getClientIp } from '@/lib/onlineTracker'
 import { sanitizeInput, validateInput, MAX_INPUT_LENGTH } from '@/lib/security'
 import { detectPromptInjection } from '@/lib/injectionDetector'
 import { API_QUOTA_EXHAUSTED_MESSAGE } from '@/lib/llmPool'
 import { logger } from '@/lib/logger'
+import { readJsonBody, RequestBodyError } from '@/lib/requestBody'
+import { parseChatMessages } from '@/lib/aiInput'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
@@ -30,7 +32,7 @@ export async function POST(req: NextRequest) {
   ])
   if (!user) return Response.json({ success: false, error: '登录状态已失效' }, { status: 401 })
 
-  const rateLimitResult = await rateLimit(`ai-ask:${getClientKey(req, userId)}`, { maxRequests: 10, windowMs: 60 * 1000 })
+  const rateLimitResult = await rateLimit(`ai-ask:${userId}`, { maxRequests: 10, windowMs: 60 * 1000 })
   if (!rateLimitResult.success) return Response.json({ success: false, error: '请求过于频繁，请稍后再试' }, { status: 429, headers: { 'Retry-After': '60' } })
 
   let body: {
@@ -39,9 +41,11 @@ export async function POST(req: NextRequest) {
     examReview?: { attemptId?: unknown; selection?: unknown; question?: unknown }
   }
   try {
-    body = await req.json()
-  } catch {
-    return Response.json({ success: false, error: '请求体无效' }, { status: 400 })
+    const parsed = await readJsonBody(req)
+    if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) throw new RequestBodyError('请求体无效', 400)
+    body = parsed
+  } catch (error) {
+    return Response.json({ success: false, error: error instanceof RequestBodyError ? error.message : '请求体无效' }, { status: error instanceof RequestBodyError ? error.status : 400 })
   }
   const rawMessages = Array.isArray(body?.messages) ? body.messages : []
   const review = body?.examReview
@@ -88,8 +92,8 @@ export async function POST(req: NextRequest) {
         include: { paper: true },
       })
       if (!attempt) return reject('完成练习后才可使用相关 AI 服务', 403)
-    } else if (!rawMessages.length) {
-      return reject('消息不能为空')
+    } else if (!parseChatMessages(body.messages)) {
+      return reject('消息格式或长度无效')
     }
     if (!validateInput(question, review ? 500 : MAX_INPUT_LENGTH).valid) return reject('消息内容无效')
 

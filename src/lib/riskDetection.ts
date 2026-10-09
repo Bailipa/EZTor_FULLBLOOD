@@ -1,4 +1,5 @@
 import { getRequiredEnvVar } from './envValidator'
+import { secureModelFetch } from './modelTransport'
 
 let LLM_API_URL: string
 let LLM_API_KEY: string
@@ -18,7 +19,8 @@ export async function checkMessageRisk(content: string): Promise<{ isRisky: bool
   }
 
   try {
-    const response = await fetch(LLM_API_URL, {
+    const response = await secureModelFetch(LLM_API_URL, {
+      signal: AbortSignal.timeout(15_000),
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -50,6 +52,7 @@ export async function checkMessageRisk(content: string): Promise<{ isRisky: bool
     })
 
     if (!response.ok) {
+      await response.body?.cancel()
       console.error('Risk detection API error:', response.status)
       return { isRisky: false }
     }
@@ -58,12 +61,13 @@ export async function checkMessageRisk(content: string): Promise<{ isRisky: bool
     const message = result.choices?.[0]?.message?.content || ''
 
     try {
-      return JSON.parse(message)
+      const parsed = JSON.parse(message)
+      return { isRisky: parsed?.isRisky === true, ...(typeof parsed?.reason === 'string' ? { reason: parsed.reason.slice(0, 500) } : {}) }
     } catch {
-      return { isRisky: message.includes('risky') }
+      return { isRisky: false }
     }
   } catch (error) {
-    console.error('Risk detection failed:', error)
+    console.error('Risk detection failed:', error instanceof Error ? error.name : 'UnknownError')
     return { isRisky: false }
   }
 }

@@ -1,0 +1,380 @@
+{
+  "referenceYear": 2025,
+  "referencePapers": 6,
+  "textstatVersion": "0.7.13",
+  "interpretation": "Descriptive language metrics only; not official CET difficulty or score equating.",
+  "limitations": [
+    "OCR artifacts in references are not silently repaired.",
+    "Only six reference papers; ranges are descriptive, not acceptance thresholds.",
+    "No user-response calibration, official-vocabulary coverage, or independent audio listening review."
+  ],
+  "reading": [
+    {
+      "source": "cet4-2025-06-set1-full",
+      "passage": "cet4-2025-06-set1-bank",
+      "type": "WORD_BANK",
+      "restoredBlanks": 10,
+      "words": 246,
+      "sentences": 12,
+      "ari": 13.09,
+      "colemanLiau": 12.1,
+      "textSha256": "f4a2f8c921efd136799f9ce7f54e943892b2adbabcd4fc79babfa75a1f18dd41"
+    },
+    {
+      "source": "cet4-2025-06-set1-full",
+      "passage": "cet4-2025-06-set1-matching",
+      "type": "MATCHING",
+      "restoredBlanks": 0,
+      "words": 1010,
+      "sentences": 48,
+      "ari": 13.24,
+      "colemanLiau": 11.45,
+      "textSha256": "fcd10e9f8b62621c981c040ac812babb228cc0a9e93e294f9d97129dbf0a3f01"
+    },
+    {
+      "source": "cet4-2025-06-set1-full",
+      "passage": "cet4-2025-06-set1-detail1",
+      "type": "DETAIL",
+      "restoredBlanks": 0,
+      "words": 343,
+      "sentences": 15,
+      "ari": 14.65,
+      "colemanLiau": 12.57,
+      "textSha256": "e13040b45c7750f7205daa14592b2ed07532a611dc760586c22ff594ff22ab33"
+    },
+    {
+      "source": "cet4-2025-06-set1-full",
+      "passage": "cet4-2025-06-set1-detail2",
+      "type": "DETAIL",
+      "restoredBlanks": 0,
+      "words": 350,
+      "sentences": 23,
+      "ari": 7.29,
+      "colemanLiau": 7.53,
+      "textSha256": "774ada11042d2a0595705bebf5002ddf32f03717fb3061e7a5d5e02dcc81f287"
+    },
+    {
+      "source": "cet4-2025-06-set2-full",
+      "passage": "cet4-2025-06-set2-bank",
+      "type": "WORD_BANK",
+      "restoredBlanks": 10,
+      "words": 199,
+      "sentences": 11,
+      "ari": 11.33,
+      "colemanLiau": 11.33,
+      "textSha256": "16112a87d3c2a077678431ab94b338fc154045f333dab1cdbbfa1484f69a147f"
+    },
+    {
+      "source": "cet4-2025-06-set2-full",
+      "passage": "cet4-2025-06-set2-matching",
+      "type": "MATCHING",
+      "restoredBlanks": 0,
+      "words": 1011,
+      "sentences": 48,
+      "ari": 12.01,
+      "colemanLiau": 10.13,
+      "textSha256": "a3d23d6bd02f63bee6186abb7b4a18fa9b54e1bc2cbb742a4280f0bbb45c3030"
+    },
+    {
+      "source": "cet4-2025-06-set2-full",
+      "passage": "cet4-2025-06-set2-detail1",
+      "type": "DETAIL",
+      "restoredBlanks": 0,
+      "words": 349,
+      "sentences": 19,
+      "ari": 9.68,
+      "colemanLiau": 9.03,
+      "textSha256": "b1e3f9776ab369287c2328b1b957c53fe1fb4ea6fa3832bc45fc6dde276d4a1a"
+    },
+    {
+      "source": "cet4-2025-06-set2-full",
+      "passage": "cet4-2025-06-set2-detail2",
+      "type": "DETAIL",
+      "restoredBlanks": 0,
+      "words": 347,
+      "sentences": 16,
+      "ari": 11.73,
+      "colemanLiau": 9.6,
+      "textSha256": "7fafd1d2153ef5347f6704e176ca3ea5b174fe91348b9595ab580f529edede91"
+    },
+    {
+      "source": "cet4-2025-06-set3-full",
+      "passage": "cet4-2025-06-set3-bank",
+      "type": "WORD_BANK",
+      "restoredBlanks": 10,
+      "words": 256,
+      "sentences": 13,
+      "ari": 11.75,
+      "colemanLiau": 11.52,
+      "textSha256": "6588e2160d960c1187cf2629010b7fc66e93821ce4c0fcad1280e77669e67b8f"
+    },
+    {
+      "source": "cet4-2025-06-set3-full",
+      "passage": "cet4-2025-06-set3-matching",
+      "type": "MATCHING",
+      "restoredBlanks": 0,
+      "words": 1018,
+      "sentences": 39,
+      "ari": 15.18,
+      "colemanLiau": 11.2,
+      "textSha256": "9d9fa2628444b8b0b6dfce2a82f327aaa1a4751faacd75dde53f166cbf6648ec"
+    },
+    {
+      "source": "cet4-2025-06-set3-full",
+      "passage": "cet4-2025-06-set3-detail1",
+      "type": "DETAIL",
+      "restoredBlanks": 0,
+      "words": 349,
+      "sentences": 19,
+      "ari": 9.68,
+      "colemanLiau": 8.87,
+      "textSha256": "cef21f2776871a2f81caca0b687f13d0c8d7a334f189ddee45eefe6d03e19eff"
+    },
+    {
+      "source": "cet4-2025-06-set3-full",
+      "passage": "cet4-2025-06-set3-detail2",
+      "type": "DETAIL",
+      "restoredBlanks": 0,
+      "words": 352,
+      "sentences": 18,
+      "ari": 12.18,
+      "colemanLiau": 11.01,
+      "textSha256": "6e6c59e553c6da1985f959623cbae10a29c698874037b4a2d13948ca8b14f80f"
+    },
+    {
+      "source": "cet4-2025-12-set1-full",
+      "passage": "cet4-2025-12-set1-bank",
+      "type": "WORD_BANK",
+      "restoredBlanks": 10,
+      "words": 246,
+      "sentences": 15,
+      "ari": 9.09,
+      "colemanLiau": 9.34,
+      "textSha256": "ec071987da0c397b82f973dcd12ac460beea001de7224159db622f35ba82e07f"
+    },
+    {
+      "source": "cet4-2025-12-set1-full",
+      "passage": "cet4-2025-12-set1-matching",
+      "type": "MATCHING",
+      "restoredBlanks": 0,
+      "words": 1013,
+      "sentences": 58,
+      "ari": 10.53,
+      "colemanLiau": 10.29,
+      "textSha256": "f4990e13e8700b2f18fdb8d36b1384d088a2aef6e03bdb00697d834bf27128ba"
+    },
+    {
+      "source": "cet4-2025-12-set1-full",
+      "passage": "cet4-2025-12-set1-detail1",
+      "type": "DETAIL",
+      "restoredBlanks": 0,
+      "words": 346,
+      "sentences": 20,
+      "ari": 11.43,
+      "colemanLiau": 11.56,
+      "textSha256": "9a99d1875b9d892561714de8bc00b007b199b526e704b8e07e2f2bf48d7d982d"
+    },
+    {
+      "source": "cet4-2025-12-set1-full",
+      "passage": "cet4-2025-12-set1-detail2",
+      "type": "DETAIL",
+      "restoredBlanks": 0,
+      "words": 345,
+      "sentences": 15,
+      "ari": 14.26,
+      "colemanLiau": 11.49,
+      "textSha256": "d22b7cd5d47850e77e86fa324e27c69de457bacaffe98fb26f276901d6902758"
+    },
+    {
+      "source": "cet4-2025-12-set2-full",
+      "passage": "cet4-2025-12-set2-bank",
+      "type": "WORD_BANK",
+      "restoredBlanks": 10,
+      "words": 244,
+      "sentences": 12,
+      "ari": 11.45,
+      "colemanLiau": 9.71,
+      "textSha256": "04feb73869d137cf6f556d76d8bf127935b487ca3a0cc93ef70903c40da4466a"
+    },
+    {
+      "source": "cet4-2025-12-set2-full",
+      "passage": "cet4-2025-12-set2-matching",
+      "type": "MATCHING",
+      "restoredBlanks": 0,
+      "words": 1026,
+      "sentences": 57,
+      "ari": 10.68,
+      "colemanLiau": 10.15,
+      "textSha256": "2f2f2cf63490c09fe95ec8a4ef730057856a21f2b1fe4eda98d6231cf349a7f9"
+    },
+    {
+      "source": "cet4-2025-12-set2-full",
+      "passage": "cet4-2025-12-set2-detail1",
+      "type": "DETAIL",
+      "restoredBlanks": 0,
+      "words": 352,
+      "sentences": 20,
+      "ari": 13.13,
+      "colemanLiau": 13.63,
+      "textSha256": "65b500284670d5466d92ffcd546aabd4428832bf9e231decfeba3bfe8211e0bf"
+    },
+    {
+      "source": "cet4-2025-12-set2-full",
+      "passage": "cet4-2025-12-set2-detail2",
+      "type": "DETAIL",
+      "restoredBlanks": 0,
+      "words": 347,
+      "sentences": 25,
+      "ari": 8.72,
+      "colemanLiau": 9.63,
+      "textSha256": "99241a873088a5d522a7ab6d91cd6dfca374d78fd76c6a53ca698ebf3933cb14"
+    },
+    {
+      "source": "cet4-2025-12-set3-full",
+      "passage": "cet4-2025-12-set3-bank",
+      "type": "WORD_BANK",
+      "restoredBlanks": 10,
+      "words": 229,
+      "sentences": 10,
+      "ari": 16.37,
+      "colemanLiau": 14.02,
+      "textSha256": "023ce46ec804f863ac8a9d96487cd558cb4b73cbf02c9b8bc55885966ad82396"
+    },
+    {
+      "source": "cet4-2025-12-set3-full",
+      "passage": "cet4-2025-12-set3-matching",
+      "type": "MATCHING",
+      "restoredBlanks": 0,
+      "words": 1009,
+      "sentences": 62,
+      "ari": 9.62,
+      "colemanLiau": 9.52,
+      "textSha256": "122ef90731cfd8e42ba852b242daec1352e8f7a8fe11793615086f13aab2fcb8"
+    },
+    {
+      "source": "cet4-2025-12-set3-full",
+      "passage": "cet4-2025-12-set3-detail1",
+      "type": "DETAIL",
+      "restoredBlanks": 0,
+      "words": 348,
+      "sentences": 16,
+      "ari": 12.56,
+      "colemanLiau": 9.81,
+      "textSha256": "b9c87be0b4e111ec2cb257e1426d3917619d340ec6be5f9644a881661f2766ff"
+    },
+    {
+      "source": "cet4-2025-12-set3-full",
+      "passage": "cet4-2025-12-set3-detail2",
+      "type": "DETAIL",
+      "restoredBlanks": 0,
+      "words": 354,
+      "sentences": 20,
+      "ari": 11.63,
+      "colemanLiau": 11.59,
+      "textSha256": "e508943938733b7341d0801ac01232a3c89b803cf35026640bfbe0c883378461"
+    },
+    {
+      "source": "ORIGINAL",
+      "passage": "bank",
+      "type": "WORD_BANK",
+      "restoredBlanks": 10,
+      "words": 227,
+      "sentences": 16,
+      "ari": 9.79,
+      "colemanLiau": 11.32,
+      "textSha256": "f0317fdeca96329d533876c68b9e8a5908996beea484a6bfc0362ee4ccd19cf3"
+    },
+    {
+      "source": "ORIGINAL",
+      "passage": "matching",
+      "type": "MATCHING",
+      "restoredBlanks": 0,
+      "words": 1028,
+      "sentences": 72,
+      "ari": 10.89,
+      "colemanLiau": 12.53,
+      "textSha256": "faf9179a413d16138196116191a74ddd5b1af1160c644c443d06e33369a0be94"
+    },
+    {
+      "source": "ORIGINAL",
+      "passage": "detail1",
+      "type": "DETAIL",
+      "restoredBlanks": 0,
+      "words": 329,
+      "sentences": 22,
+      "ari": 10.79,
+      "colemanLiau": 12.05,
+      "textSha256": "bd268cf0e7a19fb236de02397e2f72cc5126b3786d6ccf7078e2b8c94eeb6f72"
+    },
+    {
+      "source": "ORIGINAL",
+      "passage": "detail2",
+      "type": "DETAIL",
+      "restoredBlanks": 0,
+      "words": 340,
+      "sentences": 22,
+      "ari": 10.4,
+      "colemanLiau": 11.42,
+      "textSha256": "39a41c7ebc6b49981d8be995e46bd8c2aebf5184cf58135b42f3a158be6b9cfe"
+    }
+  ],
+  "listening": [
+    {
+      "id": "listening-1",
+      "type": "NEWS",
+      "words": 165,
+      "bodySeconds": 76.076,
+      "measuredBodyWpm": 130.13
+    },
+    {
+      "id": "listening-2",
+      "type": "NEWS",
+      "words": 164,
+      "bodySeconds": 75.613,
+      "measuredBodyWpm": 130.14
+    },
+    {
+      "id": "listening-3",
+      "type": "NEWS",
+      "words": 170,
+      "bodySeconds": 78.376,
+      "measuredBodyWpm": 130.14
+    },
+    {
+      "id": "listening-4",
+      "type": "CONVERSATION",
+      "words": 262,
+      "bodySeconds": 120.65,
+      "measuredBodyWpm": 130.29
+    },
+    {
+      "id": "listening-5",
+      "type": "CONVERSATION",
+      "words": 268,
+      "bodySeconds": 123.29,
+      "measuredBodyWpm": 130.42
+    },
+    {
+      "id": "listening-6",
+      "type": "PASSAGE",
+      "words": 221,
+      "bodySeconds": 101.89,
+      "measuredBodyWpm": 130.14
+    },
+    {
+      "id": "listening-7",
+      "type": "PASSAGE",
+      "words": 226,
+      "bodySeconds": 104.205,
+      "measuredBodyWpm": 130.13
+    },
+    {
+      "id": "listening-8",
+      "type": "PASSAGE",
+      "words": 220,
+      "bodySeconds": 101.45,
+      "measuredBodyWpm": 130.11
+    }
+  ],
+  "audioSha256": "b339fd56ab9207371950fbb00806ba51e92c78e88112ce5605c3e3927ea2074d"
+}

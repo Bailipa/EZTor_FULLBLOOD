@@ -4,7 +4,7 @@ import { createHash } from 'node:crypto'
 import { execFileSync } from 'node:child_process'
 import { constants as fsConstants } from 'node:fs'
 import { createReadStream } from 'node:fs'
-import { mkdir, mkdtemp, readdir, readFile, realpath, rm, stat, symlink, writeFile, copyFile } from 'node:fs/promises'
+import { mkdir, mkdtemp, readdir, readFile, realpath, rm, stat, symlink, writeFile, copyFile, rename } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -71,9 +71,11 @@ async function copyMigrations(source, destination) {
 async function copyStudyResources(destination) {
   const index = JSON.parse(await readFile(path.join(projectRoot, 'content/cet-local/index.json'), 'utf8'))
   const figures = JSON.parse(await readFile(path.join(projectRoot, 'content/cet-local/writing-figures.json'), 'utf8'))
+  const originals = JSON.parse(await readFile(path.join(projectRoot, 'content/cet-original/index.json'), 'utf8'))
   const urls = new Set([
     ...index.items.flatMap((item) => item.resources.filter((resource) => resource.category === 'audio').map((resource) => resource.url)),
     ...Object.values(figures).map((figure) => figure.url),
+    ...originals.papers.flatMap((paper) => paper.audio),
   ])
   for (const url of urls) {
     const relative = url.replace(/^\//, '')
@@ -149,6 +151,36 @@ try {
   await copyFile(path.join(projectRoot, 'prisma/schema.prisma'), path.join(stageDir, 'prisma/schema.prisma'))
   await copyMigrations(path.join(projectRoot, 'prisma/migrations'), path.join(stageDir, 'prisma/migrations'))
 
+  // Every prepared release checks its DB migrations before opening the listening socket.
+  await mkdir(path.join(stageDir, 'scripts'), { recursive: true })
+  await copyFile(path.join(projectRoot, 'scripts/check-deploy-migrations.cjs'), path.join(stageDir, 'scripts/check-deploy-migrations.cjs'))
+  execFileSync(path.join(projectRoot, 'node_modules/.bin/esbuild'), [
+    'scripts/import-original-cet4.ts', '--bundle', '--platform=node', '--packages=external', '--format=cjs',
+    `--outfile=${path.join(stageDir, 'scripts/import-original-cet4.cjs')}`,
+  ], { cwd: projectRoot, stdio: 'inherit' })
+  const originalRoot = path.join(projectRoot, 'content/cet-original')
+  const originalIndex = JSON.parse(await readFile(path.join(originalRoot, 'index.json'), 'utf8'))
+  await mkdir(path.join(stageDir, 'content/cet-original'), { recursive: true })
+  await copyFile(path.join(originalRoot, 'index.json'), path.join(stageDir, 'content/cet-original/index.json'))
+  for (const paper of originalIndex.papers) {
+    if (!/^[a-z0-9-]+\/paper\.json$/.test(paper.file)) throw new Error('Invalid original paper manifest path')
+    for (const file of [paper.file, paper.file.replace('paper.json', 'audio-manifest.json')]) {
+      const destination = path.join(stageDir, 'content/cet-original', file)
+      await mkdir(path.dirname(destination), { recursive: true })
+      await copyFile(path.join(originalRoot, file), destination)
+    }
+  }
+  await rename(path.join(stageDir, 'server.js'), path.join(stageDir, 'server-runtime.js'))
+  await writeFile(path.join(stageDir, 'server.js'), `
+process.env.NODE_ENV = 'production'
+require('./scripts/check-deploy-migrations.cjs').checkDeployMigrations(__dirname)
+  .then(() => require('./server-runtime.js'))
+  .catch(() => {
+    console.error('Release startup blocked: apply and verify the packaged database migrations before switching releases.')
+    process.exit(1)
+  })
+`)
+
   const now = new Date()
   const stamp = now.toISOString().replace(/[-:TZ.]/g, '').slice(0, 17)
   const safeBuildId = buildId.replace(/[^A-Za-z0-9_-]/g, '_')
@@ -182,6 +214,8 @@ try {
     sourceCommit,
     sourceDirty,
     externalStudyResources,
+    migrationCheck: 'node scripts/check-deploy-migrations.cjs',
+    migrationGuardBeforeListen: true,
     createdAt: now.toISOString(),
     archiveBytes: archiveStats.size,
     sha256: archiveHash,

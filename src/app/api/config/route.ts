@@ -1,3 +1,5 @@
+import { readJsonBody, RequestBodyError } from '@/lib/requestBody'
+import { modelSettingsError } from '@/lib/modelTransport'
 import { NextResponse } from 'next/server'
 import prisma from '@/lib/prisma'
 import { getServerSession } from 'next-auth/next'
@@ -88,8 +90,11 @@ export async function POST(req: Request) {
       )
     }
 
-    const body = await req.json()
-    const { apiKey, baseUrl, model, systemPrompt } = body
+    const body = await readJsonBody(req, 16 * 1024)
+    const invalid = modelSettingsError(body, false)
+    if (invalid) return NextResponse.json({ success: false, error: invalid }, { status: 400 })
+    if (body.systemPrompt !== undefined && (typeof body.systemPrompt !== 'string' || body.systemPrompt.length > 8000)) return NextResponse.json({ success: false, error: '提示词无效' }, { status: 400 })
+    const { apiKey, baseUrl, model, systemPrompt } = body as { apiKey?: string; baseUrl?: string; model?: string; systemPrompt?: string }
 
     const updatedConfig = await prisma.apiConfig.upsert({
       where: { id: 'global' },
@@ -101,7 +106,7 @@ export async function POST(req: Request) {
       },
       create: {
         id: 'global',
-        apiKey,
+        apiKey: apiKey || '',
         baseUrl: baseUrl || 'https://api.openai.com/v1',
         model: model || 'gpt-4o-mini',
         systemPrompt: systemPrompt || '',
@@ -117,7 +122,8 @@ export async function POST(req: Request) {
       },
     })
   } catch (err: unknown) {
-    logger.error({ err }, 'Failed to update api config:')
+    if (err instanceof RequestBodyError) return NextResponse.json({ success: false, error: err.message }, { status: err.status })
+    logger.error({ error: err instanceof Error ? err.name : 'UnknownError' }, 'Failed to update api config:')
     return NextResponse.json({ success: false, error: 'Internal server error' }, { status: 500 })
   }
 }

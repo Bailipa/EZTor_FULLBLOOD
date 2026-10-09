@@ -15,8 +15,8 @@ function recordAuthEvent(
   userId: string,
   req?: { headers?: Record<string, string | string[] | undefined> },
 ) {
-  const forwarded = req?.headers?.['x-forwarded-for'] || req?.headers?.['x-real-ip']
-  const ipAddress = Array.isArray(forwarded) ? forwarded[0] : forwarded?.split(',')[0]?.trim()
+  const forwarded = req?.headers?.['x-real-ip'] || req?.headers?.['x-forwarded-for']
+  const ipAddress = Array.isArray(forwarded) ? forwarded[0] : forwarded?.split(',').at(-1)?.trim()
   const userAgent = req?.headers?.['user-agent']
   prisma.analyticsEvent.create({
     data: {
@@ -43,7 +43,7 @@ export const authOptions: NextAuthOptions = {
         : `next-auth.session-token`,
       options: {
         httpOnly: true,
-        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+        sameSite: 'lax',
         path: '/',
         secure: process.env.NODE_ENV === 'production',
       },
@@ -60,8 +60,8 @@ export const authOptions: NextAuthOptions = {
         captchaTimestamp: { label: 'CaptchaTimestamp', type: 'text' },
       },
       async authorize(credentials, req) {
-        const ip = req?.headers?.['x-forwarded-for'] || req?.headers?.['x-real-ip'] || 'unknown'
-        const rateLimitKey = `auth:${ip}`
+        const ip = req?.headers?.['x-real-ip'] || req?.headers?.['x-forwarded-for'] || 'unknown'
+        const rateLimitKey = `auth:${Array.isArray(ip) ? ip.at(-1) : ip.split(',').at(-1)?.trim()}`
         const rateLimitResult = await rateLimit(rateLimitKey)
 
         if (!rateLimitResult.success) {
@@ -80,8 +80,8 @@ export const authOptions: NextAuthOptions = {
           throw new Error('验证码缺失 / Missing captcha')
         }
 
-        const timeDiff = Date.now() - parseInt(credentials.captchaTimestamp)
-        if (timeDiff > 5 * 60 * 1000) {
+        const timeDiff = Date.now() - Number(credentials.captchaTimestamp)
+        if (!Number.isFinite(timeDiff) || timeDiff < 0 || timeDiff > 5 * 60 * 1000) {
           throw new Error('验证码已过期 / Captcha expired')
         }
 
@@ -90,7 +90,7 @@ export const authOptions: NextAuthOptions = {
           .update(`${credentials.captchaInput.toLowerCase()}:${credentials.captchaTimestamp}`)
           .digest('hex')
 
-        if (expectedHash !== credentials.captchaHash) {
+        if (!/^[a-f0-9]{64}$/.test(credentials.captchaHash) || !crypto.timingSafeEqual(Buffer.from(expectedHash, 'hex'), Buffer.from(credentials.captchaHash, 'hex'))) {
           throw new Error('验证码错误 / Invalid captcha')
         }
 
@@ -146,8 +146,13 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async session({ session, token }) {
       if (session?.user) {
-        session.user.id = token.sub as string
-        session.user.isAdmin = token.isAdmin as boolean
+        // A browser may inspect its own session; authority comes from current DB state.
+        const account = token.sub ? await prisma.user.findUnique({
+          where: { id: token.sub },
+          select: { id: true, username: true, isAdmin: true, isBanned: true, banExpiresAt: true },
+        }) : null
+        const blocked = account?.isBanned && (!account.banExpiresAt || account.banExpiresAt > new Date())
+        session.user = { id: account?.id ?? '', name: account?.username ?? null, isAdmin: !!account?.isAdmin && !blocked }
       }
       return session
     },

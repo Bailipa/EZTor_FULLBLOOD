@@ -45,36 +45,34 @@ export async function checkAndEnforceLimit(
   return { allowed: true, used, remaining: DAILY_LIMIT - used }
 }
 
-export async function incrementUsage(
+/** Reserve before sending to the provider. Attempts are not refunded when billing is uncertain. */
+export async function reserveTranslateUsage(
   userId: string,
   isAdmin: boolean,
   deviceId?: string,
-): Promise<void> {
-  if (isAdmin) return
-
-  const today = getTodayDateUTC8()
-
-  await prisma.translateOnlyUsage.upsert({
-    where: { userId_date: { userId, date: today } },
-    update: { count: { increment: 1 } },
-    create: {
-      id: generateId(),
-      userId,
-      date: today,
-      count: 1,
-    },
-  })
-
-  if (deviceId) {
-    await prisma.deviceUsageLog.create({
-      data: {
-        id: generateId(),
-        deviceId,
-        date: today,
-        userId,
-      },
+): Promise<boolean> {
+  return prisma.$transaction(async tx => {
+    // A device lock serializes its budget across accounts; the user lock also covers requests without a device.
+    if (deviceId) await tx.$executeRaw`SELECT pg_advisory_xact_lock(hashtextextended(${`translate-device:${deviceId}`}, 0))`
+    const [user] = await tx.$queryRaw<{ isAdmin: boolean; isBanned: boolean; banExpiresAt: Date | null }[]>`
+      SELECT "isAdmin", "isBanned", "banExpiresAt" FROM "User" WHERE id=${userId} FOR UPDATE`
+    if (!user || (user.isBanned && (!user.banExpiresAt || user.banExpiresAt > new Date()))) return false
+    if (isAdmin && user.isAdmin) return true
+    const today = getTodayDateUTC8()
+    if (deviceId && await tx.deviceUsageLog.count({ where: { deviceId, date: today } }) >= DAILY_LIMIT) return false
+    await tx.translateOnlyUsage.upsert({
+      where: { userId_date: { userId, date: today } },
+      create: { id: generateId(), userId, date: today, count: 0 },
+      update: {},
     })
-  }
+    const claimed = await tx.translateOnlyUsage.updateMany({
+      where: { userId, date: today, count: { lt: DAILY_LIMIT } },
+      data: { count: { increment: 1 } },
+    })
+    if (!claimed.count) return false
+    if (deviceId) await tx.deviceUsageLog.create({ data: { id: generateId(), deviceId, date: today, userId } })
+    return true
+  })
 }
 
 export async function getUsage(

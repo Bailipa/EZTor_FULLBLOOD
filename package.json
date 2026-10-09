@@ -1,6 +1,6 @@
 {
   "name": "web",
-  "version": "2.3.1",
+  "version": "2.4.0",
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
@@ -19,6 +19,7 @@
     "db:generate": "prisma generate",
     "db:migrate": "prisma migrate dev",
     "db:deploy": "prisma migrate deploy",
+    "deploy:check-migrations": "node scripts/check-deploy-migrations.cjs",
     "db:studio": "prisma studio"
   },
   "postinstall": "prisma generate",

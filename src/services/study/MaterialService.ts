@@ -5,6 +5,7 @@ import type { StudyLevel } from '@/features/study/domain'
 import { isCurrentPaper } from '@/features/study/paperAvailability'
 import type { StudyMaterial, StudyMaterialCatalogue } from '@/features/study/materialTypes'
 import resources from '../../../content/cet-local/index.json'
+import originals from '../../../content/cet-original/index.json'
 
 export async function studyMaterialSummary(userId: string, db: PrismaClient = prisma): Promise<Pick<StudyMaterialCatalogue, 'totalSets'>> {
   const access = await accessiblePaperWhere(db, userId)
@@ -47,6 +48,8 @@ export async function studyMaterials(userId: string, db: PrismaClient = prisma):
         sources: [], readingPassages: 0, listening: false, full: false }
       sets.set(key, item)
     }
+    const original = originals.papers.find((paper) => examPaperKey(paper.slug) === key)
+    if (original) item.resources = original.audio.map((url) => ({ id: url.split('/').at(-1)!, category: 'audio', name: '原创模拟听力（AI合成）', url }))
     if (!item.sources.some((source) => source.url === row.sourceUrl)) item.sources.push({ name: row.sourceName, url: row.sourceUrl })
     if ('kind' in row) {
       item.full ||= row.kind === 'FULL'

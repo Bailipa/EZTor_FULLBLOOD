@@ -4,7 +4,6 @@ import { getToken } from 'next-auth/jwt'
 import { validateCsrf } from '@/lib/csrf'
 import {
   getClientIp,
-  isAdmin,
   recordActivity,
   wasRecentlyActive,
   isOverLimit,
@@ -181,21 +180,20 @@ export default async function middleware(request: NextRequest) {
 
   // --- Online list endpoint: handled directly by middleware (activityMap lives in this bundle) ---
   if (pathname === '/api/admin/online') {
-    const res = NextResponse.json({ success: true, data: getOnlineByPlatform() })
-    baseHeaders(res)
-    if (!token?.isAdmin) {
-      return NextResponse.json({ success: false, error: '需要管理员权限' }, { status: 403 })
+    if (!userId) return baseHeaders(NextResponse.json({ success: false, error: '未登录' }, { status: 401 }))
+    try {
+      // Keep the online map in this bundle; authorize with current DB state, not JWT role snapshots.
+      const { default: prisma } = await import('@/lib/prisma')
+      const account = await prisma.user.findUnique({
+        where: { id: userId }, select: { isAdmin: true, isBanned: true, banExpiresAt: true },
+      })
+      if (!account?.isAdmin || (account.isBanned && (!account.banExpiresAt || account.banExpiresAt > new Date()))) {
+        return baseHeaders(NextResponse.json({ success: false, error: '需要管理员权限' }, { status: 403 }))
+      }
+      return baseHeaders(NextResponse.json({ success: true, data: getOnlineByPlatform() }))
+    } catch {
+      return baseHeaders(NextResponse.json({ success: false, error: '权限检查暂不可用' }, { status: 503 }))
     }
-    return res
-  }
-
-  // --- Admin backdoor: always allow, always active, never kicked ---
-  if (isAdmin(username)) {
-    recordActivity(ip, { platform, userId, username })
-    const res = NextResponse.next()
-    baseHeaders(res)
-    res.cookies.delete('online_limit')
-    return res
   }
 
   // --- Blacklist check: kicked user trying to come back ---
@@ -278,5 +276,6 @@ export default async function middleware(request: NextRequest) {
 }
 
 export const config = {
+  runtime: 'nodejs',
   matcher: ['/study/resources/:path*', '/((?!_next/static|_next/image|favicon.ico|public|xiaoying-icon\\.svg|.*\\.png$|.*\\.jpg$|.*\\.jpeg$|.*\\.gif$|.*\\.svg$|.*\\.ico$|.*\\.webp$|.*\\.mp3$|.*\\.wav$|.*\\.woff2?$).*)'],
 }

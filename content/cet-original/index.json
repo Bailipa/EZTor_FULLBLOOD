@@ -1,0 +1,14 @@
+{
+  "papers": [
+    {
+      "slug": "cet4-original-001-full",
+      "file": "cet4-original-001/paper.json",
+      "audio": [
+        "/study/resources/b339fd56ab9207371950fbb0.mp3"
+      ],
+      "status": "LOCAL_SAMPLE",
+      "benchmark": "2025",
+      "calibration": "2026_PENDING"
+    }
+  ]
+}

@@ -1,0 +1,501 @@
+{
+  "notice": "原创情境及数据，非真实新闻报道；AI合成配音。",
+  "groups": [
+    {
+      "id": "listening-1",
+      "type": "NEWS",
+      "title": "共享工具服务",
+      "segments": [
+        {
+          "speaker": "narrator",
+          "text": "A neighbourhood library in Hangzhou is trying a new way to help residents repair small household items. Alongside its books, the library now lends basic tools, including screwdrivers and bicycle pumps. The service began after staff noticed that many residents wanted to repair things but did not own the right equipment. Buying a tool for a single repair seemed wasteful, especially for people living in small flats.\nResidents can borrow a kit for three days with their library card. They must first watch a short safety video, but there is no lending fee. During the first month, bicycle pumps were borrowed more often than any other item. Staff had expected screwdrivers to be the most popular. The library is now collecting suggestions before buying more equipment. It will not lend electric tools at this stage, because staff say those require more careful training. A weekly repair session is also planned, although volunteers will teach residents basic skills rather than take broken items away for repair."
+        }
+      ],
+      "questions": [
+        {
+          "number": 1,
+          "prompt": "Why did the library introduce the tool-lending service?",
+          "correct": "Residents lacked equipment for occasional repairs.",
+          "distractors": [
+            "Staff wanted residents to buy fewer library books.",
+            "Volunteers needed a place to store their repair kits.",
+            "Residents wanted the library to repair items for them."
+          ],
+          "evidence": "many residents wanted to repair things but did not own the right equipment",
+          "explanation": "服务起因是居民想修东西却缺少工具；不是图书成本、商店停业或志愿者自用。"
+        },
+        {
+          "number": 2,
+          "prompt": "What surprised the library staff during the first month?",
+          "correct": "Bicycle pumps were the most frequently borrowed tools.",
+          "distractors": [
+            "Screwdrivers attracted more borrowers than bicycle pumps.",
+            "Residents asked mainly for tools needing electrical training.",
+            "The safety video discouraged most residents from borrowing."
+          ],
+          "evidence": "bicycle pumps were borrowed more often than any other item",
+          "explanation": "实际借用最多的是打气筒，与工作人员预期的螺丝刀不同。电动工具尚不提供。"
+        }
+      ]
+    },
+    {
+      "id": "listening-2",
+      "type": "NEWS",
+      "title": "菜市场配送试行",
+      "segments": [
+        {
+          "speaker": "narrator",
+          "text": "A vegetable market in Chengdu has changed its morning delivery arrangements following complaints from nearby residents. Delivery vehicles previously arrived at different times before sunrise, and drivers often left their engines running while waiting for space. The market has now introduced booked delivery periods and a marked waiting area away from the residential buildings. Drivers must switch off their engines while waiting.\nThe change was tested for two weeks. According to the market manager, the number of noise complaints fell, while the average time needed to unload a vehicle remained almost unchanged. Some traders had worried that scheduled deliveries would make fresh vegetables arrive too late, but the booking system allowed them to choose earlier periods when necessary. The market will continue the arrangement for another month before deciding whether to make it permanent. The manager said the next step was to improve signs at the entrance, since several first-time drivers had entered the wrong lane. No increase in delivery charges has been announced."
+        }
+      ],
+      "questions": [
+        {
+          "number": 3,
+          "prompt": "What problem was the market trying to address?",
+          "correct": "Noise caused by early delivery vehicles.",
+          "distractors": [
+            "Traders could not find enough space to display fresh produce.",
+            "Vehicles had to wait too long after the market opened.",
+            "Residents had difficulty reaching the market before sunrise."
+          ],
+          "evidence": "following complaints from nearby residents",
+          "explanation": "居民投诉与清晨车辆及怠速噪声相关；文章未说蔬菜短缺或暴雨损坏。"
+        },
+        {
+          "number": 4,
+          "prompt": "What happened during the two-week trial?",
+          "correct": "Unloading took about as long as before.",
+          "distractors": [
+            "Scheduled periods caused fresh vegetables to arrive later.",
+            "Improved entrance signs prevented drivers from using the wrong lane.",
+            "Delivery vehicles waited closer to the residential buildings."
+          ],
+          "evidence": "the average time needed to unload a vehicle remained almost unchanged",
+          "explanation": "变化是投诉减少，卸货平均耗时基本未变；早时段仍可预约。"
+        }
+      ]
+    },
+    {
+      "id": "listening-3",
+      "type": "NEWS",
+      "title": "校园水站调查",
+      "segments": [
+        {
+          "speaker": "narrator",
+          "text": "Students at a university in Wuhan have completed a study of the drinking-water stations on their campus. For four weeks, volunteers counted visits at different times of day and asked users about their experience. The busiest station was close to the sports ground, but it was not the one receiving the most complaints. That was a station near the library, where the narrow space made queues difficult to organise.\nInstead of immediately buying more machines, the university will first move the library station into a wider entrance area. Clear signs will separate people filling bottles from those waiting to enter the building. The students also recommended displaying the date of the latest maintenance check, because some users wanted more information about water quality. The university accepted this suggestion. A second survey is planned after the change has been in place for a month. Volunteers will compare waiting times rather than simply count total visits, so they can see whether the new arrangement has actually made the station easier to use."
+        }
+      ],
+      "questions": [
+        {
+          "number": 5,
+          "prompt": "Which station received the most complaints?",
+          "correct": "The one near the library.",
+          "distractors": [
+            "The one beside the sports ground.",
+            "The one inside the dining hall.",
+            "The one outside the student centre."
+          ],
+          "evidence": "a station near the library, where the narrow space made queues difficult",
+          "explanation": "最多投诉来自图书馆附近水站；运动场水站只是使用量最多。"
+        },
+        {
+          "number": 6,
+          "prompt": "What will the university do first?",
+          "correct": "Move an existing station into a wider area.",
+          "distractors": [
+            "Add another machine beside the sports ground.",
+            "Restrict use of the station near the library.",
+            "Begin the follow-up survey before moving the station."
+          ],
+          "evidence": "first move the library station into a wider entrance area",
+          "explanation": "首先调整已有设备的位置，尚不是增加机器或限制用水。"
+        },
+        {
+          "number": 7,
+          "prompt": "What will the second survey focus on?",
+          "correct": "How long people wait to use the station.",
+          "distractors": [
+            "How visits are distributed across the campus stations.",
+            "Whether the new signs increase the number of bottle users.",
+            "Which station needs the most frequent maintenance checks."
+          ],
+          "evidence": "compare waiting times rather than simply count total visits",
+          "explanation": "第二轮以等待时间检验改善效果，而非仅统计访问数量。"
+        }
+      ]
+    },
+    {
+      "id": "listening-4",
+      "type": "CONVERSATION",
+      "title": "社区声音展",
+      "segments": [
+        {
+          "speaker": "woman",
+          "text": "I've brought the draft plan for our community sound exhibition. You suggested recording the old railway station, but I'm worried that we'll spend most of our time travelling."
+        },
+        {
+          "speaker": "man",
+          "text": "That's fair. We only have three weeks, and the station is nearly two hours away. What about the morning market near campus?"
+        },
+        {
+          "speaker": "woman",
+          "text": "I like that. But we should avoid recording private conversations. We can ask traders whether they are willing to describe their work, and record the general background separately."
+        },
+        {
+          "speaker": "man",
+          "text": "Agreed. I'll prepare a short permission form."
+        },
+        {
+          "speaker": "woman",
+          "text": "Our tutor said a clear purpose matters more than expensive equipment for this project. We can use the small recorder I've already learned to operate. Let's make a trial recording first."
+        },
+        {
+          "speaker": "man",
+          "text": "Good. We could visit on Friday morning, then listen to the recording back here. If the wind is too strong, we can try recording under the covered entrance."
+        },
+        {
+          "speaker": "woman",
+          "text": "Friday won't work for me. I have a laboratory class until noon. Could we go on Saturday? The market is still busy then."
+        },
+        {
+          "speaker": "man",
+          "text": "Saturday is fine. For the exhibition, I was thinking of displaying photographs next to each sound. Visitors could read a long explanation about the market's history."
+        },
+        {
+          "speaker": "woman",
+          "text": "Photographs would help, but let's keep the labels short. We want people to listen carefully, not spend the whole visit reading. A map could show where each sound was recorded."
+        },
+        {
+          "speaker": "man",
+          "text": "That makes sense. I'll contact the market office today and ask about permission. Could you draw the map?"
+        },
+        {
+          "speaker": "woman",
+          "text": "Yes. After the trial, we can decide which parts tell a clear story. We don't have to use everything we record."
+        }
+      ],
+      "questions": [
+        {
+          "number": 8,
+          "prompt": "Why do the speakers give up recording at the railway station?",
+          "correct": "Travelling there would take too much time.",
+          "distractors": [
+            "Their project required sounds from a busier location.",
+            "They needed a location where recording required no permission.",
+            "Their tutor preferred places with familiar historical stories."
+          ],
+          "evidence": "the station is nearly two hours away",
+          "explanation": "距离远，而项目仅剩三周，因此改选附近市场；不是车站关闭或导师禁止出校。"
+        },
+        {
+          "number": 9,
+          "prompt": "What does the woman suggest about recording traders?",
+          "correct": "Ask for permission before recording their descriptions.",
+          "distractors": [
+            "Record private conversations separately from the background.",
+            "Invite traders to approve the completed exhibition afterwards.",
+            "Ask the market office to describe the work for the traders."
+          ],
+          "evidence": "ask traders whether they are willing to describe their work",
+          "explanation": "须询问是否愿意录制，并避免私下交谈；不是秘密录音。"
+        },
+        {
+          "number": 10,
+          "prompt": "When will the speakers make the trial recording?",
+          "correct": "On Saturday.",
+          "distractors": [
+            "On Thursday evening.",
+            "On Friday morning.",
+            "On Friday afternoon."
+          ],
+          "evidence": "Could we go on Saturday? ... Saturday is fine",
+          "explanation": "周五因实验课不合适，双方最终同意周六。"
+        },
+        {
+          "number": 11,
+          "prompt": "What will the man do next?",
+          "correct": "Contact the market office about permission.",
+          "distractors": [
+            "Prepare the map before visiting the market.",
+            "Ask their tutor to operate the small recorder.",
+            "Select photographs for the historical labels."
+          ],
+          "evidence": "I'll contact the market office today and ask about permission",
+          "explanation": "男子联系市场办公室；画地图由女子负责。"
+        }
+      ]
+    },
+    {
+      "id": "listening-5",
+      "type": "CONVERSATION",
+      "title": "实习任务安排",
+      "segments": [
+        {
+          "speaker": "man",
+          "text": "You've just finished your first week at the design company. How did it go?"
+        },
+        {
+          "speaker": "woman",
+          "text": "I still get nervous, but that wasn't the main difficulty. I spent too long improving small details before checking whether I had understood the task. On Wednesday, I discovered I had designed the wrong kind of poster."
+        },
+        {
+          "speaker": "man",
+          "text": "That sounds frustrating. Was the instruction unclear?"
+        },
+        {
+          "speaker": "woman",
+          "text": "It was short, and I made an assumption instead of asking. My supervisor said a rough sketch shown early would have prevented the mistake. She wasn't expecting a finished design that afternoon."
+        },
+        {
+          "speaker": "man",
+          "text": "So you need to check the direction before polishing the work."
+        },
+        {
+          "speaker": "woman",
+          "text": "Exactly. We agreed that I would send a simple outline at the start of each new task. She'll tell me whether I'm on the right track."
+        },
+        {
+          "speaker": "man",
+          "text": "Did you work late to replace the poster?"
+        },
+        {
+          "speaker": "woman",
+          "text": "Not that night. The deadline was Friday, so I still had Thursday to correct it. She wanted me to understand why the design was needed."
+        },
+        {
+          "speaker": "man",
+          "text": "That's useful advice. What will you do next week?"
+        },
+        {
+          "speaker": "woman",
+          "text": "Help the team prepare a small exhibition. My job is to check whether visitors can follow the signs between rooms. I'll walk through the building with someone who has never been there."
+        },
+        {
+          "speaker": "man",
+          "text": "Will you ask that person to explain where they feel uncertain?"
+        },
+        {
+          "speaker": "woman",
+          "text": "Yes, without telling them the correct route first. If I guide them the whole way, the signs may seem clearer than they really are."
+        },
+        {
+          "speaker": "man",
+          "text": "It sounds as if your first week changed how you think about good design."
+        },
+        {
+          "speaker": "woman",
+          "text": "It did. Looking attractive is important, but a design also has to work for the people using it."
+        }
+      ],
+      "questions": [
+        {
+          "number": 12,
+          "prompt": "What was the woman's main difficulty in her first week?",
+          "correct": "She polished a design before confirming the task.",
+          "distractors": [
+            "She misunderstood when a finished poster was due.",
+            "She waited for detailed instructions before making a sketch.",
+            "She concentrated on presentation skills instead of poster design."
+          ],
+          "evidence": "spent too long improving small details before checking whether I had understood the task",
+          "explanation": "问题在于未确认任务便细修，并非设备、缺席或薪资。"
+        },
+        {
+          "number": 13,
+          "prompt": "What arrangement did she make with her supervisor?",
+          "correct": "Send a simple outline when beginning a new task.",
+          "distractors": [
+            "Ask for feedback once the final design is complete.",
+            "Prepare a detailed poster before checking the outline.",
+            "Discuss small design details at the end of each week."
+          ],
+          "evidence": "send a simple outline at the start of each new task",
+          "explanation": "先发简要方案确认方向；不是完全做完再询问。"
+        },
+        {
+          "number": 14,
+          "prompt": "What will she help check for the exhibition?",
+          "correct": "Whether visitors can find their way between rooms.",
+          "distractors": [
+            "Whether the display colours attract visitors from other rooms.",
+            "Whether staff can explain the exhibition without any signs.",
+            "Whether the route gives each display the same amount of space."
+          ],
+          "evidence": "check whether visitors can follow the signs between rooms",
+          "explanation": "任务是检验导向标识的实际可用性。"
+        },
+        {
+          "number": 15,
+          "prompt": "Why will she avoid guiding the visitor during the walk?",
+          "correct": "She wants to discover weaknesses in the signs.",
+          "distractors": [
+            "She wants to measure how fast the visitor can walk.",
+            "She needs the visitor to choose the most attractive signs.",
+            "She wants to compare the visitor with an experienced designer."
+          ],
+          "evidence": "If I guide them the whole way, the signs may seem clearer than they really are",
+          "explanation": "不提示路线才能暴露标识问题；不是考察参观者设计知识。"
+        }
+      ]
+    },
+    {
+      "id": "listening-6",
+      "type": "PASSAGE",
+      "title": "修理活动的学习过程",
+      "segments": [
+        {
+          "speaker": "narrator",
+          "text": "When a university repair group first invited students to bring in broken belongings, the organisers expected the main challenge to be finding enough tools. On the first afternoon, however, they discovered a different problem. Many visitors handed over an item and immediately reached for their phones. They expected the volunteers to complete the repair for them.\nThe group decided that this approach did not match its educational purpose. At the next meeting, every visitor was asked to stay at the table and take part. Volunteers began by asking what had happened before the item stopped working. They then explained one possible cause and invited the owner to carry out a safe, simple check. Anything involving dangerous electrical work was referred to a professional service.\nRepairs sometimes took longer under the new arrangement. Yet students began to describe the sessions differently. Instead of saying that someone had fixed a lamp, they explained how they had found a loose connection or why a part needed replacing.\nThe organisers do not measure success only by the number of completed repairs. They also ask visitors what they learned and whether they would feel comfortable making a similar check at home. The group has kept its small size so that volunteers have time to explain. It cannot repair every item, and safety checks are never skipped."
+        }
+      ],
+      "questions": [
+        {
+          "number": 16,
+          "prompt": "What unexpected problem did the organisers discover?",
+          "correct": "Visitors expected volunteers to do all the work.",
+          "distractors": [
+            "Visitors chose complicated items instead of small belongings.",
+            "Volunteers concentrated on teaching before checking the items.",
+            "The available tools did not match the number of visitors."
+          ],
+          "evidence": "expected the volunteers to complete the repair for them",
+          "explanation": "访客把修理当代办服务，与教学目标不符。"
+        },
+        {
+          "number": 17,
+          "prompt": "How did the group change its sessions?",
+          "correct": "It required owners to participate in the repair process.",
+          "distractors": [
+            "It asked owners to describe the fault and then leave.",
+            "It let visitors practise repairs before discussing possible causes.",
+            "It sent every electrical item to a professional without checking it."
+          ],
+          "evidence": "every visitor was asked to stay at the table and take part",
+          "explanation": "改为全程参与；危险电气作业仍交给专业服务。"
+        },
+        {
+          "number": 18,
+          "prompt": "What does the group consider a sign of success?",
+          "correct": "Visitors gain confidence in making similar safe checks.",
+          "distractors": [
+            "Volunteers shorten repair times by doing the difficult checks.",
+            "More visitors return because they still have broken items.",
+            "The group expands its service to cover professional repairs."
+          ],
+          "evidence": "whether they would feel comfortable making a similar check at home",
+          "explanation": "以技能和安全检查信心为成果，不以数量增长或替代商店为目的。"
+        }
+      ]
+    },
+    {
+      "id": "listening-7",
+      "type": "PASSAGE",
+      "title": "播客制作与删减",
+      "segments": [
+        {
+          "speaker": "narrator",
+          "text": "A student team producing a weekly science podcast used to believe that every episode needed as much information as possible. Members collected facts from several sources and prepared long scripts. Comments suggested that the programme was difficult to follow while walking or travelling on a bus.\nThe team initially blamed the sound quality. They bought a better microphone, yet the listening figures changed very little. A teacher then asked them to describe the purpose of one episode in a single sentence. Each team member gave a different answer. The difficulty was not simply technical: the programme lacked a clear central question.\nFor the next episode, the team chose one question about how a familiar household object worked. They kept only the information needed to answer it. A short example came before the technical term, and a brief summary appeared at the end. The episode was shorter, but a greater proportion of listeners reached the final minute.\nThe students now ask someone outside the team to listen to a draft. Rather than asking only whether it sounds interesting, they ask that person to explain the main idea afterwards. If the explanation is confused, they revise the structure before adding any more facts. They still check information carefully and provide sources in the programme notes. Reducing the amount of information has not meant reducing their responsibility for accuracy."
+        }
+      ],
+      "questions": [
+        {
+          "number": 19,
+          "prompt": "What complaint did listeners make about the original podcast?",
+          "correct": "It was difficult to follow while doing everyday activities.",
+          "distractors": [
+            "It explained familiar objects before introducing scientific terms.",
+            "It provided more examples than listeners considered necessary.",
+            "It lacked enough detail for listeners to check the information."
+          ],
+          "evidence": "difficult to follow while walking or travelling on a bus",
+          "explanation": "信息与结构让移动场景下的收听困难，不是内容缺乏科学信息。"
+        },
+        {
+          "number": 20,
+          "prompt": "What did the teacher's question reveal?",
+          "correct": "The team had no shared understanding of the episode's purpose.",
+          "distractors": [
+            "The episode used technical terms before giving an example.",
+            "The members disagreed about which microphone to purchase.",
+            "The team needed more sources before beginning to record."
+          ],
+          "evidence": "Each team member gave a different answer",
+          "explanation": "一句话目的各不相同，暴露主线不明确；不是麦克风问题。"
+        },
+        {
+          "number": 21,
+          "prompt": "What do the students now ask an outside listener to do?",
+          "correct": "Explain the main idea after hearing a draft.",
+          "distractors": [
+            "Suggest another technical term to add to the programme.",
+            "Compare the draft with the list of source materials.",
+            "Identify the sections that need better recording equipment."
+          ],
+          "evidence": "explain the main idea afterwards",
+          "explanation": "通过复述主旨检查理解，而不只问是否有趣。"
+        }
+      ]
+    },
+    {
+      "id": "listening-8",
+      "type": "PASSAGE",
+      "title": "树荫地图",
+      "segments": [
+        {
+          "speaker": "narrator",
+          "text": "At the beginning of summer, students at a college noticed that the shortest route between the library and the bus stop was not always the most comfortable. At midday, a wide paved square had very little shade.\nA student geography group decided to map the shade along several walking routes. Members visited each route in the morning, at midday and in the late afternoon. They recorded where shade fell along each path. They soon found that a route described as shady in the morning could be almost entirely exposed a few hours later.\nThe first version of their map used a single green line for comfortable routes. After showing it to classmates, the group changed the design. The new version lets readers choose a time of day and compare alternative paths.\nThe college has used the observations to identify a small number of places where temporary shade could help. Before making permanent changes, staff plan to count how people use those areas. The students have also added a date to the map and will update it as the season changes. They explain that shade depends on the sun's position and the growth of trees, so a useful map needs careful, regular revision. Their aim is to make daily choices easier while giving planners evidence about where improvements would matter most."
+        }
+      ],
+      "questions": [
+        {
+          "number": 22,
+          "prompt": "Why did some students avoid the shortest route at midday?",
+          "correct": "It offered little protection from the sun.",
+          "distractors": [
+            "It was longer than the route running beside the trees.",
+            "It was crowded with people waiting for the campus bus.",
+            "It provided fewer places to sit during the morning."
+          ],
+          "evidence": "At midday, a wide paved square had very little shade",
+          "explanation": "正午缺乏树荫造成不适，不是路线关闭。"
+        },
+        {
+          "number": 23,
+          "prompt": "What did the geography group discover?",
+          "correct": "Shade along a route changed with the time of day.",
+          "distractors": [
+            "A route with trees remained shaded throughout the day.",
+            "The shortest route offered the best shade in the afternoon.",
+            "Seasonal changes affected every route in exactly the same way."
+          ],
+          "evidence": "shady in the morning could be almost entirely exposed a few hours later",
+          "explanation": "同一路线不同时间的遮阴情况差异很大。"
+        },
+        {
+          "number": 24,
+          "prompt": "How did the group improve its map?",
+          "correct": "It allowed readers to compare routes for a chosen time.",
+          "distractors": [
+            "It ranked all paths according to their total walking distance.",
+            "It selected one comfortable route for everyone to follow.",
+            "It marked only the places selected for permanent improvements."
+          ],
+          "evidence": "lets readers choose a time of day and compare alternative paths",
+          "explanation": "改版增加按时间比较路线，尊重用户实际约束。"
+        },
+        {
+          "number": 25,
+          "prompt": "Why will the map need regular revision?",
+          "correct": "The conditions affecting shade change over time.",
+          "distractors": [
+            "Students choose different bus stops during each college term.",
+            "The college replaces temporary shade structures every month.",
+            "The routes become shorter as planners improve the campus."
+          ],
+          "evidence": "shade depends on the sun's position and the growth of trees",
+          "explanation": "太阳位置、树木生长和季节变化要求更新；其余原因未获支持。"
+        }
+      ]
+    }
+  ]
+}

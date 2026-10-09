@@ -29,7 +29,7 @@ export default function MaterialCatalogue({ accountId, onClose }: { accountId: s
   return <>
     <Dialog open onOpenChange={(open) => { if (!open) onClose() }}><DialogContent className={styles.catalogueDialog}>
       <DialogTitle>试卷目录</DialogTitle>
-      <DialogDescription>{data ? `保留 ${MINIMUM_CET_YEAR} 年及以后的 ${data.totalSets} 套材料。各卷按实际提供的内容开放在线作答，并提供配套听力。` : '正在读取材料目录…'}</DialogDescription>
+      <DialogDescription>{data ? `共 ${data.totalSets} 套可用试卷，包含 ${MINIMUM_CET_YEAR} 年及以后的真题及明确标注的原创模拟卷。模拟卷默认向所有用户开放。` : '正在读取材料目录…'}</DialogDescription>
       <div className={styles.catalogueToolbar}>
         <input aria-label="搜索试卷" placeholder="搜索年份、月份或卷别" value={query} onChange={(event) => setQuery(event.currentTarget.value)} />
         <ThemedSelect aria-label="筛选试卷级别" value={level} onValueChange={(value) => setLevel(value)}><SelectItem value="ALL">全部试卷</SelectItem><SelectItem value="CET4">四级</SelectItem><SelectItem value="CET6">六级</SelectItem></ThemedSelect>

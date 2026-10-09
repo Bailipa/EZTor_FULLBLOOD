@@ -49,7 +49,7 @@ export default function ExamPaperPicker({ papers, currentPaperId, busy, blocked,
         const current = paper.id === currentPaperId
         return <label key={paper.id} className={styles.card} data-selected={selected?.id === paper.id} data-current={current}>
           <input type="radio" name={`${id}-paper`} value={paper.id} checked={selected?.id === paper.id} disabled={busy || current} onChange={() => setSelectedId(paper.id)} />
-          <span className={styles.cardBody}><span className={styles.cardMeta}>{paper.level === 'CET4' ? '四级 CET4' : '六级 CET6'}{current ? <span>正在作答</span> : selected?.id === paper.id ? <span>已选择</span> : null}</span><strong>{paper.title}</strong></span>
+          <span className={styles.cardBody}><span className={styles.cardMeta}>{paper.level === 'CET4' ? '四级 CET4' : '六级 CET6'}{paper.originType === 'ORIGINAL' && <span>原创模拟卷 · 全员开放</span>}{current ? <span>正在作答</span> : selected?.id === paper.id ? <span>已选择</span> : null}</span><strong>{paper.title}</strong></span>
         </label>
       })}
       {!visible.length && <div className={styles.empty}><strong>没有找到符合条件的试卷</strong><p>试试其他关键词，或清除筛选查看全部试卷。</p><Button variant="outline" disabled={busy} onClick={reset}>查看全部试卷</Button></div>}

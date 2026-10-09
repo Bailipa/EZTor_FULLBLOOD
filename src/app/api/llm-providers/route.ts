@@ -1,3 +1,5 @@
+import { readJsonBody, RequestBodyError } from '@/lib/requestBody'
+import { modelSettingsError } from '@/lib/modelTransport'
 import { NextRequest, NextResponse } from 'next/server'
 import prisma from '@/lib/prisma'
 import { getServerSession } from 'next-auth'
@@ -49,7 +51,14 @@ export async function POST(req: NextRequest) {
   const admin = await requireAdmin()
   if (!admin.ok) return admin.res
 
-  const body = await req.json().catch(() => ({}))
+  let body: Record<string, unknown>
+  try { body = await readJsonBody(req, 16 * 1024) }
+  catch (error) { return NextResponse.json({ success: false, error: error instanceof RequestBodyError ? error.message : '请求体无效' }, { status: error instanceof RequestBodyError ? error.status : 400 }) }
+  for (const key of ['apiKey', 'baseUrl', 'model']) {
+    if (body[key] !== undefined && typeof body[key] !== 'string') return badRequest('模型配置格式无效')
+  }
+  if (body.priority !== undefined && !Number.isInteger(body.priority)) return badRequest('优先级无效')
+  if (body.quotaRemaining !== undefined && body.quotaRemaining !== null && body.quotaRemaining !== '' && (typeof body.quotaRemaining !== 'number' || !Number.isInteger(body.quotaRemaining))) return badRequest('配额无效')
   const name = String(body.name || '').trim()
   const apiKey = String(body.apiKey || '').trim()
   const baseUrl = String(body.baseUrl || 'https://api.openai.com/v1').trim()
@@ -61,7 +70,11 @@ export async function POST(req: NextRequest) {
       ? null
       : Number(body.quotaRemaining)
 
-  if (!name) return badRequest('name is required')
+  const invalid = modelSettingsError({ baseUrl, apiKey, model })
+  if (invalid) return badRequest(invalid)
+  if (typeof body.name !== 'string' || !name || name.length > 100) return badRequest('name is invalid')
+  if (!Number.isInteger(priority) || (quotaRemaining !== null && (!Number.isInteger(quotaRemaining) || quotaRemaining < 0))) return badRequest('配额或优先级无效')
+  if (body.isActive !== undefined && typeof body.isActive !== 'boolean') return badRequest('启用状态无效')
   if (!apiKey) return badRequest('apiKey is required')
 
   const now = new Date()
@@ -88,7 +101,7 @@ export async function POST(req: NextRequest) {
     if (message.includes('Unique constraint') && message.includes('name')) {
       return badRequest(`LLM 提供商 "${name}" 已存在`)
     }
-    return NextResponse.json({ success: false, error: message }, { status: 500 })
+    return NextResponse.json({ success: false, error: '模型配置操作失败' }, { status: 500 })
   }
 
   return NextResponse.json({ success: true })
@@ -98,10 +111,18 @@ export async function PUT(req: NextRequest) {
   const admin = await requireAdmin()
   if (!admin.ok) return admin.res
 
-  const body = await req.json().catch(() => ({}))
+  let body: Record<string, unknown>
+  try { body = await readJsonBody(req, 16 * 1024) }
+  catch (error) { return NextResponse.json({ success: false, error: error instanceof RequestBodyError ? error.message : '请求体无效' }, { status: error instanceof RequestBodyError ? error.status : 400 }) }
   const id = String(body.id || '').trim()
   if (!id) return badRequest('id is required')
 
+  const invalid = modelSettingsError(body, false)
+  if (invalid) return badRequest(invalid)
+  if (body.name !== undefined && (typeof body.name !== 'string' || !body.name.trim() || body.name.length > 100)) return badRequest('名称无效')
+  if (body.priority !== undefined && !Number.isInteger(body.priority)) return badRequest('优先级无效')
+  if (body.isActive !== undefined && typeof body.isActive !== 'boolean') return badRequest('启用状态无效')
+  if (body.quotaRemaining !== undefined && body.quotaRemaining !== null && body.quotaRemaining !== '' && (!Number.isInteger(body.quotaRemaining) || Number(body.quotaRemaining) < 0)) return badRequest('配额无效')
   const fields: Record<string, unknown> = {}
   for (const key of ['name', 'apiKey', 'baseUrl', 'model']) {
     if (body[key] !== undefined) fields[key] = String(body[key]).trim()
@@ -129,7 +150,7 @@ export async function PUT(req: NextRequest) {
     if (message.includes('Unique constraint') && message.includes('name')) {
       return badRequest(`LLM 提供商 "${fields.name}" 已存在`)
     }
-    return NextResponse.json({ success: false, error: message }, { status: 500 })
+    return NextResponse.json({ success: false, error: '模型配置操作失败' }, { status: 500 })
   }
 
   return NextResponse.json({ success: true })
@@ -147,9 +168,8 @@ export async function DELETE(req: NextRequest) {
     await prisma.llmApiProvider.delete({
       where: { id },
     })
-  } catch (err: unknown) {
-    const msg = String(err instanceof Error ? err.message : String(err))
-    return NextResponse.json({ success: false, error: msg }, { status: 500 })
+  } catch {
+    return NextResponse.json({ success: false, error: '模型配置操作失败' }, { status: 500 })
   }
 
   return NextResponse.json({ success: true })

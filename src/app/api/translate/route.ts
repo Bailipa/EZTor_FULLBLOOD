@@ -1,3 +1,4 @@
+import { getClientIp } from '@/lib/onlineTracker'
 import { NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth/next'
 import { authOptions } from '@/lib/authOptions'
@@ -71,8 +72,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const clientIp =
-      req.headers.get('x-forwarded-for')?.split(',')[0] || req.headers.get('x-real-ip') || 'unknown'
+    const clientIp = getClientIp(req)
 
     const userBanStatus = await checkUserBan(session.user.id)
     if (userBanStatus.isBanned) {
@@ -209,10 +209,7 @@ export async function POST(req: Request) {
     if (filteredWords.length === 0) {
       if (RECORD_TRANSLATIONS && orderedCachedResults.length > 0) {
         try {
-          const clientIp =
-            req.headers.get('x-forwarded-for')?.split(',')[0] ||
-            req.headers.get('x-real-ip') ||
-            null
+          const clientIp = getClientIp(req)
           const userAgent = req.headers.get('user-agent') || null
 
           logger.debug(

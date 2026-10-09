@@ -820,3 +820,11 @@ model ExamAnalysisRecord {
   User User @relation(fields: [userId], references: [id], onDelete: Cascade)
   @@id([userId, paperKey])
 }
+
+model RateLimitWindow {
+  key       String @id
+  count     Int
+  resetTime BigInt
+
+  @@index([resetTime])
+}

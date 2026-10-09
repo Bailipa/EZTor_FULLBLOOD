@@ -1,6 +1,6 @@
 import prisma from '@/lib/prisma'
 import { studyApi, studyBody } from '@/services/study/api'
-import { examPaperKey } from '@/services/study/ExamAccessService'
+import { examPaperKey, defaultExamKeys } from '@/services/study/ExamAccessService'
 import { StudyInputError } from '@/features/study/domain'
 import { isCurrentPaper } from '@/features/study/paperAvailability'
 
@@ -14,10 +14,11 @@ export async function GET(req: Request, { params }: { params: Promise<{ id: stri
       prisma.examAccess.findMany({ where: { userId: id }, select: { paperKey: true } }),
     ])
     const allowed = new Set(grants.map((grant) => grant.paperKey))
+    const defaults = new Set(await defaultExamKeys(prisma))
     const catalogue = new Map<string, { key: string; title: string; level: string; enabled: boolean }>()
     for (const paper of [...papers, ...passages]) {
       const key = examPaperKey(paper.slug)
-      if (!isCurrentPaper(key) || catalogue.has(key)) continue
+      if (!isCurrentPaper(key) || catalogue.has(key) || defaults.has(key)) continue
       const identity = key.match(/^cet[46]-(\d{4})-(\d{2})-set(\d+)$/)
       catalogue.set(key, { key, title: identity ? `${identity[1]}年${Number(identity[2])}月 · 第${identity[3]}套` : paper.title, level: paper.level, enabled: allowed.has(key) })
     }
@@ -35,6 +36,7 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
       // Match the same account lock used by answer writes, so revocation cannot race a save.
       const users = await tx.$queryRaw<{ id: string }[]>`SELECT id FROM "User" WHERE id=${id} FOR UPDATE`
       if (!users.length) throw new StudyInputError('用户不存在', 404)
+      if ((await defaultExamKeys(tx)).includes(paperKey)) throw new StudyInputError('原创模拟卷默认向所有用户开放，无需单独授权', 409)
       const [papers, passages] = await Promise.all([
         tx.examPaper.findMany({ where: { rightsStatus: 'APPROVED' }, select: { slug: true } }),
         tx.studyPassage.findMany({ where: { rightsStatus: 'APPROVED' }, select: { slug: true } }),

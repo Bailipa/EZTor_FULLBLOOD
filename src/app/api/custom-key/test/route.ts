@@ -1,8 +1,10 @@
+import { readJsonBody, RequestBodyError } from '@/lib/requestBody'
+import { modelSettingsError } from '@/lib/modelTransport'
 import { NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth/next'
 import { authOptions } from '@/lib/authOptions'
-import { logger } from '@/lib/logger'
-import { fetchInsecure } from '@/lib/fetchInsecure'
+import { rateLimit } from '@/lib/rateLimit'
+import { secureModelFetch } from '@/lib/modelTransport'
 
 export async function POST(req: Request) {
   const session = await getServerSession(authOptions)
@@ -10,31 +12,19 @@ export async function POST(req: Request) {
     return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 })
   }
 
-  const body = await req.json()
+  if (!(await rateLimit(`custom-key-test:${session.user.id}`, { maxRequests: 5, windowMs: 60_000 })).success) return NextResponse.json({ success: false, error: '请求过于频繁' }, { status: 429 })
+  let body: Record<string, unknown>
+  try { body = await readJsonBody(req, 16 * 1024) }
+  catch (error) { return NextResponse.json({ success: false, error: error instanceof RequestBodyError ? error.message : '请求体无效' }, { status: error instanceof RequestBodyError ? error.status : 400 }) }
   const { baseUrl, apiKey, model } = body || {}
 
-  if (!baseUrl || !apiKey || !model) {
-    return NextResponse.json(
-      { success: false, error: 'Base URL, API Key, and Model are required' },
-      { status: 400 },
-    )
-  }
-
-  if (!baseUrl.startsWith('http://') && !baseUrl.startsWith('https://')) {
-    return NextResponse.json(
-      { success: false, error: 'Base URL must start with http:// or https://' },
-      { status: 400 },
-    )
-  }
-
+  const invalid = modelSettingsError(body)
+  if (invalid) return NextResponse.json({ success: false, error: invalid }, { status: 400 })
   try {
-    const normalizedUrl = baseUrl.replace(/\/+$/, '')
+    const normalizedUrl = String(baseUrl).replace(/\/+$/, '')
     const chatUrl = `${normalizedUrl}/chat/completions`
 
-    const controller = new AbortController()
-    const timeoutId = setTimeout(() => controller.abort(), 5000)
-
-    const response = await fetchInsecure(chatUrl, {
+    const response = await secureModelFetch(chatUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -45,21 +35,12 @@ export async function POST(req: Request) {
         messages: [{ role: 'user', content: 'Hello' }],
         max_tokens: 50,
       }),
-      signal: controller.signal,
+      signal: AbortSignal.timeout(5000),
     })
 
-    clearTimeout(timeoutId)
-
     if (!response.ok) {
-      const errorText = await response.text().catch(() => 'Unknown error')
-      let errorMessage = `HTTP ${response.status}`
-      try {
-        const errJson = JSON.parse(errorText)
-        errorMessage = errJson?.error?.message || errJson?.error?.code || `HTTP ${response.status}`
-      } catch (error) {
-        logger.error({ err: error }, 'Failed to parse error response')
-      }
-      return NextResponse.json({ success: false, error: errorMessage })
+      await response.body?.cancel()
+      return NextResponse.json({ success: false, error: `连接失败 (HTTP ${response.status})` })
     }
 
     const data = await response.json()
