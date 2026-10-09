@@ -117,6 +117,7 @@ The platform is assembled from small, reusable projects:
 - [EZTor Translation Quality](https://github.com/Bailipa/eztor-translation-quality) — explainable scoring for vocabulary translations
 - [EZTor CET4 Original Content](https://github.com/Bailipa/eztor-cet-content) — structured original CET-4 practice content
 - [EZTor English Forms](https://github.com/Bailipa/eztor-english-forms) — irregular forms and vocabulary answer matching
+- [EZTor Prompt Guard](https://github.com/Bailipa/eztor-prompt-guard) — prompt-injection detection and LLM input-output safety
 
 ## License
 
